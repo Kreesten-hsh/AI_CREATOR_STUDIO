@@ -38,6 +38,30 @@ export const INTRODUCTION_LESSON: StartHereLesson = {
         'Cette plateforme de cours est développée avec React et TypeScript pour structurer votre progression et vos widgets interactifs. En revanche, les créations que VOUS réaliserez avec Claude s\'appuient sur des formats légers et universels : les Claude Artifacts et des applications HTML/CSS/JavaScript autonomes monoblocs, faciles à héberger et à diffuser sans outillage lourd.',
     },
     {
+      id: 'intro-resource-demos',
+      type: 'resource',
+      title: 'La Démonstration Phare du Studio : Avant / Après',
+      description: 'Découvrez la preuve concrète de la transformation enseignée dans le Module 02.',
+      resources: [
+        {
+          id: 'res-intro-demo-avant',
+          title: 'Version Avant : Guide PDF Statique (12 Pages)',
+          category: 'guide',
+          description: 'Consultez la version statique réaliste pour mesurer les limites de la lecture passive.',
+          format: 'HTML / PDF',
+          externalUrl: '/demos/pdf-to-hub/avant-pdf-statique.html',
+        },
+        {
+          id: 'res-intro-demo-apres',
+          title: 'Version Après : Hub Interactif Autonome',
+          category: 'template',
+          description: 'Testez le résultat transformé : sélecteur de statut, calculateur en direct et checklist persistante.',
+          format: 'HTML / JS',
+          externalUrl: '/demos/pdf-to-hub/apres-hub-interactif.html',
+        },
+      ],
+    },
+    {
       id: 'intro-video-overview',
       type: 'video',
       title: 'Visite guidée du Studio et workflow Claude Artifacts',

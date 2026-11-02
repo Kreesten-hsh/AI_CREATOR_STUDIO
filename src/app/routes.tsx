@@ -97,7 +97,7 @@ function StartHereView({ lesson }: { lesson: StartHereLesson }) {
           <p className="font-display text-base md:text-lg uppercase mt-1.5">
             {lesson.id === 'introduction'
               ? 'Étape suivante : Configurer votre profil et sélecteur d\'identité'
-              : 'Étape suivante : Entrer dans le Module 1 — Leçon 01 (Offre et Fondations de l\'IA)'}
+              : 'Étape suivante : Entrer dans le Module 1 : Leçon 01 (Offre et Fondations de l\'IA)'}
           </p>
         </div>
 

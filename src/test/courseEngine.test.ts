@@ -15,7 +15,7 @@ import {
 } from '../utils/storage';
 import { ALL_STEP_TYPES } from '../types/course';
 
-describe('AI CREATOR STUDIO — Course Data & Engine Verification', () => {
+describe('AI CREATOR STUDIO : Course Data & Engine Verification', () => {
   beforeEach(() => {
     window.localStorage.clear();
   });

@@ -113,7 +113,7 @@ export function Sidebar({ course, onAfterNavigate }: SidebarProps) {
           />
         </section>
 
-        {/* 3. BIEN COMMENCER — MAÎTRISER CLAUDE */}
+        {/* 3. BIEN COMMENCER : MAÎTRISER CLAUDE */}
         <section aria-label="Bien commencer" className="space-y-1.5">
           <div className="flex items-center justify-between mb-2">
             <span className="font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 text-ink">
