@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-cream: #FAF6F0;
+    --color-primary-red: #B63131;
+    --color-dark-red: #922626;
+    --color-dusty-pink: #E6A0A8;
+    --color-pale-pink: #F7E0E2;
+    --color-ink: #171313;
+    --color-surface: #FFFDFC;
+    --color-pale-blue: #DCE9F7;
+  }
+
+  body {
+    background-color: #FAF6F0;
+    color: #171313;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+
+  *:focus-visible {
+    outline: 3px solid #B63131;
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* Neo-Brutalist Checkerboard Patterns (Palette: Dusty Pink / Pale Pink) */
+  .bg-checkerboard-pink {
+    background-color: #F7E0E2;
+    background-image:
+      linear-gradient(45deg, rgba(230, 160, 168, 0.45) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(230, 160, 168, 0.45) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(230, 160, 168, 0.45) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(230, 160, 168, 0.45) 75%);
+    background-size: 24px 24px;
+    background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+  }
+
+  .bg-checkerboard-ink {
+    background-color: #FAF6F0;
+    background-image:
+      linear-gradient(45deg, rgba(23, 19, 19, 0.12) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(23, 19, 19, 0.12) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(23, 19, 19, 0.12) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(23, 19, 19, 0.12) 75%);
+    background-size: 24px 24px;
+    background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+  }
+
+  .brutal-card {
+    background-color: #FFFDFC;
+    border: 2px solid #171313;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0px #171313;
+  }
+
+  .brutal-card-cream {
+    background-color: #FAF6F0;
+    border: 2px solid #171313;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0px #171313;
+  }
+
+  .brutal-card-pink {
+    background-color: #F7E0E2;
+    border: 2px solid #171313;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0px #171313;
+  }
+
+  .brutal-btn {
+    border: 2px solid #171313;
+    border-radius: 6px;
+    box-shadow: 3px 3px 0px #171313;
+    transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+  }
+
+  .brutal-btn:hover:not(:disabled) {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px #171313;
+  }
+
+  .brutal-btn:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px #171313;
+  }
+}
