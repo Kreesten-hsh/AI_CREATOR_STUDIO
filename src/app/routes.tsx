@@ -9,6 +9,7 @@ import { CourseHomePage } from '../components/home/CourseHomePage';
 import { BonusView } from '../components/bonus/BonusView';
 import { ResourcesView } from '../components/resources/ResourcesView';
 import { ALL_STEP_TYPES, type Day } from '../types/course';
+import { getCourseById } from '../utils/courseNavigation';
 
 function DayWorkspaceView({ day }: { day: Day }) {
   const {
@@ -114,7 +115,13 @@ export function CourseWorkspaceRouter() {
   }
 
   if (route.kind === 'course') {
-    const dayNumber = route.dayNumber ?? 1;
+    const course = getCourseById(route.courseId);
+    const startDay = course?.dayRange?.[0] ?? 1;
+    const endDay = course?.dayRange?.[1] ?? 15;
+    let dayNumber = route.dayNumber ?? startDay;
+    if (dayNumber < startDay || dayNumber > endDay) {
+      dayNumber = startDay;
+    }
     const day =
       COURSE_DATA.days.find((d) => d.dayNumber === dayNumber) ??
       COURSE_DATA.days[0];

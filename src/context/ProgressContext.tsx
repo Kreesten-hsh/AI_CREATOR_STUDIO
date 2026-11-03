@@ -153,7 +153,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const navigateToDay = useCallback((dayNumber: number, step?: StepType) => {
     setState((prev) => {
       const safeDay = Math.max(1, Math.min(25, dayNumber));
-      const courseId = resolveCourseIdForDay(safeDay);
+      const courseId = resolveCourseIdForDay(safeDay) ?? 'course-01';
       const nextStep = step ?? prev.activeStepByDay[safeDay] ?? 'concept';
 
       return {

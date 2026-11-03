@@ -11,6 +11,9 @@ import {
   resolveActiveCourseId,
   getCourseDays,
   formatCourseDayRangeTitle,
+  validateCourseIntegrity,
+  assertCourseIntegrity,
+  normalizeActiveRoute,
 } from '../utils/courseNavigation';
 import '@testing-library/jest-dom/vitest';
 import { ProgressProvider } from '../context/ProgressContext';
@@ -100,6 +103,148 @@ describe('MISSION 02 : Course Navigation and Routing Verification', () => {
       expect(resolveActiveCourseId({ kind: 'start-here', lessonId: 'intro' })).toBe('course-01');
       expect(resolveActiveCourseId({ kind: 'day', dayNumber: 16 })).toBe('course-02');
       expect(resolveActiveCourseId({ kind: 'course', courseId: 'course-03', dayNumber: 18 })).toBe('course-03');
+    });
+
+    it('valide l\'intégrité stricte des cinq formations officielles', () => {
+      const integrity = validateCourseIntegrity(MAIN_COURSES);
+      expect(integrity.isValid).toBe(true);
+      expect(integrity.errors).toHaveLength(0);
+      expect(() => assertCourseIntegrity(MAIN_COURSES)).not.toThrow();
+    });
+
+    it('détecte les anomalies d\'intégrité du cursus (trous, chevauchements, nombre, identifiants)', () => {
+      // 1. Nombre de formations incorrect
+      const invalidCount = validateCourseIntegrity(MAIN_COURSES.slice(0, 4));
+      expect(invalidCount.isValid).toBe(false);
+      expect(invalidCount.errors.some((e) => e.includes('Attendu 5 formations'))).toBe(true);
+
+      // 2. Identifiants dupliqués
+      const duplicatedIds = validateCourseIntegrity([
+        ...MAIN_COURSES.slice(0, 4),
+        { ...MAIN_COURSES[0], id: 'course-04' },
+      ]);
+      expect(duplicatedIds.isValid).toBe(false);
+      expect(duplicatedIds.errors.some((e) => e.includes('dupliqués'))).toBe(true);
+
+      // 3. Chevauchement de journées
+      const overlappingCourses = MAIN_COURSES.map((c) =>
+        c.id === 'course-02' ? { ...c, dayRange: [15, 17] as [number, number] } : c
+      );
+      const overlapResult = validateCourseIntegrity(overlappingCourses);
+      expect(overlapResult.isValid).toBe(false);
+      expect(overlapResult.errors.some((e) => e.includes('chevauchement'))).toBe(true);
+
+      // 4. Trou dans les journées
+      const gapCourses = MAIN_COURSES.map((c) =>
+        c.id === 'course-01' ? { ...c, dayRange: [1, 14] as [number, number] } : c
+      );
+      const gapResult = validateCourseIntegrity(gapCourses);
+      expect(gapResult.isValid).toBe(false);
+      expect(gapResult.errors.some((e) => e.includes('trou'))).toBe(true);
+
+      // 5. assertCourseIntegrity lève une exception en cas de violation
+      expect(() => assertCourseIntegrity(gapCourses)).toThrowError(/Violation de l'intégrité/);
+    });
+
+    it('élimine le masquage silencieux dans resolveCourseIdForDay pour les jours hors plage', () => {
+      // Jours hors de 1 à 25 sans fallback explicite -> retourne null
+      expect(resolveCourseIdForDay(0)).toBeNull();
+      expect(resolveCourseIdForDay(26)).toBeNull();
+      expect(resolveCourseIdForDay(-5)).toBeNull();
+      expect(resolveCourseIdForDay(99)).toBeNull();
+
+      // Jours hors de 1 à 25 avec fallback explicite -> retourne le fallback
+      expect(resolveCourseIdForDay(99, 'course-01')).toBe('course-01');
+      expect(resolveCourseIdForDay(0, 'custom-fallback')).toBe('custom-fallback');
+
+      // Jours valides 1 à 25 -> retourne la formation officielle
+      expect(resolveCourseIdForDay(1)).toBe('course-01');
+      expect(resolveCourseIdForDay(16)).toBe('course-02');
+      expect(resolveCourseIdForDay(18)).toBe('course-03');
+      expect(resolveCourseIdForDay(21)).toBe('course-04');
+      expect(resolveCourseIdForDay(24)).toBe('course-05');
+    });
+
+    it('normalise rigoureusement les routes restaurées selon toutes les règles', () => {
+      // Cas obligatoire : course-02 avec dayNumber: 1 -> normalisé à dayNumber: 16 (début de course-02)
+      expect(
+        normalizeActiveRoute({ kind: 'course', courseId: 'course-02', dayNumber: 1 })
+      ).toEqual({
+        kind: 'course',
+        courseId: 'course-02',
+        dayNumber: 16,
+      });
+
+      // courseId valide avec dayNumber valide dans la plage -> conservé
+      expect(
+        normalizeActiveRoute({ kind: 'course', courseId: 'course-02', dayNumber: 17 })
+      ).toEqual({
+        kind: 'course',
+        courseId: 'course-02',
+        dayNumber: 17,
+      });
+
+      // courseId valide avec dayNumber absent -> assigne dayRange[0]
+      expect(normalizeActiveRoute({ kind: 'course', courseId: 'course-03' })).toEqual({
+        kind: 'course',
+        courseId: 'course-03',
+        dayNumber: 18,
+      });
+
+      // courseId valide avec dayNumber hors plage supérieure -> assigne dayRange[0]
+      expect(
+        normalizeActiveRoute({ kind: 'course', courseId: 'course-05', dayNumber: 99 })
+      ).toEqual({
+        kind: 'course',
+        courseId: 'course-05',
+        dayNumber: 24,
+      });
+
+      // courseId invalide mais dayNumber valide (ex. 22) -> résout vers course-04
+      expect(
+        normalizeActiveRoute({ kind: 'course', courseId: 'inconnu', dayNumber: 22 })
+      ).toEqual({
+        kind: 'course',
+        courseId: 'course-04',
+        dayNumber: 22,
+      });
+
+      // courseId invalide et dayNumber invalide -> fallback course-01 jour 1
+      expect(
+        normalizeActiveRoute({ kind: 'course', courseId: 'inconnu', dayNumber: 999 })
+      ).toEqual({
+        kind: 'course',
+        courseId: 'course-01',
+        dayNumber: 1,
+      });
+
+      // Route de type day valide -> normalisée vers course avec bon courseId
+      expect(normalizeActiveRoute({ kind: 'day', dayNumber: 16 })).toEqual({
+        kind: 'course',
+        courseId: 'course-02',
+        dayNumber: 16,
+      });
+
+      // Route de type day invalide -> fallback course-01 jour 1
+      expect(normalizeActiveRoute({ kind: 'day', dayNumber: 42 })).toEqual({
+        kind: 'course',
+        courseId: 'course-01',
+        dayNumber: 1,
+      });
+
+      // Routes home, resources, bonus
+      expect(normalizeActiveRoute({ kind: 'home' })).toEqual({ kind: 'home' });
+      expect(normalizeActiveRoute({ kind: 'resources' })).toEqual({ kind: 'resources' });
+      expect(normalizeActiveRoute({ kind: 'bonus', bonusId: 'bonus-01' })).toEqual({
+        kind: 'bonus',
+        bonusId: 'bonus-01',
+      });
+      expect(normalizeActiveRoute({ kind: 'bonus', bonusId: '' })).toEqual({ kind: 'home' });
+
+      // Entrées non-objets ou nulles -> fallback home
+      expect(normalizeActiveRoute(null)).toEqual({ kind: 'home' });
+      expect(normalizeActiveRoute(undefined)).toEqual({ kind: 'home' });
+      expect(normalizeActiveRoute('invalid')).toEqual({ kind: 'home' });
     });
   });
 

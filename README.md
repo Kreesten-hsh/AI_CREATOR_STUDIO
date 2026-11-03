@@ -56,17 +56,21 @@ Le cursus officiel est articulé autour de 5 grandes formations progressives (r�
 
 ## 3. Matrice d'Alignement : Moteur Technique vs Validation Pédagogique
 
-Afin d'assurer une transparence totale entre les développements techniques existants et le cursus pédagogique validé :
+Afin d'assurer une transparence totale entre les développements techniques existants et le cursus pédagogique validé, il convient de distinguer rigoureusement le fonctionnement du moteur technique (100% opérationnel) de la validation des contenus pédagogiques :
 
 | Composant / Donnée | Réalité Technique | Statut Pédagogique |
 | :--- | :--- | :--- |
 | **Moteur React & Routing** | Routage dynamique par `src/utils/courseNavigation.ts` (`navigateToCourse`, `navigateToDay`, `resolveActiveCourseId`) | Validé et synchronisé avec `MAIN_COURSES.dayRange` |
-| **Persistance Locale** | LocalStorage réactif avec clé de versioning et migration automatique | Validé (sauvegarde silencieuse en arrière-plan) |
+| **Persistance Locale** | LocalStorage réactif avec clé de versioning, migration et normalisation des routes | Validé (sauvegarde silencieuse en arrière-plan) |
 | **Générateur de Prompts** | Composant `PromptBuilder` avec injection dynamique des variables du profil | Validé (utilisé sur les 25 journées) |
 | **Démonstrateur PDF vers Hub** | Fichiers autonomes `avant-pdf-statique.html` et `apres-hub-interactif.html` | Validé (démonstration fil rouge de la formation) |
-| **Jours 01 à 15** | Implémentés avec contenu complet, prompts et checklists d'action | Validés dans le cadre de la formation `01 : COMMENCER ICI` |
-| **Jours 16 à 25** | Moteur technique opérationnel dans `src/data/days/` | Organisés selon les plages officielles des formations 02 à 05 |
+| **Jours 01 à 05** | Moteur technique opérationnel dans `src/data/days/day-01.ts` à `day-05.ts` | Squelettes pédagogiques (fondations, niche, positionnement) |
+| **Jours 06 à 10** | Moteur technique opérationnel dans `src/data/days/day-06.ts` à `day-10.ts` | Développés (déconstruction, Artifacts, interactions, déploiement) |
+| **Jours 11 à 15** | Moteur technique opérationnel dans `src/data/days/day-11.ts` à `day-15.ts` | Squelettes pédagogiques (récit de vente, hero, offre, assemblage) |
+| **Jours 16 à 25** | Moteur technique opérationnel dans `src/data/days/day-16.ts` à `day-25.ts` | Squelettes pédagogiques (formations 02 à 05 à développer) |
 | **Leçons Introductives** | Données conservées dans `src/data/startHere/` pour stabilité des tests | Découplées de l'interface (entrée directe au Jour 01) |
+
+> Note d'avancement : Le moteur applicatif gère déjà l'intégralité des 25 journées réparties sur les 5 formations. Toutefois, aucune formation n'est présentée comme pédagogiquement finalisée : seuls les Jours 06 à 10 disposent actuellement d'un contenu développé, tandis que les Jours 01 à 05, 11 à 15 et 16 à 25 sont des squelettes structurés qui feront l'objet de missions de rédaction dédiées.
 
 ---
 

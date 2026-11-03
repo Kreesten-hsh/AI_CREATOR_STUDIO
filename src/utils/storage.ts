@@ -1,11 +1,11 @@
 import {
   ALL_STEP_TYPES,
-  type ActiveRoute,
   type StepType,
   type StudentProfile,
   type StudentProgress,
 } from '../types/course';
 import { normalizeStepList, TOTAL_COURSE_DAYS } from './progressCalculator';
+import { normalizeActiveRoute } from './courseNavigation';
 
 export const STORAGE_KEY = 'ai_creator_studio_progress_v1';
 export const CURRENT_SCHEMA_VERSION = 1 as const;
@@ -42,36 +42,6 @@ export function createInitialProgress(): StudentProgress {
   };
 }
 
-function isValidActiveRoute(route: unknown): route is ActiveRoute {
-  if (!route || typeof route !== 'object') {
-    return false;
-  }
-  const candidate = route as Record<string, unknown>;
-  if (candidate.kind === 'home') {
-    return true;
-  }
-  if (candidate.kind === 'course') {
-    return typeof candidate.courseId === 'string' && candidate.courseId.trim().length > 0;
-  }
-  if (candidate.kind === 'bonus') {
-    return typeof candidate.bonusId === 'string' && candidate.bonusId.trim().length > 0;
-  }
-  if (candidate.kind === 'resources') {
-    return true;
-  }
-  if (candidate.kind === 'start-here') {
-    return candidate.lessonId === 'introduction' || candidate.lessonId === 'setup';
-  }
-  if (candidate.kind === 'day') {
-    return (
-      typeof candidate.dayNumber === 'number' &&
-      Number.isInteger(candidate.dayNumber) &&
-      candidate.dayNumber >= 1 &&
-      candidate.dayNumber <= TOTAL_COURSE_DAYS
-    );
-  }
-  return false;
-}
 
 export function sanitizeProgressState(raw: unknown): StudentProgress {
   const fallback = createInitialProgress();
@@ -84,9 +54,7 @@ export function sanitizeProgressState(raw: unknown): StudentProgress {
     return fallback;
   }
 
-  const activeRoute = isValidActiveRoute(data.activeRoute)
-    ? data.activeRoute
-    : fallback.activeRoute;
+  const activeRoute = normalizeActiveRoute(data.activeRoute);
 
   const completedStepsByDay: Record<number, StepType[]> = {};
   if (data.completedStepsByDay && typeof data.completedStepsByDay === 'object') {
