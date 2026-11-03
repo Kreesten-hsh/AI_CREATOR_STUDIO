@@ -1,6 +1,11 @@
 # AI CREATOR Studio : Plan Directeur Pédagogique & Stratégique
 
-Ce document constitue la référence pédagogique, éditoriale et méthodologique officielle d'AI CREATOR Studio. Il définit la promesse centrale de la formation, le profil des apprenants, les transformations garanties par module et le programme exhaustif des 25 leçons (100 étapes d'apprentissage).
+> [!NOTE] STATUT DU DOCUMENT : ARCHIVE DE CONCEPTION PRÉLIMINAIRE (PHASE 1)
+> Ce document correspond au plan directeur initial élaboré lors de la phase de cadrage du défi en 25 jours (5 modules de 5 leçons).
+> Il constitue une archive de conception essentielle pour ses modèles de prompts, ses cas d'usage et son approche pédagogique UAM (20/50/30).
+> **Organisation officielle actuelle** : La navigation et l'architecture produit de l'application ont évolué vers un cursus structuré en **5 formations distinctes** (dont *01 : COMMENCER ICI* regroupant les 15 premières leçons actives), complétées par 3 sections bonus et une bibliothèque de ressources, conformément au `README.md`.
+
+Ce document constitue la référence pédagogique, éditoriale et méthodologique historique d'AI CREATOR Studio. Il définit la promesse centrale de la formation, le profil des apprenants, les transformations garanties par module et le programme détaillé des 25 leçons (100 étapes d'apprentissage).
 
 ---
 

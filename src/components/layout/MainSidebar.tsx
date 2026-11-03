@@ -77,7 +77,7 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
       </div>
 
       {/* Corps de navigation défilable */}
-      <div className="flex-1 overflow-y-auto p-3.5 space-y-5 overflow-x-hidden">
+      <div className="flex-1 overflow-y-auto no-scrollbar p-3.5 space-y-5 overflow-x-hidden">
         {/* 2. Accueil direct sans titre redondant */}
         <div>
           <button

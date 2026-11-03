@@ -88,4 +88,13 @@
     transform: translate(2px, 2px);
     box-shadow: 1px 1px 0px #171313;
   }
+
+  /* Masquer la barre de défilement tout en préservant le scroll */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
