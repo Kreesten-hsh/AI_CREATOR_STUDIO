@@ -80,7 +80,7 @@ export function MobileNavigation({
             onClick={onClose}
             aria-hidden="true"
           />
-          <div className="relative z-50 w-80 max-w-[85vw] h-full bg-cream border-r-2 border-ink flex flex-col">
+          <div className="relative z-50 w-80 max-w-[85vw] h-full bg-pale-pink border-r-2 border-ink flex flex-col">
             <div className="p-3 bg-ink text-surface flex items-center justify-between border-b-2 border-ink">
               <span className="font-mono text-xs font-bold uppercase text-pale-pink">
                 NAVIGATION DU PARCOURS

@@ -58,10 +58,10 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
   return (
     <aside
       aria-label="Navigation principale de la formation"
-      className="w-full h-full bg-cream border-r-2 border-ink flex flex-col select-none"
+      className="w-full h-full bg-pale-pink border-r-2 border-ink flex flex-col select-none overflow-x-hidden"
     >
       {/* 1. Logo épuré : AI CREATOR Studio */}
-      <div className="p-4 bg-surface border-b-2 border-ink">
+      <div className="p-4 bg-pale-pink border-b-2 border-ink">
         <button
           type="button"
           onClick={handleGoHome}
@@ -77,7 +77,7 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
       </div>
 
       {/* Corps de navigation défilable */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-5">
+      <div className="flex-1 overflow-y-auto p-3.5 space-y-5 overflow-x-hidden">
         {/* 2. Accueil direct sans titre redondant */}
         <div>
           <button

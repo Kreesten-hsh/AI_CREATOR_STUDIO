@@ -42,10 +42,10 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
   return (
     <aside
       aria-label="Navigation du cours"
-      className="w-full h-full bg-cream border-r-2 border-ink flex flex-col select-none"
+      className="w-full h-full bg-pale-pink border-r-2 border-ink flex flex-col select-none overflow-x-hidden"
     >
       {/* 1. En-tête avec logo et retour Accueil */}
-      <div className="p-4 bg-surface border-b-2 border-ink space-y-2">
+      <div className="p-4 bg-pale-pink border-b-2 border-ink space-y-2">
         <button
           type="button"
           onClick={handleGoHome}
@@ -64,25 +64,26 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
       </div>
 
       {/* Corps défilable */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-3.5 space-y-4 overflow-x-hidden">
         {/* 2. Barre de progression & Grille compacte */}
         <section
           aria-label="Progression globale"
           className="p-3 bg-surface border-2 border-ink rounded-brutal-card shadow-brutal-xs space-y-2"
         >
-          <div className="flex items-center justify-between gap-2">
-            <span className="font-mono text-xs font-bold uppercase text-ink">
-              VOTRE PROGRESSION
+          {/* Ligne unique : Votre progression et 0 sur 25 jours */}
+          <div className="flex items-center justify-between gap-1.5 whitespace-nowrap">
+            <span className="font-mono text-[11px] sm:text-xs font-bold uppercase text-ink">
+              Votre progression
             </span>
             <span
               data-testid="sidebar-global-progress-label"
-              className="font-mono text-xs font-bold px-2 py-0.5 bg-pale-pink border border-ink text-ink rounded-brutal-tag"
+              className="font-mono text-[11px] sm:text-xs font-bold px-2 py-0.5 bg-pale-pink border border-ink text-ink rounded-brutal-tag shrink-0"
             >
               {globalProgress.completedDaysCount} sur 25 jours
             </span>
           </div>
 
-          {/* Grille de progression compacte sur 2 lignes */}
+          {/* Grille de progression compacte sur 2 lignes sans débordement */}
           <ProgressGrid
             completedDayNumbers={globalProgress.completedDayNumbers}
             activeDayNumber={activeDayNumber}
@@ -108,7 +109,7 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
                   type="button"
                   onClick={() => handleSelectDay(day.dayNumber)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`w-full text-left px-3 py-2 border-2 border-ink rounded-brutal-btn transition-all flex items-center justify-between gap-2 min-h-[40px] ${
+                  className={`w-full text-left px-2.5 sm:px-3 py-2 border-2 border-ink rounded-brutal-btn transition-all flex items-center justify-between gap-2 min-h-[40px] ${
                     isActive
                       ? 'bg-primary-red text-surface font-bold shadow-brutal-xs'
                       : isDone
