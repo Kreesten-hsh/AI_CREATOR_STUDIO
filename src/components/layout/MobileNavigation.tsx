@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import type { Course } from '../../types/course';
 import { useProgress } from '../../hooks/useProgress';
-import { Sidebar } from './Sidebar';
+import { MainSidebar } from './MainSidebar';
+import { CourseSidebar } from '../course/CourseSidebar';
 
 interface MobileNavigationProps {
   course: Course;
@@ -17,7 +18,12 @@ export function MobileNavigation({
   onToggle,
   onClose,
 }: MobileNavigationProps) {
-  const { globalProgress } = useProgress();
+  const { state, globalProgress } = useProgress();
+
+  const isInsideCourse =
+    state.activeRoute.kind === 'course' ||
+    state.activeRoute.kind === 'day' ||
+    state.activeRoute.kind === 'start-here';
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -89,7 +95,11 @@ export function MobileNavigation({
               </button>
             </div>
             <div className="flex-1 overflow-y-auto">
-              <Sidebar course={course} onAfterNavigate={onClose} />
+              {isInsideCourse ? (
+                <CourseSidebar course={course} onAfterNavigate={onClose} />
+              ) : (
+                <MainSidebar onAfterNavigate={onClose} />
+              )}
             </div>
           </div>
         </div>

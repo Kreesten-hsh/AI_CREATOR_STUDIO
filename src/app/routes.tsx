@@ -5,6 +5,9 @@ import { DayBanner } from '../components/layout/DayBanner';
 import { StepTabs } from '../components/layout/StepTabs';
 import { LessonRenderer } from '../components/course/LessonRenderer';
 import { CompletionButton } from '../components/course/CompletionButton';
+import { CourseHomePage } from '../components/home/CourseHomePage';
+import { BonusView } from '../components/bonus/BonusView';
+import { ResourcesView } from '../components/resources/ResourcesView';
 import { ALL_STEP_TYPES, type Day, type StartHereLesson } from '../types/course';
 
 function StartHereView({ lesson }: { lesson: StartHereLesson }) {
@@ -209,6 +212,32 @@ function DayWorkspaceView({ day }: { day: Day }) {
 export function CourseWorkspaceRouter() {
   const { state } = useProgress();
   const route = state.activeRoute;
+
+  if (route.kind === 'home') {
+    return <CourseHomePage />;
+  }
+
+  if (route.kind === 'bonus') {
+    return <BonusView bonusId={route.bonusId} />;
+  }
+
+  if (route.kind === 'resources') {
+    return <ResourcesView />;
+  }
+
+  if (route.kind === 'course') {
+    if (route.lessonId) {
+      const lesson =
+        COURSE_DATA.startHere.find((l) => l.id === route.lessonId) ??
+        COURSE_DATA.startHere[0];
+      return <StartHereView lesson={lesson} />;
+    }
+    const dayNumber = route.dayNumber ?? 1;
+    const day =
+      COURSE_DATA.days.find((d) => d.dayNumber === dayNumber) ??
+      COURSE_DATA.days[0];
+    return <DayWorkspaceView day={day} />;
+  }
 
   if (route.kind === 'start-here') {
     const lesson =

@@ -29,6 +29,10 @@ export interface ProgressContextValue {
   globalProgress: GlobalProgressResult;
   getDayProgress: (dayNumber: number) => DailyProgressResult;
   getActiveStepForDay: (dayNumber: number) => StepType;
+  navigateToHome: () => void;
+  navigateToCourse: (courseId: string, dayNumber?: number, lessonId?: string) => void;
+  navigateToBonus: (bonusId: string) => void;
+  navigateToResources: () => void;
   navigateToStartHere: (lessonId: string) => void;
   navigateToDay: (dayNumber: number, step?: StepType) => void;
   setActiveStepForDay: (dayNumber: number, step: StepType) => void;
@@ -76,8 +80,60 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [state.activeStepByDay]
   );
 
+  const navigateToHome = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      activeRoute: { kind: 'home' },
+      lastUpdated: new Date().toISOString(),
+    }));
+  }, []);
+
+  const navigateToCourse = useCallback(
+    (courseId: string, dayNumber?: number, lessonId?: string) => {
+      setState((prev) => {
+        const targetDay = dayNumber ?? 1;
+        const targetStep = prev.activeStepByDay[targetDay] ?? 'concept';
+        return {
+          ...prev,
+          activeRoute: {
+            kind: 'course',
+            courseId,
+            dayNumber: targetDay,
+            lessonId,
+          },
+          activeStepByDay: {
+            ...prev.activeStepByDay,
+            [targetDay]: targetStep,
+          },
+          lastUpdated: new Date().toISOString(),
+        };
+      });
+    },
+    []
+  );
+
+  const navigateToBonus = useCallback((bonusId: string) => {
+    setState((prev) => ({
+      ...prev,
+      activeRoute: { kind: 'bonus', bonusId },
+      lastUpdated: new Date().toISOString(),
+    }));
+  }, []);
+
+  const navigateToResources = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      activeRoute: { kind: 'resources' },
+      lastUpdated: new Date().toISOString(),
+    }));
+  }, []);
+
   const navigateToStartHere = useCallback((lessonId: string) => {
-    const nextRoute: ActiveRoute = { kind: 'start-here', lessonId };
+    const nextRoute: ActiveRoute = {
+      kind: 'course',
+      courseId: 'course-01',
+      lessonId,
+    };
     setState((prev) => ({
       ...prev,
       activeRoute: nextRoute,
@@ -90,7 +146,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       const nextStep = step ?? prev.activeStepByDay[dayNumber] ?? 'concept';
       return {
         ...prev,
-        activeRoute: { kind: 'day', dayNumber },
+        activeRoute: { kind: 'course', courseId: 'course-01', dayNumber },
         activeStepByDay: {
           ...prev.activeStepByDay,
           [dayNumber]: nextStep,
@@ -315,6 +371,10 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       globalProgress,
       getDayProgress,
       getActiveStepForDay,
+      navigateToHome,
+      navigateToCourse,
+      navigateToBonus,
+      navigateToResources,
       navigateToStartHere,
       navigateToDay,
       setActiveStepForDay,
@@ -338,6 +398,10 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       globalProgress,
       getDayProgress,
       getActiveStepForDay,
+      navigateToHome,
+      navigateToCourse,
+      navigateToBonus,
+      navigateToResources,
       navigateToStartHere,
       navigateToDay,
       setActiveStepForDay,

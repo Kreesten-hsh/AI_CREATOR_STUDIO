@@ -253,8 +253,12 @@ export interface Course {
 }
 
 export type ActiveRoute =
+  | { kind: 'home' }
+  | { kind: 'course'; courseId: string; dayNumber?: number; lessonId?: string }
   | { kind: 'start-here'; lessonId: string }
-  | { kind: 'day'; dayNumber: number };
+  | { kind: 'day'; dayNumber: number }
+  | { kind: 'bonus'; bonusId: string }
+  | { kind: 'resources' };
 
 export interface QuizAttemptState {
   answers: Record<string, number>;

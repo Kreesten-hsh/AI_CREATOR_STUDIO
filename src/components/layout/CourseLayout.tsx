@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import type { Course } from '../../types/course';
-import { Sidebar } from './Sidebar';
+import { useProgress } from '../../hooks/useProgress';
+import { MainSidebar } from './MainSidebar';
+import { CourseSidebar } from '../course/CourseSidebar';
 import { MobileNavigation } from './MobileNavigation';
 
 interface CourseLayoutProps {
@@ -10,12 +12,22 @@ interface CourseLayoutProps {
 
 export function CourseLayout({ course, children }: CourseLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { state } = useProgress();
+
+  const isInsideCourse =
+    state.activeRoute.kind === 'course' ||
+    state.activeRoute.kind === 'day' ||
+    state.activeRoute.kind === 'start-here';
 
   return (
     <div className="min-h-screen bg-cream text-ink flex flex-col lg:flex-row">
       {/* Sidebar persistante à gauche sur desktop */}
       <div className="hidden lg:block lg:w-80 xl:w-88 shrink-0 lg:h-screen lg:sticky lg:top-0">
-        <Sidebar course={course} />
+        {isInsideCourse ? (
+          <CourseSidebar course={course} />
+        ) : (
+          <MainSidebar />
+        )}
       </div>
 
       {/* Navigation mobile pliable */}

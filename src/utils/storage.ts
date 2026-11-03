@@ -28,7 +28,7 @@ export const DEFAULT_STUDENT_PROFILE: StudentProfile = {
 export function createInitialProgress(): StudentProgress {
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
-    activeRoute: { kind: 'start-here', lessonId: 'introduction' },
+    activeRoute: { kind: 'home' },
     activeStepByDay: {},
     completedStartHereIds: [],
     completedStepsByDay: {},
@@ -47,6 +47,18 @@ function isValidActiveRoute(route: unknown): route is ActiveRoute {
     return false;
   }
   const candidate = route as Record<string, unknown>;
+  if (candidate.kind === 'home') {
+    return true;
+  }
+  if (candidate.kind === 'course') {
+    return typeof candidate.courseId === 'string' && candidate.courseId.trim().length > 0;
+  }
+  if (candidate.kind === 'bonus') {
+    return typeof candidate.bonusId === 'string' && candidate.bonusId.trim().length > 0;
+  }
+  if (candidate.kind === 'resources') {
+    return true;
+  }
   if (candidate.kind === 'start-here') {
     return candidate.lessonId === 'introduction' || candidate.lessonId === 'setup';
   }

@@ -48,13 +48,13 @@ export function DayBanner({ day, sprint, progress }: DayBannerProps) {
         <div className="md:col-span-4 lg:col-span-3 bg-checkerboard-pink p-6 flex items-center justify-center border-b-2 md:border-b-0 md:border-r-2 border-ink min-h-[170px]">
           <div className="bg-surface border-2 border-ink rounded-brutal-card shadow-brutal px-6 py-4 text-center -rotate-2">
             <span className="block font-mono text-[11px] font-bold uppercase tracking-widest text-ink/75">
-              LEÇON
+              JOUR
             </span>
             <span className="block font-serif text-5xl md:text-6xl leading-none text-ink my-1">
               {paddedDay}
             </span>
             <span className="block font-mono text-[10px] font-bold uppercase tracking-widest text-primary-red">
-              INTERACTIF
+              SUR 25
             </span>
           </div>
         </div>
@@ -64,7 +64,7 @@ export function DayBanner({ day, sprint, progress }: DayBannerProps) {
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-3">
               <span className="inline-flex items-center px-3 py-1 bg-surface text-ink border-2 border-ink rounded-brutal-tag font-mono text-xs font-bold uppercase shadow-brutal-xs">
-                LEÇON {paddedDay}
+                JOUR {day.dayNumber} SUR 25
               </span>
               {sprint && (
                 <span className="inline-flex items-center px-2.5 py-1 bg-ink text-surface border-2 border-ink rounded-brutal-tag font-mono text-xs font-bold uppercase">
@@ -90,7 +90,7 @@ export function DayBanner({ day, sprint, progress }: DayBannerProps) {
           {/* Barre de progression des 4 étapes */}
           <div className="pt-3 border-t-2 border-surface/30 flex flex-col sm:flex-row sm:items-center gap-3">
             <span className="font-mono text-xs font-bold uppercase shrink-0 text-surface">
-              4 ÉTAPES AU PROGRAMME
+              4 ÉTAPES AUJOURD&apos;HUI
             </span>
             <div className="flex-1 h-3.5 bg-cream border-2 border-ink rounded-full overflow-hidden p-0.5">
               <motion.div
@@ -104,7 +104,7 @@ export function DayBanner({ day, sprint, progress }: DayBannerProps) {
               data-testid="day-banner-step-counter"
               className="font-mono text-xs font-bold uppercase px-2.5 py-1 bg-surface text-ink border-2 border-ink rounded-brutal-tag shadow-brutal-xs self-start sm:self-auto"
             >
-              {progress.completedCount}/{progress.total} ({progress.percentage}%)
+              {progress.completedCount}/4 ({progress.percentage}%)
             </span>
           </div>
         </div>
