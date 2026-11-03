@@ -70,20 +70,20 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
           aria-label="Progression globale"
           className="p-3 bg-surface border-2 border-ink rounded-brutal-card shadow-brutal-xs space-y-2"
         >
-          {/* Ligne unique : Votre progression et 0 sur 25 jours */}
-          <div className="flex items-center justify-between gap-1.5 whitespace-nowrap">
-            <span className="font-mono text-[11px] sm:text-xs font-bold uppercase text-ink">
+          {/* Ligne unique avec espace généreux entre l'intitulé et le badge */}
+          <div className="flex items-center justify-between gap-2 whitespace-nowrap">
+            <span className="font-mono text-[10px] font-bold uppercase text-ink/75 tracking-wider">
               Votre progression
             </span>
             <span
               data-testid="sidebar-global-progress-label"
-              className="font-mono text-[11px] sm:text-xs font-bold px-2 py-0.5 bg-pale-pink border border-ink text-ink rounded-brutal-tag shrink-0"
+              className="font-mono text-[10px] font-bold px-1.5 py-0.5 bg-pale-pink border border-ink text-ink rounded-brutal-tag shrink-0"
             >
               {globalProgress.completedDaysCount} sur 25 jours
             </span>
           </div>
 
-          {/* Grille de progression compacte sur 2 lignes sans débordement */}
+          {/* Grille de progression compacte sur 3 lignes */}
           <ProgressGrid
             completedDayNumbers={globalProgress.completedDayNumbers}
             activeDayNumber={activeDayNumber}
