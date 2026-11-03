@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 200" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&amp;family=JetBrains+Mono:wght@700&amp;family=Plus+Jakarta+Sans:wght@900&amp;display=swap');
+
+      .font-sans-bold {
+        font-family: 'Plus Jakarta Sans', 'Liberation Sans', 'DejaVu Sans', Arial, sans-serif;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+      
+      .font-serif-italic {
+        font-family: 'Instrument Serif', 'Noto Serif Display', 'DejaVu Serif', Georgia, serif;
+        font-style: italic;
+        font-weight: 400;
+      }
+      
+      .font-tech {
+        font-family: 'JetBrains Mono', 'Plus Jakarta Sans', Arial, sans-serif;
+        font-weight: 700;
+      }
+    </style>
+  </defs>
+
+  <!-- Fond crème papier avec bordure fine néo-brutaliste -->
+  <rect x="4" y="4" width="1012" height="192" rx="14" fill="#FAF6F0" stroke="#171313" stroke-width="3" />
+
+  <!-- ======================================================== -->
+  <!-- 1. EMBLÈME MONOGRAMME A/C (Gauche)                        -->
+  <!-- ======================================================== -->
+  <g transform="translate(32, 28)">
+    <!-- Ombre franche -->
+    <rect x="8" y="8" width="136" height="136" rx="20" fill="#171313" />
+    <!-- Carte blanche -->
+    <rect x="0" y="0" width="136" height="136" rx="20" fill="#FFFDFC" stroke="#171313" stroke-width="4" />
+
+    <!-- A et c au centre du token -->
+    <text x="46" y="94" text-anchor="middle" class="font-sans-bold" font-size="78" fill="#171313">
+      A
+    </text>
+    <text x="92" y="96" text-anchor="middle" class="font-serif-italic" font-size="94" fill="#B63131">
+      c
+    </text>
+
+    <!-- Filet et signature studio -->
+    <rect x="28" y="112" width="80" height="3" rx="1.5" fill="#171313" />
+    <text x="68" y="124" text-anchor="middle" class="font-tech" font-size="7" fill="#171313">
+      STUDIO
+    </text>
+  </g>
+
+  <!-- ======================================================== -->
+  <!-- 2. REPÈRE DE GRILLE & TYPOGRAPHIE OFFICIELLE (Droite)     -->
+  <!-- ======================================================== -->
+  <!-- Filet vertical de calage suisse -->
+  <rect x="204" y="42" width="5" height="88" fill="#171313" />
+
+  <!-- Ligne de base commune (baseline y=118) -->
+  <!-- AI CREATOR en sans-serif bold lourd -->
+  <text x="224" y="118" class="font-sans-bold" font-size="72" fill="#171313">
+    AI CREATOR
+  </text>
+
+  <!-- studio en serif italique calé exactement sur la même ligne de base -->
+  <text x="670" y="118" class="font-serif-italic" font-size="100" fill="#B63131">
+    studio
+  </text>
+
+  <!-- Sous-ligne technique dans cartouche noir -->
+  <g transform="translate(226, 138)">
+    <rect x="0" y="0" width="236" height="22" rx="4" fill="#171313" />
+    <text x="118" y="15" text-anchor="middle" class="font-tech" font-size="10" fill="#FAF6F0">
+      PRODUITS DIGITAUX INTERACTIFS
+    </text>
+  </g>
+</svg>

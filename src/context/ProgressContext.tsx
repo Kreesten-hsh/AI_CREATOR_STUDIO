@@ -23,6 +23,7 @@ import {
   loadProgressFromStorage,
   saveProgressToStorage,
 } from '../utils/storage';
+import { getCourseById, resolveCourseIdForDay } from '../utils/courseNavigation';
 
 export interface ProgressContextValue {
   state: StudentProgress;
@@ -91,13 +92,21 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const navigateToCourse = useCallback(
     (courseId: string, dayNumber?: number, lessonId?: string) => {
       setState((prev) => {
-        const targetDay = dayNumber ?? 1;
+        const course = getCourseById(courseId);
+        const validCourseId = course?.id ?? 'course-01';
+        const [startDay, endDay] = course?.dayRange ?? [1, 15];
+
+        let targetDay = dayNumber ?? startDay;
+        if (targetDay < startDay || targetDay > endDay) {
+          targetDay = startDay;
+        }
+
         const targetStep = prev.activeStepByDay[targetDay] ?? 'concept';
         return {
           ...prev,
           activeRoute: {
             kind: 'course',
-            courseId,
+            courseId: validCourseId,
             dayNumber: targetDay,
             lessonId,
           },
@@ -143,13 +152,16 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
 
   const navigateToDay = useCallback((dayNumber: number, step?: StepType) => {
     setState((prev) => {
-      const nextStep = step ?? prev.activeStepByDay[dayNumber] ?? 'concept';
+      const safeDay = Math.max(1, Math.min(25, dayNumber));
+      const courseId = resolveCourseIdForDay(safeDay);
+      const nextStep = step ?? prev.activeStepByDay[safeDay] ?? 'concept';
+
       return {
         ...prev,
-        activeRoute: { kind: 'course', courseId: 'course-01', dayNumber },
+        activeRoute: { kind: 'course', courseId, dayNumber: safeDay },
         activeStepByDay: {
           ...prev.activeStepByDay,
-          [dayNumber]: nextStep,
+          [safeDay]: nextStep,
         },
         lastUpdated: new Date().toISOString(),
       };

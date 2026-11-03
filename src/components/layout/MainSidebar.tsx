@@ -2,6 +2,7 @@ import { Home, BookOpen } from 'lucide-react';
 import { useProgress } from '../../hooks/useProgress';
 import { MAIN_COURSES } from '../../data/navigation/mainCourses';
 import { BONUSES } from '../../data/navigation/bonuses';
+import { getCourseById, resolveActiveCourseId } from '../../utils/courseNavigation';
 
 interface MainSidebarProps {
   onAfterNavigate?: () => void;
@@ -19,21 +20,9 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
   const isHomeActive = state.activeRoute.kind === 'home';
   const isResourcesActive = state.activeRoute.kind === 'resources';
 
-  const getActiveCourseId = (): string | null => {
-    if (state.activeRoute.kind === 'course') return state.activeRoute.courseId;
-    if (state.activeRoute.kind === 'day' || state.activeRoute.kind === 'start-here') {
-      return 'course-01';
-    }
-    return null;
-  };
-
-  const getActiveBonusId = (): string | null => {
-    if (state.activeRoute.kind === 'bonus') return state.activeRoute.bonusId;
-    return null;
-  };
-
-  const activeCourseId = getActiveCourseId();
-  const activeBonusId = getActiveBonusId();
+  const activeCourseId = resolveActiveCourseId(state.activeRoute);
+  const activeBonusId =
+    state.activeRoute.kind === 'bonus' ? state.activeRoute.bonusId : null;
 
   const handleGoHome = () => {
     navigateToHome();
@@ -41,7 +30,9 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
   };
 
   const handleSelectCourse = (courseId: string) => {
-    navigateToCourse(courseId, 1);
+    const course = getCourseById(courseId);
+    const startDay = course?.dayRange?.[0] ?? 1;
+    navigateToCourse(courseId, startDay);
     onAfterNavigate?.();
   };
 

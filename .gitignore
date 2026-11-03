@@ -22,3 +22,11 @@ pnpm-debug.log*
 .idea/
 .vscode/
 *.local
+
+# Python environments
+.venv/
+venv/
+
+# Graphify knowledge graph outputs
+graphify-out/
+

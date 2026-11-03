@@ -2,6 +2,12 @@ import { Check, ChevronLeft } from 'lucide-react';
 import type { Course } from '../../types/course';
 import { useProgress } from '../../hooks/useProgress';
 import { ProgressGrid } from '../layout/ProgressGrid';
+import {
+  formatCourseDayRangeTitle,
+  getCourseById,
+  getCourseDays,
+  resolveActiveCourseId,
+} from '../../utils/courseNavigation';
 
 interface CourseSidebarProps {
   course: Course;
@@ -34,10 +40,11 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
     onAfterNavigate?.();
   };
 
-  // Les 15 leçons du premier cours (Jours 1 à 15)
-  const course01Days = course.days.filter(
-    (d) => d.dayNumber >= 1 && d.dayNumber <= 15
-  );
+  // Identification dynamique de la formation active et de ses leçons
+  const activeCourseId = resolveActiveCourseId(state.activeRoute) ?? 'course-01';
+  const currentCourse = getCourseById(activeCourseId);
+  const currentCourseDays = getCourseDays(course.days, activeCourseId);
+  const dayRangeTitle = formatCourseDayRangeTitle(currentCourse?.dayRange);
 
   return (
     <aside
@@ -91,14 +98,14 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
           />
         </section>
 
-        {/* 3. Section JOURS 1 À 15 */}
-        <section aria-label="Jours 1 à 15" className="space-y-1.5">
+        {/* 3. Section dynamique des journées de la formation */}
+        <section aria-label={dayRangeTitle} className="space-y-1.5">
           <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink/75 px-1 block">
-            JOURS 1 À 15
+            {dayRangeTitle}
           </span>
 
           <div className="space-y-1.5">
-            {course01Days.map((day) => {
+            {currentCourseDays.map((day) => {
               const isActive = activeDayNumber === day.dayNumber;
               const dayProgress = getDayProgress(day.dayNumber);
               const isDone = dayProgress.isCompleted;

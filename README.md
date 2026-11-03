@@ -19,8 +19,8 @@ L'application est structurée en deux expériences distinctes et complémentaire
 - **Sections Bonus & Ressources** : modules d'approfondissement technique et fiches pratiques téléchargeables.
 
 ### Écran B : Espace de cours interactif (`CourseWorkspace`)
-- **Barre latérale de cours (`CourseSidebar`)** : bouton de retour vers l'accueil, affichage dynamique de la progression globale, grille de progression compacte répartie sur 3 lignes sans débordement, et liste complète des 15 leçons du premier cours avec indicateurs visuels d'avancement.
-- **Entrée directe au Jour 01** : suppression des frictions introductives pour plonger immédiatement l'apprenant dans l'action dès la première session.
+- **Barre latérale de cours (`CourseSidebar`)** : bouton de retour vers l'accueil, affichage dynamique de la progression globale, grille de progression compacte répartie sur 3 lignes pour les 25 journées sans débordement (avec navigation cross-formation au clic), et filtrage contextuel strict des leçons correspondant à la formation active avec titre de plage dynamique (`formatCourseDayRangeTitle`).
+- **Entrée directe au premier jour du cours** : navigation automatique vers la première journée de chaque formation (`dayRange[0]`).
 - **Bannière de leçon (`DayBanner`)** : badge du jour, titre en grand format avec typographie contrastée, description de l'objectif et jauge des 4 étapes quotidiennes.
 - **Rythme en 4 étapes (`StepTabs`)** :
   1. **Comprendre** : cadrage stratégique, écueils à éviter et vidéo explicative.
@@ -32,26 +32,25 @@ L'application est structurée en deux expériences distinctes et complémentaire
 
 ## 2. Programme Officiel des Formations
 
-Le cursus officiel est articulé autour de 5 grandes formations progressives :
+Le cursus officiel est articulé autour de 5 grandes formations progressives (répartition validée 15 + 2 + 3 + 3 + 2 = 25 journées) :
 
 ### Formations Principales
-1. **01 : COMMENCER ICI** (15 leçons actives)
-   - *Statut* : Actif et accessible immédiatement dans le studio.
-   - *Parcours* : Des fondations du produit interactif (Jours 01 à 05) à la transformation intégrale d'un PDF en application web autonome (Jours 06 à 10), jusqu'à la structuration de l'offre et des pages de présentation (Jours 11 à 15).
-2. **02 : PARLONS-EN** (Module à venir)
-   - *Objectif* : Stratégie de positionnement, rédaction éditoriale anti-slop et storytelling de vente.
-3. **03 : FAITES-LE VÔTRE** (Module à venir)
-   - *Objectif* : Personnalisation de l'identité visuelle, choix des palettes, typographies et composants propriétaires.
-4. **04 : CONCEVOIR + CONSTRUIRE** (Module à venir)
-   - *Objectif* : Architecture logicielle avec Claude Artifacts, calculateurs avancés, logique conditionnelle et composants réutilisables.
-5. **05 : HÉBERGEZ-LE** (Module à venir)
-   - *Objectif* : Déploiement réel sur Netlify par glisser-déposer, configuration de domaines personnalisés et tests de production.
+1. **01 : COMMENCER ICI** (Jours 01 à 15 : 15 leçons)
+   - *Parcours* : Des fondations du produit interactif (Jours 01 à 05) à la transformation du savoir en application web autonome (Jours 06 à 10), jusqu'au récit éditorial et à la page de vente (Jours 11 à 15).
+2. **02 : PARLONS-EN** (Jours 16 à 17 : 2 leçons)
+   - *Parcours* : Extraction de l'expertise personnelle par interview socratique avec Claude (Jour 16) et rédaction humaine anti-slop sans tics IA (Jour 17).
+3. **03 : FAITES-LE VÔTRE** (Jours 18 à 20 : 3 leçons)
+   - *Parcours* : Psychologie des couleurs et palettes sur-mesure (Jour 18), typographie et hiérarchie éditoriale (Jour 19), et Design System avec consignes permanentes pour Claude (Jour 20).
+4. **04 : CONCEVOIR + CONSTRUIRE** (Jours 21 à 23 : 3 leçons)
+   - *Parcours* : Arbres de décision et diagnostics à score (Jour 21), calculateurs multi-variables (Jour 22), et exports de livrables TXT, Markdown et PDF imprimable (Jour 23).
+5. **05 : HÉBERGEZ-LE** (Jours 24 à 25 : 2 leçons)
+   - *Parcours* : Hébergement, nom de domaine et expérience d'accès client (Jour 24), paiement, délivrance et contrôle final du parcours d'achat (Jour 25).
 
 ### Modules Bonus & Ressources
-- **Bonus 01 : Automatisation & IA** : Micro-lead magnets, flux conversationnels ManyChat et webhooks n8n.
-- **Bonus 02 : Prompts Systèmes Avancés** : Modèles de rôles experts, formats de métadonnées et protocoles d'itération.
-- **Bonus 03 : Déploiement & Monétisation** : Tunnels de commande, passerelles de paiement et délivrabilité des accès.
-- **Ressources Centralisées** : Bibliothèque d'exemples de code, templates HTML/CSS autonomes et feuilles de style.
+- **Bonus 01 : Vidéos sans visage** : Conception de vidéos de contenu et démonstrateurs sans présence physique.
+- **Bonus 02 : Automatisations commerciales** : Routage de prospects, ManyChat et webhooks n8n.
+- **Bonus 03 : Bibliothèque marketing** : Modèles de carrousels, posts d'autorité et séquences de lancement.
+- **Ressources Centralisées** : Bibliothèque d'exemples de code, templates HTML/CSS autonomes et fiches pratiques.
 
 ---
 
@@ -61,12 +60,12 @@ Afin d'assurer une transparence totale entre les développements techniques exis
 
 | Composant / Donnée | Réalité Technique | Statut Pédagogique |
 | :--- | :--- | :--- |
-| **Moteur React & Routing** | Navigation par onglets d'URL (`?route=home`, `?route=course&id=course-01`, `?route=day&num=1`) | Validé et synchronisé avec le design d'Abigail |
+| **Moteur React & Routing** | Routage dynamique par `src/utils/courseNavigation.ts` (`navigateToCourse`, `navigateToDay`, `resolveActiveCourseId`) | Validé et synchronisé avec `MAIN_COURSES.dayRange` |
 | **Persistance Locale** | LocalStorage réactif avec clé de versioning et migration automatique | Validé (sauvegarde silencieuse en arrière-plan) |
 | **Générateur de Prompts** | Composant `PromptBuilder` avec injection dynamique des variables du profil | Validé (utilisé sur les 25 journées) |
-| **Démonstrateur PDF → Hub** | Fichiers autonomes `avant-pdf-statique.html` et `apres-hub-interactif.html` | Validé (démonstration commerciale centrale du Module 02) |
+| **Démonstrateur PDF vers Hub** | Fichiers autonomes `avant-pdf-statique.html` et `apres-hub-interactif.html` | Validé (démonstration fil rouge de la formation) |
 | **Jours 01 à 15** | Implémentés avec contenu complet, prompts et checklists d'action | Validés dans le cadre de la formation `01 : COMMENCER ICI` |
-| **Jours 16 à 25** | Moteur technique opérationnel dans `src/data/days/` | Réservés pour l'intégration des formations 02 à 05 |
+| **Jours 16 à 25** | Moteur technique opérationnel dans `src/data/days/` | Organisés selon les plages officielles des formations 02 à 05 |
 | **Leçons Introductives** | Données conservées dans `src/data/startHere/` pour stabilité des tests | Découplées de l'interface (entrée directe au Jour 01) |
 
 ---
@@ -90,13 +89,13 @@ Le design s'appuie sur une palette éditoriale sobre et structurée, sans illust
 
 ## 5. Stack Technique
 
-- **Framework** : React 18
+- **Framework** : React 19
 - **Langage** : TypeScript (mode strict, typage exhaustif sans `any`)
 - **Build tool** : Vite 6
 - **Styling** : Tailwind CSS avec classes utilitaires néo-brutalistes et `.no-scrollbar`
 - **Animations** : Framer Motion
 - **Iconographie** : Lucide React
-- **Tests unitaires** : Vitest (moteur de progression, persistance et interpolation de prompts)
+- **Tests unitaires & intégration** : Vitest (moteur de progression, routage des cours, persistance et interpolation de prompts)
 - **Persistance** : LocalStorage avec synchronisation réactive d'état
 
 ---
@@ -145,9 +144,9 @@ src/
 │   └── startHere/        # Données d'orientation conservées pour les tests
 ├── hooks/                # Hooks personnalisés (useProgress, useStudentProfile)
 ├── styles/               # Styles globaux Tailwind et utilitaires néo-brutalistes
-├── test/                 # Tests unitaires Vitest du moteur
-├── types/                # Définitions TypeScript strictes
-└── utils/                # Utilitaires de calcul, interpolation et stockage
+├── test/                 # Tests unitaires et d'intégration Vitest (courseEngine, courseNavigation)
+├── types/                # Définitions TypeScript strictes (course, navigation)
+└── utils/                # Utilitaires de calcul, navigation/routage, interpolation et stockage
 ```
 
 ---
