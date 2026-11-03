@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion';
-import { TOTAL_COURSE_DAYS } from '../../utils/progressCalculator';
+import { Check } from 'lucide-react';
 
 interface ProgressGridProps {
   completedDayNumbers: number[];
@@ -13,42 +12,49 @@ export function ProgressGrid({
   onSelectDay,
 }: ProgressGridProps) {
   const completedSet = new Set(completedDayNumbers);
-  const days = Array.from({ length: TOTAL_COURSE_DAYS }, (_, idx) => idx + 1);
+  const row1Days = Array.from({ length: 13 }, (_, idx) => idx + 1);
+  const row2Days = Array.from({ length: 12 }, (_, idx) => idx + 14);
+
+  const renderCell = (dayNum: number) => {
+    const isCompleted = completedSet.has(dayNum);
+    const isActive = activeDayNumber === dayNum;
+
+    return (
+      <button
+        key={dayNum}
+        type="button"
+        onClick={() => onSelectDay(dayNum)}
+        title={`Jour ${dayNum}${isCompleted ? ' (Validé)' : ''}${isActive ? ' (En cours)' : ''}`}
+        aria-label={`Jour ${dayNum}${isCompleted ? ' (Validé)' : ''}${isActive ? ' (En cours)' : ''}`}
+        aria-current={isActive ? 'page' : undefined}
+        className={`w-4 h-4 sm:w-[18px] sm:h-[18px] rounded-[3px] border transition-all flex items-center justify-center shrink-0 ${
+          isCompleted
+            ? 'bg-primary-red border-ink text-surface'
+            : isActive
+            ? 'bg-cream border-2 border-primary-red ring-1 ring-primary-red'
+            : 'bg-surface border-ink/80 hover:border-ink hover:bg-pale-pink/50'
+        }`}
+      >
+        {isCompleted && (
+          <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 stroke-[3]" aria-hidden="true" />
+        )}
+      </button>
+    );
+  };
 
   return (
-    <div aria-label="Grille de progression des 25 leçons">
-      <div className="grid grid-cols-5 gap-1.5">
-        {days.map((dayNum) => {
-          const isCompleted = completedSet.has(dayNum);
-          const isActive = activeDayNumber === dayNum;
-          const padded = String(dayNum).padStart(2, '0');
+    <div
+      aria-label="Grille de progression des 25 jours"
+      className="space-y-1 select-none py-1"
+    >
+      {/* Ligne 1 : Jours 1 à 13 */}
+      <div className="flex items-center gap-1">
+        {row1Days.map(renderCell)}
+      </div>
 
-          return (
-            <motion.button
-              key={dayNum}
-              type="button"
-              whileTap={{ scale: 0.94 }}
-              animate={
-                isCompleted
-                  ? { backgroundColor: '#B63131', color: '#FFFDFC' }
-                  : { backgroundColor: '#FAF6F0', color: '#171313' }
-              }
-              transition={{ duration: 0.2 }}
-              onClick={() => onSelectDay(dayNum)}
-              aria-label={`Leçon ${padded}${isCompleted ? ' (Terminée)' : ''}${
-                isActive ? ' (En cours)' : ''
-              }`}
-              aria-current={isActive ? 'page' : undefined}
-              className={`h-8 border-2 border-ink rounded-brutal-tag font-mono text-[11px] font-bold flex items-center justify-center transition-all ${
-                isActive
-                  ? 'ring-2 ring-ink ring-offset-1 ring-offset-cream shadow-brutal-xs font-extrabold'
-                  : 'hover:bg-pale-pink'
-              }`}
-            >
-              {padded}
-            </motion.button>
-          );
-        })}
+      {/* Ligne 2 : Jours 14 à 25 */}
+      <div className="flex items-center gap-1">
+        {row2Days.map(renderCell)}
       </div>
     </div>
   );
