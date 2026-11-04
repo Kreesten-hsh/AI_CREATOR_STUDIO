@@ -21,7 +21,7 @@ function setupWorkspaceForDay(dayNumber: number, stepType?: 'concept' | 'prompt'
   saveProgressToStorage(initial);
 }
 
-describe('MISSION 05-C : Day 02 Epistemic Credibility & Full Integration Suite', () => {
+describe('MISSION 05-D : Day 02 Epistemic Finalization & Full Integration Suite', () => {
   beforeEach(() => {
     window.localStorage.clear();
     window.scrollTo = vi.fn();
@@ -189,6 +189,11 @@ describe('MISSION 05-C : Day 02 Epistemic Credibility & Full Integration Suite',
     expect(template).toContain('CAS A (Matière client réelle ou avis publics fournis)');
     expect(template).toContain('CAS B (Absence de matière client / Démarrage)');
 
+    // Vérifier l'intégration complète des 5 anneaux d'Adele Revella dans l'output format
+    expect(template).toContain('articulant les 5 Anneaux d\'Adele Revella');
+    expect(template).toContain('### 5. Critères de décision (Anneau 4)');
+    expect(template).toContain('### 6. Parcours d\'achat (Anneau 5)');
+
     // Vérifier les variables dynamiques
     expect(template).toContain('{{business}}');
     expect(template).toContain('{{targetAudience}}');
@@ -288,6 +293,10 @@ describe('MISSION 05-C : Day 02 Epistemic Credibility & Full Integration Suite',
     expect(screen.getByText(/Page 2 \(Diagnostic de capacité\) : \[FAIT DOCUMENTÉ\]/i)).toBeInTheDocument();
     expect(screen.getByText(/Page 5 \(Prompt & Limites du format\) : \[FAIT DOCUMENTÉ\]/i)).toBeInTheDocument();
 
+    // Vérifier la formulation de l'invitation à imprimer (sans contrainte physique imposée)
+    expect(screen.getByText(/invitant expressément à imprimer la page pour cocher au stylo, tout en laissant la possibilité de reporter les tâches sur un autre support/i)).toBeInTheDocument();
+    expect(screen.queryByText(/impose une rupture physique/i)).not.toBeInTheDocument();
+
     // Vérifier l'absence des anciennes allégations non fondées labellisées faits
     expect(screen.queryByText(/Frustration 2 \(Erreur \/ Insécurité\) \[FAIT\] : La violation systématique du temps protégé par une urgence client le mardi matin/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Trigger interne \[HYPOTHÈSE\] : l'épuisement d'un dimanche soir passé à hésiter/i)).not.toBeInTheDocument();
@@ -309,6 +318,8 @@ describe('MISSION 05-C : Day 02 Epistemic Credibility & Full Integration Suite',
       screen.getByText(/Dans de nombreux cours de marketing génériques, on affirmerait ici : « Les consultants sont prêts à payer un abonnement de 29 euros/i)
     ).toBeInTheDocument();
     expect(screen.getByText(/Questions d'entretiens recommandées \(The Mom Test\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Quand tu as téléchargé un guide PDF comprenant une feuille de route ces derniers mois, qu'as-tu fait concrètement de ce plan \? L'as-tu imprimé, recopié dans un outil de gestion, ou laissé dans le fichier \?/i)).toBeInTheDocument();
+    expect(screen.queryByText(/abonnements logiciels dormants/i)).not.toBeInTheDocument();
     expect(screen.getByText(/Confondre une objection sur le prix avec une objection sur la valeur/i)).toBeInTheDocument();
     expect(screen.getByText(/Projeter ses propres habitudes sur son client/i)).toBeInTheDocument();
   });
@@ -341,8 +352,17 @@ describe('MISSION 05-C : Day 02 Epistemic Credibility & Full Integration Suite',
       </ProgressProvider>
     );
 
-    expect(screen.getByText(/Voie 1 \(Vous vendez déjà ou avez des retours clients \/ Profils A et B\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/Voie 2 \(Vous démarrez sans clientèle préalable \/ Profils C et D\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Voie 1 \(Vous vendez déjà ou disposez de retours clients réels\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Voie 2 \(Vous êtes en phase de conception ou de lancement\)/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Profil [ABCD]/i)).not.toBeInTheDocument();
+
+    const finalCard = exercises[5];
+    expect(finalCard.placeholder).toContain("LES 5 ANNEAUX D'INSIGHTS D'ACHAT");
+    expect(finalCard.placeholder).toContain("Initiatives prioritaires & Déclencheurs (Anneau 1");
+    expect(finalCard.placeholder).toContain("Facteurs de succès attendus (Anneau 2");
+    expect(finalCard.placeholder).toContain("Freins perçus & Objections majeures (Anneau 3");
+    expect(finalCard.placeholder).toContain("Critères de décision (Anneau 4");
+    expect(finalCard.placeholder).toContain("Parcours d'achat (Anneau 5");
 
     const textareaA = screen.getByLabelText(/Vos notes et livrables/i, {
       selector: '#exercise-textarea-day02-deliverable-a-situation',
@@ -409,7 +429,7 @@ describe('MISSION 05-C : Day 02 Epistemic Credibility & Full Integration Suite',
     expect(screen.getByText("Checklist d'auto-validation en 8 critères observables")).toBeInTheDocument();
     expect(screen.getByText('0/8 TERMINÉES (0%)')).toBeInTheDocument();
 
-    const item1 = screen.getByRole('checkbox', { name: /Situation ancrée dans l'action réelle/i });
+    const item1 = screen.getByRole('checkbox', { name: /Situation ancrée dans l'action réelle et rôle clarifié/i });
     const item2 = screen.getByRole('checkbox', { name: /Cinq frustrations concrètes et distinctes/i });
 
     fireEvent.click(item1);
@@ -427,7 +447,7 @@ describe('MISSION 05-C : Day 02 Epistemic Credibility & Full Integration Suite',
     );
 
     expect(screen.getByText('2/8 TERMINÉES (25%)')).toBeInTheDocument();
-    const restoredItem1 = screen.getByRole('checkbox', { name: /Situation ancrée dans l'action réelle/i });
+    const restoredItem1 = screen.getByRole('checkbox', { name: /Situation ancrée dans l'action réelle et rôle clarifié/i });
     expect(restoredItem1).toHaveAttribute('aria-checked', 'true');
   });
 
@@ -456,8 +476,10 @@ describe('MISSION 05-C : Day 02 Epistemic Credibility & Full Integration Suite',
 
     const [res1, res2] = resourceBlock.resources;
     expect(res1.downloadFilename).toBe('fiche-acheteur-qualitative-j02.md');
-    expect(res1.downloadContent).toContain("FICHE ACHETEUR QUALITATIVE & LEVIERS D'ACHAT");
-    expect(res1.downloadContent).toContain('MATRICE DES 5 FRUSTRATIONS CONCRÈTES');
+    expect(res1.downloadContent).toContain("FICHE ACHETEUR QUALITATIVE & LES 5 ANNEAUX D'INSIGHTS D'ACHAT");
+    expect(res1.downloadContent).toContain("ANNEAU 1 : INITIATIVES PRIORITAIRES & FRUSTRATIONS");
+    expect(res1.downloadContent).toContain("ANNEAU 4 : CRITÈRES DE DÉCISION");
+    expect(res1.downloadContent).toContain("ANNEAU 5 : PARCOURS D'ACHAT");
 
     expect(res2.downloadFilename).toBe('grille-audit-mom-test-forces-j02.md');
     expect(res2.downloadContent).toContain("GRILLE D'AUDIT : THE MOM TEST & FORCES DU CHANGEMENT");

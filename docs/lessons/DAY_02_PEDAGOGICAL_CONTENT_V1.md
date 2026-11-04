@@ -31,6 +31,8 @@
 
 Au Jour 01, vous avez délimité votre niche : un groupe de personnes confronté à un problème précis dans un contexte donné.
 
+Vous disposez peut-être déjà d'un support existant : un guide PDF, un ebook rédigé, un template Notion, un cahier d'exercices, un tableur avec des formules, ou même des modules de formation générés avec l'aide d'une IA. Vous ne venez pas pour jeter ce travail. Vous venez pour comprendre où se situe la vraie valeur pour votre audience : identifier les parties de votre contenu qui se lisent parfaitement sous forme textuelle, et celles qui génèrent de la friction et qui appellent une interaction, un calcul ou un diagnostic personnalisé.
+
 Une confusion majeure menace toutefois la conception d'un produit digital :
 1. **L'apprenant d'AI CREATOR Studio** : C'est vous, qui suivez ce cursus pour transformer votre savoir ou votre matière en produit interactif.
 2. **L'acheteur de l'apprenant** : C'est votre client final, la personne qui achètera ou utilisera le produit digital que vous concevez actuellement.
@@ -75,11 +77,11 @@ Le marketing traditionnel a longtemps réduit l'acheteur à un portrait-robot so
 Comme l'ont établi les recherches d'Adele Revella (Buyer Persona Institute), ces données ne suffisent jamais à expliquer pourquoi une personne décide d'acheter une solution. Deux personnes ayant exactement le même âge, le même salaire et le même lieu de résidence peuvent avoir des comportements d'achat diamétralement opposés.
 
 Les données démographiques ne sont pas inutiles : elles permettent de cerner des contraintes concrètes (pouvoir d'achat, accès technique, cadre réglementaire). Mais ce qui déclenche l'acte d'achat relève des **cinq anneaux d'insights d'achat** :
-1. **L'initiative prioritaire (*Priority Initiatives*)** : Quel événement ou quelle saturation pousse cette personne à consacrer du temps et de l'argent maintenant, plutôt que de conserver son organisation habituelle ?
-2. **Les facteurs de succès (*Success Factors*)** : Quel résultat concret, mesurable ou opérationnel recherche-t-elle pour considérer que son problème est résolu ?
-3. **Les barrières perçues (*Perceived Barriers*)** : Quels doutes ou craintes l'incitent à hésiter (peur de perdre son temps, crainte de complexité technique, scepticisme sur l'adaptation à son cas particulier) ?
-4. **Le parcours d'évaluation (*Buyer's Journey*)** : Comment se renseigne-t-elle, à qui demande-t-elle des avis et quelles alternatives compare-t-elle ?
-5. **Les critères de décision (*Decision Criteria*)** : Quels critères précis et tangibles feront pencher son choix entre deux options concurrentes ?
+1. **Les initiatives prioritaires (*Priority Initiatives*)** : Quel événement ou quelle saturation pousse cette personne à consacrer du temps, du budget ou de l'attention maintenant, plutôt que de maintenir son organisation habituelle ?
+2. **Les facteurs de succès (*Success Factors*)** : Quels résultats opérationnels et personnels précis attend-elle de la démarche pour considérer son problème résolu ?
+3. **Les freins perçus (*Perceived Barriers*)** : Quels doutes, anxiétés ou expériences passées négatives la retiennent (crainte d'effort ou de complexité, doute sur l'adéquation à son cas spécifique, peur de l'abandon) ?
+4. **Les critères de décision (*Decision Criteria*)** : Quelles caractéristiques précises et quels éléments de comparaison tangibles examine-t-elle pour choisir ou rejeter une solution par rapport aux autres options disponibles ?
+5. **Le parcours d'achat (*Buyer's Journey*)** : Quel est le cheminement complet de décision, quelles personnes ou ressources influencent son jugement, et quelles étapes franchit-elle avant de choisir ?
 
 ---
 
@@ -233,7 +235,7 @@ Examine la section <source_material>.
 </task>
 
 <output_format>
-Structure ta synthèse finale selon ces 6 sections précises :
+Structure ta synthèse finale selon ces 8 sections précises (articulant les 5 Anneaux d'Adele Revella et les Forces de Bob Moesta) :
 
 ### 1. Situation de départ de l'acheteur
 - Description du contexte d'activité concret avant l'apparition de la crise ou du besoin.
@@ -241,27 +243,34 @@ Structure ta synthèse finale selon ces 6 sections précises :
 - Contrainte majeure non négociable (temps disponible, budget, charge client, niveau technique).
 - Rôle : l'acheteur est-il l'utilisateur final direct ou décide-t-il pour un tiers ?
 
-### 2. Matrice des 5 Frustrations concrètes
+### 2. Initiatives prioritaires & Matrice des 5 Frustrations concrètes (Anneau 1 & Push)
+- Déclencheur interne (l'incident de trop, la rupture de patience opérationnelle).
+- Déclencheur externe (l'échéance imposée, l'obligation réglementaire, contractuelle ou calendaire).
 Pour chacune des 5 frictions :
 - Intitulé sobre de la friction.
 - Scène vécue concrète (ce qui bloque dans l'action).
 - Statut de preuve : [FAIT DOCUMENTÉ avec extrait/source] OU [HYPOTHÈSE À VÉRIFIER].
 
-### 3. Déclencheurs d'achat (Triggers)
-- Déclencheur interne (l'incident de trop, la goutte d'eau opérationnelle).
-- Déclencheur externe (l'échéance imposée, l'obligation réglementaire, contractuelle ou calendaire).
-- Statut de preuve : [FAIT DOCUMENTÉ] OU [HYPOTHÈSE À VÉRIFIER].
+### 3. Facteurs de succès attendus (Anneau 2 & Pull)
+- Résultats opérationnels et personnels concrets que l'acheteur attend de la solution.
+- Ce qui lui permet d'affirmer que le problème est résolu de manière tangible.
 
-### 4. Objections majeures et Barrières perçues
+### 4. Freins perçus et Objections majeures (Anneau 3 & Anxiété)
 - Objection 1 (Effort et temps de prise en main perçus).
 - Objection 2 (Doute sur la spécificité à son cas particulier).
 - Objection 3 (Peur de l'inutilité ou de l'abandon).
 - Preuve rationnelle requise pour désamorcer chaque doute.
 
-### 5. Vocabulaire brut de l'audience (Voice of Customer)
+### 5. Critères de décision (Anneau 4)
+- Caractéristiques précises et éléments de comparaison examinés pour choisir une solution face aux alternatives (simplicité, rapidité, indépendance technique, clarté).
+
+### 6. Parcours d'achat (Anneau 5)
+- Cheminement d'évaluation, ressources ou avis consultés, personnes influentes dans la décision d'achat.
+
+### 7. Vocabulaire brut de l'audience (Voice of Customer)
 - Relevé de 5 à 8 expressions, mots ou métaphores réellement employés par cette audience (si matière fournie), ou 5 formulations à écouter lors des prochains entretiens (si démarrage).
 
-### 6. Matrice de transition vers le Jour 03
+### 8. Matrice de transition vers le Jour 03
 - Synthèse de la frustration prioritaire à résoudre pour formuler la promesse au Jour 03.
 - Liste des 2 informations manquantes qu'il est indispensable de vérifier auprès d'utilisateurs réels.
 </output_format>
@@ -307,17 +316,17 @@ Voici comment analyser méthodiquement ce document sans verser dans l'illusion �
 | **Page 1 : Couverture & Avertissement** | Titre, temps de lecture annoncé de 45 minutes, cible nommée (freelances, formateurs, coachs, consultants). L'encadré avertit que l'application nécessite une calculatrice, un carnet ou un tableur annexe. | Le lecteur ne peut pas appliquer le guide de manière autonome : il doit basculer vers des outils tiers extérieurs au document pour faire fonctionner la méthode. | *Hypothèse* : Devoir sortir du guide pour faire des calculs sur un carnet ou un tableur disperse l'attention du lecteur et augmente le taux d'abandon avant la mise en pratique. |
 | **Page 2 : Diagnostic de capacité** | Formule de capacité manuelle : `(Heures totales - Heures clients - Heures admin) x 0.65 ÷ 2.5h`. Tableau statique présentant 3 profils. Mention indiquant que tout changement de charge client impose de recalculer manuellement sur carnet. L'affirmation « l'erreur commise par 90 % des professionnels » est une assertion de l'auteur. | Le format PDF fige les chiffres dans un tableau fixe. Si la réalité d'un indépendant ne correspond pas exactement aux trois cas présentés, le guide ne s'adapte pas à sa situation. | *Hypothèse* : Un simulateur interactif qui calcule automatiquement la capacité à partir des heures réelles de la semaine apporterait plus de valeur pratique que la formule statique du PDF. |
 | **Page 3 : Matrice des 3 Piliers** | Recommandation de l'auteur d'équilibrer Fondation (40 %), Preuve (40 %) et Conversion (20 %) sur un rythme mardi, jeudi, samedi. | La répartition éditoriale est théorique ; aucune aide n'est proposée pour vérifier si les contenus rédigés respectent effectivement cet équilibre. | *Hypothèse* : Les créateurs peinent à doser leurs publications de conversion et ressentent le besoin d'un outil visuel qui catégorise leurs idées de contenu. |
-| **Page 4 : Feuille de route 30 jours** | 11 tâches planifiées sur 4 semaines avec des cases à cocher imprimées. Le texte invite à imprimer la page pour cocher les cases au stylo. | Le support impose une manipulation physique (impression papier) pour assurer le suivi d'exécution, créant une rupture avec le travail sur ordinateur. | *Hypothèse* : La feuille imprimée est rapidement égarée ou oubliée, et une liste de tâches interactive avec sauvegarde de progression en ligne réduirait l'abandon. |
+| **Page 4 : Feuille de route 30 jours** | 11 tâches planifiées sur 4 semaines avec des cases à cocher imprimées. Le texte invite expressément le lecteur à imprimer la page pour cocher les cases au stylo, tout en lui laissant la liberté technique de suivre les étapes sur un tableur, un carnet ou son écran. | Le support invite à une rupture physique papier ; pour un utilisateur travaillant exclusivement sur ordinateur, cela peut créer une friction de continuité s'il préfère un outil numérique interactif. | *Hypothèse* : L'utilisateur qui ne souhaite pas imprimer abandonne plus facilement le suivi, et une liste de tâches interactive avec sauvegarde de progression en ligne réduirait cet abandon. |
 | **Page 5 : Prompt & Limites du format** | Un prompt textuel comportant 3 champs entre crochets `[Remplacer par ...]`. Un encadré de conclusion récapitule les limites du PDF (calculs externes, pas de tri personnalisé, cases non cochables, pas de sauvegarde). | L'utilisateur doit copier-coller manuellement le texte et éditer lui-même les crochets dans une autre fenêtre sans assistance contextuelle. | *Hypothèse* : Un générateur de prompt dynamique avec champs de saisie formulaire évite les erreurs de manipulation et fait gagner un temps appréciable. |
 
 ---
 
 ### 3.3 Questions d'entretien recommandées pour valider ces hypothèses sur le terrain
 
-Plutôt que d'affirmer de fausses certitudes, voici les 4 questions concrètes inspirées de *The Mom Test* qu'un créateur devrait poser à des professionnels de cette cible pour vérifier la réalité du besoin :
+Plutôt que d'affirmer de fausses certitudes, voici les 4 questions concrètes inspirées de *The Mom Test* qu'un créateur devrait poser à des professionnels de cette cible pour vérifier la réalité du besoin, sans jamais leur suggérer les réponses ni présupposer une action :
 1. *« La dernière fois que tu as essayé d'organiser ton calendrier de création de contenu, comment as-tu évalué le temps dont tu disposais réellement par semaine ? »* (Vérifie si la friction du calcul de capacité existe dans le monde réel).
 2. *« Quand tu as téléchargé un guide PDF méthodologique ces derniers mois, qu'as-tu fait concrètement des exercices ou feuilles de route qu'il contenait ? »* (Vérifie si les exercices statiques sont appliqués ou délaissés).
-3. *« As-tu déjà imprimé une feuille d'action issue d'un guide numérique ? Combien de temps l'as-tu conservée sur ton bureau ? »* (Teste l'hypothèse de la rupture papier).
+3. *« Quand tu as téléchargé un guide PDF comprenant un plan d'action ou une feuille de route ces derniers mois, qu'as-tu fait concrètement de ce plan ? L'as-tu imprimé, recopié dans un outil de gestion, ou laissé dans le fichier ? Qu'est-ce qui s'est passé ensuite ? »* (Explore le comportement réel d'organisation sans présupposer une impression papier).
 4. *« Quel est l'outil ou le fichier que tu utilises aujourd'hui pour planifier tes publications, et qu'est-ce qui t'agace le plus dans son utilisation quotidienne ? »* (Révèle l'alternative actuelle et le Push réel).
 
 ---
@@ -327,8 +336,8 @@ Plutôt que d'affirmer de fausses certitudes, voici les 4 questions concrètes i
 Dans de nombreuses formations marketing superficielles, on affirmerait ici : *« Les consultants sont prêts à payer un abonnement de 29 euros par mois pour un outil de gestion éditoriale interactif »*.  
 **L'examen rigoureux de l'architecte produit** :  
 Existe-t-il la moindre preuve de vente ou de transaction dans le document `avant-pdf-statique.html` ? **Aucune.**  
-Les études récentes (rapports Visa et Epidemic Sound 2025) montrent que beaucoup de créateurs et indépendants sont attentifs à leurs coûts fixes et manifestent une lassitude face à la multiplication des abonnements logiciels dormants.  
-Cette supposition est donc **rejetée comme fait et rétrogradée en simple hypothèse de travail**, qui sera mise à l'épreuve uniquement au Jour 04 (Format et prix) et au Jour 25 (Commercialisation).
+Sur le marché des outils professionnels et de la formation, beaucoup d'indépendants manifestent une certaine réserve face à l'accumulation d'abonnements logiciels récurrents peu utilisés. Cette observation générale de marché constitue une hypothèse qualitative plausible pour le studio, mais elle n'est pas issue d'une mesure statistique de notre document test.  
+Cette supposition est donc **rejetée comme certitude et conservée comme simple hypothèse de travail**, qui sera mise à l'épreuve au Jour 04 (Format et prix) et au Jour 25 (Commercialisation).
 
 Prenez garde à ces trois pièges majeurs lors de l'analyse de votre propre acheteur :
 1. **Confondre objection de prix et objection de valeur** : Quand un prospect affirme « c'est trop cher », cela traduit presque toujours : « Je ne suis pas convaincu que cet outil m'apportera un soulagement supérieur à mon bricolage gratuit habituel ».
@@ -342,9 +351,9 @@ Prenez garde à ces trois pièges majeurs lors de l'analyse de votre propre ache
 ### 4.1 Atelier personnel : Deux voies d'exécution selon votre maturité
 
 Vous allez renseigner et enregistrer votre fiche acheteur dans les espaces ci-dessous. Deux approches s'offrent à vous :
-- **Voie 1 (Vous vendez déjà ou avez des retours clients / Profils A et B)** :  
+- **Voie 1 (Vous vendez déjà ou disposez de retours clients réels)** :  
   Appuyez-vous sur des données réelles (e-mails reçus, questions d'élèves, réclamations, commentaires, avis). Renseignez vos livrables en étiquetant chaque fait appuyé sur une source par la mention `[FAIT OBSERVÉ / SOURCE : ...]`.
-- **Voie 2 (Vous démarrez sans clientèle préalable / Profils C et D)** :  
+- **Voie 2 (Vous êtes en phase de conception ou de lancement)** :  
   Ne fabriquez aucun faux client imaginaire. Formulez des déductions raisonnables et classez chaque point sous la mention `[HYPOTHÈSE À VÉRIFIER]`. Vous utiliserez cette fiche comme grille d'entretien pour vos futurs échanges exploratoires.
 
 ---
@@ -368,8 +377,17 @@ Formulez les 3 anxiétés d'usage les plus vives chez votre acheteur (effort d'a
 #### Livrable E : Vocabulaire brut authentique (Voice of Customer)
 Listez 5 à 8 expressions, mots ou métaphores réellement employés par votre audience pour décrire sa situation (si vous disposez de retours), ou 5 formulations précises à surveiller lors de vos prochains entretiens (si vous démarrez). Indiquez la source de chaque expression ou marquez-la comme hypothèse.
 
-#### Livrable Final : Synthèse de la fiche acheteur qualitative
-Rassemblez l'ensemble de vos éléments dans cette fiche synthétique prête à l'emploi. Cette fiche servira de référence directe pour formuler votre promesse au Jour 03 et structurer votre offre au Jour 04.
+#### Livrable Final : Synthèse de la fiche acheteur qualitative (Les 5 Anneaux d'Adele Revella)
+Rassemblez l'ensemble de vos éléments dans cette fiche synthétique articulant :
+1. Situation de départ et Rôle (Acheteur vs Utilisateur)
+2. Initiatives prioritaires & Déclencheurs (Anneau 1)
+3. Facteurs de succès attendus (Anneau 2)
+4. Freins perçus & Objections majeures (Anneau 3)
+5. Critères de décision (Anneau 4)
+6. Parcours d'achat (Anneau 5)
+7. Vocabulaire brut de l'audience (Voice of Customer)
+
+Cette fiche servira de référence directe pour formuler votre promesse au Jour 03 et structurer votre offre au Jour 04.
 
 ---
 
@@ -377,16 +395,16 @@ Rassemblez l'ensemble de vos éléments dans cette fiche synthétique prête à 
 
 1. **Situation ancrée dans l'action réelle** : Ma situation de départ décrit une personne dans un contexte concret, avec ses outils habituels et ses contraintes matérielles.
 2. **Cinq frustrations distinctes** : Mes 5 frustrations traitent de frictions différentes et ne répètent pas la même idée sous des formulations variées.
-3. **Déclencheurs identifiés** : J'ai identifié au moins un déclencheur interne (incident de trop) et un déclencheur externe (échéance ou contrainte imposée).
-4. **Objections et barrières formulées** : Mes objections portent sur de réelles anxiétés d'usage (temps, effort, adaptation, abandon passé) et non sur un simple refus abstrait.
-5. **Vocabulaire authentifié ou balisé** : Mes expressions relevées correspondent à des tournures réelles ou sont explicitement consignées comme hypothèses à écouter.
-6. **Honnêteté épistémique respectée** : Chaque élément est soit rattaché à une observation directe identifiable, soit explicitement marqué `[HYPOTHÈSE À VÉRIFIER]`.
-7. **Rôle Acheteur vs Utilisateur clarifié** : J'ai précisé si l'acheteur manipule lui-même l'outil ou s'il s'agit d'un décideur finançant la solution pour un tiers.
-8. **Neutralité d'offre préservée** : Ma fiche ne mentionne prématurément ni promesse commerciale (Jour 03), ni format d'outil interactif (Jour 04), ni prix de vente (Jour 04).
+3. **Déclencheurs et initiatives prioritaires** : J'ai identifié le déclencheur interne (l'incident de trop) et le déclencheur externe (échéance ou contrainte imposée).
+4. **Facteurs de succès identifiés** : Les résultats opérationnels et personnels concrets attendus par l'acheteur sont formulés clairement.
+5. **Freins perçus et anxiétés désamorcées** : Mes objections portent sur de réelles anxiétés d'usage (temps, effort, adaptation, abandon passé) avec la preuve rationnelle requise.
+6. **Critères de décision et parcours d'achat clarifiés** : Les critères de choix face aux alternatives et les étapes d'évaluation sont pris en compte.
+7. **Vocabulaire brut authentifié ou balisé (Voice of Customer)** : Mes expressions relevées correspondent à des tournures réelles ou sont explicitement consignées comme hypothèses à écouter.
+8. **Honnêteté épistémique et neutralité d'offre** : Chaque élément est classé entre fait et hypothèse, sans mention prématurée de prix ou de promesse publicitaire.
 
 ---
 
 ### 4.4 Ressources téléchargeables du Jour 02
 
-1. **`fiche-acheteur-qualitative-j02.md`** : Matrice Markdown complète prête à remplir pour consigner la situation de départ, les 5 frustrations étiquetées, les déclencheurs, les forces de changement et le vocabulaire brut.
+1. **`fiche-acheteur-qualitative-j02.md`** : Matrice Markdown complète structurée selon les 5 Anneaux d'Adele Revella et les Forces de Moesta, prête à remplir.
 2. **`grille-audit-mom-test-forces-j02.md`** : Grille de contrôle éditorial en 6 points pour éliminer les faux avis polis, distinguer faits et hypothèses et préparer des entretiens exploratoires non suggestifs.

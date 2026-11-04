@@ -1,4 +1,4 @@
-# SPÉCIFICATIONS TECHNIQUES & MATRICE DE CONFORMITÉ : JOUR 02 (VERSION RÉVISÉE MISSION 05-C)
+# SPÉCIFICATIONS TECHNIQUES & MATRICE DE CONFORMITÉ : JOUR 02 (VERSION RÉVISÉE MISSION 05-D)
 ## Documentation d'ingénierie interne pour l'intégration React
 
 > **Statut** : Document technique interne de référence pour les développeurs.  
@@ -24,14 +24,14 @@ L'intégration du Jour 02 dans `src/data/days/day-02.ts` réutilise exclusivemen
 | **3. Exemple guidé** | `day02-step3-context-ethics` | `ProseBlock` | Avertissement déontologique rigoureux : `avant-pdf-statique.html` (Alexandre V.) est une démonstration interne à 5 pages visibles (1/12 à 5/12). Refus formel d'inventer des comportements ou des anecdotes non attestés. | Aucun |
 | **3. Exemple guidé** | `day02-step3-analysis-8points` | `ProseBlock` | Grille de Vérité Documentaire en 3 colonnes (Fait documentaire vérifiable, Déduction raisonnable sur le format, Hypothèse à vérifier auprès d'acheteurs) et formulation de 4 questions d'entretiens *Mom Test* recommandées. | Aucun |
 | **3. Exemple guidé** | `day02-step3-pitfalls` | `ProseBlock` | Déconstruction critique de l'hypothèse de l'abonnement SaaS mensuel à 29 euros (rejetée comme fait et rétrogradée en hypothèse) et analyse des 3 pièges de modélisation (prix vs valeur, projection de ses goûts, verbatims stylisés). | Aucun |
-| **4. À vous de jouer** | `day02-step4-intro` | `ProseBlock` | Consigne générale de l'atelier personnel et adaptation aux deux profils d'apprenants (vendeurs actifs avec retours réels vs débutants avec entretiens exploratoires ou avis publics). | Aucun |
+| **4. À vous de jouer** | `day02-step4-intro` | `ProseBlock` | Consigne générale de l'atelier personnel et adaptation aux deux voies professionnelles (vendeurs actifs avec retours réels vs en préparation/lancement avec entretiens exploratoires ou avis publics). | Aucun |
 | **4. À vous de jouer** | `day02-deliverable-a-situation` | `TextExerciseBlock` | Livrable A : Situation de départ de l'acheteur (contexte, outils actuels, contrainte de fond). | `state.exerciseAnswers['day02-deliverable-a-situation']` |
 | **4. À vous de jouer** | `day02-deliverable-b-frustrations` | `TextExerciseBlock` | Livrable B : Matrice des 5 frustrations concrètes avec statut [FAIT DOCUMENTÉ] ou [HYPOTHÈSE À VÉRIFIER]. | `state.exerciseAnswers['day02-deliverable-b-frustrations']` |
 | **4. À vous de jouer** | `day02-deliverable-c-triggers` | `TextExerciseBlock` | Livrable C : Les déclencheurs d'achat (Trigger interne + Trigger externe). | `state.exerciseAnswers['day02-deliverable-c-triggers']` |
 | **4. À vous de jouer** | `day02-deliverable-d-objections` | `TextExerciseBlock` | Livrable D : Les 3 objections majeures et leurs désamorçages rationnels. | `state.exerciseAnswers['day02-deliverable-d-objections']` |
 | **4. À vous de jouer** | `day02-deliverable-e-vocabulary` | `TextExerciseBlock` | Livrable E : Vocabulaire brut et expressions authentiques (*Voice of Customer*). | `state.exerciseAnswers['day02-deliverable-e-vocabulary']` |
-| **4. À vous de jouer** | `day02-deliverable-final-card` | `TextExerciseBlock` | Livrable Final : Synthèse de la fiche acheteur qualitative complète. | `state.exerciseAnswers['day02-deliverable-final-card']` |
-| **4. À vous de jouer** | `day02-step4-checklist` | `StepChecklistBlock` | Checklist d'auto-validation en 8 critères observables axée sur l'honnêteté épistémique et la traçabilité. | `state.checklistAnswers['day02-step4-checklist']` |
+| **4. À vous de jouer** | `day02-deliverable-final-card` | `TextExerciseBlock` | Livrable Final : Synthèse de la fiche acheteur qualitative articulant les 5 Anneaux d'Adele Revella. | `state.exerciseAnswers['day02-deliverable-final-card']` |
+| **4. À vous de jouer** | `day02-step4-checklist` | `StepChecklistBlock` | Checklist d'auto-validation en 8 critères observables couvrant les 5 dimensions d'achat et l'honnêteté épistémique. | `state.checklistAnswers['day02-step4-checklist']` |
 | **4. À vous de jouer** | `day02-step4-resources` | `ResourceBlock` | Fiches Markdown téléchargeables (`fiche-acheteur-qualitative-j02.md` et `grille-audit-mom-test-forces-j02.md`). | Aucun |
 
 ---
