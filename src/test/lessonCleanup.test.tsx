@@ -23,14 +23,14 @@ describe('MISSION 03-B : Editorial and Structural Cleanup Verification', () => {
     window.localStorage.clear();
   });
 
-  it('1. Day 01 (Skeleton) renders tabs and banner, but NO fake content, NO empty-block card, and NO completion button', () => {
-    const day01 = ALL_DAYS.find((d) => d.dayNumber === 1);
-    expect(day01?.isSkeletonPlaceholder).toBe(true);
-    for (const step of day01!.steps) {
+  it('1. Day 02 (Skeleton) renders tabs and banner, but NO fake content, NO empty-block card, and NO completion button', () => {
+    const day02 = ALL_DAYS.find((d) => d.dayNumber === 2);
+    expect(day02?.isSkeletonPlaceholder).toBe(true);
+    for (const step of day02!.steps) {
       expect(step.blocks).toEqual([]);
     }
 
-    setupWorkspaceForDay(1);
+    setupWorkspaceForDay(2);
 
     render(
       <ProgressProvider>
@@ -39,9 +39,9 @@ describe('MISSION 03-B : Editorial and Structural Cleanup Verification', () => {
     );
 
     // Day banner and tabs exist
-    const heading = screen.getByRole('heading', { name: /NICHE/i });
-    expect(heading).toHaveTextContent(/NICHE/i);
-    expect(heading).toHaveTextContent(/PROBLÈME CIBLE/i);
+    const heading = screen.getByRole('heading', { name: /PSYCHOLOGIE/i });
+    expect(heading).toHaveTextContent(/PSYCHOLOGIE/i);
+    expect(heading).toHaveTextContent(/LEVIERS D'ACHAT/i);
     expect(screen.getByText('Comprendre')).toBeInTheDocument();
     expect(screen.getByText('Prompt Claude')).toBeInTheDocument();
     expect(screen.getByText('Exemple guidé')).toBeInTheDocument();
@@ -53,7 +53,7 @@ describe('MISSION 03-B : Editorial and Structural Cleanup Verification', () => {
     ).not.toBeInTheDocument();
 
     // Fake callout, fake video and fake quiz must be absent
-    expect(screen.queryByText(/Structure pédagogique : Leçon 01/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Structure pédagogique : Leçon/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/LEÇON VIDÉO/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Briefing vidéo/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/NOTE IMPORTANTE/i)).not.toBeInTheDocument();

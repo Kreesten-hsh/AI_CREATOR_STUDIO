@@ -107,8 +107,8 @@ describe('AI CREATOR STUDIO : Course Data & Engine Verification', () => {
   });
 
   it('guarantees clean separation between skeleton placeholders and developed days', () => {
-    const skeletonDayNumbers = [1, 2, 3, 4, 5, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
-    const developedDayNumbers = [6, 7, 8, 9, 10];
+    const skeletonDayNumbers = [2, 3, 4, 5, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
+    const developedDayNumbers = [1, 6, 7, 8, 9, 10];
 
     for (const day of ALL_DAYS) {
       if (skeletonDayNumbers.includes(day.dayNumber)) {
