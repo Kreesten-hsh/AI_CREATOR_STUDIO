@@ -1,76 +1,101 @@
-# REGISTRE DE RECHERCHE DOCUMENTAIRE : JOUR 02
+# REGISTRE DE RECHERCHE DOCUMENTAIRE : JOUR 02 (VERSION RÉVISÉE MISSION 05-C)
 ## Formation 01 : COMMENCER ICI | Bloc A : Fondations et Offre
 ### Thématique : Psychologie et Leviers d'Achat (L'acheteur : situation, frustrations et déclencheurs)
 
-> **Objet** : Traçabilité factuelle et déontologique des sources préalables à la rédaction pédagogique du Jour 02.  
-> **Protocole associé** : `docs/RESEARCH_DRIVEN_PEDAGOGICAL_PRODUCTION_PROTOCOL.md`.  
-> **Principe directeur** : « Tu ne vas pas apprendre à créer notre plateforme. Tu vas apprendre à créer la tienne. » Zéro information inventée.
+> **Date de référence** : 4 novembre 2026  
+> **Protocole appliqué** : `docs/RESEARCH_DRIVEN_PEDAGOGICAL_PRODUCTION_PROTOCOL.md`  
+> **Principe absolu** : « Tu ne vas pas apprendre à créer notre plateforme. Tu vas apprendre à créer la tienne. » Zéro information inventée, distinction stricte entre fait documenté, déduction raisonnable et hypothèse à vérifier.
 
 ---
 
-## 1. TABLEAU SYNTHÉTIQUE DES SOURCES ET FAITS CONTRÔLÉS
+## 1. OBJECTIF ET PÉRIMÈTRE DE LA RECHERCHE
 
-| # | Sujet | Information vérifiée | Source primaire ou URL exacte | Auteur / Organisme | Date source / Date consultation | Version / Plan concerné | Destination dans le cours |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **01** | Forces du Changement (*Forces of Progress*) | Le passage à l'acte d'achat n'est pas déterminé par des traits démographiques mais par l'équilibre dynamique entre 4 forces : Push de la situation actuelle, Pull de la solution, Anxiété du nouveau et Habitude du statu quo. Formule : $(Push + Pull) > (Anxiety + Habit)$. | *The Rewired Group / Jobs to be Done Framework* (`https://jobstobedone.org/`) | Bob Moesta & Clayton Christensen | 2016 (rev. 2020) / 2026-11-04 | Méthodologie universelle JTBD | Étape 1 (Comprendre) & Étape 4 (Checklist) |
-| **02** | Recherche Utilisateur sans Biais (*The Mom Test*) | 3 règles fondamentales pour éliminer les faux positifs de politesse : 1) Parler de leur vie passée et non de votre idée ; 2) Interroger sur des faits et comportements passés précis plutôt que sur des intentions futures ; 3) Parler moins de 30 % du temps et écouter le vocabulaire réel. | *The Mom Test: How to talk to customers & learn if your business is a good idea when everyone is lying to you* (ISBN: 978-1490159973) | Rob Fitzpatrick | 2013 / 2026-11-04 | Standard Customer Discovery | Étape 1 (Vocabulaire et entretien) & Fiche ressource 2 |
-| **03** | Remplacement des Personas Démographiques | Les personas basées sur l'âge, le genre ou le titre de poste sont trompeuses pour concevoir des offres. Les 5 anneaux d'insights d'achat (*5 Buyer Insight Rings*) opérationnels sont : 1) Initiatives prioritaires (Triggers) ; 2) Facteurs de succès ; 3) Barrières perçues (Objections) ; 4) Parcours d'évaluation ; 5) Critères de décision. | *Buyer Personas: How to Gain Insight into your Customer's Expectations, Align your Marketing Strategies, and Win More Business* (Wiley, ISBN: 978-1118961506) | Adele Revella (Buyer Persona Institute) | 2015 / 2026-11-04 | Standard B2B / B2C qualitatif | Étape 1 & Étape 4 (Structure Fiche acheteur) |
-| **04** | Ingénierie de Prompt Qualitatif (Claude) | Délimitation étanche des consignes et du matériel brut via des balises XML (`<context>`, `<audience>`, `<source_material>`, `<evidence_rules>`, `<constraints>`, `<output_format>`). L'assignation d'un rôle d'auditeur critique et l'obligation de justifier chaque point par un fait textuel limitent les hallucinations de conformisme. | *Anthropic Official Documentation : Prompt Engineering Guide & Qualitative Analysis Patterns* (`https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering`) | Anthropic | 2025-2026 / 2026-11-04 | Claude 3.5 Sonnet / Claude 3 Haiku (Gratuit & Pro) | Étape 2 (Prompt Maître XML) |
-| **05** | Distinction Acheteur (*Buyer*) vs Utilisateur (*User*) | La personne qui décide du budget et valide l'achat n'est pas nécessairement celle qui utilise l'outil au quotidien. En B2B (consultants, équipes) comme en B2C (famille, formation), leurs critères de valeur divergent : l'acheteur cherche un retour sur investissement et la réduction du risque, l'utilisateur cherche l'ergonomie et l'économie de friction immédiate. | *Lean Customer Development* (O'Reilly Media) | Cindy Alvarez | 2014 (rev. 2021) / 2026-11-04 | Méthodologie Product Strategy | Étape 1 (Comprendre, Section 1.3) |
-| **06** | Analyse du Document Réel du Dépôt | Le document `avant-pdf-statique.html` simule un guide de 12 pages d'Alexandre V. ciblant 3 profils d'activité réels (Solo, Formateur, Coach) avec des charges clients de 15h à 30h/sem, confrontés à une friction hebdomadaire de calcul de capacité manuelle et à la perte de leur carnet d'action. | `public/demos/pdf-to-hub/avant-pdf-statique.html` | Alexandre V. (Démonstration interne Studio) | Création 2026 / 2026-11-04 | Matériau interne vérifié | Étape 3 (Exemple guidé) |
+Ce registre documente les fondements factuels, économiques et méthodologiques nécessaires pour concevoir le **Jour 02** d'AI CREATOR Studio.
 
----
+Le cours s'adresse à quatre profils d'apprenants distincts :
+- **Profil A (Créateurs actifs)** : Vendent déjà des produits digitaux (ebooks, templates, workbooks, calculateurs) et cherchent à augmenter leur valeur et leur différenciation.
+- **Profil B (Formateurs en ligne)** : Vendent des cours et programmes et cherchent à améliorer l'engagement, la complétion et l'application pratique.
+- **Profil C (Créateurs équipés en IA sans ventes)** : Savent générer des contenus et outils avec l'IA mais n'ont pas encore validé de demande commerciale.
+- **Profil D (Débutants métier)** : Porteurs d'une expertise ou méthode professionnelle, sans produits digitaux existants.
 
-## 2. INFORMATIONS CONFIRMÉES (FACTUEL)
-
-1. **Inutilité des personas démographiques pour les produits digitaux** :
-   Les données démographiques (âge, situation de famille, localisation) ne corrèlent pas avec la décision d'adopter un outil interactif. Ce qui déclenche l'achat, c'est l'apparition d'un événement perturbateur dans un contexte opérationnel donné (*Priority Initiative* chez Revella, *Push* chez Moesta).
-2. **Mécanique des Forces du Changement (Moesta)** :
-   Une personne n'abandonne son contournement actuel (ex: tableur bancal, carnet de notes) que si la somme du mécontentement actuel (*Push*) et de l'attrait de la nouvelle promesse (*Pull*) surpasse l'anxiété de l'échec (*Anxiety*) et la force d'inertie de l'habitude (*Habit*).
-3. **Le piège des faux positifs de politesse (Fitzpatrick)** :
-   Demander à un prospect s'il « achèterait un outil qui fait X » produit 90 % de réponses positives polies mais 0 % d'engagement réel. Les seules données fiables sont les comportements passés : le temps déjà passé, l'argent déjà dépensé, et les contournements déjà bricolés par la personne.
-4. **Cloisonnement XML indispensable dans Claude (Anthropic)** :
-   Lorsqu'un prompt traite des retours clients bruts ou des notes non structurées, l'absence de balises XML étanches favorise la confusion entre les instructions du prompt et le contenu des notes, augmentant le risque d'inventions ou de complaisance.
+**Distinction critique permanente** : L'apprenant d'AI CREATOR Studio (qui conçoit son offre) ne doit jamais être confondu avec l'acheteur final de son propre produit digital.
 
 ---
 
-## 3. INFORMATIONS À NUANCER (CONTEXTE, QUOTAS & LIMITES)
+## 2. SOURCES SUR LE MARCHÉ DES PRODUITS DIGITAUX ET LEUR COMMERCIALISATION
 
-1. **Accès et capacités sur Claude gratuit** :
-   Le prompt du Jour 02 doit fonctionner intégralement sur l'interface de discussion standard de Claude (offre gratuite). Il ne doit exiger aucun connecteur d'API payant, aucun upload de fichiers volumineux dépassant les quotas, ni aucune fonction de recherche web payante.
-2. **Nature des données exploitables au Jour 02** :
-   L'apprenant ne dispose pas toujours de dizaines d'entretiens enregistrés. Le protocole doit accepter une matière brute modeste : 2 ou 3 échanges e-mails, des notes de consultation informelles, des commentaires publics observés sur des forums ou des avis Amazon. Si la matière est très réduite, les points non prouvés doivent rester étiquetés comme *Hypothèses* à vérifier.
-3. **Différence entre B2B et B2C** :
-   Si l'acheteur et l'utilisateur sont la même personne (ex: freelance solo, passionné de cuisine, particulier), la charge cognitive et la friction d'usage priment. Si l'acheteur finance l'outil pour un tiers (ex: manager pour son équipe, parent pour son enfant), l'acheteur exige une preuve de résultat visible et un compte-rendu mesurable.
-
----
-
-## 4. HYPOTHÈSES DE TRAVAIL (À VALIDER SUR LE TERRAIN)
-
-1. **Hypothèse de friction principale des indépendants (Alexandre V.)** :
-   On suppose que la raison majeure pour laquelle un indépendant abandonne sa routine de publication est la variabilité de sa charge client d'une semaine sur l'autre (validée comme observation d'Alexandre V., mais restant une hypothèse générale pour chaque apprenant sur sa propre niche).
-2. **Hypothèse de résistance au changement (*Anxiety*)** :
-   On pose l'hypothèse que la première objection non exprimée d'un acheteur face à un produit digital interactif est la peur de devoir apprendre un logiciel complexe ou d'y passer trop de temps au quotidien.
+| # | Source & URL | Organisme / Auteur | Date source / Date consultée | Population & Méthodologie | Données vérifiées & Faits documentés [FAIT DOCUMENTÉ] | Limites méthodologiques & Risques de biais | Section du cours concernée |
+|---|---|---|---|---|---|---|---|
+| **01** | *Shopify Manual : Digital and Service Products* (`help.shopify.com`) | Shopify | Mise à jour 2025-2026 / 2026-11-04 | Documentation technique e-commerce mondiale | Typologie opérationnelle des produits numériques : fichiers téléchargeables (PDF, zip), liens d'accès (espaces membres), licences d'utilisation. La friction majeure après achat réside dans la délivrabilité immédiate et l'accès sans configuration lourde. | Documentation commerciale axée sur l'écosystème Shopify. | Étape 1 (Panorama des formats) |
+| **02** | *Digital Products Overview* (`lemonsqueezy.com`) | Lemon Squeezy (Stripe) | 2025-2026 / 2026-11-04 | Plateforme Merchant of Record pour créateurs de logiciels et produits digitaux | Distinction entre biens statiques téléchargeables et outils logiciels/interactifs. L'absence d'effort de prise en main conditionne le taux de réclamation et de charge support après achat. | Biais commercial en faveur des produits numériques à forte marge. | Étape 1 & Étape 3 |
+| **03** | *Revenue Generation & Learning Commerce Benchmarks* (`thinkific.com`) | Thinkific Labs Inc. | 2024-2025 / 2026-11-04 | Benchmarks sur créateurs et entreprises de formation en ligne | - Les créateurs les plus rentables diversifient leurs offres en combinant cours, téléchargements, communautés et outils d'application.<br>- L'engagement et la complétion des étudiants sont directement corrélés à la rentabilité à long terme et à la rétention. | Échantillon centré sur les utilisateurs de Thinkific. Intérêt commercial à promouvoir les abonnements. | Étape 1 (Rôle de l'engagement dans l'apprentissage) |
+| **04** | *E-learning Research Report* (`getresponse.com`) | GetResponse | 2024 (collecte 2023-2024) / 2026-11-04 | Enquête auprès de 1 000 créateurs de cours et 1 000 étudiants en ligne | - 80 % des acheteurs potentiels s'appuient sur les avis et notes pour décider de s'inscrire.<br>- Plus des deux tiers des étudiants vérifient le parcours et la crédibilité du formateur avant d'acheter.<br>- 93 % des créateurs génèrent des revenus de leurs cours, et 90 % en créent plusieurs. | Échantillon déclaratif en ligne, auto-sélection des répondants. | Étape 1 (Critères de décision & Preuve sociale) |
+| **05** | *Future of the Creator Economy Report 2025* (`corporate.epidemicsound.com`) | Epidemic Sound | 2024-2025 / 2026-11-04 | Étude quantitative auprès de 3 000 créateurs professionnels (US & UK) | - 91 % des créateurs utilisent régulièrement des outils d'IA dans leur processus de travail (notamment pour l'idéation et la génération de contenu).<br>- 95 % privilégient des stratégies de monétisation directe auprès de leur audience (*direct-to-fan*).<br>- 98 % opèrent avec des objectifs commerciaux formels comme de véritables entrepreneurs. | Échantillon restreint aux créateurs anglophones (US/UK) produisant du contenu multimédia. | Étape 1 (Contexte de l'apprenant créateur) |
+| **06** | *Monetized: Visa 2025 Creator Report* (`globalclient.visa.com`) | Visa (avec Morning Consult & TikTok) | 2024-2025 / 2026-11-04 | Étude mondiale auprès de créateurs de contenu monétisés | - 88 % des créateurs anticipent une croissance de leurs revenus.<br>- 85 % autofinancent leur activité sur leurs économies personnelles.<br>- 66 % sont autodidactes en finance et gestion commerciale. | Biais promotionnel pour les solutions de paiement et cartes professionnelles Visa. | Étape 1 (Vulnérabilité financière et perception du risque) |
 
 ---
 
-## 5. DÉCISIONS PÉDAGOGIQUES ET TECHNIQUES
+## 3. SOURCES SUR LA PSYCHOLOGIE D'ACHAT ET LA RECHERCHE UTILISATEUR
 
-1. **Orientation du cours** :
-   Remplacer l'approche conventionnelle du « portrait-robot persona » par la cartographie des 5 composantes d'action : Situation de départ, 5 Frustrations concrètes, Déclencheurs (Triggers), Objections cachées, et Vocabulaire brut (*Voice of Customer*).
-2. **Architecture du Prompt Maître XML** :
-   Intégrer les balises `<role>`, `<context>`, `<audience>`, `<source_material>`, `<evidence_rules>`, `<analysis_method>`, `<constraints>`, `<task>`, `<output_format>`. Configurer un mode socratique adaptatif si les notes sont incomplètes.
-3. **Cas d'exemple guidé (Étape 3)** :
-   Poursuivre sur la démonstration d'Alexandre V. (`avant-pdf-statique.html`) pour extraire la fiche acheteur complète du freelance submergé, tout en rejetant explicitement une supposition non prouvée (la volonté d'acheter un abonnement SaaS).
-4. **Livrables apprenants (Étape 4)** :
-   Structurer l'atelier en 6 champs indépendants (`day02-deliverable-a-situation`, `day02-deliverable-b-frustrations`, `day02-deliverable-c-triggers`, `day02-deliverable-d-objections`, `day02-deliverable-e-vocabulary`, `day02-deliverable-final-card`), associés à une checklist de 8 critères et à 2 fiches Markdown téléchargeables.
+| # | Source & URL | Organisme / Auteur | Date source / Date consultée | Notions méthodologiques vérifiées | Précautions et nuances épistémiques indispensables | Destination dans le cours |
+|---|---|---|---|---|---|---|
+| **07** | *The Four Forces of Progress* (`jobstobedone.org`) | Bob Moesta & Chris Spiek (Rewired Group) | 2016 (rev. 2020) / 2026-11-04 | Le passage à l'acte résulte de la tension entre 4 forces : Push de la situation actuelle, Pull de la nouvelle solution, Anxiété de la nouveauté, Habitude du statu quo. | **Représentation purement conceptuelle** : La formule $(Push + Pull) > (Anxiety + Habit)$ ne constitue en aucun cas une équation mathématique permettant de calculer une probabilité d'achat chiffrée. | Étape 1 (1.4 Mécanique des Forces du Changement) |
+| **08** | *The Mom Test* (ISBN: 978-1490159973) | Rob Fitzpatrick | 2013 / 2026-11-04 | Méthode d'entretien exploratoire : interroger sur des faits passés, des actions réelles et des coûts de contournement déjà payés, pour éliminer les faux positifs de politesse. | **Ne pas résumer à un dogme** : L'entretien qualitatif révèle des frictions vécues, mais ne constitue pas à lui seul une preuve irréfutable de la volonté de payer pour un produit futur. | Étape 1 & Étape 2 (Questions non suggestives & Mom Test) |
+| **09** | *5 Rings of Buying Insight™* (`buyerpersona.com`) | Adele Revella (Buyer Persona Institute) | 2015 (rev. 2023) / 2026-11-04 | 5 catégories qualitatives d'investigation d'achat : 1) Priority Initiatives (déclencheurs), 2) Success Factors, 3) Perceived Barriers (objections), 4) Decision Criteria, 5) Buyer's Journey. | **Ne pas écarter la démographie aveuglément** : Les données démographiques n'expliquent pas le déclencheur d'achat, mais restent pertinentes lorsqu'elles définissent des contraintes réglementaires, d'accès technique ou de pouvoir d'achat. | Étape 1 (1.2 Les 5 Anneaux d'Insights d'Achat) |
+| **10** | *Claude Prompt Engineering Best Practices* (`platform.claude.com`) | Anthropic | 2025-2026 / 2026-11-04 | Utilisation de balises XML pour délimiter le contexte, les consignes et les données sources non structurées. Rôle d'auditeur critique et règles de classement négatif. | **Pas de garantie magique** : Les balises XML organisent rigoureusement le traitement contextuel mais ne garantissent pas l'absence absolue d'hallucinations sans règles négatives strictes. | Étape 2 (Prompt Maître XML du Jour 02) |
 
 ---
 
-## 6. SOURCES ANALYSÉES ET ÉCARTÉES
+## 4. AUDIT ÉPISTÉMIQUE DU MATÉRIAU DE DÉMONSTRATION INTERNE
 
-| Source écartée | Motif de rejet | Risque pédagogique évité |
-| :--- | :--- | :--- |
-| Modèles de personas génériques Hubspot / Canva (âge, hobbies, photo de stock) | Focalisation sur des détails cosmétiques déconnectés de la décision d'achat | Fabrication de fiches d'empathie stériles sans aucun lien avec le déclenchement de la vente |
-| Articles de blogs affirmant des « taux d'objection universels » (ex: 80 % des acheteurs bloquent sur le prix) | Statistiques gratuites invérifiables, non sourcées | Croyance erronée que le prix est l'unique objection d'une offre |
-| Prompts génériques d'IA « Donne-moi la psychologie de mon client cible » | Réponses complaisantes, clichés d'IA et hallucinations psychologiques | Illusion de connaissance client sans aucune observation réelle du terrain |
+**Fichier audité** : `public/demos/pdf-to-hub/avant-pdf-statique.html`  
+**Titre du document** : *« Le Système de Création Régulière »*, par Alexandre V. (Édition 2026).  
+**Nature réelle** : Support de démonstration interne créé spécifiquement pour le studio afin d'illustrer les limites ergonomiques et interactives d'un document PDF statique face à une application web.
+
+### 4.1 Constat physique sur le volume
+Le bandeau supérieur de simulation indique textuellement « 12 pages » et « Format PDF classique (Lecture passive) ».  
+**Cependant, le code source HTML ne contient physiquement que 5 pages visibles (Pages 1/12 à 5/12)**.  
+Il est donc formellement proscrit d'affirmer dans le cours que le document a été audité sur 12 pages complètes.
+
+### 4.2 Grille de Vérité Documentaire : Réel vs Fictif
+
+| Élément examiné | Présent dans le document ? | Classification épistémique | Analyse critique |
+|---|---|---|---|
+| Titre, auteur et public visé (Freelances, Formateurs, Coachs & Consultants) | **OUI** (Page 1) | **[FAIT DOCUMENTÉ]** | L'auteur cible expressément les professionnels qui vendent des prestations ou des formations et manquent de temps de création. |
+| Temps de lecture estimé à 45 minutes et avertissement sur calculatrice/carnet | **OUI** (Page 1) | **[FAIT DOCUMENTÉ]** | L'encadré avertit formellement que l'application de la méthode nécessite des outils externes (calculatrice, carnet, tableur). |
+| Affirmation « L'erreur commise par 90 % des professionnels... » | **OUI** (Page 2) | **[ASSERTION D'AUTEUR]** | L'affirmation figure dans le guide, mais ne constitue pas une étude statistique validée scientifiquement. |
+| Formule manuelle : `Capacité = Heures Disponibles x 0.65`, `Volume = Capacité ÷ 2.5h` | **OUI** (Page 2) | **[FAIT DOCUMENTÉ]** | La formule et ses coefficients sont inscrits dans le document comme protocole préconisé par l'auteur. |
+| Tableau statique avec 3 profils et mention de recalcul manuel en cas de charge variable | **OUI** (Page 2) | **[FAIT DOCUMENTÉ]** | Tableau présent avec mention explicite de l'obligation de recalcul manuel sur carnet si la charge client varie. |
+| Matrice des 3 Piliers (Fondation 40 %, Preuve 40 %, Conversion 20 %) et rythme mardi/jeudi/samedi | **OUI** (Page 3) | **[FAIT DOCUMENTÉ]** | Recommandation méthodologique de l'auteur. |
+| Feuille de route 30 jours avec cases à cocher à imprimer et cocher au stylo | **OUI** (Page 4) | **[FAIT DOCUMENTÉ]** | Le texte invite formellement le lecteur à imprimer la page pour cocher manuellement les tâches. |
+| Prompt avec 3 champs entre crochets et encadré « Limites constatées de ce document PDF » | **OUI** (Page 5) | **[FAIT DOCUMENTÉ]** | Documente les manques ergonomiques (calculs manuels, tri non personnalisé, absence de sauvegarde). |
+| *Urgence client le mardi matin annulant la rédaction* | **NON** | **[FICTION REJETÉE]** | Absente du texte. Ne peut servir que d'hypothèse pédagogique illustrative. |
+| *Dimanche soir passé à hésiter 45 minutes sur un carnet* | **NON** | **[FICTION REJETÉE]** | Absente du texte. |
+| *Feuille de route A4 perdue sous une pile de dossiers* | **NON** | **[FICTION REJETÉE]** | Absente du texte. |
+| *Templates Notion abandonnés par l'acheteur* | **NON** | **[FICTION REJETÉE]** | Absente du texte. |
+| *Contrat client expirant dans 3 semaines avec pipeline vide* | **NON** | **[FICTION REJETÉE]** | Absente du texte. |
+| *Verbatims « la tête dans le guidon », « naviguer à vue », « bricolage sur un coin de table »* | **NON** | **[FICTION REJETÉE]** | Aucun verbatim client n'est consigné dans le document. |
+
+---
+
+## 5. DÉCISIONS PÉDAGOGIQUES ET STRUCTURATION DU COURS
+
+1. **Reconstruction de l'Exemple Guidé (Étape 3)** :
+   Abandon complet des fausses affirmations de faits. Structuration de l'audit d'Alexandre V. selon la **Grille de Vérité en 3 colonnes** :
+   - Colonne 1 : Ce que le document contient réellement (Page 1 à 5).
+   - Colonne 2 : Déduction raisonnable sur le fonctionnement du format statique.
+   - Colonne 3 : Hypothèse à vérifier auprès d'utilisateurs réels (avec formulation de questions d'entretiens *Mom Test*).
+2. **Double voie pédagogique dans le Prompt Maître (Étape 2) et l'Atelier (Étape 4)** :
+   - *Voie 1 (Apprenants vendeurs / créateurs de formations)* : Analyse de matière réelle (avis, questions d'élèves, e-mails, retours d'assistance).
+   - *Voie 2 (Apprenants débutants ou pré-lancement)* : Entretiens exploratoires ouverts, analyse d'avis publics sur produits concurrents, formulation d'hypothèses étiquetées.
+3. **Neutralité vis-à-vis des formats de produits digitaux** :
+   Le cours n'enseigne pas que l'interactivité est supérieure par essence au PDF. Un PDF est parfaitement adapté à la transmission d'une lecture linéaire ; l'expérience interactive apporte une valeur mesurable uniquement lorsqu'elle automatise une tâche, personnalise un diagnostic ou sauvegarde une progression.
+4. **Clarification de la cible** :
+   Rappel systématique que l'apprenant doit analyser l'acheteur de **son** propre produit (qu'il soit dans le fitness, la gestion, la cuisine ou la programmation) et ne pas copier le profil de l'acheteur d'Alexandre V.
+
+---
+
+## 6. LIMITES DE LA RECHERCHE
+
+- Les études de plateformes (Thinkific, GetResponse, Epidemic Sound, Visa) comportent des intérêts commerciaux inhérents (promotion de leurs outils ou services de paiement). Leurs chiffres sont cités comme des repères d'ordre de grandeur et non comme des lois universelles.
+- Le document `avant-pdf-statique.html` est une maquette pédagogique interne ; elle ne saurait tenir lieu de substitut à une étude de marché sur une cible réelle. L'enseignement doit encourager la confrontation immédiate avec le terrain.

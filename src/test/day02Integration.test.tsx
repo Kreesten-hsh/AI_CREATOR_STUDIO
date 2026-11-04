@@ -21,7 +21,7 @@ function setupWorkspaceForDay(dayNumber: number, stepType?: 'concept' | 'prompt'
   saveProgressToStorage(initial);
 }
 
-describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
+describe('MISSION 05-C : Day 02 Epistemic Credibility & Full Integration Suite', () => {
   beforeEach(() => {
     window.localStorage.clear();
     window.scrollTo = vi.fn();
@@ -80,7 +80,7 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
   // =========================================================================
   // 4. Étape 1 : Prose pédagogique fondamentale
   // =========================================================================
-  it('4. affiche les concepts clés de l\'Étape 1 (Audience vs Acheteur, 4 Forces de Moesta, Voice of Customer)', () => {
+  it('4. affiche les concepts clés de l\'Étape 1 (Audience vs Acheteur, formats digitaux, 5 Anneaux de Revella, 4 Forces de Moesta)', () => {
     setupWorkspaceForDay(2, 'concept');
     render(
       <ProgressProvider>
@@ -89,10 +89,13 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
     );
 
     expect(screen.getByText('Audience globale versus Acheteur en situation')).toBeInTheDocument();
-    expect(screen.getByText('Les 4 Forces du Changement (Modèle de Bob Moesta)')).toBeInTheDocument();
+    expect(screen.getByText('Les 5 Anneaux d\'Insights d\'Achat et les 4 Forces de Moesta')).toBeInTheDocument();
     expect(screen.getByText('Déclencheurs, objections réelles et Voice of Customer')).toBeInTheDocument();
     expect(
-      screen.getByText(/Ce qui déclenche la décision d'achat, ce sont les cinq anneaux d'insights d'achat/i)
+      screen.getByText(/l'apprenant d'AI CREATOR Studio .* ne doit jamais être confondu avec votre acheteur final/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Un PDF n'est pas un mauvais produit par défaut, et une page interactive n'est pas supérieure par essence/i)
     ).toBeInTheDocument();
   });
 
@@ -111,7 +114,7 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
       screen.getByText("Validation des acquis : Psychologie et Leviers d'Achat")
     ).toBeInTheDocument();
 
-    expect(screen.getByText(/Une formatrice définit son acheteur ainsi/i)).toBeInTheDocument();
+    expect(screen.getByText(/Une créatrice de contenu définit son acheteur cible ainsi/i)).toBeInTheDocument();
     expect(screen.getByText(/Un indépendant adore la promesse d'un nouveau simulateur web/i)).toBeInTheDocument();
     expect(screen.getByText(/Vous échangez avec un client potentiel pour identifier ses objections/i)).toBeInTheDocument();
     expect(screen.getByText(/Dans quel cas est-il impératif de distinguer les motivations de l'acheteur/i)).toBeInTheDocument();
@@ -132,14 +135,14 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
 
     // Q1 : Réponse correcte (index 1)
     const optQ1 = screen.getByRole('radio', {
-      name: /Parce que ces critères socio-démographiques n'indiquent ni l'action concrète interrompue/i,
+      name: /Parce que ces critères démographiques ne renseignent ni sur la friction concrète vécue/i,
     });
     fireEvent.click(optQ1);
 
     expect(screen.getByText('SCORE : 1/4')).toBeInTheDocument();
     expect(screen.getByText(/CORRECT :/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/Les données démographiques décrivent une population générale sans renseigner sur le moment où survient la friction/i)
+      screen.getByText(/Les données démographiques peuvent encadrer un contexte matériel ou financier/i)
     ).toBeInTheDocument();
 
     // Q2 : Réponse incorrecte (index 0)
@@ -160,7 +163,7 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
   // =========================================================================
   // 7. Étape 2 : Structure XML du Prompt Maître
   // =========================================================================
-  it('7. contient le Prompt Maître avec l\'ensemble des balises XML canoniques', () => {
+  it('7. contient le Prompt Maître avec l\'ensemble des balises XML canoniques et les deux voies d\'exécution', () => {
     const step2 = day02.steps[1];
     const pbBlock = step2.blocks.find((b) => b.type === 'prompt-builder') as PromptBuilderBlock;
     expect(pbBlock).toBeDefined();
@@ -181,6 +184,10 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
     expect(template).toContain('</task>');
     expect(template).toContain('<output_format>');
     expect(template).toContain('</output_format>');
+
+    // Vérifier la présence des deux voies (CAS A matière réelle vs CAS B démarrage sans clients)
+    expect(template).toContain('CAS A (Matière client réelle ou avis publics fournis)');
+    expect(template).toContain('CAS B (Absence de matière client / Démarrage)');
 
     // Vérifier les variables dynamiques
     expect(template).toContain('{{business}}');
@@ -205,12 +212,12 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
     const audienceInput = screen.getByLabelText('Votre audience cible en situation');
     const businessInput = screen.getByLabelText("Votre thématique ou domaine d'expertise");
 
-    fireEvent.change(audienceInput, { target: { value: 'Comptables indépendants surchargés' } });
-    fireEvent.change(businessInput, { target: { value: 'Clôture fiscale sans stress' } });
+    fireEvent.change(audienceInput, { target: { value: 'Formateurs en ligne indépendants' } });
+    fireEvent.change(businessInput, { target: { value: 'Conception d\'ateliers interactifs' } });
 
     const compiledPrompt = screen.getByTestId('compiled-prompt-day02-step2-master-prompt');
-    expect(compiledPrompt).toHaveTextContent('Audience cible en situation : Comptables indépendants surchargés');
-    expect(compiledPrompt).toHaveTextContent("Domaine d'activité ou thématique : Clôture fiscale sans stress");
+    expect(compiledPrompt).toHaveTextContent('Audience cible en situation : Formateurs en ligne indépendants');
+    expect(compiledPrompt).toHaveTextContent("Domaine d'activité ou thématique : Conception d'ateliers interactifs");
   });
 
   // =========================================================================
@@ -256,15 +263,15 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
 
     expect(screen.getByText("Guide d'exécution et bibliothèque de relances ciblées")).toBeInTheDocument();
     expect(screen.getByText(/Si les frustrations restent trop abstraites/i)).toBeInTheDocument();
-    expect(screen.getByText(/Si une objection ressemble à une excuse de complaisance/i)).toBeInTheDocument();
+    expect(screen.getByText(/Si une objection ressemble à une excuse de politesse/i)).toBeInTheDocument();
     expect(screen.getByText(/Si le vocabulaire extrait contient du jargon marketing d'IA/i)).toBeInTheDocument();
-    expect(screen.getByText(/Pour tester la solidité d'une hypothèse/i)).toBeInTheDocument();
+    expect(screen.getByText(/Pour tester la solidité d'une affirmation/i)).toBeInTheDocument();
   });
 
   // =========================================================================
-  // 11. Étape 3 : Exemple guidé (Cas Alexandre V.)
+  // 11. Étape 3 : Exemple guidé et Grille de Vérité en 3 colonnes
   // =========================================================================
-  it('11. déconstruit le document avant-pdf-statique.html en 8 points d\'analyse', () => {
+  it('11. présente le cas Alexandre V. avec avertissement déontologique (5 pages visibles) et Grille de Vérité en 3 colonnes', () => {
     setupWorkspaceForDay(2, 'example');
     render(
       <ProgressProvider>
@@ -272,17 +279,24 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
       </ProgressProvider>
     );
 
-    expect(screen.getByText("Continuité de l'exemple guidé (Cas Alexandre V.)")).toBeInTheDocument();
-    expect(screen.getByText(/avant-pdf-statique\.html/i)).toBeInTheDocument();
-    expect(screen.getByText("L'analyse complète de l'acheteur en 8 étapes")).toBeInTheDocument();
-    expect(screen.getByText(/Frustration 1 \(Temps \/ Charge\) \[FAIT\]/i)).toBeInTheDocument();
-    expect(screen.getByText(/Frustration 5 \(Bricolage textuel\) \[FAIT\]/i)).toBeInTheDocument();
+    expect(screen.getByText("Analyse critique du matériau interne (Cas Alexandre V.)")).toBeInTheDocument();
+    expect(
+      screen.getByText(/le code HTML ne contient physiquement que cinq blocs de pages visibles \(Pages 1\/12 à 5\/12\)/i)
+    ).toBeInTheDocument();
+    expect(screen.getByText("La Grille de Vérité Documentaire et questions de terrain")).toBeInTheDocument();
+    expect(screen.getByText(/Page 1 \(Couverture\) : \[FAIT DOCUMENTÉ\]/i)).toBeInTheDocument();
+    expect(screen.getByText(/Page 2 \(Diagnostic de capacité\) : \[FAIT DOCUMENTÉ\]/i)).toBeInTheDocument();
+    expect(screen.getByText(/Page 5 \(Prompt & Limites du format\) : \[FAIT DOCUMENTÉ\]/i)).toBeInTheDocument();
+
+    // Vérifier l'absence des anciennes allégations non fondées labellisées faits
+    expect(screen.queryByText(/Frustration 2 \(Erreur \/ Insécurité\) \[FAIT\] : La violation systématique du temps protégé par une urgence client le mardi matin/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Trigger interne \[HYPOTHÈSE\] : l'épuisement d'un dimanche soir passé à hésiter/i)).not.toBeInTheDocument();
   });
 
   // =========================================================================
-  // 12. Étape 3 : Déconstruction critique et pièges à éviter
+  // 12. Étape 3 : Déconstruction critique et questions Mom Test
   // =========================================================================
-  it('12. déconstruit l\'hypothèse d\'abonnement SaaS et alerte sur les 3 pièges de modélisation', () => {
+  it('12. déconstruit l\'hypothèse d\'abonnement SaaS et propose les questions Mom Test de terrain', () => {
     setupWorkspaceForDay(2, 'example');
     render(
       <ProgressProvider>
@@ -294,15 +308,15 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
     expect(
       screen.getByText(/Dans de nombreux cours de marketing génériques, on affirmerait ici : « Les consultants sont prêts à payer un abonnement de 29 euros/i)
     ).toBeInTheDocument();
+    expect(screen.getByText(/Questions d'entretiens recommandées \(The Mom Test\)/i)).toBeInTheDocument();
     expect(screen.getByText(/Confondre une objection sur le prix avec une objection sur la valeur/i)).toBeInTheDocument();
     expect(screen.getByText(/Projeter ses propres habitudes sur son client/i)).toBeInTheDocument();
-    expect(screen.getByText(/Inventer des verbatims stylisés/i)).toBeInTheDocument();
   });
 
   // =========================================================================
-  // 13. Étape 4 : 6 Livrables TextExercise & Persistance LocalStorage
+  // 13. Étape 4 : 6 Livrables TextExercise & Deux Voies Pédagogiques
   // =========================================================================
-  it('13. propose 6 blocs TextExercise distincts avec persistance LocalStorage indépendante', () => {
+  it('13. propose 6 blocs TextExercise distincts avec deux voies d\'exécution et persistance LocalStorage', () => {
     const step4 = day02.steps[3];
     const exercises = step4.blocks.filter((b) => b.type === 'text-exercise') as TextExerciseBlock[];
     expect(exercises).toHaveLength(6);
@@ -327,6 +341,9 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
       </ProgressProvider>
     );
 
+    expect(screen.getByText(/Voie 1 \(Vous vendez déjà ou avez des retours clients \/ Profils A et B\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Voie 2 \(Vous démarrez sans clientèle préalable \/ Profils C et D\)/i)).toBeInTheDocument();
+
     const textareaA = screen.getByLabelText(/Vos notes et livrables/i, {
       selector: '#exercise-textarea-day02-deliverable-a-situation',
     });
@@ -346,12 +363,12 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
       selector: '#exercise-textarea-day02-deliverable-final-card',
     });
 
-    fireEvent.change(textareaA, { target: { value: 'Consultant solo avec carnet papier' } });
-    fireEvent.change(textareaB, { target: { value: '5 frustrations distinctes rédigées' } });
-    fireEvent.change(textareaC, { target: { value: 'Trigger interne : dimanche soir épuisant' } });
+    fireEvent.change(textareaA, { target: { value: 'Formateur en ligne avec fiches statiques' } });
+    fireEvent.change(textareaB, { target: { value: '5 frictions identifiées avec statuts' } });
+    fireEvent.change(textareaC, { target: { value: 'Trigger externe : nouvelle session dans 15 jours' } });
     fireEvent.change(textareaD, { target: { value: 'Objection 1 : manque de temps' } });
-    fireEvent.change(textareaE, { target: { value: '1. « la tête dans le guidon »' } });
-    fireEvent.change(textareaFinal, { target: { value: 'Synthèse fiche acheteur terminée' } });
+    fireEvent.change(textareaE, { target: { value: '1. « naviguer à vue sur mes modules »' } });
+    fireEvent.change(textareaFinal, { target: { value: 'Fiche acheteur finale validée' } });
 
     unmount();
 
@@ -359,12 +376,12 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     expect(raw).not.toBeNull();
     const parsed = JSON.parse(raw!);
-    expect(parsed.exerciseAnswers['day02-deliverable-a-situation']).toBe('Consultant solo avec carnet papier');
-    expect(parsed.exerciseAnswers['day02-deliverable-b-frustrations']).toBe('5 frustrations distinctes rédigées');
-    expect(parsed.exerciseAnswers['day02-deliverable-c-triggers']).toBe('Trigger interne : dimanche soir épuisant');
+    expect(parsed.exerciseAnswers['day02-deliverable-a-situation']).toBe('Formateur en ligne avec fiches statiques');
+    expect(parsed.exerciseAnswers['day02-deliverable-b-frustrations']).toBe('5 frictions identifiées avec statuts');
+    expect(parsed.exerciseAnswers['day02-deliverable-c-triggers']).toBe('Trigger externe : nouvelle session dans 15 jours');
     expect(parsed.exerciseAnswers['day02-deliverable-d-objections']).toBe('Objection 1 : manque de temps');
-    expect(parsed.exerciseAnswers['day02-deliverable-e-vocabulary']).toBe('1. « la tête dans le guidon »');
-    expect(parsed.exerciseAnswers['day02-deliverable-final-card']).toBe('Synthèse fiche acheteur terminée');
+    expect(parsed.exerciseAnswers['day02-deliverable-e-vocabulary']).toBe('1. « naviguer à vue sur mes modules »');
+    expect(parsed.exerciseAnswers['day02-deliverable-final-card']).toBe('Fiche acheteur finale validée');
 
     // Remontage et vérification de la restauration
     render(
@@ -373,15 +390,15 @@ describe('MISSION 05 : Day 02 Full React Integration Suite', () => {
       </ProgressProvider>
     );
 
-    expect(screen.getByDisplayValue('Consultant solo avec carnet papier')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('5 frustrations distinctes rédigées')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('Synthèse fiche acheteur terminée')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('Formateur en ligne avec fiches statiques')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('5 frictions identifiées avec statuts')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('Fiche acheteur finale validée')).toBeInTheDocument();
   });
 
   // =========================================================================
   // 14. Étape 4 : Checklist des 8 critères avec persistance et pourcentage
   // =========================================================================
-  it('14. gère la checklist des 8 critères avec persistance et calcul de progression', () => {
+  it('14. gère la checklist des 8 critères observables avec persistance et progression', () => {
     setupWorkspaceForDay(2, 'your-turn');
     const { unmount } = render(
       <ProgressProvider>

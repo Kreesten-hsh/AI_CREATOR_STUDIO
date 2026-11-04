@@ -2,7 +2,8 @@
 ## Formation 01 : COMMENCER ICI | Bloc A : Fondations et Offre
 ### Titre codé de la plateforme : PSYCHOLOGIE & LEVIERS D'ACHAT
 
-> **Principe directeur** : « Tu ne vas pas apprendre à créer notre plateforme. Tu vas apprendre à créer la tienne. »
+> **Principe directeur** : « Tu ne vas pas apprendre à créer notre plateforme. Tu vas apprendre à créer la tienne. »  
+> **Exigence fondamentale** : Zéro information inventée, rigueur épistémique et ancrage dans la réalité du marché des produits digitaux.
 
 ---
 
@@ -15,8 +16,8 @@
 | **Jour** | Jour 02 |
 | **Titre officiel** | L'acheteur : situation, frustrations et déclencheurs |
 | **Titre plateforme** | PSYCHOLOGIE & LEVIERS D'ACHAT |
-| **Objectif** | Décrire l'acheteur par ses situations, frustrations, déclencheurs d'achat et objections, plutôt que par des données démographiques. |
-| **Livrables attendus** | Une fiche acheteur complète comprenant :<br>1. La situation de départ concrète.<br>2. Cinq frustrations documentées ou explicitement marquées comme hypothèses.<br>3. Les événements déclencheurs d'achat (*Triggers*).<br>4. Les objections réelles et barrières perçues.<br>5. Le vocabulaire authentique de l'audience (*Voice of Customer*). |
+| **Objectif** | Décrire l'acheteur par ses situations, frustrations, déclencheurs d'achat et objections, plutôt que par de simples données démographiques. |
+| **Livrables attendus** | Une fiche acheteur complète comprenant :<br>1. La situation de départ concrète.<br>2. Cinq frustrations documentées ou explicitement marquées comme hypothèses.<br>3. Les événements déclencheurs d'achat (*Triggers*).<br>4. Les objections réelles et barrières perçues.<br>5. Le vocabulaire authentique de l'audience (*Voice of Customer*).<br>6. La synthèse finale exploitable pour le positionnement. |
 | **Critère de réussite** | Chaque élément doit être rattaché à une source identifiable (échange, commentaire, avis, expérience vécue) ou explicitement marqué comme hypothèse. |
 | **Compétence** | C1 - Stratégie d'offre (Niveau Réinvestissement). |
 | **Prérequis** | Jour 01 validé (Niche orientée problème et 3 problèmes candidats). Profil renseigné (`business` et `targetAudience`). |
@@ -26,235 +27,169 @@
 
 ## ÉTAPE 1 : COMPRENDRE
 
-### 1.1 Pourquoi connaître une audience ne signifie pas connaître son acheteur
+### 1.1 Connaître une audience versus Connaître son acheteur en situation
 
 Au Jour 01, vous avez délimité votre niche : un groupe de personnes confronté à un problème précis dans un contexte donné.
 
-Cependant, au sein d'une même audience, toutes les personnes ne sont pas prêtes à acquérir un outil pour résoudre leur problème. Il existe une différence fondamentale entre :
-- **Une audience globale** : Un groupe d'individus partageant une thématique ou un métier (ex. « les designers indépendants » ou « les personnes qui veulent mieux manger »).
-- **Un acheteur en situation** : Un membre de cette audience qui subit actuellement une friction aiguë, dont l'inertie a été rompue par un événement précis, et qui cherche activement un moyen de supprimer cette souffrance opérationnelle.
+Une confusion majeure menace toutefois la conception d'un produit digital :
+1. **L'apprenant d'AI CREATOR Studio** : C'est vous, qui suivez ce cursus pour transformer votre savoir ou votre matière en produit interactif.
+2. **L'acheteur de l'apprenant** : C'est votre client final, la personne qui achètera ou utilisera le produit digital que vous concevez actuellement.
 
-Concevoir un produit pour « une audience » produit des outils généraux dont tout le monde salue l'existence mais dont personne n'a un besoin urgent. Concevoir pour « un acheteur en situation » permet de construire un outil indispensable qui s'insère directement dans sa routine de travail.
+Le Jour 02 a pour but d'analyser la psychologie de **votre** futur acheteur, qu'il s'agisse d'un parent cherchant des recettes rapides, d'un ingénieur apprenant une langue, d'un formateur voulant animer ses sessions ou d'un gestionnaire financier.
 
----
+Au sein d'une thématique, toutes les personnes ne sont pas prêtes à passer à l'action. Il existe une différence nette entre :
+- **Une audience globale** : Un ensemble d'individus partageant un centre d'intérêt ou un métier (ex. « les professionnels en télétravail » ou « les passionnés de course à pied »).
+- **Un acheteur en situation** : Un membre de cette audience qui subit actuellement une friction aiguë, dont l'inertie habituelle a été rompue par un événement précis, et qui cherche activement une solution opérationnelle pour éliminer cette souffrance.
 
-### 1.2 La fin du persona démographique : du portrait-robot au contexte d'action
-
-Pendant des décennies, le marketing traditionnel a enseigné la création de « Buyer Personas » fondés sur des variables démographiques : *« Martine, 38 ans, responsable administrative, mariée, 2 enfants, aime les randonnées le week-end »*.
-
-Comme l'a démontré la chercheuse Adele Revella (fondatrice du *Buyer Persona Institute*) : **les données démographiques n'expliquent jamais pourquoi une personne décide d'acheter une solution**. Deux individus ayant exactement le même âge, le même diplôme et le même revenu peuvent avoir des comportements d'achat opposés face à un outil digital.
-
-Ce qui déclenche la décision d'achat, ce sont les **5 anneaux d'insights d'achat** (*5 Buyer Insight Rings*) :
-1. **L'initiative prioritaire (Le Déclencheur)** : Quel événement pousse cette personne à consacrer du temps et de l'énergie à résoudre ce blocage maintenant, plutôt que de continuer avec son bricolage habituel ?
-2. **Les facteurs de succès (Le Résultat attendu)** : Quel résultat concret et mesurable attend-elle pour considérer que son problème est réglé ?
-3. **Les barrières perçues (Les Objections)** : Quelles craintes non exprimées l'incitent à hésiter (« Vais-je perdre du temps ? », « Est-ce adapté à mon cas particulier ? ») ?
-4. **Le parcours d'évaluation** : Comment compare-t-elle les options et à qui demande-t-elle conseil ?
-5. **Les critères de décision** : Quels détails pratiques feront pencher son choix final ?
-
-Dans AI CREATOR Studio, nous oublions l'âge et les loisirs fictifs de l'acheteur pour cartographier exclusivement son contexte d'action et ses frictions vécues.
+Concevoir pour une audience globale produit des contenus informatifs tièdes. Concevoir pour un acheteur en situation permet de construire un outil indispensable qui s'insère directement dans son contexte d'action.
 
 ---
 
-### 1.3 Acheteur versus Utilisateur : qui décide et qui manipule ?
+### 1.2 Le marché des produits digitaux et la valeur réelle de l'interactivité
 
-Avant de concevoir votre offre, clarifiez si l'acheteur et l'utilisateur sont une seule et même personne :
-- **Cas 1 : L'acheteur est l'utilisateur (Majorité des contextes solos et B2C)** :  
-  Le freelance, le consultant indépendant ou le particulier achète lui-même l'outil qu'il va manipuler. Ses critères sont la simplicité immédiate, le gain de temps et la réduction de sa charge mentale.
-- **Cas 2 : L'acheteur est distinct de l'utilisateur (Contextes B2B et familiaux)** :  
-  Un responsable d'agence achète un outil pour ses 4 chefs de projet ; un parent achète une méthode pour son adolescent. Ici, deux psychologies coexistent :
-  * L'acheteur recherche la rentabilité, la conformité, la preuve de résultat et la tranquillité d'esprit.
-  * L'utilisateur recherche l'absence d'effort, l'intuitivité et le confort d'usage au quotidien.
+Les créateurs et formateurs utilisent une grande variété de formats numériques :
+- **Ebooks et guides PDF** : Transmettent des connaissances de manière linéaire et pérenne.
+- **Workbooks et cahiers d'exercices** : Guident une réflexion personnelle pas à pas.
+- **Templates et modèles réutilisables** (Notion, Canva, feuilles de calcul) : Offrent une structure prête à l'emploi.
+- **Packs de prompts** : Accélèrent des requêtes spécifiques auprès d'intelligences artificielles.
+- **Calculateurs et simulateurs** : Traitent des variables chiffrées selon des formules logiques.
+- **Cours vidéo et programmes de formation** : Enseignent une méthode avec support visuel et pédagogique.
+- **Expériences web et outils interactifs** : Combinent diagnostic, personnalisation des résultats et progression guidée dans un navigateur.
 
-Si vous êtes dans le Cas 2, votre produit interactif doit satisfaire l'utilisateur au quotidien, mais votre promesse d'achat doit rassurer directement les critères de l'acheteur.
+**Règle d'or de valeur produit** : Un PDF n'est pas un mauvais produit par défaut. Une page interactive n'est pas un bon produit par essence. L'interactivité n'apporte aucune valeur si elle n'est qu'une démonstration technique superficielle.
 
----
+Un format statique (PDF ou texte) est parfaitement adapté pour consulter une information de référence. En revanche, une expérience interactive devient précieuse lorsque :
+1. Elle supprime un calcul manuel pénible ou évite une erreur récurrente.
+2. Elle personnalise instantanément la réponse selon la situation renseignée par l'utilisateur.
+3. Elle guide un diagnostic pour orienter vers la bonne décision sans submerger d'options.
+4. Elle sauvegarde la progression et les notes de travail de l'utilisateur.
 
-### 1.4 La mécanique des Forces du Changement (Bob Moesta / Jobs to Be Done)
-
-Pourquoi votre futur client n'a-t-il pas déjà résolu son problème ? Pourquoi tolère-t-il un tableur Excel qui plante ou un carnet de notes bancal depuis six mois ?
-
-Le chercheur Bob Moesta (co-créateur du framework *Jobs to be Done*) a modélisé la décision d'achat sous forme d'une équation dynamique : les **Forces du Changement** (*Forces of Progress*). À tout moment, l'acheteur est pris dans un tiraillement entre 4 forces psychologiques et situationnelles :
-
-```
-             FORCES QUI POUSSENT VERS LE CHANGEMENT
-  +-------------------------------------------------------------+
-  |  1. LE PUSH DU PRÉSENT                                      |
-  |     La douleur, la saturation et la friction vécues         |
-  |     avec la situation actuelle (« Ça ne peut plus durer »). |
-  +-------------------------------------------------------------+
-                               +
-  +-------------------------------------------------------------+
-  |  2. LE PULL DU PRODUIT NOUVEAU                              |
-  |     L'attrait, le magnétisme et la promesse d'une           |
-  |     vie professionnelle simplifiée (« Imagine si... »).     |
-  +-------------------------------------------------------------+
-                               V
-             DOIVENT ÊTRE SUPÉRIEURES AUX
-                               V
-             FORCES QUI RETIENNENT DANS LE STATU QUO
-  +-------------------------------------------------------------+
-  |  3. L'ANXIÉTÉ DE LA NOUVEAUTÉ                               |
-  |     La peur de l'inconnu (« Et si c'est trop compliqué ?    |
-  |     Et si je perds mon argent ou mes données ? »).          |
-  +-------------------------------------------------------------+
-                               +
-  +-------------------------------------------------------------+
-  |  4. L'HABITUDE DU STATU QUO                                 |
-  |     Le confort de la routine, même imparfaite               |
-  |     (« Je connais les défauts de mon vieux tableur »).      |
-  +-------------------------------------------------------------+
-```
-
-La loi du passage à l'acte est formelle :
-$$\text{L'Achat a lieu uniquement si : } (Push + Pull) > (Anxi\acute{e}t\acute{e} + Habitude)$$
-
-La majorité des créateurs débutants concentrent 100 % de leurs efforts sur le *Pull* (rendre leur outil attirant). Mais si l'anxiété de l'acheteur est trop forte ou si son habitude est bien ancrée, la vente échoue. Votre travail au Jour 02 est d'identifier précisément le *Push* (les 5 frustrations) et les *Anxiétés* (les objections) pour pouvoir les désamorcer.
+Votre analyse de l'acheteur doit identifier où se situe la friction dans son usage actuel.
 
 ---
 
-### 1.5 Comment cartographier la situation de départ (Le point zéro)
+### 1.3 Les 5 Anneaux d'Insights d'Achat (Adele Revella) et le rôle de la démographie
 
-La situation de départ correspond au contexte opérationnel stable dans lequel l'acheteur évolue avant que la crise ne survienne.
+Le marketing traditionnel a longtemps réduit l'acheteur à un portrait-robot socio-démographique : *« Sophie, 42 ans, cadre en ville, deux enfants, adepte du yoga »*.
 
-Pour la décrire avec précision, répondez à ces trois questions concrètes :
-1. **Quel est son rôle opérationnel au moment de l'action ?** (Ex. Consultant solo en mission chez un client, gérant d'atelier, parent préparant le dîner).
-2. **Quels sont ses outils par défaut ?** (Ex. Un carnet papier sur le bureau, un fichier Google Sheets partagé, des e-mails archivés).
-3. **Quelle est sa contrainte de fond non négociable ?** (Ex. Moins de 45 minutes par jour, obligation de facturer au forfait, aucun budget pour un progiciel complexe).
+Comme l'ont établi les recherches d'Adele Revella (Buyer Persona Institute), ces données ne suffisent jamais à expliquer pourquoi une personne décide d'acheter une solution. Deux personnes ayant exactement le même âge, le même salaire et le même lieu de résidence peuvent avoir des comportements d'achat diamétralement opposés.
 
----
-
-### 1.6 Comment isoler cinq frustrations concrètes et distinctes
-
-Une frustration n'est pas un concept abstrait comme « le stress » ou « le manque de temps ». C'est une friction répétée qui provoque un arrêt de l'action ou un sentiment d'injustice opérationnelle.
-
-Pour être exploitables dans la conception de votre produit digital, vos 5 frustrations doivent être **distinctes et complémentaires** :
-- **Frustration 1 (Temps / Charge)** : Tâche répétitive fastidieuse qui consomme des heures sans valeur ajoutée.
-- **Frustration 2 (Erreur / Fiabilité)** : Risque constant de se tromper dans un calcul ou une règle, créant de l'insécurité.
-- **Frustration 3 (Inertie / Retard)** : Blocage ou hésitation prolongée qui reporte une décision importante.
-- **Frustration 4 (Discontinuité / Dispersion)** : Données éparpillées sur plusieurs supports incompatibles (notes, tableurs, e-mails).
-- **Frustration 5 (Comparaison / Pression)** : Sentiment de culpabilité face aux standards irréalistes véhiculés par d'autres acteurs du secteur.
+Les données démographiques ne sont pas inutiles : elles permettent de cerner des contraintes concrètes (pouvoir d'achat, accès technique, cadre réglementaire). Mais ce qui déclenche l'acte d'achat relève des **cinq anneaux d'insights d'achat** :
+1. **L'initiative prioritaire (*Priority Initiatives*)** : Quel événement ou quelle saturation pousse cette personne à consacrer du temps et de l'argent maintenant, plutôt que de conserver son organisation habituelle ?
+2. **Les facteurs de succès (*Success Factors*)** : Quel résultat concret, mesurable ou opérationnel recherche-t-elle pour considérer que son problème est résolu ?
+3. **Les barrières perçues (*Perceived Barriers*)** : Quels doutes ou craintes l'incitent à hésiter (peur de perdre son temps, crainte de complexité technique, scepticisme sur l'adaptation à son cas particulier) ?
+4. **Le parcours d'évaluation (*Buyer's Journey*)** : Comment se renseigne-t-elle, à qui demande-t-elle des avis et quelles alternatives compare-t-elle ?
+5. **Les critères de décision (*Decision Criteria*)** : Quels critères précis et tangibles feront pencher son choix entre deux options concurrentes ?
 
 ---
 
-### 1.7 Les Déclencheurs d'achat (Triggers) : l'événement de bascule
+### 1.4 Acheteur versus Utilisateur : qui valide et qui pratique ?
 
-L'acheteur ne cherche pas une solution chaque matin en se réveillant. Il tolère souvent sa frustration pendant des semaines, voire des mois. Ce qui provoque la recherche active d'une solution, c'est **l'événement déclencheur** (*Trigger*).
+Clarifiez systématiquement la relation entre l'acheteur et l'utilisateur :
+- **Cas 1 : L'acheteur est directement l'utilisateur (majorité des contextes solos et B2C)** :  
+  L'indépendant, le parent, l'étudiant ou le particulier finance lui-même l'outil qu'il manipule. Ses critères prioritaires sont le confort d'usage, la rapidité de prise en main et la réduction de sa charge mentale.
+- **Cas 2 : L'acheteur décide pour un tiers (contextes B2B et familiaux)** :  
+  Un responsable achète un simulateur pour son équipe de trois collaborateurs ; un parent achète un parcours éducatif pour son adolescent. Ici, deux exigences coexistent :
+  * L'acheteur recherche la rentabilité, la fiabilité, la preuve de résultat et la réduction du risque.
+  * L'utilisateur final recherche l'ergonomie, la simplicité et l'absence de corvée technique.
 
-On distingue deux types de déclencheurs :
-- **Le déclencheur interne (L'incident de trop)** :  
-  L'utilisateur commet une erreur coûteuse sur un devis, rate un rendez-vous important, ou passe un week-end entier à rattraper son administratif en retard. Il se dit : *« C'est la dernière fois que je travaille comme ça »*.
-- **Le déclencheur externe (L'échéance ou le changement d'environnement)** :  
-  Une nouvelle réglementation entre en vigueur, un contrat client majeur démarre le mois prochain, ou la clôture fiscale approche dans 15 jours.
-
-Identifier le déclencheur de votre acheteur vous permettra de savoir exactement quel événement mettre en scène dans vos futurs messages (et sur votre page de vente au Jour 11).
-
----
-
-### 1.8 Les Objections réelles : désamorcer les barrières cachées
-
-Une objection n'est pas un refus définitif. C'est l'expression directe de la troisième force de Moesta : **l'Anxiété de la nouveauté**. L'acheteur désire le résultat, mais son cerveau calcule le risque d'échouer.
-
-Les 4 familles d'objections les plus fréquentes face à un produit digital interactif sont :
-1. **L'objection d'effort perçu** : *« Vais-je devoir passer des heures à apprendre comment marche cet outil au lieu d'avancer sur mon travail ? »*
-2. **L'objection de spécificité** : *« Ma situation est très particulière, un outil générique ne peut pas comprendre les subtilités de mon métier. »*
-3. **L'objection de légitimité personnelle** : *« Je ne suis pas doué avec l'informatique et les outils web, ce n'est pas fait pour moi. »*
-4. **L'objection d'abandon préalable** : *« J'ai déjà acheté deux templates Notion et trois tableurs l'année dernière que je n'ai jamais ouverts après trois jours. »*
-
-Noter les objections réelles de votre audience dès le Jour 02 vous évitera de concevoir une interface trop touffue ou trop intimidante au Jour 07.
+Si vous êtes dans le Cas 2, votre produit doit satisfaire l'utilisateur au quotidien, mais vos arguments de vente doivent rassurer les critères de l'acheteur.
 
 ---
 
-### 1.9 Le Vocabulaire réel (*Voice of Customer*) et les règles du Mom Test
+### 1.5 La mécanique des Forces du Changement (Modèle de Bob Moesta)
 
-Pour qu'un acheteur se reconnaisse instantanément dans votre produit, vous devez employer **ses propres mots**, et non votre jargon d'expert ni le vocabulaire standardisé des intelligences artificielles.
+Pourquoi votre futur client tolère-t-il un tableur bricolé, un classeur papier imparfait ou une méthode gratuite depuis plusieurs mois sans chercher à changer ?
 
-Comme l'explique Rob Fitzpatrick dans *The Mom Test* :
-- Écoutez les verbatims bruts : comment les clients qualifient-ils leur problème quand ils discutent entre collègues autour d'un café ou sur un forum ?
-- Relevez les métaphores vivantes : *« avoir la tête dans le guidon »*, *« naviguer à vue »*, *« faire du bricolage sur un coin de table »*, *« subir l'ascenseur émotionnel »*.
-- Chassez les mots creux d'IA : un vrai professionnel ne dit jamais *« je cherche à optimiser mes processus opérationnels pour libérer mon plein potentiel »*. Il dit : *« j'en ai marre de passer mon dimanche soir sur Excel »*.
+Le chercheur Bob Moesta (co-créateur de l'approche *Jobs to Be Done*) modélise la dynamique de décision à travers 4 forces en tension permanente :
+1. **Le Push du présent** : La douleur, la lassitude et la friction vécues dans la situation actuelle (« Mon bricolage actuel me fait perdre deux heures chaque semaine »).
+2. **Le Pull de la solution nouvelle** : Le magnétisme et la promesse d'une situation clarifiée (« Imagine si je pouvais obtenir mon résultat personnalisé en trois clics »).
+3. **L'Anxiété de la nouveauté** : L'hésitation face à l'inconnu et la crainte de l'échec (« Et si je ne comprends pas le fonctionnement ? Et si je perds mon temps ? »).
+4. **L'Habitude du statu quo** : L'inertie des réflexes acquis (« Même si mon vieux fichier est mal commode, je connais ses raccourcis par cœur »).
 
----
+**Précision méthodologique** : La relation conceptuelle souvent résumée par :
+$$\text{Passage à l'action} \iff (Push + Pull) > (Anxi\acute{e}t\acute{e} + Habitude)$$
+constitue une grille d'analyse qualitative pour comprendre les arbitrages humains. Elle ne doit jamais être présentée comme une équation mathématique permettant de prédire un taux de conversion au centième près.
 
-### 1.10 Grille de vérité appliquée à l'acheteur : Faits avérés vs Hypothèses
-
-Appliquez le standard épistémique rigoureux défini au protocole :
-- **Fait avéré** : Élément textuel explicitement présent dans des avis publics, des e-mails reçus, des verbatims d'entretiens ou des comportements vécus sans extrapolation.
-- **Déduction logique** : Lien de cause à effet direct découlant d'une observation (ex. *« S'il utilise un carnet papier pour calculer sa capacité, il ne peut pas recalculer ses données en déplacement sans ce carnet »*).
-- **Hypothèse à vérifier** : Toute supposition sur les déclencheurs profonds ou les objections qui n'a pas encore été validée auprès d'au moins 3 vraies personnes de la cible.
-
-Dans votre fiche acheteur du Jour 02, chaque élément non vérifié doit obligatoirement porter la mention **[HYPOTHÈSE À VÉRIFIER]**.
+La majorité des créateurs échouent parce qu'ils ne travaillent que sur le Pull (promesses spectaculaires). Votre mission au Jour 02 est d'identifier avec précision le Push (les frustrations vécues) et les Anxiétés (les objections cachées) pour concevoir une offre qui lève les vrais obstacles.
 
 ---
 
-### Validation de l'Étape 1 : Quiz pédagogique (4 questions)
+### 1.6 Recherche client et Voice of Customer (Principes de The Mom Test)
 
-Vérifiez votre compréhension avant de configurer le prompt Claude.
+Pour capter la psychologie réelle d'un acheteur sans vous bercer d'illusions, appliquez les principes de Rob Fitzpatrick (*The Mom Test*) :
+- **Ne demandez jamais à un prospect s'il « trouve votre idée formidable » ou « s'il paierait pour ce produit »** : Vous obtiendrez des avis polis et complaisants mais aucun engagement réel. Une intention déclarée n'est jamais une vente.
+- **Interrogez exclusivement sur des faits réels et des comportements passés** : « Raconte-moi la dernière fois où ce blocage est survenu. Qu'as-tu fait concrètement ? Quel outil as-tu utilisé ? Combien de temps as-tu passé ? Combien cela t'a-t-il coûté ? »
+- **Relevez le vocabulaire brut réellement employé (Voice of Customer)** : Notez les mots exacts, les tournures familières et les métaphores spontanées de votre audience lorsqu'elle décrit son problème, et bannissez les termes marketing creux.
 
-#### Question 1 : Démographie versus Contexte d'achat
-Une formatrice définit son acheteur ainsi : *« Femmes de 30 à 45 ans, urbaines, cadre moyen ou supérieur, intéressées par le développement personnel »*. Pourquoi cette définition est-elle inadéquate pour construire un produit digital interactif ?
-- A) Parce que les femmes de moins de 30 ans achètent plus de produits digitaux que les femmes de 45 ans.
-- B) Parce que ces critères socio-démographiques n'indiquent ni l'action concrète interrompue, ni le problème opérationnel urgent, ni la situation qui déclenche l'acte d'achat.
-- C) Parce que Claude ne sait pas traiter les profils féminins dans ses prompts.
-- D) Parce qu'il faut obligatoirement inclure les hommes pour avoir une offre rentable.
-> **Bonne réponse** : B  
-> **Explication** : Les données démographiques décrivent une population générale sans renseigner sur le moment où survient la friction ni sur les solutions actuellement bricolées. Seule la situation concrète permet de calibrer un produit interactif pertinent.
+---
 
-#### Question 2 : Les Forces du Changement de Bob Moesta
-Un indépendant adore la promesse d'un nouveau simulateur web (attrait / *Pull* élevé), mais hésite depuis deux semaines à l'utiliser parce qu'il maîtrise déjà les raccourcis de son vieux fichier Excel bancal. Quelle force psychologique bloque ici la décision ?
-- A) Le Push du présent.
-- B) L'Habitude du statu quo.
-- C) L'absence d'intérêt pour le produit.
-- D) L'absence totale de budget.
-> **Bonne réponse** : B  
-> **Explication** : L'habitude du statu quo représente l'inertie des réflexes acquis. Même lorsqu'un outil existant est médiocre ou fastidieux, l'utilisateur en connaît les défauts par cœur ; quitter cette zone de confort demande un effort que le nouveau produit doit minimiser.
+### 1.7 Validation des acquis : Quiz du Jour 02
 
-#### Question 3 : La règle d'or du Mom Test (Rob Fitzpatrick)
-Vous échangez avec un client potentiel pour identifier ses objections. Laquelle de ces questions devez-vous poser pour obtenir une information factuelle et non un faux avis poli ?
-- A) « Est-ce que tu trouverais génial d'avoir un outil interactif qui automatise ton suivi ? »
-- B) « Combien serais-tu prêt à payer pour une application web qui résout ce problème ? »
-- C) « La dernière fois que ce blocage est survenu, qu'as-tu concrètement fait et combien de temps as-tu passé à réparer l'erreur ? »
-- D) « Penses-tu que ce produit intéresserait d'autres professionnels de ton entourage ? »
-> **Bonne réponse** : C  
-> **Explication** : La question C interroge sur une action passée réelle et vérifiable. Les questions A, B et D demandent des prédictions ou des avis hypothétiques qui déclenchent des réponses polies mais fausses.
+#### Question 1
+Une créatrice de contenu définit son acheteur cible ainsi : *« Femmes de 30 à 45 ans, résidant en métropole, cadres, intéressées par l'organisation personnelle »*. Pourquoi cette approche est-elle insuffisante pour concevoir un produit digital efficace ?
+- A. Parce que les femmes de moins de 30 ans consomment davantage de produits numériques.
+- B. Parce que ces critères démographiques ne renseignent ni sur la friction concrète vécue au quotidien, ni sur l'outil actuellement bricolé, ni sur l'événement déclencheur de l'achat. [CORRECT]
+- C. Parce que Claude refuse de traiter les profils socio-démographiques dans ses requêtes.
+- D. Parce qu'il est impératif de cibler un public masculin pour rentabiliser un produit digital.
 
-#### Question 4 : Distinction Acheteur versus Utilisateur
-Dans quel cas est-il impératif de distinguer les motivations de l'acheteur de celles de l'utilisateur ?
-- A) Uniquement lorsque le produit coûte plus de 1 000 euros.
-- B) Lorsque la personne qui valide le budget ou prend la décision d'achat n'est pas celle qui utilisera l'outil au quotidien (ex. un dirigeant pour son équipe, un parent pour son enfant).
-- C) Jamais, car les besoins d'un utilisateur et d'un acheteur sont toujours strictement identiques.
-- D) Uniquement dans les applications mobiles téléchargeables sur l'App Store.
-> **Bonne réponse** : B  
-> **Explication** : Lorsque le décideur financier est distinct de l'utilisateur final, l'acheteur évalue la conformité, le risque et la rentabilité globale, tandis que l'utilisateur juge l'effort de prise en main et le confort immédiat. L'offre doit répondre aux deux exigences.
+*Explication* : Les données démographiques peuvent encadrer un contexte matériel ou financier, mais elles n'expliquent pas pourquoi un individu décide de passer à l'action à un moment précis. C'est la situation vécue et la rupture du statu quo qui déterminent l'achat.
+
+#### Question 2
+Un formateur propose un nouveau parcours interactif avec des promesses attrayantes (*Pull* élevé). Pourtant, ses prospects hésitent longuement car ils ont déjà accumulé plusieurs dossiers de fiches PDF sur leur disque dur et ont peur de ne pas avoir le temps de s'investir dans une nouvelle interface. Quelles forces psychologiques bloquent ici le changement ?
+- A. Le Push du présent et l'absence de concurrence.
+- B. L'Anxiété de la nouveauté (peur de perdre son temps) et l'Habitude du statu quo (fichiers existants). [CORRECT]
+- C. Le manque d'expertise technique du formateur.
+- D. L'obligation légale d'utiliser uniquement des vidéos.
+
+*Explication* : L'anxiété d'effort et l'inertie des habitudes antérieures constituent les principales résistances psychologiques. Une offre crédible doit explicitement rassurer sur la rapidité de prise en main.
+
+#### Question 3
+Vous menez un entretien exploratoire pour identifier les objections réelles de vos futurs acheteurs. Laquelle de ces questions permet d'obtenir une donnée factuelle et non une réponse de complaisance polie ?
+- A. « Penses-tu que mon idée d'application interactive est pertinente pour ton métier ? »
+- B. « Combien serais-tu prêt à payer chaque mois pour cet outil ? »
+- C. « La dernière fois que tu as été confronté à cette difficulté, comment as-tu procédé pour la résoudre et quel outil as-tu utilisé ? » [CORRECT]
+- D. « Recommanderais-tu ce type de solution à tes amis sur les réseaux sociaux ? »
+
+*Explication* : En interrogeant sur une action passée réelle et vérifiable, vous évitez les promesses théoriques et les faux compliments pour recueillir la réalité des comportements observés (principe central de *The Mom Test*).
+
+#### Question 4
+Dans quel cas est-il capital de distinguer les motivations de l'acheteur de celles de l'utilisateur final ?
+- A. Uniquement lorsque le prix de vente dépasse 500 euros.
+- B. Lorsque la personne qui valide la dépense n'est pas celle qui manipule le produit au quotidien (ex. un dirigeant pour ses salariés, un parent pour son enfant). [CORRECT]
+- C. Jamais, car les attentes d'un acheteur et d'un utilisateur sont toujours strictement identiques.
+- D. Uniquement pour les logiciels hébergés sur des serveurs dédiés.
+
+*Explication* : Lorsque le décideur économique est distinct du praticien, l'acheteur évalue la sécurité, la rentabilité et le résultat global, tandis que l'utilisateur juge l'ergonomie, la simplicité immédiate et l'absence d'effort superflu.
 
 ---
 
 ## ÉTAPE 2 : PROMPT CLAUDE
 
-### 2.1 Principes de pilotage du Prompt Maître d'audit client
+### 2.1 Ingénierie de prompt qualitatif et diagnostic de la matière source
 
-Pour extraire la psychologie réelle d'un acheteur sans inventer de faux portraits flatteurs :
-1. **Rôle d'analyste en Customer Discovery** : Claude adopte la posture d'un chercheur UX neutre qui analyse des données brutes sans projeter ses propres biais.
-2. **Cloisonnement étanche par balises XML** : Séparation stricte entre les consignes de traitement, vos notes ou verbatims bruts, et les contraintes négatives.
-3. **Protocole d'extraction de citations directes** : Obligation pour Claude d'isoler des verbatims réels issus de votre matière source pour justifier chaque frustration.
-4. **Protocole socratique adaptatif** : Si votre matière de départ ne contient aucun retour client direct, Claude vous pose une question ciblée à la fois sur des interactions passées que vous avez eues avec vos prospects ou collègues.
-5. **Negative Prompting strict** : Interdiction formelle d'inventer des citations, de créer des personas fictives avec des détails inutiles, d'extrapoler des certitudes financières ou d'imposer un format technique d'outil.
+Pour analyser la psychologie d'un acheteur sans inventer de fausses vérités, le Prompt Maître du Jour 02 applique des consignes méthodologiques strictes :
+1. **Rôle d'auditeur critique en recherche client** : Claude adopte la posture d'un analyste méthodique qui refuse la complaisance marketing et traque les extrapolations infondées.
+2. **Diagnostic initial de la matière fournie** : Le prompt distingue immédiatement deux situations :
+   - *Voie 1 (Apprenant disposant de retours réels)* : Notes de rendez-vous, e-mails de clients, questions d'élèves, avis publics ou motifs de réclamation. Claude procède à l'extraction structurée en citant les sources.
+   - *Voie 2 (Apprenant sans matière client directe / démarrage)* : Claude ne fabrique pas de faux clients imaginaires. Il guide l'apprenant pour formuler des hypothèses étiquetées `[HYPOTHÈSE À VÉRIFIER]` et lui fournit des questions d'entretien non suggestives inspirées de *The Mom Test*.
+3. **Cloisonnement étanche par balises XML** : Les balises isolent vos notes de contexte des instructions de travail pour éviter toute confusion.
+4. **Interdictions formelles (Negative Prompting)** : Interdiction d'inventer des citations entre guillemets, d'affirmer une certitude financière sans preuve de vente, d'imposer prématurément un format technique (réservé au Jour 04) ou de rédiger une promesse commerciale (réservée au Jour 03).
 
 ---
 
 ### 2.2 Le Prompt Maître du Jour 02 (Prêt à copier dans Claude)
 
-Copiez le bloc complet ci-dessous dans Claude (offre gratuite) :
-
 ```xml
 <role>
 Tu es un Directeur de Recherche en Customer Discovery et Analyste Spécialisé en Psychologie d'Achat et Modélisation Jobs to Be Done.
-Ton rôle est de déconstruire des données qualitatives brutes (notes, verbatims, avis, messages, observations de terrain) pour cartographier le profil réel de l'acheteur en situation.
-Tu appliques une rigueur épistémique totale : tu distingues systématiquement les faits attestés par des citations réelles, les déductions logiques directes et les simples hypothèses non vérifiées.
-Tu refuses la complaisance, les portraits démographiques inutiles et les clichés psychologiques.
+Ton rôle est d'analyser des données qualitatives (retours clients, avis, échanges, questions d'élèves ou observations de terrain) pour cartographier le profil réel de l'acheteur d'un produit digital.
+Tu appliques une rigueur épistémique totale : tu distingues systématiquement les faits attestés par des observations réelles, les déductions logiques directes et les simples hypothèses non vérifiées.
+Tu refuses la complaisance, les portraits démographiques superficiels et les clichés psychologiques.
 </role>
 
 <context>
-Je poursuis la conception d'un produit digital interactif engagée au Jour 01.
+Je poursuis la conception d'un produit digital interactif engagée au Jour 01 d'AI CREATOR Studio.
 Voici les données de contexte de mon projet :
 - Domaine d'activité ou thématique : {{business}}
 - Audience cible en situation : {{targetAudience}}
@@ -262,370 +197,196 @@ Voici les données de contexte de mon projet :
 
 <source_material>
 [COLLEZ ICI VOTRE MATIÈRE CLIENT BRUTE :
-- Extraits de messages, e-mails reçus, commentaires LinkedIn ou avis clients
+- Extraits de messages, e-mails reçus, commentaires, questions d'élèves ou avis clients
 OU
 - Retours d'expériences ou notes de consultations passées
 OU
-- Commentaires publics observés sur des forums ou groupes professionnels
+- Avis publics et commentaires observés sur des produits concurrents ou des forums spécialisés
 OU
-- Si vous n'avez pas de notes rédigées, écrivez simplement : "Je pars de mon expérience directe avec mes clients sans notes d'entretiens, pose-moi tes questions."]
+- Si vous démarrez sans retours clients formalisés, écrivez simplement : "Je démarre sans données clients directes. Guide-moi pour poser mes hypothèses et préparer mes questions d'entretiens."]
 </source_material>
 
 <evidence_rules>
-1. FAIT OBSERVÉ / VERBATIM : Mot, expression ou comportement explicitement présent dans la matière source fournie.
-2. DÉDUCTION LOGIQUE : Conséquence directe d'un fait observé, sans extrapolation hasardeuse.
-3. HYPOTHÈSE À VÉRIFIER : Toute supposition sur les motivations profondes, les freins ou les déclencheurs qui n'est pas directement étayée par la matière.
+1. FAIT DOCUMENTÉ : Information directement présente dans la matière fournie (citation exacte, avis client identifiable ou comportement vérifiable).
+2. DÉDUCTION LOGIQUE : Conséquence directe et raisonnable d'un fait observé, sans extrapolation hasardeuse.
+3. HYPOTHÈSE À VÉRIFIER : Toute supposition sur les motivations, freins, déclencheurs ou alternatives qui n'est pas directement attestée par une preuve tangible.
 </evidence_rules>
 
 <constraints>
-RÈGLES D'INTERDICTION FORMELLES (NEGATIVE PROMPTING) :
+RÈGLES D'INTERDICTION FORMELLES :
 - INTERDICTION d'inventer des citations de clients ou de fabriquer de faux verbatims entre guillemets.
-- INTERDICTION de créer un portrait démographique superficiel (âge, situation familiale, loisirs imaginaires).
-- INTERDICTION d'affirmer que l'acheteur est "prêt à payer" ou de formuler une certitude financière sans preuve de transaction réelle.
-- INTERDICTION de suggérer ou d'anticiper le format technique du produit (calculateur, mini-app, quiz : réservé au Jour 04).
-- INTERDICTION de rédiger des promesses commerciales ou du texte publicitaire (réservé au Jour 03).
+- INTERDICTION de créer un portrait démographique superficiel (âge imaginaire, situation de famille sans lien avec l'achat).
+- INTERDICTION d'affirmer qu'un acheteur est "prêt à payer" sans trace d'une transaction ou d'un comportement d'achat réel.
+- INTERDICTION de fixer prématurément le format technique de l'outil interactif ou son prix (réservé au Jour 04).
+- INTERDICTION de rédiger la promesse publicitaire finale (réservée au Jour 03).
 - INTERDICTION d'utiliser des tirets cadratins dans ta réponse en français (utilise des deux-points, parenthèses ou virgules).
-- INTERDICTION d'employer du jargon creux d'IA ("révolutionnaire", "game-changer", "mindset de croissance", "booster son impact").
+- INTERDICTION d'employer du jargon creux d'IA ("révolutionnaire", "game-changer", "mindset", "booster son impact").
 </constraints>
 
 <task>
-PROTOCOLE D'EXÉCUTION CONDITIONNEL :
+PROTOCOLE D'EXÉCUTION ADAPTATIF :
 
-ÉVALUATION INITIALE DE LA MATIÈRE SOURCE :
+1. ÉVALUATION INITIALE DE LA MATIÈRE :
 Examine la section <source_material>.
-- CAS 1 (Matière orale ou insuffisante) : Si la matière fournie ne contient pas assez d'échanges réels pour identifier 5 frustrations distinctes et des objections, NE GÉNÈRE PAS la fiche tout de suite. Pose-moi UNE SEULE question ciblée sur la dernière fois où un client ou un collègue m'a exposé sa difficulté. Attends ma réponse avant d'enchaîner (jusqu'à 3 questions ciblées, une par une).
-- CAS 2 (Matière suffisante) : Si la matière comporte déjà des échanges, avis ou notes de terrain, produis directement l'analyse complète selon le format de sortie ci-dessous.
+- CAS A (Matière client réelle ou avis publics fournis) : Réalise directement la cartographie en 6 sections ci-dessous en précisant le niveau de preuve de chaque élément.
+- CAS B (Absence de matière client / Démarrage) : Formule 5 hypothèses plausibles pour l'acheteur cible en les marquant explicitement [HYPOTHÈSE À VÉRIFIER], puis propose 4 questions d'entretiens concrètes selon la méthode de The Mom Test pour aller les valider auprès de personnes réelles.
 </task>
 
 <output_format>
-Quand tu rédiges la synthèse finale, respecte rigoureusement cette structure en 6 sections :
+Structure ta synthèse finale selon ces 6 sections précises :
 
 ### 1. Situation de départ de l'acheteur
-- Description du contexte opérationnel quotidien de la personne avant la crise.
-- Ses outils actuels par défaut (tableur bancal, carnet, recherche manuelle).
-- Sa contrainte de fond non négociable (temps, budget, charge client).
-- Clarification du rôle : l'acheteur est-il également l'utilisateur final ?
+- Description du contexte d'activité concret avant l'apparition de la crise ou du besoin.
+- Outils ou contournements actuellement utilisés par défaut (guide PDF existant, tableur, carnet, recherche manuelle, absence d'outil).
+- Contrainte majeure non négociable (temps disponible, budget, charge client, niveau technique).
+- Rôle : l'acheteur est-il l'utilisateur final direct ou décide-t-il pour un tiers ?
 
-### 2. Les 5 Frustrations concrètes et distinctes
-Pour chacune des 5 frustrations :
-- **Intitulé de la friction** : Formulé sobrement.
-- **Scène vécue concrète** : Ce qui se passe sur le terrain au moment du blocage.
-- **Niveau de preuve** : [FAIT AVÉRÉ avec citation si présente] OU [HYPOTHÈSE À VÉRIFIER].
+### 2. Matrice des 5 Frustrations concrètes
+Pour chacune des 5 frictions :
+- Intitulé sobre de la friction.
+- Scène vécue concrète (ce qui bloque dans l'action).
+- Statut de preuve : [FAIT DOCUMENTÉ avec extrait/source] OU [HYPOTHÈSE À VÉRIFIER].
 
-### 3. Les Déclencheurs d'achat (Triggers)
-- **Déclencheur interne (L'incident de trop)** : L'événement ou la goutte d'eau qui brise l'inertie habituelle.
-- **Déclencheur externe (L'échéance imposée)** : La date limite, l'obligation client ou réglementaire qui force l'action.
-- **Niveau de preuve** : [FAIT AVÉRÉ] OU [HYPOTHÈSE À VÉRIFIER].
+### 3. Déclencheurs d'achat (Triggers)
+- Déclencheur interne (l'incident de trop, la goutte d'eau opérationnelle).
+- Déclencheur externe (l'échéance imposée, l'obligation réglementaire, contractuelle ou calendaire).
+- Statut de preuve : [FAIT DOCUMENTÉ] OU [HYPOTHÈSE À VÉRIFIER].
 
-### 4. Les Objections et Barrières perçues (Forces de résistance)
-- **Objection 1 (Effort et temps d'apprentissage)** : La crainte de complexité.
-- **Objection 2 (Spécificité du contexte)** : Le doute sur l'adéquation au cas particulier.
-- **Objection 3 (Peur de l'abandon)** : Le souvenir d'anciens outils délaissés.
-- **Commentaire de désamorçage rationnel** : Ce que la solution devra prouver pour lever ce doute.
+### 4. Objections majeures et Barrières perçues
+- Objection 1 (Effort et temps de prise en main perçus).
+- Objection 2 (Doute sur la spécificité à son cas particulier).
+- Objection 3 (Peur de l'inutilité ou de l'abandon).
+- Preuve rationnelle requise pour désamorcer chaque doute.
 
 ### 5. Vocabulaire brut de l'audience (Voice of Customer)
-- Relevé de 5 à 8 expressions, mots ou métaphores effectivement employés par cette audience pour décrire sa situation, sans vocabulaire marketing d'expert.
+- Relevé de 5 à 8 expressions, mots ou métaphores réellement employés par cette audience (si matière fournie), ou 5 formulations à écouter lors des prochains entretiens (si démarrage).
 
 ### 6. Matrice de transition vers le Jour 03
-- Synthèse des 3 éléments prioritaires de cette fiche qui serviront à formuler la promesse de transformation au Jour 03.
-- Liste des 2 informations manquantes à vérifier auprès de vraies personnes.
+- Synthèse de la frustration prioritaire à résoudre pour formuler la promesse au Jour 03.
+- Liste des 2 informations manquantes qu'il est indispensable de vérifier auprès d'utilisateurs réels.
 </output_format>
 ```
 
 ---
 
-### 2.3 Guide d'exécution et bibliothèque de relances
+### 2.3 Guide d'exécution et bibliothèque de relances ciblées
 
-#### Comment utiliser ce prompt :
-- **Si vous disposez de notes ou d'avis clients** : Collez vos textes bruts dans la balise `<source_material>`. Claude effectuera l'extraction qualitative en 6 sections.
-- **Si vous partez de votre pratique sans notes rédigées** : Laissez l'instruction par défaut. Claude amorcera une interview socratique en vous posant une question à la fois. Répondez avec des anecdotes précises tirées de votre expérience.
+#### Conseils d'application :
+- **Si vous vendez déjà (Voie 1)** : Collez un échantillon représentatif de retours clients ou de questions fréquentes dans `<source_material>`. Ne cherchez pas à les embellir.
+- **Si vous démarrez ou changez de niche (Voie 2)** : Indiquez clairement votre thématique et votre audience. Utilisez la sortie de Claude pour planifier trois échanges exploratoires avec des personnes réelles de votre cible.
 
 #### Bibliothèque de relances selon la réponse obtenue :
-
-1. **Si Claude formule des frustrations trop abstraites :**
-> « Tes frustrations 2 et 4 restent trop théoriques. Réécris-les en décrivant une action concrète qui s'arrête net : quel document ou écran la personne regarde-t-elle, quelle erreur constate-t-elle et quelle est sa réaction immédiate ? Sans tiret cadratin. »
-
-2. **Si une objection ressemble à une excuse de complaisance :**
-> « L'objection 1 que tu as rédigée est trop générique ("c'est trop cher"). Remplis-la avec la vraie anxiété d'usage : quelle est la peur cachée de l'utilisateur vis-à-vis de son temps ou de sa compétence technique ? »
-
-3. **Si le vocabulaire extrait contient du jargon marketing d'IA :**
-> « Le vocabulaire que tu as listé dans la section 5 contient des termes de communicant ("optimiser", "scalabilité", "mindset"). Remplace-les par les mots simples et familiers qu'un indépendant utilise réellement quand il se plaint à un collègue. »
-
-4. **Pour tester la solidité d'une hypothèse :**
-> « Dans la section Déclencheurs, tu as classé [citer l'élément] comme fait avéré. Indique-moi l'extrait exact de ma source qui le prouve. Si aucun extrait ne l'atteste, requalifie-le en hypothèse et propose une question du Mom Test pour aller le vérifier sur le terrain. »
+1. **Si les frustrations formulées restent trop abstraites :**
+> « Tes frustrations 2 et 4 restent trop générales. Réécris-les en décrivant une action concrète qui s'arrête net : quel document ou écran la personne regarde-t-elle, quelle difficulté rencontre-t-elle et quelle est sa réaction immédiate ? Sans tiret cadratin. »
+2. **Si une objection ressemble à une excuse de politesse :**
+> « L'objection 1 que tu as rédigée est trop générique ("c'est trop cher"). Remplis-la avec la vraie anxiété d'usage : quelle est la crainte réelle de l'acheteur vis-à-vis de son temps, de son effort ou de sa compétence ? »
+3. **Si le vocabulaire extrait contient du jargon marketing :**
+> « Le vocabulaire que tu as listé contient des termes de communicant ("optimiser", "scalabilité", "mindset"). Remplace-les par les mots simples et familiers qu'un professionnel emploie réellement quand il parle de son problème à un pair. »
+4. **Pour tester la solidité d'une affirmation :**
+> « Dans la section Déclencheurs, tu as classé cet élément comme fait avéré. Indique-moi l'extrait exact de ma source qui l'atteste. Si aucun extrait textuel ne le prouve, requalifie-le en hypothèse et formule une question du Mom Test pour aller le vérifier. »
 
 ---
 
-## ÉTAPE 3 : EXEMPLE GUIDÉ (ANALYSE RÉELLE DE LA DÉMONSTRATION DU STUDIO)
+## ÉTAPE 3 : EXEMPLE GUIDÉ
 
-### 3.1 Déclaration de transparence déontologique et continuité curriculaire
+### 3.1 Déclaration de transparence déontologique sur le matériau du Studio
 
-Pour démontrer la méthode, nous poursuivons l'analyse du cas réel d'Alexandre V. engagée au Jour 01 :  
-`public/demos/pdf-to-hub/avant-pdf-statique.html` (*« Le Système de Création Régulière »*, document simulant un guide PDF de 12 pages).
+Pour illustrer concrètement la démarche, nous reprenons le fichier de démonstration interne utilisé au Jour 01 :  
+`public/demos/pdf-to-hub/avant-pdf-statique.html` (*« Le Système de Création Régulière »*, par Alexandre V.).
 
-> **Avertissement déontologique** : Ce fichier reste un matériau de démonstration interne créé pour illustrer les limites techniques d'un PDF statique. Nous l'analysons ici sous l'angle exclusif de la psychologie d'achat de son lecteur cible, sans fabriquer de fausses données commerciales.
-
----
-
-### 3.2 Déroulé complet de l'extraction en 8 points
-
-#### 1. Identification de la matière source analysée
-- Document : `avant-pdf-statique.html` (Alexandre V., Édition 2026).
-- Public cible nommé en Page 1 : Freelances en mission, Formateurs/Infopreneurs, Coachs & Consultants.
-- Contexte d'action documenté : Professionnels experts qui vendent des prestations ou des formations, disposant d'un temps de création structurellement limité par leur service client (Page 2).
-
-#### 2. La Situation de départ de l'acheteur
-- **Rôle et contexte** : Consultant ou freelance solo en mission active (facturant 20 à 30 heures par semaine à ses clients).
-- **Outils actuels par défaut** : Une calculatrice physique ou de smartphone, un carnet de notes papier sur le bureau, des tableurs annexes ouverts en parallèle (Page 1 et 2).
-- **Contrainte de fond** : Il ne peut pas dépasser 3 à 4 heures de création par semaine sans amputer son temps facturable ni s'épuiser (Page 2).
-- **Rôle acheteur / utilisateur** : L'acheteur est ici directement l'utilisateur final. La décision d'adopter un outil repose sur le soulagement immédiat de sa propre charge mentale.
-
-#### 3. Les 5 Frustrations concrètes extraites de la matière
-1. **Frustration de calcul horaire répétitif** : Devoir recalculer manuellement sa formule de capacité chaque lundi sur un carnet parce que la charge client fluctue d'une semaine à l'autre (Page 2).
-2. **Frustration du temps protégé violé** : L'irruption d'urgences clients le mardi matin qui absorbe la demi-journée prévue pour rédiger, repoussant la création à la semaine suivante sans vision de rattrapage (Page 2).
-3. **Frustration du déséquilibre éditorial** : La tendance spontanée à ne publier que des contenus de vision (Fondation) par pudeur, sans jamais insérer d'appels à la conversion, laissant l'activité sans nouveaux prospects (Page 3).
-4. **Frustration de la feuille volante perdue** : L'obligation d'imprimer la feuille de route sur papier A4 pour cocher des cases au stylo, feuille qui finit ensevelie sous les dossiers en cours en Semaine 2 (Page 4).
-5. **Frustration du bricolage textuel** : L'obligation de copier-coller manuellement un prompt avec des zones entre crochets dans un traitement de texte externe sans sauvegarde (Page 5).
-
-#### 4. Les Déclencheurs d'achat (Triggers)
-- **Déclencheur interne (L'incident de trop)** :  
-  Le créateur passe 45 minutes un dimanche soir à essayer d'organiser sa semaine de publication sur un carnet, réalise qu'il n'a aucune idée de ses heures réelles disponibles, pousse un soupir d'agacement et referme son carnet sans avoir écrit une seule ligne.
-- **Déclencheur externe (L'échéance client)** :  
-  Une grosse mission client s'achève dans 3 semaines ; le professionnel s'aperçoit avec angoisse qu'il n'a publié aucun contenu depuis deux mois et que son pipeline de prospection est totalement vide pour le trimestre suivant.
-
-#### 5. Les Objections réelles et barrières perçues
-- **Objection 1 (Temps d'apprentissage perçu)** : *« Je suis déjà sous l'eau avec mes missions clients actuelles ; je n'ai pas le temps de configurer un nouvel outil compliqué. »*
-- **Objection 2 (Doute d'abandon)** : *« J'ai déjà téléchargé plein de templates Notion et de guides PDF gratuits que je n'ai jamais rouverts après 48 heures. En quoi cet outil serait différent ? »*
-- **Objection 3 (Peur de la rigidité)** : *« Mon métier est imprévisible d'un jour à l'autre ; si l'outil m'impose un calendrier rigide, je vais culpabiliser dès la première urgence client. »*
-
-#### 6. Le Vocabulaire réel de l'audience (*Voice of Customer*)
-Expressions authentiques relevées dans le contexte de cette cible :
-- *« la tête dans le guidon »*
-- *« naviguer à vue sur mon temps »*
-- *« faire du bricolage sur un coin de table »*
-- *« ascenseur émotionnel des missions »*
-- *« syndrome du carnet perdu »*
-- *« temps protégé »*
-
-#### 7. Déconstruction critique d'une fausse hypothèse de marché
-Dans de nombreux cours de marketing génériques, on lirait ici : *« Les consultants sont prêts à payer un abonnement de 29 euros par mois pour un outil de gestion éditoriale »*.  
-**L'analyse critique de l'architecte produit** :  
-Existe-t-il la moindre preuve dans `avant-pdf-statique.html` ou dans des données de transactions réelles montrant que ces professionnels veulent un abonnement mensuel supplémentaire ? **Non.**  
-Au contraire : submergés par leurs abonnements logiciels sous-utilisés, beaucoup développent une aversion pour les prélèvements récurrents.  
-Cette affirmation de volonté de payer est donc **rejetée et rétrogradée en simple hypothèse de travail** qui sera testée uniquement au Jour 04 (Hypothèse de prix) et au Jour 25 (Vente réelle).
-
-#### 8. La Fiche acheteur résultante (Cas Alexandre V.)
-
-```
-+-----------------------------------------------------------------------------------+
-|                        FICHE ACHETEUR : CAS ALEXANDRE V.                          |
-+-----------------------------------------------------------------------------------+
-| 1. SITUATION DE DÉPART                                                            |
-|    Consultant solo ou freelance vendant des prestations au forfait (20-30h/sem).   |
-|    Travaille avec un carnet papier, une calculatrice et des tableurs bricolés.    |
-|    Acheteur = Utilisateur direct (cherche un gain de sérénité immédiat).          |
-+-----------------------------------------------------------------------------------+
-| 2. LES 5 FRUSTRATIONS CONCRÈTES                                                   |
-|    - [FAIT] Recalcul manuel permanent de la capacité hebdomadaire.                |
-|    - [FAIT] Violation systématique du temps protégé par les urgences clients.     |
-|    - [FAIT] Incapacité à équilibrer Fondation, Preuve et Conversion.              |
-|    - [FAIT] Perte du fil d'exécution sur feuille A4 imprimée non synchronisée.    |
-|    - [FAIT] Bricolage fastidieux de prompts à copier-coller entre crochets.       |
-+-----------------------------------------------------------------------------------+
-| 3. LES DÉCLENCHEURS (TRIGGERS)                                                    |
-|    - Interne [HYPOTHÈSE] : Épuisement d'un dimanche soir passé sur un carnet.     |
-|    - Externe [FAIT DÉDUIT] : Fin de mission imminente avec pipeline commercial    |
-|      vide suite à 2 mois sans publication.                                        |
-+-----------------------------------------------------------------------------------+
-| 4. LES OBJECTIONS MAJEURES                                                        |
-|    - « Je n'ai pas le temps d'apprendre un logiciel complexe » (Anxiété d'effort).|
-|    - « J'ai déjà abandonné 3 templates Notion » (Peur de l'inutilité).            |
-|    - « Mon planning est trop imprévisible » (Crainte de rigidité).                |
-+-----------------------------------------------------------------------------------+
-| 5. VOCABULAIRE AUTHENTIQUE (*Voice of Customer*)                                  |
-|    « Tête dans le guidon », « naviguer à vue », « calculs sur un coin de table », |
-|    « ascenseur émotionnel des missions », « temps protégé ».                      |
-+-----------------------------------------------------------------------------------+
-```
+> **Avertissement déontologique rigoureux** : Ce document est un support de simulation pédagogique conçu pour mettre en évidence les limites interactives d'un fichier PDF statique. Le lecteur affiche une mention « 12 pages », mais le code HTML ne contient physiquement que **cinq blocs de pages visibles (Pages 1/12 à 5/12)**. Nous ne devons en aucun cas inventer des comportements d'acheteurs réels, des anecdotes de terrain ou des citations fictives qui ne figurent pas dans le document.
 
 ---
 
-### 3.3 Les 3 pièges fréquents de l'analyse d'acheteur
+### 3.2 La Grille de Vérité Documentaire en 3 Colonnes
 
-1. **Confondre une objection sur le prix avec une objection sur la valeur** :  
-   Quand un prospect dit *« c'est trop cher »*, cela signifie presque toujours : *« Je ne suis pas certain que cet outil va me faire gagner plus de temps que mon vieux tableur gratuit »*. Traitez d'abord l'anxiété d'efficacité avant de baisser un tarif.
-2. **Projeter ses propres habitudes sur son client** :  
-   Parce que vous aimez passer des heures à configurer des outils sophistiqués, ne présumez pas que votre acheteur partage cette passion. Votre acheteur veut que son problème disparaisse en 3 clics.
-3. **Inventer des verbatims stylisés** :  
-   Ne récrivez pas les propos de vos clients pour les rendre plus élégants. Les tournures imparfaites, familières ou agacées sont les meilleurs révélateurs de la friction réelle.
+Voici comment analyser méthodiquement ce document sans verser dans l'illusion épistémique :
 
----
-
-## ÉTAPE 4 : À VOUS DE JOUER (ATELIER D'APPLICATION PERSONNELLE)
-
-C'est votre tour de cartographier la psychologie et les leviers d'achat de votre propre audience cible. À la fin de cet atelier, vos 5 dimensions d'analyse et votre fiche finale seront consignées dans votre espace de travail.
-
-```
-+-----------------------------------------------------------------------------------+
-|                        VOS LIVRABLES DU JOUR 02                                   |
-+-----------------------------------------------------------------------------------+
-| LIVRABLE A : Situation de départ de votre acheteur en action                      |
-| LIVRABLE B : Les 5 frustrations concrètes (avec statut Fait ou Hypothèse)         |
-| LIVRABLE C : Déclencheurs d'achat (1 Trigger interne + 1 Trigger externe)         |
-| LIVRABLE D : Les 3 objections majeures et leurs désamorçages                      |
-| LIVRABLE E : Vocabulaire brut authentique (5 à 8 expressions réelles)             |
-| LIVRABLE FINAL : Votre fiche acheteur qualitative complète                        |
-+-----------------------------------------------------------------------------------+
-```
+| Page du document | 1. Élément documentaire réel [FAIT] | 2. Déduction raisonnable sur le format | 3. Hypothèse à vérifier auprès d'acheteurs |
+|---|---|---|---|
+| **Page 1 : Couverture & Avertissement** | Titre, temps de lecture annoncé de 45 minutes, cible nommée (freelances, formateurs, coachs, consultants). L'encadré avertit que l'application nécessite une calculatrice, un carnet ou un tableur annexe. | Le lecteur ne peut pas appliquer le guide de manière autonome : il doit basculer vers des outils tiers extérieurs au document pour faire fonctionner la méthode. | *Hypothèse* : Devoir sortir du guide pour faire des calculs sur un carnet ou un tableur disperse l'attention du lecteur et augmente le taux d'abandon avant la mise en pratique. |
+| **Page 2 : Diagnostic de capacité** | Formule de capacité manuelle : `(Heures totales - Heures clients - Heures admin) x 0.65 ÷ 2.5h`. Tableau statique présentant 3 profils. Mention indiquant que tout changement de charge client impose de recalculer manuellement sur carnet. L'affirmation « l'erreur commise par 90 % des professionnels » est une assertion de l'auteur. | Le format PDF fige les chiffres dans un tableau fixe. Si la réalité d'un indépendant ne correspond pas exactement aux trois cas présentés, le guide ne s'adapte pas à sa situation. | *Hypothèse* : Un simulateur interactif qui calcule automatiquement la capacité à partir des heures réelles de la semaine apporterait plus de valeur pratique que la formule statique du PDF. |
+| **Page 3 : Matrice des 3 Piliers** | Recommandation de l'auteur d'équilibrer Fondation (40 %), Preuve (40 %) et Conversion (20 %) sur un rythme mardi, jeudi, samedi. | La répartition éditoriale est théorique ; aucune aide n'est proposée pour vérifier si les contenus rédigés respectent effectivement cet équilibre. | *Hypothèse* : Les créateurs peinent à doser leurs publications de conversion et ressentent le besoin d'un outil visuel qui catégorise leurs idées de contenu. |
+| **Page 4 : Feuille de route 30 jours** | 11 tâches planifiées sur 4 semaines avec des cases à cocher imprimées. Le texte invite à imprimer la page pour cocher les cases au stylo. | Le support impose une manipulation physique (impression papier) pour assurer le suivi d'exécution, créant une rupture avec le travail sur ordinateur. | *Hypothèse* : La feuille imprimée est rapidement égarée ou oubliée, et une liste de tâches interactive avec sauvegarde de progression en ligne réduirait l'abandon. |
+| **Page 5 : Prompt & Limites du format** | Un prompt textuel comportant 3 champs entre crochets `[Remplacer par ...]`. Un encadré de conclusion récapitule les limites du PDF (calculs externes, pas de tri personnalisé, cases non cochables, pas de sauvegarde). | L'utilisateur doit copier-coller manuellement le texte et éditer lui-même les crochets dans une autre fenêtre sans assistance contextuelle. | *Hypothèse* : Un générateur de prompt dynamique avec champs de saisie formulaire évite les erreurs de manipulation et fait gagner un temps appréciable. |
 
 ---
 
-### Grille d'étalonnage : Formulations insuffisantes versus acceptables
+### 3.3 Questions d'entretien recommandées pour valider ces hypothèses sur le terrain
 
-#### Exemple dans le secteur Conseil B2B / Indépendants
-
-| Composante | Formulation insuffisante | Formulation acceptable (Validée Jour 02) | Diagnostic pédagogique |
-| :--- | :--- | :--- | :--- |
-| **Situation de départ** | « Des consultants qui veulent trouver des clients sur internet. » | « Consultant solo en prestation 4 jours sur 5 chez ses clients, utilisant un carnet papier et des messages LinkedIn improvisés le vendredi après-midi. » | *Pourquoi* : La formulation acceptable ancre le rythme de travail hebdomadaire, les outils réels et le moment précis de l'action. |
-| **Frustration** | « Ils manquent d'organisation et sont souvent stressés par leur prospection. » | « Le vendredi à 16h30, le consultant veut envoyer 5 messages de relance mais passe 40 minutes à hésiter devant son écran par peur de paraître insistant, et finit par fermer son ordinateur sans rien envoyer. » | *Pourquoi* : Passage d'un symptôme abstrait (« stress ») à une scène observable avec heure, durée et abandon final. |
-| **Déclencheur (Trigger)** | « Quand ils décident de passer au niveau supérieur dans leur business. » | « La fin inattendue d'un contrat représentant 60 % de son chiffre d'affaires à 30 jours, le contraignant à trouver 2 nouveaux clients sous peine de déficit. » | *Pourquoi* : L'événement de bascule est une rupture concrète, pas une formule de motivation creuse. |
+Plutôt que d'affirmer de fausses certitudes, voici les 4 questions concrètes inspirées de *The Mom Test* qu'un créateur devrait poser à des professionnels de cette cible pour vérifier la réalité du besoin :
+1. *« La dernière fois que tu as essayé d'organiser ton calendrier de création de contenu, comment as-tu évalué le temps dont tu disposais réellement par semaine ? »* (Vérifie si la friction du calcul de capacité existe dans le monde réel).
+2. *« Quand tu as téléchargé un guide PDF méthodologique ces derniers mois, qu'as-tu fait concrètement des exercices ou feuilles de route qu'il contenait ? »* (Vérifie si les exercices statiques sont appliqués ou délaissés).
+3. *« As-tu déjà imprimé une feuille d'action issue d'un guide numérique ? Combien de temps l'as-tu conservée sur ton bureau ? »* (Teste l'hypothèse de la rupture papier).
+4. *« Quel est l'outil ou le fichier que tu utilises aujourd'hui pour planifier tes publications, et qu'est-ce qui t'agace le plus dans son utilisation quotidienne ? »* (Révèle l'alternative actuelle et le Push réel).
 
 ---
 
-### Checklist d'auto-validation en 8 critères observables
+### 3.4 Déconstruction critique et pièges d'analyse à éviter
 
-Avant de valider votre Jour 02, contrôlez rigoureusement votre travail :
+Dans de nombreuses formations marketing superficielles, on affirmerait ici : *« Les consultants sont prêts à payer un abonnement de 29 euros par mois pour un outil de gestion éditoriale interactif »*.  
+**L'examen rigoureux de l'architecte produit** :  
+Existe-t-il la moindre preuve de vente ou de transaction dans le document `avant-pdf-statique.html` ? **Aucune.**  
+Les études récentes (rapports Visa et Epidemic Sound 2025) montrent que beaucoup de créateurs et indépendants sont attentifs à leurs coûts fixes et manifestent une lassitude face à la multiplication des abonnements logiciels dormants.  
+Cette supposition est donc **rejetée comme fait et rétrogradée en simple hypothèse de travail**, qui sera mise à l'épreuve uniquement au Jour 04 (Format et prix) et au Jour 25 (Commercialisation).
 
-- [ ] **Critère 1 (Situation ancrée dans l'action)** : Ma situation de départ décrit une personne dans son contexte d'activité quotidien, avec ses outils habituels et ses contraintes matérielles.
-- [ ] **Critère 2 (Cinq frustrations distinctes)** : Mes 5 frustrations traitent de frictions différentes (temps, erreurs, retard, dispersion, culpabilité) et ne répètent pas la même idée.
-- [ ] **Critère 3 (Déclencheurs identifiés)** : J'ai identifié au moins un déclencheur interne (la goutte d'eau opérationnelle) et un déclencheur externe (l'échéance imposée).
-- [ ] **Critère 4 (Objections réelles formulées)** : Mes objections portent sur des doutes concrets (effort d'apprentissage, spécificité, abandon passé) et non sur de simples refus superficiels.
-- [ ] **Critère 5 (Vocabulaire brut authentifié)** : J'ai relevé au moins 5 expressions ou métaphores réellement employées par mon audience, sans jargon marketing artificiel.
-- [ ] **Critère 6 (Honnêteté épistémique)** : Chaque élément est soit rattaché à une observation directe (avis, e-mail, échange), soit explicitement marqué comme [HYPOTHÈSE À VÉRIFIER].
-- [ ] **Critère 7 (Rôle Acheteur vs Utilisateur clarifié)** : J'ai précisé si mon acheteur est également l'utilisateur final ou s'il s'agit d'un décideur finançant pour un tiers.
-- [ ] **Critère 8 (Neutralité d'offre)** : Ma fiche acheteur ne mentionne prématurément ni promesse commerciale (Jour 03), ni format d'outil interactif (Jour 04), ni hypothèse de prix (Jour 04).
-
----
-
-## SECTION 5 : GUIDE DE DÉPANNAGE (6 SITUATIONS DE BLOCAGE)
-
-### Cas 1 : « Je n'ai pas de clients existants à interviewer. »
-- **Action de déblocage** : Rendez-vous sur des espaces publics où votre cible s'exprime librement : avis 2 et 3 étoiles sur des livres Amazon de votre secteur, fils de discussions Reddit spécialisés, groupes d'entraide ou commentaires sous des publications d'experts de votre thématique. Cherchez les expressions commençant par : *« Ce qui m'énerve le plus c'est... »*, *« Quelqu'un aurait une astuce pour éviter de... »*, *« J'en ai marre de perdre mon temps sur... »*.
-
-### Cas 2 : « Mes 5 frustrations se ressemblent trop. »
-- **Action de déblocage** : Appliquez le filtre des 5 phases de l'action :
-  1. La préparation (manque d'informations claires au départ).
-  2. Le calcul ou tri (incapacité de choisir sans se tromper).
-  3. L'exécution (lenteur ou interruption par une urgence).
-  4. La conservation (perte des notes ou difficulté de suivi).
-  5. Le résultat (sentiment de travail inachevé ou décevant).
-
-### Cas 3 : « Mon client me dit toujours que le seul problème est le prix. »
-- **Action de déblocage** : Le prix est l'écran de fumée universel. Posez la relance du Mom Test : *« En dehors du coût financier, quelle est la chose la plus pénible que vous avez dû supporter pour faire ce travail le mois dernier ? »*. Vous découvrirez la véritable anxiété d'effort ou de complexité.
-
-### Cas 4 : « Claude m'invente des personas clichés. »
-- **Action de déblocage** : Réinjectez immédiatement les contraintes négatives :  
-  *« Supprime l'âge, la profession fictive et les détails de vie personnelle. Décris uniquement l'action physique précise que cette personne tente de faire sur son outil actuel au moment où elle s'arrête de travailler. Sans tiret cadratin. »*
-
-### Cas 5 : « J'hésite entre plusieurs types d'acheteurs. »
-- **Action de déblocage** : Choisissez celui qui a **le Push le plus fort** (la situation actuelle la plus pénible) et le contact le plus direct avec votre matière de départ. Le second profil deviendra une cible secondaire pour une version ultérieure.
-
-### Cas 6 : « Je ne sais pas si mes déclencheurs sont réels. »
-- **Action de déblocage** : Demandez-vous : *« Qu'est-ce qui force cette personne à agir CE MOIS-CI plutôt que d'attendre six mois de plus ? »*. Si aucune réponse concrète n'apparaît, votre déclencheur est trop mou : cherchez l'échéance ou l'incident de rupture.
+Prenez garde à ces trois pièges majeurs lors de l'analyse de votre propre acheteur :
+1. **Confondre objection de prix et objection de valeur** : Quand un prospect affirme « c'est trop cher », cela traduit presque toujours : « Je ne suis pas convaincu que cet outil m'apportera un soulagement supérieur à mon bricolage gratuit habituel ».
+2. **Projeter ses propres goûts sur son client** : Ce n'est pas parce que vous appréciez les interfaces complexes ou les fonctionnalités avancées que votre client recherche cette complexité. L'acheteur recherche la solution la plus simple pour accomplir sa tâche.
+3. **Styliser artificiellement les propos des clients** : Ne réécrivez pas les retours reçus pour leur donner un tour académique. La force d'une recherche d'acheteur réside dans les expressions brutes et authentiques employées sur le terrain.
 
 ---
 
-## SECTION 6 : RESSOURCES TÉLÉCHARGEABLES DU JOUR 02
+## ÉTAPE 4 : À VOUS DE JOUER
 
-Voici le contenu textuel complet des deux fiches pratiques créées pour le Jour 02, prêtes pour les blocs de téléchargement (`ResourceBlock`).
+### 4.1 Atelier personnel : Deux voies d'exécution selon votre maturité
 
----
-
-### Ressource 1 : Fiche acheteur qualitative et leviers d'achat
-**Nom de fichier cible** : `fiche-acheteur-qualitative-j02.md`  
-**Format** : Markdown / Fiche pratique
-
-```markdown
-# FICHE ACHETEUR QUALITATIVE & LEVIERS D'ACHAT
-## AI CREATOR Studio : Jour 02
-
-### 1. CONTEXTE GÉNÉRAL ET RÔLE
-- Thématique ({{business}}) : 
-- Audience cible en situation ({{targetAudience}}) : 
-- Rôle : [ ] L'acheteur est l'utilisateur final / [ ] L'acheteur décide pour un tiers
-- Situation de départ concrète (contexte, outils actuels, contrainte de fond) : 
-
-### 2. MATRICE DES 5 FRUSTRATIONS CONCRÈTES
-- FRUSTRATION 1 (Temps / Charge) : 
-  * Statut : [ ] FAIT AVÉRÉ (Source : ) / [ ] HYPOTHÈSE À VÉRIFIER
-- FRUSTRATION 2 (Erreur / Insécurité) : 
-  * Statut : [ ] FAIT AVÉRÉ (Source : ) / [ ] HYPOTHÈSE À VÉRIFIER
-- FRUSTRATION 3 (Inertie / Retard) : 
-  * Statut : [ ] FAIT AVÉRÉ (Source : ) / [ ] HYPOTHÈSE À VÉRIFIER
-- FRUSTRATION 4 (Dispersion / Discontinuité) : 
-  * Statut : [ ] FAIT AVÉRÉ (Source : ) / [ ] HYPOTHÈSE À VÉRIFIER
-- FRUSTRATION 5 (Culpabilité / Comparaison) : 
-  * Statut : [ ] FAIT AVÉRÉ (Source : ) / [ ] HYPOTHÈSE À VÉRIFIER
-
-### 3. LES FORCES DU CHANGEMENT (BOB MOESTA)
-- PUSH DU PRÉSENT (Pourquoi le statu quo devient intolérable) : 
-- PULL DE LA SOLUTION (Ce que le résultat attendu permet concrètement) : 
-- ANXIÉTÉ DU CHANGEMENT (Peurs, doutes, barrières de l'inconnu) : 
-- HABITUDE DU STATU QUO (Réflexes et bricolages conservés par confort) : 
-
-### 4. DÉCLENCHEURS D'ACHAT (TRIGGERS)
-- Déclencheur interne (L'incident de trop) : 
-- Déclencheur externe (L'échéance non négociable) : 
-
-### 5. LES 3 OBJECTIONS MAJEURES & DÉSAMORÇAGES
-- Objection 1 (Effort et temps) : 
-  * Réponse / Preuve rationnelle requise : 
-- Objection 2 (Spécificité du cas) : 
-  * Réponse / Preuve rationnelle requise : 
-- Objection 3 (Crainte d'abandon) : 
-  * Réponse / Preuve rationnelle requise : 
-
-### 6. VOCABULAIRE AUTHENTIQUE (*Voice of Customer*)
-- Expression 1 : 
-- Expression 2 : 
-- Expression 3 : 
-- Expression 4 : 
-- Expression 5 : 
-- Expression 6 : 
-
-### 7. ÉLÉMENTS TRANSFÉRÉS AU JOUR 03 (PROMESSE & POSITIONNEMENT)
-- La frustration prioritaire à éliminer : 
-- Le résultat concret attendu par l'acheteur : 
-- L'alternative bricolée à remplacer définitivement : 
-```
+Vous allez renseigner et enregistrer votre fiche acheteur dans les espaces ci-dessous. Deux approches s'offrent à vous :
+- **Voie 1 (Vous vendez déjà ou avez des retours clients / Profils A et B)** :  
+  Appuyez-vous sur des données réelles (e-mails reçus, questions d'élèves, réclamations, commentaires, avis). Renseignez vos livrables en étiquetant chaque fait appuyé sur une source par la mention `[FAIT OBSERVÉ / SOURCE : ...]`.
+- **Voie 2 (Vous démarrez sans clientèle préalable / Profils C et D)** :  
+  Ne fabriquez aucun faux client imaginaire. Formulez des déductions raisonnables et classez chaque point sous la mention `[HYPOTHÈSE À VÉRIFIER]`. Vous utiliserez cette fiche comme grille d'entretien pour vos futurs échanges exploratoires.
 
 ---
 
-### Ressource 2 : Grille d'audit The Mom Test & Forces du Changement
-**Nom de fichier cible** : `grille-audit-mom-test-forces-j02.md`  
-**Format** : Markdown / Grille d'audit en 6 points
+### 4.2 Les 6 Livrables du Jour 02
 
-```markdown
-# GRILLE D'AUDIT : THE MOM TEST & FORCES DU CHANGEMENT
-## Contrôle qualité de la recherche acheteur : Jour 02
+#### Livrable A : Situation de départ de votre acheteur
+Décrivez le contexte d'activité habituel de votre acheteur avant l'apparition de la crise : quel est son métier ou sa situation, quels outils utilise-t-il aujourd'hui par défaut (guide PDF existant, tableur bancal, carnet, calculatrice, recherche manuelle), quelle est sa contrainte de fond non négociable (temps, budget, niveau technique), et est-il également l'utilisateur final ?
 
-Avant de valider les affirmations de votre fiche acheteur, passez chaque élément au crible de cette grille :
+#### Livrable B : Matrice des 5 frustrations concrètes
+Détaillez 5 frictions distinctes rencontrées dans son fonctionnement actuel (temps perdu, risque d'erreur, retard, dispersion, complexité). Précisez pour chacune la scène vécue sur le terrain et son statut de preuve : `[FAIT OBSERVÉ avec source]` ou `[HYPOTHÈSE À VÉRIFIER]`.
 
-1. [OUI / NON] Les frustrations sont formulées avec des mots simples de tous les jours et ne contiennent aucun mot creux d'IA ("booster", "mindset", "optimiser son plein potentiel").
-   -> Si NON : Réécrivez la friction en observant l'action physique qui s'arrête.
+#### Livrable C : Déclencheurs d'achat (Triggers)
+Identifiez les événements qui rompent l'inertie habituelle de l'acheteur :
+1. Déclencheur interne (l'incident de trop, la goutte d'eau opérationnelle).
+2. Déclencheur externe (l'échéance imposée, l'obligation réglementaire, calendaire ou contractuelle). Précisez leur statut de preuve.
 
-2. [OUI / NON] Aucune question hypothétique sur l'avenir n'a été utilisée pour valider le besoin (application stricte de The Mom Test).
-   -> Si NON : Supprimez les promesses futures ("j'achèterais bien...") et cherchez ce que la personne a déjà fait dans le passé.
+#### Livrable D : Objections majeures et Barrières perçues
+Formulez les 3 anxiétés d'usage les plus vives chez votre acheteur (effort d'apprentissage, doute sur l'adéquation à son cas particulier, peur de l'inutilité ou de l'abandon) et notez pour chacune la réponse ou preuve rationnelle requise pour la désamorcer.
 
-3. [OUI / NON] Les objections portent sur de réelles anxiétés d'effort, de temps ou de spécificité (pas seulement sur le prix facial).
-   -> Si NON : Identifiez la peur cachée de l'utilisateur face à la complexité de l'outil.
+#### Livrable E : Vocabulaire brut authentique (Voice of Customer)
+Listez 5 à 8 expressions, mots ou métaphores réellement employés par votre audience pour décrire sa situation (si vous disposez de retours), ou 5 formulations précises à surveiller lors de vos prochains entretiens (si vous démarrez). Indiquez la source de chaque expression ou marquez-la comme hypothèse.
 
-4. [OUI / NON] Le déclencheur externe est une échéance ou une contrainte de calendrier vérifiable dans le monde réel.
-   -> Si NON : Cherchez l'événement extérieur qui oblige à agir maintenant.
+#### Livrable Final : Synthèse de la fiche acheteur qualitative
+Rassemblez l'ensemble de vos éléments dans cette fiche synthétique prête à l'emploi. Cette fiche servira de référence directe pour formuler votre promesse au Jour 03 et structurer votre offre au Jour 04.
 
-5. [OUI / NON] Les affirmations non prouvées par une citation ou une observation directe sont explicitement marquées [HYPOTHÈSE À VÉRIFIER].
-   -> Si NON : Apposez immédiatement l'étiquette pour ne pas vous auto-illusionner.
+---
 
-6. [OUI / NON] Aucun choix prématuré de format d'outil (calculateur, quiz, mini-app) ni de prix de vente n'a été introduit dans la fiche acheteur.
-   -> Si NON : Retirez toute mention technique qui relève du Jour 04.
-```
+### 4.3 Checklist d'auto-validation en 8 critères observables
+
+1. **Situation ancrée dans l'action réelle** : Ma situation de départ décrit une personne dans un contexte concret, avec ses outils habituels et ses contraintes matérielles.
+2. **Cinq frustrations distinctes** : Mes 5 frustrations traitent de frictions différentes et ne répètent pas la même idée sous des formulations variées.
+3. **Déclencheurs identifiés** : J'ai identifié au moins un déclencheur interne (incident de trop) et un déclencheur externe (échéance ou contrainte imposée).
+4. **Objections et barrières formulées** : Mes objections portent sur de réelles anxiétés d'usage (temps, effort, adaptation, abandon passé) et non sur un simple refus abstrait.
+5. **Vocabulaire authentifié ou balisé** : Mes expressions relevées correspondent à des tournures réelles ou sont explicitement consignées comme hypothèses à écouter.
+6. **Honnêteté épistémique respectée** : Chaque élément est soit rattaché à une observation directe identifiable, soit explicitement marqué `[HYPOTHÈSE À VÉRIFIER]`.
+7. **Rôle Acheteur vs Utilisateur clarifié** : J'ai précisé si l'acheteur manipule lui-même l'outil ou s'il s'agit d'un décideur finançant la solution pour un tiers.
+8. **Neutralité d'offre préservée** : Ma fiche ne mentionne prématurément ni promesse commerciale (Jour 03), ni format d'outil interactif (Jour 04), ni prix de vente (Jour 04).
+
+---
+
+### 4.4 Ressources téléchargeables du Jour 02
+
+1. **`fiche-acheteur-qualitative-j02.md`** : Matrice Markdown complète prête à remplir pour consigner la situation de départ, les 5 frustrations étiquetées, les déclencheurs, les forces de changement et le vocabulaire brut.
+2. **`grille-audit-mom-test-forces-j02.md`** : Grille de contrôle éditorial en 6 points pour éliminer les faux avis polis, distinguer faits et hypothèses et préparer des entretiens exploratoires non suggestifs.
