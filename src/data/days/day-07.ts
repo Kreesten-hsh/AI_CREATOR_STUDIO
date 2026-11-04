@@ -29,19 +29,13 @@ export const day07: Day = {
             'La fonctionnalité Artifacts de Claude est un environnement d\'exécution interactif intégré. Dès que Claude génère un extrait de code structuré de plus de 15 lignes, il l\'isole dans un panneau latéral dédié sur la droite de votre écran.',
             'Ce panneau propose deux modes essentiels : l\'onglet « Preview », qui exécute et affiche instantanément votre application dans le navigateur comme un vrai site web, et l\'onglet « Code », qui vous permet de lire, copier ou exporter l\'intégralité du code source en un clic.',
             'Pour qu\'un produit soit commercialisable sans friction auprès de clients non techniques, il doit impérativement être autonome : tout le HTML, le CSS (dans une balise <style>) et le JavaScript (dans une balise <script>) doivent cohabiter dans un seul fichier index.html. Cela garantit que votre client peut ouvrir son guide d\'un double-clic sur son ordinateur sans installer le moindre logiciel.',
+            'L\'offre gratuite de Claude permet de générer, tester et exporter des Artifacts complets dans la limite de ses quotas quotidiens d\'utilisation. Un abonnement payant permet principalement d\'augmenter ces quotas de requêtes pour itérer de manière intensive sans interruption.',
           ],
           bullets: [
             'Vérifier que la fonctionnalité Artifacts est bien active dans vos paramètres Claude.',
             'Exiger de Claude un fichier monobloc HTML/CSS/JS sans dépendances externes complexes.',
             'Utiliser le bouton de téléchargement ou de copie dans l\'onglet Code pour récupérer votre fichier.',
           ],
-        },
-        {
-          id: 'day-07-callout-1',
-          type: 'callout',
-          variant: 'important',
-          title: 'Offre gratuite versus Claude Pro',
-          content: 'Claude permet de générer, prévisualiser et exporter des Artifacts avec son offre gratuite, dans la limite de ses quotas quotidiens d\'utilisation. Avec un compte Claude Pro, la fenêtre de contexte plus large permet de concevoir des applications plus denses et d\'itérer plus rapidement sans interruption.',
         },
         {
           id: 'day-07-quiz-1',
@@ -87,7 +81,8 @@ export const day07: Day = {
           id: 'day-07-prompt-builder',
           type: 'prompt-builder',
           title: 'Prompt Maître d\'Architecture Claude Artifacts',
-          description: 'Ce prompt complet ordonne à Claude de bâtir l\'ossature complète de votre application web autonome avec navigation par onglets et respect scrupuleux de votre style.',
+          description:
+            'Ce prompt ordonne à Claude de générer l\'ossature complète de votre application web autonome avec navigation par onglets et respect de votre identité visuelle. Si la génération s\'interrompt en raison de la limite de longueur de réponse, écrivez simplement : « Continue la génération du code exactement à partir de la dernière balise générée » sans relancer tout le prompt.',
           deliverableTarget: 'claude-artifact',
           fields: [
             {
@@ -135,10 +130,10 @@ Génère dans un Claude Artifact une application web interactive complète et au
 
 EXIGENCES TECHNIQUES STRICTES :
 1. AUTONOMIE TOTALE : Aucun import de framework externe (pas de React, pas de Tailwind par CDN). Utilise du HTML5 sémantique, du CSS vanille moderne avec variables :root, et du JavaScript vanille pur.
-2. DIRECTION ARTISTIQUE NÉO-BRUTALISTE ÉDITORIALE :
-   - Palette de couleurs : Rouge Brique (#B63131), Rose Poudré (#E6A0A8), Rose Pâle (#F7E0E2), Crème Papier (#FAF6F0), Encre Profonde (#171313) et Blanc Pur (#FFFDFC).
-   - Bordures franches de 2px encre (#171313), ombres dures décalées (4px 4px 0px #171313), angles adoucis (border-radius de 6px à 8px pour les cartes et boutons).
-   - Typographie forte, titres en majuscules contrastées, hiérarchie visuelle soignée anti-slop.
+2. DIRECTION ARTISTIQUE ET CHARTE VISUELLE :
+   - Applique fidèlement la direction visuelle suivante : {{brandStyle}}.
+   - Définis une palette de couleurs cohérente et lisible en variables CSS :root respectant les contrastes WCAG AA.
+   - Typographie soignée, hiérarchie visuelle claire et mise en page épurée adaptée au support.
 3. STRUCTURE DE L'APPLICATION :
    - En-tête éditorial percutant avec badge de méthodologie et titre fort.
    - Barre de sélection de profil en haut de page permettant d'adapter la situation de l'utilisateur.
@@ -148,13 +143,6 @@ EXIGENCES TECHNIQUES STRICTES :
 4. ERGONOMIE MOBILE : Design responsive adaptatif avec zones de frappe minimales de 48px et défilement fluide sans débordement horizontal.
 
 Génère le code intégral du fichier de la première à la dernière ligne dans un Artifact unique.`,
-        },
-        {
-          id: 'day-07-callout-tip',
-          type: 'callout',
-          variant: 'pro-insight',
-          title: 'Que faire si Claude s\'arrête en cours d\'écriture ?',
-          content: 'Si l\'Artifact s\'interrompt avant d\'avoir fermé les balises en raison de la limite d\'émission par réponse, ne relancez pas tout de zéro. Répondez simplement : « Continue la génération du code exactement à partir de la ligne [indiquer la dernière balise générée] ». Claude poursuivra l\'assemblage sans tronquer le début.',
         },
       ],
     },
@@ -210,7 +198,7 @@ Génère le code intégral du fichier de la première à la dernière ligne dans
               description: 'Modèle de départ avec variables CSS et conteneurs d\'onglets prêts à l\'emploi.',
               format: 'HTML',
               downloadFilename: 'squelette-neo-brutaliste-base.html',
-              downloadContent: `<!DOCTYPE html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8">\n  <title>Application Interactive</title>\n  <style>\n    :root { --primary: #B63131; --bg: #FAF6F0; --ink: #171313; --surface: #FFFDFC; }\n    body { background: var(--bg); color: var(--ink); font-family: sans-serif; padding: 20px; }\n    .tab-panel { display: none; }\n    .tab-panel.active { display: block; }\n  </style>\n</head>\n<body>\n  <h1>Mon Application</h1>\n</body>\n</html>`,
+              downloadContent: `<!DOCTYPE html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8">\n  <title>Application Interactive</title>\n  <style>\n    :root { --primary: var(--brand-primary, #2563EB); --bg: #F8FAFC; --ink: #0F172A; --surface: #FFFFFF; }\n    body { background: var(--bg); color: var(--ink); font-family: sans-serif; padding: 20px; }\n    .tab-panel { display: none; }\n    .tab-panel.active { display: block; }\n  </style>\n</head>\n<body>\n  <h1>Mon Application</h1>\n</body>\n</html>`,
             },
           ],
         },

@@ -29,19 +29,13 @@ export const day06: Day = {
             'Le problème d\'un guide PDF ne vient jamais de la qualité du savoir qu\'il contient, mais de la passivité imposée par son format. Lorsqu\'un client télécharge un document de 20 pages, il se retrouve face à un mur de texte uniforme. Il doit lire, extraire mentalement les conseils pertinents pour sa situation, faire les calculs sur une feuille à part et tenter de s\'organiser sans aucun retour en direct.',
             'Résultat : la majorité des documents finissent au fond d\'un dossier sans jamais produire le résultat promis. C\'est ce qui explique le plafond tarifaire historique des PDF sur le web francophone.',
             'Notre méthode pédagogique signature repose sur les Unités d\'Action Minimales (UAM). Chaque section de votre produit doit s\'articuler selon un équilibre strict : 20 % de contexte stratégique (pourquoi cette étape compte), 50 % d\'outil actif (un calculateur, un sélecteur de profil ou un filtre interactif) et 30 % de décision validée (une action concrète enregistrée).',
+            'La distinction fondamentale est simple : un document d\'information transmet des notions que le lecteur doit digérer seul, tandis qu\'un outil de décision pose 3 questions à l\'utilisateur, filtre ses contraintes et lui affiche instantanément son plan d\'action personnalisé.',
           ],
           bullets: [
             'Identifier les pavés théoriques qui découragent le lecteur pour les remplacer par des questions à choix ou des curseurs interactifs.',
             'Isoler les formules mathématiques ou règles de calcul pour les confier au navigateur.',
             'Remplacer les listes de conseils génériques par des sélecteurs de profil qui masquent l\'inutile et mettent en valeur l\'essentiel.',
           ],
-        },
-        {
-          id: 'day-06-callout-1',
-          type: 'callout',
-          variant: 'important',
-          title: 'Distinction clé : Document d\'information versus Outil de décision',
-          content: 'Un document d\'information transmet des notions que le lecteur doit digérer seul. Un outil de décision pose 3 questions à l\'utilisateur, filtre ses contraintes et lui affiche instantanément son plan personnalisé.',
         },
         {
           id: 'day-06-quiz-1',
@@ -87,7 +81,8 @@ export const day06: Day = {
           id: 'day-06-prompt-builder',
           type: 'prompt-builder',
           title: 'Compilateur de Déconstruction de Contenu Statique',
-          description: 'Ce prompt demande à Claude d\'auditer votre sujet, d\'extraire les irritants de lecture et de générer la matrice exacte des 3 modules interactifs à construire.',
+          description:
+            'Ce prompt demande à Claude d\'auditer votre sujet, d\'extraire les irritants de lecture et de générer la matrice exacte des 3 modules interactifs à construire. Si vous possédez déjà un PDF ou des notes de cours, glissez le document directement dans votre conversation avec Claude avant d\'envoyer le prompt.',
           deliverableTarget: 'claude-artifact',
           fields: [
             {
@@ -141,13 +136,6 @@ LIVRABLES ATTENDUS :
    Propose 3 profils d'utilisateurs distincts permettant de filtrer les recommandations de l'application dès l'en-tête (comme dans notre starter kit de référence).
 
 Sois extrêmement pragmatique, direct, sans bavardage théorique ni jargon superflu.`,
-        },
-        {
-          id: 'day-06-callout-tip',
-          type: 'callout',
-          variant: 'tip',
-          title: 'Conseil d\'exécution dans Claude',
-          content: 'Si vous avez déjà un document PDF existant ou des notes de cours, vous pouvez glisser le fichier directement dans votre conversation avec Claude ou dans la section Projet de Claude. Collez ensuite ce prompt compilé pour obtenir une déconstruction personnalisée de vos propres documents.',
         },
       ],
     },

@@ -105,4 +105,31 @@ describe('AI CREATOR STUDIO : Course Data & Engine Verification', () => {
     expect(importProgressJson('invalid')).toBeNull();
     expect(importProgressJson(JSON.stringify(initial))?.profile.studentName).toBe('Camille');
   });
+
+  it('guarantees clean separation between skeleton placeholders and developed days', () => {
+    const skeletonDayNumbers = [1, 2, 3, 4, 5, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
+    const developedDayNumbers = [6, 7, 8, 9, 10];
+
+    for (const day of ALL_DAYS) {
+      if (skeletonDayNumbers.includes(day.dayNumber)) {
+        expect(day.isSkeletonPlaceholder).toBe(true);
+        // Every step in a skeleton day must have empty blocks (no fake content)
+        for (const step of day.steps) {
+          expect(step.blocks).toEqual([]);
+        }
+      } else if (developedDayNumbers.includes(day.dayNumber)) {
+        expect(day.isSkeletonPlaceholder).toBe(false);
+        // Developed days must have real content blocks
+        for (const step of day.steps) {
+          expect(step.blocks.length).toBeGreaterThan(0);
+        }
+      }
+
+      // No day in the 25 days should have a VideoBlock at this stage
+      for (const step of day.steps) {
+        const videoBlocks = step.blocks.filter((b) => b.type === 'video');
+        expect(videoBlocks).toHaveLength(0);
+      }
+    }
+  });
 });

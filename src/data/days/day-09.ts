@@ -27,21 +27,15 @@ export const day09: Day = {
           highlightPill: 'La règle d\'or : rendre chaque action visible instantanément avec une jauge et des paliers de réussite explicites.',
           paragraphs: [
             'L\'un des plus grands atouts d\'un outil interactif face à un document statique est sa capacité à fournir un retour visuel en temps réel. Lorsqu\'un utilisateur coche une étape et voit sa jauge passer immédiatement de 20 % à 40 %, son cerveau enregistre un progrès tangible. Ce mécanisme d\'accomplissement élimine le sentiment de surcharge et encourage à poursuivre jusqu\'au bout.',
-            'L\'intégration de micro-récompenses (comme des badges qui s\'illuminent en rose poudré dès qu\'une section est achevée) matérialise des victoires d\'étape sans jamais infantiliser l\'utilisateur.',
+            'L\'intégration de micro-récompenses (comme des badges qui s\'illuminent dès qu\'une section est achevée) matérialise des victoires d\'étape sans jamais infantiliser l\'utilisateur.',
             'Cependant, pour ajouter ces fonctionnalités dans votre code existant, vous devez maîtriser l\'art de l\'itération chirurgicale dans Claude. L\'erreur fatale des débutants est de donner une consigne vague du type « Ajoute des animations et améliore le design ». Face à un prompt flou, Claude a tendance à réécrire tout le script, à oublier certaines fonctionnalités déjà codées ou à tronquer le fichier. Pour itérer avec succès, il faut cibler la modification comme un chirurgien.',
+            'Appliquez systématiquement le principe de l\'itération par brique unique : ne demandez jamais 5 fonctionnalités à la fois. Demandez d\'abord la barre de progression, testez-la dans l\'Artifact, puis demandez les badges une fois l\'étape précédente validée.',
           ],
           bullets: [
             'Toujours faire une copie de sauvegarde de votre code fonctionnel avant de demander une modification à Claude.',
             'Nommer précisément l\'élément à créer ou à modifier dans votre prompt (ex. « Ajoute la fonction updateProgress() sans modifier les fonctions calculateCapacity() existantes »).',
             'Demander à Claude de renvoyer l\'intégralité du fichier mis à jour ou le bloc exact à remplacer.',
           ],
-        },
-        {
-          id: 'day-09-callout-1',
-          type: 'callout',
-          variant: 'important',
-          title: 'Le principe de l\'itération par brique unique',
-          content: 'Ne demandez jamais 5 fonctionnalités à la fois. Demandez d\'abord la barre de progression, testez-la dans l\'Artifact. Une fois validée, demandez les badges. Cette approche pas à pas garantit 100 % de réussite sans régression.',
         },
         {
           id: 'day-09-quiz-1',
@@ -87,7 +81,8 @@ export const day09: Day = {
           id: 'day-09-prompt-builder',
           type: 'prompt-builder',
           title: 'Prompt d\'Itération Chirurgicale : Jauge & Récompenses',
-          description: 'Ce prompt fournit à Claude le protocole exact pour greffer une barre de progression dynamique et 3 badges débloquables sur votre code existant.',
+          description:
+            'Ce prompt fournit à Claude le protocole exact pour greffer une barre de progression dynamique et 3 badges débloquables sur votre code existant. Veillez à télécharger ou copier une sauvegarde de votre Artifact fonctionnel avant d\'exécuter l\'itération.',
           deliverableTarget: 'claude-artifact',
           fields: [
             {
@@ -111,27 +106,20 @@ Ajouter une barre de progression dynamique en temps réel et un système de 3 ba
 INSTRUCTIONS CHIRURGICALES STRICTES :
 1. CONSERVER L'EXISTANT : Ne modifie ni la navigation par onglets, ni le sélecteur de profil, ni les formules de calcul existantes.
 2. AJOUTER LA BARRE DE PROGRESSION EN TÊTE DE PAGE :
-   - Insère un conteneur .progress-bar-container stylisé selon notre charte Néo-Brutaliste (fond blanc, bordure 2px encre, ombre 4px).
+   - Insère un conteneur .progress-bar-container stylisé selon l'identité visuelle de l'application.
    - Affiche un texte d'état dynamique : "X / Y actions validées (Z %)".
-   - Insère une piste de progression arrondie (.progress-track) avec une barre intérieure (.progress-fill) de couleur rouge brique (#B63131) dont la largeur s'anime avec une transition CSS fluide (transition: width 0.3s ease).
+   - Insère une piste de progression arrondie (.progress-track) avec une barre intérieure (.progress-fill) aux couleurs d'accent de votre charte dont la largeur s'anime avec une transition CSS fluide (transition: width 0.3s ease).
 3. AJOUTER LES 3 BADGES DE RÉUSSITE DÉBLOQUABLES :
    - Badge 1 : Débloqué dès que la première section ou diagnostic est validé.
    - Badge 2 : Débloqué dès que 50 % des actions sont cochées.
    - Badge 3 : Débloqué dès que 100 % des actions sont complétées (Objectif : {{mainObjective}}).
-   - État verrouillé : opacité réduite (opacity: 0.45) et fond crème.
-   - État débloqué (.unlocked) : opacité 1, fond rose poudré (#E6A0A8), texte net et ombre dure.
+   - État verrouillé : opacité réduite (opacity: 0.45) et fond neutre.
+   - État débloqué (.unlocked) : opacité 1, fond d'accent débloqué selon votre charte graphique, texte net et ombre nette.
 4. METTRE À JOUR LA FONCTION D'ACTION :
    - Crée la fonction updateProgress() qui compte les cases cochées, calcule le pourcentage arrondi, met à jour la largeur de la jauge et active la classe .unlocked sur les badges mérités.
    - Appelle updateProgress() dans toggleTask() et dans loadState() pour restaurer l'état exact au rechargement.
 
 Génère le code complet du fichier index.html mis à jour dans un Artifact unique.`,
-        },
-        {
-          id: 'day-09-callout-tip',
-          type: 'callout',
-          variant: 'tip',
-          title: 'Conseil de sauvegarde préalable',
-          content: 'Avant d\'exécuter ce prompt dans Claude, cliquez sur l\'icône de copie ou de téléchargement dans le coin de votre Artifact actuel pour garder une copie de sécurité sur votre ordinateur. Si le résultat ne vous convient pas, vous pourrez ainsi revenir en arrière en une seconde.',
         },
       ],
     },
@@ -195,7 +183,7 @@ Génère le code complet du fichier index.html mis à jour dans un Artifact uniq
               description: 'Extrait CSS complet prêt à intégrer dans votre balise <style>.',
               format: 'CSS',
               downloadFilename: 'styles-progression-badges.css',
-              downloadContent: `.progress-track { background: #FAF6F0; border: 2px solid #171313; height: 18px; border-radius: 999px; overflow: hidden; }\n.progress-fill { background: #B63131; height: 100%; width: 0%; transition: width 0.3s ease; }\n.badge-chip { opacity: 0.45; background: #FAF6F0; border: 2px solid #171313; padding: 6px 12px; font-weight: 700; }\n.badge-chip.unlocked { opacity: 1; background: #E6A0A8; }\n`,
+              downloadContent: `.progress-track { background: var(--bg-muted, #F1F5F9); border: 2px solid var(--border-color, #0F172A); height: 18px; border-radius: 999px; overflow: hidden; }\n.progress-fill { background: var(--primary, #2563EB); height: 100%; width: 0%; transition: width 0.3s ease; }\n.badge-chip { opacity: 0.45; background: var(--bg-muted, #F1F5F9); border: 2px solid var(--border-color, #0F172A); padding: 6px 12px; font-weight: 700; }\n.badge-chip.unlocked { opacity: 1; background: var(--accent, #38BDF8); }\n`,
             },
           ],
         },

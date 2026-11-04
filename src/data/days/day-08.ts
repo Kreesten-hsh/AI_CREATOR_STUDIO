@@ -29,19 +29,13 @@ export const day08: Day = {
             'L\'un des plus grands freins au développement de logiciels pour les non-programmeurs a toujours été la gestion des bases de données et des comptes utilisateurs. Dès qu\'un outil nécessite un serveur, un hébergement backend et un système d\'authentification par mot de passe, les coûts explosent et la maintenance devient complexe.',
             'L\'API native localStorage des navigateurs web résout intégralement ce problème pour les produits numériques. Elle permet à votre application de stocker des données directement dans la mémoire du navigateur de votre client sous forme de paires clé/valeur.',
             'Chaque fois que l\'acheteur coche une action sur sa feuille de route, ajuste un curseur de calcul ou renseigne un profil, l\'information est enregistrée silencieusement. Lorsqu\'il ferme son navigateur et revient le lendemain ou trois semaines plus tard, l\'application recharge instantanément ses données exactes. C\'est ce qui transforme un simple document en un véritable espace de travail personnel.',
+            'Techniquement, le fonctionnement repose sur deux fonctions standards : les données saisies sont converties en texte avec JSON.stringify() pour être stockées dans localStorage, puis réinjectées dans l\'interface avec JSON.parse() dès l\'ouverture de la page.',
           ],
           bullets: [
             'Zéro coût de serveur et zéro infrastructure technique à maintenir.',
             'Confidentialité absolue : les données saisies par vos clients restent sur leur appareil et ne transitent sur aucun serveur externe.',
             'Fonctionnement ultra-rapide et compatible hors ligne une fois le fichier ouvert.',
           ],
-        },
-        {
-          id: 'day-08-callout-1',
-          type: 'callout',
-          variant: 'important',
-          title: 'Comment fonctionne la sauvegarde JSON',
-          content: 'En JavaScript, les objets complexes (comme une liste de cases cochées ou des chiffres de profil) sont convertis en texte grâce à JSON.stringify() pour être sauvegardés dans localStorage, puis réinjectés dans l\'interface avec JSON.parse() dès l\'ouverture de la page.',
         },
         {
           id: 'day-08-quiz-1',
@@ -87,7 +81,8 @@ export const day08: Day = {
           id: 'day-08-prompt-builder',
           type: 'prompt-builder',
           title: 'Prompt d\'Enrichissement Interactif & Sauvegarde Locale',
-          description: 'Ce prompt demande à Claude d\'insérer un calculateur personnalisé et une liste d\'actions persistante dans votre application existante.',
+          description:
+            'Ce prompt demande à Claude d\'insérer un calculateur personnalisé et une liste d\'actions persistante dans votre application existante. Si vous avez une formule mathématique précise (ex. Tarif Journalier = (Revenu Souhaité + Charges) / Jours Travaillés), écrivez-la clairement dans le prompt pour une implémentation exacte.',
           deliverableTarget: 'claude-artifact',
           fields: [
             {
@@ -121,7 +116,7 @@ MISSION :
 
 1. LE CALCULATEUR INTERACTIF EN TEMPS RÉEL :
    - Crée un composant de calcul dédié à mon sujet comprenant 3 champs de saisie numériques intuitifs avec valeurs par défaut réalistes.
-   - Branche un écouteur d'événement sur chaque champ (input) qui recalcule et affiche immédiatement le résultat clé en gros caractères (font-size: 36px+, couleur rouge brique) sans recharger la page.
+   - Branche un écouteur d'événement sur chaque champ (input) qui recalcule et affiche immédiatement le résultat clé en gros caractères (font-size: 36px+, couleur d'accent issue de la palette) sans recharger la page.
    - Ajoute une interprétation textuelle personnalisée sous le chiffre (ex. recommandation de volume, alerte ou conseil d'action).
 
 2. LA FEUILLE DE ROUTE D'ACTIONS AVEC SAUVEGARDE AUTOMATIQUE :
@@ -134,13 +129,6 @@ MISSION :
    - Ajoute un bouton discret permettant à l'utilisateur de réinitialiser toutes ses cases avec une confirmation par boîte de dialogue (confirm).
 
 Fournis le code complet mis à jour dans un Artifact unique, propre, documenté et sans framework externe.`,
-        },
-        {
-          id: 'day-08-callout-tip',
-          type: 'callout',
-          variant: 'tip',
-          title: 'Conseil de prompt pour des formules fiables',
-          content: 'Si vous avez une formule mathématique précise (ex. Tarif Journalier = (Revenu Souhaité + Charges) / Jours Travaillés), écrivez-la clairement dans votre prompt. Claude l\'implantera en une fonction JavaScript limpide et robuste.',
         },
       ],
     },

@@ -73,13 +73,7 @@ function ProseSection({ block }: { block: ProseBlock }) {
 
 export function LessonRenderer({ blocks }: { blocks: ContentBlock[] }) {
   if (!blocks || blocks.length === 0) {
-    return (
-      <div className="brutal-card rounded-brutal-card p-6 text-center">
-        <p className="font-mono text-xs uppercase font-bold text-ink/70">
-          Aucun bloc de contenu configuré pour cette étape pour le moment.
-        </p>
-      </div>
-    );
+    return null;
   }
 
   return (

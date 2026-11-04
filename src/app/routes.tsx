@@ -29,6 +29,8 @@ function DayWorkspaceView({ day }: { day: Day }) {
   const activeStepObj =
     day.steps.find((s) => s.type === activeStepType) ?? day.steps[0];
   const isCurrentStepCompleted = completedSteps.includes(activeStepObj.type);
+  const isSkeletonStepWithoutContent =
+    day.isSkeletonPlaceholder && (!activeStepObj.blocks || activeStepObj.blocks.length === 0);
 
   const handleCompleteCurrentStep = () => {
     const currentIdx = ALL_STEP_TYPES.indexOf(activeStepObj.type);
@@ -57,18 +59,20 @@ function DayWorkspaceView({ day }: { day: Day }) {
       >
         <LessonRenderer blocks={activeStepObj.blocks} />
 
-        <CompletionButton
-          isCompleted={isCurrentStepCompleted}
-          label={activeStepObj.completionLabel}
-          nextLabel={
-            activeStepObj.number < 4
-              ? `Étape ${activeStepObj.number} validée : Passer à l'étape ${
-                  activeStepObj.number + 1
-                }`
-              : `Leçon ${String(day.dayNumber).padStart(2, '0')} terminée !`
-          }
-          onComplete={handleCompleteCurrentStep}
-        />
+        {!isSkeletonStepWithoutContent && (
+          <CompletionButton
+            isCompleted={isCurrentStepCompleted}
+            label={activeStepObj.completionLabel}
+            nextLabel={
+              activeStepObj.number < 4
+                ? `Étape ${activeStepObj.number} validée : Passer à l'étape ${
+                    activeStepObj.number + 1
+                  }`
+                : `Leçon ${String(day.dayNumber).padStart(2, '0')} terminée !`
+            }
+            onComplete={handleCompleteCurrentStep}
+          />
+        )}
 
         {progress.isCompleted && day.dayNumber < 25 && (
           <div className="brutal-card rounded-brutal-card p-5 bg-primary-red text-surface flex flex-col sm:flex-row sm:items-center justify-between gap-4">

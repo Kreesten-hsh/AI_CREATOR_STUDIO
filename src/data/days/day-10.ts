@@ -29,6 +29,7 @@ export const day10: Day = {
             'Beaucoup de créateurs pensent encore que publier un outil sur Internet nécessite d\'acheter un serveur, de configurer des DNS complexes ou de payer un abonnement mensuel d\'hébergement. C\'est faux pour les applications web autonomes.',
             'Parce que votre application est contenue dans un fichier HTML unique intégrant tous ses styles et scripts, elle n\'a besoin d\'aucun serveur d\'exécution backend. Elle est ce qu\'on appelle un actif web statique côté client.',
             'Des services modernes et réputés comme Netlify proposent une fonctionnalité entièrement gratuite appelée Netlify Drop. Le principe est d\'une simplicité désarmante : vous glissez votre dossier contenant index.html dans votre navigateur, et Netlify génère instantanément une adresse web publique sécurisée en HTTPS (par exemple https://votre-produit.netlify.app). Vos clients peuvent alors y accéder depuis n\'importe quel ordinateur, tablette ou smartphone.',
+            'Disposer d\'une adresse web publique sécurisée en HTTPS rassure immédiatement vos acheteurs, évite les alertes de sécurité des navigateurs et permet d\'intégrer facilement le lien d\'accès dans vos e-mails de délivrance ou vos plateformes de vente.',
           ],
           bullets: [
             'Télécharger ou copier votre fichier index.html depuis le panneau de l\'Artifact Claude.',
@@ -36,13 +37,6 @@ export const day10: Day = {
             'Le glisser-déposer sur un service d\'hébergement statique gratuit pour obtenir une URL permanente.',
             'Vérifier que les zones tactiles et la lisibilité sont impeccables sur smartphone.',
           ],
-        },
-        {
-          id: 'day-10-callout-1',
-          type: 'callout',
-          variant: 'important',
-          title: 'Pourquoi une URL publique en HTTPS est indispensable',
-          content: 'Disposer d\'une adresse web publique en HTTPS rassure vos acheteurs, évite les avertissements de sécurité des navigateurs et vous permet d\'intégrer facilement le lien d\'accès dans vos emails de confirmation de commande (Systeme.io, Chariow, Stan Store, Podia ou Stripe).',
         },
         {
           id: 'day-10-quiz-1',
@@ -88,7 +82,8 @@ export const day10: Day = {
           id: 'day-10-prompt-builder',
           type: 'prompt-builder',
           title: 'Prompt d\'Audit de Finition Mobile & Préparation au Déploiement',
-          description: 'Ce prompt demande à Claude de passer votre code en revue pour garantir une ergonomie mobile parfaite et un fichier prêt pour Netlify Drop.',
+          description:
+            'Ce prompt demande à Claude de passer votre code en revue pour garantir une ergonomie mobile irréprochable et un fichier prêt pour Netlify Drop. Veillez à ce que votre fichier principal soit impérativement nommé index.html (en minuscules, sans espace ni accent) pour que les serveurs web l\'affichent automatiquement par défaut.',
           deliverableTarget: 'html-app',
           fields: [
             {
@@ -123,13 +118,6 @@ POINTS DE CONTRÔLE STRICTS À VÉRIFIER & CORRIGER :
    - Assure-toi que toutes les balises HTML, styles CSS et scripts JS sont correctement fermés et prêts pour un hébergement direct sous le nom index.html.
 
 Génère la version finale complète et impeccable de mon fichier dans un Artifact unique.`,
-        },
-        {
-          id: 'day-10-callout-tip',
-          type: 'callout',
-          variant: 'tip',
-          title: 'Nommer impérativement le fichier index.html',
-          content: 'Pour que les serveurs web (comme Netlify ou GitHub Pages) sachent quelle page afficher par défaut, votre fichier principal doit obligatoirement être nommé index.html (en minuscules, sans espace ni accent).',
         },
       ],
     },
