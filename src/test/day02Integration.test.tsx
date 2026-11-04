@@ -318,9 +318,9 @@ describe('MISSION 05-D : Day 02 Epistemic Finalization & Full Integration Suite'
       screen.getByText(/Dans de nombreux cours de marketing génériques, on affirmerait ici : « Les consultants sont prêts à payer un abonnement de 29 euros/i)
     ).toBeInTheDocument();
     expect(screen.getByText(/Questions d'entretiens recommandées \(The Mom Test\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/Quand tu as téléchargé un guide PDF comprenant une feuille de route ces derniers mois, qu'as-tu fait concrètement de ce plan \? L'as-tu imprimé, recopié dans un outil de gestion, ou laissé dans le fichier \?/i)).toBeInTheDocument();
+    expect(screen.getByText(/La dernière fois que tu as utilisé une ressource pour organiser ou suivre un plan, comment l'as-tu utilisée concrètement \?/i)).toBeInTheDocument();
     expect(screen.queryByText(/abonnements logiciels dormants/i)).not.toBeInTheDocument();
-    expect(screen.getByText(/Confondre une objection sur le prix avec une objection sur la valeur/i)).toBeInTheDocument();
+    expect(screen.getByText(/Comprendre la pluralité d'une objection de prix/i)).toBeInTheDocument();
     expect(screen.getByText(/Projeter ses propres habitudes sur son client/i)).toBeInTheDocument();
   });
 

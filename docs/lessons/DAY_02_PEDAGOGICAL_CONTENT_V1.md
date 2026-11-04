@@ -323,11 +323,10 @@ Voici comment analyser méthodiquement ce document sans verser dans l'illusion �
 
 ### 3.3 Questions d'entretien recommandées pour valider ces hypothèses sur le terrain
 
-Plutôt que d'affirmer de fausses certitudes, voici les 4 questions concrètes inspirées de *The Mom Test* qu'un créateur devrait poser à des professionnels de cette cible pour vérifier la réalité du besoin, sans jamais leur suggérer les réponses ni présupposer une action :
+Plutôt que d'affirmer de fausses certitudes, voici les questions concrètes inspirées de *The Mom Test* qu'un créateur devrait poser à des professionnels de cette cible pour vérifier la réalité du besoin, sans jamais leur suggérer les réponses ni présupposer un support ou une action particulière :
 1. *« La dernière fois que tu as essayé d'organiser ton calendrier de création de contenu, comment as-tu évalué le temps dont tu disposais réellement par semaine ? »* (Vérifie si la friction du calcul de capacité existe dans le monde réel).
-2. *« Quand tu as téléchargé un guide PDF méthodologique ces derniers mois, qu'as-tu fait concrètement des exercices ou feuilles de route qu'il contenait ? »* (Vérifie si les exercices statiques sont appliqués ou délaissés).
-3. *« Quand tu as téléchargé un guide PDF comprenant un plan d'action ou une feuille de route ces derniers mois, qu'as-tu fait concrètement de ce plan ? L'as-tu imprimé, recopié dans un outil de gestion, ou laissé dans le fichier ? Qu'est-ce qui s'est passé ensuite ? »* (Explore le comportement réel d'organisation sans présupposer une impression papier).
-4. *« Quel est l'outil ou le fichier que tu utilises aujourd'hui pour planifier tes publications, et qu'est-ce qui t'agace le plus dans son utilisation quotidienne ? »* (Révèle l'alternative actuelle et le Push réel).
+2. *« La dernière fois que tu as utilisé une ressource pour organiser ou suivre un plan, comment l'as-tu utilisée concrètement ? »* Puis, selon la réponse : *« Qu'as-tu fait des outils ou exercices proposés ? »* (Explore le comportement réel d'organisation sans présupposer le téléchargement d'un PDF ni une impression papier).
+3. *« Quel est l'outil ou le fichier que tu utilises aujourd'hui pour planifier tes publications, et qu'est-ce qui t'agace le plus dans son utilisation quotidienne ? »* (Révèle l'alternative actuelle et le Push réel).
 
 ---
 
@@ -340,7 +339,7 @@ Sur le marché des outils professionnels et de la formation, beaucoup d'indépen
 Cette supposition est donc **rejetée comme certitude et conservée comme simple hypothèse de travail**, qui sera mise à l'épreuve au Jour 04 (Format et prix) et au Jour 25 (Commercialisation).
 
 Prenez garde à ces trois pièges majeurs lors de l'analyse de votre propre acheteur :
-1. **Confondre objection de prix et objection de valeur** : Quand un prospect affirme « c'est trop cher », cela traduit presque toujours : « Je ne suis pas convaincu que cet outil m'apportera un soulagement supérieur à mon bricolage gratuit habituel ».
+1. **Comprendre les multiples facettes d'une objection de prix** : Une objection de prix (« c'est trop cher ») ne traduit pas automatiquement un rejet du produit. Elle peut refléter une perception insuffisante de la valeur, une contrainte budgétaire réelle, une priorité différente à ce moment-là, un manque de confiance ou une comparaison directe avec une alternative gratuite ou déjà payée.
 2. **Projeter ses propres goûts sur son client** : Ce n'est pas parce que vous appréciez les interfaces complexes ou les fonctionnalités avancées que votre client recherche cette complexité. L'acheteur recherche la solution la plus simple pour accomplir sa tâche.
 3. **Styliser artificiellement les propos des clients** : Ne réécrivez pas les retours reçus pour leur donner un tour académique. La force d'une recherche d'acheteur réside dans les expressions brutes et authentiques employées sur le terrain.
 

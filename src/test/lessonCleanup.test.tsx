@@ -23,14 +23,14 @@ describe('MISSION 03-B : Editorial and Structural Cleanup Verification', () => {
     window.localStorage.clear();
   });
 
-  it('1. Day 03 (Skeleton) renders tabs and banner, but NO fake content, NO empty-block card, and NO completion button', () => {
-    const day03 = ALL_DAYS.find((d) => d.dayNumber === 3);
-    expect(day03?.isSkeletonPlaceholder).toBe(true);
-    for (const step of day03!.steps) {
+  it('1. Day 04 (Skeleton) renders tabs and banner, but NO fake content, NO empty-block card, and NO completion button', () => {
+    const day04 = ALL_DAYS.find((d) => d.dayNumber === 4);
+    expect(day04?.isSkeletonPlaceholder).toBe(true);
+    for (const step of day04!.steps) {
       expect(step.blocks).toEqual([]);
     }
 
-    setupWorkspaceForDay(3);
+    setupWorkspaceForDay(4);
 
     render(
       <ProgressProvider>
@@ -39,9 +39,8 @@ describe('MISSION 03-B : Editorial and Structural Cleanup Verification', () => {
     );
 
     // Day banner and tabs exist
-    const heading = screen.getByRole('heading', { name: /POSITIONNEMENT/i });
-    expect(heading).toHaveTextContent(/POSITIONNEMENT/i);
-    expect(heading).toHaveTextContent(/PROMESSE/i);
+    const heading = screen.getByRole('heading', { name: /FORMAT/i });
+    expect(heading).toHaveTextContent(/FORMAT/i);
     expect(screen.getByText('Comprendre')).toBeInTheDocument();
     expect(screen.getByText('Prompt Claude')).toBeInTheDocument();
     expect(screen.getByText('Exemple guidé')).toBeInTheDocument();
