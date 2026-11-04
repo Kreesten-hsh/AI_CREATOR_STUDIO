@@ -5,20 +5,20 @@ import { CourseProgressCircle } from './CourseProgressCircle';
 export function CourseHero() {
   const { globalProgress, navigateToDay } = useProgress();
 
-  // Déterminer la prochaine étape pédagogique exacte
+  // Déterminer la prochaine leçon exacte à suivre parmi les 9 leçons
   const getNextStepInfo = () => {
-    for (let day = 1; day <= 25; day++) {
+    for (let day = 1; day <= globalProgress.totalDays; day++) {
       if (!globalProgress.completedDayNumbers.includes(day)) {
         return {
-          label: `À suivre : Jour ${day}`,
+          label: `À suivre : Leçon ${day}`,
           action: () => navigateToDay(day),
-          buttonText: day === 1 ? 'Commencer ici' : 'Continuer',
+          buttonText: day === 1 ? 'Commencer la Leçon 01' : 'Continuer',
         };
       }
     }
 
     return {
-      label: 'Parcours complété',
+      label: 'Parcours des 9 leçons complété',
       action: () => navigateToDay(1),
       buttonText: 'Revoir le parcours',
     };
@@ -38,26 +38,26 @@ export function CourseHero() {
       <div className="p-6 sm:p-7 md:p-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="flex-1 min-w-0 space-y-4">
-            {/* Tag MINI-COURS */}
-            <div>
+            {/* Tag MINI-COURS PRATIQUE */}
+            <div className="flex flex-wrap items-center gap-2">
               <span className="inline-block px-2.5 py-0.5 bg-surface text-ink border border-ink rounded-brutal-tag font-mono text-[11px] font-bold uppercase shadow-brutal-xs">
-                MINI-COURS
+                MINI-COURS PRATIQUE : 3 MODULES • 9 LEÇONS • 2 BONUS
               </span>
             </div>
 
-            {/* Titre officiel en exactement trois lignes sur desktop */}
+            {/* Titre officiel */}
             <h2 className="font-display text-2xl sm:text-3xl md:text-[34px] lg:text-[36px] leading-[1.12] uppercase tracking-tight text-surface">
               UTILISER <span className="font-serif italic font-normal text-cream lowercase text-3xl sm:text-4xl md:text-[40px]">Claude</span> POUR CRÉER
               <br className="hidden md:inline" />
-              <span className="font-extrabold text-white">DES PRODUITS DIGITAUX</span>
+              <span className="font-extrabold text-white">VOTRE PROPRE PRODUIT INTERACTIF</span>
               <br className="hidden md:inline" />
-              QUI NE RESSEMBLENT PAS À DE LA <span className="font-serif italic font-normal text-pale-pink lowercase text-3xl sm:text-4xl md:text-[40px]">merde générée par l&apos;ia</span>
+              PERSONNALISÉ ET PRÊT À VENDRE SUR <span className="font-serif italic font-normal text-pale-pink lowercase text-3xl sm:text-4xl md:text-[40px]">Chariow</span>
             </h2>
 
-            {/* Description officielle en environ deux lignes */}
+            {/* Description officielle */}
             <p className="text-sm sm:text-base text-surface/90 font-serif leading-relaxed max-w-2xl">
-              La méthode complète pour transformer des documents statiques ordinaires en applications web interactives,
-              automatisations concrètes et interfaces à haute valeur perçue grâce à Claude Artifacts.
+              « Tu ne vas pas apprendre à créer notre plateforme. Tu vas apprendre à créer la tienne. »
+              Transformez votre expertise ou vos documents en un outil interactif utile, doté de votre propre identité visuelle et d&apos;une sauvegarde portable.
             </p>
 
             {/* Action principale et indicateur d'étape suivante */}
@@ -77,7 +77,7 @@ export function CourseHero() {
             </div>
           </div>
 
-          {/* Tampon circulaire minimal intégré directement sans conteneur externe */}
+          {/* Tampon circulaire minimal */}
           <div className="self-center lg:self-center shrink-0">
             <CourseProgressCircle percentage={globalProgress.percentage} />
           </div>

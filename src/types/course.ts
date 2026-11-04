@@ -236,7 +236,7 @@ export interface StartHereLesson {
 
 export interface Sprint {
   id: string;
-  sprintNumber: 1 | 2 | 3 | 4 | 5;
+  sprintNumber: 1 | 2 | 3;
   title: string;
   subtitle: string;
   dayRange: [number, number];
@@ -246,8 +246,8 @@ export interface Sprint {
 export interface Course {
   id: string;
   title: string;
-  totalDays: 25;
-  startHere: [StartHereLesson, StartHereLesson];
+  totalDays: number;
+  startHere: StartHereLesson[];
   sprints: Sprint[];
   days: Day[];
 }
@@ -268,7 +268,7 @@ export interface QuizAttemptState {
 }
 
 export interface StudentProgress {
-  schemaVersion: 1;
+  schemaVersion: 2;
   activeRoute: ActiveRoute;
   activeStepByDay: Record<number, StepType>;
   completedStartHereIds: string[];
@@ -279,5 +279,6 @@ export interface StudentProgress {
   savedPrompts: Record<string, string>;
   customPromptInputs: Record<string, Record<string, string>>;
   profile: StudentProfile;
+  legacyArchive?: Record<string, unknown>;
   lastUpdated: string;
 }

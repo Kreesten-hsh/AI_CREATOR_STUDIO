@@ -1,3 +1,5 @@
+import type { ContentBlock } from './course';
+
 export interface CourseModuleItem {
   id: string;
   orderNumber: string; // e.g. "01", "02"
@@ -19,6 +21,7 @@ export interface BonusItem {
   deliverable: string;
   description: string;
   keyTopics: string[];
+  blocks?: ContentBlock[];
 }
 
 export interface ResourceCategoryItem {

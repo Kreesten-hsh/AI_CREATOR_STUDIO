@@ -3,77 +3,77 @@ import type { StartHereLesson } from '../../types/course';
 export const SETUP_LESSON: StartHereLesson = {
   id: 'setup',
   lessonNumber: 2,
-  title: 'CONFIGURER LE STUDIO & L\'IDENTITÉ',
-  italicTitleWord: 'L\'IDENTITÉ',
-  subtitle: 'BIEN COMMENCER 02 : PROFIL & DIRECTION VISUELLE',
+  title: 'CONFIGURER VOTRE PROFIL PROJET',
+  italicTitleWord: 'PROFIL',
+  subtitle: 'ORIENTATION 02 : VARIABLES & IDENTITÉ PROPRE',
   objective:
-    'Définir votre profil de créateur, les paramètres de votre offre et votre esthétique visuelle afin que chaque générateur de prompt s\'alimente automatiquement au cours des leçons.',
+    'Renseigner votre thématique, votre audience cible et votre propre direction visuelle afin que les générateurs de prompts des 9 leçons s’adaptent automatiquement à votre projet.',
   blocks: [
     {
       id: 'setup-prose-1',
       type: 'prose',
-      eyebrow: 'MOTEUR DE VARIABLES DYNAMIQUES',
-      title: 'Définissez une fois, injectez dans toutes les leçons',
-      italicAccent: 'Zéro saisie répétitive',
+      eyebrow: 'VARIABLES DYNAMIQUES DU PROJET',
+      title: 'Renseignez votre contexte une fois pour tout le parcours',
+      italicAccent: 'Personnalisation directe',
       highlightPill:
-        'Les variables enregistrées ici alimentent {{business}}, {{targetAudience}}, {{productType}}, {{brandStyle}} et {{mainObjective}} à travers l\'ensemble du studio.',
+        'Vos variables alimentent {{business}}, {{targetAudience}}, {{productType}}, {{brandStyle}} et {{mainObjective}} dans les prompts des 9 leçons.',
       paragraphs: [
-        'Au lieu de copier des invites génériques et de remplacer manuellement des crochets chaque jour, AI CREATOR Studio injecte directement le contexte de votre projet dans le compilateur d\'invites.',
-        'Complétez les champs fondamentaux de votre profil ci-dessous, sélectionnez votre direction graphique dans le sélecteur d\'identité, et prévisualisez le compilateur en temps réel en bas de page.',
+        'Pour vous éviter de ressaisir votre contexte à chaque leçon, AI CREATOR Studio injecte automatiquement les informations de votre profil dans les compilateurs de prompts.',
+        'Complétez les champs ci-dessous avec vos informations actuelles (même provisoires : vous les affinerez au fil du Module 01) et choisissez une direction visuelle propre à votre futur produit.',
       ],
     },
     {
       id: 'setup-profile-exercise',
       type: 'text-exercise',
-      title: 'Étape 1 : Variables de profil et fondations de votre offre',
+      title: 'Étape 1 : Vos variables de départ',
       instructions:
-        'Saisissez votre thématique ou activité ci-dessous, puis renseignez les variables complémentaires. Chaque modification s\'enregistre instantanément dans votre navigateur.',
+        'Saisissez votre thématique ou domaine d’expertise ci-dessous, puis complétez les champs secondaires. Vos réponses sont enregistrées automatiquement.',
       placeholder:
-        'ex. Studio de coaching postural pour ingénieurs logiciels travaillant à distance souhaitant soulager le mal de dos',
+        'Ex. Conseil en organisation financière pour indépendants, Formation en recrutement PME, Coaching nutritionnel...',
       maxLength: 300,
       profileBinding: 'business',
       secondaryFields: [
         {
           key: 'studentName',
-          label: 'Votre prénom ou nom de studio',
-          placeholder: 'ex. Alex Rivera',
+          label: 'Votre prénom ou nom professionnel',
+          placeholder: 'Ex. Samira K.',
         },
         {
           key: 'targetAudience',
-          label: 'Audience cible ({{targetAudience}})',
-          placeholder: 'ex. Professionnels du numérique de 28 à 45 ans travaillant sur écran',
+          label: 'Votre audience cible ({{targetAudience}})',
+          placeholder: 'Ex. Dirigeants de PME recrutant sans service RH interne',
         },
         {
           key: 'productType',
-          label: 'Format du produit digital ({{productType}})',
-          placeholder: 'ex. Starter Kit interactif de mobilité et renforcement',
+          label: 'Idée de format initial ({{productType}})',
+          placeholder: 'Ex. Calculateur, diagnostic interactif ou parcours guidé',
         },
         {
           key: 'mainObjective',
-          label: 'Objectif principal du parcours ({{mainObjective}})',
-          placeholder: 'ex. Transformer mon guide PDF statique en une application web interactive vendue à 49 €',
+          label: 'Résultat concret visé pour l’acheteur ({{mainObjective}})',
+          placeholder: 'Ex. Évaluer objectivement un candidat en 15 minutes avec une grille pondérée',
         },
       ],
     },
     {
       id: 'setup-vibe-picker',
       type: 'vibe-picker',
-      title: 'Étape 2 : Choisir votre direction visuelle',
+      title: 'Étape 2 : Choisir la direction visuelle de votre futur produit',
       description:
-        'Sélectionnez la palette, le style structurel et les polices éditoriales pour les guides interactifs et pages de vente générés avec Claude. Ce choix met automatiquement à jour votre variable {{brandStyle}}.',
+        'Sélectionnez une harmonie de couleurs, une structure et une typographie adaptées à VOTRE audience. Ce choix remplit la variable {{brandStyle}} utilisée à la Leçon 06.',
     },
     {
       id: 'setup-prompt-test',
       type: 'prompt-builder',
-      title: 'Étape 3 : Tester le compilateur de prompt en direct',
+      title: 'Étape 3 : Vérifier l’injection de vos variables',
       description:
-        'Vérifiez comment les variables de votre profil et votre identité visuelle s\'injectent dynamiquement dans un prompt système destiné à Claude.',
+        'Observez comment vos données remplacent automatiquement les variables dans le prompt ci-dessous.',
       deliverableTarget: 'claude-artifact',
       fields: [
         {
           key: 'business',
-          label: 'Activité / Niche ({{business}})',
-          placeholder: 'Votre domaine ou thématique',
+          label: 'Activité / Domaine ({{business}})',
+          placeholder: 'Votre domaine d’expertise',
           profileBinding: 'business',
         },
         {
@@ -84,42 +84,42 @@ export const SETUP_LESSON: StartHereLesson = {
         },
         {
           key: 'productType',
-          label: 'Type de produit ({{productType}})',
-          placeholder: 'Guide interactif, boîte à outils ou mini-formation',
+          label: 'Format envisagé ({{productType}})',
+          placeholder: 'Diagnostic, calculateur, générateur, checklist...',
           profileBinding: 'productType',
         },
         {
           key: 'brandStyle',
-          label: 'Direction visuelle ({{brandStyle}})',
-          placeholder: 'Généré par le sélecteur d\'identité',
+          label: 'Identité visuelle propre ({{brandStyle}})',
+          placeholder: 'Définie via le sélecteur ci-dessus ou vos propres couleurs',
           profileBinding: 'brandStyle',
         },
         {
           key: 'mainObjective',
-          label: 'Objectif principal ({{mainObjective}})',
-          placeholder: 'Résultat concret apporté à l\'acheteur',
+          label: 'Objectif client ({{mainObjective}})',
+          placeholder: 'Action concrète facilitée par votre outil',
           profileBinding: 'mainObjective',
         },
       ],
-      template: `Tu es mon Architecte Produit Interactif Senior et Designer d'Interface Éditoriale.
+      template: `<context>
+- Domaine d'expertise : {{business}}
+- Acheteur cible : {{targetAudience}}
+- Format interactif envisagé : {{productType}}
+- Identité visuelle propre au produit : {{brandStyle}}
+- Résultat concret recherché : {{mainObjective}}
+</context>
 
-CONTEXTE DU PROJET :
-- Activité / Niche : {{business}}
-- Audience cible : {{targetAudience}}
-- Format du produit digital : {{productType}}
-- Direction visuelle : {{brandStyle}}
-- Transformation majeure de l'acheteur : {{mainObjective}}
-
-MISSION :
-Propose une architecture d'application web interactive en 5 modules (application autonome en HTML/CSS/JS ou Claude Artifact) destinée à remplacer un document PDF statique pour cette audience exacte. Intègre 3 micro-outils interactifs (calculateurs, listes d'évaluation ou générateurs dynamiques) conçus sur mesure pour leur objectif principal.`,
+<instruction>
+Résume en 3 points comment un outil interactif sur mesure peut aider cette audience à atteindre cet objectif plus facilement qu'avec un support passif.
+</instruction>`,
     },
     {
       id: 'setup-callout-tip',
       type: 'callout',
       variant: 'pro-insight',
-      title: 'Conseil pratique : Ajuster vos variables à tout moment',
+      title: 'Liberté totale d’évolution',
       content:
-        'Au fur et à mesure que vous affinez votre positionnement dans le Module 1 (Leçons 01 à 05), vous pouvez modifier n\'importe quelle variable directement dans chaque composant de prompt ou revenir sur cette page de configuration.',
+        'Ces variables ne sont jamais figées : vous pourrez les modifier directement dans chaque leçon au fur et à mesure que votre positionnement et votre blueprint se précisent.',
     },
   ],
 };

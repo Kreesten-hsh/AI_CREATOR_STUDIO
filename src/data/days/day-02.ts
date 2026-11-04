@@ -3,13 +3,13 @@ import type { Day } from '../../types/course';
 export const day02: Day = {
   id: 'day-02',
   dayNumber: 2,
-  sprintId: 'sprint-1',
-  title: 'PSYCHOLOGIE & LEVIERS D\'ACHAT',
-  italicTitleWord: 'PSYCHOLOGIE',
+  sprintId: 'module-01',
+  title: 'COMPRENDRE SON ACHETEUR ET SES MOTIVATIONS',
+  italicTitleWord: 'ACHETEUR',
   objective:
     "Décrire l'acheteur par ses situations, frustrations, déclencheurs d'achat et objections, plutôt que par de simples données démographiques.",
   deliverableSummary:
-    "Fiche acheteur qualitative complète et cartographie des leviers d'achat",
+    'Fiche acheteur : situation, frustrations, déclencheurs, objections, critères de décision et vocabulaire réel',
   isSkeletonPlaceholder: false,
   steps: [
     {
@@ -318,7 +318,7 @@ Pour chacune des 5 frictions :
           eyebrow: '3.3 VIGILANCE ET ANTI-HALLUCINATION',
           title: 'Déconstruction critique et pièges à éviter',
           paragraphs: [
-            "Dans de nombreux cours de marketing génériques, on affirmerait ici : « Les consultants sont prêts à payer un abonnement de 29 euros par mois pour un outil de gestion éditoriale interactif ». Existe-t-il la moindre preuve de vente dans notre document source ? Aucune. Sur le marché des outils professionnels et de la formation, beaucoup d'indépendants manifestent une certaine réserve face à l'accumulation d'abonnements logiciels récurrents peu utilisés. Cette observation générale de marché constitue une hypothèse qualitative plausible pour le studio, mais elle n'est pas issue d'une mesure statistique de notre document test. Elle est donc rejetée comme certitude et conservée comme simple hypothèse de travail, qui sera mise à l'épreuve au Jour 04 (Format et prix) et au Jour 25 (Vente réelle).",
+            "Dans de nombreux cours de marketing génériques, on affirmerait ici : « Les consultants sont prêts à payer un abonnement de 29 euros par mois pour un outil de gestion éditoriale interactif ». Existe-t-il la moindre preuve de vente dans notre document source ? Aucune. Sur le marché des outils professionnels et de la formation, beaucoup d'indépendants manifestent une certaine réserve face à l'accumulation d'abonnements logiciels récurrents peu utilisés. Cette observation générale de marché constitue une hypothèse qualitative plausible pour le studio, mais elle n'est pas issue d'une mesure statistique de notre document test. Elle est donc rejetée comme certitude et conservée comme simple hypothèse de travail, qui sera mise à l'épreuve à la Leçon 04 (Format et hypothèse de prix) et au Module 03 (Mise en vente réelle sur Chariow).",
             "Prenez garde à ces trois pièges fréquents lors de la rédaction de votre fiche acheteur :",
           ],
           bullets: [

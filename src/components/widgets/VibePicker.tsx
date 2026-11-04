@@ -9,100 +9,100 @@ import { useStudentProfile } from '../../hooks/useStudentProfile';
 
 export const VIBE_PALETTES: VibePaletteOption[] = [
   {
-    id: 'editorial-brique',
-    name: 'Néo-Brutaliste Éditorial',
-    tagline: 'Crème Papier #FAF6F0 + Rouge Brique #B63131 + Rose Poudré #E6A0A8 + Encre Profonde #171313',
-    background: '#FAF6F0',
-    surface: '#FFFDFC',
-    accent: '#B63131',
-    ink: '#171313',
-  },
-  {
-    id: 'swiss-crimson',
-    name: 'Archive Suisse Imprimée',
-    tagline: 'Papier Journal Chaud #F5F2EB + Rouge International #E62E2D + Carbone #141413',
-    background: '#F5F2EB',
-    surface: '#FFFDFC',
-    accent: '#E62E2D',
-    ink: '#141413',
-  },
-  {
-    id: 'acid-citron',
-    name: 'Laboratoire Industriel',
-    tagline: 'Blanc Craie #F7F7F2 + Citron Vif #D4FF00 + Obsidienne #111111',
-    background: '#F7F7F2',
-    surface: '#FFFDFC',
-    accent: '#D4FF00',
-    ink: '#111111',
+    id: 'slate-emerald',
+    name: 'Cabinet Ardoise & Émeraude',
+    tagline: 'Albâtre Froid #F8FAFC + Émeraude Profond #0F766E + Ardoise #0F172A',
+    background: '#F8FAFC',
+    surface: '#FFFFFF',
+    accent: '#0F766E',
+    ink: '#0F172A',
   },
   {
     id: 'cobalt-folio',
-    name: 'Portfolio Architectural',
-    tagline: 'Albâtre #FAF8F5 + Bleu Outremer #0047FF + Anthracite Profond #121316',
+    name: 'Studio Outremer & Ivoire',
+    tagline: 'Ivoire Clair #FAF8F5 + Bleu Outremer #1D4ED8 + Carbone #111827',
     background: '#FAF8F5',
-    surface: '#FFFDFC',
-    accent: '#0047FF',
-    ink: '#121316',
+    surface: '#FFFFFF',
+    accent: '#1D4ED8',
+    ink: '#111827',
+  },
+  {
+    id: 'terracotta-sable',
+    name: 'Atelier Sable & Terracotta',
+    tagline: 'Sable Doux #FDFBF7 + Terracotta #C2410C + Pierre Noire #1C1917',
+    background: '#FDFBF7',
+    surface: '#FFFFFF',
+    accent: '#C2410C',
+    ink: '#1C1917',
+  },
+  {
+    id: 'forest-editorial',
+    name: 'Académie Forêt & Sauge',
+    tagline: 'Sauge Pâle #F7F9F6 + Vert Forêt #166534 + Encre Végétale #052E16',
+    background: '#F7F9F6',
+    surface: '#FFFFFF',
+    accent: '#166534',
+    ink: '#052E16',
   },
 ];
 
 export const VIBE_STYLES: VibeStyleOption[] = [
   {
-    id: 'neo-brutalist-print',
-    name: 'Édition Néo-Brutaliste Nette',
-    description: 'Bordures noires nettes de 2px, ombres dures décalées de 4px sans flou, étiquettes asymétriques.',
-    borderRadius: '0px',
-    shadowStyle: '4px 4px 0px #171313',
+    id: 'clean-modern-cards',
+    name: 'Interface SaaS Épurée',
+    description: 'Cartes aérées avec bordures fines de 1px, coins arrondis de 10px et ombres douces.',
+    borderRadius: '10px',
+    shadowStyle: '0 4px 12px rgba(15, 23, 42, 0.08)',
     promptDescriptor:
-      'Mise en page Néo-Brutaliste Éditoriale avec bordures de 2px, ombres dures de 4px, accents en damier et boutons tactiles',
+      'Interface applicative épurée avec cartes structurées, bordures fines de 1px, arrondis de 10px et ombres portées légères',
   },
   {
     id: 'tactile-starter-kit',
-    name: 'Starter Kit Tactile Adouci',
-    description: 'Bordures nettes de 2px avec angles adoucis de 8px et tampons de leçon inclinés.',
+    name: 'Carnet Tactile Structuré',
+    description: 'Bordures franches de 2px avec angles adoucis de 8px et séparation nette des étapes.',
     borderRadius: '8px',
-    shadowStyle: '3px 3px 0px #171313',
+    shadowStyle: '3px 3px 0px rgba(15, 23, 42, 0.85)',
     promptDescriptor:
-      'Starter Kit Éditorial Tactile avec bordures de 2px, arrondis de 8px, tampons de leçon et cartes d’étapes structurées',
+      'Carnet interactif structuré avec bordures de 2px, arrondis de 8px et cartes d’étapes clairement délimitées',
   },
   {
     id: 'swiss-grid-ledger',
     name: 'Grille Modulaire Suisse',
-    description: 'Lignes de séparation structurelles franches de 2px, numérotation surdimensionnée, rigueur architecturale.',
-    borderRadius: '0px',
-    shadowStyle: '2px 2px 0px #171313',
+    description: 'Lignes de séparation franches, numérotation claire et alignement tabulaire rigoureux.',
+    borderRadius: '4px',
+    shadowStyle: 'none',
     promptDescriptor:
-      'Mise en page en grille modulaire suisse avec séparateurs structurels de 2px, numéros d’index géants et hiérarchie éditoriale contrastée',
+      'Mise en page en grille modulaire suisse avec séparateurs nets, numéros d’index lisibles et hiérarchie typographique sobre',
   },
 ];
 
 export const VIBE_TYPOGRAPHY: VibeTypographyOption[] = [
   {
-    id: 'archivo-instrument',
-    name: 'Archivo Black + Instrument Serif',
-    headingFont: 'Archivo Black & Instrument Serif Italic',
-    bodyFont: 'Plus Jakarta Sans',
+    id: 'inter-system',
+    name: 'Grotesque Moderne + Mono',
+    headingFont: 'Inter / System Sans Bold',
+    bodyFont: 'Inter / System UI',
     monoFont: 'JetBrains Mono',
     promptDescriptor:
-      'Titres majuscules imposants associés à des accents en italique avec empattements et compteurs à espacement fixe',
+      'Typographie sans-serif moderne à haute lisibilité associée à une police monospace pour les chiffres et résultats',
   },
   {
     id: 'syne-inter',
-    name: 'Syne ExtraBold + Grotesque',
-    headingFont: 'Syne ExtraBold',
-    bodyFont: 'Inter / System Grotesque',
+    name: 'Syne Contemporain + Sans',
+    headingFont: 'Syne Bold',
+    bodyFont: 'Plus Jakarta Sans',
     monoFont: 'JetBrains Mono',
     promptDescriptor:
-      'Titres larges et architecturaux en Syne associés à un texte courant neutre et étiquettes techniques',
+      'Titres contemporains en Syne associés à un corps de texte fluide en Plus Jakarta Sans',
   },
   {
     id: 'playfair-mono',
-    name: 'Sérif Haute Élégance + Mono',
-    headingFont: 'Playfair Display Black',
+    name: 'Sérif Éditorial + Sans',
+    headingFont: 'Playfair Display Bold',
     bodyFont: 'Plus Jakarta Sans',
     monoFont: 'Fira Code',
     promptDescriptor:
-      'Titres façon magazine en sérif à fort contraste associés à un corps de texte sans empattement net et badges de métadonnées mono',
+      'Titres éditoriaux en sérif contrasté associés à un corps de texte sans-serif épuré',
   },
 ];
 
@@ -142,7 +142,7 @@ export function VibePicker({ block }: { block: VibePickerBlock }) {
       <div className="border-b-2 border-ink pb-4">
         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary-red text-surface border-2 border-ink rounded-brutal-tag font-mono text-xs font-bold uppercase">
           <Palette className="w-3.5 h-3.5" aria-hidden="true" />
-          SÉLECTEUR D'IDENTITÉ VISUELLE
+          SÉLECTEUR D'IDENTITÉ VISUELLE PROPRE À VOTRE PRODUIT
         </span>
         <h3 className="font-display text-xl md:text-2xl uppercase tracking-tight mt-2">
           {block.title}
@@ -154,7 +154,7 @@ export function VibePicker({ block }: { block: VibePickerBlock }) {
       <div>
         <h4 className="font-mono text-xs font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
           <Palette className="w-4 h-4 text-primary-red" aria-hidden="true" />
-          1. Choisir la palette de couleurs
+          1. Choisir une palette de départ pour votre produit (ou saisir la vôtre dans le prompt)
         </h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {VIBE_PALETTES.map((palette) => {
@@ -175,7 +175,7 @@ export function VibePicker({ block }: { block: VibePickerBlock }) {
                   <span className="font-display text-sm uppercase">{palette.name}</span>
                   {isSelected && (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-primary-red text-surface border border-ink rounded-brutal-tag font-mono text-[11px] font-bold">
-                      <Check className="w-3 h-3 stroke-[3]" /> ACTIF
+                      <Check className="w-3 h-3 stroke-[3]" /> SÉLECTIONNÉ
                     </span>
                   )}
                 </div>
@@ -244,7 +244,7 @@ export function VibePicker({ block }: { block: VibePickerBlock }) {
       <div>
         <h4 className="font-mono text-xs font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
           <Type className="w-4 h-4 text-primary-red" aria-hidden="true" />
-          3. Choisir le système typographique éditorial
+          3. Choisir le système typographique
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {VIBE_TYPOGRAPHY.map((typo) => {
@@ -276,7 +276,7 @@ export function VibePicker({ block }: { block: VibePickerBlock }) {
       {/* Live Preview Panel */}
       <div className="pt-2">
         <div className="font-mono text-xs font-bold uppercase tracking-wider mb-2 flex items-center justify-between">
-          <span>APERÇU EN DIRECT DU LIVRABLE</span>
+          <span>APERÇU DE L'AMBIANCE VISUELLE DE VOTRE FUTUR OUTIL</span>
           <span className="text-ink/70">ENREGISTRÉ DANS &#123;&#123;brandStyle&#125;&#125;</span>
         </div>
         <div
@@ -289,35 +289,23 @@ export function VibePicker({ block }: { block: VibePickerBlock }) {
         >
           <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
             <span
-              className="px-2.5 py-1 text-xs font-mono font-bold uppercase border-2 border-ink rounded-brutal-tag"
+              className="px-2.5 py-1 text-xs font-mono font-bold uppercase rounded-brutal-tag"
               style={{
                 backgroundColor: selectedPalette.accent,
-                color:
-                  selectedPalette.id === 'cobalt-folio' || selectedPalette.id === 'swiss-crimson' || selectedPalette.id === 'editorial-brique'
-                    ? '#FFFFFF'
-                    : '#111111',
+                color: '#FFFFFF',
               }}
             >
-              APERÇU DU STARTER KIT INTERACTIF
+              APERÇU DE VOTRE PRODUIT
             </span>
-            <span className="font-mono text-xs font-bold">
-              {selectedPalette.name.toUpperCase()}
-            </span>
+            <span className="font-mono text-xs opacity-75">{selectedTypography.name}</span>
           </div>
-          <h4 className="font-display text-xl md:text-2xl uppercase tracking-tight mb-2">
-            {profile.productType || 'VOTRE GUIDE DIGITAL INTERACTIF'}{' '}
-            <span className="font-serif italic font-normal lowercase text-2xl md:text-3xl">
-              édition
-            </span>
-          </h4>
-          <p className="text-sm opacity-90 mb-4 max-w-2xl">
-            Conçu pour{' '}
-            <strong>{profile.targetAudience || 'votre audience cible'}</strong> avec{' '}
-            {selectedStyle.name.toLowerCase()} et {selectedTypography.name}.
+          <h5 className="font-display text-lg uppercase tracking-tight mb-1">
+            {profile.productType || 'VOTRE OUTIL INTERACTIF PERSONNEL'}
+          </h5>
+          <p className="text-xs opacity-85">
+            Conçu pour : {profile.targetAudience || 'votre audience cible'} • Style :{' '}
+            {selectedPalette.name}
           </p>
-          <div className="p-3 bg-surface border-2 border-ink rounded-brutal-btn font-mono text-xs break-words text-ink">
-            <strong>Valeur compilée &#123;&#123;brandStyle&#125;&#125; :</strong> {profile.brandStyle}
-          </div>
         </div>
       </div>
     </section>

@@ -69,7 +69,7 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
 
       {/* Corps de navigation défilable */}
       <div className="flex-1 overflow-y-auto no-scrollbar p-3.5 space-y-5 overflow-x-hidden">
-        {/* 2. Accueil direct sans titre redondant */}
+        {/* 2. Accueil direct */}
         <div>
           <button
             type="button"
@@ -88,10 +88,10 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
           </button>
         </div>
 
-        {/* 3. Section VOS FORMATIONS */}
+        {/* 3. Section VOS MODULES (3 modules) */}
         <div className="space-y-1.5">
           <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink/75 block px-1">
-            VOS FORMATIONS
+            VOS MODULES
           </span>
 
           <div className="space-y-1.5">
@@ -127,7 +127,7 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
           </div>
         </div>
 
-        {/* 4. Section BONUS */}
+        {/* 4. Section BONUS (2 bonus) */}
         <div className="space-y-1.5">
           <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink/75 block px-1">
             BONUS

@@ -12,7 +12,7 @@ function setupWorkspaceForDay(dayNumber: number, stepType?: 'concept' | 'prompt'
   const initial = createInitialProgress();
   initial.activeRoute = {
     kind: 'course',
-    courseId: resolveCourseIdForDay(dayNumber) ?? 'course-01',
+    courseId: resolveCourseIdForDay(dayNumber) ?? 'module-01',
     dayNumber,
   };
   if (stepType) {
@@ -34,12 +34,12 @@ describe('MISSION 05-D : Day 02 Epistemic Finalization & Full Integration Suite'
   it('1. possède les métadonnées officielles du Jour 02 et n\'est plus un squelette', () => {
     expect(day02.id).toBe('day-02');
     expect(day02.dayNumber).toBe(2);
-    expect(day02.sprintId).toBe('sprint-1');
-    expect(day02.title).toBe("PSYCHOLOGIE & LEVIERS D'ACHAT");
-    expect(day02.italicTitleWord).toBe('PSYCHOLOGIE');
+    expect(day02.sprintId).toBe('module-01');
+    expect(day02.title).toBe('COMPRENDRE SON ACHETEUR ET SES MOTIVATIONS');
+    expect(day02.italicTitleWord).toBe('ACHETEUR');
     expect(day02.isSkeletonPlaceholder).toBe(false);
     expect(day02.objective).toContain("Décrire l'acheteur");
-    expect(day02.deliverableSummary).toContain('Fiche acheteur qualitative');
+    expect(day02.deliverableSummary).toContain('Fiche acheteur');
 
     expect(day02.steps).toHaveLength(4);
     expect(day02.steps[0].id).toBe('day-02-step-1');

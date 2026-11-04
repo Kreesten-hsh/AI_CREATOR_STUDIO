@@ -1,160 +1,104 @@
-# AI CREATOR Studio
+# AI CREATOR Studio (V2)
 
-> « Utiliser Claude pour créer des produits digitaux qui ne ressemblent pas à de la merde générée par l'IA »
+> « Tu ne vas pas apprendre à créer notre plateforme. Tu vas apprendre à créer la tienne. »
 
-Plateforme d'apprentissage interactive et studio de création conçu pour transformer des documents statiques (guides PDF, feuilles de calcul, contenus texte) en applications web interactives autonomes, pages éditoriales à fort impact et flux d'automatisation.
-
-L'interface adopte une esthétique **Néo-Brutaliste Éditoriale** inspirée des publications imprimées suisses et des starter kits contemporains (palette rouge brique, rose poudré et crème papier, typographie à fort contraste, bordures nettes de 2px et ombres décalées).
+Mini-cours pratique conçu pour apprendre aux créateurs, formateurs, coachs et consultants à utiliser **Claude** afin de transformer leur propre contenu, leur expertise ou leurs documents existants en un **produit digital interactif, personnalisé et commercialisable sur Chariow**, sans prérequis en programmation.
 
 ---
 
-## 1. Architecture Produit : Les Deux Expériences
+## 1. Architecture du Programme V2 (3 Modules, 9 Leçons, 2 Bonus)
 
-L'application est structurée en deux expériences distinctes et complémentaires :
+Le cursus est structuré en **3 modules opérationnels (9 leçons de 4 étapes chacune)** et **2 bonus complets indépendants** :
 
-### Écran A : Accueil de formation (`CourseHomePage`)
-- **Barre latérale permanente (`MainSidebar`)** : identité épurée `AI CREATOR studio`, accès direct à l'Accueil, catalogue des 5 formations, raccourcis vers les 3 sections bonus et la bibliothèque de ressources. Masquage propre de la barre de défilement verticale tout en préservant le scroll tactile et molette.
-- **Hero Card compacte** : présentation du mini-cours officiel, métadonnées du parcours et accès direct en un clic à la reprise du cours.
-- **Grille des 5 formations** : cartes de statut détaillant le volume de leçons, le type de contenu et l'état de déblocage.
-- **Sections Bonus & Ressources** : modules d'approfondissement technique et fiches pratiques téléchargeables.
+### Module 01 : L'OPPORTUNITÉ & LE POSITIONNEMENT (Leçons 01 à 03)
+- **Leçon 01 : De son expertise au problème client** (`day-01`)
+  - *Livrable* : Matière de départ structurée, problèmes candidats et niche orientée problème.
+- **Leçon 02 : Comprendre son acheteur et ses motivations** (`day-02`)
+  - *Livrable* : Fiche acheteur (situation, frustrations, déclencheurs, objections, critères de décision et vocabulaire réel).
+- **Leçon 03 : Positionnement et promesse de transformation** (`day-03`)
+  - *Livrable* : Alternatives réelles, valeur différenciante, positionnement provisoire et promesse vérifiable.
 
-### Écran B : Espace de cours interactif (`CourseWorkspace`)
-- **Barre latérale de cours (`CourseSidebar`)** : bouton de retour vers l'accueil, affichage dynamique de la progression globale, grille de progression compacte répartie sur 3 lignes pour les 25 journées sans débordement (avec navigation cross-formation au clic), et filtrage contextuel strict des leçons correspondant à la formation active avec titre de plage dynamique (`formatCourseDayRangeTitle`).
-- **Entrée directe au premier jour du cours** : navigation automatique vers la première journée de chaque formation (`dayRange[0]`).
-- **Bannière de leçon (`DayBanner`)** : badge du jour, titre en grand format avec typographie contrastée, description de l'objectif et jauge des 4 étapes quotidiennes.
-- **Rythme en 4 étapes (`StepTabs`)** :
-  1. **Comprendre** : cadrage stratégique, écueils à éviter et vidéo explicative.
-  2. **Prompt Claude** : générateur dynamique avec injection des variables du profil apprenant.
-  3. **Exemple guidé** : livrable de référence décortiqué et ressources prêtes à l'emploi.
-  4. **À vous de jouer** : espace d'application pratique, checklist d'action et bouton de validation d'étape.
+### Module 02 : CONCEVOIR & CRÉER AVEC CLAUDE (Leçons 04 à 06)
+- **Leçon 04 : Choisir le format interactif et concevoir son blueprint** (`day-04`)
+  - *Livrable* : Blueprint complet de son propre produit interactif.
+- **Leçon 05 : Construire son produit avec Claude** (`day-05`)
+  - *Livrable* : Première version fonctionnelle de son propre produit interactif (`index.html`).
+- **Leçon 06 : Personnaliser, tester et exporter son produit** (`day-06`)
+  - *Livrable* : Produit finalisé avec sa propre identité visuelle, sauvegarde portable JSON (`.json`), hébergement HTTPS et archive `.zip` prête à livrer.
 
----
+### Module 03 : VENDRE & PROMOUVOIR (Leçons 07 à 09)
+- **Leçon 07 : Structurer son offre et son prix** (`day-07`)
+  - *Livrable* : Offre complète et argumentaire produit (grille en FCFA ou EUR).
+- **Leçon 08 : Mettre son produit en vente sur Chariow** (`day-08`)
+  - *Livrable* : Produit prêt à être publié et vendu sur Chariow (`Fichiers` `.zip`, portail client `app.ateliat.com`).
+- **Leçon 09 : Créer son contenu de lancement et ses démonstrations** (`day-09`)
+  - *Livrable* : Kit de lancement (accroches, script de démonstration, publication et plan 7 jours).
 
-## 2. Programme Officiel des Formations
-
-Le cursus officiel est articulé autour de 5 grandes formations progressives (répartition validée 15 + 2 + 3 + 3 + 2 = 25 journées) :
-
-### Formations Principales
-1. **01 : COMMENCER ICI** (Jours 01 à 15 : 15 leçons)
-   - *Parcours* : Des fondations du produit interactif (Jours 01 à 05) à la transformation du savoir en application web autonome (Jours 06 à 10), jusqu'au récit éditorial et à la page de vente (Jours 11 à 15).
-2. **02 : PARLONS-EN** (Jours 16 à 17 : 2 leçons)
-   - *Parcours* : Extraction de l'expertise personnelle par interview socratique avec Claude (Jour 16) et rédaction humaine anti-slop sans tics IA (Jour 17).
-3. **03 : FAITES-LE VÔTRE** (Jours 18 à 20 : 3 leçons)
-   - *Parcours* : Psychologie des couleurs et palettes sur-mesure (Jour 18), typographie et hiérarchie éditoriale (Jour 19), et Design System avec consignes permanentes pour Claude (Jour 20).
-4. **04 : CONCEVOIR + CONSTRUIRE** (Jours 21 à 23 : 3 leçons)
-   - *Parcours* : Arbres de décision et diagnostics à score (Jour 21), calculateurs multi-variables (Jour 22), et exports de livrables TXT, Markdown et PDF imprimable (Jour 23).
-5. **05 : HÉBERGEZ-LE** (Jours 24 à 25 : 2 leçons)
-   - *Parcours* : Hébergement, nom de domaine et expérience d'accès client (Jour 24), paiement, délivrance et contrôle final du parcours d'achat (Jour 25).
-
-### Modules Bonus & Ressources
-- **Bonus 01 : Vidéos sans visage** : Conception de vidéos de contenu et démonstrateurs sans présence physique.
-- **Bonus 02 : Automatisations commerciales** : Routage de prospects, ManyChat et webhooks n8n.
-- **Bonus 03 : Bibliothèque marketing** : Modèles de carrousels, posts d'autorité et séquences de lancement.
-- **Ressources Centralisées** : Bibliothèque d'exemples de code, templates HTML/CSS autonomes et fiches pratiques.
+### Les 2 Bonus Indépendants
+- **Bonus 01 : Le Système ManyChat Automatisé avec Claude** (`bonus-manychat`)
+  - Séquence conforme aux règles Meta/Instagram en 5 étapes (Commentaire -> 1er DM privé -> Interaction Quick Reply ouvrant la fenêtre de 24h -> Qualification -> Lien Chariow, avec arrêt strict sans relance en cas de non-interaction).
+- **Bonus 02 : Marketing Library** (`bonus-marketing`)
+  - Bibliothèque directement exploitable : 20 structures d'accroches Reels/TikTok, 5 structures de carrousels, 3 séquences d'emails de lancement, templates DM/objections et scripts de démonstration produit.
 
 ---
 
-## 3. Matrice d'Alignement : Moteur Technique vs Validation Pédagogique
+## 2. Architecture Technique & Distribution des Produits Apprenants
 
-Afin d'assurer une transparence totale entre les développements techniques existants et le cursus pédagogique validé, il convient de distinguer rigoureusement le fonctionnement du moteur technique (100% opérationnel) de la validation des contenus pédagogiques :
+Chaque produit créé par un apprenant suit une architecture testée et reproductible (documentée dans `docs/PRODUCT_DELIVERY_DECISION.md` et démontrée par `public/demos/pdf-to-hub/apres-hub-interactif.html`) :
 
-| Composant / Donnée | Réalité Technique | Statut Pédagogique |
-| :--- | :--- | :--- |
-| **Moteur React & Routing** | Routage dynamique par `src/utils/courseNavigation.ts` (`navigateToCourse`, `navigateToDay`, `resolveActiveCourseId`) | Validé et synchronisé avec `MAIN_COURSES.dayRange` |
-| **Persistance Locale** | LocalStorage réactif avec clé de versioning, migration et normalisation des routes | Validé (sauvegarde silencieuse en arrière-plan) |
-| **Générateur de Prompts** | Composant `PromptBuilder` avec injection dynamique des variables du profil | Validé (utilisé sur les 25 journées) |
-| **Démonstrateur PDF vers Hub** | Fichiers autonomes `avant-pdf-statique.html` et `apres-hub-interactif.html` | Validé (démonstration fil rouge de la formation) |
-| **Jours 01 à 05** | Moteur technique opérationnel dans `src/data/days/day-01.ts` à `day-05.ts` | Squelettes pédagogiques (fondations, niche, positionnement) |
-| **Jours 06 à 10** | Moteur technique opérationnel dans `src/data/days/day-06.ts` à `day-10.ts` | Développés (déconstruction, Artifacts, interactions, déploiement) |
-| **Jours 11 à 15** | Moteur technique opérationnel dans `src/data/days/day-11.ts` à `day-15.ts` | Squelettes pédagogiques (récit de vente, hero, offre, assemblage) |
-| **Jours 16 à 25** | Moteur technique opérationnel dans `src/data/days/day-16.ts` à `day-25.ts` | Squelettes pédagogiques (formations 02 à 05 à développer) |
-| **Leçons Introductives** | Données conservées dans `src/data/startHere/` pour stabilité des tests | Découplées de l'interface (entrée directe au Jour 01) |
-
-> Note d'avancement : Le moteur applicatif gère déjà l'intégralité des 25 journées réparties sur les 5 formations. Toutefois, aucune formation n'est présentée comme pédagogiquement finalisée : seuls les Jours 06 à 10 disposent actuellement d'un contenu développé, tandis que les Jours 01 à 05, 11 à 15 et 16 à 25 sont des squelettes structurés qui feront l'objet de missions de rédaction dédiées.
+| Dimension | Solution Technique Retenue |
+| :--- | :--- |
+| **Création** | Claude génère le code dans un fichier autonome `index.html` (HTML5 + CSS + Vanilla JS) avec la propre identité visuelle de l'apprenant |
+| **Utilisation en ligne** | Hébergement statique sur une origine HTTPS stable (ex. Netlify Drop) |
+| **Sauvegarde en ligne** | `localStorage` sur l'origine HTTPS, encapsulé dans un bloc `try / catch` |
+| **Utilisation hors ligne** | Fonctionnement intégral des interactions (calculs, diagnostics, filtres) sans dépendre de `localStorage` sur `file://` |
+| **Sauvegarde portable** | Boutons **Exporter (`.json`)** et **Importer (`.json`)** intégrés pour sauvegarder et restaurer ses données entre appareils ou navigateurs |
+| **Livraison commerciale** | Archive `.zip` livrée automatiquement via Chariow (produit de type `Fichiers`) |
+| **Accès mobile** | URL HTTPS hébergée et testée sur smartphone |
 
 ---
 
-## 4. Charte Graphique Néo-Brutaliste
+## 3. Migration LocalStorage Blindée (`schemaVersion: 1 -> 2`)
 
-Le design s'appuie sur une palette éditoriale sobre et structurée, sans illustrations superflues ni dégradés génériques :
-
-| Rôle | Teinte | Code Hexadécimal |
-| :--- | :--- | :--- |
-| **Couleur Primaire** | Rouge brique | `#B63131` |
-| **Boutons & Actions sombres** | Rouge brique foncé | `#922626` |
-| **Accents & Motifs** | Rose poudré | `#E6A0A8` |
-| **Fonds de barres latérales** | Rose pâle apaisé | `#F7E0E2` |
-| **Fond d'application** | Crème papier | `#FAF6F0` |
-| **Bordures & Typographie** | Encre profonde | `#171313` |
-| **Surfaces de cartes** | Blanc pur | `#FFFDFC` |
-| **Badges & Infobulles** | Bleu pastel | `#DCE9F7` |
+Le module `src/utils/storage.ts` assure une migration sans perte de données depuis la V1 :
+1. Création et vérification par relecture d'une sauvegarde `ai_creator_studio_progress_v1_backup` (sans jamais écraser une sauvegarde existante).
+2. Validation des identifiants d'exercices, checklists, quiz et prompts conservés dans les Leçons 01 à 03.
+3. Neutralisation de l'ancienne direction artistique par défaut du Studio (`brandStyle: ''`) tout en préservant tout style personnalisé par l'apprenant.
+4. Isolation des anciennes données hors périmètre (jours 4 à 25 V1) dans `legacyArchive`.
+5. Gestion résiliente des erreurs `QuotaExceededError`.
 
 ---
 
-## 5. Stack Technique
+## 4. Stack Technique & Commandes
 
-- **Framework** : React 19
-- **Langage** : TypeScript (mode strict, typage exhaustif sans `any`)
-- **Build tool** : Vite 6
-- **Styling** : Tailwind CSS avec classes utilitaires néo-brutalistes et `.no-scrollbar`
-- **Animations** : Framer Motion
-- **Iconographie** : Lucide React
-- **Tests unitaires & intégration** : Vitest (moteur de progression, routage des cours, persistance et interpolation de prompts)
-- **Persistance** : LocalStorage avec synchronisation réactive d'état
-
----
-
-## 6. Installation & Commandes
+- **Framework** : React 19 + TypeScript strict (`tsc --noEmit`)
+- **Build** : Vite 6 + Tailwind CSS + Framer Motion + Lucide React
+- **Tests** : Vitest + Testing Library
 
 ```bash
-# 1. Cloner le dépôt
-git clone https://github.com/Kreesten-hsh/AI_CREATOR_STUDIO.git
-cd AI_CREATOR_STUDIO
-
-# 2. Installer les dépendances
+# Installer les dépendances
 npm install
 
-# 3. Lancer le serveur de développement local
+# Lancer le serveur de développement
 npm run dev
 
-# 4. Exécuter la suite de tests unitaires
-npm test
-
-# 5. Contrôler le typage TypeScript en mode strict
+# Vérifier le typage TypeScript strict
 npm run typecheck
 
-# 6. Compiler pour la production
+# Exécuter l'intégralité de la suite de tests Vitest
+npx vitest run
+
+# Compiler le bundle de production
 npm run build
 ```
 
 ---
 
-## 7. Structure des Dossiers
+## 5. Documentation d'Architecture V2
 
-```
-src/
-├── app/                  # Coquille applicative (App.tsx, routes.tsx)
-├── components/
-│   ├── bonus/            # Vues des 3 sections bonus
-│   ├── course/           # Espace de cours (CourseSidebar, LessonRenderer, CompletionButton)
-│   ├── home/             # Écran d'accueil (CourseHero, CourseOverview, CourseProgressCircle)
-│   ├── layout/           # Mise en page (CourseLayout, MainSidebar, DayBanner, ProgressGrid, StepTabs)
-│   ├── resources/        # Vue de la bibliothèque de ressources
-│   └── widgets/          # Composants interactifs (PromptBuilder, VibePicker, QuizWidget, etc.)
-├── context/              # Contexte de progression et persistance
-├── data/
-│   ├── days/             # Données des 25 journées de formation
-│   ├── navigation/       # Données des 5 cours, des bonus et des ressources
-│   └── startHere/        # Données d'orientation conservées pour les tests
-├── hooks/                # Hooks personnalisés (useProgress, useStudentProfile)
-├── styles/               # Styles globaux Tailwind et utilitaires néo-brutalistes
-├── test/                 # Tests unitaires et d'intégration Vitest (courseEngine, courseNavigation)
-├── types/                # Définitions TypeScript strictes (course, navigation)
-└── utils/                # Utilitaires de calcul, navigation/routage, interpolation et stockage
-```
-
----
-
-## 8. Licence
-
-MIT © Kreesten AGBOTON
+- `docs/PRODUCT_DELIVERY_DECISION.md` : Décision d'architecture et de distribution du produit de l'apprenant.
+- `docs/PEDAGOGICAL_ARCHITECTURE_V2.md` : Principes directeurs et structure pédagogique V2.
+- `docs/CURRICULUM_BLUEPRINT_V2.md` : Plan détaillé des 3 modules, 9 leçons et 2 bonus.
+- `docs/research/CLAUDE_ARTIFACTS_EXPORT_REGISTER.md` : Registre documentaire Claude Artifacts / Exports HTML.
+- `docs/research/CHARIOW_DELIVERY_REGISTER.md` : Registre documentaire Chariow (`Fichiers`, commissions Starter 15 % / Growth 10 %, Wallet Axa Zara, `app.ateliat.com`).
+- `docs/research/MANYCHAT_META_REGISTER.md` : Registre documentaire ManyChat & règles Meta (fenêtre de 24h, Quick Reply vs Open website).

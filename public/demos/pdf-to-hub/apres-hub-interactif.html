@@ -3,21 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hub Interactif : Le Système de Création Régulière</title>
+  <title>Hub Interactif : Le Système de Création Régulière (Alexandre V.)</title>
   <style>
+    /* Identité visuelle propre au produit de l'apprenant (Cabinet Alexandre V. : Ardoise & Émeraude)
+       Distincte de la charte AI CREATOR Studio */
     :root {
-      --primary-red: #B63131;
-      --dark-red: #922626;
-      --dusty-pink: #E6A0A8;
-      --pale-pink: #F7E0E2;
-      --cream: #FAF6F0;
-      --surface: #FFFDFC;
-      --ink: #171313;
-      --shadow-brutal: 4px 4px 0px var(--ink);
-      --shadow-brutal-sm: 2px 2px 0px var(--ink);
-      --radius-card: 8px;
-      --radius-btn: 6px;
-      --radius-tag: 4px;
+      --brand-primary: #0F766E;
+      --brand-primary-dark: #115E59;
+      --brand-accent: #CCFBF1;
+      --brand-accent-soft: #F0FDFA;
+      --bg-page: #F8FAFC;
+      --bg-surface: #FFFFFF;
+      --text-main: #0F172A;
+      --text-muted: #475569;
+      --border-strong: #0F172A;
+      --shadow-card: 0 4px 12px rgba(15, 23, 42, 0.08);
+      --radius-card: 10px;
+      --radius-btn: 8px;
+      --radius-tag: 6px;
     }
 
     * {
@@ -27,8 +30,8 @@
     }
 
     body {
-      background-color: var(--cream);
-      color: var(--ink);
+      background-color: var(--bg-page);
+      color: var(--text-main);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       line-height: 1.5;
       padding: 24px 16px;
@@ -39,28 +42,37 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 20px;
     }
 
-    /* Simulation Top Bar */
+    /* Top Bar & Portable Backup Bar */
     .simulation-bar {
-      background: var(--ink);
-      color: var(--surface);
+      background: var(--text-main);
+      color: var(--bg-surface);
       padding: 12px 18px;
       border-radius: var(--radius-btn);
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       font-size: 13px;
-      border: 2px solid var(--ink);
-      box-shadow: var(--shadow-brutal);
+    }
+
+    .storage-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 4px 10px;
+      border-radius: var(--radius-tag);
+      font-size: 11.5px;
+      font-weight: 600;
     }
 
     .badge-live {
-      background: var(--primary-red);
-      color: var(--surface);
+      background: var(--brand-primary);
+      color: var(--bg-surface);
       padding: 4px 10px;
       border-radius: var(--radius-tag);
       font-family: monospace;
@@ -70,31 +82,54 @@
       letter-spacing: 0.05em;
     }
 
+    /* Portable Data Banner */
+    .portable-data-bar {
+      background: var(--bg-surface);
+      border: 1px solid #CBD5E1;
+      border-radius: var(--radius-card);
+      padding: 12px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .portable-data-info {
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .portable-data-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
     /* Cards */
     .brutal-card {
-      background: var(--surface);
-      border: 2px solid var(--ink);
+      background: var(--bg-surface);
+      border: 1px solid #CBD5E1;
       border-radius: var(--radius-card);
-      box-shadow: var(--shadow-brutal);
+      box-shadow: var(--shadow-card);
       padding: 24px;
     }
 
     /* Header Banner */
     .hero-banner {
-      background: var(--primary-red);
-      color: var(--surface);
-      border: 2px solid var(--ink);
+      background: var(--brand-primary);
+      color: var(--bg-surface);
       border-radius: var(--radius-card);
-      box-shadow: var(--shadow-brutal);
+      box-shadow: var(--shadow-card);
       padding: 28px;
-      position: relative;
-      overflow: hidden;
     }
 
     .hero-tag {
       display: inline-block;
-      background: var(--ink);
-      color: var(--surface);
+      background: rgba(15, 23, 42, 0.35);
+      color: var(--bg-surface);
       padding: 4px 10px;
       border-radius: var(--radius-tag);
       font-family: monospace;
@@ -102,13 +137,11 @@
       font-weight: 700;
       text-transform: uppercase;
       margin-bottom: 12px;
-      border: 1px solid var(--surface);
     }
 
     .hero-title {
       font-size: 26px;
-      font-weight: 900;
-      text-transform: uppercase;
+      font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1.2;
       margin-bottom: 8px;
@@ -122,8 +155,8 @@
 
     /* Profile Selector Section */
     .profile-bar {
-      background: var(--pale-pink);
-      border: 2px solid var(--ink);
+      background: var(--brand-accent-soft);
+      border: 1px solid #99F6E4;
       border-radius: var(--radius-card);
       padding: 16px 20px;
       display: flex;
@@ -135,12 +168,9 @@
 
     .profile-label {
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      letter-spacing: 0.04em;
     }
 
     .profile-pills {
@@ -150,26 +180,25 @@
     }
 
     .profile-btn {
-      background: var(--surface);
-      border: 2px solid var(--ink);
+      background: var(--bg-surface);
+      border: 1px solid #94A3B8;
       border-radius: var(--radius-btn);
       padding: 8px 14px;
       font-size: 12.5px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: var(--shadow-brutal-sm);
+      color: var(--text-main);
       transition: all 0.15s ease;
     }
 
     .profile-btn:hover {
-      background: var(--cream);
+      background: var(--bg-page);
     }
 
     .profile-btn.active {
-      background: var(--primary-red);
-      color: var(--surface);
-      transform: translate(1px, 1px);
-      box-shadow: none;
+      background: var(--brand-primary);
+      color: var(--bg-surface);
+      border-color: var(--brand-primary-dark);
     }
 
     /* Tabs Navigation */
@@ -180,40 +209,38 @@
     }
 
     .tab-btn {
-      background: var(--surface);
-      border: 2px solid var(--ink);
+      background: var(--bg-surface);
+      border: 1px solid #CBD5E1;
       border-radius: var(--radius-btn);
       padding: 12px 14px;
       font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
+      font-weight: 700;
       cursor: pointer;
-      box-shadow: var(--shadow-brutal-sm);
       display: flex;
       align-items: center;
       justify-content: space-between;
       transition: all 0.15s ease;
       text-align: left;
+      color: var(--text-main);
     }
 
     .tab-btn:hover {
-      background: var(--pale-pink);
+      background: var(--brand-accent-soft);
     }
 
     .tab-btn.active {
-      background: var(--ink);
-      color: var(--surface);
-      box-shadow: none;
-      transform: translate(1px, 1px);
+      background: var(--text-main);
+      color: var(--bg-surface);
+      border-color: var(--text-main);
     }
 
     /* Progress Tracker Card */
     .progress-bar-container {
-      background: var(--surface);
-      border: 2px solid var(--ink);
+      background: var(--bg-surface);
+      border: 1px solid #CBD5E1;
       border-radius: var(--radius-card);
       padding: 18px 22px;
-      box-shadow: var(--shadow-brutal);
+      box-shadow: var(--shadow-card);
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -224,25 +251,24 @@
       justify-content: space-between;
       align-items: center;
       font-size: 12.5px;
-      font-weight: 800;
+      font-weight: 700;
       text-transform: uppercase;
     }
 
     .progress-track {
-      background: var(--cream);
-      border: 2px solid var(--ink);
-      height: 18px;
+      background: var(--bg-page);
+      border: 1px solid #CBD5E1;
+      height: 14px;
       border-radius: 999px;
       overflow: hidden;
       position: relative;
     }
 
     .progress-fill {
-      background: var(--primary-red);
+      background: var(--brand-primary);
       height: 100%;
       width: 0%;
       transition: width 0.3s ease;
-      border-right: 2px solid var(--ink);
     }
 
     .badges-row {
@@ -257,20 +283,20 @@
       align-items: center;
       gap: 6px;
       padding: 6px 12px;
-      border: 2px solid var(--ink);
+      border: 1px solid #CBD5E1;
       border-radius: var(--radius-tag);
       font-size: 11.5px;
       font-weight: 700;
-      background: var(--cream);
-      opacity: 0.45;
+      background: var(--bg-page);
+      opacity: 0.55;
       transition: all 0.2s ease;
     }
 
     .badge-chip.unlocked {
-      background: var(--dusty-pink);
-      color: var(--ink);
+      background: var(--brand-accent);
+      border-color: var(--brand-primary);
+      color: var(--text-main);
       opacity: 1;
-      box-shadow: var(--shadow-brutal-sm);
     }
 
     /* Tab Content Panels */
@@ -308,27 +334,29 @@
       font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
+      color: var(--text-muted);
     }
 
     .brutal-input {
-      border: 2px solid var(--ink);
+      border: 1px solid #94A3B8;
       border-radius: var(--radius-btn);
       padding: 10px 12px;
       font-size: 15px;
       font-family: inherit;
-      background: var(--cream);
+      background: var(--bg-page);
       width: 100%;
+      color: var(--text-main);
     }
 
     .brutal-input:focus {
-      outline: none;
-      background: var(--surface);
-      border-color: var(--primary-red);
+      outline: 2px solid var(--brand-primary);
+      background: var(--bg-surface);
+      border-color: var(--brand-primary);
     }
 
     .calc-result-box {
-      background: var(--pale-pink);
-      border: 2px solid var(--ink);
+      background: var(--brand-accent-soft);
+      border: 1px solid #99F6E4;
       border-radius: var(--radius-card);
       padding: 20px;
       display: flex;
@@ -340,7 +368,7 @@
     .result-number {
       font-size: 38px;
       font-weight: 900;
-      color: var(--primary-red);
+      color: var(--brand-primary);
       line-height: 1;
     }
 
@@ -352,8 +380,8 @@
     }
 
     .task-item {
-      background: var(--surface);
-      border: 2px solid var(--ink);
+      background: var(--bg-surface);
+      border: 1px solid #CBD5E1;
       border-radius: var(--radius-btn);
       padding: 12px 16px;
       display: flex;
@@ -361,25 +389,25 @@
       gap: 12px;
       cursor: pointer;
       transition: all 0.15s ease;
-      box-shadow: var(--shadow-brutal-sm);
     }
 
     .task-item:hover {
-      background: var(--cream);
+      background: var(--bg-page);
     }
 
     .task-item.checked {
-      background: var(--pale-pink);
+      background: var(--brand-accent-soft);
+      border-color: var(--brand-primary);
       text-decoration: line-through;
-      opacity: 0.85;
+      opacity: 0.88;
     }
 
     .task-checkbox {
       width: 20px;
       height: 20px;
-      border: 2px solid var(--ink);
+      border: 2px solid var(--brand-primary);
       border-radius: 4px;
-      background: var(--surface);
+      background: var(--bg-surface);
       flex-shrink: 0;
       margin-top: 2px;
       display: flex;
@@ -388,28 +416,26 @@
     }
 
     .task-item.checked .task-checkbox {
-      background: var(--primary-red);
-      color: var(--surface);
+      background: var(--brand-primary);
+      color: var(--bg-surface);
     }
 
     .task-item.checked .task-checkbox::after {
       content: "✓";
       font-weight: 900;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     /* Buttons */
     .btn-primary {
-      background: var(--primary-red);
-      color: var(--surface);
-      border: 2px solid var(--ink);
+      background: var(--brand-primary);
+      color: var(--bg-surface);
+      border: 1px solid var(--brand-primary-dark);
       border-radius: var(--radius-btn);
       padding: 12px 20px;
       font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
+      font-weight: 700;
       cursor: pointer;
-      box-shadow: var(--shadow-brutal-sm);
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -417,30 +443,27 @@
     }
 
     .btn-primary:hover {
-      background: var(--dark-red);
-      transform: translate(1px, 1px);
-      box-shadow: none;
+      background: var(--brand-primary-dark);
     }
 
     .btn-secondary {
-      background: var(--surface);
-      color: var(--ink);
-      border: 2px solid var(--ink);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid #94A3B8;
       border-radius: var(--radius-btn);
-      padding: 10px 16px;
-      font-size: 12.5px;
+      padding: 8px 14px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: var(--shadow-brutal-sm);
     }
 
     .btn-secondary:hover {
-      background: var(--cream);
+      background: var(--bg-page);
     }
 
     .copy-block {
-      background: var(--cream);
-      border: 2px solid var(--ink);
+      background: var(--bg-page);
+      border: 1px solid #CBD5E1;
       border-radius: var(--radius-card);
       padding: 16px;
       position: relative;
@@ -452,36 +475,41 @@
       line-height: 1.5;
       white-space: pre-wrap;
       word-break: break-word;
-      color: var(--ink);
+      color: var(--text-main);
     }
 
     .copy-btn {
       position: absolute;
       top: 12px;
       right: 12px;
-      background: var(--surface);
-      border: 2px solid var(--ink);
+      background: var(--bg-surface);
+      border: 1px solid #94A3B8;
       border-radius: var(--radius-btn);
       padding: 6px 12px;
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       cursor: pointer;
-      box-shadow: var(--shadow-brutal-sm);
     }
 
     .copy-btn:hover {
-      background: var(--dusty-pink);
+      background: var(--brand-accent);
     }
 
-    /* Callouts */
     .notice-box {
-      background: var(--pale-pink);
-      border: 2px solid var(--ink);
-      border-left: 6px solid var(--primary-red);
+      background: var(--brand-accent-soft);
+      border: 1px solid #99F6E4;
+      border-left: 5px solid var(--brand-primary);
       border-radius: var(--radius-card);
       padding: 16px 20px;
       font-size: 13.5px;
+    }
+
+    .feedback-toast {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand-primary);
+      min-height: 18px;
     }
   </style>
 </head>
@@ -492,22 +520,49 @@
     <!-- Simulation Comparison Header -->
     <div class="simulation-bar">
       <div>
-        <strong>Expérience Web Interactive</strong> : Hub_Systeme_Creation_Reguliere.html
+        <strong>Produit Interactif Apprenant</strong> : Hub_Systeme_Creation_Reguliere.html
       </div>
-      <div style="display: flex; gap: 12px; align-items: center;">
-        <span class="badge-live">Version Active Transformée</span>
-        <button class="btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="resetAllProgress()">
-          Réinitialiser le Hub
-        </button>
+      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <span class="storage-status" id="storage-status-indicator">Vérification du stockage...</span>
+        <span class="badge-live">Identité Propre : Ardoise & Émeraude</span>
       </div>
     </div>
 
+    <!-- Portable JSON Backup Bar (Works Online & Offline) -->
+    <section class="portable-data-bar" aria-label="Sauvegarde portable JSON">
+      <div>
+        <strong style="font-size: 13px; display: block;">Sauvegarde Portable (.JSON)</strong>
+        <span class="portable-data-info">
+          Exportez vos données pour les conserver hors ligne ou les restaurer sur un autre appareil (téléphone ou ordinateur).
+        </span>
+        <div class="feedback-toast" id="portable-feedback" role="status" aria-live="polite"></div>
+      </div>
+      <div class="portable-data-actions">
+        <button type="button" class="btn-secondary" id="btn-export-json" onclick="exportDataJson()">
+          Exporter mes données (.json)
+        </button>
+        <label class="btn-secondary" for="input-import-json" style="display: inline-block; margin: 0;">
+          Importer une sauvegarde (.json)
+        </label>
+        <input
+          type="file"
+          id="input-import-json"
+          accept=".json,application/json"
+          style="display: none;"
+          onchange="handleFileImport(event)"
+        >
+        <button type="button" class="btn-secondary" onclick="resetAllProgress()">
+          Réinitialiser
+        </button>
+      </div>
+    </section>
+
     <!-- Hero Banner -->
     <header class="hero-banner">
-      <span class="hero-tag">Méthodologie Opérationnelle Active</span>
+      <span class="hero-tag">Outil Opérationnel Client • Cabinet Alexandre V.</span>
       <h1 class="hero-title">Le Système de Création Régulière</h1>
       <p class="hero-subtitle">
-        Organiser, produire et rentabiliser son expertise sans dispersion ni épuisement. Même contenu que le guide PDF, transformé en expérience interactive concrète.
+        Calculez votre capacité hebdomadaire réelle, structurez vos 3 piliers éditoriaux et suivez votre plan d'action 30 jours.
       </p>
     </header>
 
@@ -517,13 +572,13 @@
         <span>Votre statut actuel :</span>
       </div>
       <div class="profile-pills">
-        <button class="profile-btn active" data-profile="freelance" onclick="selectProfile('freelance')">
+        <button type="button" class="profile-btn active" data-profile="freelance" onclick="selectProfile('freelance')">
           Freelance Solo en mission
         </button>
-        <button class="profile-btn" data-profile="trainer" onclick="selectProfile('trainer')">
+        <button type="button" class="profile-btn" data-profile="trainer" onclick="selectProfile('trainer')">
           Formateur / Infopreneur
         </button>
-        <button class="profile-btn" data-profile="coach" onclick="selectProfile('coach')">
+        <button type="button" class="profile-btn" data-profile="coach" onclick="selectProfile('coach')">
           Coach / Consultant
         </button>
       </div>
@@ -553,19 +608,19 @@
 
     <!-- Navigation Tabs -->
     <nav class="tabs-nav">
-      <button class="tab-btn active" onclick="switchTab('tab-diag')">
+      <button type="button" class="tab-btn active" onclick="switchTab('tab-diag')">
         <span>1. Diagnostic & Capacité</span>
         <span>→</span>
       </button>
-      <button class="tab-btn" onclick="switchTab('tab-pillars')">
+      <button type="button" class="tab-btn" onclick="switchTab('tab-pillars')">
         <span>2. Les Trois Piliers</span>
         <span>→</span>
       </button>
-      <button class="tab-btn" onclick="switchTab('tab-roadmap')">
+      <button type="button" class="tab-btn" onclick="switchTab('tab-roadmap')">
         <span>3. Feuille de Route</span>
         <span>→</span>
       </button>
-      <button class="tab-btn" onclick="switchTab('tab-toolkit')">
+      <button type="button" class="tab-btn" onclick="switchTab('tab-toolkit')">
         <span>4. Boîte à Prompts</span>
         <span>→</span>
       </button>
@@ -574,26 +629,26 @@
     <!-- PANEL 1 : DIAGNOSTIC & CALCULATEUR -->
     <main class="tab-panel active" id="tab-diag">
       <div class="brutal-card">
-        <h2 style="font-size: 20px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px;">
+        <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">
           Calculateur de Capacité Réelle Personnalisée
         </h2>
-        <p style="font-size: 14px; margin-bottom: 20px; color: #444444;">
-          Ajustez vos volumes horaires hebdomadaires pour obtenir immédiatement votre capacité de création soutenable, sans risque d'empiéter sur vos missions facturables.
+        <p style="font-size: 14px; margin-bottom: 20px; color: var(--text-muted);">
+          Ajustez vos volumes horaires hebdomadaires pour obtenir immédiatement votre capacité de création soutenable, sans empiéter sur vos missions facturables.
         </p>
 
         <div class="calc-grid">
           <div>
             <div class="input-group">
               <label class="input-label" for="hours-total">Heures totales travaillées / semaine</label>
-              <input type="number" id="hours-total" class="brutal-input" value="40" min="10" max="70" oninput="calculateCapacity()">
+              <input type="number" id="hours-total" class="brutal-input" value="40" min="10" max="70" oninput="onHoursInputChange()">
             </div>
             <div class="input-group">
               <label class="input-label" for="hours-client">Heures facturables clients / semaine</label>
-              <input type="number" id="hours-client" class="brutal-input" value="25" min="0" max="60" oninput="calculateCapacity()">
+              <input type="number" id="hours-client" class="brutal-input" value="25" min="0" max="60" oninput="onHoursInputChange()">
             </div>
             <div class="input-group">
               <label class="input-label" for="hours-admin">Heures administratives & gestion / semaine</label>
-              <input type="number" id="hours-admin" class="brutal-input" value="8" min="0" max="25" oninput="calculateCapacity()">
+              <input type="number" id="hours-admin" class="brutal-input" value="8" min="0" max="25" oninput="onHoursInputChange()">
             </div>
           </div>
 
@@ -608,14 +663,14 @@
               </span>
             </div>
 
-            <div style="border-top: 2px solid var(--ink); padding-top: 12px; font-size: 13px;">
+            <div style="border-top: 1px solid #99F6E4; padding-top: 12px; font-size: 13px;">
               <strong>Volume maximal conseillé :</strong>
-              <div id="res-content-volume" style="font-size: 15px; font-weight: 800; color: var(--primary-red); margin-top: 2px;">
-                1 publication pilier + 2 micro-formats
+              <div id="res-content-volume" style="font-size: 15px; font-weight: 800; color: var(--brand-primary); margin-top: 2px;">
+                1 publication pilier + 2 déclinaisons
               </div>
             </div>
 
-            <button class="btn-primary" onclick="markStepOneDone()">
+            <button type="button" class="btn-primary" onclick="markStepOneDone()">
               Valider ce diagnostic & continuer
             </button>
           </div>
@@ -626,50 +681,50 @@
     <!-- PANEL 2 : LES TROIS PILIERS -->
     <section class="tab-panel" id="tab-pillars">
       <div class="brutal-card">
-        <h2 style="font-size: 20px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px;">
+        <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">
           Répartition Stratégique de vos Contenus
         </h2>
-        <p style="font-size: 14px; margin-bottom: 20px; color: #444444;">
+        <p style="font-size: 14px; margin-bottom: 20px; color: var(--text-muted);">
           Recommandation adaptée à votre profil sélectionné (<strong id="current-profile-label">Freelance Solo en mission</strong>).
         </p>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
-          <div class="brutal-card" style="padding: 18px; background: var(--cream);">
-            <span class="badge-live" style="background: var(--ink);">Pilier A (40 %)</span>
+          <div class="brutal-card" style="padding: 18px; background: var(--bg-page);">
+            <span class="badge-live" style="background: var(--text-main);">Pilier A (40 %)</span>
             <h3 style="font-size: 16px; font-weight: 800; margin: 10px 0 6px 0;">Fondation & Vision</h3>
-            <p style="font-size: 13px; color: #444444;">
+            <p style="font-size: 13px; color: var(--text-muted);">
               Démystifier les mauvaises pratiques de votre secteur et poser vos critères de travail pour attirer des clients qualifiés.
             </p>
-            <div id="pillar-a-example" style="margin-top: 12px; padding: 10px; background: var(--surface); border: 1px solid var(--ink); border-radius: var(--radius-tag); font-size: 12px;">
-              <strong>Votre exemple :</strong> Pourquoi sous-facturer au TJM tue la rentabilité d'un freelance.
+            <div id="pillar-a-example" style="margin-top: 12px; padding: 10px; background: var(--bg-surface); border: 1px solid #CBD5E1; border-radius: var(--radius-tag); font-size: 12px;">
+              <strong>Votre exemple :</strong> Pourquoi sous-facturer au TJM fragilise la rentabilité d'un freelance.
             </div>
           </div>
 
-          <div class="brutal-card" style="padding: 18px; background: var(--cream);">
-            <span class="badge-live" style="background: var(--ink);">Pilier B (40 %)</span>
+          <div class="brutal-card" style="padding: 18px; background: var(--bg-page);">
+            <span class="badge-live" style="background: var(--text-main);">Pilier B (40 %)</span>
             <h3 style="font-size: 16px; font-weight: 800; margin: 10px 0 6px 0;">Preuve & Méthode</h3>
-            <p style="font-size: 13px; color: #444444;">
-              Démonstrations directes, études de cas réelles et coulisses de missions pour prouver votre expertise sans théorie stérile.
+            <p style="font-size: 13px; color: var(--text-muted);">
+              Démonstrations directes, études de cas et coulisses de missions pour illustrer votre méthode de travail.
             </p>
-            <div id="pillar-b-example" style="margin-top: 12px; padding: 10px; background: var(--surface); border: 1px solid var(--ink); border-radius: var(--radius-tag); font-size: 12px;">
-              <strong>Votre exemple :</strong> Décorticage d'un livrable client livré en 4 jours pour un client grand compte.
+            <div id="pillar-b-example" style="margin-top: 12px; padding: 10px; background: var(--bg-surface); border: 1px solid #CBD5E1; border-radius: var(--radius-tag); font-size: 12px;">
+              <strong>Votre exemple :</strong> Décorticage d'un livrable structuré en 4 étapes pour un client PME.
             </div>
           </div>
 
-          <div class="brutal-card" style="padding: 18px; background: var(--cream);">
-            <span class="badge-live" style="background: var(--primary-red);">Pilier C (20 %)</span>
+          <div class="brutal-card" style="padding: 18px; background: var(--bg-page);">
+            <span class="badge-live" style="background: var(--brand-primary);">Pilier C (20 %)</span>
             <h3 style="font-size: 16px; font-weight: 800; margin: 10px 0 6px 0;">Conversion Directe</h3>
-            <p style="font-size: 13px; color: #444444;">
-              Appel à l'action précis invitant à tester un outil interactif ou à réserver un échange ciblé.
+            <p style="font-size: 13px; color: var(--text-muted);">
+              Appel à l'action précis invitant à tester une ressource interactive ou à réserver un créneau d'échange.
             </p>
-            <div id="pillar-c-example" style="margin-top: 12px; padding: 10px; background: var(--surface); border: 1px solid var(--ink); border-radius: var(--radius-tag); font-size: 12px;">
-              <strong>Votre exemple :</strong> Invitation à tester le calculateur interactif d'audit en message privé.
+            <div id="pillar-c-example" style="margin-top: 12px; padding: 10px; background: var(--bg-surface); border: 1px solid #CBD5E1; border-radius: var(--radius-tag); font-size: 12px;">
+              <strong>Votre exemple :</strong> Invitation à utiliser le calculateur de capacité avant un premier appel.
             </div>
           </div>
         </div>
 
         <div style="margin-top: 20px; text-align: right;">
-          <button class="btn-primary" onclick="switchTab('tab-roadmap')">
+          <button type="button" class="btn-primary" onclick="switchTab('tab-roadmap')">
             Passer à la Feuille de Route
           </button>
         </div>
@@ -681,20 +736,25 @@
       <div class="brutal-card">
         <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
           <div>
-            <h2 style="font-size: 20px; font-weight: 800; text-transform: uppercase;">
-              Feuille de Route 30 Jours (Sauvegarde Automatique)
+            <h2 style="font-size: 20px; font-weight: 800;">
+              Feuille de Route 30 Jours
             </h2>
-            <p style="font-size: 13.5px; color: #555555;">
-              Cochez vos étapes au fil de vos avancées. Vos choix sont enregistrés automatiquement dans votre navigateur.
+            <p style="font-size: 13.5px; color: var(--text-muted);">
+              Cochez vos étapes au fil de vos avancées. Exportez en JSON pour conserver votre progression sur tous vos appareils.
             </p>
           </div>
-          <button class="btn-secondary" onclick="exportRoadmapText()">
-            Exporter mon plan (Fichier Texte)
-          </button>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn-secondary" onclick="exportDataJson()">
+              Sauvegarder (.json)
+            </button>
+            <button type="button" class="btn-secondary" onclick="exportRoadmapText()">
+              Exporter en texte (.txt)
+            </button>
+          </div>
         </div>
 
         <div class="checklist-list">
-          <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; margin-top: 10px; color: var(--primary-red);">
+          <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; margin-top: 10px; color: var(--brand-primary);">
             Semaine 1 : Cadrage & Réserve d'Idées
           </div>
           <div class="task-item" id="task-1" onclick="toggleTask('task-1')">
@@ -710,7 +770,7 @@
             <div>Choisir votre format pilier prioritaire (article, carrousel ou étude de cas).</div>
           </div>
 
-          <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; margin-top: 14px; color: var(--primary-red);">
+          <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; margin-top: 14px; color: var(--brand-primary);">
             Semaine 2 : Production du Premier Actif Pilier
           </div>
           <div class="task-item" id="task-4" onclick="toggleTask('task-4')">
@@ -726,7 +786,7 @@
             <div>Préparer le lien de capture ou de prise de contact direct.</div>
           </div>
 
-          <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; margin-top: 14px; color: var(--primary-red);">
+          <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; margin-top: 14px; color: var(--brand-primary);">
             Semaine 3 : Diffusion & Déclencheurs de Conversion
           </div>
           <div class="task-item" id="task-7" onclick="toggleTask('task-7')">
@@ -742,12 +802,12 @@
             <div>Recueillir les premiers retours et identifier les objections formulées.</div>
           </div>
 
-          <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; margin-top: 14px; color: var(--primary-red);">
+          <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; margin-top: 14px; color: var(--brand-primary);">
             Semaine 4 : Bilan & Ajustement du Système
           </div>
           <div class="task-item" id="task-10" onclick="toggleTask('task-10')">
             <div class="task-checkbox"></div>
-            <div>Analyser le ratio temps passé versus opportunités professionnelles générées.</div>
+            <div>Analyser le ratio temps passé versus opportunités professionnellesobservées.</div>
           </div>
           <div class="task-item" id="task-11" onclick="toggleTask('task-11')">
             <div class="task-checkbox"></div>
@@ -760,25 +820,23 @@
     <!-- PANEL 4 : BOÎTE À PROMPTS CLAUDE -->
     <section class="tab-panel" id="tab-toolkit">
       <div class="brutal-card">
-        <h2 style="font-size: 20px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px;">
+        <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">
           Votre Prompt Prêt à l'Emploi (Injecté Automatiquement)
         </h2>
-        <p style="font-size: 13.5px; margin-bottom: 18px; color: #555555;">
+        <p style="font-size: 13.5px; margin-bottom: 18px; color: var(--text-muted);">
           Ce prompt intègre automatiquement vos chiffres calculés et votre profil actuel. Copiez-le d'un clic pour l'exécuter dans Claude.
         </p>
 
         <div class="copy-block">
-          <button class="copy-btn" id="copy-btn-action" onclick="copyDynamicPrompt()">
+          <button type="button" class="copy-btn" id="copy-btn-action" onclick="copyDynamicPrompt()">
             Copier le prompt
           </button>
-          <pre class="copy-pre" id="dynamic-prompt-display">
-Chargement du prompt dynamique...
-          </pre>
+          <pre class="copy-pre" id="dynamic-prompt-display">Chargement du prompt dynamique...</pre>
         </div>
 
         <div class="notice-box" style="margin-top: 20px;">
-          <strong>Ce que démontre cette application :</strong><br>
-          Au lieu d'imposer un texte figé à lire passivement, ce hub interactif s'adapte en temps réel à vos contraintes, effectue les calculs à votre place, enregistre vos progrès sans aucun serveur et vous livre un plan d'action personnalisé. C'est l'essence même de ce que vous apprendrez à construire dans le Module 02.
+          <strong>Architecture de persistance et de portabilité :</strong><br>
+          Cet outil illustre l'architecture recommandée dans le Module 02 : les interactions fonctionnent hors ligne sans dépendance serveur, la sauvegarde automatique utilise <code>localStorage</code> lorsqu'il est hébergé sur une origine HTTPS stable, et l'export/import <code>.json</code> garantit que l'utilisateur final ne perd jamais ses données s'il change d'appareil ou ouvre le fichier localement.
         </div>
       </div>
     </section>
@@ -786,10 +844,11 @@ Chargement du prompt dynamique...
   </div>
 
   <script>
-    // State management & LocalStorage
-    const STORAGE_KEY = 'demo_apres_hub_creation_v1';
-    let currentProfile = 'freelance';
-    let checkedTasks = {};
+    const STORAGE_KEY = 'demo_apres_hub_creation_v2';
+    const ALL_TASK_IDS = [
+      'task-1', 'task-2', 'task-3', 'task-4', 'task-5',
+      'task-6', 'task-7', 'task-8', 'task-9', 'task-10', 'task-11'
+    ];
 
     const profileData = {
       freelance: {
@@ -797,67 +856,143 @@ Chargement du prompt dynamique...
         hoursClient: 25,
         hoursAdmin: 8,
         hoursTotal: 40,
-        volumeText: '1 publication pilier + 2 micro-formats',
-        pillarA: 'Pourquoi sous-facturer au TJM tue la rentabilité d\'un freelance.',
-        pillarB: 'Décorticage d\'un livrable client livré en 4 jours pour un grand compte.',
-        pillarC: 'Invitation à tester le calculateur interactif d\'audit en message privé.'
+        volumeText: '1 publication pilier + 2 déclinaisons',
+        pillarA: 'Pourquoi sous-facturer au TJM fragilise la rentabilité d\'un freelance.',
+        pillarB: 'Décorticage d\'un livrable structuré en 4 étapes pour un client PME.',
+        pillarC: 'Invitation à utiliser le calculateur de capacité avant un premier appel.'
       },
       trainer: {
         label: 'Formateur / Infopreneur',
         hoursClient: 15,
         hoursAdmin: 6,
         hoursTotal: 38,
-        volumeText: '1 contenu long + 4 micro-formats',
-        pillarA: 'Pourquoi 80 % des formations en ligne ne sont jamais terminées.',
-        pillarB: 'Présentation de l\'outil interactif ayant permis à un élève de doubler sa rétention.',
-        pillarC: 'Lien direct vers la session de diagnostic offerte pour intégrer la cohorte.'
+        volumeText: '1 publication longue + 4 déclinaisons actives',
+        pillarA: 'Pourquoi les supports passifs sans plan d\'action sont rarement mis en pratique.',
+        pillarB: 'Démonstration d\'un exercice guidé permettant de structurer un cours en 3 modules.',
+        pillarC: 'Accès direct à la grille d\'auto-évaluation du programme.'
       },
       coach: {
         label: 'Coach / Consultant',
         hoursClient: 20,
         hoursAdmin: 7,
         hoursTotal: 38,
-        volumeText: '2 études de cas + 2 relances DM ciblées',
-        pillarA: 'Le piège des séances à l\'heure plutôt qu\'un accompagnement au résultat.',
-        pillarB: 'Analyse chiffrée de la transformation d\'un client dirigeant en 60 jours.',
-        pillarC: 'Accès au questionnaire d\'auto-évaluation préalable à tout accompagnement.'
+        volumeText: '1 publication longue + 4 déclinaisons actives',
+        pillarA: 'Le piège des séances facturées à l\'heure plutôt qu\'au périmètre de mission.',
+        pillarB: 'Étude de cas méthodologique sur la réorganisation d\'un dirigeant de PME.',
+        pillarC: 'Lien vers le diagnostic préalable avant un entretien de cadrage.'
       }
     };
 
+    let currentProfile = 'freelance';
+    let hoursTotal = 40;
+    let hoursClient = 25;
+    let hoursAdmin = 8;
+    let checkedTasks = {};
+    let isLocalStorageAvailable = false;
+
+    function updateStorageStatusUI(available) {
+      isLocalStorageAvailable = available;
+      const el = document.getElementById('storage-status-indicator');
+      if (!el) return;
+      if (available) {
+        el.textContent = 'Sauvegarde navigateur active';
+      } else {
+        el.textContent = 'Mode local : utilisez Exporter (.json) pour sauvegarder';
+      }
+    }
+
+    function showFeedback(message) {
+      const toast = document.getElementById('portable-feedback');
+      if (toast) {
+        toast.textContent = message;
+      }
+    }
+
+    function getSerializableState() {
+      return {
+        schemaVersion: 2,
+        currentProfile: currentProfile,
+        hoursTotal: Number(hoursTotal) || 0,
+        hoursClient: Number(hoursClient) || 0,
+        hoursAdmin: Number(hoursAdmin) || 0,
+        checkedTasks: Object.assign({}, checkedTasks),
+        exportedAt: new Date().toISOString()
+      };
+    }
+
+    function applyImportedState(parsed) {
+      if (!parsed || typeof parsed !== 'object') {
+        throw new Error('Format JSON invalide');
+      }
+      if (typeof parsed.currentProfile === 'string' && profileData[parsed.currentProfile]) {
+        currentProfile = parsed.currentProfile;
+      }
+      if (typeof parsed.hoursTotal === 'number' && Number.isFinite(parsed.hoursTotal)) {
+        hoursTotal = Math.max(0, Math.min(120, parsed.hoursTotal));
+      } else {
+        hoursTotal = profileData[currentProfile].hoursTotal;
+      }
+      if (typeof parsed.hoursClient === 'number' && Number.isFinite(parsed.hoursClient)) {
+        hoursClient = Math.max(0, Math.min(120, parsed.hoursClient));
+      } else {
+        hoursClient = profileData[currentProfile].hoursClient;
+      }
+      if (typeof parsed.hoursAdmin === 'number' && Number.isFinite(parsed.hoursAdmin)) {
+        hoursAdmin = Math.max(0, Math.min(120, parsed.hoursAdmin));
+      } else {
+        hoursAdmin = profileData[currentProfile].hoursAdmin;
+      }
+      const nextTasks = {};
+      if (parsed.checkedTasks && typeof parsed.checkedTasks === 'object') {
+        ALL_TASK_IDS.forEach(function(id) {
+          if (parsed.checkedTasks[id] === true) {
+            nextTasks[id] = true;
+          }
+        });
+      }
+      checkedTasks = nextTasks;
+
+      syncDOMWithState();
+      saveState();
+    }
+
     function loadState() {
       try {
-        const saved = localStorage.getItem(STORAGE_KEY);
+        const testKey = '__hub_storage_check__';
+        window.localStorage.setItem(testKey, '1');
+        window.localStorage.removeItem(testKey);
+        updateStorageStatusUI(true);
+
+        const saved = window.localStorage.getItem(STORAGE_KEY);
         if (saved) {
           const parsed = JSON.parse(saved);
-          if (parsed.currentProfile) currentProfile = parsed.currentProfile;
-          if (parsed.checkedTasks) checkedTasks = parsed.checkedTasks;
+          applyImportedState(parsed);
+          return;
         }
       } catch (e) {
-        console.error('Erreur lecture localStorage', e);
+        updateStorageStatusUI(false);
       }
+      syncDOMWithState();
     }
 
     function saveState() {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          currentProfile,
-          checkedTasks
-        }));
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(getSerializableState()));
+        updateStorageStatusUI(true);
       } catch (e) {
-        console.error('Erreur écriture localStorage', e);
+        updateStorageStatusUI(false);
       }
     }
 
-    function selectProfile(profileKey) {
-      currentProfile = profileKey;
-      document.querySelectorAll('.profile-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.profile === profileKey);
+    function syncDOMWithState() {
+      document.querySelectorAll('.profile-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.profile === currentProfile);
       });
 
-      const data = profileData[profileKey];
-      document.getElementById('hours-total').value = data.hoursTotal;
-      document.getElementById('hours-client').value = data.hoursClient;
-      document.getElementById('hours-admin').value = data.hoursAdmin;
+      const data = profileData[currentProfile];
+      document.getElementById('hours-total').value = String(hoursTotal);
+      document.getElementById('hours-client').value = String(hoursClient);
+      document.getElementById('hours-admin').value = String(hoursAdmin);
       document.getElementById('current-profile-label').textContent = data.label;
 
       document.getElementById('pillar-a-example').innerHTML = '<strong>Votre exemple :</strong> ' + data.pillarA;
@@ -865,23 +1000,39 @@ Chargement du prompt dynamique...
       document.getElementById('pillar-c-example').innerHTML = '<strong>Votre exemple :</strong> ' + data.pillarC;
 
       calculateCapacity();
+      updateProgress();
+    }
+
+    function selectProfile(profileKey) {
+      if (!profileData[profileKey]) return;
+      currentProfile = profileKey;
+      const data = profileData[profileKey];
+      hoursTotal = data.hoursTotal;
+      hoursClient = data.hoursClient;
+      hoursAdmin = data.hoursAdmin;
+      syncDOMWithState();
+      saveState();
+    }
+
+    function onHoursInputChange() {
+      hoursTotal = parseFloat(document.getElementById('hours-total').value) || 0;
+      hoursClient = parseFloat(document.getElementById('hours-client').value) || 0;
+      hoursAdmin = parseFloat(document.getElementById('hours-admin').value) || 0;
+      calculateCapacity();
       saveState();
     }
 
     function calculateCapacity() {
-      const total = parseFloat(document.getElementById('hours-total').value) || 0;
-      const client = parseFloat(document.getElementById('hours-client').value) || 0;
-      const admin = parseFloat(document.getElementById('hours-admin').value) || 0;
-
-      const available = Math.max(0, total - client - admin);
-      const capacity = (available * 0.65).toFixed(1);
+      const available = Math.max(0, hoursTotal - hoursClient - hoursAdmin);
+      const capacityNum = available * 0.65;
+      const capacity = capacityNum.toFixed(1);
 
       document.getElementById('res-hours').textContent = capacity + ' h';
 
       let volume = '1 micro-publication par semaine';
-      if (capacity >= 3 && capacity < 6) {
+      if (capacityNum >= 3 && capacityNum < 6) {
         volume = '1 publication pilier + 2 déclinaisons';
-      } else if (capacity >= 6) {
+      } else if (capacityNum >= 6) {
         volume = '1 publication longue + 4 déclinaisons actives';
       }
       document.getElementById('res-content-volume').textContent = volume;
@@ -890,34 +1041,29 @@ Chargement du prompt dynamique...
     }
 
     function toggleTask(taskId) {
+      if (ALL_TASK_IDS.indexOf(taskId) === -1) return;
       checkedTasks[taskId] = !checkedTasks[taskId];
-      const el = document.getElementById(taskId);
-      if (el) {
-        el.classList.toggle('checked', Boolean(checkedTasks[taskId]));
-      }
       updateProgress();
       saveState();
     }
 
     function updateProgress() {
-      const allTasks = ['task-1','task-2','task-3','task-4','task-5','task-6','task-7','task-8','task-9','task-10','task-11'];
       let completedCount = 0;
 
-      allTasks.forEach(id => {
+      ALL_TASK_IDS.forEach(function(id) {
         const isDone = Boolean(checkedTasks[id]);
         const el = document.getElementById(id);
         if (el) el.classList.toggle('checked', isDone);
         if (isDone) completedCount++;
       });
 
-      const pct = Math.round((completedCount / allTasks.length) * 100);
+      const pct = Math.round((completedCount / ALL_TASK_IDS.length) * 100);
       document.getElementById('progress-fill').style.width = pct + '%';
-      document.getElementById('progress-text').textContent = completedCount + ' / ' + allTasks.length + ' actions validées (' + pct + ' %)';
+      document.getElementById('progress-text').textContent = completedCount + ' / ' + ALL_TASK_IDS.length + ' actions validées (' + pct + ' %)';
 
-      // Badges
       const week1Done = checkedTasks['task-1'] && checkedTasks['task-2'] && checkedTasks['task-3'];
       const week2Done = checkedTasks['task-4'] && checkedTasks['task-5'] && checkedTasks['task-6'];
-      const allDone = completedCount === allTasks.length;
+      const allDone = completedCount === ALL_TASK_IDS.length;
 
       document.getElementById('badge-1').classList.toggle('unlocked', Boolean(week1Done));
       document.getElementById('badge-2').classList.toggle('unlocked', Boolean(week2Done));
@@ -932,16 +1078,14 @@ Chargement du prompt dynamique...
     }
 
     function switchTab(tabId) {
-      document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
-        const panelIds = ['tab-diag', 'tab-pillars', 'tab-roadmap', 'tab-toolkit'];
+      const panelIds = ['tab-diag', 'tab-pillars', 'tab-roadmap', 'tab-toolkit'];
+      document.querySelectorAll('.tab-btn').forEach(function(btn, idx) {
         btn.classList.toggle('active', panelIds[idx] === tabId);
       });
 
-      document.querySelectorAll('.tab-panel').forEach(panel => {
+      document.querySelectorAll('.tab-panel').forEach(function(panel) {
         panel.classList.toggle('active', panel.id === tabId);
       });
-
-      window.scrollTo({ top: 120, behavior: 'smooth' });
     }
 
     function updateDynamicPrompt() {
@@ -949,36 +1093,71 @@ Chargement du prompt dynamique...
       const cap = document.getElementById('res-hours').textContent;
       const vol = document.getElementById('res-content-volume').textContent;
 
-      const promptText = `Agis comme mon Directeur Éditorial Senior.
-
-CONTEXTE DE MON ACTIVITÉ :
-- Profil : ${p.label}
-- Capacité hebdomadaire de création protégée : ${cap}
-- Objectif de volume recommandé : ${vol}
-
-MISSION :
-Conçois mon calendrier éditorial sur 2 semaines structuré selon la matrice des 3 Piliers :
-1. Pilier Fondation (40 %) : un sujet fort qui combat une mauvaise habitude de mon marché.
-2. Pilier Preuve (40 %) : une étude de cas démontrant la méthode exacte.
-3. Pilier Conversion (20 %) : une invitation précise vers un mini-diagnostic ou outil interactif.
-
-Pour chaque publication, fournis :
-- L'accroche exacte (3 variantes)
-- Le déroulé pas à pas
-- L'appel à l'action direct en commentaire ou message privé.`;
+      const promptText = 'Agis comme mon Directeur Éditorial Senior.\n\n' +
+        'CONTEXTE DE MON ACTIVITÉ :\n' +
+        '- Profil : ' + p.label + '\n' +
+        '- Capacité hebdomadaire de création protégée : ' + cap + '\n' +
+        '- Objectif de volume recommandé : ' + vol + '\n\n' +
+        'MISSION :\n' +
+        'Conçois mon calendrier éditorial sur 2 semaines structuré selon la matrice des 3 Piliers :\n' +
+        '1. Pilier Fondation (40 %) : un sujet fort qui corrige une erreur fréquente de mon marché.\n' +
+        '2. Pilier Preuve (40 %) : une étude de cas démontrant la méthode exacte.\n' +
+        '3. Pilier Conversion (20 %) : une invitation précise vers un diagnostic ou outil interactif.\n\n' +
+        'Pour chaque publication, fournis :\n' +
+        '- L\'accroche exacte (3 variantes)\n' +
+        '- Le déroulé pas à pas\n' +
+        '- L\'appel à l\'action direct.';
 
       document.getElementById('dynamic-prompt-display').textContent = promptText;
     }
 
     function copyDynamicPrompt() {
       const text = document.getElementById('dynamic-prompt-display').textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        const btn = document.getElementById('copy-btn-action');
-        btn.textContent = 'Prompt Copié !';
-        setTimeout(() => {
-          btn.textContent = 'Copier le prompt';
-        }, 2000);
-      });
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+          const btn = document.getElementById('copy-btn-action');
+          btn.textContent = 'Prompt Copié !';
+          setTimeout(function() {
+            btn.textContent = 'Copier le prompt';
+          }, 2000);
+        });
+      }
+    }
+
+    function exportDataJson() {
+      const payload = JSON.stringify(getSerializableState(), null, 2);
+      const blob = new Blob([payload], { type: 'application/json;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'sauvegarde-systeme-creation.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showFeedback('Sauvegarde JSON générée avec succès.');
+      return payload;
+    }
+
+    function importDataJsonString(jsonString) {
+      try {
+        const parsed = JSON.parse(jsonString);
+        applyImportedState(parsed);
+        showFeedback('Données JSON restaurées avec succès.');
+        return true;
+      } catch (e) {
+        showFeedback('Erreur : le fichier JSON fourni est invalide.');
+        return false;
+      }
+    }
+
+    function handleFileImport(event) {
+      const file = event && event.target && event.target.files ? event.target.files[0] : null;
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(loadEvent) {
+        const content = loadEvent && loadEvent.target ? String(loadEvent.target.result || '') : '';
+        importDataJsonString(content);
+      };
+      reader.readAsText(file);
     }
 
     function exportRoadmapText() {
@@ -986,29 +1165,17 @@ Pour chaque publication, fournis :
       const cap = document.getElementById('res-hours').textContent;
       const vol = document.getElementById('res-content-volume').textContent;
 
-      let content = `FEUILLE DE ROUTE PERSONNELLE : SYSTÈME DE CRÉATION RÉGULIÈRE\n`;
-      content += `Profil : ${p.label}\n`;
-      content += `Capacité hebdomadaire protégée : ${cap}\n`;
-      content += `Volume cible : ${vol}\n\n`;
-      content += `ÉTAT DES ACTIONS (30 JOURS) :\n`;
+      let content = 'FEUILLE DE ROUTE PERSONNELLE : SYSTÈME DE CRÉATION RÉGULIÈRE\n';
+      content += 'Profil : ' + p.label + '\n';
+      content += 'Capacité hebdomadaire protégée : ' + cap + '\n';
+      content += 'Volume cible : ' + vol + '\n\n';
+      content += 'ÉTAT DES ACTIONS (30 JOURS) :\n';
 
-      const tasks = [
-        { id: 'task-1', t: 'Calculer sa capacité horaire exacte et bloquer deux créneaux fixes.' },
-        { id: 'task-2', t: 'Lister les 10 questions les plus fréquentes posées par vos clients.' },
-        { id: 'task-3', t: 'Choisir votre format pilier prioritaire.' },
-        { id: 'task-4', t: 'Rédiger une pièce de contenu approfondie démontrant votre méthode.' },
-        { id: 'task-5', t: 'Extraire 3 micro-publications à partir de cet actif principal.' },
-        { id: 'task-6', t: 'Préparer le lien de capture ou de prise de contact direct.' },
-        { id: 'task-7', t: 'Publier selon la grille hebdomadaire sans interruption.' },
-        { id: 'task-8', t: 'Engager la conversation avec chaque personne ayant commenté.' },
-        { id: 'task-9', t: 'Recueillir les premiers retours et objections formulées.' },
-        { id: 'task-10', t: 'Analyser le ratio temps passé versus opportunités générées.' },
-        { id: 'task-11', t: 'Ajuster le volume si la charge client a dépassé les prévisions.' }
-      ];
-
-      tasks.forEach(task => {
-        const mark = checkedTasks[task.id] ? '[X]' : '[ ]';
-        content += `${mark} ${task.t}\n`;
+      ALL_TASK_IDS.forEach(function(id) {
+        const el = document.getElementById(id);
+        const label = el ? el.textContent.trim() : id;
+        const mark = checkedTasks[id] ? '[X]' : '[ ]';
+        content += mark + ' ' + label + '\n';
       });
 
       const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
@@ -1021,18 +1188,23 @@ Pour chaque publication, fournis :
     }
 
     function resetAllProgress() {
-      if (confirm('Voulez-vous réinitialiser toutes les cases cochées et calculs de ce hub ?')) {
-        checkedTasks = {};
-        saveState();
-        updateProgress();
-        selectProfile('freelance');
-      }
+      checkedTasks = {};
+      selectProfile('freelance');
+      showFeedback('Hub réinitialisé aux valeurs par défaut.');
     }
+
+    // Expose hooks for automated verification
+    window.__HUB_PROTOTYPE__ = {
+      getSerializableState: getSerializableState,
+      importDataJsonString: importDataJsonString,
+      selectProfile: selectProfile,
+      toggleTask: toggleTask,
+      onHoursInputChange: onHoursInputChange,
+      resetAllProgress: resetAllProgress
+    };
 
     // Init on load
     loadState();
-    selectProfile(currentProfile);
-    updateProgress();
   </script>
 
 </body>

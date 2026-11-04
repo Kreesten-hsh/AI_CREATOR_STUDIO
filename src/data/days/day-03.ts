@@ -3,13 +3,13 @@ import type { Day } from '../../types/course';
 export const day03: Day = {
   id: 'day-03',
   dayNumber: 3,
-  sprintId: 'sprint-1',
-  title: 'POSITIONNEMENT & PROMESSE',
+  sprintId: 'module-01',
+  title: 'POSITIONNEMENT ET PROMESSE DE TRANSFORMATION',
   italicTitleWord: 'POSITIONNEMENT',
   objective:
     "Définir pourquoi un acheteur précis choisirait votre offre face aux alternatives qu'il utilise réellement, identifier la différence qui compte pour lui et formuler une promesse de transformation concrète et vérifiable.",
   deliverableSummary:
-    'Matrice de différenciation, énoncé de positionnement et promesse de transformation',
+    'Alternatives réelles, valeur différenciante, positionnement provisoire et promesse vérifiable',
   isSkeletonPlaceholder: false,
   steps: [
     {
@@ -256,7 +256,7 @@ RÈGLES D'INTERDICTION ET D'ÉVIDENCE STRICTES :
 - INTERDICTION de présenter un positionnement comme validé s'il ne repose sur aucune preuve empirique.
 - INTERDICTION de promettre un résultat financier garanti (ex. chiffre d'affaires, taux de conversion garanti).
 - INTERDICTION de fixer prématurément le format technique final (mini-app, hub, calculateur) ou son prix (réservés au Jour 04).
-- INTERDICTION de rédiger la page de vente ou le texte publicitaire (réservés aux Jours 11 à 15).
+- INTERDICTION de rédiger la page de vente ou le texte publicitaire (réservés au Module 03, Leçons 07 à 09).
 - INTERDICTION de dénigrer les produits statiques (les guides PDF ont leur utilité ; l'interactivité ne vaut que si elle élimine une friction réelle).
 - INTERDICTION d'employer du jargon creux d'IA ("révolutionnaire", "game-changer", "scalable", "mindset", "booster").
 - RÈGLE DU VOCABULAIRE : Utilise un français professionnel sobre, précis et direct. Sans tirets cadratins.
@@ -385,7 +385,7 @@ Formule canonique :
             "2. Le problème documentaire identifiable : Page 2, la formule de calcul de capacité impose de poser une équation manuelle à chaque changement d'emploi du temps. Page 3, la matrice 40/40/20 reste un concept abstrait. Page 4, la feuille de route invite à imprimer du papier. Page 5, le prompt textuel comporte des crochets [Remplacer par...] à éditer manuellement.",
             "3. Capacité différenciante proposée : Transformer ce document en atelier interactif direct : un calculateur dynamique avec curseurs, une répartition visuelle immédiate des 3 piliers selon le statut sélectionné en 1 clic, une feuille de route dont les cases cochées sont mémorisées dans le navigateur, et un générateur de prompt sans crochets.",
             "4. Valeur concrète pour l'acheteur : Élimination de la corvée de calcul (le consultant sait en 30 secondes combien d'heures il peut consacrer à la création), suppression du tri manuel de contenu inutile, continuité de travail sur écran sans papier.",
-            "5. Preuves disponibles vs Hypothèses restantes : [FAIT DOCUMENTÉ] Le fichier source comporte des formules manuelles et des cases statiques. [HYPOTHÈSE À VÉRIFIER] Les consultants accordent-ils assez d'importance à cette fluidité pour préférer un outil interactif à leur carnet gratuit ? (À tester au Jour 25).",
+            "5. Preuves disponibles vs Hypothèses restantes : [FAIT DOCUMENTÉ] Le fichier source comporte des formules manuelles et des cases statiques. [HYPOTHÈSE À VÉRIFIER] Les consultants accordent-ils assez d'importance à cette fluidité pour préférer un outil interactif à leur carnet gratuit ? (À vérifier lors de la mise en vente au Module 03).",
             "6. Positionnement provisoire retenu : « Pour les consultants et formateurs indépendants qui manquent de temps pour organiser leur présence éditoriale, notre produit est un atelier d'application guidée avec simulateur intégré qui leur permet de bâtir et suivre leur calendrier de publication sans quitter leur écran, contrairement aux guides PDF méthodologiques qui exigent de sortir une calculatrice et d'imprimer des feuilles de route papier. »",
             "7. Promesse de transformation : « Évaluer votre capacité de création hebdomadaire réelle sans calcul manuel et obtenir votre calendrier éditorial équilibré sur 30 jours, prêt à l'emploi en moins de 45 minutes dans votre navigateur. »",
           ],

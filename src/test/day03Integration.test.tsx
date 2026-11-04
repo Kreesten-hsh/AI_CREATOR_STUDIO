@@ -12,7 +12,7 @@ function setupWorkspaceForDay(dayNumber: number, stepType?: 'concept' | 'prompt'
   const initial = createInitialProgress();
   initial.activeRoute = {
     kind: 'course',
-    courseId: resolveCourseIdForDay(dayNumber) ?? 'course-01',
+    courseId: resolveCourseIdForDay(dayNumber) ?? 'module-01',
     dayNumber,
   };
   if (stepType) {
@@ -34,12 +34,12 @@ describe('MISSION 06 : Day 03 Positioning & Promise Full Integration Suite', () 
   it('1. possède les métadonnées officielles du Jour 03 et n\'est plus un squelette', () => {
     expect(day03.id).toBe('day-03');
     expect(day03.dayNumber).toBe(3);
-    expect(day03.sprintId).toBe('sprint-1');
-    expect(day03.title).toBe('POSITIONNEMENT & PROMESSE');
+    expect(day03.sprintId).toBe('module-01');
+    expect(day03.title).toBe('POSITIONNEMENT ET PROMESSE DE TRANSFORMATION');
     expect(day03.italicTitleWord).toBe('POSITIONNEMENT');
     expect(day03.isSkeletonPlaceholder).toBe(false);
     expect(day03.objective).toContain('choisirait votre offre');
-    expect(day03.deliverableSummary).toContain('Matrice de différenciation');
+    expect(day03.deliverableSummary).toContain('Alternatives réelles');
 
     expect(day03.steps).toHaveLength(4);
     expect(day03.steps[0].id).toBe('day-03-step-1');

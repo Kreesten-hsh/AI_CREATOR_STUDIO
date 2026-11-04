@@ -3,13 +3,13 @@ import type { Day } from '../../types/course';
 export const day01: Day = {
   id: 'day-01',
   dayNumber: 1,
-  sprintId: 'sprint-1',
-  title: 'NICHE & PROBLÈME CIBLE',
+  sprintId: 'module-01',
+  title: 'DE SON EXPERTISE AU PROBLÈME CLIENT',
   italicTitleWord: 'PROBLÈME',
   objective:
-    "Comprendre ce qu'est un produit digital interactif (par opposition à un document statique) à partir de sa propre matière de départ (écrite ou non) et formuler le problème précis que le produit résoudra, pour qui.",
+    "Identifier à partir de sa propre matière de départ (écrite ou non) un problème client concret, observable et prioritaire, sans présupposer qu'une demande commerciale est déjà validée.",
   deliverableSummary:
-    'Déclaration de niche orientée problème et matrice des 3 problèmes candidats classés par urgence',
+    'Matière de départ structurée, problèmes candidats et niche orientée problème',
   isSkeletonPlaceholder: false,
   steps: [
     {
@@ -44,10 +44,10 @@ export const day01: Day = {
           eyebrow: '1.2 NATURE DU PRODUIT',
           title: 'Document statique versus Produit digital interactif',
           paragraphs: [
-            "Comprenez bien la différence de nature entre ces deux supports :",
-            "Un document statique (PDF, livre, article) livre une information brute. Il laisse tout le travail d'adaptation au lecteur : celui-ci doit lire l'ensemble pour trouver ce qui s'applique à sa situation, effectuer les calculs à la main et transposer les consignes seul.",
-            "Un produit digital interactif prend en charge une partie de cet effort en automatisant les calculs, en filtrant les règles selon les données saisies et en guidant l'utilisateur pas à pas vers son résultat.",
-            "Au Jour 01, votre objectif n'est pas encore de décider de la forme technique de votre produit (calculateur, diagnostic, générateur ou parcours guidé). Ce choix d'architecture aura lieu au Jour 04. Aujourd'hui, vous devez identifier le blocage réel du quotidien qui justifiera que l'on utilise un outil interactif plutôt qu'un texte passif.",
+            "Comprenez bien la complémentarité et la différence d'usage entre ces deux supports :",
+            "Un document statique (PDF, ebook, livre, guide de référence) reste un format pertinent et très vendu lorsqu'il s'agit de transmettre un savoir linéaire à lire, étudier ou archiver. En revanche, dès que le lecteur doit effectuer des calculs à la main, diagnostiquer son propre cas ou filtrer de nombreuses options, le support statique lui laisse toute la charge d'adaptation.",
+            "Un produit digital interactif apporte une valeur réelle lorsqu'il facilite directement une action : calculer, diagnostiquer, personnaliser, organiser, générer ou prendre une décision.",
+            "À la Leçon 01, votre objectif n'est pas encore de décider de la forme technique de votre produit (calculateur, diagnostic, générateur ou parcours guidé). Ce choix d'architecture aura lieu à la Leçon 04. Aujourd'hui, vous devez identifier le blocage réel du quotidien qui justifiera une interaction utile.",
           ],
         },
         {
@@ -74,7 +74,7 @@ export const day01: Day = {
             "1. OBSERVATION (Le Fait) : Ce que vous avez vu, lu ou mesuré sans interprétation (ex. 8 clients sur 10 m'ont demandé par e-mail comment calculer leur taux net).",
             "2. DÉDUCTION (La Conséquence Logique) : Le lien rationnel direct tiré d'une observation (ex. Comme ils n'ont pas la formule, ils utilisent un calcul approximatif trouvé sur un blog qui omet les cotisations).",
             "3. HYPOTHÈSE (La Supposition à Vérifier) : Ce qui vous paraît probable mais qui n'a pas encore été validé par un fait (ex. Ces indépendants utiliseraient un simulateur web si celui-ci calculait automatiquement leurs charges).",
-            "Règle d'or sur la volonté de payer : Ne présentez jamais la volonté de payer comme un fait acquis simplement parce qu'un problème semble douloureux. Savoir si des clients achèteront votre solution reste une hypothèse tant que les ventes ne sont pas ouvertes au Jour 25.",
+            "Règle d'or sur la volonté de payer : Ne présentez jamais la volonté de payer comme un fait acquis simplement parce qu'un problème semble douloureux. Savoir si des clients achèteront votre solution reste une hypothèse tant que votre offre n'est pas confrontée à de vrais acheteurs au Module 03 (Leçons 07 à 09).",
             "Une fois ce travail d'observation mené, formulez votre déclaration de niche en une seule phrase : « J'aide [Audience cible en situation] à résoudre [Problème précis et observable] sans [Pénibilité du contournement actuel]. »",
             "Pour choisir votre problème prioritaire (Rang 1) parmi vos pistes, évaluez chaque friction sur 4 dimensions : sa fréquence d'apparition, la gravité de sa conséquence immédiate, la pénibilité de son contournement actuel, et la disponibilité de votre méthode pour le résoudre.",
           ],

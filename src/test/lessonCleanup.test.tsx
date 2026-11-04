@@ -1,132 +1,187 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { ProgressProvider } from '../context/ProgressContext';
 import { CourseWorkspaceRouter } from '../app/routes';
-import { ALL_DAYS } from '../data/course';
+import { ALL_DAYS, COURSE_DATA } from '../data/course';
+import { BONUSES } from '../data/navigation/bonuses';
+import { MAIN_COURSES } from '../data/navigation/mainCourses';
+import { RESOURCE_CATEGORIES } from '../data/navigation/resources';
 import { createInitialProgress, saveProgressToStorage } from '../utils/storage';
 import { resolveCourseIdForDay } from '../utils/courseNavigation';
+import { renderPromptTemplate } from '../utils/promptRenderer';
+import type { PromptBuilderBlock } from '../types/course';
 
-function setupWorkspaceForDay(dayNumber: number) {
-  saveProgressToStorage({
-    ...createInitialProgress(),
-    activeRoute: {
-      kind: 'course',
-      courseId: resolveCourseIdForDay(dayNumber) ?? 'course-01',
-      dayNumber,
-    },
-  });
+function setupWorkspaceForDay(
+  dayNumber: number,
+  stepType?: 'concept' | 'prompt' | 'example' | 'your-turn'
+) {
+  const initial = createInitialProgress();
+  initial.activeRoute = {
+    kind: 'course',
+    courseId: resolveCourseIdForDay(dayNumber) ?? 'module-01',
+    dayNumber,
+  };
+  if (stepType) {
+    initial.activeStepByDay[dayNumber] = stepType;
+  }
+  saveProgressToStorage(initial);
 }
 
-describe('MISSION 03-B : Editorial and Structural Cleanup Verification', () => {
+describe('V2 : Curriculum Editorial, Structural & Behavioral Verification (Lessons 04-09, Bonuses)', () => {
   beforeEach(() => {
     window.localStorage.clear();
+    window.scrollTo = vi.fn();
   });
 
-  it('1. Day 04 (Skeleton) renders tabs and banner, but NO fake content, NO empty-block card, and NO completion button', () => {
-    const day04 = ALL_DAYS.find((d) => d.dayNumber === 4);
-    expect(day04?.isSkeletonPlaceholder).toBe(true);
-    for (const step of day04!.steps) {
-      expect(step.blocks).toEqual([]);
+  it('1. guarantees zero em-dashes (— / \\u2014) and zero video blocks across all active V2 data files', () => {
+    const allActivePayloads = [
+      COURSE_DATA,
+      ALL_DAYS,
+      BONUSES,
+      MAIN_COURSES,
+      RESOURCE_CATEGORIES,
+    ];
+
+    for (const payload of allActivePayloads) {
+      const serialized = JSON.stringify(payload);
+      expect(serialized).not.toContain('\u2014');
+      expect(serialized).not.toContain('—');
     }
 
-    setupWorkspaceForDay(4);
-
-    render(
-      <ProgressProvider>
-        <CourseWorkspaceRouter />
-      </ProgressProvider>
-    );
-
-    // Day banner and tabs exist
-    const heading = screen.getByRole('heading', { name: /FORMAT/i });
-    expect(heading).toHaveTextContent(/FORMAT/i);
-    expect(screen.getByText('Comprendre')).toBeInTheDocument();
-    expect(screen.getByText('Prompt Claude')).toBeInTheDocument();
-    expect(screen.getByText('Exemple guidé')).toBeInTheDocument();
-    expect(screen.getByText('À vous de jouer')).toBeInTheDocument();
-
-    // The old generic filler message must be absent
-    expect(
-      screen.queryByText(/Aucun bloc de contenu configuré pour cette étape/i)
-    ).not.toBeInTheDocument();
-
-    // Fake callout, fake video and fake quiz must be absent
-    expect(screen.queryByText(/Structure pédagogique : Leçon/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/LEÇON VIDÉO/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Briefing vidéo/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/NOTE IMPORTANTE/i)).not.toBeInTheDocument();
-
-    // Completion button must NOT be rendered on empty skeleton steps
-    expect(screen.queryByRole('button', { name: /Valider l'étape/i })).not.toBeInTheDocument();
+    for (const day of ALL_DAYS) {
+      for (const step of day.steps) {
+        expect(step.blocks.filter((b) => b.type === 'video')).toHaveLength(0);
+      }
+    }
   });
 
-  it('2. Day 06 (Developed) renders full content, quiz, and completion button without redundant NOTE IMPORTANTE callout', () => {
-    const day06 = ALL_DAYS.find((d) => d.dayNumber === 6);
-    expect(day06?.isSkeletonPlaceholder).toBe(false);
+  it('2. verifies that every PromptBuilder in Lessons 04 to 09 and Bonuses injects the learner profile, never imposes Studio colors, and aligns with the lesson deliverable', () => {
+    const customProfile = {
+      ...createInitialProgress().profile,
+      studentName: 'Fatou',
+      business: 'Gestion Budgétaire Familiale',
+      targetAudience: 'Jeunes actifs salariés',
+      productType: "Calculateur d'épargne mensuelle",
+      brandStyle: 'Ardoise & Émeraude (#0F172A, #0F766E)',
+      mainObjective: 'Lancer à 14 900 FCFA sur Chariow',
+    };
 
-    setupWorkspaceForDay(6);
+    const days04To09 = ALL_DAYS.filter((d) => d.dayNumber >= 4 && d.dayNumber <= 9);
+    expect(days04To09).toHaveLength(6);
 
+    for (const day of days04To09) {
+      const promptStep = day.steps.find((s) => s.type === 'prompt')!;
+      const pbBlocks = promptStep.blocks.filter(
+        (b): b is PromptBuilderBlock => b.type === 'prompt-builder'
+      );
+      expect(pbBlocks.length).toBeGreaterThanOrEqual(1);
+
+      for (const pb of pbBlocks) {
+        // Ne jamais injecter en dur les couleurs d'AI CREATOR Studio comme thème de l'apprenant
+        expect(pb.template).not.toContain('#B63131');
+        expect(pb.template).not.toContain('#E6A0A8');
+
+        const compiled = renderPromptTemplate(pb.template, customProfile);
+        expect(compiled.missingKeys).toHaveLength(0);
+        for (const field of pb.fields) {
+          if (field.profileBinding) {
+            expect(compiled.renderedText).toContain(customProfile[field.profileBinding]);
+          }
+        }
+      }
+    }
+
+    for (const bonus of BONUSES) {
+      expect(bonus.blocks).toBeDefined();
+      const pbBlocks = bonus.blocks!.filter(
+        (b): b is PromptBuilderBlock => b.type === 'prompt-builder'
+      );
+      expect(pbBlocks.length).toBeGreaterThanOrEqual(1);
+
+      for (const pb of pbBlocks) {
+        expect(pb.template).not.toContain('#B63131');
+        expect(pb.template).not.toContain('#E6A0A8');
+        const compiled = renderPromptTemplate(pb.template, customProfile);
+        expect(compiled.missingKeys).toHaveLength(0);
+        for (const field of pb.fields) {
+          if (field.profileBinding) {
+            expect(compiled.renderedText).toContain(customProfile[field.profileBinding]);
+          }
+        }
+      }
+    }
+  });
+
+  it('3. renders Lesson 04 (Module 02) with its 5 focused pedagogical components and completion button', () => {
+    setupWorkspaceForDay(4, 'concept');
     render(
       <ProgressProvider>
         <CourseWorkspaceRouter />
       </ProgressProvider>
     );
 
-    // Developed title and prose
-    const heading = screen.getByRole('heading', { name: /DÉCONSTRUCTION/i });
-    expect(heading).toHaveTextContent(/DÉCONSTRUCTION/i);
-    expect(heading).toHaveTextContent(/CONTENU STATIQUE/i);
+    expect(screen.getByText('LEÇON 4 SUR 9')).toBeInTheDocument();
     expect(
-      screen.getByText("L'inertie du document statique face à l'outil actif")
+      screen.getByRole('heading', {
+        name: /CHOISIR LE FORMAT INTERACTIF ET CONCEVOIR SON BLUEPRINT/i,
+      })
     ).toBeInTheDocument();
-
-    // Redundant callout must be absent from Step 1
-    expect(screen.queryByText(/NOTE IMPORTANTE/i)).not.toBeInTheDocument();
-    expect(
-      screen.queryByText(/Distinction clé : Document d'information versus Outil de décision/i)
-    ).not.toBeInTheDocument();
-
-    // The explanation was integrated directly into prose
-    expect(
-      screen.getByText(/La distinction fondamentale est simple : un document d'information transmet des notions/i)
-    ).toBeInTheDocument();
-
-    // Quiz is present
-    expect(screen.getByText("Validation de la méthode UAM")).toBeInTheDocument();
-
-    // Completion button IS present on developed days
     expect(
       screen.getByRole('button', { name: /Valider l'étape 1 : Comprendre/i })
     ).toBeInTheDocument();
   });
 
-  it('3. Days 06 to 10 have zero video blocks and zero unverified Claude Pro claims', () => {
-    const developed = ALL_DAYS.filter((d) => d.dayNumber >= 6 && d.dayNumber <= 10);
-    expect(developed).toHaveLength(5);
+  it('4. verifies that Orientation (Hors décompte) and its two menus are completely absent from the course UI', () => {
+    const initial = createInitialProgress();
+    initial.activeRoute = { kind: 'home' };
+    saveProgressToStorage(initial);
 
-    for (const day of developed) {
-      for (const step of day.steps) {
-        expect(step.blocks.filter((b) => b.type === 'video')).toHaveLength(0);
-        // Verify no CalloutBox with variant 'important' exists in steps 1 and 2
-        const importantCallouts = step.blocks.filter(
-          (b) => b.type === 'callout' && b.variant === 'important'
-        );
-        expect(importantCallouts).toHaveLength(0);
-      }
-    }
+    render(
+      <ProgressProvider>
+        <CourseWorkspaceRouter />
+      </ProgressProvider>
+    );
 
-    // Day 07 specific: verify unverified Claude Pro claim and studio brand colors are removed
-    const day07 = ALL_DAYS.find((d) => d.dayNumber === 7)!;
-    const day07Text = JSON.stringify(day07);
-    expect(day07Text).not.toContain('fenêtre de contexte plus large');
-    expect(day07Text).not.toContain('#B63131');
-    expect(day07Text).not.toContain('#E6A0A8');
+    expect(screen.queryByText(/ORIENTATION/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/HORS DÉCOMPTE/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Configurer mon profil/i)).not.toBeInTheDocument();
+  });
 
-    // Day 09 specific: verify studio brand colors are removed from downloadable CSS
-    const day09 = ALL_DAYS.find((d) => d.dayNumber === 9)!;
-    const day09Text = JSON.stringify(day09);
-    expect(day09Text).not.toContain('#B63131');
-    expect(day09Text).not.toContain('#E6A0A8');
+  it('5. renders interactive Bonus views (ManyChat 24h sequence & Marketing Library) with PromptBuilder and Checklist', () => {
+    const initial = createInitialProgress();
+    initial.activeRoute = { kind: 'bonus', bonusId: 'bonus-manychat' };
+    saveProgressToStorage(initial);
+
+    const { unmount } = render(
+      <ProgressProvider>
+        <CourseWorkspaceRouter />
+      </ProgressProvider>
+    );
+
+    expect(
+      screen.getByRole('heading', { name: /LE SYSTÈME MANYCHAT AUTOMATISÉ AVEC CLAUDE/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Comprendre la fenêtre de 24 heures et le parcours exact en 5 étapes/i)
+    ).toBeInTheDocument();
+
+    unmount();
+
+    initial.activeRoute = { kind: 'bonus', bonusId: 'bonus-marketing' };
+    saveProgressToStorage(initial);
+
+    render(
+      <ProgressProvider>
+        <CourseWorkspaceRouter />
+      </ProgressProvider>
+    );
+
+    expect(
+      screen.getByRole('heading', { name: /^MARKETING LIBRARY$/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Des structures d’argumentation honnêtes, centrées sur l’usage réel/i)
+    ).toBeInTheDocument();
   });
 });

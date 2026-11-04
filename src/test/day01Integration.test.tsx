@@ -12,7 +12,7 @@ function setupWorkspaceForDay(dayNumber: number, stepType?: 'concept' | 'prompt'
   const initial = createInitialProgress();
   initial.activeRoute = {
     kind: 'course',
-    courseId: resolveCourseIdForDay(dayNumber) ?? 'course-01',
+    courseId: resolveCourseIdForDay(dayNumber) ?? 'module-01',
     dayNumber,
   };
   if (stepType) {
@@ -34,12 +34,12 @@ describe('MISSION 04 : Day 01 Full React Integration Suite', () => {
     it('possède les métadonnées officielles et n\'est plus un squelette', () => {
       expect(day01.id).toBe('day-01');
       expect(day01.dayNumber).toBe(1);
-      expect(day01.sprintId).toBe('sprint-1');
-      expect(day01.title).toBe('NICHE & PROBLÈME CIBLE');
+      expect(day01.sprintId).toBe('module-01');
+      expect(day01.title).toBe('DE SON EXPERTISE AU PROBLÈME CLIENT');
       expect(day01.italicTitleWord).toBe('PROBLÈME');
       expect(day01.isSkeletonPlaceholder).toBe(false);
-      expect(day01.objective).toContain('produit digital interactif');
-      expect(day01.deliverableSummary).toContain('Déclaration de niche');
+      expect(day01.objective).toContain('problème client concret');
+      expect(day01.deliverableSummary).toContain('Matière de départ structurée');
     });
 
     it('contient exactement 4 étapes canoniques et ordonnées', () => {

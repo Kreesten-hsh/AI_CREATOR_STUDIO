@@ -13,6 +13,7 @@ import {
   calculateDailyProgress,
   calculateGlobalProgress,
   normalizeStepList,
+  TOTAL_COURSE_DAYS,
   type DailyProgressResult,
   type GlobalProgressResult,
 } from '../utils/progressCalculator';
@@ -93,8 +94,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     (courseId: string, dayNumber?: number, lessonId?: string) => {
       setState((prev) => {
         const course = getCourseById(courseId);
-        const validCourseId = course?.id ?? 'course-01';
-        const [startDay, endDay] = course?.dayRange ?? [1, 15];
+        const validCourseId = course?.id ?? 'module-01';
+        const [startDay, endDay] = course?.dayRange ?? [1, 3];
 
         let targetDay = dayNumber ?? startDay;
         if (targetDay < startDay || targetDay > endDay) {
@@ -138,10 +139,10 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const navigateToStartHere = useCallback((lessonId: string) => {
+    const validLessonId = lessonId === 'setup' ? 'setup' : 'introduction';
     const nextRoute: ActiveRoute = {
-      kind: 'course',
-      courseId: 'course-01',
-      lessonId,
+      kind: 'start-here',
+      lessonId: validLessonId,
     };
     setState((prev) => ({
       ...prev,
@@ -152,8 +153,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
 
   const navigateToDay = useCallback((dayNumber: number, step?: StepType) => {
     setState((prev) => {
-      const safeDay = Math.max(1, Math.min(25, dayNumber));
-      const courseId = resolveCourseIdForDay(safeDay) ?? 'course-01';
+      const safeDay = Math.max(1, Math.min(TOTAL_COURSE_DAYS, dayNumber));
+      const courseId = resolveCourseIdForDay(safeDay) ?? 'module-01';
       const nextStep = step ?? prev.activeStepByDay[safeDay] ?? 'concept';
 
       return {

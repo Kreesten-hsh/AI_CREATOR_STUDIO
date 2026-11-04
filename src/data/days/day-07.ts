@@ -3,11 +3,12 @@ import type { Day } from '../../types/course';
 export const day07: Day = {
   id: 'day-07',
   dayNumber: 7,
-  sprintId: 'sprint-2',
-  title: 'LE PROMPT MAÎTRE D\'ARCHITECTURE DANS CLAUDE ARTIFACTS',
-  italicTitleWord: 'ARCHITECTURE',
-  objective: 'Générer l\'ossature complète d\'une application web autonome en un seul fichier (HTML/CSS/JS) dans Claude Artifacts avec une esthétique affirmée.',
-  deliverableSummary: 'Squelette fonctionnel d\'application web autonome prévisualisé dans Claude',
+  sprintId: 'module-03',
+  title: 'CONSTRUIRE SON OFFRE ET FIXER SON PRIX',
+  italicTitleWord: 'OFFRE',
+  objective:
+    "Transformer votre fichier technique exporté en une offre commerciale claire, définir votre prix de vente en cohérence avec les alternatives du marché et poser des conditions de vente et de support transparentes.",
+  deliverableSummary: 'Offre commerciale structurée, prix choisi et argumentaire de valeur',
   isSkeletonPlaceholder: false,
   steps: [
     {
@@ -15,57 +16,47 @@ export const day07: Day = {
       type: 'concept',
       number: 1,
       title: 'Comprendre',
-      subtitle: 'Comment fonctionne réellement Claude Artifacts',
-      completionLabel: 'Valider l\'étape 1 : Comprendre',
+      subtitle: 'De l’outil technique à l’offre commerciale crédible',
+      completionLabel: "Valider l'étape 1 : Comprendre",
       blocks: [
         {
-          id: 'day-07-prose-1',
+          id: 'day07-step1-offer-structure',
           type: 'prose',
-          eyebrow: 'LEÇON 07 : COMPRENDRE LES FONDATIONS',
-          title: 'Maîtriser l\'environnement Claude Artifacts sans coder',
-          italicAccent: 'Autonomie',
-          highlightPill: 'La règle essentielle : demander un fichier HTML unique intégrant styles et scripts pour un fonctionnement immédiat partout.',
+          eyebrow: '1.1 CE QUI EST RÉELLEMENT VENDU',
+          title: 'Structurer la valeur d’usage de votre produit interactif',
+          highlightPill: 'Livrable principal + Bénéfices d’action + Conditions claires',
           paragraphs: [
-            'La fonctionnalité Artifacts de Claude est un environnement d\'exécution interactif intégré. Dès que Claude génère un extrait de code structuré de plus de 15 lignes, il l\'isole dans un panneau latéral dédié sur la droite de votre écran.',
-            'Ce panneau propose deux modes essentiels : l\'onglet « Preview », qui exécute et affiche instantanément votre application dans le navigateur comme un vrai site web, et l\'onglet « Code », qui vous permet de lire, copier ou exporter l\'intégralité du code source en un clic.',
-            'Pour qu\'un produit soit commercialisable sans friction auprès de clients non techniques, il doit impérativement être autonome : tout le HTML, le CSS (dans une balise <style>) et le JavaScript (dans une balise <script>) doivent cohabiter dans un seul fichier index.html. Cela garantit que votre client peut ouvrir son guide d\'un double-clic sur son ordinateur sans installer le moindre logiciel.',
-            'L\'offre gratuite de Claude permet de générer, tester et exporter des Artifacts complets dans la limite de ses quotas quotidiens d\'utilisation. Un abonnement payant permet principalement d\'augmenter ces quotas de requêtes pour itérer de manière intensive sans interruption.',
+            "Vos acheteurs n'achètent pas du code HTML ou du JavaScript : ils achètent la résolution rapide et fiable d'un problème concret. Pour construire une offre solide sans gonfler artificiellement son contenu, présentez clairement 4 éléments :",
           ],
           bullets: [
-            'Vérifier que la fonctionnalité Artifacts est bien active dans vos paramètres Claude.',
-            'Exiger de Claude un fichier monobloc HTML/CSS/JS sans dépendances externes complexes.',
-            'Utiliser le bouton de téléchargement ou de copie dans l\'onglet Code pour récupérer votre fichier.',
+            "1. Le cœur de l'offre (ce que le client reçoit immédiatement) : l'outil interactif fonctionnel (accessible sur téléphone via le lien HTTPS et téléchargeable en archive `.zip` pour un usage hors ligne), accompagné de son système de sauvegarde portable `.json` et de son guide de démarrage rapide.",
+            "2. Les bénéfices opérationnels concrets : le temps économisé, les erreurs de calcul ou d'arbitrage évitées et la clarté du résultat obtenu dès la première utilisation.",
+            "3. Les éléments complémentaires éventuels : n'ajoutez un complément (ex. une fiche de synthèse PDF, une checklist d'entretien ou 3 modèles prêts à copier) que s'il accélère directement l'utilisation de l'outil principal.",
+            "4. Les conditions de vente et de support : précisez honnêtement ce qui est inclus (accès au téléchargement Chariow, sauvegarde JSON, adresse e-mail de contact en cas de problème technique de téléchargement) et ce qui ne l'est pas (pas de coaching individuel illimité si vous vendez un produit autonome).",
           ],
         },
         {
-          id: 'day-07-quiz-1',
-          type: 'quiz',
-          title: 'Validation de l\'environnement Artifacts',
-          description: 'Vérifiez la maîtrise des principes de Claude Artifacts.',
-          questions: [
-            {
-              id: 'q7-1',
-              question: 'Pourquoi privilégier une application autonome en un seul fichier HTML/CSS/JS ?',
-              options: [
-                'Pour que le client puisse l\'ouvrir directement dans son navigateur sans serveur ni installation',
-                'Parce que Claude refuse d\'écrire plusieurs lignes de code',
-                'Pour obliger le client à acheter un logiciel spécialisé',
-              ],
-              correctIndex: 0,
-              explanation: 'Un fichier autonome monobloc s\'exécute partout sans dépendance, fonctionne hors ligne et se déploie en quelques secondes.',
-            },
-            {
-              id: 'q7-2',
-              question: 'Où se situe l\'option permettant de voir et copier le code source dans Claude Artifacts ?',
-              options: [
-                'Dans un menu caché payant',
-                'Dans l\'onglet Code situé en haut à droite du panneau de l\'Artifact',
-                'Dans les paramètres généraux de votre navigateur',
-              ],
-              correctIndex: 1,
-              explanation: 'L\'Artifact dispose de deux onglets : Preview pour tester l\'interface et Code pour copier ou télécharger le fichier.',
-            },
+          id: 'day07-step1-pricing-strategy',
+          type: 'prose',
+          eyebrow: '1.2 FIXER SON PRIX ET DÉFINIR UN OBJECTIF COMMERCIAL',
+          title: 'Comparer les alternatives et structurer ses paliers tarifaires',
+          paragraphs: [
+            "Pour fixer votre prix, comparez votre produit aux alternatives réelles identifiées à la Leçon 03 : d'un côté, le bricolage manuel gratuit mais coûteux en temps et en erreurs ; de l'autre, une prestation de conseil sur mesure ou un logiciel par abonnement mensuel beaucoup plus onéreux.",
+            "Une méthode pragmatique pour lancer un nouveau produit digital consiste à définir un tarif d'amorçage pour les premiers acheteurs, suivi d'un tarif standard :",
           ],
+          bullets: [
+            "Exemple de grille de lancement à deux paliers (modèle commercial d'AI CREATOR Studio) : fixer les 30 premières ventes à 14 900 FCFA (soit 447 000 FCFA), puis les 70 ventes suivantes à 24 900 FCFA (soit 1 743 000 FCFA).",
+            "Lecture du modèle : si ces 100 ventes sont réalisées, le chiffre d'affaires brut atteint 2 190 000 FCFA (dépassant un objectif commercial de 2 000 000 FCFA brut).",
+            "Règle de lucidité commerciale : ces montants sont des objectifs commerciaux et des projections arithmétiques de planification, jamais des résultats garantis. Votre volume réel de ventes dépendra de la pertinence du problème résolu, de votre audience et de la régularité de vos démonstrations.",
+          ],
+        },
+        {
+          id: 'day07-step1-callout-ethics',
+          type: 'callout',
+          variant: 'important',
+          title: 'Zéro promesse de revenu ou de résultat magique',
+          content:
+            "Dans votre argumentaire de valeur, vendez toujours une capacité d'action vérifiable (« Calculez votre seuil de rentabilité en 5 minutes », « Évaluez vos candidats selon 8 critères pondérés ») et ne promettez jamais à votre client un gain financier garanti.",
         },
       ],
     },
@@ -74,75 +65,89 @@ export const day07: Day = {
       type: 'prompt',
       number: 2,
       title: 'Prompt Claude',
-      subtitle: 'Le Prompt Maître d\'Architecture Web Monobloc',
-      completionLabel: 'Valider l\'étape 2 : Prompt Claude',
+      subtitle: 'Structurer votre offre, votre prix et votre argumentaire',
+      completionLabel: "Valider l'étape 2 : Prompt Claude",
       blocks: [
         {
-          id: 'day-07-prompt-builder',
+          id: 'day07-step2-master-prompt',
           type: 'prompt-builder',
-          title: 'Prompt Maître d\'Architecture Claude Artifacts',
+          title: 'Compilateur du Prompt d’Architecture d’Offre & Prix (Leçon 07)',
           description:
-            'Ce prompt ordonne à Claude de générer l\'ossature complète de votre application web autonome avec navigation par onglets et respect de votre identité visuelle. Si la génération s\'interrompt en raison de la limite de longueur de réponse, écrivez simplement : « Continue la génération du code exactement à partir de la dernière balise générée » sans relancer tout le prompt.',
-          deliverableTarget: 'claude-artifact',
+            "Utilisez ce prompt dans Claude pour formaliser votre offre commerciale complète, votre grille de prix et vos conditions de vente.",
+          deliverableTarget: 'sales-copy',
           fields: [
             {
               key: 'business',
-              label: 'Thématique / Niche ({{business}})',
-              placeholder: 'Votre domaine d\'activité',
+              label: "Domaine d'expertise",
+              placeholder: 'Ex. Conseil RH, Gestion financière, Productivité...',
               profileBinding: 'business',
             },
             {
               key: 'targetAudience',
-              label: 'Audience cible ({{targetAudience}})',
-              placeholder: 'Vos clients cibles',
+              label: 'Acheteur cible',
+              placeholder: 'Ex. Dirigeants de PME, Freelances, Formateurs...',
               profileBinding: 'targetAudience',
             },
             {
               key: 'productType',
-              label: 'Type de produit ({{productType}})',
-              placeholder: 'ex. Starter Kit Interactif',
+              label: 'Votre produit interactif finalisé (Leçon 06)',
+              placeholder: 'Ex. Calculateur de Capacité & Feuille de Route 30 Jours',
               profileBinding: 'productType',
             },
             {
-              key: 'brandStyle',
-              label: 'Direction visuelle ({{brandStyle}})',
-              placeholder: 'ex. Néo-Brutaliste Éditorial',
-              profileBinding: 'brandStyle',
-            },
-            {
               key: 'mainObjective',
-              label: 'Objectif de transformation ({{mainObjective}})',
-              placeholder: 'Résultat garanti pour l\'acheteur',
+              label: 'Transformation concrète apportée',
+              placeholder: 'Ex. Déterminer sa capacité hebdomadaire et suivre son plan en 10 minutes',
               profileBinding: 'mainObjective',
             },
           ],
-          template: `Tu es un Ingénieur Frontend Senior et Architecte d'Applications Web Autonomes.
+          template: `<role>
+Tu es un Stratège Commercial Senior spécialisé dans le packaging et la tarification de produits digitaux pratiques.
+Tu construis des offres transparentes, ancrées dans la valeur d'usage réelle, sans fausse urgence ni promesse mensongère.
+</role>
 
-CONTEXTE DU PROJET :
-- Activité / Niche : {{business}}
-- Audience cible : {{targetAudience}}
-- Format du produit : {{productType}}
-- Direction visuelle : {{brandStyle}}
-- Résultat promis à l'utilisateur : {{mainObjective}}
+<context>
+- Domaine : {{business}}
+- Acheteur final : {{targetAudience}}
+- Produit interactif créé : {{productType}}
+- Résultat concret : {{mainObjective}}
+</context>
 
-MISSION :
-Génère dans un Claude Artifact une application web interactive complète et autonome en un SEUL fichier HTML (incluant tout le CSS dans une balise <style> et tout le JavaScript dans une balise <script>).
+<product_details>
+[PRÉCISEZ ICI :
+1. Ce que contient votre archive .zip (fichier HTML autonome, lien HTTPS mobile, sauvegarde JSON, guide d'accès)
+2. Les alternatives actuelles de votre acheteur et leur coût en temps ou en argent
+3. La devise et la fourchette de prix que vous envisagez (ex. en FCFA ou en EUR)]
+</product_details>
 
-EXIGENCES TECHNIQUES STRICTES :
-1. AUTONOMIE TOTALE : Aucun import de framework externe (pas de React, pas de Tailwind par CDN). Utilise du HTML5 sémantique, du CSS vanille moderne avec variables :root, et du JavaScript vanille pur.
-2. DIRECTION ARTISTIQUE ET CHARTE VISUELLE :
-   - Applique fidèlement la direction visuelle suivante : {{brandStyle}}.
-   - Définis une palette de couleurs cohérente et lisible en variables CSS :root respectant les contrastes WCAG AA.
-   - Typographie soignée, hiérarchie visuelle claire et mise en page épurée adaptée au support.
-3. STRUCTURE DE L'APPLICATION :
-   - En-tête éditorial percutant avec badge de méthodologie et titre fort.
-   - Barre de sélection de profil en haut de page permettant d'adapter la situation de l'utilisateur.
-   - Système de navigation par onglets thématiques fluide (onglets actifs avec état visuel franc).
-   - Conteneurs de modules structurés prêts à accueillir les calculateurs et feuilles de route.
-   - Barre de progression visuelle en tête de page prête pour le suivi d'actions.
-4. ERGONOMIE MOBILE : Design responsive adaptatif avec zones de frappe minimales de 48px et défilement fluide sans débordement horizontal.
+<constraints>
+- Ne formule aucune promesse de gain financier garanti ni de résultat automatique sans action de l'acheteur.
+- Présente toute projection de ventes comme un objectif commercial arithmétique et non comme une certitude.
+- N'utilise aucun tiret cadratin.
+</constraints>
 
-Génère le code intégral du fichier de la première à la dernière ligne dans un Artifact unique.`,
+<output_format>
+Structure ma fiche d'offre commerciale en 6 parties :
+
+### 1. Définition claire de ce qui est vendu
+- Présentation factuelle de l'outil interactif, de ses modes d'accès (en ligne HTTPS mobile/desktop et hors ligne via archive ZIP) et de sa sauvegarde portable JSON.
+
+### 2. Les 3 bénéfices concrets d'utilisation
+- Gain de temps, réduction des erreurs ou clarté décisionnelle observables dès la première session.
+
+### 3. Contenu détaillé de l'offre et complément éventuel
+- Livrable principal + 1 élément complémentaire pertinent (uniquement s'il facilite l'exécution).
+
+### 4. Comparaison honnête avec les alternatives du marché
+- Tableau comparant : 1) Faire seul manuellement ; 2) Prestation externe / logiciel lourd ; 3) Cet outil interactif autonome.
+
+### 5. Stratégie de prix et simulation d'objectif commercial
+- Tarif de lancement recommandé (ex. pour les X premières ventes) et tarif standard.
+- Simulation arithmétique claire de l'objectif commercial brut (présentée explicitement comme un objectif de pilotage).
+
+### 6. Conditions de vente, livraison et périmètre du support
+- Modalités d'accès immédiat après paiement, prérequis techniques (un simple navigateur web) et cadre précis du support client.
+</output_format>`,
         },
       ],
     },
@@ -151,55 +156,23 @@ Génère le code intégral du fichier de la première à la dernière ligne dans
       type: 'example',
       number: 3,
       title: 'Exemple guidé',
-      subtitle: 'Décorticage de l\'architecture d\'apres-hub-interactif.html',
-      completionLabel: 'Valider l\'étape 3 : Exemple guidé',
+      subtitle: 'Fiche d’offre et tarification du cas fil rouge',
+      completionLabel: "Valider l'étape 3 : Exemple guidé",
       blocks: [
         {
-          id: 'day-07-example-prose',
+          id: 'day07-step3-offer-example',
           type: 'prose',
-          eyebrow: 'ANATOMIE D\'UN ARTEFACT DE QUALITÉ',
-          title: 'La structure des 3 couches dans un seul fichier',
-          italicAccent: 'Clarté',
+          eyebrow: '3.1 DÉMONSTRATION COMPLÈTE',
+          title: 'Offre structurée pour « Le Système de Création Régulière »',
           paragraphs: [
-            'Regardons comment est architecturée notre démonstration phare (apres-hub-interactif.html) :',
-            '1. Les variables de style (:root) : toutes les couleurs de notre charte (Rouge Brique, Rose Poudré, Crème) et les ombres franches de 4px sont déclarées au tout début du fichier dans la balise <style>. Cela permet de modifier l\'ambiance visuelle en changeant 3 lignes sans toucher à la logique.',
-            '2. Le balisage sémantique : l\'application est découpée en conteneurs clairs : .simulation-bar, .hero-banner, .profile-bar, .progress-bar-container, .tabs-nav, puis les panneaux .tab-panel.',
-            '3. La mécanique d\'affichage par onglets : une fonction JavaScript de 6 lignes suffit pour masquer les panneaux inactifs (.tab-panel) et afficher le panneau sélectionné (.tab-panel.active) d\'un clic, avec transition visuelle immédiate.',
+            "Voici comment se traduit l'offre commerciale du produit témoin d'Alexandre V. avant sa mise en ligne sur Chariow :",
           ],
-        },
-        {
-          id: 'day-07-example-copy',
-          type: 'copy',
-          title: 'Extrait de Navigation par Onglets en JavaScript Vanille',
-          label: 'ONGLETS-MINIMAL-ROBUSTE.JS',
-          content: `function switchTab(tabId) {
-  // 1. Mettre à jour l'état visuel des boutons d'onglets
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-target') === tabId);
-  });
-
-  // 2. Afficher uniquement le panneau de contenu correspondant
-  document.querySelectorAll('.tab-panel').forEach(panel => {
-    panel.classList.toggle('active', panel.id === tabId);
-  });
-}`,
-          notes: 'Ce bloc JavaScript élémentaire assure une navigation instantanée sans avoir besoin de la moindre bibliothèque externe.',
-        },
-        {
-          id: 'day-07-example-resources',
-          type: 'resource',
-          title: 'Ressources Pédagogiques de la Leçon 07',
-          description: 'Téléchargez le modèle minimal d\'architecture pour démarrer avec Claude.',
-          resources: [
-            {
-              id: 'res-squelette-html',
-              title: 'Gabarit de Squelette HTML Vanille Néo-Brutaliste',
-              category: 'template',
-              description: 'Modèle de départ avec variables CSS et conteneurs d\'onglets prêts à l\'emploi.',
-              format: 'HTML',
-              downloadFilename: 'squelette-neo-brutaliste-base.html',
-              downloadContent: `<!DOCTYPE html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8">\n  <title>Application Interactive</title>\n  <style>\n    :root { --primary: var(--brand-primary, #2563EB); --bg: #F8FAFC; --ink: #0F172A; --surface: #FFFFFF; }\n    body { background: var(--bg); color: var(--ink); font-family: sans-serif; padding: 20px; }\n    .tab-panel { display: none; }\n    .tab-panel.active { display: block; }\n  </style>\n</head>\n<body>\n  <h1>Mon Application</h1>\n</body>\n</html>`,
-            },
+          bullets: [
+            "Ce qui est vendu : L'outil interactif autonome « Le Système de Création Régulière » (Calculateur de capacité horaire + Matrice des 3 Piliers selon le profil + Feuille de route 30 jours + Compilateur de prompt), livré en archive `.zip` avec accès HTTPS mobile et sauvegarde portable `.json`.",
+            "Complément inclus : Le guide PDF initial de 12 pages pour ceux qui souhaitent lire les fondements méthodologiques au calme avant d'utiliser le calculateur.",
+            "Comparaison des alternatives : Bricoler seul sur un carnet prend 1 à 2 heures chaque mois avec des calculs approximatifs ; un accompagnement individuel coûte plusieurs centaines de milliers de FCFA ; l'outil interactif offre le diagnostic et le plan d'action en 10 minutes.",
+            "Grille tarifaire choisie : 14 900 FCFA pour les 30 premiers acheteurs (palier de lancement), puis 24 900 FCFA en tarif normal.",
+            "Conditions et support : Livraison automatique immédiate après paiement sur Chariow ; fonctionnement sur tout navigateur (téléphone et ordinateur) sans abonnement ; support par e-mail sous 48h ouvrées pour toute question liée au téléchargement ou à l'ouverture de l'archive.",
           ],
         },
       ],
@@ -209,34 +182,50 @@ Génère le code intégral du fichier de la première à la dernière ligne dans
       type: 'your-turn',
       number: 4,
       title: 'À vous de jouer',
-      subtitle: 'Obtenez votre premier prototype dans Claude Artifacts',
-      completionLabel: 'Valider le livrable de la Leçon 07',
+      subtitle: 'Formaliser votre offre et fixer votre prix',
+      completionLabel: "Valider l'étape 4 : À vous de jouer",
       blocks: [
         {
-          id: 'day-07-exercise-1',
+          id: 'day07-offer-sheet',
           type: 'text-exercise',
-          title: 'Espace de Travail Pratique : Votre Squelette d\'Application',
-          instructions: 'Copiez le Prompt Maître compilé ci-dessus, exécutez-le dans Claude, vérifiez que l\'Artifact s\'affiche dans le panneau latéral, puis collez ci-dessous les premières lignes du code produit ou un résumé de la structure obtenue.',
-          placeholder: 'Collez ici la structure de votre fichier HTML généré par Claude (titre, onglets prévus et styles validés)...',
-          maxLength: 3000,
+          title: 'Exercice principal : Votre fiche d’offre commerciale et votre prix',
+          instructions:
+            "Exécutez le prompt de l'étape 2 dans Claude et rédigez ci-dessous la synthèse finale de votre offre : contenu exact livré au client, 3 bénéfices concrets, comparaison aux alternatives, prix retenu (avec ou sans palier de lancement) et conditions de support.",
+          placeholder:
+            "1. Nom commercial de l'offre et contenu exact du pack :\n2. Les 3 bénéfices concrets pour l'acheteur :\n3. Comparaison face aux alternatives actuelles :\n4. Prix choisi (tarif de lancement / tarif standard) et objectif commercial :\n5. Conditions de livraison et périmètre du support :",
+          minLength: 70,
+          maxLength: 5000,
         },
         {
-          id: 'day-07-checklist-1',
+          id: 'day07-checklist',
           type: 'checklist',
-          title: 'Vérification de Fin de Leçon 07',
-          description: 'Validez chaque élément avant de passer à l\'étape d\'enrichissement interactif (Leçon 08).',
+          title: 'Critères de validation observables (Leçon 07)',
+          description:
+            'Vérifiez que votre offre commerciale est prête à être publiée sur Chariow à la Leçon 08.',
           items: [
             {
-              id: 'chk-07-1',
-              label: 'J\'ai généré l\'application dans Claude et l\'Artifact s\'ouvre correctement dans le panneau latéral',
+              id: 'chk-d07-clear-deliverable',
+              label: 'Contenu livré explicite et sans ambiguïté',
+              detail:
+                "L'acheteur comprend immédiatement qu'il reçoit un outil interactif utilisable sur mobile et ordinateur.",
             },
             {
-              id: 'chk-07-2',
-              label: 'La navigation par onglets fonctionne d\'un clic dans l\'onglet Preview de Claude',
+              id: 'chk-d07-concrete-benefits',
+              label: 'Bénéfices ancrés dans l’action (zéro promesse irréaliste)',
+              detail:
+                'Aucun revenu garanti ni résultat magique : uniquement le gain pratique procuré par votre outil.',
             },
             {
-              id: 'chk-07-3',
-              label: 'L\'esthétique reprend bien les bordures nettes, ombres franches et la palette choisie',
+              id: 'chk-d07-price-set',
+              label: 'Prix de vente fixé et argumenté',
+              detail:
+                'Votre tarif est cohérent avec la friction résolue et positionné clairement face aux alternatives.',
+            },
+            {
+              id: 'chk-d07-support-terms',
+              label: 'Cadre de support et prérequis définis',
+              detail:
+                'Les conditions d’utilisation et de contact support sont rédigées noir sur blanc.',
             },
           ],
         },

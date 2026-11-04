@@ -1,6 +1,6 @@
 import { ALL_STEP_TYPES, type StepType } from '../types/course';
 
-export const TOTAL_COURSE_DAYS = 25;
+export const TOTAL_COURSE_DAYS = 9;
 export const STEPS_PER_DAY = 4;
 
 export interface DailyProgressResult {
@@ -12,7 +12,7 @@ export interface DailyProgressResult {
 
 export interface GlobalProgressResult {
   completedDaysCount: number;
-  totalDays: 25;
+  totalDays: number;
   percentage: number;
   completedDayNumbers: number[];
 }

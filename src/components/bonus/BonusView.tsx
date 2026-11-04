@@ -1,6 +1,7 @@
 import { ArrowLeft, CheckCircle2, Clock, Gift, Sparkles } from 'lucide-react';
 import { BONUSES } from '../../data/navigation/bonuses';
 import { useProgress } from '../../hooks/useProgress';
+import { LessonRenderer } from '../course/LessonRenderer';
 
 interface BonusViewProps {
   bonusId: string;
@@ -29,7 +30,7 @@ export function BonusView({ bonusId }: BonusViewProps) {
           <div className="md:col-span-4 lg:col-span-3 bg-checkerboard-pink p-6 flex items-center justify-center border-b-2 md:border-b-0 md:border-r-2 border-ink min-h-[160px]">
             <div className="bg-surface border-2 border-ink rounded-brutal-card shadow-brutal px-5 py-4 text-center -rotate-2">
               <span className="block font-mono text-[10px] font-bold uppercase tracking-widest text-ink/75">
-                ACCÉLÉRATEUR
+                BONUS PRATIQUE
               </span>
               <span className="block font-serif text-4xl leading-none text-ink my-1">
                 {bonus.orderNumber}
@@ -63,9 +64,9 @@ export function BonusView({ bonusId }: BonusViewProps) {
               </p>
             </div>
 
-            <div className="pt-3 border-t-2 border-ink/10 flex items-center gap-2">
+            <div className="pt-3 border-t-2 border-ink/10 flex flex-wrap items-center gap-2">
               <span className="font-mono text-xs font-bold text-ink/70">
-                Livrable garanti :
+                Livrable attendu :
               </span>
               <span className="font-mono text-xs font-bold px-2 py-0.5 bg-pale-pink border border-ink rounded-brutal-tag text-ink">
                 {bonus.deliverable}
@@ -75,12 +76,12 @@ export function BonusView({ bonusId }: BonusViewProps) {
         </div>
       </header>
 
-      {/* Description & Contenu du Bonus */}
+      {/* Résumé des points clés */}
       <div className="brutal-card rounded-brutal-card bg-surface p-6 md:p-8 border-2 border-ink shadow-brutal space-y-6">
         <div>
           <span className="font-mono text-xs font-bold uppercase tracking-wider text-primary-red flex items-center gap-1.5">
             <Sparkles className="w-4 h-4" aria-hidden="true" />
-            VUE D&apos;ENSEMBLE DU BONUS
+            OBJECTIF OPÉRATIONNEL DU BONUS
           </span>
           <h3 className="font-display text-xl uppercase tracking-tight text-ink mt-1">
             Ce que vous allez mettre en place
@@ -92,7 +93,7 @@ export function BonusView({ bonusId }: BonusViewProps) {
 
         <div className="border-t-2 border-ink/10 pt-6 space-y-4">
           <h4 className="font-display text-lg uppercase tracking-tight text-ink">
-            Points clés abordés dans cet accélérateur
+            Points clés couverts
           </h4>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -110,6 +111,11 @@ export function BonusView({ bonusId }: BonusViewProps) {
           </div>
         </div>
       </div>
+
+      {/* Contenu pédagogique complet et interactif du Bonus */}
+      {bonus.blocks && bonus.blocks.length > 0 && (
+        <LessonRenderer blocks={bonus.blocks} />
+      )}
     </div>
   );
 }

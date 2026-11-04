@@ -16,8 +16,7 @@ export function CourseLayout({ course, children }: CourseLayoutProps) {
 
   const isInsideCourse =
     state.activeRoute.kind === 'course' ||
-    state.activeRoute.kind === 'day' ||
-    state.activeRoute.kind === 'start-here';
+    state.activeRoute.kind === 'day';
 
   return (
     <div className="min-h-screen bg-cream text-ink flex flex-col lg:flex-row">

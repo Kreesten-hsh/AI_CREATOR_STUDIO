@@ -22,8 +22,7 @@ export function MobileNavigation({
 
   const isInsideCourse =
     state.activeRoute.kind === 'course' ||
-    state.activeRoute.kind === 'day' ||
-    state.activeRoute.kind === 'start-here';
+    state.activeRoute.kind === 'day';
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -61,7 +60,7 @@ export function MobileNavigation({
               </span>
             </span>
             <span className="font-mono text-[11px] font-bold text-ink/75 block">
-              {globalProgress.completedDaysCount} sur 25 leçons validées
+              {globalProgress.completedDaysCount} sur {globalProgress.totalDays} leçons validées
             </span>
           </div>
         </div>

@@ -5,130 +5,120 @@ export const INTRODUCTION_LESSON: StartHereLesson = {
   lessonNumber: 1,
   title: 'BIENVENUE DANS LE STUDIO',
   italicTitleWord: 'STUDIO',
-  subtitle: 'BIEN COMMENCER 01 : MAÎTRISER CLAUDE',
+  subtitle: 'ORIENTATION 01 : COMPRENDRE LA MÉTHODE V2',
   objective:
-    'Comprendre la mécanique d\'apprentissage, comment Claude transforme des documents statiques en produits digitaux interactifs, et comment votre progression est enregistrée.',
+    'Comprendre le principe fondamental du Studio (« Tu ne vas pas apprendre à créer notre plateforme, tu vas apprendre à créer la tienne »), la structure en 3 modules et 9 leçons, et quand l’interactivité apporte une valeur réelle.',
   blocks: [
     {
       id: 'intro-prose-1',
       type: 'prose',
-      eyebrow: 'BRIEFING D\'ORIENTATION',
-      title: 'Pourquoi les PDF statiques perdent de la valeur',
-      italicAccent: 'L\'interactivité gagne',
+      eyebrow: 'BRIEFING D’ORIENTATION (HORS DÉCOMPTE DES 9 LEÇONS)',
+      title: 'Créer votre propre produit interactif, dans votre domaine',
+      italicAccent: 'Votre expertise, votre outil',
       highlightPill:
-        'Votre objectif : transformer des contenus ordinaires en expériences interactives que vos clients terminent réellement.',
+        'Principe fondamental : Vous n’allez pas reproduire AI CREATOR Studio. Vous allez concevoir votre propre produit digital pour votre audience.',
       paragraphs: [
-        'Bienvenue dans AI CREATOR Studio. Au fil de ce parcours d\'apprentissage, vous progressez à travers cinq modules d\'exécution pour passer d\'un concept d\'offre à un produit digital interactif fonctionnel, une page de vente éditoriale et un système d\'automatisation complet.',
-        'Chaque leçon suit scrupuleusement le même rythme en quatre étapes : 1. Comprendre (le principe fondamental), 2. Prompt Claude (générer le composant avec Claude), 3. Exemple guidé (analyser un modèle prêt à l\'emploi), et 4. À vous de jouer (valider votre livrable personnel).',
+        'Bienvenue dans AI CREATOR Studio. Les ebooks, PDF et guides statiques continuent de très bien se vendre lorsqu’ils répondent à un besoin de lecture ou d’apprentissage théorique. L’interactivité n’est jamais automatiquement supérieure à un document.',
+        'En revanche, lorsqu’un client doit calculer, diagnostiquer sa situation, filtrer des options, suivre une progression ou générer un plan sur mesure, un outil interactif élimine la friction manuelle. Ce mini-cours de 3 modules et 9 leçons vous apprend à utiliser Claude pour transformer votre matière en un produit interactif personnalisé et commercialisable sur Chariow.',
       ],
       bullets: [
-        'Module 1 (Leçons 01 à 05) : Offre et Fondations de l\'IA',
-        'Module 2 (Leçons 06 à 10) : Du PDF à l\'Expérience Interactive',
-        'Module 3 (Leçons 11 à 15) : Pages de Vente Éditoriales',
-        'Module 4 (Leçons 16 à 20) : Studio d\'Automatisation (ManyChat / n8n)',
-        'Module 5 (Leçons 21 à 25) : Usine à Contenu et Lancement',
+        'Module 01 (Leçons 01 à 03) : L’Opportunité & le Positionnement (problème client, fiche acheteur, promesse vérifiable)',
+        'Module 02 (Leçons 04 à 06) : Concevoir & Créer avec Claude (blueprint, construction HTML/JS avec sauvegarde JSON portable, personnalisation et export ZIP)',
+        'Module 03 (Leçons 07 à 09) : Vendre & Promouvoir (offre et prix, boutique Chariow, contenus de lancement)',
+        'Bonus 01 : Le Système ManyChat Automatisé avec Claude (conforme aux règles Meta et à la fenêtre de 24h)',
+        'Bonus 02 : Marketing Library (20 accroches, 5 carrousels, 3 séquences emails, scripts de démonstration)',
       ],
     },
     {
       id: 'intro-callout-distinction',
       type: 'callout',
       variant: 'important',
-      title: 'Distinction architecturale clé : Moteur de formation vs Livrables élèves',
+      title: 'Distinction clé : La plateforme du cours vs Votre produit',
       content:
-        'Cette plateforme de cours est développée avec React et TypeScript pour structurer votre progression et vos widgets interactifs. En revanche, les créations que VOUS réaliserez avec Claude s\'appuient sur des formats légers et universels : les Claude Artifacts et des applications HTML/CSS/JavaScript autonomes monoblocs, faciles à héberger et à diffuser sans outillage lourd.',
+        'Cette plateforme de formation utilise sa propre direction artistique (Néo-Brutaliste Rouge Brique et Crème). Votre produit ne doit jamais copier ce style ni nos écrans : vous choisirez vos propres couleurs, votre typographie et votre format d’interaction adaptés à votre audience.',
     },
     {
       id: 'intro-resource-demos',
       type: 'resource',
-      title: 'La Démonstration Phare du Studio : Avant / Après',
-      description: 'Découvrez la preuve concrète de la transformation enseignée dans le Module 02.',
+      title: 'La Démonstration Fil Rouge : Du Guide Statique à l’Outil Interactif',
+      description:
+        'Comparez le guide PDF d’origine et sa transformation en outil interactif doté de sa propre identité visuelle (Ardoise & Émeraude) et d’une sauvegarde portable JSON.',
       resources: [
         {
           id: 'res-intro-demo-avant',
-          title: 'Version Avant : Guide PDF Statique (12 Pages)',
+          title: 'Matériau de départ : Guide PDF Statique',
           category: 'guide',
-          description: 'Consultez la version statique réaliste pour mesurer les limites de la lecture passive.',
+          description:
+            'Support de simulation illustrant un guide méthodologique nécessitant des calculs manuels sur papier.',
           format: 'HTML / PDF',
           externalUrl: '/demos/pdf-to-hub/avant-pdf-statique.html',
         },
         {
           id: 'res-intro-demo-apres',
-          title: 'Version Après : Hub Interactif Autonome',
+          title: 'Résultat transformé : Outil Interactif Autonome',
           category: 'template',
-          description: 'Testez le résultat transformé : sélecteur de statut, calculateur en direct et checklist persistante.',
-          format: 'HTML / JS',
+          description:
+            'Testez le calculateur de capacité, le suivi 30 jours et la sauvegarde portable Exporter / Importer JSON.',
+          format: 'HTML / JS / JSON',
           externalUrl: '/demos/pdf-to-hub/apres-hub-interactif.html',
         },
       ],
     },
     {
-      id: 'intro-video-overview',
-      type: 'video',
-      title: 'Visite guidée du Studio et workflow Claude Artifacts',
-      description:
-        'Vue d\'ensemble pour combiner cet espace de travail avec Claude Artifacts et publier des guides interactifs sans écrire de code fastidieux.',
-      duration: '04:15',
-      posterLabel: 'BRIEFING D\'ORIENTATION : MAÎTRISER LE STUDIO',
-      keyTakeaways: [
-        'Gardez Claude ouvert en parallèle d\'AI CREATOR Studio.',
-        'Activez la fonctionnalité "Artifacts" dans vos réglages Claude avant d\'aborder le Module 2.',
-        'Validez chacune des 4 étapes d\'une leçon pour l\'illuminer en rouge brique dans votre grille de progression.',
-      ],
-    },
-    {
       id: 'intro-quiz-check',
       type: 'quiz',
-      title: 'Validation des fondamentaux',
-      description: 'Vérifiez la maîtrise du fonctionnement du studio avant de configurer vos variables.',
+      title: 'Vérification des principes du parcours',
+      description: 'Assurez-vous d’avoir bien intégré la philosophie du Studio avant de démarrer la Leçon 01.',
       questions: [
         {
           id: 'q-output-format',
           question:
-            'Quel format cible allez-vous demander à Claude de générer pour vos livrables ?',
+            'Quand un format interactif est-il pertinent par rapport à un document PDF statique ?',
           options: [
-            'Des Claude Artifacts et des applications HTML/CSS/JavaScript autonomes',
-            'Un cluster Kubernetes multi-services',
-            'Un document Word imprimé en noir et blanc',
+            'Lorsqu’il facilite réellement une action concrète : calcul, diagnostic, personnalisation, tri ou prise de décision',
+            'Systématiquement, car plus personne n’achète de PDF aujourd’hui',
+            'Uniquement si l’on programme un serveur backend complexe avec base de données',
           ],
           correctIndex: 0,
           explanation:
-            'Les applications HTML/CSS/JS autonomes et les Claude Artifacts offrent un rendu visuel immédiat, sans compilation ni dépendances complexes pour vos acheteurs.',
+            'Les PDF statiques restent pertinents pour la lecture. L’interactivité apporte une valeur distinctive lorsqu’elle aide l’acheteur à accomplir une action concrète.',
         },
         {
           id: 'q-progress-rule',
-          question: 'Quand une case de leçon devient-elle rouge brique dans la grille de navigation ?',
+          question: 'Quelle identité visuelle devez-vous appliquer au produit que vous allez créer ?',
           options: [
-            'Dès que vous cliquez sur le titre de la leçon',
-            'Uniquement quand les 4 étapes (Comprendre, Prompt Claude, Exemple guidé, À vous de jouer) sont validées',
-            'Lorsque vous terminez la section Bien commencer',
+            'Exactement les couleurs Rouge Brique et Crème d’AI CREATOR Studio',
+            'Votre propre identité visuelle, adaptée à votre domaine et à votre audience',
+            'Aucune mise en forme graphique',
           ],
           correctIndex: 1,
           explanation:
-            'Une leçon est marquée comme validée uniquement après la complétion de ses 4 étapes. Les deux leçons d\'introduction sont gérées séparément pour ne pas fausser le décompte du parcours.',
+            'Vous créez votre propre produit pour votre marché : il doit refléter votre univers professionnel et non celui du Studio.',
         },
       ],
     },
     {
       id: 'intro-checklist',
       type: 'checklist',
-      title: 'Liste de préparation avant décollage',
-      description: 'Cochez chaque point dès que vous êtes prêt à configurer votre espace de travail.',
+      title: 'Liste de préparation avant la Leçon 01',
+      description: 'Cochez ces trois points pour confirmer que votre environnement est prêt.',
       items: [
         {
           id: 'chk-claude-account',
-          label: 'Compte Claude opérationnel avec la fonction Artifacts activée',
-          detail: 'Un compte gratuit ou Pro convient parfaitement ; assurez-vous que les Artifacts sont bien activés.',
+          label: 'Compte Claude opérationnel',
+          detail: 'Gardez Claude ouvert dans un second onglet pour exécuter les prompts de chaque leçon.',
         },
         {
           id: 'chk-browser-storage',
-          label: 'Compréhension de la sauvegarde locale automatique',
+          label: 'Compréhension de la sauvegarde de votre progression',
           detail:
-            'Votre avancement s\'enregistre en continu et silencieusement dans votre navigateur sans perte de données.',
+            'Vos réponses aux exercices des 9 leçons sont sauvegardées localement dans votre navigateur.',
         },
         {
           id: 'chk-four-steps',
-          label: 'Engagement à valider les 4 étapes de chaque leçon',
-          detail: 'Comprendre, Prompt Claude, Exemple guidé, et À vous de jouer.',
+          label: 'Progression en 3 modules et 9 leçons',
+          detail:
+            'Chaque leçon produit un livrable précis qui alimente directement la leçon suivante.',
         },
       ],
     },

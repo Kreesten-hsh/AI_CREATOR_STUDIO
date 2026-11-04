@@ -2,45 +2,30 @@ import type { Sprint } from '../types/course';
 
 export const SPRINTS: Sprint[] = [
   {
-    id: 'sprint-1',
+    id: 'module-01',
     sprintNumber: 1,
-    title: 'OFFRE & FONDATIONS DE L\'IA',
-    subtitle: 'Leçons 01 à 05',
-    dayRange: [1, 5],
+    title: "L'OPPORTUNITÉ & LE POSITIONNEMENT",
+    subtitle: 'Leçons 01 à 03',
+    dayRange: [1, 3],
     deliverable:
-      'Opportunité business définie, audience cible, positionnement stratégique et plan du produit digital.',
+      'Problème client priorisé, fiche acheteur documentée et promesse de transformation vérifiable.',
   },
   {
-    id: 'sprint-2',
+    id: 'module-02',
     sprintNumber: 2,
-    title: 'DU PDF À L\'EXPÉRIENCE INTERACTIVE',
-    subtitle: 'Leçons 06 à 10',
-    dayRange: [6, 10],
-    deliverable: 'Un guide digital interactif fonctionnel créé avec Claude et Artifacts.',
-  },
-  {
-    id: 'sprint-3',
-    sprintNumber: 3,
-    title: 'PAGES DE VENTE ÉDITORIALES',
-    subtitle: 'Leçons 11 à 15',
-    dayRange: [11, 15],
-    deliverable: 'Une page de vente professionnelle et visuellement distinctive pour votre produit digital.',
-  },
-  {
-    id: 'sprint-4',
-    sprintNumber: 4,
-    title: 'STUDIO D\'AUTOMATISATION',
-    subtitle: 'Leçons 16 à 20',
-    dayRange: [16, 20],
+    title: 'CONCEVOIR & CRÉER AVEC CLAUDE',
+    subtitle: 'Leçons 04 à 06',
+    dayRange: [4, 6],
     deliverable:
-      'Un workflow de capture de leads et de messagerie automatisée avec des outils comme ManyChat ou n8n.',
+      'Produit digital interactif personnel, personnalisé, testé (hors ligne, HTTPS mobile et JSON) et exporté en ZIP.',
   },
   {
-    id: 'sprint-5',
-    sprintNumber: 5,
-    title: 'USINE À CONTENU & LANCEMENT',
-    subtitle: 'Leçons 21 à 25',
-    dayRange: [21, 25],
-    deliverable: 'Un pack complet de contenus promotionnels et un produit digital prêt pour le lancement.',
+    id: 'module-03',
+    sprintNumber: 3,
+    title: 'VENDRE & PROMOUVOIR',
+    subtitle: 'Leçons 07 à 09',
+    dayRange: [7, 9],
+    deliverable:
+      'Offre structurée, fiche produit Chariow configurée et kit promotionnel de lancement.',
   },
 ];

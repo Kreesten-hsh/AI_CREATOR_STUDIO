@@ -74,7 +74,7 @@ function DayWorkspaceView({ day }: { day: Day }) {
           />
         )}
 
-        {progress.isCompleted && day.dayNumber < 25 && (
+        {progress.isCompleted && day.dayNumber < COURSE_DATA.totalDays && (
           <div className="brutal-card rounded-brutal-card p-5 bg-primary-red text-surface flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <span className="font-mono text-xs font-bold uppercase px-2 py-0.5 bg-surface text-ink border border-ink rounded-brutal-tag">
@@ -106,7 +106,7 @@ export function CourseWorkspaceRouter() {
   const { state } = useProgress();
   const route = state.activeRoute;
 
-  if (route.kind === 'home') {
+  if (route.kind === 'home' || route.kind === 'start-here') {
     return <CourseHomePage />;
   }
 
@@ -121,7 +121,7 @@ export function CourseWorkspaceRouter() {
   if (route.kind === 'course') {
     const course = getCourseById(route.courseId);
     const startDay = course?.dayRange?.[0] ?? 1;
-    const endDay = course?.dayRange?.[1] ?? 15;
+    const endDay = course?.dayRange?.[1] ?? 3;
     let dayNumber = route.dayNumber ?? startDay;
     if (dayNumber < startDay || dayNumber > endDay) {
       dayNumber = startDay;
@@ -129,11 +129,6 @@ export function CourseWorkspaceRouter() {
     const day =
       COURSE_DATA.days.find((d) => d.dayNumber === dayNumber) ??
       COURSE_DATA.days[0];
-    return <DayWorkspaceView day={day} />;
-  }
-
-  if (route.kind === 'start-here') {
-    const day = COURSE_DATA.days[0];
     return <DayWorkspaceView day={day} />;
   }
 

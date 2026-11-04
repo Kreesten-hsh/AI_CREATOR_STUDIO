@@ -3,11 +3,12 @@ import type { Day } from '../../types/course';
 export const day06: Day = {
   id: 'day-06',
   dayNumber: 6,
-  sprintId: 'sprint-2',
-  title: 'DÉCONSTRUCTION DU CONTENU STATIQUE',
-  italicTitleWord: 'DÉCONSTRUCTION',
-  objective: 'Auditer un document PDF ou texte brut et convertir les chapitres passifs en Unités d\'Action Minimales interactives.',
-  deliverableSummary: 'Matrice de déconstruction et cartographie des 3 modules interactifs du produit',
+  sprintId: 'module-02',
+  title: 'PERSONNALISER, TESTER ET EXPORTER SON PRODUIT',
+  italicTitleWord: 'EXPORTER',
+  objective:
+    "Appliquer votre propre identité visuelle à votre produit, valider son fonctionnement sur mobile et ordinateur via un hébergement HTTPS stable, et assembler l'archive ZIP finale prête pour la livraison commerciale.",
+  deliverableSummary: 'Produit interactif finalisé, personnalisé, testé et exporté',
   isSkeletonPlaceholder: false,
   steps: [
     {
@@ -15,57 +16,46 @@ export const day06: Day = {
       type: 'concept',
       number: 1,
       title: 'Comprendre',
-      subtitle: 'Pourquoi les PDF s\'accumulent sans être appliqués',
-      completionLabel: 'Valider l\'étape 1 : Comprendre',
+      subtitle: 'Identité visuelle propre, déploiement HTTPS et pack ZIP',
+      completionLabel: "Valider l'étape 1 : Comprendre",
       blocks: [
         {
-          id: 'day-06-prose-1',
+          id: 'day06-step1-visual-identity',
           type: 'prose',
-          eyebrow: 'LEÇON 06 : COMPRENDRE LES FONDATIONS',
-          title: 'L\'inertie du document statique face à l\'outil actif',
-          italicAccent: 'Action',
-          highlightPill: 'La règle d\'or : transformer chaque chapitre de lecture passive en une décision ou un calcul mesurable.',
+          eyebrow: '1.1 VOTRE IDENTITÉ VISUELLE PROPRE',
+          title: 'Adapter le design à votre domaine sans jamais copier AI CREATOR Studio',
+          highlightPill: 'Couleurs, typographies et contrastes au service de votre audience',
           paragraphs: [
-            'Le problème d\'un guide PDF ne vient jamais de la qualité du savoir qu\'il contient, mais de la passivité imposée par son format. Lorsqu\'un client télécharge un document de 20 pages, il se retrouve face à un mur de texte uniforme. Il doit lire, extraire mentalement les conseils pertinents pour sa situation, faire les calculs sur une feuille à part et tenter de s\'organiser sans aucun retour en direct.',
-            'Résultat : la majorité des documents finissent au fond d\'un dossier sans jamais produire le résultat promis. C\'est ce qui explique le plafond tarifaire historique des PDF sur le web francophone.',
-            'Notre méthode pédagogique signature repose sur les Unités d\'Action Minimales (UAM). Chaque section de votre produit doit s\'articuler selon un équilibre strict : 20 % de contexte stratégique (pourquoi cette étape compte), 50 % d\'outil actif (un calculateur, un sélecteur de profil ou un filtre interactif) et 30 % de décision validée (une action concrète enregistrée).',
-            'La distinction fondamentale est simple : un document d\'information transmet des notions que le lecteur doit digérer seul, tandis qu\'un outil de décision pose 3 questions à l\'utilisateur, filtre ses contraintes et lui affiche instantanément son plan d\'action personnalisé.',
+            "Votre produit interactif doit refléter l'univers professionnel de votre activité et inspirer confiance à votre acheteur final. Il ne doit jamais reprendre la charte graphique d'AI CREATOR Studio (ni son rouge brique, ni son rose poudré, ni son style néo-brutaliste).",
+            "Pour personnaliser efficacement votre interface avec Claude, définissez 4 paramètres simples dans vos consignes de style :",
           ],
           bullets: [
-            'Identifier les pavés théoriques qui découragent le lecteur pour les remplacer par des questions à choix ou des curseurs interactifs.',
-            'Isoler les formules mathématiques ou règles de calcul pour les confier au navigateur.',
-            'Remplacer les listes de conseils génériques par des sélecteurs de profil qui masquent l\'inutile et mettent en valeur l\'essentiel.',
+            "Une couleur de fond neutre et reposante (ex. albâtre `#F8FAFC`, sable doux `#FDFBF7` ou sauge pâle `#F7F9F6`) associée à des cartes blanches `#FFFFFF`.",
+            "Une couleur d'action principale franche réservée aux boutons, résultats clés et barres de progression (ex. émeraude `#0F766E`, bleu outremer `#1D4ED8`, terracotta `#C2410C` ou vert forêt `#166534`).",
+            "Une couleur d'encre très foncée pour garantir un contraste de lecture optimal sur tous les écrans.",
+            "Une hiérarchie typographique lisible : tailles confortables sur téléphone (minimum `15px` pour le corps de texte et `44px` de hauteur minimale pour les zones cliquables).",
           ],
         },
         {
-          id: 'day-06-quiz-1',
-          type: 'quiz',
-          title: 'Validation de la méthode UAM',
-          description: 'Vérifiez votre compréhension de la méthode de déconstruction avant d\'exécuter le prompt Claude.',
-          questions: [
-            {
-              id: 'q6-1',
-              question: 'Que signifie transformer un texte en Unité d\'Action Minimale (UAM) ?',
-              options: [
-                'Découper un chapitre en 20 % de contexte, 50 % d\'outil actif et 30 % de décision validée',
-                'Résumer tout le texte en une seule phrase pour faire court',
-                'Créer une animation complexe avec du son',
-              ],
-              correctIndex: 0,
-              explanation: 'L\'UAM transforme la passivité en engagement : un cadrage rapide, un composant interactif où l\'utilisateur agit, et une conclusion concrète validée.',
-            },
-            {
-              id: 'q6-2',
-              question: 'Dans notre démonstration phare, comment la formule de calcul de capacité du PDF est-elle transformée ?',
-              options: [
-                'Elle est supprimée car trop compliquée',
-                'Elle devient un calculateur interactif avec 3 champs évaluant automatiquement les heures protégées en direct',
-                'Elle est copiée à l\'identique sous forme d\'image',
-              ],
-              correctIndex: 1,
-              explanation: 'Dans le hub interactif, l\'utilisateur n\'a plus besoin de calculatrice : le navigateur calcule instantanément sa capacité et son volume de contenu recommandé.',
-            },
+          id: 'day06-step1-https-and-zip',
+          type: 'prose',
+          eyebrow: '1.2 DOUBLE LIVRAISON : URL HTTPS STABLE + ARCHIVE ZIP',
+          title: 'Comment préparer un parcours d’utilisation irréprochable sur ordinateur et téléphone',
+          paragraphs: [
+            "Pour offrir à votre acheteur une expérience fluide sur tous ses appareils, combinez deux supports complémentaires :",
           ],
+          bullets: [
+            "1. L'hébergement en ligne sur une origine HTTPS stable : en déposant gratuitement votre dossier (contenant `index.html`) sur un service d'hébergement statique comme Netlify Drop (`app.netlify.com/drop`) ou Cloudflare Pages, vous obtenez une adresse `https://...` stable. Sur cette adresse HTTPS, votre client peut ouvrir l'outil d'un simple clic sur son smartphone et bénéficier de la sauvegarde automatique `localStorage` sur son navigateur.",
+            "2. L'archive `.zip` téléchargeable (livrée via Chariow) : compressez dans un fichier `.zip` votre application `index.html`, un fichier `LISEZ-MOI.html` (ou `.pdf`) contenant le lien HTTPS pour mobile ainsi que le mode d'emploi de la sauvegarde portable `.json`. Ainsi, l'acheteur possède physiquement son outil et peut l'utiliser même sans connexion Internet.",
+          ],
+        },
+        {
+          id: 'day06-step1-qa-protocol',
+          type: 'callout',
+          variant: 'important',
+          title: 'Les 4 tests obligatoires avant d’exporter votre archive ZIP',
+          content:
+            "Avant d'empaqueter votre produit, testez systématiquement : 1) les valeurs extrêmes (0, nombres élevés, champs vides) dans vos calculateurs ; 2) l'ouverture du fichier `index.html` hors connexion ; 3) l'export puis la réimportation d'une sauvegarde `.json` ; 4) l'affichage et le clic des boutons sur un vrai écran de téléphone via l'URL HTTPS.",
         },
       ],
     },
@@ -74,68 +64,72 @@ export const day06: Day = {
       type: 'prompt',
       number: 2,
       title: 'Prompt Claude',
-      subtitle: 'Méga-Prompt de déconstruction et matrice d\'UAM',
-      completionLabel: 'Valider l\'étape 2 : Prompt Claude',
+      subtitle: 'Habiller votre produit et générer son guide d’accès client',
+      completionLabel: "Valider l'étape 2 : Prompt Claude",
       blocks: [
         {
-          id: 'day-06-prompt-builder',
-          type: 'prompt-builder',
-          title: 'Compilateur de Déconstruction de Contenu Statique',
+          id: 'day06-step2-vibe-selector',
+          type: 'vibe-picker',
+          title: 'Choisir ou ajuster la direction visuelle propre à votre produit',
           description:
-            'Ce prompt demande à Claude d\'auditer votre sujet, d\'extraire les irritants de lecture et de générer la matrice exacte des 3 modules interactifs à construire. Si vous possédez déjà un PDF ou des notes de cours, glissez le document directement dans votre conversation avec Claude avant d\'envoyer le prompt.',
-          deliverableTarget: 'claude-artifact',
+            "Sélectionnez l'une de ces harmonies professionnelles (ou saisissez directement vos codes couleurs dans le compilateur ci-dessous) pour personnaliser votre outil.",
+        },
+        {
+          id: 'day06-step2-master-prompt',
+          type: 'prompt-builder',
+          title: 'Compilateur du Prompt de Personnalisation Visuelle & Finition QA (Leçon 06)',
+          description:
+            "Utilisez ce prompt dans votre conversation Claude pour appliquer votre identité visuelle à votre code de la Leçon 05 et générer la fiche d'instructions client à joindre dans votre archive ZIP.",
+          deliverableTarget: 'html-app',
           fields: [
             {
-              key: 'business',
-              label: 'Thématique / Niche ({{business}})',
-              placeholder: 'Votre domaine ou activité',
-              profileBinding: 'business',
-            },
-            {
-              key: 'targetAudience',
-              label: 'Audience cible ({{targetAudience}})',
-              placeholder: 'Votre client idéal',
-              profileBinding: 'targetAudience',
-            },
-            {
               key: 'productType',
-              label: 'Format cible ({{productType}})',
-              placeholder: 'ex. Starter Kit Interactif',
+              label: 'Nom commercial de votre produit',
+              placeholder: 'Ex. Le Système de Création Régulière',
               profileBinding: 'productType',
             },
             {
-              key: 'mainObjective',
-              label: 'Objectif de transformation ({{mainObjective}})',
-              placeholder: 'Résultat concret apporté au client',
-              profileBinding: 'mainObjective',
+              key: 'targetAudience',
+              label: 'Audience utilisatrice',
+              placeholder: 'Ex. Consultants et formateurs indépendants',
+              profileBinding: 'targetAudience',
+            },
+            {
+              key: 'brandStyle',
+              label: 'Votre direction visuelle (couleurs, style et typographie)',
+              placeholder: 'Ex. Palette Ardoise #0F172A & Émeraude #0F766E sur fond #F8FAFC, cartes épurées',
+              profileBinding: 'brandStyle',
             },
           ],
-          template: `Tu es un Ingénieur Pédagogique Senior et Architecte de Produits Numériques Interactifs.
+          template: `<role>
+Tu es un Designer UI/UX Senior et Ingénieur Assurance Qualité Frontend.
+</role>
 
-CONTEXTE DE MON PROJET :
-- Activité / Niche : {{business}}
-- Audience cible : {{targetAudience}}
-- Format retenu : {{productType}}
-- Objectif majeur : {{mainObjective}}
+<context>
+Nous finalisons la version commercialisable de mon produit interactif :
+- Nom du produit : {{productType}}
+- Destinataires : {{targetAudience}}
+- Identité visuelle propre à appliquer : {{brandStyle}}
+</context>
 
-MISSION :
-Analyse mon sujet et déconstruis la transmission traditionnelle de cette expertise pour la transformer en un produit interactif articulé selon notre méthode des Unités d'Action Minimales (UAM).
+<instructions>
+À partir du code \`index.html\` fonctionnel que nous avons construit à l'étape précédente, effectue exactement ces 3 opérations sans altérer aucune règle de calcul ni la sauvegarde JSON :
 
-LIVRABLES ATTENDUS :
-1. LE DIAGNOSTIC DES IRRITANTS :
-   Identifie 3 obstacles majeurs qui rendent un simple guide PDF inefficace ou décourageant sur ce thème précis.
+1. PERSONNALISATION VISUELLE SUR MESURE :
+- Applique dans les variables CSS (\`:root\`) mon identité visuelle : {{brandStyle}}.
+- Vérifie que les contrastes texte/fond respectent l'accessibilité visuelle et que le design est totalement distinct de toute autre marque.
+- Assure-toi qu'en largeur mobile (375px), les grilles passent sur une seule colonne sans débordement horizontal et que chaque bouton mesure au moins 44px de hauteur.
 
-2. LA MATRICE DES 3 MODULES INTERACTIFS :
-   Pour chacun des 3 modules piliers du futur produit, définis :
-   - Le titre du module
-   - Le composant actif associé (ex. calculateur de rentabilité, questionnaire d'auto-évaluation, sélecteur de cas d'usage, checklist persistante)
-   - Les données saisies par l'utilisateur
-   - La décision concrète ou le résultat personnalisé affiché immédiatement.
+2. BLINDAGE DES VALEURS LIMITES :
+- Vérifie que si l'utilisateur vide un champ numérique ou saisit une valeur négative, le calcul affiche \`0\` proprement sans jamais afficher \`NaN\` ni \`Infinity\`.
 
-3. LE MÉCANISME DE PERSONNALISATION :
-   Propose 3 profils d'utilisateurs distincts permettant de filtrer les recommandations de l'application dès l'en-tête (comme dans notre starter kit de référence).
-
-Sois extrêmement pragmatique, direct, sans bavardage théorique ni jargon superflu.`,
+3. FICHE D'ACCÈS CLIENT (\`LISEZ-MOI.html\`) :
+- Après le code complet de \`index.html\`, fournis un court fichier \`LISEZ-MOI.html\` (avec la même identité visuelle) expliquant à mon acheteur :
+  a) Comment utiliser l'outil en ligne sur téléphone et ordinateur via le lien HTTPS : \`[INSÉRER_LIEN_HTTPS_ICI]\`
+  b) Comment ouvrir \`index.html\` hors ligne sur ordinateur.
+  c) Comment utiliser les boutons "Exporter mes données (.json)" et "Importer une sauvegarde (.json)" pour conserver et transférer ses données entre appareils.
+- N'utilise aucun tiret cadratin.
+</instructions>`,
         },
       ],
     },
@@ -144,65 +138,21 @@ Sois extrêmement pragmatique, direct, sans bavardage théorique ni jargon super
       type: 'example',
       number: 3,
       title: 'Exemple guidé',
-      subtitle: 'Étude comparative directe : PDF statique vs Hub interactif',
-      completionLabel: 'Valider l\'étape 3 : Exemple guidé',
+      subtitle: 'Structure de l’archive ZIP prête pour Chariow',
+      completionLabel: "Valider l'étape 3 : Exemple guidé",
       blocks: [
         {
-          id: 'day-06-example-prose',
+          id: 'day06-step3-zip-structure',
           type: 'prose',
-          eyebrow: 'ÉTUDE COMPARATIVE AVANT / APRÈS',
-          title: 'Analyse du cas réel : Le Système de Création Régulière',
-          italicAccent: 'Preuve',
+          eyebrow: '3.1 DÉMONSTRATION DU PACKAGING FINAL',
+          title: 'Ce que contient le pack ZIP livré à l’acheteur',
           paragraphs: [
-            'Pour comprendre la puissance de cette transformation, comparez directement les deux fichiers de démonstration créés pour cette formation :',
-            '1. La version statique (avant-pdf-statique.html) : elle contient d\'excellents conseils mais impose une lecture linéaire de 12 pages. Pour calculer sa capacité (page 2), le lecteur doit sortir un papier et une calculatrice. Pour adapter les conseils à son statut (page 2), il doit trier manuellement le tableau. Pour la feuille de route (page 4), les cases sont imprimées et ne gardent aucune mémoire.',
-            '2. La version interactive (apres-hub-interactif.html) : le même contenu devient vivant. Le sélecteur de statut en haut de page adapte instantanément les exemples des piliers. Le calculateur évalue la capacité en direct dès que l\'utilisateur ajuste ses heures. Les cases de la feuille de route se cochent en vert, mettent à jour une jauge de progression et s\'enregistrent automatiquement dans le navigateur.',
+            "Voici comment est structuré le dossier final du cas fil rouge avant d'être compressé en fichier `.zip` pour être déposé sur Chariow :",
           ],
-        },
-        {
-          id: 'day-06-example-copy',
-          type: 'copy',
-          title: 'Matrice de Conversion Avant / Après',
-          label: 'MATRICE-UAM-DEMONSTRATION.TXT',
-          content: `SECTION DU GUIDE PDF STATIQUE        -> TRANSFORMATION EN HUB INTERACTIF
-Page 2 : Formule de calcul d'heures -> Calculateur interactif en direct avec 3 curseurs
-Page 2 : Tableau comparatif statique -> Sélecteur de profil filtrant les conseils
-Page 3 : Description des 3 Piliers   -> Onglet thématique avec exemples contextualisés
-Page 4 : Checklist 30 jours passive -> Cases à cocher interactives avec persistance localStorage
-Page 5 : Prompt texte brut           -> Bloc de copie rapide injectant automatiquement les calculs`,
-          notes: 'Ce tableau résume la transformation exacte opérée entre nos deux démonstrations phares.',
-        },
-        {
-          id: 'day-06-example-resources',
-          type: 'resource',
-          title: 'Fichiers de Démonstration & Outils Associés',
-          description: 'Consultez les fichiers réels hébergés dans le dossier public/demos/pdf-to-hub/ pour observer la différence.',
-          resources: [
-            {
-              id: 'res-demo-avant',
-              title: 'Version Avant : Guide PDF Statique',
-              category: 'guide',
-              description: 'Ouvrez avant-pdf-statique.html pour constater la passivité d\'un document sérieux mais figé.',
-              format: 'HTML / PDF',
-              externalUrl: '/demos/pdf-to-hub/avant-pdf-statique.html',
-            },
-            {
-              id: 'res-demo-apres',
-              title: 'Version Après : Hub Interactif Actif',
-              category: 'template',
-              description: 'Ouvrez apres-hub-interactif.html pour tester le calculateur, le sélecteur et les cases persistantes.',
-              format: 'HTML / JS',
-              externalUrl: '/demos/pdf-to-hub/apres-hub-interactif.html',
-            },
-            {
-              id: 'res-fiche-uam',
-              title: 'Matrice de Déconstruction UAM (Cahier des Charges)',
-              category: 'template',
-              description: 'Structure Markdown prête à remplir pour préparer votre prompt Claude.',
-              format: 'Markdown',
-              downloadFilename: 'matrice-uam-modele.md',
-              downloadContent: `# Matrice de Déconstruction UAM\n\n## 1. Sujet & Transformation\n- Sujet : [Votre sujet]\n- Cible : [Votre cible]\n\n## 2. Les 3 Unités d'Action Minimales\n- Module 1 : [Composant actif prévu]\n- Module 2 : [Composant actif prévu]\n- Module 3 : [Composant actif prévu]\n`,
-            },
+          bullets: [
+            "1. Hébergement HTTPS en 30 secondes : le dossier contenant `index.html` est glissé-déposé sur Netlify Drop (`https://app.netlify.com/drop`). L'outil reçoit une adresse HTTPS stable (ex. `https://systeme-creation-alexandrev.netlify.app`). Ce lien est testé sur smartphone : le calculateur, les onglets et le `localStorage` fonctionnent immédiatement.",
+            "2. Insertion du lien HTTPS dans `LISEZ-MOI.html` : l'adresse HTTPS obtenue est collée dans le fichier `LISEZ-MOI.html` pour que l'acheteur puisse ouvrir la version mobile en un clic.",
+            "3. Contenu exact de l'archive `Pack-Systeme-Creation-Reguliere.zip` : `index.html` (l'application interactive habillée en Ardoise `#0F172A` et Émeraude `#0F766E`), `LISEZ-MOI.html` (le guide de démarrage rapide avec le lien HTTPS mobile) et `exemple-sauvegarde.json` (un fichier JSON de démonstration).",
           ],
         },
       ],
@@ -212,34 +162,96 @@ Page 5 : Prompt texte brut           -> Bloc de copie rapide injectant automatiq
       type: 'your-turn',
       number: 4,
       title: 'À vous de jouer',
-      subtitle: 'Validez la matrice de vos 3 modules interactifs',
-      completionLabel: 'Valider le livrable de la Leçon 06',
+      subtitle: 'Valider, héberger en HTTPS et compresser votre archive ZIP',
+      completionLabel: "Valider l'étape 4 : À vous de jouer",
       blocks: [
         {
-          id: 'day-06-exercise-1',
+          id: 'day06-export-validation',
           type: 'text-exercise',
-          title: 'Espace de Travail Pratique : Votre Matrice UAM',
-          instructions: 'Collez ci-dessous le résultat généré par Claude avec vos 3 modules interactifs, leurs composants actifs respectifs (calculateur, diagnostic, sélecteur) et les 3 profils d\'utilisateurs identifiés.',
-          placeholder: 'Module 1 : [Titre] + [Composant interactif]\nModule 2 : [Titre] + [Composant interactif]\nModule 3 : [Titre] + [Composant interactif]\nProfils cibles : [Profil 1, Profil 2, Profil 3]',
-          maxLength: 3000,
+          title: 'Exercice principal : Fiche de validation technique et d’export de votre produit',
+          instructions:
+            "Appliquez votre identité visuelle avec le prompt de l'étape 2, hébergez votre fichier sur une URL HTTPS statique gratuite, testez-le sur téléphone et créez votre archive `.zip`. Consignez ci-dessous vos paramètres finaux :",
+          placeholder:
+            "1. Palette de couleurs et typographie appliquées à mon produit :\n2. URL HTTPS hébergée (pour l'accès mobile et localStorage en ligne) :\n3. Nom exact de mon archive .zip prête à livrer :\n4. Résultat des tests (valeurs extrêmes, ouverture hors ligne, export/import .json et affichage mobile) :",
+          minLength: 60,
+          maxLength: 5000,
+          profileBinding: 'brandStyle',
         },
         {
-          id: 'day-06-checklist-1',
+          id: 'day06-checklist',
           type: 'checklist',
-          title: 'Vérification de Fin de Leçon 06',
-          description: 'Cochez chaque critère avant de valider votre passage à la Leçon 07.',
+          title: 'Critères de validation observables (Leçon 06)',
+          description:
+            'Votre produit est prêt à être mis en vente au Module 03 dès que ces 5 points sont vérifiés.',
           items: [
             {
-              id: 'chk-06-1',
-              label: 'J\'ai identifié au moins un calcul ou un diagnostic manuel à automatiser dans mon produit',
+              id: 'chk-d06-own-brand',
+              label: 'Identité visuelle 100 % personnelle',
+              detail:
+                "Votre produit utilise vos propres couleurs et typographies, sans aucune trace de la charte d'AI CREATOR Studio.",
             },
             {
-              id: 'chk-06-2',
-              label: 'J\'ai exécuté le compilateur de prompt dans Claude et obtenu ma matrice de 3 modules interactifs',
+              id: 'chk-d06-edge-cases',
+              label: 'Aucun bug sur champs vides ou valeurs extrêmes',
+              detail:
+                "Vider un champ ou saisir 0 n'affiche jamais `NaN` et la réinitialisation fonctionne proprement.",
             },
             {
-              id: 'chk-06-3',
-              label: 'J\'ai défini 2 ou 3 profils d\'utilisateurs permettant d\'adapter les recommandations de l\'outil',
+              id: 'chk-d06-json-verified',
+              label: 'Sauvegarde portable JSON testée',
+              detail:
+                "L'export et l'import du fichier `.json` restaurent parfaitement toutes les données de l'utilisateur.",
+            },
+            {
+              id: 'chk-d06-https-mobile',
+              label: 'URL HTTPS testée sur téléphone',
+              detail:
+                "Le produit est accessible via une adresse `https://` stable, sans débordement d'écran sur mobile.",
+            },
+            {
+              id: 'chk-d06-zip-ready',
+              label: 'Archive .zip finale assemblée',
+              detail:
+                "Votre archive `.zip` contient `index.html` et le guide d'accès client expliquant le lien HTTPS et la sauvegarde JSON.",
+            },
+          ],
+        },
+        {
+          id: 'day06-resource-pack',
+          type: 'resource',
+          title: 'Gabarit téléchargeable : Guide d’accès client à inclure dans votre ZIP',
+          description:
+            'Téléchargez ce modèle prêt à personnaliser pour accompagner votre fichier `index.html` dans votre archive `.zip`.',
+          resources: [
+            {
+              id: 'res-d06-readme-template',
+              title: 'Modèle de Guide de Démarrage Client (Markdown / HTML)',
+              category: 'template',
+              description:
+                'Instructions claires expliquant à votre acheteur comment ouvrir son outil en ligne (HTTPS), hors ligne et sauvegarder ses données en JSON.',
+              format: 'MD',
+              downloadFilename: 'guide-acces-client-template.md',
+              downloadContent: `# Guide d'Accès et d'Utilisation : [NOM DE VOTRE PRODUIT]
+
+Merci pour votre acquisition. Votre produit interactif fonctionne aussi bien en ligne (sur téléphone et ordinateur) que hors connexion.
+
+## 1. Accès rapide en ligne (Téléphone, Tablette et Ordinateur)
+Cliquez sur le lien sécurisé ci-dessous pour utiliser l'outil depuis votre navigateur :
+👉 **[INSÉRER VOTRE LIEN HTTPS ICI]**
+*(Astuce : ajoutez cette page à vos favoris ou à l'écran d'accueil de votre téléphone. Sur ce lien, vos saisies sont mémorisées automatiquement dans votre navigateur).*
+
+## 2. Utilisation hors connexion sur ordinateur
+1. Décompressez (extraire tout) l'archive \`.zip\` téléchargée depuis votre espace client Chariow.
+2. Double-cliquez sur le fichier **\`index.html\`** : il s'ouvre directement dans votre navigateur habituel (Chrome, Safari, Edge, Firefox), même sans connexion Internet.
+
+## 3. Sauvegarder et transférer vos données entre appareils (Format .JSON)
+Pour conserver une copie de sécurité de vos données ou passer de votre ordinateur à votre téléphone :
+- Cliquez sur **« Exporter mes données (.json) »** en haut de l'outil : un fichier de sauvegarde est téléchargé sur votre appareil.
+- Pour reprendre votre travail plus tard ou sur un autre appareil, cliquez sur **« Importer une sauvegarde (.json) »** et sélectionnez ce fichier.
+
+## 4. Support et contact
+En cas de question, contactez-nous à : **[VOTRE ADRESSE EMAIL OU CONTACT SUPPORT]**
+`,
             },
           ],
         },

@@ -40,8 +40,7 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
     onAfterNavigate?.();
   };
 
-  // Identification dynamique de la formation active et de ses leçons
-  const activeCourseId = resolveActiveCourseId(state.activeRoute) ?? 'course-01';
+  const activeCourseId = resolveActiveCourseId(state.activeRoute) ?? 'module-01';
   const currentCourse = getCourseById(activeCourseId);
   const currentCourseDays = getCourseDays(course.days, activeCourseId);
   const dayRangeTitle = formatCourseDayRangeTitle(currentCourse?.dayRange);
@@ -72,12 +71,11 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
 
       {/* Corps défilable */}
       <div className="flex-1 overflow-y-auto no-scrollbar p-3.5 space-y-4 overflow-x-hidden">
-        {/* 2. Barre de progression & Grille compacte */}
+        {/* 2. Barre de progression & Grille compacte des 9 leçons */}
         <section
           aria-label="Progression globale"
           className="p-3 bg-surface border-2 border-ink rounded-brutal-card shadow-brutal-xs space-y-2"
         >
-          {/* Ligne unique avec espace généreux entre l'intitulé et le badge */}
           <div className="flex items-center justify-between gap-2 whitespace-nowrap">
             <span className="font-mono text-[10px] font-bold uppercase text-ink/75 tracking-wider">
               Votre progression
@@ -86,11 +84,10 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
               data-testid="sidebar-global-progress-label"
               className="font-mono text-[10px] font-bold px-1.5 py-0.5 bg-pale-pink border border-ink text-ink rounded-brutal-tag shrink-0"
             >
-              {globalProgress.completedDaysCount} sur 25 jours
+              {globalProgress.completedDaysCount} sur {globalProgress.totalDays} leçons
             </span>
           </div>
 
-          {/* Grille de progression compacte sur 3 lignes */}
           <ProgressGrid
             completedDayNumbers={globalProgress.completedDayNumbers}
             activeDayNumber={activeDayNumber}
@@ -98,10 +95,10 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
           />
         </section>
 
-        {/* 3. Section dynamique des journées de la formation */}
+        {/* 3. Section dynamique des leçons du module actif */}
         <section aria-label={dayRangeTitle} className="space-y-1.5">
           <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink/75 px-1 block">
-            {dayRangeTitle}
+            {currentCourse ? `MODULE ${currentCourse.orderNumber} • ${dayRangeTitle}` : dayRangeTitle}
           </span>
 
           <div className="space-y-1.5">
@@ -134,7 +131,7 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
                           : 'bg-cream text-ink'
                       }`}
                     >
-                      Jour {day.dayNumber}
+                      Leçon {day.dayNumber}
                     </span>
                     <span className="text-[11px] sm:text-xs font-bold uppercase leading-snug break-words">
                       {day.title}
