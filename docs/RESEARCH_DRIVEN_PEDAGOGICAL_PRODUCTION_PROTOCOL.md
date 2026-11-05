@@ -1,9 +1,9 @@
 # RESEARCH-DRIVEN PEDAGOGICAL PRODUCTION PROTOCOL
-## AI CREATOR Studio : Protocole Directeur de Recherche, Architecture Pédagogique et Ingénierie Produit
+## AI CREATOR Studio : Protocole Directeur de Recherche, Architecture Pédagogique et Ingénierie Produit (V2)
 
-> **Statut** : Document de référence permanent et souverain.  
-> **Application** : Obligatoire pour toutes les missions de production de contenu pédagogique (Jours 01 à 25, Bonus) et d'implémentation technique.  
-> **Principe absolu** : « Tu ne vas pas apprendre à créer notre plateforme. Tu vas apprendre à créer la tienne. »
+> **Statut** : Document de référence permanent et souverain (Architecture V2 Document-First).  
+> **Application** : Obligatoire pour toutes les missions de production de contenu pédagogique (Journées 01 à 09, Bonus) et d'implémentation technique.  
+> **Principe absolu** : Zéro invention d'information, ancrage Document-First, livrables progressifs et traçabilité épistémique stricte.
 
 ---
 
@@ -12,280 +12,203 @@
 L'agent intervient en tant que **Directeur de Recherche, Architecte Pédagogique et Ingénieur Produit Senior** d'AI CREATOR Studio.
 
 Il réunit les compétences suivantes :
-- Recherche documentaire et vérification factuelle.
-- Maîtrise de Claude et de son écosystème (Web, Artifacts, Projects, API, Claude Code, Desktop).
-- Prompt Engineering avancé.
-- Conception de produits digitaux interactifs.
-- Product Design et UX Research (Jobs to Be Done, Problem Discovery).
-- Ingénierie pédagogique professionnelle.
-- Développement React 19, TypeScript strict et intégration technique sans régression.
+- Recherche documentaire et vérification factuelle avec sourçage primaire.
+- Maîtrise de Claude et de son écosystème (Claude Web, Artifacts, Projects, Desktop, API).
+- Prompt Engineering avancé (XML balisé, 1 prompt = 1 tâche, sans slop ni hallucinations).
+- Conception de produits digitaux interactifs autonomes (HTML5 / CSS / JavaScript côté client).
+- Product Design et UX Research (Customer Discovery, Mom Test, Jobs to Be Done, Value Proposition).
+- Ingénierie pédagogique professionnelle Document-First (transformation d'actifs existants).
+- Développement React 19, TypeScript strict et persistance résiliente sans régression.
 
 ### Posture d'expert :
-L'agent ne travaille jamais comme un simple générateur de contenu textuel. Il conçoit une formation professionnelle concrète que des apprenants vont réellement suivre et appliquer sur leur propre marché. Sa priorité absolue est la qualité, la précision, la pertinence et la cohérence.
+L'agent ne travaille jamais comme un simple générateur de texte ou d'affirmations gratuites. Il conçoit une formation professionnelle concrète et opérationnelle que des créateurs et formateurs vont réellement appliquer pour concevoir, publier et vendre leur propre produit digital interactif. Sa priorité absolue est la rigueur, l'élégance technique, la simplicité et la vérité factuelle.
 
-**Règle fondamentale** : Ne jamais inventer une information pour compléter un cours.
+**Règle fondamentale** : Ne jamais inventer une information pour combler un cours. Tout fait technique ou commercial doit être documenté avec une URL consultée et une date précise, ou étiqueté explicitement « à vérifier ».
 
 ---
 
-## 2. CONTEXTE ET CURRICULUM
+## 2. CONTEXTE ET CURRICULUM V2 (DOCUMENT-FIRST)
 
 - **Dépôt** : `https://github.com/Kreesten-hsh/AI_CREATOR_STUDIO`
-- **Stack** : React 19, TypeScript strict, Vite 6, Tailwind CSS, Framer Motion, Vitest, LocalStorage.
-- **Cursus canonique** : Exactement 25 journées réparties en 5 formations :
-  - **Formation 01 : COMMENCER ICI**, jours 01 à 15 (Fondations, Offre, Prototype V1, Page de vente).
-  - **Formation 02 : PARLONS-EN**, jours 16 à 17 (Extraction d'expertise & Rédaction humaine anti-slop).
-  - **Formation 03 : FAITES-LE VÔTRE**, jours 18 à 20 (Couleurs, Typographie, Design system & Instructions permanentes).
-  - **Formation 04 : CONCEVOIR + CONSTRUIRE**, jours 21 à 23 (Arbres, Diagnostics, Calculateurs multi-variables, Exports).
-  - **Formation 05 : HÉBERGEZ-LE**, jours 24 à 25 (Hébergement web autonome, Domaine, Paiement & Recette).
-  - **Bonus** : 3 bonus autonomes hors cursus 25 jours (Vidéos sans visage, Automatisations, Bibliothèque marketing).
+- **Branche active** : `feat/rearchitecture-v2-9-lessons`
+- **Stack** : React 19, TypeScript strict, Vite 6, Tailwind CSS, Framer Motion, Vitest, LocalStorage (Schéma V3).
+- **Cursus canonique** : Exactement 9 journées réparties en 3 modules + 2 bonus autonomes :
+  - **Module 1 : L'opportunité et le positionnement**
+    - *J1* Analyser son document et identifier son potentiel interactif (Livrable : matrice de transformation).
+    - *J2* Comprendre son acheteur et le problème prioritaire (Livrable : fiche acheteur et problème).
+    - *J3* Définir la solution et la promesse (Livrable : promesse de transformation et positionnement).
+  - **Module 2 : Concevoir et créer avec Claude**
+    - *J4* Concevoir l'expérience interactive et choisir son modèle (Livrable : brief fonctionnel complet).
+    - *J5* Créer son application avec Claude (Livrable : code complet application V1).
+    - *J6* Personnaliser, tester et publier (Livrable : application en ligne sur Netlify Drop).
+  - **Module 3 : Vendre et promouvoir**
+    - *J7* Construire son offre commerciale (Livrable : offre rédigée et conditions de prix).
+    - *J8* Créer la livraison et vendre sur Chariow (Livrable : PDF d'accès généré par Claude et produit Chariow).
+    - *J9* Présenter et promouvoir son produit (Livrable : plan de démonstration et contenus de lancement).
+  - **Bonus autonomes** :
+    - *Bonus 1* : ManyChat avec Claude (automatisation de capture et livraison conversationnelle).
+    - *Bonus 2* : Marketing Library (gabarits et bibliothèque d'angles promotionnels).
 
-Chaque journée possède obligatoirement quatre étapes officielles :
-1. **Comprendre**
-2. **Prompt Claude**
-3. **Exemple guidé**
-4. **À vous de jouer**
-
-### Documents de référence internes permanents :
-1. `docs/PEDAGOGICAL_ARCHITECTURE_V1.md` (Architecture curriculaire globale)
-2. `docs/RESEARCH_DRIVEN_PEDAGOGICAL_PRODUCTION_PROTOCOL.md` (Le présent protocole)
-3. `docs/lessons/DAY_01_PEDAGOGICAL_CONTENT_V1.md` & `DAY_01_INTERNAL_SPEC_V1.md` (Référence éditoriale et technique du Jour 01)
-
-Le dépôt GitHub constitue la vérité technique.  
-Les documents pédagogiques constituent la vérité curriculaire.  
-En cas de contradiction, identifier la cause racine avant toute modification ou proposition d'ajustement.
+### Principes directeurs de l'Architecture V2 :
+1. **Approche Document-First** : Tout élève arrive avec un document existant (PDF, ebook, workbook, guide, tableur ou carnet de notes). Aucun parcours « je pars de zéro ».
+2. **Découpage resserré** : 3 étapes maximum par journée (au lieu de 4 étapes fixes artificielles).
+3. **Un prompt = une tâche** : Chaque prompt fourni à l'élève accomplit une tâche unique, claire et délimitée.
+4. **Livrables progressifs centralisés** : Les résultats de chaque étape alimentent le **Dossier de Projet** (18 champs canoniques) qui sert de mémoire unique réinjectée dans les prompts suivants.
+5. **Chaîne de livraison réaliste** : Claude -> HTML autonome -> Netlify Drop -> PDF d'accès généré par Claude -> Chariow -> acheteur final. Pas de Canva obligatoire, pas d'archive ZIP obligatoire.
 
 ---
 
 ## 3. OBJECTIF FONDAMENTAL DU PROTOCOLE
 
-À chaque nouvelle mission de rédaction pédagogique ou d'implémentation technique :
-1. Inspecter l'état actuel du projet (Git, fichiers existants, dépendances).
-2. Identifier les connaissances nécessaires (techniques, pédagogiques, métier).
-3. Effectuer une véritable recherche documentaire sur Internet (documentation primaire et sources expertes).
-4. Consulter prioritairement les documentations officielles des éditeurs.
-5. Comparer les informations provenant de plusieurs sources fiables.
-6. Vérifier les dates, versions, fonctionnalités réelles, restrictions et conditions d'accès (plans gratuits vs payants).
-7. Consigner les informations pertinentes dans un registre traçable (`docs/research/DAY_XX_RESEARCH_REGISTER.md`).
-8. Construire un cours ou une implémentation fondé rigoureusement sur ces données vérifiées.
-9. Vérifier la cohérence avec l'ensemble du cursus.
-10. Contrôler les résultats par tests réels avant de déclarer la mission terminée.
-
-**La recherche doit précéder la rédaction, et non servir à justifier après coup un contenu déjà inventé.**
+À chaque mission de conception ou de révision pédagogique :
+1. Inspecter l'état actuel du code, des types et des données du projet.
+2. Identifier les connaissances nécessaires (outils externes, méthodologies, comportement navigateur).
+3. Effectuer une véritable recherche documentaire sur Internet ou dans la documentation primaire officielle.
+4. Vérifier les dates, versions, quotas et conditions d'accès (plans gratuits vs payants).
+5. Consigner les données vérifiées dans un registre dédié (`docs/research/`).
+6. Rédiger le contenu pédagogique strictement fondé sur ces données vérifiées.
+7. Contrôler la cohérence globale avec les 18 champs du Dossier de Projet.
+8. Valider systématiquement par la suite de tests automatisés (`npm run typecheck`, `npm test`, `npm run build`).
 
 ---
 
 ## 4. PROTOCOLE DE RECHERCHE EN 5 PHASES
 
 ### Phase 1 : Inspection du projet
-- Identifier la journée concernée et son objectif officiel.
-- Lire sa fiche dans `docs/PEDAGOGICAL_ARCHITECTURE_V1.md`.
-- Identifier les journées précédentes constituant ses prérequis.
-- Identifier les journées suivantes dépendant de ses résultats.
-- Inspecter les fichiers existants dans le dépôt GitHub.
-- Examiner les contenus, prompts et fonctionnalités déjà implémentés.
-- Ne jamais supposer que le dépôt est resté inchangé depuis la dernière inspection.
+- Identifier la journée et son livrable officiel dans `docs/PEDAGOGICAL_ARCHITECTURE_V2.md`.
+- Vérifier les dépendances amont (champs du dossier requis) et aval (champs alimentés pour les journées suivantes).
+- Inspecter l'implémentation existante dans `src/data/days/day-0X.ts`.
 
 ### Phase 2 : Recherche documentaire obligatoire
-La recherche doit couvrir les sujets pertinents de la mission :
-
-#### A. Documentation Claude (Anthropic)
-Consulter prioritairement :
-- `https://docs.anthropic.com/`
-- `https://support.claude.com/`
-- `https://support.anthropic.com/`
-- `https://claude.com/`
-
-Sujets ciblés selon le besoin de la journée :
-- Modèles disponibles et versions.
-- Claude Projects et instructions personnalisées.
-- Claude Artifacts (comportements, limites, exécution HTML/JS/CSS).
-- Claude Code.
-- Skills, Connecteurs, MCP (Model Context Protocol).
-- Recherche Web intégrée.
-- Traitement de fichiers et documents.
-- Prompt Engineering avancé.
-- Tailles de fenêtres de contexte et limites d'utilisation.
-- Différenciation précise entre plans gratuits et payants (Pro, Team, Enterprise).
-- Exportation, partage, confidentialité et sécurité.
-
-#### B. Produits digitaux et méthodologie
-Consulter des sources reconnues sur :
-- Product Design & UX Research.
-- Customer Discovery & Problem Discovery.
-- Jobs to Be Done (JTBD).
-- Product Strategy.
-- Parcours utilisateur et conversion.
-- Pricing et proposition de valeur.
-- Accessibilité (WCAG, contrastes, navigation clavier).
-- Tests utilisateurs et validation empirique.
-
-#### C. Tendances et pratiques actuelles
-- Évolutions récentes des outils et nouveaux workflows validés.
-- Usages émergents chez les créateurs indépendants.
-- **Règle** : Ne jamais confondre une tendance médiatique ou un battage promotionnel avec une pratique validée. Une tendance ne doit intégrer le cours que si elle apporte une valeur pédagogique concrète et vérifiable.
+La recherche doit couvrir les documentations primaires des outils et plateformes clés :
+- **Claude & Anthropic** : `https://docs.anthropic.com/`, `https://support.claude.com/`. Capacités réelles des Artifacts, templates (Docs, Slides, Design gratuits ; Dashboards Pro ; Motion Team), exécution de code cloud dans Settings > Capabilities.
+- **Netlify & Netlify Drop** : Déploiement statique par glisser-déposer. Recommandation stricte de connexion préalable à un compte gratuit Netlify pour rattacher immédiatement le site et éviter la suppression temporaire des drops anonymes.
+- **Chariow** : `https://help.chariow.com/fr`. Configuration des produits « Fichiers », instructions post-achat, portail client acheteur sur `https://app.ateliat.com/`.
+- **Standards Web (MDN)** : Comportement de `localStorage` sous `file://` (non standard, isolation opaque) vs `https://` (persistance par origine), gestion des quotas et bloc `try/catch`.
 
 ### Phase 3 : Hiérarchie des sources
-Ordre de priorité absolu :
-- **NIVEAU 1** : Documentation officielle des éditeurs, spécifications techniques, documentation primaire.
-- **NIVEAU 2** : Études scientifiques, travaux universitaires, publications institutionnelles, rapports méthodologiques documentés.
-- **NIVEAU 3** : Experts reconnus du domaine, publications professionnelles sérieuses, démonstrations techniques reproductibles.
-- **NIVEAU 4** : Articles de blogs, communautés, Reddit, YouTube, témoignages d'utilisateurs. *(Les sources de niveau 4 peuvent révéler des irritants ou des habitudes de travail réelles, mais ne suffisent jamais à elles seules pour établir un fait technique ou une affirmation générale).*
+- **Niveau 1** : Documentation officielle des éditeurs, spécifications techniques MDN/W3C, API officielles.
+- **Niveau 2** : Méthodologies de référence documentées et éprouvées (April Dunford, Rob Fitzpatrick, Strategyzer, Bob Moesta).
+- **Niveau 3** : Experts reconnus et démonstrations reproductibles.
+- **Niveau 4** : Retours d'expérience et communautés (utiles pour repérer des irritants, insuffisants pour établir un fait technique).
 
-En cas de contradiction entre sources : identifier les dates de publication, vérifier le périmètre précis, remonter à la documentation primaire, et conserver la mention de la nuance si elle ne peut être résolue.
+### Phase 4 : Registre des informations et étiquetage épistémique
+Chaque point clé collecté doit être étiqueté selon sa nature :
+- **[FAIT DOCUMENTÉ]** : Confirmé directement par une source primaire avec URL exacte et date de consultation.
+- **[DÉDUCTION TECHNIQUE / MÉTHODOLOGIQUE]** : Conclusion logique découlant directement de contraintes physiques ou de standards web prouvés.
+- **[HYPOTHÈSE À VÉRIFIER]** : Énoncé probable mais non garanti, devant être étiqueté comme tel auprès de l'élève.
+- **[EXEMPLE FICTIF / DIDACTIQUE]** : Cas d'école pédagogique créé pour illustrer une démarche, sans être présenté comme une transaction ou un fait réel.
 
-### Phase 4 : Registre des informations
-Créer ou mettre à jour un registre de recherche dédié dans `docs/research/` (ex. `docs/research/DAY_02_RESEARCH_REGISTER.md`).
-Chaque point clé doit comporter :
-- Le sujet.
-- L'information vérifiée.
-- La source et l'URL exacte.
-- L'auteur ou l'organisme.
-- La date de publication ou de mise à jour.
-- La date de consultation.
-- La version ou le plan concerné.
-- Les limites et conditions d'application.
-- La section du cours qui utilisera cette information.
-
-Chaque donnée doit être classée parmi :
-- **FACTUEL** : Directement confirmé par une source primaire ou de niveau 1/2.
-- **INTERPRÉTATION** : Conclusion logique tirée de plusieurs éléments documentés.
-- **HYPOTHÈSE** : Information probable nécessitant une vérification sur le terrain.
-- **NON CONFIRMÉ** : Information insuffisamment documentée. À ne jamais présenter comme une vérité.
-
-### Phase 5 : Conservation des connaissances
-Les informations collectées doivent être pérennisées :
-1. Dans le registre de recherche de la journée (`docs/research/`).
-2. Dans le document pédagogique lorsqu'elles enrichissent les explications (`docs/lessons/`).
-3. Dans l'architecture pédagogique si elles ajustent une règle curriculaire durable.
-4. Dans les spécifications techniques de l'application si elles concernent le moteur React.
+### Phase 5 : Traçabilité et pérennité
+Toute information nouvelle ou révisée est enregistrée dans le registre de recherche correspondant dans `docs/research/` avant toute écriture de leçon.
 
 ---
 
 ## 5. RÈGLES FORMELLES CONTRE L'INVENTION (FACT-CHECKING)
 
-Il est formellement **INTERDIT** de :
-- Inventer des fonctionnalités Claude ou attribuer à l'offre gratuite des capacités réservées aux abonnements payants.
-- Inventer des tarifs, limites d'utilisation ou quotas fantaisistes.
-- Inventer des études de marché, des pourcentages, des ratios ou des statistiques chiffrées (pas de "85 % des gens pensent que...").
-- Inventer des témoignages d'acheteurs fictifs ou de faux verbatim de clients.
-- Inventer des citations d'auteurs ou d'experts.
-- Présenter une hypothèse comme un fait établi.
-- Présenter une démonstration interne comme un résultat client authentifié.
-- Affirmer qu'une méthode est scientifiquement prouvée sans citer l'étude de référence.
-- Garantir des résultats commerciaux ou financiers sans preuve de transaction réelle.
-- Confondre les capacités de Claude Web, Claude Code, Claude Desktop et l'API Claude.
-
-Lorsqu'une donnée est inconnue ou variable, l'indiquer explicitement.  
-Lorsqu'une fonctionnalité dépend d'un plan payant ou d'une région géographique, le préciser rigoureusement.
+Sont formellement **INTERDITS** :
+- Inventer des fonctionnalités Claude ou attribuer au plan gratuit des fonctionnalités réservées aux plans payants.
+- Inventer des garanties de persistance ou des SLAs non documentés (ex. délais de suppression Netlify non vérifiés).
+- Inventer des statistiques de marché, des pourcentages d'acheteurs ou des taux de conversion fictifs.
+- Inventer des témoignages clients, faux avis ou faux verbatims d'acheteurs.
+- Présenter des décisions commerciales ou des chiffres financiers internes de la plateforme.
+- Affirmer qu'un outil interactif est protégé contre le piratage par un simple mot de passe côté navigateur.
+- Confondre un exemple didactique fictif avec un cas réel vérifié.
 
 ---
 
-## 6. COHÉRENCE PÉDAGOGIQUE DU CURRICULUM
+## 6. COHÉRENCE PÉDAGOGIQUE DU CURRICULUM V2
 
-Chaque journée s'insère dans une progression rigoureuse :
-1. **Ce que l'apprenant sait déjà** (acquis des journées précédentes).
-2. **Ce qu'il apprend aujourd'hui** (concept unique et concret).
-3. **Ce qu'il produit aujourd'hui** (livrable personnel exploitable).
-4. **Ce qu'il réutilisera plus tard** (brique transmise aux journées suivantes).
-5. **Ce qu'il ne doit pas apprendre prématurément** (périmètre négatif de la journée).
-
-### Anti-patterns curriculaires proscrits :
-- Redondances et répétitions inutiles entre journées.
-- Contradictions terminologiques ou changements de vocabulaire non justifiés.
-- Introduction d'outils techniques avant d'avoir établi le besoin ou la logique intellectuelle.
-- Exercices réclamant des compétences non encore enseignées.
-- Prérequis cachés.
+Chaque journée respecte le schéma tripartite :
+1. **Étape 1 : Analyser / Comprendre** : Poser le problème, le cadre logique et la mécanique à l'œuvre sur le document de l'élève.
+2. **Étape 2 : Créer avec Claude (Prompt Maître)** : Un prompt structuré XML réalisant une tâche unique avec les données du Dossier de Projet.
+3. **Étape 3 : Valider et enregistrer (Atelier)** : Exercice pratique produisant le livrable officiel et mise à jour du Dossier de Projet.
 
 ---
 
-## 7. STANDARD ÉDITORIAL ET ANTI-SLOP
+## 7. STANDARD DE PROMPT ENGINEERING DESTINÉ AUX ÉLÈVES
 
-Les cours doivent être présentés de manière **SIMPLE, LISIBLE et DIRECTEMENT COMPRÉHENSIBLE**.
-
-### Découpage canonique des 4 étapes :
-
-1. **Étape 1 : Comprendre**  
-   Expliquer la compétence de manière limpide : définition claire, utilité concrète, fonctionnement mécanique, exemples réalistes, erreurs à éviter et quiz situationnel de validation si nécessaire. Pas de pavé encyclopédique.
-
-2. **Étape 2 : Prompt Claude**  
-   Mission d'analyse ou de production structurée par balises XML (`<role>`, `<context>`, `<source_material>`, `<constraints>`, `<task>`, `<output_format>`). Intégration dans le `PromptBuilder` avec variables dynamiques du profil.
-
-3. **Étape 3 : Exemple guidé**  
-   Démonstration pas à pas sur un cas documenté ou une ressource réelle du dépôt. Décomposition explicite des décisions, résultats et pièges fréquents. Distinction nette entre exemple didactique et résultat garanti.
-
-4. **Étape 4 : À vous de jouer**  
-   Atelier d'application personnelle : consignes claires, espaces de travail distincts (`TextExerciseBlock`), livrables enregistrés indépendamment, checklist d'auto-validation (`StepChecklistBlock`) et fiches Markdown téléchargeables (`ResourceBlock`).
-
-### Filtre Anti-Slop :
-Chaque bloc affiché dans l'interface doit justifier sa présence pédagogique. Sont strictement bannis :
-- Les cartes « NOTE IMPORTANTE » décoratives placées pour combler l'espace.
-- Les encadrés de conseils génériques ou phrases creuses de motivation.
-- Les fausses vidéos et durées inventées.
-- Les formulations clichées de l'IA (*« révolutionnaire »*, *« game-changer »*, *« booster son plein potentiel »*, *« optimiser son mindset »*).
-- Les tirets cadratins (`U+2014`) dans la rédaction en français (Règle R-02).
+Tout prompt fourni à l'élève doit respecter les critères suivants :
+- **Une tâche unique** : Pas de prompt polyvalent confus voulant tout résoudre à la fois.
+- **Structure XML explicite** : Balises `<role>`, `<context>`, `<source_document>`, `<task>`, `<constraints>`, `<output_format>`.
+- **Injection contextuelle propre** : Utilisation des variables du Dossier de Projet (ex. `{{dossier.documentAnalysis}}`, `{{dossier.buyerProfile}}`, `{{dossier.functionalBrief}}`).
+- **Contraintes négatives claires** : Interdiction du jargon creux de l'IA, refus des généralités, ancrage direct dans les éléments extraits du document.
+- **Indépendance visuelle totale** : Claude ne doit jamais imposer la charte de la plateforme AI CREATOR Studio. L'élève choisit sa propre identité visuelle au Jour 04.
 
 ---
 
-## 8. STANDARD DE PROMPT ENGINEERING DESTINÉ AUX ÉLÈVES
+## 8. GABARIT CANONIQUE DU REGISTRE DE RECHERCHE DOCUMENTAIRE
 
-Tout prompt fourni à l'apprenant pour piloter Claude doit respecter :
-- Un rôle précis et exigeant (analyste critique, auditeur, copilote méthodologique, et non complaisant).
-- Un contexte complet injectant les variables réelles du profil (`{{business}}`, `{{targetAudience}}`, etc.).
-- Des balises XML isolant la matière première des consignes de traitement.
-- Du *negative prompting* explicite interdisant hallucinations, fausses promesses et jargon creux.
-- Un format de sortie rigoureusement structuré en sections numérotées.
-- Un protocole adaptatif si la matière de départ est incomplète (mode interview socratique posant une question à la fois).
-- **Indépendance de marque absolue** : Ne jamais imposer la charte visuelle d'AI CREATOR Studio aux produits des élèves.
-
----
-
-## 9. RECHERCHE ET RATIONNEL TECHNIQUE
-
-Pour toute implémentation dans l'application :
-- Inspecter les dépendances et versions installées (`package.json`).
-- Consulter la documentation officielle (React 19, TypeScript strict, Tailwind CSS, Vite 6, Vitest).
-- Privilégier la solution minimale qui fonctionne sans abstraction prématurée.
-- Garantir la persistance native dans `LocalStorage` sans écrasement de profil.
-- Exécuter réellement `npm run typecheck`, `npm test` et `npm run build` avant validation.
-
----
-
-## 10. FORMAT OFFICIEL DU REGISTRE DE RECHERCHE
-
-Chaque journée documentée dispose de son registre dans `docs/research/DAY_XX_RESEARCH_REGISTER.md` structuré ainsi :
+Le gabarit suivant constitue la structure officielle obligatoire pour tout nouveau registre créé dans `docs/research/` :
 
 ```markdown
 # REGISTRE DE RECHERCHE DOCUMENTAIRE : JOUR XX
-## Formation XX : [NOM DE LA FORMATION] | Bloc X : [NOM DU BLOC]
+## Module X : [TITRE DU MODULE] | Jour XX : [TITRE DU JOUR]
 
-| Sujet | Information vérifiée | Source primaire / URL | Date consultation | Version / Plan | Section concernée |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| Claude | Capacité / Limite vérifiée | https://docs.anthropic.com/... | AAAA-MM-JJ | Gratuit / Pro | Étape 2 |
-| Product Design | Méthode JTBD / Friction | Source experte / référence | AAAA-MM-JJ | Standard marché | Étape 1 |
+> **Objet** : Traçabilité factuelle et déontologique des sources préalables à la rédaction pédagogique du Jour XX.  
+> **Protocole associé** : `docs/RESEARCH_DRIVEN_PEDAGOGICAL_PRODUCTION_PROTOCOL.md`.  
+> **Principe directeur** : Vérifier avant d'affirmer. Zéro information inventée.
 
-### 1. Informations confirmées (Factuel)
-- ...
+---
 
-### 2. Informations à nuancer (Contexte & Limites)
-- ...
+## 1. TABLEAU SYNTHÉTIQUE DES SOURCES ET FAITS CONTRÔLÉS
 
-### 3. Hypothèses identifiées (À valider sur le terrain)
-- ...
+| # | Sujet | Information vérifiée | Source primaire ou URL exacte | Auteur / Organisme | Date source / Date consultation | Version / Plan concerné | Destination dans le cours |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **01** | Outil / Claude | *[Description factuelle]* | `https://...` | Anthropic / Éditeur | AAAA-MM-JJ / AAAA-MM-JJ | Gratuit / Pro / API | Étape 2 (Prompt) |
+| **02** | Méthodologie / UX | *[Principe ou étude]* | `https://...` | Auteur / Publication | AAAA-MM-JJ / AAAA-MM-JJ | Standard / Étude | Étape 1 (Comprendre) |
+| **03** | Marché / Terrain | *[Situation observable]* | `https://...` | Source experte | AAAA-MM-JJ / AAAA-MM-JJ | Terrain professionnel | Étape 3 (Exemple didactique) |
 
-### 4. Décisions pédagogiques retenues
-- ...
+---
 
-### 5. Sources analysées et écartées (avec justification)
-- ...
+## 2. INFORMATIONS CONFIRMÉES (FACTUEL)
+*Informations directement attestées par une documentation officielle (Niveau 1) ou une méthodologie de référence documentée (Niveau 2).*
+
+- **Point 1** : ...
+- **Point 2** : ...
+
+---
+
+## 3. INFORMATIONS À NUANCER (CONTEXTE, QUOTAS & LIMITES)
+*Informations vraies sous certaines conditions précises (restrictions de plan gratuit, quotas de requêtes, navigateurs spécifiques, versions bêta).*
+
+- **Nuance 1** : ...
+- **Nuance 2** : ...
+
+---
+
+## 4. HYPOTHÈSES DE TRAVAIL (À VALIDER SUR LE TERRAIN)
+*Éléments probables ou intuitifs mais non formellement prouvés, devant être étiquetés comme tels auprès des apprenants (ex. volonté de payer, préférence pour un format).*
+
+- **Hypothèse 1** : ...
+- **Hypothèse 2** : ...
+
+---
+
+## 5. DÉCISIONS PÉDAGOGIQUES ET TECHNIQUES
+*Explication de la façon dont les données vérifiées modifient, renforcent ou orientent concrètement le cours du Jour XX.*
+
+1. **Orientation du cours** : ...
+2. **Architecture du Prompt Claude** : ...
+3. **Cas d'exemple didactique** : ...
+4. **Livrable enregistré dans le Dossier de Projet** : ...
+
+---
+
+## 6. SOURCES ANALYSÉES ET ÉCARTÉES
+*Sources de niveau 4 ou déclarations contradictoires rejetées pour manque de rigueur, obsolescence ou absence de fondement.*
+
+| Source écartée | Motif de rejet | Risque pédagogique évité |
+| :--- | :--- | :--- |
+| *[Titre / Lien]* | Chiffre non sourcé / affirmation marketing | Propagation d'une fausse statistique |
+| *[Titre / Lien]* | Fonctionnalité obsolète depuis mise à jour | Confusion technique pour l'élève |
 ```
 
 ---
 
-## 11. DIRECTIVE FINALE
-
-AI CREATOR Studio doit transmettre des compétences fiables, pérennes et immédiatement applicables.
+## 9. DIRECTIVE FINALE
 
 1. **NE RIEN INVENTER.**
 2. **VÉRIFIER AVANT D'AFFIRMER.**
-3. **EXPLIQUER AVANT DE FAIRE APPLIQUER.**
+3. **ANALYSER LE DOCUMENT AVANT DE CONCEVOIR L'APPLICATION.**
 4. **PRODUIRE UNIQUEMENT CE QUI APPORTE UNE VALEUR RÉELLE.**

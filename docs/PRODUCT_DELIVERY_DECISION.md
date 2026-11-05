@@ -1,57 +1,61 @@
-# Décision Technique V2 : Création, Sauvegarde Portable et Distribution du Produit de l'Apprenant
+# Décision Technique V2 : Création, Sauvegarde et Livraison du Produit Apprenant
 
-## 1. Problématique et Exigences de Fiabilité
+## 1. Contexte et Objectifs de Livraison
 
-L'apprenant d'AI CREATOR Studio n'est pas un développeur web. Il utilise Claude pour transformer sa matière (expertise, guide PDF, tableur, méthode) en un produit digital interactif qu'il vendra à ses propres clients via Chariow.
+Les apprenants d'AI CREATOR Studio créent des produits digitaux destinés à être vendus à des clients finaux via la plateforme Chariow. La grande majorité des acheteurs finaux consultent et consomment leurs achats sur **smartphone**.
 
-Deux écueils techniques doivent être écartés d'emblée :
-1. **La limite de `localStorage` sur le protocole `file://`** : Selon la documentation officielle MDN (Web Storage API), le comportement de `localStorage` pour des fichiers HTML ouverts directement depuis le disque dur (`file://`) n'est pas garanti par le standard et varie selon les navigateurs (origines opaques, nettoyage à la fermeture de l'onglet ou levée d'une `SecurityError`). On ne doit jamais promettre une persistance locale automatique fiable sur `file://`.
-2. **La confusion entre les différents formats générés par Claude** :
-   - **Artifacts classiques** : permettent de visualiser le rendu, d'inspecter le code source, de le copier et de télécharger le fichier brut. Toutefois, le simple téléchargement d'un Artifact ne garantit pas qu'il soit autonome hors ligne.
-   - **Artifacts propulsés par Claude (AI-powered Artifacts)** : intègrent des appels à l'API Claude d'Anthropic. Ils imposent que l'utilisateur final possède un compte Claude et ne prennent pas en charge de stockage persistant autonome. **Ils sont proscrits pour un produit commercialisé à des clients finaux sur Chariow.**
-   - **Exports HTML autonomes / Designs Claude** : pour obtenir un produit livrable, le prompt fourni à Claude doit explicitement exiger un fichier HTML5/CSS/JS standard dont les interactions (calculs, diagnostics, tris, checklists) fonctionnent localement sans appel serveur obligatoire.
+La méthode de livraison doit concilier trois impératifs :
+1. **Zéro barrière technique pour l'acheteur sur smartphone** : Pas de manipulation d'archive ZIP complexe sur mobile.
+2. **Autonomie et absence d'abonnement tiers** : Le créateur ne doit pas avoir à payer d'infrastructure serveur mensuelle ni de base de données.
+3. **Simplicité de fabrication avec Claude** : Le code généré tient dans un fichier unique HTML/CSS/JS standard.
 
 ---
 
-## 2. Architecture Cible Retenue
+## 2. Le Parcours de Livraison Officiel V2
 
-| Fonctionnement | Solution technique retenue et enseignée |
-| :--- | :--- |
-| **Création** | Claude génère le produit et son code source (HTML5, CSS embarqué et JavaScript standard) selon le blueprint de l'apprenant. |
-| **Utilisation en ligne** | Hébergement statique gratuit sur une **origine HTTPS stable** (ex. Netlify Drop, Cloudflare Pages). |
-| **Sauvegarde en ligne** | `localStorage` rattaché à cette origine HTTPS stable, systématiquement encapsulé dans un bloc `try / catch` avec indicateur d'état et dégradation gracieuse en cas de blocage. |
-| **Utilisation hors ligne** | Export du produit (`.html`) et fonctionnement intégral des interactions (calculs, diagnostics, filtres, générateurs basés sur règles) indépendamment du réseau. |
-| **Sauvegarde portable (Obligatoire)** | Fonctions **Exporter mes données (`.json`)** et **Importer mes données (`.json`)** intégrées à l'interface du produit, permettant à l'acheteur de sauvegarder et restaurer ses données même hors ligne, en navigation privée ou en changeant d'appareil. |
-| **Livraison commerciale** | Archive **`.zip` livrée automatiquement via Chariow** (contenant le fichier du produit, le guide d'accès avec le lien HTTPS et le mode d'emploi de la sauvegarde `.json`). |
-| **Accès mobile** | **URL HTTPS hébergée**, testée sur téléphone (largeur 375px+). |
+Le parcours standard enseigné dans les Leçons 05, 06 et 08 repose sur la chaîne suivante :
 
----
+```
+[Matière du Document]
+         │
+         ▼
+[1. Création avec Claude] ──> Fichier unique index.html (HTML5 + CSS + JS)
+         │
+         ▼
+[2. Publication Statique] ──> Déploiement sur Netlify Drop (URL HTTPS stable et réclamée)
+         │
+         ▼
+[3. Génération du PDF d'accès] ──> Guide d'accès client généré avec Claude (sans Canva)
+         │
+         ▼
+[4. Mise en vente Chariow] ──> Produit de type « Fichiers » distribuant le PDF d'accès
+         │
+         ▼
+[5. Réception par l'acheteur] ──> Téléchargement immédiat du PDF & ouverture en 1 clic sur mobile
+```
 
-## 3. Spécification du Module de Persistance Hybride (HTTPS + JSON Portable)
-
-Chaque produit généré au Module 02 intègre un patron JavaScript léger répondant à trois règles :
-1. **Encapsulation `try / catch` systématique** autour de `window.localStorage.getItem` et `window.localStorage.setItem` afin qu'aucune restriction navigateur ne bloque les interactions de l'outil.
-2. **Sérialisation d'état explicite (`getSerializableState()`)** regroupant les saisies de l'utilisateur, ses choix de profil et ses cases cochées dans un objet JSON versionné (`schemaVersion`).
-3. **Export / Import `.json` en un clic** :
-   - **Export** : génération d'un `Blob` (`application/json`) téléchargé sous la forme `sauvegarde-[nom-produit].json`.
-   - **Import** : lecture locale via `FileReader` (`<input type="file" accept=".json">`), validation de la structure et restauration immédiate de l'interface.
-
----
-
-## 4. Livraison Commerciale via Chariow et Limites de Sécurité
-
-1. **Configuration Chariow (Produit de type « Fichiers »)** :
-   - Chariow accepte les archives `.zip` et assure leur livraison automatique dès la confirmation du paiement.
-   - Un produit payant sur Chariow peut recevoir **jusqu'à 5 fichiers de 1 Go chacun**.
-   - L'acheteur retrouve ses fichiers et instructions après achat sur le portail client `https://app.ateliat.com/`.
-2. **Distinction stricte entre la protection du `.zip` Chariow et l'URL publique** :
-   - Les options de sécurité de Chariow (protection par mot de passe, filigrane sur les documents compatibles, limites d'achat) protègent le téléchargement depuis Chariow.
-   - En revanche, si l'apprenant déploie une version en ligne sur un hébergeur statique gratuit (comme Netlify Drop), **le `.zip` protégé sur Chariow ne rend pas privée l'URL publique Netlify**. Toute personne disposant de l'URL publique peut y accéder. L'apprenant doit en être informé clairement : l'URL HTTPS sert au confort d'utilisation mobile et à la persistance `localStorage`, tandis que le pack `.zip` constitue le livrable autonome propriétaire.
+### Détail des 5 maillons de la chaîne :
+1. **Création du code avec Claude** : Claude génère le code source complet de l'application interactive dans un fichier autonome `index.html`. Toute la logique (calculs, formulaires, affichage conditionnel, styles) s'exécute côté navigateur sans dépendance serveur.
+2. **Publication en ligne sur Netlify Drop** : L'apprenant dépose son fichier ou dossier sur Netlify Drop en étant connecté à son compte Netlify gratuit. Cela attribue une URL HTTPS stable et permanente à son outil (ex. `https://mon-outil.netlify.app`), sans risque de suppression prématurée.
+3. **Génération du PDF d'accès avec Claude** : L'apprenant demande à Claude de rédiger et styliser son guide d'accès client (format A4 épuré), contenant le lien direct vers l'application, un mot d'accueil, les instructions d'usage et le contact d'assistance. Le fichier est exporté en PDF via la fonction standard du navigateur (Imprimer > Enregistrer en PDF), sans recours à Canva ni logiciel graphique payant.
+4. **Configuration du produit sur Chariow** : L'apprenant crée un produit de type « Fichiers » sur Chariow, y dépose son document d'accès PDF et renseigne les instructions après achat dans l'onglet *Informations*.
+5. **Expérience de l'acheteur final** : Dès la validation du paiement, l'acheteur reçoit son reçu, ses instructions après achat et télécharge immédiatement son PDF d'accès. Il clique sur le lien HTTPS et accède instantanément à l'outil sur son smartphone ou ordinateur.
 
 ---
 
-## 5. Validation par Prototype Témoin
+## 3. Limites Techniques et Transparence Déontologique
 
-Cette architecture est implémentée et validée de bout en bout dans le prototype de référence du dépôt :
-- Fichier : `public/demos/pdf-to-hub/apres-hub-interactif.html`
-- Suite de tests automatisés : `src/test/learnerProductPrototype.test.ts`
+Conformément à nos règles de rigueur, le cours expose en toute transparence les limites du modèle choisi :
+
+### 3.1 Limite du code d'accès côté navigateur
+- Lorsqu'un créateur souhaite réserver son outil à ses clients, Claude peut intégrer un écran de verrouillage demandant un code d'accès.
+- **Règle de sécurité** : Ce code d'accès exécuté côté navigateur (en JavaScript client) constitue une **barrière visuelle légère**, et non un système d'authentification cryptographique serveur. Il n'empêche pas un utilisateur avancé d'inspecter le code source ou de partager l'URL directe. Il décourage l'usage non autorisé occasionnel, mais ne doit jamais être présenté comme une sécurité bancaire ou inviolable.
+
+### 3.2 Limite du stockage LocalStorage
+- L'application mémorise les données de l'acheteur dans le `localStorage` de son navigateur.
+- **Isolement par appareil et par navigateur** : Les données saisies sur Safari Mobile ne sont pas synchronisées avec Chrome sur ordinateur. Si l'utilisateur vide l'historique ou le cache de son navigateur, les données locales sont réinitialisées.
+- **Pont de portabilité** : Pour pallier cette limite, chaque outil intègre les boutons **Exporter mes données (`.json`)** et **Importer une sauvegarde (`.json`)**, permettant à l'acheteur de conserver un fichier de sauvegarde sur son appareil et de le transférer entre ses terminaux.
+
+### 3.3 Abandon du ZIP obligatoire
+- Dans l'ancienne architecture, la distribution d'une archive `.zip` était imposée. Sur smartphone (iOS et Android), la décompression d'une archive `.zip` représente un point de friction majeur pour les acheteurs non techniques.
+- Dans l'architecture V2, **le PDF d'accès direct est le mode de livraison standard**. L'archive `.zip` contenant le code source reste une option facultative pour les créateurs qui souhaitent proposer un accès hors-ligne aux utilisateurs sur ordinateur, mais elle n'est plus obligatoire pour commercialiser l'outil.

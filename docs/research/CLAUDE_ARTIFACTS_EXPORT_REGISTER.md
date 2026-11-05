@@ -1,27 +1,60 @@
-# Registre de Recherche : Claude Artifacts, Exports HTML et Stockage Navigateur
+# REGISTRE DE RECHERCHE DOCUMENTAIRE : CLAUDE ARTIFACTS, TEMPLATES ET EXPORTS WEB
+## AI CREATOR Studio : Traçabilité Factuelle des Capacités et Mécanismes d'Export
 
-## 1. Sources Officielles Consultées
-- **Anthropic Help Center** : Documentation officielle sur Claude Artifacts (création, prévisualisation, téléchargement de code, publication et Artifacts propulsés par Claude).
-- **MDN Web Docs (Mozilla)** : Documentation de référence sur `Window.localStorage` et la spécification Web Storage API concernant les origines `file://`.
+> **Objet** : Traçabilité factuelle et technique des fonctionnalités d'Anthropic Claude (Artifacts, Templates, Code) et de publication web (Netlify Drop).  
+> **Protocole associé** : `docs/RESEARCH_DRIVEN_PEDAGOGICAL_PRODUCTION_PROTOCOL.md`.  
+> **Principe absolu** : Citer des sources officielles avec URL et date de consultation. Toute affirmation non formellement attestée est étiquetée « [À VÉRIFIER] ».
 
-## 2. Faits Vérifiés
+---
 
-### 2.1 Distinction entre les formats Claude
-1. **Artifacts classiques (Code / HTML / React)** :
-   - Permettent d'afficher une prévisualisation interactive dans l'interface Claude, de lire le code source complet, de le copier dans le presse-papiers et de télécharger le fichier brut (`.html`, `.tsx`, `.md`, etc.).
-   - Le simple fait de pouvoir télécharger le fichier d'un Artifact ne garantit pas qu'il fonctionnera hors ligne de manière autonome : cela dépend de la façon dont le code a été rédigé (absence d'appels API externes, styles et scripts intégrés dans le fichier).
-2. **Artifacts propulsés par Claude (AI-powered Artifacts)** :
-   - Utilisent une connexion interne à l'API Claude pour générer du texte à la volée depuis l'Artifact.
-   - **Limites bloquantes pour la vente à des tiers** : ils exigent que l'utilisateur final dispose lui-même d'un compte Claude, consomment les quotas d'utilisation Claude de l'utilisateur final et ne prennent pas en charge de stockage persistant autonome hors de l'écosystème Claude.
-3. **Exports HTML autonomes / Designs Claude** :
-   - Pour distribuer un outil interactif à des clients finaux sur Chariow sans leur imposer de compte Claude ni d'abonnement tiers, le créateur doit demander à Claude un fichier HTML5/CSS/JavaScript standard dont toute la logique métier (calculs, diagnostics, filtres, générateurs basés sur gabarits) s'exécute côté navigateur client.
+## 1. TABLEAU SYNTHÉTIQUE DES SOURCES ET FAITS CONTRÔLÉS
 
-### 2.2 Comportement de `localStorage` sous `file://` vs `https://`
-- **Sur une origine `https://` stable** (ex. hébergement statique Netlify Drop, Cloudflare Pages) : `window.localStorage` est rattaché à l'origine (`protocole + domaine + port`) et conserve les données d'une session à l'autre sur le même navigateur et appareil (sauf navigation privée ou nettoyage manuel du cache).
-- **Sur le protocole `file://`** (ouverture directe d'un fichier `.html` décompressé sur l'ordinateur ou le téléphone) : la documentation MDN précise que le comportement de `localStorage` pour les documents chargés via `file://` n'est pas défini par le standard et varie selon les navigateurs (certains isolent chaque chemin de fichier dans une origine opaque temporaire, d'autres effacent les données à la fermeture de l'onglet ou lèvent une exception `SecurityError`).
+| # | Sujet | Information vérifiée | Source primaire ou URL exacte | Organisme / Auteur | Date consultation | Version / Plan concerné | Destination dans le cours |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **01** | Claude Artifacts & Templates | Fonctionnement des Artifacts, distinction legacy vs templates récents | `https://support.claude.com/en/articles/9487310-what-are-artifacts-and-how-do-i-use-them` (redirigé vers `https://support.claude.com/en/articles/17153992-what-are-artifacts-and-how-do-i-use-them`) | Anthropic Support Center | 2026-11-05 | Tous plans (Free, Pro, Team, Enterprise) | J05 (Créer avec Claude) & Fiche Ressource 4 |
+| **02** | Legacy Artifacts | Les artefacts créés avant le 16 septembre 2026 conservent Code, Copier et Télécharger, mais on ne peut plus en créer de nouveaux sous cette forme historique | `https://support.claude.com/en/articles/9487310-what-are-artifacts-and-how-do-i-use-them` | Anthropic Support Center | 2026-11-05 | Tous plans | J05 & J06 |
+| **03** | Templates & Plans | Les templates Docs, Slides et Design sont disponibles sur tous les plans (y compris Free, soumis aux quotas standards). Dashboards (bêta) requiert Pro/Max/Team/Enterprise. Claude Motion (bêta) requiert Team/Enterprise | `https://support.claude.com/en/articles/9487310-what-are-artifacts-and-how-do-i-use-them` | Anthropic Support Center | 2026-11-05 | Free, Pro, Team, Enterprise | J04 & J05 |
+| **04** | Paramètre Capabilities | L'exécution de code cloud et la création de fichiers doivent être activées dans les paramètres (`Settings > Capabilities` : option "Cloud code execution and file creation" ou "Create and edit files") | `https://support.claude.com/en/articles/9487310-what-are-artifacts-and-how-do-i-use-them` | Anthropic Support Center | 2026-11-05 | Tous plans | Start Here, J05 & Fiche Ressource 7 |
+| **05** | MDN Web Storage | Comportement de `localStorage` : lié au tuple origine `(protocole, domaine, port)` en `https://`. Sur `file://`, l'isolation est indéfinie par le standard W3C et varie selon les navigateurs (origine opaque, purge à fermeture d'onglet ou exception `SecurityError`) | `https://developer.mozilla.org/fr/docs/Web/API/Window/localStorage` | Mozilla Developer Network (MDN) | 2026-11-05 | Tous navigateurs modernes | J06 & `docs/PRODUCT_DELIVERY_DECISION.md` |
+| **06** | Netlify Drop & Claim | Déploiement statique par glisser-déposer sur `app.netlify.com/drop`. Recommandation stricte de connexion préalable à un compte gratuit pour pérenniser le site. Délais de purge des drops anonymes non réclamés : informellement estimé à 1 heure sans SLA formel | `https://docs.netlify.com/site-deploys/create-deploys/#drag-and-drop` | Netlify Documentation | 2026-11-05 | Compte Netlify gratuit | J06 & Fiche Ressource 8 |
 
-## 3. Décisions Pédagogiques Appliquées dans le Module 02 (Leçons 04, 05 et 06)
-1. **Interdiction de promettre un `localStorage` fiable sur `file://`** : le cours explique clairement cette différence technique avec des mots simples.
-2. **Encapsulation `try / catch` obligatoire** : tout appel à `localStorage` généré par Claude est entouré d'un bloc `try / catch` afin que l'outil ne plante jamais, même en navigation privée ou en ouverture locale stricte.
-3. **Sauvegarde portable JSON obligatoire** : chaque produit inclut deux boutons (**Exporter mes données `.json`** et **Importer mes données `.json`**) permettant à l'acheteur final de conserver ses données sur son disque ou son téléphone et de les restaurer sur n'importe quel navigateur ou appareil.
-4. **Hébergement statique HTTPS gratuit** : la Leçon 06 guide l'apprenant pour héberger gratuitement son fichier sur une origine HTTPS stable afin d'offrir un accès mobile immédiat et une sauvegarde `localStorage` en ligne.
+---
+
+## 2. INFORMATIONS CONFIRMÉES (FACTUEL)
+
+1. **Artifacts et génération de code** :
+   - Claude génère des applications autonomes sous forme de fichiers HTML5/CSS/JavaScript complets exécutables dans un navigateur sans serveur dynamique.
+   - Pour un déploiement fiable chez un acheteur final sans abonnement tiers, le code ne doit dépendre d'aucune clé d'API Claude côté client : toute l'intelligence métier (calculs, diagnostics, recommandations) est exécutée par le moteur JavaScript du navigateur.
+2. **Templates Claude (version actuelle documentée au 2026-11-05)** :
+   - Les artefacts créés avant le 16 septembre 2026 sont classés « legacy artifacts » : ils restent consultables, partageables et conservent leurs commandes historiques (*Code*, *Copier*, *Télécharger*), mais aucun nouvel artefact ne peut être créé sous ce format legacy.
+   - Les templates **Design**, **Slides** et **Docs** sont accessibles sur l'ensemble des formules (y compris le plan gratuit, dans la limite des quotas standards de messages de la session).
+   - Le template **Dashboards (bêta)** requiert un abonnement payant (Pro, Max, Ultra, Team ou Enterprise).
+   - Le template **Claude Motion (bêta)** requiert un abonnement Team ou Enterprise.
+3. **Paramétrage des Capacités Claude** :
+   - Pour pouvoir générer et prévisualiser du code et des fichiers interactifs, l'élève doit avoir activé l'exécution de code ou la création de fichiers dans `Settings > Capabilities` (*Cloud code execution and file creation*).
+4. **Persistance `localStorage`** :
+   - Confirmé par le standard W3C et MDN : `localStorage` requiert une origine HTTPS stable pour conserver l'état de l'application entre les visites. Sur une URL locale `file:///`, le comportement varie et peut échouer.
+
+---
+
+## 3. INFORMATIONS À NUANCER ET POINTS « À VÉRIFIER »
+
+1. **Délai exact de purge des sites non réclamés sur Netlify Drop [À VÉRIFIER]** :
+   - Un glisser-déposer anonyme sur `app.netlify.com/drop` sans être connecté génère une URL temporaire. L'interface informelle de Netlify suggère une fenêtre d'environ 1 heure pour « réclamer » (*claim*) le site vers un compte.
+   - Toutefois, la documentation officielle de Netlify ne spécifie aucun engagement formel de niveau de service (SLA) sur ce délai de suppression ni sur une éventuelle période de grâce après expiration.
+   - **Directive pédagogique rigoureuse** : le cours interdit de déployer de manière anonyme. L'élève doit se connecter préalablement à son compte gratuit Netlify avant de glisser-déposer son dossier, garantissant ainsi que le site est immédiatement rattaché et pérenne.
+2. **Plafonds de taille des Artifacts Claude** :
+   - La taille maximale d'un fichier généré dans un Artifact est contrainte par la fenêtre de contexte de sortie du modèle Claude (typiquement 8 192 tokens pour Claude 3.5 Sonnet).
+   - Les applications trop lourdes doivent être découpées ou générées par modules.
+
+---
+
+## 4. DÉCISIONS PÉDAGOGIQUES ET TECHNIQUES
+
+1. **J05 (Créer avec Claude)** :
+   - Intégrer un encadré préalable invitant l'élève à vérifier que son option *Capabilities* est active dans les paramètres de son compte Claude.
+   - Fournir un Master Prompt XML exigeant explicitement du code HTML5 autonome intégrant CSS (Tailwind CDN ou styles embarqués) et JavaScript vanille sans dépendance complexe externe.
+2. **J06 (Tester et publier)** :
+   - Expliquer la différence entre tester en local (ouvrir le fichier HTML) et publier sur une origine HTTPS pérenne.
+   - Exiger la connexion à un compte Netlify gratuit avant tout glisser-déposer.
+   - Consigner l'URL finale dans le champ `publishedUrl` du Dossier de Projet.

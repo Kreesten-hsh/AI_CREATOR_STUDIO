@@ -4,7 +4,7 @@
 
 > **Date de référence** : 4 novembre 2026  
 > **Protocole appliqué** : `docs/RESEARCH_DRIVEN_PEDAGOGICAL_PRODUCTION_PROTOCOL.md`  
-> **Principe absolu** : « Tu ne vas pas apprendre à créer notre plateforme. Tu vas apprendre à créer la tienne. » Zéro information inventée, distinction stricte entre fait documenté, déduction raisonnable et hypothèse à vérifier.
+> **Principe absolu** : Zéro information inventée, distinction stricte entre fait documenté, déduction raisonnable et hypothèse à vérifier.
 
 ---
 
@@ -49,7 +49,7 @@ Le cours s'adresse à quatre profils d'apprenants distincts :
 ## 4. AUDIT ÉPISTÉMIQUE DU MATÉRIAU DE DÉMONSTRATION INTERNE
 
 **Fichier audité** : `public/demos/pdf-to-hub/avant-pdf-statique.html`  
-**Titre du document** : *« Le Système de Création Régulière »*, par Alexandre V. (Édition 2026).  
+**Titre du document** : *« Guide Pratique d'Organisation Professionnelle »*, par Thomas R. (Exemple didactique fictif).  
 **Nature réelle** : Support de démonstration interne créé spécifiquement pour le studio afin d'illustrer les limites ergonomiques et interactives d'un document PDF statique face à une application web.
 
 ### 4.1 Constat physique sur le volume
@@ -81,7 +81,7 @@ Il est donc formellement proscrit d'affirmer dans le cours que le document a ét
 ## 5. DÉCISIONS PÉDAGOGIQUES ET STRUCTURATION DU COURS
 
 1. **Reconstruction de l'Exemple Guidé (Étape 3)** :
-   Abandon complet des fausses affirmations de faits. Structuration de l'audit d'Alexandre V. selon la **Grille de Vérité en 3 colonnes** :
+   Abandon complet des fausses affirmations de faits. Structuration de l'audit de Thomas R. (Exemple didactique fictif) selon la **Grille de Vérité en 3 colonnes** :
    - Colonne 1 : Ce que le document contient réellement (Page 1 à 5).
    - Colonne 2 : Déduction raisonnable sur le fonctionnement du format statique.
    - Colonne 3 : Hypothèse à vérifier auprès d'utilisateurs réels (avec formulation de questions d'entretiens *Mom Test*).
@@ -91,7 +91,7 @@ Il est donc formellement proscrit d'affirmer dans le cours que le document a ét
 3. **Neutralité vis-à-vis des formats de produits digitaux** :
    Le cours n'enseigne pas que l'interactivité est supérieure par essence au PDF. Un PDF est parfaitement adapté à la transmission d'une lecture linéaire ; l'expérience interactive apporte une valeur mesurable uniquement lorsqu'elle automatise une tâche, personnalise un diagnostic ou sauvegarde une progression.
 4. **Clarification de la cible** :
-   Rappel systématique que l'apprenant doit analyser l'acheteur de **son** propre produit (qu'il soit dans le fitness, la gestion, la cuisine ou la programmation) et ne pas copier le profil de l'acheteur d'Alexandre V.
+   Rappel systématique que l'apprenant doit analyser l'acheteur de **son** propre produit (qu'il soit dans le fitness, la gestion, la cuisine ou la programmation) et ne pas copier le profil de l'acheteur de l'exemple didactique fictif.
 
 ---
 
