@@ -92,7 +92,7 @@ export const day09: Day = {
             {
               key: 'productType',
               label: 'Nom et format de votre produit interactif',
-              placeholder: 'Ex. Le Système de Création Régulière (Calculateur & Plan 30 jours)',
+              placeholder: 'Ex. Simulateur d\'Organisation (Calculateur & Plan 30 jours)',
               profileBinding: 'productType',
             },
             {

@@ -306,7 +306,7 @@ Rédige une proposition synthétique pour le problème de Rang 1 suivant la stru
           eyebrow: "3.1 ANALYSE D'UN CAS D'ÉCOLE FICTIF",
           title: 'Démonstration et déconstruction critique',
           paragraphs: [
-            "Pour illustrer concrètement la démarche, nous analysons un exemple pédagogique fictif disponible dans le dépôt : public/demos/pdf-to-hub/avant-pdf-statique.html (« Le Système de Création Régulière », exemple pédagogique fictif simulant un guide PDF de 5 pages).",
+            "Pour illustrer concrètement la démarche, nous analysons un exemple pédagogique fictif disponible dans le dépôt : public/demos/pdf-to-hub/avant-pdf-statique.html (« Guide d'Organisation & Planification », exemple pédagogique fictif simulant un guide PDF de 5 pages).",
             "Avertissement pédagogique : Ce document est un cas d'école expressément fictif conçu pour illustrer les frictions pratiques et ergonomiques de la lecture passive d'un document statique. Il ne constitue ni une étude de marché réelle, ni une promesse commerciale. Nous l'analysons avec la même neutralité critique que n'importe quel document brut.",
             "À la Page 2 de ce document, on relève deux affirmations types : « L'erreur commise par 90 % des professionnels... » et « Tout créateur qui dépasse 15 % de son temps court au découragement ».",
             "L'analyse critique produit : D'où provient ce chiffre de 90 % ? Existe-t-il une étude statistique rigoureuse avec échantillon représentatif et intervalle de confiance ? Non. C'est une formule rhétorique classique d'auteur visant à donner du poids à une opinion personnelle. Grâce à nos règles épistémiques :",

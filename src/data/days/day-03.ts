@@ -366,7 +366,7 @@ Formule canonique :
           eyebrow: "3.1 AUDIT D'UN CAS PÉDAGOGIQUE FICTIF",
           title: "Analyse critique du positionnement (Cas d'école fictif)",
           paragraphs: [
-            "Pour illustrer pas à pas la construction d'un positionnement et d'une promesse, nous reprenons le document fictif examiné aux Leçons 01 et 02 : public/demos/pdf-to-hub/avant-pdf-statique.html (« Le Système de Création Régulière », simulation d'un guide PDF de 5 pages).",
+            "Pour illustrer pas à pas la construction d'un positionnement et d'une promesse, nous reprenons le document fictif examiné aux Leçons 01 et 02 : public/demos/pdf-to-hub/avant-pdf-statique.html (« Guide d'Organisation & Planification », simulation d'un guide PDF de 5 pages).",
             "Rappel des règles de rigueur déontologique :",
             "1. Ce document est un support pédagogique fictif conçu spécifiquement pour illustrer les limites pratiques d'un PDF statique face à un produit interactif.",
             "2. Il ne s'agit ni d'une étude de marché globale, ni d'un produit commercial ayant enregistré des ventes réelles vérifiées.",
@@ -375,7 +375,7 @@ Formule canonique :
           ],
         },
         {
-          id: 'day03-step3-alexandre-v-case',
+          id: 'day03-step3-fictional-case-study',
           type: 'prose',
           eyebrow: "3.2 APPLICATION AU CAS D'ÉCOLE",
           title: 'De la matière statique au positionnement argumenté',

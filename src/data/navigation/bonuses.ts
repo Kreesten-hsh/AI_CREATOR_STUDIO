@@ -310,7 +310,7 @@ STRUCTURE CARROUSEL 5 : POURQUOI UN OUTIL PLUTÔT QU'UN LONG DISCOURS (6 SLIDES)
 • Slide 2 : Lire une méthode est utile pour comprendre. Mais au moment d'agir, on hésite souvent devant la page blanche.
 • Slide 3 : C'est pour cela que j'ai condensé ma méthode de [DOMAINE] dans un outil interactif sans bla-bla.
 • Slide 4 : Vous ouvrez la page sur téléphone ou ordinateur, vous saisissez votre contexte, vous obtenez votre [LIVRABLE].
-• Slide 5 : Fonctionne hors ligne (archive ZIP) et en ligne (HTTPS) avec sauvegarde portable JSON.
+• Slide 5 : Fonctionne hors ligne et en ligne (HTTPS) avec sauvegarde locale sécurisée.
 • Slide 6 (CTA) : Découvrez [NOM DU PRODUIT] au tarif de lancement de [PRIX] sur ma boutique (lien en bio).`,
       },
       {
@@ -355,7 +355,7 @@ Imaginons un [PROFIL TYPE DE L'AUDIENCE] qui dispose de [CONTRAINTE CHIFFRÉE 1]
 2. L'outil calcule instantanément [RÉSULTAT CHIFFRÉ OU DIAGNOSTIC] et écarte les options inadaptées.
 3. Dans le panneau suivant, il coche sa feuille de route personnalisée et exporte sa sauvegarde.
 
-Aucun logiciel à installer, aucun abonnement mensuel : vous recevez immédiatement l'archive complète et votre lien d'accès après validation sur Chariow.
+Aucun logiciel à installer, aucun abonnement mensuel : vous recevez immédiatement votre guide d'accès PDF et votre lien direct après validation sur Chariow.
 
 👉 Voir la démonstration et accéder à [NOM DU PRODUIT] : [LIEN FICHE PRODUIT CHARIOW]
 
@@ -406,7 +406,7 @@ OBJECTION 1 : "Quelle est la différence avec un guide PDF ou un ebook classique
 Réponse : "Un guide PDF est très bien pour lire une méthode théorique. Mais ici, vous n'avez pas à faire les calculs ou le tri à la main : vous saisissez vos propres données ([EXEMPLE DE VARIABLES]), l'outil applique la méthode automatiquement et affiche votre résultat sur mesure en quelques secondes."
 
 OBJECTION 2 : "Je n'ai pas d'ordinateur en ce moment, est-ce que ça marche sur téléphone ?"
-Réponse : "Oui, tout à fait. Dans votre pack téléchargé sur Chariow, vous avez un lien d'accès sécurisé (HTTPS) conçu pour s'adapter à l'écran de votre smartphone, ainsi que la fonction d'export JSON pour conserver vos données."
+Réponse : "Oui, tout à fait. Dans votre guide d'accès téléchargé sur Chariow, vous avez un lien d'accès sécurisé (HTTPS) conçu pour s'adapter à l'écran de votre smartphone, avec sauvegarde locale."
 
 OBJECTION 3 : "Je manque de temps pour apprendre à utiliser un nouvel outil."
 Réponse : "C'est justement fait pour être pris en main en moins de 5 minutes : il n'y a que [NOMBRE] sections simples, avec un exemple déjà pré-rempli à l'ouverture. Vous remplacez simplement les chiffres par les vôtres."
@@ -441,7 +441,7 @@ SCRIPT DÉMO 2 : FORMAT 60 SECONDES (AVANT / APRÈS SUR UN CAS CLIENT TYPE)
 SCRIPT DÉMO 3 : SÉQUENCE DE 3 STORIES INSTAGRAM / WHATSAPP STATUT
 • Story 1 (Le problème + Sondage) : Capture d'une situation fréquente de [DOMAINE]. Texte : "Combien de temps passez-vous encore à [TÂCHE MANUELLE PÉNIBLE] ?" + Sondage : [Trop longtemps / Je repousse toujours].
 • Story 2 (Vidéo démo de 20s de l'outil) : Enregistrement d'écran montrant la saisie d'un cas réel et le résultat immédiat dans [NOM DU PRODUIT]. Texte : "J'ai transformé ma méthode en un outil interactif qui fait le calcul et le tri en 30 secondes."
-• Story 3 (Détail de l'offre + Sticker Lien Chariow) : Aperçu du pack (Outil mobile & PC + Sauvegarde JSON + Guide de démarrage). Texte : "Disponible dès maintenant ([PRIX DE LANCEMENT] pour les [NOMBRE] premiers). Cliquez sur le lien ci-dessous pour le télécharger immédiatement :" + [STICKER LIEN CHARIOW].`,
+• Story 3 (Détail de l'offre + Sticker Lien Chariow) : Présentation de l'offre (Accès direct mobile & PC + Guide d'accès PDF). Texte : "Disponible dès maintenant ([PRIX DE LANCEMENT] pour les [NOMBRE] premiers). Cliquez sur le lien ci-dessous pour y accéder immédiatement :" + [STICKER LIEN CHARIOW].`,
       },
       {
         id: 'bonus-mkt-prompt',
@@ -466,7 +466,7 @@ SCRIPT DÉMO 3 : SÉQUENCE DE 3 STORIES INSTAGRAM / WHATSAPP STATUT
           {
             key: 'productType',
             label: 'Nom et format de votre produit interactif',
-            placeholder: 'Ex. Le Système de Création Régulière',
+            placeholder: 'Ex. Calculateur & Guide d’Organisation',
             profileBinding: 'productType',
           },
           {

@@ -467,4 +467,25 @@ describe('MISSION 06 : Day 03 Positioning & Promise Full Integration Suite', () 
     // Indépendance du format technique
     expect(raw).toContain('réservés au jour 04');
   });
+
+  // =========================================================================
+  // 17. Renommage du bloc Cas d'école sans impact sur le stockage apprenant
+  // =========================================================================
+  it('17. renomme day03-step3-alexandre-v-case en day03-step3-fictional-case-study sans impact sur les réponses sauvegardées', () => {
+    const step3 = day03.steps.find((s) => s.id === 'day-03-step-3');
+    expect(step3).toBeDefined();
+
+    // L'ancien id personnel n'existe plus
+    const oldBlock = step3?.blocks.find((b) => b.id === 'day03-step3-alexandre-v-case');
+    expect(oldBlock).toBeUndefined();
+
+    // Le nouvel id didactique fictif existe et est purement un bloc 'prose'
+    const newBlock = step3?.blocks.find((b) => b.id === 'day03-step3-fictional-case-study');
+    expect(newBlock).toBeDefined();
+    expect(newBlock?.type).toBe('prose');
+
+    // Vérifie qu'il n'a aucune liaison avec les réponses apprenant ou le profil
+    expect((newBlock as unknown as Record<string, unknown>).profileBinding).toBeUndefined();
+    expect((newBlock as unknown as Record<string, unknown>).deliverableTarget).toBeUndefined();
+  });
 });

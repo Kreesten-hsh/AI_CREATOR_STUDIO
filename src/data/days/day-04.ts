@@ -176,10 +176,10 @@ Rédige le Blueprint complet de mon produit selon ces 7 sections :
           id: 'day04-step3-example-blueprint',
           type: 'prose',
           eyebrow: "3.1 DÉMONSTRATION COMPLÈTE (CAS D'ÉCOLE FICTIF)",
-          title: 'Du guide PDF statique au Blueprint du Hub de Création Régulière',
+          title: 'Du guide PDF statique au Blueprint du Hub d\'Organisation',
           highlightPill: 'Exemple illustratif fictif : adaptez la structure à votre propre domaine',
           paragraphs: [
-            "Voici comment la matière du guide méthodologique fictif (« Le Système de Création Régulière », analysé au Module 01) est traduite en Blueprint fonctionnel pour concevoir l'application interactive témoin (`/demos/pdf-to-hub/apres-hub-interactif.html`) :",
+            "Voici comment la matière du guide méthodologique fictif (« Guide d'Organisation & Planification », analysé au Module 01) est traduite en Blueprint fonctionnel pour concevoir l'application interactive témoin (`/demos/pdf-to-hub/apres-hub-interactif.html`) :",
           ],
           bullets: [
             "1. Format retenu : Hub opérationnel combinant un Calculateur de capacité horaire, un Sélecteur de profil (Freelance / Formateur / Coach), une Checklist 30 jours et un Compilateur de prompt éditorial.",

@@ -293,7 +293,7 @@ Pour chacune des 5 frictions :
           eyebrow: "3.1 AUDIT D'UN EXEMPLE PÉDAGOGIQUE FICTIF",
           title: "Analyse critique du profil acheteur (Cas d'école fictif)",
           paragraphs: [
-            "Pour illustrer concrètement la démarche, nous reprenons le cas d'école fictif examiné à la Leçon 01 : public/demos/pdf-to-hub/avant-pdf-statique.html (« Le Système de Création Régulière », simulation d'un guide PDF).",
+            "Pour illustrer concrètement la démarche, nous reprenons le cas d'école fictif examiné à la Leçon 01 : public/demos/pdf-to-hub/avant-pdf-statique.html (« Guide d'Organisation & Planification », simulation d'un guide PDF).",
             "Avertissement déontologique rigoureux : Ce document est un support de simulation conçu pour mettre en évidence les limites interactives d'un fichier PDF statique. Le lecteur affiche une mention « 12 pages », mais le code HTML ne contient physiquement que cinq blocs de pages visibles (Pages 1/12 à 5/12). Nous refusons formellement d'inventer des comportements d'acheteurs réels ou des anecdotes qui ne figurent pas dans le document.",
             "Voici comment extraire une analyse d'acheteur rigoureuse en séparant les faits documentés, les déductions sur le format et les hypothèses à vérifier sur le terrain.",
           ],

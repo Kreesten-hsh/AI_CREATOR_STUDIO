@@ -121,7 +121,7 @@ export const day08: Day = {
             {
               key: 'productType',
               label: 'Nom de votre produit',
-              placeholder: 'Ex. Le Système de Création Régulière (Outil Interactif)',
+              placeholder: 'Ex. Simulateur d\'Organisation (Outil Interactif)',
               profileBinding: 'productType',
             },
             {

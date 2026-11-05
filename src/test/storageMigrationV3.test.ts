@@ -75,7 +75,7 @@ describe('Persistance V3 & Chaîne de migration résiliente', () => {
           'day01-deliverable-a': 'Mon analyse d expertise',
         },
         profile: {
-          studentName: 'Alexandre',
+          studentName: 'Samira',
           vibeConfirmed: true,
         },
       };
@@ -83,7 +83,7 @@ describe('Persistance V3 & Chaîne de migration résiliente', () => {
       const migrated = migrateV2ToV3(rawV2, JSON.stringify(rawV2));
 
       expect(migrated.schemaVersion).toBe(3);
-      expect(migrated.profile.studentName).toBe('Alexandre');
+      expect(migrated.profile.studentName).toBe('Samira');
       expect(migrated.profile.vibeConfirmed).toBe(true);
       expect(migrated.exerciseAnswers['day01-deliverable-a']).toBe('Mon analyse d expertise');
 

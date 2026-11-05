@@ -163,12 +163,12 @@ Structure ma fiche d'offre commerciale en 6 parties :
           id: 'day07-step3-offer-example',
           type: 'prose',
           eyebrow: '3.1 DÉMONSTRATION COMPLÈTE',
-          title: 'Offre structurée pour « Le Système de Création Régulière »',
+          title: 'Offre structurée pour « Simulateur d\'Organisation (Exemple fictif) »',
           paragraphs: [
             "Voici comment se traduit l'offre commerciale pour le cas d'école fictif du cours avant sa mise en vente sur Chariow :",
           ],
           bullets: [
-            "Ce qui est vendu : L'outil interactif « Le Système de Création Régulière » (Calculateur de capacité horaire + Matrice des 3 Piliers selon le profil + Feuille de route 30 jours + Compilateur de prompt), accessible directement en ligne avec lien web et option de sauvegarde.",
+            "Ce qui est vendu : L'outil interactif « Simulateur d'Organisation » (Calculateur de capacité horaire + Matrice des 3 Piliers selon le profil + Feuille de route 30 jours + Compilateur de prompt), accessible directement en ligne avec lien web et option de sauvegarde.",
             "Complément inclus : Le document méthodologique de synthèse pour ceux qui souhaitent consulter les principes fondateurs au calme avant d'utiliser le simulateur.",
             "Comparaison des alternatives : Bricoler seul sur un carnet prend 1 à 2 heures chaque mois avec des calculs approximatifs ; un accompagnement individuel coûte plusieurs centaines de milliers de FCFA ; l'outil interactif offre le diagnostic et le plan d'action en 10 minutes.",
             "Grille tarifaire retenue à titre d'exemple : 15 000 FCFA pour le palier de lancement anticipé, puis 22 000 FCFA en tarif normal.",
