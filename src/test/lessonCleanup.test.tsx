@@ -23,7 +23,11 @@ function setupWorkspaceForDay(
     dayNumber,
   };
   if (stepType) {
-    initial.activeStepByDay[dayNumber] = stepType;
+    const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNumber);
+    const stepId = stepType.startsWith('day-')
+      ? stepType
+      : day?.steps.find((s) => s.legacyType === stepType)?.id ?? day?.steps[0]?.id ?? '';
+    initial.activeStepIdByDay[dayNumber] = stepId;
   }
   saveProgressToStorage(initial);
 }
@@ -71,7 +75,7 @@ describe('V2 : Curriculum Editorial, Structural & Behavioral Verification (Lesso
     expect(days04To09).toHaveLength(6);
 
     for (const day of days04To09) {
-      const promptStep = day.steps.find((s) => s.type === 'prompt')!;
+      const promptStep = day.steps.find((s) => s.legacyType === 'prompt')!;
       const pbBlocks = promptStep.blocks.filter(
         (b): b is PromptBuilderBlock => b.type === 'prompt-builder'
       );

@@ -15,30 +15,30 @@ function DayWorkspaceView({ day }: { day: Day }) {
   const {
     state,
     getDayProgress,
-    getActiveStepForDay,
-    setActiveStepForDay,
+    getActiveStepIdForDay,
+    setActiveStepIdForDay,
     completeStep,
     navigateToDay,
   } = useProgress();
 
   const sprint = COURSE_DATA.sprints.find((s) => s.id === day.sprintId);
   const progress = getDayProgress(day.dayNumber);
-  const activeStepType = getActiveStepForDay(day.dayNumber);
-  const completedSteps = state.completedStepsByDay[day.dayNumber] ?? [];
+  const activeStepId = getActiveStepIdForDay(day.dayNumber);
+  const completedStepIds = state.completedStepIdsByDay[day.dayNumber] ?? [];
 
   const activeStepObj =
-    day.steps.find((s) => s.type === activeStepType) ?? day.steps[0];
-  const isCurrentStepCompleted = completedSteps.includes(activeStepObj.type);
+    day.steps.find((s) => s.id === activeStepId) ?? day.steps[0];
+  const isCurrentStepCompleted = completedStepIds.includes(activeStepObj.id);
   const isSkeletonStepWithoutContent =
     day.isSkeletonPlaceholder && (!activeStepObj.blocks || activeStepObj.blocks.length === 0);
 
   const handleCompleteCurrentStep = () => {
-    const currentIdx = day.steps.findIndex((s) => s.type === activeStepObj.type);
+    const currentIdx = day.steps.findIndex((s) => s.id === activeStepObj.id);
     const isLastStepOfDay = currentIdx === day.steps.length - 1;
-    const nextStepType =
-      !isLastStepOfDay && currentIdx >= 0 ? day.steps[currentIdx + 1]?.type : undefined;
+    const nextStepId =
+      !isLastStepOfDay && currentIdx >= 0 ? day.steps[currentIdx + 1]?.id : undefined;
 
-    completeStep(day.dayNumber, activeStepObj.type, !isLastStepOfDay, nextStepType);
+    completeStep(day.dayNumber, activeStepObj.id, !isLastStepOfDay, nextStepId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -48,15 +48,15 @@ function DayWorkspaceView({ day }: { day: Day }) {
 
       <StepTabs
         steps={day.steps}
-        activeStep={activeStepObj.type}
-        completedSteps={completedSteps}
-        onSelectStep={(step) => setActiveStepForDay(day.dayNumber, step)}
+        activeStepId={activeStepObj.id}
+        completedStepIds={completedStepIds}
+        onSelectStep={(stepId) => setActiveStepIdForDay(day.dayNumber, stepId)}
       />
 
       <div
         role="tabpanel"
-        id={`step-panel-${activeStepObj.type}`}
-        aria-labelledby={`step-tab-${activeStepObj.type}`}
+        id={`step-panel-${activeStepObj.id}`}
+        aria-labelledby={`step-tab-${activeStepObj.id}`}
         className="space-y-6"
       >
         <LessonRenderer blocks={activeStepObj.blocks} />
@@ -89,7 +89,7 @@ function DayWorkspaceView({ day }: { day: Day }) {
             <button
               type="button"
               onClick={() => {
-                navigateToDay(day.dayNumber + 1, 'concept');
+                navigateToDay(day.dayNumber + 1);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="brutal-btn rounded-brutal-btn bg-surface text-ink hover:bg-pale-pink px-4 py-2.5 min-h-[44px] font-mono text-xs font-bold uppercase inline-flex items-center gap-2 shrink-0"

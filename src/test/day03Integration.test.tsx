@@ -8,15 +8,24 @@ import { createInitialProgress, saveProgressToStorage, STORAGE_KEY } from '../ut
 import { resolveCourseIdForDay } from '../utils/courseNavigation';
 import type { PromptBuilderBlock, ResourceBlock, TextExerciseBlock } from '../types/course';
 
-function setupWorkspaceForDay(dayNumber: number, stepType?: 'concept' | 'prompt' | 'example' | 'your-turn') {
+function setupWorkspaceForDay(dayNumber: number, stepType?: 'concept' | 'prompt' | 'example' | 'your-turn' | string) {
   const initial = createInitialProgress();
   initial.activeRoute = {
     kind: 'course',
     courseId: resolveCourseIdForDay(dayNumber) ?? 'module-01',
     dayNumber,
   };
+  initial.profile.business = "Nutrition et organisation des repas";
+  initial.profile.targetAudience = "Salariés en télétravail";
+  initial.profile.productType = "Générateur de menus";
+  initial.profile.brandStyle = "Éditorial";
+  initial.profile.mainObjective = "Lancer un produit interactif";
+
   if (stepType) {
-    initial.activeStepByDay[dayNumber] = stepType;
+    const stepId = stepType.startsWith('day-')
+      ? stepType
+      : `day-03-step-${stepType === 'concept' ? '1' : stepType === 'prompt' ? '2' : stepType === 'example' ? '3' : '4'}`;
+    initial.activeStepIdByDay[dayNumber] = stepId;
   }
   saveProgressToStorage(initial);
 }
@@ -43,19 +52,19 @@ describe('MISSION 06 : Day 03 Positioning & Promise Full Integration Suite', () 
 
     expect(day03.steps).toHaveLength(4);
     expect(day03.steps[0].id).toBe('day-03-step-1');
-    expect(day03.steps[0].type).toBe('concept');
+    expect(day03.steps[0].legacyType).toBe('concept');
     expect(day03.steps[0].title).toBe('Comprendre');
 
     expect(day03.steps[1].id).toBe('day-03-step-2');
-    expect(day03.steps[1].type).toBe('prompt');
+    expect(day03.steps[1].legacyType).toBe('prompt');
     expect(day03.steps[1].title).toBe('Prompt Claude');
 
     expect(day03.steps[2].id).toBe('day-03-step-3');
-    expect(day03.steps[2].type).toBe('example');
+    expect(day03.steps[2].legacyType).toBe('example');
     expect(day03.steps[2].title).toBe('Exemple guidé');
 
     expect(day03.steps[3].id).toBe('day-03-step-4');
-    expect(day03.steps[3].type).toBe('your-turn');
+    expect(day03.steps[3].legacyType).toBe('your-turn');
     expect(day03.steps[3].title).toBe('À vous de jouer');
   });
 
@@ -433,7 +442,7 @@ describe('MISSION 06 : Day 03 Positioning & Promise Full Integration Suite', () 
 
     const rawStorage = window.localStorage.getItem(STORAGE_KEY);
     const parsed = JSON.parse(rawStorage!);
-    expect(parsed.completedStepsByDay[3]).toContain('your-turn');
+    expect(parsed.completedStepIdsByDay[3]).toContain('day-03-step-4');
   });
 
   // =========================================================================

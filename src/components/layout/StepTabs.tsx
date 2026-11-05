@@ -1,24 +1,28 @@
 import { Check } from 'lucide-react';
-import type { Step, StepType } from '../../types/course';
+import type { Step } from '../../types/course';
 
 interface StepTabsProps {
   steps: Step[];
-  activeStep: StepType;
-  completedSteps: StepType[];
-  onSelectStep: (step: StepType) => void;
+  activeStepId: string;
+  completedStepIds: string[];
+  onSelectStep: (stepId: string) => void;
 }
 
 export function StepTabs({
   steps,
-  activeStep,
-  completedSteps,
+  activeStepId,
+  completedStepIds,
   onSelectStep,
 }: StepTabsProps) {
-  const completedSet = new Set(completedSteps);
+  const completedSet = new Set(completedStepIds);
   const gridLayoutClass =
-    steps.length === 3
+    steps.length === 1
+      ? 'grid-cols-1'
+      : steps.length === 2
+      ? 'grid-cols-1 sm:grid-cols-2 gap-3'
+      : steps.length === 3
       ? 'grid-cols-1 sm:grid-cols-3 gap-3'
-      : 'grid-cols-2 lg:grid-cols-4 gap-3';
+      : 'grid-cols-2 sm:grid-cols-4 gap-3';
 
   return (
     <nav aria-label="Navigation des étapes de la leçon">
@@ -28,8 +32,8 @@ export function StepTabs({
         className={`grid ${gridLayoutClass}`}
       >
         {steps.map((step) => {
-          const isActive = step.type === activeStep;
-          const isCompleted = completedSet.has(step.type);
+          const isActive = step.id === activeStepId;
+          const isCompleted = completedSet.has(step.id);
 
           return (
             <button
@@ -37,9 +41,9 @@ export function StepTabs({
               type="button"
               role="tab"
               aria-selected={isActive}
-              aria-controls={`step-panel-${step.type}`}
-              id={`step-tab-${step.type}`}
-              onClick={() => onSelectStep(step.type)}
+              aria-controls={`step-panel-${step.id}`}
+              id={`step-tab-${step.id}`}
+              onClick={() => onSelectStep(step.id)}
               className={`text-left p-3.5 md:p-4 border-2 border-ink rounded-brutal-card transition-all flex items-center gap-3 min-h-[64px] ${
                 isActive
                   ? 'bg-primary-red text-surface shadow-brutal -translate-y-0.5'
@@ -72,13 +76,15 @@ export function StepTabs({
                     </span>
                   )}
                 </div>
-                <p
-                  className={`text-[11px] md:text-xs truncate mt-0.5 ${
-                    isActive ? 'text-surface/85' : 'text-ink/80'
-                  }`}
-                >
-                  {step.subtitle}
-                </p>
+                {step.subtitle && (
+                  <p
+                    className={`text-[11px] md:text-xs truncate mt-0.5 ${
+                      isActive ? 'text-surface/85' : 'text-ink/80'
+                    }`}
+                  >
+                    {step.subtitle}
+                  </p>
+                )}
               </div>
             </button>
           );
