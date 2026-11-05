@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Check, Copy, RotateCcw, Sliders, Wand2 } from 'lucide-react';
+import { AlertTriangle, Check, Copy, Info, RotateCcw, Sliders, Wand2 } from 'lucide-react';
 import type { ProfileVariableKey, PromptBuilderBlock } from '../../types/course';
 import { useProgress } from '../../hooks/useProgress';
 import { renderPromptTemplate } from '../../utils/promptRenderer';
+import { resolveDossierFieldKey } from '../../types/dossier';
 
 const TARGET_BADGES: Record<PromptBuilderBlock['deliverableTarget'], string> = {
   'claude-artifact': 'CIBLE : ARTIFACT CLAUDE',
@@ -27,12 +28,16 @@ export function PromptBuilder({ block }: { block: PromptBuilderBlock }) {
     fallbackPlaceholders[field.key] = field.placeholder;
   }
 
-  const { renderedText, missingKeys } = renderPromptTemplate(
-    block.template,
-    state.profile,
+  const {
+    renderedText,
+    missingKeys,
+    draftWarnings,
+  } = renderPromptTemplate(block.template, {
+    profile: state.profile,
+    dossier: state.dossier,
     localOverrides,
-    fallbackPlaceholders
-  );
+    fallbackPlaceholders,
+  });
 
   const getFieldValue = (fieldKey: string, profileBinding?: ProfileVariableKey): string => {
     if (localOverrides[fieldKey] !== undefined) {
@@ -40,6 +45,12 @@ export function PromptBuilder({ block }: { block: PromptBuilderBlock }) {
     }
     if (profileBinding) {
       return state.profile[profileBinding] ?? '';
+    }
+    if (fieldKey.startsWith('dossier.')) {
+      const canonical = resolveDossierFieldKey(fieldKey.slice('dossier.'.length));
+      if (canonical && state.dossier?.fields?.[canonical]) {
+        return state.dossier.fields[canonical].value ?? '';
+      }
     }
     return state.profile.customVariables[fieldKey] ?? '';
   };
@@ -63,7 +74,10 @@ export function PromptBuilder({ block }: { block: PromptBuilderBlock }) {
     resetPromptInputs(block.id, boundKeys);
   };
 
+  const isCopyDisabled = missingKeys.length > 0;
+
   const handleCopyPrompt = async () => {
+    if (isCopyDisabled) return;
     try {
       await navigator.clipboard.writeText(renderedText);
       setCopied(true);
@@ -111,15 +125,16 @@ export function PromptBuilder({ block }: { block: PromptBuilderBlock }) {
       </div>
 
       {/* Saisie des variables modifiables */}
-      <div className="p-5 md:p-6 bg-surface border-b-2 border-ink">
+      <div className="p-5 md:p-6 bg-surface border-b-2 border-ink space-y-4">
         <div className="flex items-center justify-between mb-3">
           <h4 className="font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 text-ink">
             <Sliders className="w-3.5 h-3.5 text-primary-red" aria-hidden="true" />
-            Variables de contexte (synchronisées avec le profil)
+            Variables de contexte (synchronisées profil & dossier)
           </h4>
           {missingKeys.length > 0 ? (
-            <span className="font-mono text-xs text-ink/70">
-              {missingKeys.length} variable{missingKeys.length > 1 ? 's' : ''} avec valeur par défaut
+            <span className="font-mono text-xs font-bold text-primary-red bg-pale-pink px-2 py-0.5 border border-ink rounded-brutal-tag flex items-center gap-1">
+              <AlertTriangle className="w-3 h-3" />
+              {missingKeys.length} MANQUANTE{missingKeys.length > 1 ? 'S' : ''} (COPIE BLOQUÉE)
             </span>
           ) : (
             <span className="font-mono text-xs font-bold text-ink bg-pale-pink px-2 py-0.5 border border-ink rounded-brutal-tag">
@@ -127,6 +142,35 @@ export function PromptBuilder({ block }: { block: PromptBuilderBlock }) {
             </span>
           )}
         </div>
+
+        {missingKeys.length > 0 && (
+          <div
+            data-testid="missing-variables-banner"
+            className="p-3 bg-pale-pink border-2 border-primary-red rounded-brutal-tag flex items-start gap-2.5 text-xs font-mono text-ink"
+          >
+            <AlertTriangle className="w-4 h-4 text-primary-red shrink-0 mt-0.5" aria-hidden="true" />
+            <div>
+              <span className="font-bold">Variables obligatoires manquantes :</span>{' '}
+              {missingKeys.map((k) => `{{${k}}}`).join(', ')}
+              <p className="mt-1 font-sans text-ink/80">
+                Renseignez ces champs ci-dessous, dans votre profil ou dans votre dossier de projet pour débloquer la copie du prompt.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {draftWarnings.length > 0 && (
+          <div
+            data-testid="draft-variables-banner"
+            className="p-2.5 bg-cream border border-ink rounded-brutal-tag flex items-start gap-2 text-xs font-mono text-ink"
+          >
+            <Info className="w-3.5 h-3.5 text-ink/70 shrink-0 mt-0.5" aria-hidden="true" />
+            <div>
+              <span className="font-bold">Champs en brouillon :</span>{' '}
+              {draftWarnings.map((w) => w.key).join(', ')} (inclus dans le prompt avec statut provisoire).
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {block.fields.map((field) => {
@@ -165,8 +209,16 @@ export function PromptBuilder({ block }: { block: PromptBuilderBlock }) {
           <button
             type="button"
             onClick={handleCopyPrompt}
-            className={`brutal-btn px-4 py-2 min-h-[42px] font-mono text-xs font-bold uppercase inline-flex items-center gap-2 rounded-brutal-btn ${
-              copied
+            disabled={isCopyDisabled}
+            title={
+              isCopyDisabled
+                ? 'Complétez toutes les variables manquantes pour débloquer la copie'
+                : 'Copier le prompt dans le presse-papiers'
+            }
+            className={`brutal-btn px-4 py-2 min-h-[42px] font-mono text-xs font-bold uppercase inline-flex items-center gap-2 rounded-brutal-btn transition-opacity ${
+              isCopyDisabled
+                ? 'opacity-40 cursor-not-allowed bg-cream text-ink border-2 border-surface/40'
+                : copied
                 ? 'bg-surface text-ink'
                 : 'bg-primary-red hover:bg-dark-red text-surface'
             }`}
