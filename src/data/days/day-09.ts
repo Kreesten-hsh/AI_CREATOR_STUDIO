@@ -14,7 +14,7 @@ export const day09: Day = {
   steps: [
     {
       id: 'day-09-step-1',
-      type: 'concept',
+      legacyType: 'concept',
       number: 1,
       title: 'Comprendre',
       subtitle: 'La démonstration produit comme levier de vente honnête',
@@ -63,7 +63,7 @@ export const day09: Day = {
     },
     {
       id: 'day-09-step-2',
-      type: 'prompt',
+      legacyType: 'prompt',
       number: 2,
       title: 'Prompt Claude',
       subtitle: 'Générer votre kit promotionnel de lancement sur mesure',
@@ -141,7 +141,7 @@ Génère pour moi ces 3 contenus de lancement prêts à l'emploi :
     },
     {
       id: 'day-09-step-3',
-      type: 'your-turn',
+      legacyType: 'your-turn',
       number: 3,
       title: 'Assembler et promouvoir',
       subtitle: 'Exemple de script et validation de son kit de promotion',

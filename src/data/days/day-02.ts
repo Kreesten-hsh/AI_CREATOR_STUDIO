@@ -14,7 +14,7 @@ export const day02: Day = {
   steps: [
     {
       id: 'day-02-step-1',
-      type: 'concept',
+      legacyType: 'concept',
       number: 1,
       title: 'Comprendre',
       subtitle: "Psychologie de l'acheteur",
@@ -126,7 +126,7 @@ export const day02: Day = {
     },
     {
       id: 'day-02-step-2',
-      type: 'prompt',
+      legacyType: 'prompt',
       number: 2,
       title: 'Prompt Claude',
       subtitle: "Prompt de recherche d'audience",
@@ -281,7 +281,7 @@ Pour chacune des 5 frictions :
     },
     {
       id: 'day-02-step-3',
-      type: 'example',
+      legacyType: 'example',
       number: 3,
       title: 'Exemple guidé',
       subtitle: "Analyse du profil type",
@@ -331,7 +331,7 @@ Pour chacune des 5 frictions :
     },
     {
       id: 'day-02-step-4',
-      type: 'your-turn',
+      legacyType: 'your-turn',
       number: 4,
       title: 'À vous de jouer',
       subtitle: 'Cartographier votre acheteur',

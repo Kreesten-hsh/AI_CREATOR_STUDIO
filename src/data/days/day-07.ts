@@ -13,7 +13,7 @@ export const day07: Day = {
   steps: [
     {
       id: 'day-07-step-1',
-      type: 'concept',
+      legacyType: 'concept',
       number: 1,
       title: 'Comprendre',
       subtitle: 'De l’outil technique à l’offre commerciale crédible',
@@ -62,7 +62,7 @@ export const day07: Day = {
     },
     {
       id: 'day-07-step-2',
-      type: 'prompt',
+      legacyType: 'prompt',
       number: 2,
       title: 'Prompt Claude',
       subtitle: 'Structurer votre offre, votre prix et votre argumentaire',
@@ -153,7 +153,7 @@ Structure ma fiche d'offre commerciale en 6 parties :
     },
     {
       id: 'day-07-step-3',
-      type: 'example',
+      legacyType: 'example',
       number: 3,
       title: 'Exemple guidé',
       subtitle: 'Fiche d’offre et tarification du cas fil rouge',
@@ -179,7 +179,7 @@ Structure ma fiche d'offre commerciale en 6 parties :
     },
     {
       id: 'day-07-step-4',
-      type: 'your-turn',
+      legacyType: 'your-turn',
       number: 4,
       title: 'À vous de jouer',
       subtitle: 'Formaliser votre offre et fixer votre prix',

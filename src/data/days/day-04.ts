@@ -13,7 +13,7 @@ export const day04: Day = {
   steps: [
     {
       id: 'day-04-step-1',
-      type: 'concept',
+      legacyType: 'concept',
       number: 1,
       title: 'Comprendre',
       subtitle: 'De la matière brute au blueprint fonctionnel',
@@ -68,7 +68,7 @@ export const day04: Day = {
     },
     {
       id: 'day-04-step-2',
-      type: 'prompt',
+      legacyType: 'prompt',
       number: 2,
       title: 'Prompt Claude',
       subtitle: 'Générer le blueprint fonctionnel de votre produit',
@@ -166,7 +166,7 @@ Rédige le Blueprint complet de mon produit selon ces 7 sections :
     },
     {
       id: 'day-04-step-3',
-      type: 'example',
+      legacyType: 'example',
       number: 3,
       title: 'Exemple guidé',
       subtitle: 'Blueprint complet du cas fil rouge',
@@ -195,7 +195,7 @@ Rédige le Blueprint complet de mon produit selon ces 7 sections :
     },
     {
       id: 'day-04-step-4',
-      type: 'your-turn',
+      legacyType: 'your-turn',
       number: 4,
       title: 'À vous de jouer',
       subtitle: 'Rédiger et valider le blueprint de votre produit',

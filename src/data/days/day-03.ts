@@ -14,7 +14,7 @@ export const day03: Day = {
   steps: [
     {
       id: 'day-03-step-1',
-      type: 'concept',
+      legacyType: 'concept',
       number: 1,
       title: 'Comprendre',
       subtitle: 'Fondations du positionnement et promesse',
@@ -165,7 +165,7 @@ export const day03: Day = {
     },
     {
       id: 'day-03-step-2',
-      type: 'prompt',
+      legacyType: 'prompt',
       number: 2,
       title: 'Prompt Claude',
       subtitle: 'Positionnement stratégique et promesse',
@@ -354,7 +354,7 @@ Formule canonique :
     },
     {
       id: 'day-03-step-3',
-      type: 'example',
+      legacyType: 'example',
       number: 3,
       title: 'Exemple guidé',
       subtitle: "Déconstruction d'un cas d'école fictif",
@@ -419,7 +419,7 @@ Formule canonique :
     },
     {
       id: 'day-03-step-4',
-      type: 'your-turn',
+      legacyType: 'your-turn',
       number: 4,
       title: 'À vous de jouer',
       subtitle: 'Définir votre positionnement',

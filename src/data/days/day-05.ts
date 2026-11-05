@@ -13,7 +13,7 @@ export const day05: Day = {
   steps: [
     {
       id: 'day-05-step-1',
-      type: 'concept',
+      legacyType: 'concept',
       number: 1,
       title: 'Comprendre',
       subtitle: 'Création itérative dans Claude et fonctionnement dans le navigateur',
@@ -94,7 +94,7 @@ export const day05: Day = {
     },
     {
       id: 'day-05-step-2',
-      type: 'prompt',
+      legacyType: 'prompt',
       number: 2,
       title: 'Prompt Claude',
       subtitle: 'Générer votre produit interactif fonctionnel',
@@ -167,7 +167,7 @@ Je construis la première version fonctionnelle de mon produit digital pour mes 
     },
     {
       id: 'day-05-step-3',
-      type: 'your-turn',
+      legacyType: 'your-turn',
       number: 3,
       title: 'Tester et itérer',
       subtitle: 'Tester son produit dans Claude et valider son bon fonctionnement',

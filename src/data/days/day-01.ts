@@ -14,7 +14,7 @@ export const day01: Day = {
   steps: [
     {
       id: 'day-01-step-1',
-      type: 'concept',
+      legacyType: 'concept',
       number: 1,
       title: 'Comprendre',
       subtitle: "Comprendre ce qu'est une vraie niche",
@@ -148,7 +148,7 @@ export const day01: Day = {
     },
     {
       id: 'day-01-step-2',
-      type: 'prompt',
+      legacyType: 'prompt',
       number: 2,
       title: 'Prompt Claude',
       subtitle: "Prompt d'extraction de niche",
@@ -294,7 +294,7 @@ Rédige une proposition synthétique pour le problème de Rang 1 suivant la stru
     },
     {
       id: 'day-01-step-3',
-      type: 'example',
+      legacyType: 'example',
       number: 3,
       title: 'Exemple guidé',
       subtitle: "Analyse d'un modèle concret",
@@ -352,7 +352,7 @@ Rédige une proposition synthétique pour le problème de Rang 1 suivant la stru
     },
     {
       id: 'day-01-step-4',
-      type: 'your-turn',
+      legacyType: 'your-turn',
       number: 4,
       title: 'À vous de jouer',
       subtitle: 'Formuler votre problème cible',

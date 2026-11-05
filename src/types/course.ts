@@ -1,3 +1,5 @@
+import type { ProjectDossier } from './dossier';
+
 export type StepType = 'concept' | 'prompt' | 'example' | 'your-turn';
 
 export const ALL_STEP_TYPES: readonly StepType[] = [
@@ -59,6 +61,7 @@ export interface StudentProfile {
   brandStyle: string;
   mainObjective: string;
   vibe: VibeSelection;
+  vibeConfirmed?: boolean;
   customVariables: Record<string, string>;
 }
 
@@ -204,12 +207,13 @@ export type ContentBlock =
 
 export interface Step {
   id: string;
-  type: StepType;
-  number: 1 | 2 | 3 | 4;
+  number: number;
   title: string;
-  subtitle: string;
   completionLabel: string;
   blocks: ContentBlock[];
+  subtitle?: string;
+  kind?: string;
+  legacyType?: StepType;
 }
 
 export interface Day {
@@ -268,17 +272,19 @@ export interface QuizAttemptState {
 }
 
 export interface StudentProgress {
-  schemaVersion: 2;
+  schemaVersion: 3;
   activeRoute: ActiveRoute;
-  activeStepByDay: Record<number, StepType>;
+  activeStepIdByDay: Record<number, string>;
   completedStartHereIds: string[];
-  completedStepsByDay: Record<number, StepType[]>;
+  completedStepIdsByDay: Record<number, string[]>;
   checklistAnswers: Record<string, Record<string, boolean>>;
   exerciseAnswers: Record<string, string>;
   quizStates: Record<string, QuizAttemptState>;
   savedPrompts: Record<string, string>;
   customPromptInputs: Record<string, Record<string, string>>;
   profile: StudentProfile;
+  dossier: ProjectDossier;
+  persistenceDisabled?: boolean;
   legacyArchive?: Record<string, unknown>;
   lastUpdated: string;
 }

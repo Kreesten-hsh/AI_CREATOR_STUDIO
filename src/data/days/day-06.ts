@@ -13,7 +13,7 @@ export const day06: Day = {
   steps: [
     {
       id: 'day-06-step-1',
-      type: 'concept',
+      legacyType: 'concept',
       number: 1,
       title: 'Comprendre',
       subtitle: 'Identité visuelle propre, ergonomie mobile et mise en ligne simple',
@@ -61,7 +61,7 @@ export const day06: Day = {
     },
     {
       id: 'day-06-step-2',
-      type: 'prompt',
+      legacyType: 'prompt',
       number: 2,
       title: 'Prompt Claude',
       subtitle: 'Appliquer votre style et parfaire l’ergonomie de votre outil',
@@ -122,7 +122,7 @@ Ton rôle est de sublimer l'aspect visuel et l'ergonomie de l'application monofi
     },
     {
       id: 'day-06-step-3',
-      type: 'your-turn',
+      legacyType: 'your-turn',
       number: 3,
       title: 'Publier et vérifier',
       subtitle: 'Mettre en ligne son produit et vérifier son lien d’accès',

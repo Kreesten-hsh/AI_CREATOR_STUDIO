@@ -13,7 +13,7 @@ export const day08: Day = {
   steps: [
     {
       id: 'day-08-step-1',
-      type: 'concept',
+      legacyType: 'concept',
       number: 1,
       title: 'Comprendre',
       subtitle: 'Fonctionnement vérifié de Chariow : Fichiers, paiements et sécurité',
@@ -104,7 +104,7 @@ export const day08: Day = {
     },
     {
       id: 'day-08-step-2',
-      type: 'prompt',
+      legacyType: 'prompt',
       number: 2,
       title: 'Prompt Claude',
       subtitle: 'Rédiger votre fiche produit Chariow, votre FAQ et vos instructions après achat',
@@ -190,7 +190,7 @@ Fournis les textes exacts prêts à coller dans les champs de configuration de m
     },
     {
       id: 'day-08-step-3',
-      type: 'example',
+      legacyType: 'example',
       number: 3,
       title: 'Exemple guidé',
       subtitle: 'Configuration Chariow complète du cas fil rouge',
@@ -216,7 +216,7 @@ Fournis les textes exacts prêts à coller dans les champs de configuration de m
     },
     {
       id: 'day-08-step-4',
-      type: 'your-turn',
+      legacyType: 'your-turn',
       number: 4,
       title: 'À vous de jouer',
       subtitle: 'Configurer votre fiche Chariow et vérifier le parcours',
