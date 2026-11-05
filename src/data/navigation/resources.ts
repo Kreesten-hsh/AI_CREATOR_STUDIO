@@ -53,7 +53,7 @@ Le cursus AI CREATOR Studio propose 4 modèles d'architecture de départ (défin
 - **Pour quel document** : Catalogues de services, portfolios, chartes professionnelles, offres d'accompagnement sur-mesure.
 - **Mécanismes clés** : Section hero immersive avec promesse claire, configurateur de profil ou de besoin en 2 questions, vitrine personnalisée, bouton d'action direct qualifié.
 
-### 5. Choix libre (\`custom-architecture\`)
+### 5. Choix libre (architecture personnalisée) (\`custom-architecture\`)
 - **Pour quel document** : Concepts hybrides ou méthodologies propriétaires combinant plusieurs logiques.
 - **Mécanismes clés** : Architecture sur-mesure définie librement dans le brief fonctionnel de l'apprenant.`,
       },
