@@ -8,6 +8,11 @@ import { StepChecklist } from '../widgets/StepChecklist';
 import { TextExercise } from '../widgets/TextExercise';
 import { VibePicker } from '../widgets/VibePicker';
 import { VideoBlock } from '../widgets/VideoBlock';
+import { ImageBlock } from '../widgets/media/ImageBlock';
+import { ScreenshotBlock } from '../widgets/media/ScreenshotBlock';
+import { DiagramBlock } from '../widgets/media/DiagramBlock';
+import { TemplatePicker } from '../widgets/TemplatePicker';
+import { HomePreview } from '../widgets/HomePreview';
 
 function ProseSection({ block }: { block: ProseBlock }) {
   return (
@@ -96,6 +101,16 @@ export function LessonRenderer({ blocks }: { blocks: ContentBlock[] }) {
             return <TextExercise key={block.id} block={block} />;
           case 'video':
             return <VideoBlock key={block.id} block={block} />;
+          case 'image':
+            return <ImageBlock key={block.id} block={block} />;
+          case 'screenshot':
+            return <ScreenshotBlock key={block.id} block={block} />;
+          case 'diagram':
+            return <DiagramBlock key={block.id} block={block} />;
+          case 'template-picker':
+            return <TemplatePicker key={block.id} title={block.title} description={block.description} />;
+          case 'home-preview':
+            return <HomePreview key={block.id} title={block.title} description={block.description} />;
           case 'resource':
             return <ResourceCard key={block.id} block={block} />;
           case 'copy':

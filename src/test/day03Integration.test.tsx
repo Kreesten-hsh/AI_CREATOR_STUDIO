@@ -6,7 +6,8 @@ import { CourseWorkspaceRouter } from '../app/routes';
 import { day03 } from '../data/days/day-03';
 import { createInitialProgress, saveProgressToStorage, STORAGE_KEY } from '../utils/storage';
 import { resolveCourseIdForDay } from '../utils/courseNavigation';
-import type { PromptBuilderBlock, ResourceBlock, TextExerciseBlock } from '../types/course';
+import type { PromptBuilderBlock, ResourceBlock, TextExerciseBlock, VideoBlockConfig } from '../types/course';
+import { isValidVideoUrl } from '../components/widgets/VideoBlock';
 
 function setupWorkspaceForDay(dayNumber: number, stepType?: 'concept' | 'prompt' | 'example' | 'your-turn' | string) {
   const initial = createInitialProgress();
@@ -78,12 +79,14 @@ describe('MISSION 06 : Day 03 Positioning & Promise Full Integration Suite', () 
   });
 
   // =========================================================================
-  // 3. Règle déontologique : Zéro bloc vidéo
+  // 3. Règle déontologique : Zéro lecteur vidéo sans URL valide
   // =========================================================================
-  it('3. ne contient aucun bloc vidéo dans aucune des 4 étapes', () => {
+  it('3. ne contient aucun lecteur vidéo sans URL valide dans aucune des 4 étapes', () => {
     for (const step of day03.steps) {
-      const videoBlocks = step.blocks.filter((b) => b.type === 'video');
-      expect(videoBlocks).toHaveLength(0);
+      const videoBlocks = step.blocks.filter((b): b is VideoBlockConfig => b.type === 'video');
+      for (const vb of videoBlocks) {
+        expect(isValidVideoUrl(vb.videoUrl)).toBe(true);
+      }
     }
   });
 

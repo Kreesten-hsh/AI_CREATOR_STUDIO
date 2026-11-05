@@ -193,6 +193,62 @@ export interface CopyBlockConfig {
   notes?: string;
 }
 
+export interface ImageBlockConfig {
+  id: string;
+  type: 'image';
+  src: string;
+  alt: string; // Obligatoire et non-vide
+  caption?: string;
+}
+
+export interface ScreenshotBlockConfig {
+  id: string;
+  type: 'screenshot';
+  src: string;
+  alt: string; // Obligatoire et non-vide
+  caption: string;
+  capturedAt: string; // Date de capture visible (ex: "Novembre 2026")
+}
+
+export interface DiagramNode {
+  id: string;
+  label: string;
+  description?: string;
+  tag?: string;
+}
+
+export interface DiagramLink {
+  from: string;
+  to: string;
+  label?: string;
+}
+
+export interface DiagramBlockConfig {
+  id: string;
+  type: 'diagram';
+  title?: string;
+  accessibleDescription: string; // Description textuelle accessible obligatoire
+  data: {
+    kind: 'steps' | 'flow' | 'grid';
+    nodes: DiagramNode[];
+    links?: DiagramLink[];
+  };
+}
+
+export interface TemplatePickerBlockConfig {
+  id: string;
+  type: 'template-picker';
+  title?: string;
+  description?: string;
+}
+
+export interface HomePreviewBlockConfig {
+  id: string;
+  type: 'home-preview';
+  title?: string;
+  description?: string;
+}
+
 export type ContentBlock =
   | ProseBlock
   | VibePickerBlock
@@ -203,7 +259,28 @@ export type ContentBlock =
   | TextExerciseBlock
   | VideoBlockConfig
   | ResourceBlock
-  | CopyBlockConfig;
+  | CopyBlockConfig
+  | ImageBlockConfig
+  | ScreenshotBlockConfig
+  | DiagramBlockConfig
+  | TemplatePickerBlockConfig
+  | HomePreviewBlockConfig;
+
+export interface TroubleshootingPrompt {
+  id: string;
+  title: string;
+  description: string;
+  prompt: string;
+}
+
+export interface StepHelpConfig {
+  frequentMistakes?: Array<{
+    mistake: string;
+    correction: string;
+  }>;
+  tips?: string[];
+  troubleshootingPrompts?: TroubleshootingPrompt[];
+}
 
 export interface Step {
   id: string;
@@ -214,6 +291,7 @@ export interface Step {
   subtitle?: string;
   kind?: string;
   legacyType?: StepType;
+  help?: StepHelpConfig;
 }
 
 export interface Day {
@@ -226,6 +304,10 @@ export interface Day {
   deliverableSummary: string;
   isSkeletonPlaceholder: boolean;
   steps: Step[];
+  completedContext?: string;
+  todayAction?: string;
+  eveningDeliverable?: string;
+  tomorrowUtility?: string;
 }
 
 export interface StartHereLesson {

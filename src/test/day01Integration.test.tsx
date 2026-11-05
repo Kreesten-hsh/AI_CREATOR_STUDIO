@@ -6,7 +6,8 @@ import { CourseWorkspaceRouter } from '../app/routes';
 import { day01 } from '../data/days/day-01';
 import { createInitialProgress, saveProgressToStorage, STORAGE_KEY } from '../utils/storage';
 import { resolveCourseIdForDay } from '../utils/courseNavigation';
-import type { PromptBuilderBlock, ResourceBlock, TextExerciseBlock } from '../types/course';
+import type { PromptBuilderBlock, ResourceBlock, TextExerciseBlock, VideoBlockConfig } from '../types/course';
+import { isValidVideoUrl } from '../components/widgets/VideoBlock';
 
 function setupWorkspaceForDay(dayNumber: number, stepType?: 'concept' | 'prompt' | 'example' | 'your-turn' | string) {
   const initial = createInitialProgress();
@@ -70,13 +71,15 @@ describe('MISSION 04 : Day 01 Full React Integration Suite', () => {
       expect(day01.steps[3].title).toBe('À vous de jouer');
     });
 
-    it('ne contient aucun bloc vidéo ni aucun tiret cadratin dans ses contenus', () => {
+    it('ne contient aucun lecteur vidéo sans URL valide ni aucun tiret cadratin dans ses contenus', () => {
       const day01String = JSON.stringify(day01);
       expect(day01String).not.toContain('\u2014');
 
       for (const step of day01.steps) {
-        const videoBlocks = step.blocks.filter((b) => b.type === 'video');
-        expect(videoBlocks).toHaveLength(0);
+        const videoBlocks = step.blocks.filter((b): b is VideoBlockConfig => b.type === 'video');
+        for (const vb of videoBlocks) {
+          expect(isValidVideoUrl(vb.videoUrl)).toBe(true);
+        }
       }
     });
 

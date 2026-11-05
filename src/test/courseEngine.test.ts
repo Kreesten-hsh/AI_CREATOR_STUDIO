@@ -1,6 +1,8 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 import { COURSE_DATA, ALL_DAYS, TOTAL_COURSE_LESSONS } from '../data/course';
 import { BONUSES } from '../data/navigation/bonuses';
+import { isValidVideoUrl } from '../components/widgets/VideoBlock';
+import type { VideoBlockConfig } from '../types/course';
 import {
   calculateDailyProgress,
   calculateGlobalProgress,
@@ -47,8 +49,10 @@ describe('AI CREATOR STUDIO V2 : Course Data & Engine Verification', () => {
 
       for (const step of day.steps) {
         expect(step.blocks.length).toBeGreaterThan(0);
-        const videoBlocks = step.blocks.filter((b) => b.type === 'video');
-        expect(videoBlocks).toHaveLength(0);
+        const videoBlocks = step.blocks.filter((b): b is VideoBlockConfig => b.type === 'video');
+        for (const vb of videoBlocks) {
+          expect(isValidVideoUrl(vb.videoUrl)).toBe(true);
+        }
       }
     }
   });

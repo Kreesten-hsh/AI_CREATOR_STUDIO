@@ -10,7 +10,8 @@ import { RESOURCE_CATEGORIES } from '../data/navigation/resources';
 import { createInitialProgress, saveProgressToStorage } from '../utils/storage';
 import { resolveCourseIdForDay } from '../utils/courseNavigation';
 import { renderPromptTemplate } from '../utils/promptRenderer';
-import type { PromptBuilderBlock } from '../types/course';
+import { isValidVideoUrl } from '../components/widgets/VideoBlock';
+import type { PromptBuilderBlock, VideoBlockConfig } from '../types/course';
 
 function setupWorkspaceForDay(
   dayNumber: number,
@@ -38,7 +39,7 @@ describe('V2 : Curriculum Editorial, Structural & Behavioral Verification (Lesso
     window.scrollTo = vi.fn();
   });
 
-  it('1. guarantees zero em-dashes (— / \\u2014) and zero video blocks across all active V2 data files', () => {
+  it('1. guarantees zero em-dashes (— / \\u2014) and no invalid video player across all active V2 data files', () => {
     const allActivePayloads = [
       COURSE_DATA,
       ALL_DAYS,
@@ -55,7 +56,10 @@ describe('V2 : Curriculum Editorial, Structural & Behavioral Verification (Lesso
 
     for (const day of ALL_DAYS) {
       for (const step of day.steps) {
-        expect(step.blocks.filter((b) => b.type === 'video')).toHaveLength(0);
+        const videoBlocks = step.blocks.filter((b): b is VideoBlockConfig => b.type === 'video');
+        for (const vb of videoBlocks) {
+          expect(isValidVideoUrl(vb.videoUrl)).toBe(true);
+        }
       }
     }
   });
