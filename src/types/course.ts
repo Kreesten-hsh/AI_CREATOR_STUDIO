@@ -344,7 +344,8 @@ export type ActiveRoute =
   | { kind: 'start-here'; lessonId: string }
   | { kind: 'day'; dayNumber: number }
   | { kind: 'bonus'; bonusId: string }
-  | { kind: 'resources' };
+  | { kind: 'resources' }
+  | { kind: 'project' };
 
 export interface QuizAttemptState {
   answers: Record<string, number>;

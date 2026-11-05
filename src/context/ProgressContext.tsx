@@ -41,6 +41,7 @@ export interface ProgressContextValue {
   navigateToCourse: (courseId: string, dayNumber?: number, lessonId?: string) => void;
   navigateToBonus: (bonusId: string) => void;
   navigateToResources: () => void;
+  navigateToProject: () => void;
   navigateToStartHere: (lessonId: string) => void;
   navigateToDay: (dayNumber: number, stepId?: string) => void;
   setActiveStepIdForDay: (dayNumber: number, stepId: string) => void;
@@ -166,6 +167,14 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     setState((prev) => ({
       ...prev,
       activeRoute: { kind: 'resources' },
+      lastUpdated: new Date().toISOString(),
+    }));
+  }, []);
+
+  const navigateToProject = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      activeRoute: { kind: 'project' },
       lastUpdated: new Date().toISOString(),
     }));
   }, []);
@@ -493,6 +502,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       navigateToCourse,
       navigateToBonus,
       navigateToResources,
+      navigateToProject,
       navigateToStartHere,
       navigateToDay,
       setActiveStepIdForDay,
@@ -524,6 +534,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       navigateToCourse,
       navigateToBonus,
       navigateToResources,
+      navigateToProject,
       navigateToStartHere,
       navigateToDay,
       setActiveStepIdForDay,

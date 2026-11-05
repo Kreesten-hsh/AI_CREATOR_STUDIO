@@ -8,6 +8,7 @@ import { CompletionButton } from '../components/course/CompletionButton';
 import { CourseHomePage } from '../components/home/CourseHomePage';
 import { BonusView } from '../components/bonus/BonusView';
 import { ResourcesView } from '../components/resources/ResourcesView';
+import { MyProjectPage } from '../components/project/MyProjectPage';
 import type { Day } from '../types/course';
 import { getCourseById } from '../utils/courseNavigation';
 
@@ -118,6 +119,10 @@ export function CourseWorkspaceRouter() {
 
   if (route.kind === 'resources') {
     return <ResourcesView />;
+  }
+
+  if (route.kind === 'project') {
+    return <MyProjectPage />;
   }
 
   if (route.kind === 'course') {
