@@ -1,78 +1,75 @@
-# AI CREATOR Studio (V2)
+# Utiliser Claude pour créer un produit digital qui ne ressemble pas à de la merde générée par l'IA
 
-> « Tu ne vas pas apprendre à créer notre plateforme. Tu vas apprendre à créer la tienne. »
+> Transformez votre document existant en une expérience interactive personnalisée avec Claude, publiez-la et apprenez à la vendre.
 
-Mini-cours pratique conçu pour apprendre aux créateurs, formateurs, coachs et consultants à utiliser **Claude** afin de transformer leur propre contenu, leur expertise ou leurs documents existants en un **produit digital interactif, personnalisé et commercialisable sur Chariow**, sans prérequis en programmation.
+**AI CREATOR Studio** est la plateforme interactive d'apprentissage conçue pour guider les formateurs, consultants, coachs et créateurs dans la transformation de leur matière existante (guide PDF, ebook, tableur, grille de calcul ou méthode) en un produit digital interactif autonome, hébergé sur le web et commercialisé sur Chariow.
 
 ---
 
-## 1. Architecture du Programme V2 (3 Modules, 9 Leçons, 2 Bonus)
+## 1. Architecture du Programme V2 (Approche Document-First)
 
-Le cursus est structuré en **3 modules opérationnels (9 leçons de 4 étapes chacune)** et **2 bonus complets indépendants** :
+Le parcours est structuré en **3 modules de 3 leçons (9 leçons au total)** avec livrables continus, complétés par **2 bonus indépendants** :
 
 ### Module 01 : L'OPPORTUNITÉ & LE POSITIONNEMENT (Leçons 01 à 03)
-- **Leçon 01 : De son expertise au problème client** (`day-01`)
-  - *Livrable* : Matière de départ structurée, problèmes candidats et niche orientée problème.
-- **Leçon 02 : Comprendre son acheteur et ses motivations** (`day-02`)
-  - *Livrable* : Fiche acheteur (situation, frustrations, déclencheurs, objections, critères de décision et vocabulaire réel).
-- **Leçon 03 : Positionnement et promesse de transformation** (`day-03`)
-  - *Livrable* : Alternatives réelles, valeur différenciante, positionnement provisoire et promesse vérifiable.
+- **Leçon 01 : Analyser son document et identifier son potentiel interactif** (`day-01`)
+  - *Livrable* : Matrice de transformation, matière extraite et potentiel interactif identifié.
+- **Leçon 02 : Comprendre son acheteur et le problème** (`day-02`)
+  - *Livrable* : Fiche acheteur, problème prioritaire, faits documentés vs hypothèses.
+- **Leçon 03 : Définir la solution et la promesse** (`day-03`)
+  - *Livrable* : Mécanisme de résolution, proposition de valeur et promesse de transformation vérifiable.
 
 ### Module 02 : CONCEVOIR & CRÉER AVEC CLAUDE (Leçons 04 à 06)
-- **Leçon 04 : Choisir le format interactif et concevoir son blueprint** (`day-04`)
-  - *Livrable* : Blueprint complet de son propre produit interactif.
-- **Leçon 05 : Construire son produit avec Claude** (`day-05`)
-  - *Livrable* : Première version fonctionnelle de son propre produit interactif (`index.html`).
-- **Leçon 06 : Personnaliser, tester et exporter son produit** (`day-06`)
-  - *Livrable* : Produit finalisé avec sa propre identité visuelle, sauvegarde portable JSON (`.json`), hébergement HTTPS et archive `.zip` prête à livrer.
+- **Leçon 04 : Concevoir l'expérience interactive** (`day-04`)
+  - *Livrable* : Choix parmi les 4 modèles de produits interactifs, parcours fonctionnel, identité visuelle propre et brief complet.
+- **Leçon 05 : Créer son application avec Claude** (`day-05`)
+  - *Livrable* : Application V1 fonctionnelle générée via le Master Prompt Claude.
+- **Leçon 06 : Personnaliser, tester et publier** (`day-06`)
+  - *Livrable* : Application testée (mobile et desktop), export HTML autonome, publication en ligne sur Netlify Drop avec URL HTTPS permanente.
 
 ### Module 03 : VENDRE & PROMOUVOIR (Leçons 07 à 09)
-- **Leçon 07 : Structurer son offre et son prix** (`day-07`)
-  - *Livrable* : Offre complète et argumentaire produit (grille en FCFA ou EUR).
-- **Leçon 08 : Mettre son produit en vente sur Chariow** (`day-08`)
-  - *Livrable* : Produit prêt à être publié et vendu sur Chariow (`Fichiers` `.zip`, portail client `app.ateliat.com`).
-- **Leçon 09 : Créer son contenu de lancement et ses démonstrations** (`day-09`)
-  - *Livrable* : Kit de lancement (accroches, script de démonstration, publication et plan 7 jours).
+- **Leçon 07 : Construire son offre** (`day-07`)
+  - *Livrable* : Offre commerciale complète, prix et conditions de support.
+- **Leçon 08 : Créer la livraison et vendre sur Chariow** (`day-08`)
+  - *Livrable* : PDF d'accès client généré par Claude (sans outil tiers), produit de type « Fichiers » configuré sur Chariow avec instructions après achat.
+- **Leçon 09 : Présenter et promouvoir** (`day-09`)
+  - *Livrable* : Kit de promotion, démonstration produit et calendrier de lancement.
 
 ### Les 2 Bonus Indépendants
 - **Bonus 01 : Le Système ManyChat Automatisé avec Claude** (`bonus-manychat`)
-  - Séquence conforme aux règles Meta/Instagram en 5 étapes (Commentaire -> 1er DM privé -> Interaction Quick Reply ouvrant la fenêtre de 24h -> Qualification -> Lien Chariow, avec arrêt strict sans relance en cas de non-interaction).
+  - Séquence conforme aux règles officielles de l'API Meta/Instagram en 5 étapes (Commentaire -> 1er DM privé -> Quick Reply ouvrant la fenêtre de 24h -> Qualification -> Lien Chariow, avec arrêt strict sans relance en cas de non-interaction).
 - **Bonus 02 : Marketing Library** (`bonus-marketing`)
-  - Bibliothèque directement exploitable : 20 structures d'accroches Reels/TikTok, 5 structures de carrousels, 3 séquences d'emails de lancement, templates DM/objections et scripts de démonstration produit.
+  - Recueil opérationnel : 20 structures d'accroches, 5 carrousels de démonstration, 3 séquences d'emails et scripts vidéo sans faux chiffres ni promesses irréalistes.
 
 ---
 
-## 2. Architecture Technique & Distribution des Produits Apprenants
+## 2. Parcours Technique de Livraison du Produit Apprenant
 
-Chaque produit créé par un apprenant suit une architecture testée et reproductible (documentée dans `docs/PRODUCT_DELIVERY_DECISION.md` et démontrée par `public/demos/pdf-to-hub/apres-hub-interactif.html`) :
+Chaque produit créé par un élève suit un chemin de livraison épuré et accessible sur smartphone :
 
-| Dimension | Solution Technique Retenue |
+| Étape | Rôle & Solution Technique Retenue |
 | :--- | :--- |
-| **Création** | Claude génère le code dans un fichier autonome `index.html` (HTML5 + CSS + Vanilla JS) avec la propre identité visuelle de l'apprenant |
-| **Utilisation en ligne** | Hébergement statique sur une origine HTTPS stable (ex. Netlify Drop) |
-| **Sauvegarde en ligne** | `localStorage` sur l'origine HTTPS, encapsulé dans un bloc `try / catch` |
-| **Utilisation hors ligne** | Fonctionnement intégral des interactions (calculs, diagnostics, filtres) sans dépendre de `localStorage` sur `file://` |
-| **Sauvegarde portable** | Boutons **Exporter (`.json`)** et **Importer (`.json`)** intégrés pour sauvegarder et restaurer ses données entre appareils ou navigateurs |
-| **Livraison commerciale** | Archive `.zip` livrée automatiquement via Chariow (produit de type `Fichiers`) |
-| **Accès mobile** | URL HTTPS hébergée et testée sur smartphone |
+| **1. Création avec Claude** | Génération d'une application autonome dans un fichier unique `index.html` (HTML5 + CSS + JavaScript standard) avec l'identité visuelle propre à l'apprenant. |
+| **2. Hébergement Web** | Déploiement statique sur **Netlify Drop** réclamé avec un compte gratuit pour obtenir une URL HTTPS pérenne. |
+| **3. Persistance Hybride** | `localStorage` rattaché à l'origine HTTPS sécurisé par `try/catch` + boutons **Exporter (`.json`)** et **Importer (`.json`)** pour la portabilité inter-appareils. |
+| **4. PDF d'accès généré par Claude** | Document d'accès remis au client (titre, lien HTTPS direct, instructions et contact) généré directement avec Claude (sans Canva). |
+| **5. Distribution Chariow** | Fiche produit de type « Fichiers » distribuant le PDF d'accès avec instructions après achat. Pas de ZIP obligatoire. |
 
 ---
 
-## 3. Migration LocalStorage Blindée (`schemaVersion: 1 -> 2`)
+## 3. Dossier de Projet & Persistance Locale (`schemaVersion: 3`)
 
-Le module `src/utils/storage.ts` assure une migration sans perte de données depuis la V1 :
-1. Création et vérification par relecture d'une sauvegarde `ai_creator_studio_progress_v1_backup` (sans jamais écraser une sauvegarde existante).
-2. Validation des identifiants d'exercices, checklists, quiz et prompts conservés dans les Leçons 01 à 03.
-3. Neutralisation de l'ancienne direction artistique par défaut du Studio (`brandStyle: ''`) tout en préservant tout style personnalisé par l'apprenant.
-4. Isolation des anciennes données hors périmètre (jours 4 à 25 V1) dans `legacyArchive`.
-5. Gestion résiliente des erreurs `QuotaExceededError`.
+L'espace **Mon Projet** centralise les 18 champs du Dossier de Projet de l'apprenant :
+- Validation stricte de chaque champ (détection et rejet de secrets d'API, de clés privées et de data URIs base64).
+- Plafonds de taille stricts (40 000 caractères pour l'analyse, les contenus essentiels et le prompt de création ; 10 000 pour les autres champs ; 200 000 au total).
+- Export et Import JSON sécurisés avec sauvegarde de pré-import automatique (`ai_creator_studio_dossier_pre_import_backup`).
+- Rétro-compatibilité et résilience face aux restrictions de quota (`QuotaExceededError`).
 
 ---
 
 ## 4. Stack Technique & Commandes
 
 - **Framework** : React 19 + TypeScript strict (`tsc --noEmit`)
-- **Build** : Vite 6 + Tailwind CSS + Framer Motion + Lucide React
+- **Build & Dev** : Vite 6 + Tailwind CSS + Framer Motion + Lucide React
 - **Tests** : Vitest + Testing Library
 
 ```bash
@@ -85,8 +82,8 @@ npm run dev
 # Vérifier le typage TypeScript strict
 npm run typecheck
 
-# Exécuter l'intégralité de la suite de tests Vitest
-npx vitest run
+# Exécuter la suite complète de tests Vitest
+npm test
 
 # Compiler le bundle de production
 npm run build
@@ -96,9 +93,14 @@ npm run build
 
 ## 5. Documentation d'Architecture V2
 
-- `docs/PRODUCT_DELIVERY_DECISION.md` : Décision d'architecture et de distribution du produit de l'apprenant.
-- `docs/PEDAGOGICAL_ARCHITECTURE_V2.md` : Principes directeurs et structure pédagogique V2.
-- `docs/CURRICULUM_BLUEPRINT_V2.md` : Plan détaillé des 3 modules, 9 leçons et 2 bonus.
-- `docs/research/CLAUDE_ARTIFACTS_EXPORT_REGISTER.md` : Registre documentaire Claude Artifacts / Exports HTML.
-- `docs/research/CHARIOW_DELIVERY_REGISTER.md` : Registre documentaire Chariow (`Fichiers`, commissions Starter 15 % / Growth 10 %, Wallet Axa Zara, `app.ateliat.com`).
-- `docs/research/MANYCHAT_META_REGISTER.md` : Registre documentaire ManyChat & règles Meta (fenêtre de 24h, Quick Reply vs Open website).
+- `docs/PEDAGOGICAL_ARCHITECTURE_V2.md` : Architecture canonique souveraine du parcours V2.
+- `docs/PRODUCT_DELIVERY_DECISION.md` : Décision d'architecture et de livraison du produit apprenant.
+- `docs/RESEARCH_DRIVEN_PEDAGOGICAL_PRODUCTION_PROTOCOL.md` : Protocole directeur de recherche et rigueur épistémique.
+- `docs/PROJECT_DOSSIER_V2.md` : Spécification technique du Dossier de Projet (18 champs, validation, migrations).
+- `docs/MEDIA_PRODUCTION_PLAN_V2.md` : Inventaire des schémas, captures et vidéos du cours.
+- `docs/research/CLAUDE_ARTIFACTS_EXPORT_REGISTER.md` : Registre Claude Artifacts et exports HTML.
+- `docs/research/CHARIOW_DELIVERY_REGISTER.md` : Registre Chariow (produits Fichiers, commissions, instructions après achat).
+- `docs/research/MANYCHAT_META_REGISTER.md` : Registre ManyChat et conformité API Meta 24h.
+- `docs/research/DAY_02_RESEARCH_REGISTER.md` : Registre documentaire du Jour 02.
+- `docs/research/DAY_03_RESEARCH_REGISTER.md` : Registre documentaire du Jour 03.
+- `DESIGN.md` : Charte visuelle de la plateforme et liberté d'identité des produits créés.

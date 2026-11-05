@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen } from 'lucide-react';
+import { ArrowRight, BookOpen, FileText, CheckCircle2 } from 'lucide-react';
 import { useProgress } from '../../hooks/useProgress';
 import { MAIN_COURSES } from '../../data/navigation/mainCourses';
 import { BONUSES } from '../../data/navigation/bonuses';
@@ -8,10 +8,55 @@ export function CourseOverview() {
     navigateToCourse,
     navigateToBonus,
     navigateToResources,
+    navigateToDay,
   } = useProgress();
 
   return (
     <div className="space-y-8 select-none">
+      {/* 0. Section : Start Here & Document-First */}
+      <section aria-label="Prérequis et démarrage" className="space-y-3">
+        <div className="brutal-card rounded-brutal-card bg-surface p-5 border-2 border-ink shadow-brutal flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+          <div className="space-y-2 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-mono text-[10px] font-bold px-2 py-0.5 bg-dusty-pink text-ink border border-ink rounded-brutal-tag uppercase">
+                START HERE • APPROCHE DOCUMENT-FIRST
+              </span>
+            </div>
+            <h3 className="font-display text-lg sm:text-xl uppercase tracking-tight text-ink">
+              Votre document existant est le point de départ
+            </h3>
+            <p className="font-serif text-sm text-ink/80 leading-relaxed max-w-3xl">
+              Vous n’avez pas à inventer un produit à partir d’une page blanche. Munissez-vous d’un guide PDF, d’un ebook, d’un tableur ou de vos notes méthodologiques existantes : c’est cette matière brute que vous allez transformer en outil interactif autonome avec Claude, héberger sur Netlify et vendre sur Chariow.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 font-mono text-xs">
+              <div className="flex items-center gap-1.5 text-ink/80">
+                <CheckCircle2 className="w-3.5 h-3.5 text-primary-red shrink-0" aria-hidden="true" />
+                <span>Aucun départ de zéro</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-ink/80">
+                <CheckCircle2 className="w-3.5 h-3.5 text-primary-red shrink-0" aria-hidden="true" />
+                <span>Design choisi au Jour 4</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-ink/80">
+                <CheckCircle2 className="w-3.5 h-3.5 text-primary-red shrink-0" aria-hidden="true" />
+                <span>Sauvegarde dans Mon Projet</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="shrink-0 flex sm:flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => navigateToDay(1)}
+              className="brutal-btn rounded-brutal-btn bg-primary-red text-surface hover:bg-ink px-4 py-2.5 font-mono text-xs font-bold uppercase inline-flex items-center justify-center gap-2 border-2 border-ink shadow-brutal-xs min-h-[42px] transition-all"
+            >
+              <FileText className="w-4 h-4" aria-hidden="true" />
+              <span>Démarrer avec mon document (J1)</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* 1. Section : Les 3 Modules */}
       <section aria-label="Les 3 modules" className="space-y-3">
         <div className="flex items-baseline justify-between gap-2">

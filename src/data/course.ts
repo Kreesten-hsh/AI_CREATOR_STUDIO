@@ -12,6 +12,15 @@ import { day09 } from './days/day-09';
 
 export const TOTAL_COURSE_LESSONS = 9;
 
+export const COURSE_TITLE =
+  "Utiliser Claude pour créer un produit digital qui ne ressemble pas à de la merde générée par l'IA";
+
+export const COURSE_META_TITLE =
+  "Utiliser Claude pour créer un produit digital qui ne ressemble pas à de la merde générée par l'IA";
+
+export const COURSE_SUBTITLE =
+  'Transformez votre document existant en une expérience interactive personnalisée avec Claude, publiez-la et apprenez à la vendre.';
+
 export const ALL_DAYS: Day[] = [
   day01,
   day02,

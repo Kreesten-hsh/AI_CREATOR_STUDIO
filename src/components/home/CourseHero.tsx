@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { useProgress } from '../../hooks/useProgress';
+import { COURSE_TITLE, COURSE_SUBTITLE } from '../../data/course';
 import { CourseProgressCircle } from './CourseProgressCircle';
 
 export function CourseHero() {
@@ -45,19 +46,14 @@ export function CourseHero() {
               </span>
             </div>
 
-            {/* Titre officiel */}
-            <h2 className="font-display text-2xl sm:text-3xl md:text-[34px] lg:text-[36px] leading-[1.12] uppercase tracking-tight text-surface">
-              UTILISER <span className="font-serif italic font-normal text-cream lowercase text-3xl sm:text-4xl md:text-[40px]">Claude</span> POUR CRÉER
-              <br className="hidden md:inline" />
-              <span className="font-extrabold text-white">VOTRE PROPRE PRODUIT INTERACTIF</span>
-              <br className="hidden md:inline" />
-              PERSONNALISÉ ET PRÊT À VENDRE SUR <span className="font-serif italic font-normal text-pale-pink lowercase text-3xl sm:text-4xl md:text-[40px]">Chariow</span>
+            {/* Titre officiel en casse normale lisible dès 375px */}
+            <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight tracking-tight text-surface">
+              {COURSE_TITLE}
             </h2>
 
-            {/* Description officielle */}
+            {/* Sous-titre officiel */}
             <p className="text-sm sm:text-base text-surface/90 font-serif leading-relaxed max-w-2xl">
-              « Tu ne vas pas apprendre à créer notre plateforme. Tu vas apprendre à créer la tienne. »
-              Transformez votre expertise ou vos documents en un outil interactif utile, doté de votre propre identité visuelle et d&apos;une sauvegarde portable.
+              {COURSE_SUBTITLE}
             </p>
 
             {/* Action principale et indicateur d'étape suivante */}

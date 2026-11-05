@@ -5,21 +5,21 @@ export const SETUP_LESSON: StartHereLesson = {
   lessonNumber: 2,
   title: 'CONFIGURER VOTRE PROFIL PROJET',
   italicTitleWord: 'PROFIL',
-  subtitle: 'ORIENTATION 02 : VARIABLES & IDENTITÉ PROPRE',
+  subtitle: 'START HERE : VARIABLES DE CONTEXTE MÉTIER',
   objective:
-    'Renseigner votre thématique, votre audience cible et votre propre direction visuelle afin que les générateurs de prompts des 9 leçons s’adaptent automatiquement à votre projet.',
+    'Renseigner votre domaine d’expertise, votre audience cible et votre objectif initial afin que les compilateurs de prompts des 9 leçons s’adaptent à votre document.',
   blocks: [
     {
       id: 'setup-prose-1',
       type: 'prose',
       eyebrow: 'VARIABLES DYNAMIQUES DU PROJET',
-      title: 'Renseignez votre contexte une fois pour tout le parcours',
+      title: 'Renseignez votre contexte initial',
       italicAccent: 'Personnalisation directe',
       highlightPill:
-        'Vos variables alimentent {{business}}, {{targetAudience}}, {{productType}}, {{brandStyle}} et {{mainObjective}} dans les prompts des 9 leçons.',
+        'Vos variables alimentent {{business}}, {{targetAudience}}, {{productType}} et {{mainObjective}} dans les prompts des 9 leçons.',
       paragraphs: [
-        'Pour vous éviter de ressaisir votre contexte à chaque leçon, AI CREATOR Studio injecte automatiquement les informations de votre profil dans les compilateurs de prompts.',
-        'Complétez les champs ci-dessous avec vos informations actuelles (même provisoires : vous les affinerez au fil du Module 01) et choisissez une direction visuelle propre à votre futur produit.',
+        'Pour vous éviter de ressaisir votre contexte à chaque prompt, AI CREATOR Studio injecte automatiquement les informations de votre profil dans les générateurs de prompts.',
+        'Complétez les champs ci-dessous avec les informations tirées de votre document existant. Vous pourrez les affiner librement à tout moment au fil du parcours.',
       ],
     },
     {
@@ -56,16 +56,9 @@ export const SETUP_LESSON: StartHereLesson = {
       ],
     },
     {
-      id: 'setup-vibe-picker',
-      type: 'vibe-picker',
-      title: 'Étape 2 : Choisir la direction visuelle de votre futur produit',
-      description:
-        'Sélectionnez une harmonie de couleurs, une structure et une typographie adaptées à VOTRE audience. Ce choix remplit la variable {{brandStyle}} utilisée à la Leçon 06.',
-    },
-    {
       id: 'setup-prompt-test',
       type: 'prompt-builder',
-      title: 'Étape 3 : Vérifier l’injection de vos variables',
+      title: 'Étape 2 : Vérifier l’injection de vos variables',
       description:
         'Observez comment vos données remplacent automatiquement les variables dans le prompt ci-dessous.',
       deliverableTarget: 'claude-artifact',
@@ -89,12 +82,6 @@ export const SETUP_LESSON: StartHereLesson = {
           profileBinding: 'productType',
         },
         {
-          key: 'brandStyle',
-          label: 'Identité visuelle propre ({{brandStyle}})',
-          placeholder: 'Définie via le sélecteur ci-dessus ou vos propres couleurs',
-          profileBinding: 'brandStyle',
-        },
-        {
           key: 'mainObjective',
           label: 'Objectif client ({{mainObjective}})',
           placeholder: 'Action concrète facilitée par votre outil',
@@ -105,7 +92,6 @@ export const SETUP_LESSON: StartHereLesson = {
 - Domaine d'expertise : {{business}}
 - Acheteur cible : {{targetAudience}}
 - Format interactif envisagé : {{productType}}
-- Identité visuelle propre au produit : {{brandStyle}}
 - Résultat concret recherché : {{mainObjective}}
 </context>
 
@@ -117,9 +103,9 @@ Résume en 3 points comment un outil interactif sur mesure peut aider cette audi
       id: 'setup-callout-tip',
       type: 'callout',
       variant: 'pro-insight',
-      title: 'Liberté totale d’évolution',
+      title: 'Direction artistique au Jour 4',
       content:
-        'Ces variables ne sont jamais figées : vous pourrez les modifier directement dans chaque leçon au fur et à mesure que votre positionnement et votre blueprint se précisent.',
+        'Rappel : le choix de votre palette de couleurs, typographies et style visuel se fera au Jour 4 avec la maquette interactive. Vous n’avez aucune contrainte de style à définir aujourd’hui.',
     },
   ],
 };
