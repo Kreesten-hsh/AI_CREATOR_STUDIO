@@ -1,20 +1,22 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  ALL_STEP_TYPES,
-  type ActiveRoute,
-  type ProfileVariableKey,
-  type QuizAttemptState,
-  type StepType,
-  type StudentProfile,
-  type StudentProgress,
-  type VibeSelection,
+import type {
+  ActiveRoute,
+  ProfileVariableKey,
+  QuizAttemptState,
+  StudentProgress,
+  VibeSelection,
 } from '../types/course';
+import type {
+  DossierFieldStatus,
+  DossierFieldValue,
+  ProjectDossier,
+  ProjectDossierFieldKey,
+} from '../types/dossier';
 import {
   calculateDailyProgress,
   calculateGlobalProgress,
-  normalizeStepList,
+  normalizeStepIdList,
   TOTAL_COURSE_DAYS,
-  DEFAULT_STEPS_PER_DAY,
   type DailyProgressResult,
   type GlobalProgressResult,
 } from '../utils/progressCalculator';
@@ -25,6 +27,7 @@ import {
   loadProgressFromStorage,
   saveProgressToStorage,
 } from '../utils/storage';
+import { createEmptyDossier, validateDossierField } from '../utils/dossierStorage';
 import { getCourseById, resolveCourseIdForDay } from '../utils/courseNavigation';
 import { COURSE_DATA } from '../data/course';
 
@@ -32,19 +35,21 @@ export interface ProgressContextValue {
   state: StudentProgress;
   globalProgress: GlobalProgressResult;
   getDayProgress: (dayNumber: number) => DailyProgressResult;
-  getActiveStepForDay: (dayNumber: number) => StepType;
+  getActiveStepIdForDay: (dayNumber: number) => string;
+  getActiveStepForDay: (dayNumber: number) => string; // Alias rétro-compatible
   navigateToHome: () => void;
   navigateToCourse: (courseId: string, dayNumber?: number, lessonId?: string) => void;
   navigateToBonus: (bonusId: string) => void;
   navigateToResources: () => void;
   navigateToStartHere: (lessonId: string) => void;
-  navigateToDay: (dayNumber: number, step?: StepType) => void;
-  setActiveStepForDay: (dayNumber: number, step: StepType) => void;
+  navigateToDay: (dayNumber: number, stepId?: string) => void;
+  setActiveStepIdForDay: (dayNumber: number, stepId: string) => void;
+  setActiveStepForDay: (dayNumber: number, stepId: string) => void; // Alias rétro-compatible
   completeStep: (
     dayNumber: number,
-    step: StepType,
+    stepId: string,
     advanceToNext?: boolean,
-    explicitNextStep?: StepType
+    explicitNextStepId?: string
   ) => void;
   toggleStartHereComplete: (lessonId: string) => void;
   isStartHereCompleted: (lessonId: string) => boolean;
@@ -56,6 +61,13 @@ export interface ProgressContextValue {
   saveQuizAttempt: (quizId: string, attempt: QuizAttemptState) => void;
   saveCustomPromptInput: (blockId: string, fieldKey: string, value: string) => void;
   resetPromptInputs: (blockId: string, fieldKeysToClear?: ProfileVariableKey[]) => void;
+  updateDossierField: (
+    key: ProjectDossierFieldKey,
+    value: string,
+    status?: DossierFieldStatus
+  ) => { success: boolean; error?: string };
+  setDossier: (dossier: ProjectDossier) => void;
+  resetDossier: () => void;
   exportBackup: () => string;
   importBackup: (rawJson: string) => boolean;
   resetAllProgress: () => void;
@@ -79,24 +91,25 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const globalProgress = useMemo(
-    () => calculateGlobalProgress(state.completedStepsByDay, stepCountByDay),
-    [state.completedStepsByDay, stepCountByDay]
+    () => calculateGlobalProgress(state.completedStepIdsByDay, stepCountByDay),
+    [state.completedStepIdsByDay, stepCountByDay]
   );
 
   const getDayProgress = useCallback(
     (dayNumber: number): DailyProgressResult => {
       const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNumber);
-      const totalSteps = day?.steps.length ?? DEFAULT_STEPS_PER_DAY;
-      return calculateDailyProgress(state.completedStepsByDay[dayNumber], totalSteps);
+      const totalSteps = day?.steps.length ?? 3;
+      return calculateDailyProgress(state.completedStepIdsByDay[dayNumber], totalSteps);
     },
-    [state.completedStepsByDay]
+    [state.completedStepIdsByDay]
   );
 
-  const getActiveStepForDay = useCallback(
-    (dayNumber: number): StepType => {
-      return state.activeStepByDay[dayNumber] ?? 'concept';
+  const getActiveStepIdForDay = useCallback(
+    (dayNumber: number): string => {
+      const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNumber);
+      return state.activeStepIdByDay[dayNumber] ?? day?.steps[0]?.id ?? '';
     },
-    [state.activeStepByDay]
+    [state.activeStepIdByDay]
   );
 
   const navigateToHome = useCallback(() => {
@@ -119,7 +132,9 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
           targetDay = startDay;
         }
 
-        const targetStep = prev.activeStepByDay[targetDay] ?? 'concept';
+        const day = COURSE_DATA.days.find((d) => d.dayNumber === targetDay);
+        const targetStepId = prev.activeStepIdByDay[targetDay] ?? day?.steps[0]?.id ?? '';
+
         return {
           ...prev,
           activeRoute: {
@@ -128,9 +143,9 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
             dayNumber: targetDay,
             lessonId,
           },
-          activeStepByDay: {
-            ...prev.activeStepByDay,
-            [targetDay]: targetStep,
+          activeStepIdByDay: {
+            ...prev.activeStepIdByDay,
+            [targetDay]: targetStepId,
           },
           lastUpdated: new Date().toISOString(),
         };
@@ -168,30 +183,31 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     }));
   }, []);
 
-  const navigateToDay = useCallback((dayNumber: number, step?: StepType) => {
+  const navigateToDay = useCallback((dayNumber: number, stepId?: string) => {
     setState((prev) => {
       const safeDay = Math.max(1, Math.min(TOTAL_COURSE_DAYS, dayNumber));
       const courseId = resolveCourseIdForDay(safeDay) ?? 'module-01';
-      const nextStep = step ?? prev.activeStepByDay[safeDay] ?? 'concept';
+      const day = COURSE_DATA.days.find((d) => d.dayNumber === safeDay);
+      const nextStepId = stepId ?? prev.activeStepIdByDay[safeDay] ?? day?.steps[0]?.id ?? '';
 
       return {
         ...prev,
         activeRoute: { kind: 'course', courseId, dayNumber: safeDay },
-        activeStepByDay: {
-          ...prev.activeStepByDay,
-          [safeDay]: nextStep,
+        activeStepIdByDay: {
+          ...prev.activeStepIdByDay,
+          [safeDay]: nextStepId,
         },
         lastUpdated: new Date().toISOString(),
       };
     });
   }, []);
 
-  const setActiveStepForDay = useCallback((dayNumber: number, step: StepType) => {
+  const setActiveStepIdForDay = useCallback((dayNumber: number, stepId: string) => {
     setState((prev) => ({
       ...prev,
-      activeStepByDay: {
-        ...prev.activeStepByDay,
-        [dayNumber]: step,
+      activeStepIdByDay: {
+        ...prev.activeStepIdByDay,
+        [dayNumber]: stepId,
       },
       lastUpdated: new Date().toISOString(),
     }));
@@ -200,41 +216,36 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const completeStep = useCallback(
     (
       dayNumber: number,
-      step: StepType,
+      stepId: string,
       advanceToNext = true,
-      explicitNextStep?: StepType
+      explicitNextStepId?: string
     ) => {
       setState((prev) => {
-        const existingSteps = prev.completedStepsByDay[dayNumber] ?? [];
-        const updatedSteps = normalizeStepList([...existingSteps, step]);
+        const existingSteps = prev.completedStepIdsByDay[dayNumber] ?? [];
+        const updatedSteps = normalizeStepIdList([...existingSteps, stepId]);
         const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNumber);
 
-        let nextStep: StepType = step;
+        let nextStepId: string = stepId;
         if (advanceToNext) {
-          if (explicitNextStep) {
-            nextStep = explicitNextStep;
+          if (explicitNextStepId) {
+            nextStepId = explicitNextStepId;
           } else if (day) {
-            const currentIdx = day.steps.findIndex((s) => s.type === step);
+            const currentIdx = day.steps.findIndex((s) => s.id === stepId);
             if (currentIdx >= 0 && currentIdx < day.steps.length - 1) {
-              nextStep = day.steps[currentIdx + 1].type;
-            }
-          } else {
-            const currentIdx = ALL_STEP_TYPES.indexOf(step);
-            if (currentIdx >= 0 && currentIdx < ALL_STEP_TYPES.length - 1) {
-              nextStep = ALL_STEP_TYPES[currentIdx + 1];
+              nextStepId = day.steps[currentIdx + 1].id;
             }
           }
         }
 
         return {
           ...prev,
-          completedStepsByDay: {
-            ...prev.completedStepsByDay,
+          completedStepIdsByDay: {
+            ...prev.completedStepIdsByDay,
             [dayNumber]: updatedSteps,
           },
-          activeStepByDay: {
-            ...prev.activeStepByDay,
-            [dayNumber]: nextStep,
+          activeStepIdByDay: {
+            ...prev.activeStepIdByDay,
+            [dayNumber]: nextStepId,
           },
           lastUpdated: new Date().toISOString(),
         };
@@ -258,22 +269,21 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const isStartHereCompleted = useCallback(
-    (lessonId: string) => state.completedStartHereIds.includes(lessonId),
+    (lessonId: string): boolean => {
+      return state.completedStartHereIds.includes(lessonId);
+    },
     [state.completedStartHereIds]
   );
 
   const updateProfileField = useCallback((key: ProfileVariableKey, value: string) => {
-    setState((prev) => {
-      const updatedProfile: StudentProfile = {
+    setState((prev) => ({
+      ...prev,
+      profile: {
         ...prev.profile,
         [key]: value,
-      };
-      return {
-        ...prev,
-        profile: updatedProfile,
-        lastUpdated: new Date().toISOString(),
-      };
-    });
+      },
+      lastUpdated: new Date().toISOString(),
+    }));
   }, []);
 
   const updateCustomVariable = useCallback((key: string, value: string) => {
@@ -297,6 +307,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         profile: {
           ...prev.profile,
           vibe,
+          vibeConfirmed: true,
           brandStyle: brandStyleSummary,
         },
         lastUpdated: new Date().toISOString(),
@@ -307,15 +318,15 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
 
   const toggleChecklistItem = useCallback((checklistId: string, itemId: string) => {
     setState((prev) => {
-      const currentList = prev.checklistAnswers[checklistId] ?? {};
-      const nextValue = !currentList[itemId];
+      const currentChecklist = prev.checklistAnswers[checklistId] ?? {};
+      const currentVal = Boolean(currentChecklist[itemId]);
       return {
         ...prev,
         checklistAnswers: {
           ...prev.checklistAnswers,
           [checklistId]: {
-            ...currentList,
-            [itemId]: nextValue,
+            ...currentChecklist,
+            [itemId]: !currentVal,
           },
         },
         lastUpdated: new Date().toISOString(),
@@ -326,16 +337,17 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const saveExerciseAnswer = useCallback(
     (exerciseId: string, answer: string, profileBinding?: ProfileVariableKey) => {
       setState((prev) => {
-        const updatedProfile = profileBinding
+        const nextProfile = profileBinding
           ? { ...prev.profile, [profileBinding]: answer }
           : prev.profile;
+
         return {
           ...prev,
-          profile: updatedProfile,
           exerciseAnswers: {
             ...prev.exerciseAnswers,
             [exerciseId]: answer,
           },
+          profile: nextProfile,
           lastUpdated: new Date().toISOString(),
         };
       });
@@ -395,6 +407,63 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     []
   );
 
+  const updateDossierField = useCallback(
+    (
+      key: ProjectDossierFieldKey,
+      value: string,
+      status?: DossierFieldStatus
+    ): { success: boolean; error?: string } => {
+      const validation = validateDossierField(key, value);
+      if (!validation.valid) {
+        return { success: false, error: validation.error };
+      }
+
+      setState((prev) => {
+        const currentDossier = prev.dossier ?? createEmptyDossier();
+        const deducedStatus: DossierFieldStatus =
+          status ?? (value.trim().length > 0 ? 'draft' : 'empty');
+
+        const updatedFields: Record<ProjectDossierFieldKey, DossierFieldValue> = {
+          ...currentDossier.fields,
+          [key]: {
+            value,
+            status: deducedStatus,
+            updatedAt: new Date().toISOString(),
+          },
+        };
+
+        return {
+          ...prev,
+          dossier: {
+            ...currentDossier,
+            updatedAt: new Date().toISOString(),
+            fields: updatedFields,
+          },
+          lastUpdated: new Date().toISOString(),
+        };
+      });
+
+      return { success: true };
+    },
+    []
+  );
+
+  const setDossier = useCallback((newDossier: ProjectDossier) => {
+    setState((prev) => ({
+      ...prev,
+      dossier: newDossier,
+      lastUpdated: new Date().toISOString(),
+    }));
+  }, []);
+
+  const resetDossier = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      dossier: createEmptyDossier(),
+      lastUpdated: new Date().toISOString(),
+    }));
+  }, []);
+
   const exportBackup = useCallback(() => {
     return exportProgressJson(state);
   }, [state]);
@@ -418,14 +487,16 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       state,
       globalProgress,
       getDayProgress,
-      getActiveStepForDay,
+      getActiveStepIdForDay,
+      getActiveStepForDay: getActiveStepIdForDay,
       navigateToHome,
       navigateToCourse,
       navigateToBonus,
       navigateToResources,
       navigateToStartHere,
       navigateToDay,
-      setActiveStepForDay,
+      setActiveStepIdForDay,
+      setActiveStepForDay: setActiveStepIdForDay,
       completeStep,
       toggleStartHereComplete,
       isStartHereCompleted,
@@ -437,6 +508,9 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       saveQuizAttempt,
       saveCustomPromptInput,
       resetPromptInputs,
+      updateDossierField,
+      setDossier,
+      resetDossier,
       exportBackup,
       importBackup,
       resetAllProgress,
@@ -445,14 +519,14 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       state,
       globalProgress,
       getDayProgress,
-      getActiveStepForDay,
+      getActiveStepIdForDay,
       navigateToHome,
       navigateToCourse,
       navigateToBonus,
       navigateToResources,
       navigateToStartHere,
       navigateToDay,
-      setActiveStepForDay,
+      setActiveStepIdForDay,
       completeStep,
       toggleStartHereComplete,
       isStartHereCompleted,
@@ -464,6 +538,9 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       saveQuizAttempt,
       saveCustomPromptInput,
       resetPromptInputs,
+      updateDossierField,
+      setDossier,
+      resetDossier,
       exportBackup,
       importBackup,
       resetAllProgress,
