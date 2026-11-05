@@ -1,7 +1,8 @@
+import React, { useRef } from 'react';
 import { Check } from 'lucide-react';
 import type { Step } from '../../types/course';
 
-interface StepTabsProps {
+export interface StepTabsProps {
   steps: Step[];
   activeStepId: string;
   completedStepIds: string[];
@@ -15,6 +16,9 @@ export function StepTabs({
   onSelectStep,
 }: StepTabsProps) {
   const completedSet = new Set(completedStepIds);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Mise en page responsive adaptée à 1, 2, 3 ou 4 étapes
   const gridLayoutClass =
     steps.length === 1
       ? 'grid-cols-1'
@@ -24,6 +28,33 @@ export function StepTabs({
       ? 'grid-cols-1 sm:grid-cols-3 gap-3'
       : 'grid-cols-2 sm:grid-cols-4 gap-3';
 
+  // Navigation clavier selon le motif W3C ARIA Tabs
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, currentIndex: number) => {
+    let nextIndex: number | null = null;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      nextIndex = (currentIndex + 1) % steps.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      nextIndex = (currentIndex - 1 + steps.length) % steps.length;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      nextIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      nextIndex = steps.length - 1;
+    }
+
+    if (nextIndex !== null) {
+      const targetStep = steps[nextIndex];
+      if (targetStep) {
+        onSelectStep(targetStep.id);
+        tabRefs.current[nextIndex]?.focus();
+      }
+    }
+  };
+
   return (
     <nav aria-label="Navigation des étapes de la leçon">
       <div
@@ -31,20 +62,25 @@ export function StepTabs({
         aria-label="Étapes de la leçon"
         className={`grid ${gridLayoutClass}`}
       >
-        {steps.map((step) => {
+        {steps.map((step, idx) => {
           const isActive = step.id === activeStepId;
           const isCompleted = completedSet.has(step.id);
 
           return (
             <button
               key={step.id}
+              ref={(el) => {
+                tabRefs.current[idx] = el;
+              }}
               type="button"
               role="tab"
               aria-selected={isActive}
               aria-controls={`step-panel-${step.id}`}
               id={`step-tab-${step.id}`}
+              tabIndex={isActive ? 0 : -1}
               onClick={() => onSelectStep(step.id)}
-              className={`text-left p-3.5 md:p-4 border-2 border-ink rounded-brutal-card transition-all flex items-center gap-3 min-h-[64px] ${
+              onKeyDown={(e) => handleKeyDown(e, idx)}
+              className={`text-left p-3.5 md:p-4 border-2 border-ink rounded-brutal-card transition-all flex items-center gap-3 min-h-[64px] focus:outline-none focus:ring-2 focus:ring-primary-red focus:ring-offset-2 ${
                 isActive
                   ? 'bg-primary-red text-surface shadow-brutal -translate-y-0.5'
                   : isCompleted

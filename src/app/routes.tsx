@@ -1,9 +1,10 @@
 import { ArrowRight } from 'lucide-react';
 import { COURSE_DATA } from '../data/course';
 import { useProgress } from '../hooks/useProgress';
-import { DayBanner } from '../components/layout/DayBanner';
+import { DayHeader } from '../components/layout/DayHeader';
 import { StepTabs } from '../components/layout/StepTabs';
 import { LessonRenderer } from '../components/course/LessonRenderer';
+import { HelpPanel } from '../components/widgets/HelpPanel';
 import { CompletionButton } from '../components/course/CompletionButton';
 import { CourseHomePage } from '../components/home/CourseHomePage';
 import { BonusView } from '../components/bonus/BonusView';
@@ -45,7 +46,7 @@ function DayWorkspaceView({ day }: { day: Day }) {
 
   return (
     <div className="space-y-6">
-      <DayBanner day={day} sprint={sprint} progress={progress} />
+      <DayHeader day={day} sprint={sprint} progress={progress} />
 
       <StepTabs
         steps={day.steps}
@@ -61,6 +62,12 @@ function DayWorkspaceView({ day }: { day: Day }) {
         className="space-y-6"
       >
         <LessonRenderer blocks={activeStepObj.blocks} />
+
+        <HelpPanel
+          help={activeStepObj.help}
+          stepTitle={activeStepObj.title}
+          defaultOpen={Boolean(activeStepObj.help)}
+        />
 
         {!isSkeletonStepWithoutContent && (
           <CompletionButton
