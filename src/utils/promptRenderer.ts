@@ -1,6 +1,11 @@
 import type { ProfileVariableKey, StudentProfile } from '../types/course';
 import type { ProjectDossier } from '../types/dossier';
-import { resolveDossierFieldKey } from '../types/dossier';
+import {
+  artisticDirectionToPromptText,
+  formatProductIdentityForPrompt,
+  parseProductIdentity,
+  resolveDossierFieldKey,
+} from '../types/dossier';
 
 const PROFILE_KEYS: readonly ProfileVariableKey[] = [
   'studentName',
@@ -68,14 +73,47 @@ export function resolveVariableValue(
         const field = dossier.fields[canonical];
         const val = typeof field.value === 'string' ? field.value.trim() : '';
         if (field.status !== 'empty' && val.length > 0) {
+          let formattedVal = val;
+          if (canonical === 'artisticDirection') {
+            formattedVal = artisticDirectionToPromptText(val);
+          } else if (canonical === 'productIdentity') {
+            const pid = parseProductIdentity(val);
+            formattedVal = pid.productName || formatProductIdentityForPrompt(val);
+          }
           return {
-            value: val,
+            value: formattedVal,
             isDraft: field.status === 'draft',
             canonicalDossierKey: canonical,
           };
         }
         // Champ vide ou absent dans le dossier
         return {};
+      }
+    }
+
+    // Dérivation transparente depuis le dossier pour les variables canoniques du profil
+    if (rawKey === 'brandStyle') {
+      const artField = dossier.fields.artisticDirection;
+      if (artField && artField.status !== 'empty' && artField.value.trim().length > 0) {
+        return {
+          value: artisticDirectionToPromptText(artField.value),
+          isDraft: artField.status === 'draft',
+          canonicalDossierKey: 'artisticDirection',
+        };
+      }
+    }
+
+    if (rawKey === 'productType') {
+      const idField = dossier.fields.productIdentity;
+      if (idField && idField.status !== 'empty' && idField.value.trim().length > 0) {
+        const pid = parseProductIdentity(idField.value);
+        if (pid.productName) {
+          return {
+            value: pid.productName,
+            isDraft: idField.status === 'draft',
+            canonicalDossierKey: 'productIdentity',
+          };
+        }
       }
     }
   }

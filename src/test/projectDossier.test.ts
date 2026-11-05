@@ -4,14 +4,25 @@ import {
   validateDossierField,
   calculateDossierTotalLength,
 } from '../utils/dossierStorage';
-import { ALL_DOSSIER_FIELD_KEYS, resolveDossierFieldKey, type ProjectDossierFieldKey } from '../types/dossier';
+import {
+  ALL_DOSSIER_FIELD_KEYS,
+  resolveDossierFieldKey,
+  serializeProductIdentity,
+  parseProductIdentity,
+  artisticDirectionToPromptText,
+  serializeArtisticDirection,
+  type ProjectDossierFieldKey,
+  type ArtisticDirectionData,
+} from '../types/dossier';
 
 describe('Dossier de projet de l apprenant (structure, limites & anti-secrets)', () => {
-  it('initialise exactement 17 champs au statut empty', () => {
+  it('initialise exactement 18 champs au statut empty incluant productIdentity', () => {
     const dossier = createEmptyDossier();
     expect(dossier.version).toBe(1);
-    expect(Object.keys(dossier.fields)).toHaveLength(17);
+    expect(Object.keys(dossier.fields)).toHaveLength(18);
     expect(Object.keys(dossier.fields).sort()).toEqual([...ALL_DOSSIER_FIELD_KEYS].sort());
+    expect(dossier.fields.productIdentity).toBeDefined();
+    expect(dossier.fields.productIdentity.status).toBe('empty');
 
     for (const key of ALL_DOSSIER_FIELD_KEYS) {
       expect(dossier.fields[key as ProjectDossierFieldKey].status).toBe('empty');
@@ -102,6 +113,44 @@ describe('Dossier de projet de l apprenant (structure, limites & anti-secrets)',
       expect(resolveDossierFieldKey('brief')).toBe('functionalBrief');
       expect(resolveDossierFieldKey('style')).toBe('artisticDirection');
       expect(resolveDossierFieldKey('url')).toBe('publishedUrl');
+      expect(resolveDossierFieldKey('identite_produit')).toBe('productIdentity');
+      expect(resolveDossierFieldKey('nom_produit')).toBe('productIdentity');
+      expect(resolveDossierFieldKey('marque')).toBe('productIdentity');
+    });
+  });
+
+  describe('productIdentity & artisticDirection (sérialisation, parsing et prompt)', () => {
+    it('sérialise et parse productIdentity sans perte', () => {
+      const data = {
+        productName: 'SimuFacture Pro',
+        brandName: 'Cabinet Chiffrage',
+        shortHook: 'Chiffrez vos missions en 2 minutes chrono',
+      };
+      const raw = serializeProductIdentity(data);
+      expect(parseProductIdentity(raw)).toEqual(data);
+    });
+
+    it('génère un texte de prompt complet pour artisticDirection', () => {
+      const styleData: ArtisticDirectionData = {
+        paletteId: 'custom-slate',
+        paletteName: 'Ardoise & Émeraude',
+        backgroundHex: '#0F172A',
+        surfaceHex: '#1E293B',
+        accentHex: '#10B981',
+        inkHex: '#F8FAFC',
+        headingFont: 'Plus Jakarta Sans',
+        bodyFont: 'Inter',
+        monoFont: 'JetBrains Mono',
+        borderRadius: '8px',
+        density: 'balanced',
+        styleDescriptor: 'Bordures nettes de 1px avec contraste prononcé',
+      };
+      const promptText = artisticDirectionToPromptText(serializeArtisticDirection(styleData));
+      expect(promptText).toContain('Palette : Fond #0F172A');
+      expect(promptText).toContain('Accent #10B981');
+      expect(promptText).toContain('Plus Jakarta Sans');
+      expect(promptText).toContain('Coins doux et structurés (8px)');
+      expect(promptText).toContain('Densité équilibrée et fluide');
     });
   });
 });
