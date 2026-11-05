@@ -4,28 +4,25 @@ export const SPRINTS: Sprint[] = [
   {
     id: 'module-01',
     sprintNumber: 1,
-    title: "L'OPPORTUNITÉ ET LE POSITIONNEMENT",
+    title: 'Opportunité et positionnement',
     subtitle: 'Leçons 01 à 03',
     dayRange: [1, 3],
-    deliverable:
-      'Problème client priorisé, fiche acheteur documentée et promesse de transformation vérifiable.',
+    deliverable: '',
   },
   {
     id: 'module-02',
     sprintNumber: 2,
-    title: 'CONCEVOIR ET CRÉER AVEC CLAUDE',
+    title: 'Concevoir et créer avec Claude',
     subtitle: 'Leçons 04 à 06',
     dayRange: [4, 6],
-    deliverable:
-      "Produit digital interactif personnel, personnalisé, testé et mis en ligne avec lien d'accès prêt pour la livraison client.",
+    deliverable: '',
   },
   {
     id: 'module-03',
     sprintNumber: 3,
-    title: 'VENDRE ET PROMOUVOIR',
+    title: 'Vendre et promouvoir',
     subtitle: 'Leçons 07 à 09',
     dayRange: [7, 9],
-    deliverable:
-      'Offre structurée, fiche produit Chariow configurée et kit promotionnel de lancement.',
+    deliverable: '',
   },
 ];

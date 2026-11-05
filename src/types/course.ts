@@ -1,5 +1,3 @@
-import type { ProjectDossier } from './dossier';
-
 export type StepType = 'concept' | 'prompt' | 'example' | 'your-turn';
 
 export const ALL_STEP_TYPES: readonly StepType[] = [
@@ -76,30 +74,6 @@ export interface ProseBlock {
   bullets?: string[];
 }
 
-export interface VibePickerBlock {
-  id: string;
-  type: 'vibe-picker';
-  title: string;
-  description: string;
-}
-
-export interface PromptVariableField {
-  key: string;
-  label: string;
-  placeholder: string;
-  profileBinding?: ProfileVariableKey;
-}
-
-export interface PromptBuilderBlock {
-  id: string;
-  type: 'prompt-builder';
-  title: string;
-  description: string;
-  deliverableTarget: 'claude-artifact' | 'html-app' | 'sales-copy' | 'automation-json';
-  template: string;
-  fields: PromptVariableField[];
-}
-
 export interface ChecklistItemConfig {
   id: string;
   label: string;
@@ -147,7 +121,7 @@ export interface TextExerciseBlock {
   maxLength?: number;
   minLength?: number;
   profileBinding?: ProfileVariableKey;
-   secondaryFields?: Array<{
+  secondaryFields?: Array<{
     key: ProfileVariableKey;
     label: string;
     placeholder: string;
@@ -197,7 +171,7 @@ export interface ImageBlockConfig {
   id: string;
   type: 'image';
   src: string;
-  alt: string; // Obligatoire et non-vide
+  alt: string;
   caption?: string;
 }
 
@@ -205,9 +179,9 @@ export interface ScreenshotBlockConfig {
   id: string;
   type: 'screenshot';
   src: string;
-  alt: string; // Obligatoire et non-vide
+  alt: string;
   caption: string;
-  capturedAt: string; // Date de capture visible (ex: "Novembre 2026")
+  capturedAt: string;
 }
 
 export interface DiagramNode {
@@ -227,7 +201,7 @@ export interface DiagramBlockConfig {
   id: string;
   type: 'diagram';
   title?: string;
-  accessibleDescription: string; // Description textuelle accessible obligatoire
+  accessibleDescription: string;
   data: {
     kind: 'steps' | 'flow' | 'grid';
     nodes: DiagramNode[];
@@ -235,24 +209,8 @@ export interface DiagramBlockConfig {
   };
 }
 
-export interface TemplatePickerBlockConfig {
-  id: string;
-  type: 'template-picker';
-  title?: string;
-  description?: string;
-}
-
-export interface HomePreviewBlockConfig {
-  id: string;
-  type: 'home-preview';
-  title?: string;
-  description?: string;
-}
-
 export type ContentBlock =
   | ProseBlock
-  | VibePickerBlock
-  | PromptBuilderBlock
   | StepChecklistBlock
   | CalloutBlock
   | QuizBlock
@@ -262,9 +220,7 @@ export type ContentBlock =
   | CopyBlockConfig
   | ImageBlockConfig
   | ScreenshotBlockConfig
-  | DiagramBlockConfig
-  | TemplatePickerBlockConfig
-  | HomePreviewBlockConfig;
+  | DiagramBlockConfig;
 
 export interface TroubleshootingPrompt {
   id: string;
@@ -341,11 +297,10 @@ export interface Course {
 export type ActiveRoute =
   | { kind: 'home' }
   | { kind: 'course'; courseId: string; dayNumber?: number; lessonId?: string }
-  | { kind: 'start-here'; lessonId: string }
   | { kind: 'day'; dayNumber: number }
   | { kind: 'bonus'; bonusId: string }
   | { kind: 'resources' }
-  | { kind: 'project' };
+  | { kind: 'practical-sheets' };
 
 export interface QuizAttemptState {
   answers: Record<string, number>;
@@ -366,7 +321,6 @@ export interface StudentProgress {
   savedPrompts: Record<string, string>;
   customPromptInputs: Record<string, Record<string, string>>;
   profile: StudentProfile;
-  dossier: ProjectDossier;
   persistenceDisabled?: boolean;
   legacyArchive?: Record<string, unknown>;
   lastUpdated: string;

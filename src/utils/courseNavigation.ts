@@ -170,6 +170,10 @@ export function normalizeActiveRoute(rawRoute: unknown): ActiveRoute {
     return { kind: 'resources' };
   }
 
+  if (candidate.kind === 'practical-sheets') {
+    return { kind: 'practical-sheets' };
+  }
+
   if (candidate.kind === 'bonus') {
     const rawBonusId = typeof candidate.bonusId === 'string' ? candidate.bonusId.trim() : '';
     if (VALID_BONUS_IDS.has(rawBonusId)) {

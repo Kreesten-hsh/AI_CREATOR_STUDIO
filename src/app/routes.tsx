@@ -1,113 +1,40 @@
-import { ArrowRight } from 'lucide-react';
+import { Construction } from 'lucide-react';
 import { COURSE_DATA } from '../data/course';
 import { useProgress } from '../hooks/useProgress';
 import { DayHeader } from '../components/layout/DayHeader';
-import { StepTabs } from '../components/layout/StepTabs';
-import { LessonRenderer } from '../components/course/LessonRenderer';
-import { HelpPanel } from '../components/widgets/HelpPanel';
-import { CompletionButton } from '../components/course/CompletionButton';
 import { CourseHomePage } from '../components/home/CourseHomePage';
 import { BonusView } from '../components/bonus/BonusView';
 import { ResourcesView } from '../components/resources/ResourcesView';
-import { MyProjectPage } from '../components/project/MyProjectPage';
+import { PracticalSheetsView } from '../components/resources/PracticalSheetsView';
 import type { Day } from '../types/course';
 import { getCourseById } from '../utils/courseNavigation';
 
 function DayWorkspaceView({ day }: { day: Day }) {
-  const {
-    state,
-    getDayProgress,
-    getActiveStepIdForDay,
-    setActiveStepIdForDay,
-    completeStep,
-    navigateToDay,
-  } = useProgress();
-
   const sprint = COURSE_DATA.sprints.find((s) => s.id === day.sprintId);
+  const { getDayProgress } = useProgress();
   const progress = getDayProgress(day.dayNumber);
-  const activeStepId = getActiveStepIdForDay(day.dayNumber);
-  const completedStepIds = state.completedStepIdsByDay[day.dayNumber] ?? [];
-
-  const activeStepObj =
-    day.steps.find((s) => s.id === activeStepId) ?? day.steps[0];
-  const isCurrentStepCompleted = completedStepIds.includes(activeStepObj.id);
-  const isSkeletonStepWithoutContent =
-    day.isSkeletonPlaceholder && (!activeStepObj.blocks || activeStepObj.blocks.length === 0);
-
-  const handleCompleteCurrentStep = () => {
-    const currentIdx = day.steps.findIndex((s) => s.id === activeStepObj.id);
-    const isLastStepOfDay = currentIdx === day.steps.length - 1;
-    const nextStepId =
-      !isLastStepOfDay && currentIdx >= 0 ? day.steps[currentIdx + 1]?.id : undefined;
-
-    completeStep(day.dayNumber, activeStepObj.id, !isLastStepOfDay, nextStepId);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
     <div className="space-y-6">
       <DayHeader day={day} sprint={sprint} progress={progress} />
 
-      <StepTabs
-        steps={day.steps}
-        activeStepId={activeStepObj.id}
-        completedStepIds={completedStepIds}
-        onSelectStep={(stepId) => setActiveStepIdForDay(day.dayNumber, stepId)}
-      />
-
-      <div
-        role="tabpanel"
-        id={`step-panel-${activeStepObj.id}`}
-        aria-labelledby={`step-tab-${activeStepObj.id}`}
-        className="space-y-6"
+      <section
+        aria-label={`Contenu de la Leçon ${String(day.dayNumber).padStart(2, '0')}`}
+        className="brutal-card rounded-brutal-card bg-surface p-8 sm:p-12 border-2 border-ink shadow-brutal text-center space-y-4"
       >
-        <LessonRenderer blocks={activeStepObj.blocks} />
+        <div className="inline-flex items-center justify-center w-14 h-14 bg-pale-pink border-2 border-ink rounded-brutal-btn shadow-brutal-xs">
+          <Construction className="w-7 h-7 text-primary-red" aria-hidden="true" />
+        </div>
 
-        <HelpPanel
-          help={activeStepObj.help}
-          stepTitle={activeStepObj.title}
-          defaultOpen={Boolean(activeStepObj.help)}
-        />
-
-        {!isSkeletonStepWithoutContent && (
-          <CompletionButton
-            isCompleted={isCurrentStepCompleted}
-            label={activeStepObj.completionLabel}
-            nextLabel={
-              activeStepObj.number < day.steps.length
-                ? `Étape ${activeStepObj.number} validée : Passer à l'étape ${
-                    activeStepObj.number + 1
-                  }`
-                : `Leçon ${String(day.dayNumber).padStart(2, '0')} terminée !`
-            }
-            onComplete={handleCompleteCurrentStep}
-          />
-        )}
-
-        {progress.isCompleted && day.dayNumber < COURSE_DATA.totalDays && (
-          <div className="brutal-card rounded-brutal-card p-5 bg-primary-red text-surface flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <span className="font-mono text-xs font-bold uppercase px-2 py-0.5 bg-surface text-ink border border-ink rounded-brutal-tag">
-                {day.steps.length} {day.steps.length === 1 ? 'ÉTAPE VALIDÉE' : 'ÉTAPES VALIDÉES'}
-              </span>
-              <p className="font-display text-lg uppercase mt-1">
-                La Leçon {String(day.dayNumber).padStart(2, '0')} est validée et enregistrée dans votre parcours !
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                navigateToDay(day.dayNumber + 1);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="brutal-btn rounded-brutal-btn bg-surface text-ink hover:bg-pale-pink px-4 py-2.5 min-h-[44px] font-mono text-xs font-bold uppercase inline-flex items-center gap-2 shrink-0"
-            >
-              <span>Passer à la Leçon {String(day.dayNumber + 1).padStart(2, '0')}</span>
-              <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </button>
-          </div>
-        )}
-      </div>
+        <div className="space-y-2 max-w-md mx-auto">
+          <h3 className="font-display text-xl uppercase tracking-tight text-ink">
+            Cette leçon est en cours de reconstruction.
+          </h3>
+          <p className="font-serif text-sm text-ink/75 leading-relaxed">
+            Le contenu pédagogique et les exercices pratiques de cette journée seront définis dans la prochaine phase.
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
@@ -116,7 +43,7 @@ export function CourseWorkspaceRouter() {
   const { state } = useProgress();
   const route = state.activeRoute;
 
-  if (route.kind === 'home' || route.kind === 'start-here') {
+  if (route.kind === 'home' || (route as { kind: string }).kind === 'start-here') {
     return <CourseHomePage />;
   }
 
@@ -128,8 +55,8 @@ export function CourseWorkspaceRouter() {
     return <ResourcesView />;
   }
 
-  if (route.kind === 'project') {
-    return <MyProjectPage />;
+  if (route.kind === 'practical-sheets') {
+    return <PracticalSheetsView />;
   }
 
   if (route.kind === 'course') {
@@ -146,8 +73,9 @@ export function CourseWorkspaceRouter() {
     return <DayWorkspaceView day={day} />;
   }
 
+  const dayNumber = (route as { dayNumber?: number }).dayNumber ?? 1;
   const day =
-    COURSE_DATA.days.find((d) => d.dayNumber === route.dayNumber) ??
+    COURSE_DATA.days.find((d) => d.dayNumber === dayNumber) ??
     COURSE_DATA.days[0];
 
   return <DayWorkspaceView day={day} />;

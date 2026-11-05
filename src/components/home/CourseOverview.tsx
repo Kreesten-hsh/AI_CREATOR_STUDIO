@@ -8,6 +8,7 @@ export function CourseOverview() {
     navigateToCourse,
     navigateToBonus,
     navigateToResources,
+    navigateToPracticalSheets,
     navigateToDay,
   } = useProgress();
 
@@ -35,11 +36,11 @@ export function CourseOverview() {
               </div>
               <div className="flex items-center gap-1.5 text-ink/80">
                 <CheckCircle2 className="w-3.5 h-3.5 text-primary-red shrink-0" aria-hidden="true" />
-                <span>Design choisi au Jour 4</span>
+                <span>Application autonome</span>
               </div>
               <div className="flex items-center gap-1.5 text-ink/80">
                 <CheckCircle2 className="w-3.5 h-3.5 text-primary-red shrink-0" aria-hidden="true" />
-                <span>Sauvegarde dans Mon Projet</span>
+                <span>Livrable concret chaque jour</span>
               </div>
             </div>
           </div>
@@ -141,29 +142,54 @@ export function CourseOverview() {
         </div>
       </section>
 
-      {/* 3. Section : Ressources */}
-      <section aria-label="Ressources">
-        <div className="brutal-card rounded-brutal-card bg-surface p-5 border-2 border-ink shadow-brutal-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <span className="font-mono text-[10px] font-bold px-2 py-0.5 bg-pale-pink border border-ink rounded-brutal-tag uppercase">
-              BOÎTE À OUTILS
-            </span>
-            <h4 className="font-display text-base uppercase tracking-tight text-ink mt-2">
-              Ressources et fiches pratiques
-            </h4>
-            <p className="font-serif text-xs text-ink/75 mt-0.5">
-              Aide-mémoires d&apos;architecture autonome, prototype de référence et checklist de pré-lancement Chariow.
-            </p>
+      {/* 3. Section : Ressources & Fiches pratiques */}
+      <section aria-label="Ressources et fiches pratiques">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <div className="brutal-card rounded-brutal-card bg-surface p-5 border-2 border-ink shadow-brutal-xs flex flex-col justify-between gap-4">
+            <div>
+              <span className="font-mono text-[10px] font-bold px-2 py-0.5 bg-pale-pink border border-ink rounded-brutal-tag uppercase">
+                BOÎTE À OUTILS
+              </span>
+              <h4 className="font-display text-base uppercase tracking-tight text-ink mt-2">
+                Ressources
+              </h4>
+              <p className="font-serif text-xs text-ink/75 mt-0.5">
+                Espace dédié aux ressources techniques et outils d&apos;accompagnement.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={navigateToResources}
+              className="brutal-btn rounded-brutal-btn bg-surface hover:bg-pale-pink text-ink px-4 py-2 font-mono text-xs font-bold uppercase inline-flex items-center justify-center gap-2 border border-ink shrink-0 min-h-[38px]"
+            >
+              <BookOpen className="w-4 h-4 text-primary-red" aria-hidden="true" />
+              <span>Consulter les ressources</span>
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={navigateToResources}
-            className="brutal-btn rounded-brutal-btn bg-surface hover:bg-pale-pink text-ink px-4 py-2 font-mono text-xs font-bold uppercase inline-flex items-center justify-center gap-2 border border-ink shrink-0 min-h-[38px]"
-          >
-            <BookOpen className="w-4 h-4 text-primary-red" aria-hidden="true" />
-            <span>Consulter les ressources</span>
-          </button>
+          <div className="brutal-card rounded-brutal-card bg-surface p-5 border-2 border-ink shadow-brutal-xs flex flex-col justify-between gap-4">
+            <div>
+              <span className="font-mono text-[10px] font-bold px-2 py-0.5 bg-cream border border-ink rounded-brutal-tag uppercase">
+                SYNTHÈSES OPÉRATIONNELLES
+              </span>
+              <h4 className="font-display text-base uppercase tracking-tight text-ink mt-2">
+                Fiches pratiques
+              </h4>
+              <p className="font-serif text-xs text-ink/75 mt-0.5">
+                Fiches de synthèse méthodologiques et repères pour chaque étape.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={navigateToPracticalSheets}
+              className="brutal-btn rounded-brutal-btn bg-surface hover:bg-pale-pink text-ink px-4 py-2 font-mono text-xs font-bold uppercase inline-flex items-center justify-center gap-2 border border-ink shrink-0 min-h-[38px]"
+            >
+              <FileText className="w-4 h-4 text-primary-red" aria-hidden="true" />
+              <span>Consulter les fiches pratiques</span>
+            </button>
+          </div>
         </div>
       </section>
     </div>

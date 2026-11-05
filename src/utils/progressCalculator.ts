@@ -73,7 +73,15 @@ export function calculateDailyProgress(
   completedStepIds: readonly string[] | undefined,
   totalSteps: number
 ): DailyProgressResult {
-  const safeTotal = totalSteps > 0 ? totalSteps : 1;
+  if (!totalSteps || totalSteps <= 0) {
+    return {
+      completedCount: 0,
+      total: 0,
+      percentage: 0,
+      isCompleted: false,
+    };
+  }
+  const safeTotal = totalSteps;
   const normalized = normalizeStepIdList(completedStepIds);
   const completedCount = Math.min(normalized.length, safeTotal);
   const percentage = Math.round((completedCount / safeTotal) * 100);

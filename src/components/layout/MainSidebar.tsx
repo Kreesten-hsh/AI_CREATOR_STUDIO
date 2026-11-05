@@ -1,4 +1,4 @@
-import { Home, BookOpen, FolderKanban } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { useProgress } from '../../hooks/useProgress';
 import { MAIN_COURSES } from '../../data/navigation/mainCourses';
 import { BONUSES } from '../../data/navigation/bonuses';
@@ -14,13 +14,9 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
     navigateToHome,
     navigateToCourse,
     navigateToBonus,
-    navigateToResources,
-    navigateToProject,
   } = useProgress();
 
   const isHomeActive = state.activeRoute.kind === 'home';
-  const isResourcesActive = state.activeRoute.kind === 'resources';
-  const isProjectActive = state.activeRoute.kind === 'project';
 
   const activeCourseId = resolveActiveCourseId(state.activeRoute);
   const activeBonusId =
@@ -28,11 +24,6 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
 
   const handleGoHome = () => {
     navigateToHome();
-    onAfterNavigate?.();
-  };
-
-  const handleSelectProject = () => {
-    navigateToProject();
     onAfterNavigate?.();
   };
 
@@ -45,11 +36,6 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
 
   const handleSelectBonus = (bonusId: string) => {
     navigateToBonus(bonusId);
-    onAfterNavigate?.();
-  };
-
-  const handleSelectResources = () => {
-    navigateToResources();
     onAfterNavigate?.();
   };
 
@@ -76,7 +62,7 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
 
       {/* Corps de navigation défilable */}
       <div className="flex-1 overflow-y-auto no-scrollbar p-3.5 space-y-5 overflow-x-hidden">
-        {/* 2. Accueil & Mon Projet */}
+        {/* 2. Accueil */}
         <div className="space-y-1.5">
           <button
             type="button"
@@ -91,22 +77,6 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
             <Home className="w-4 h-4 shrink-0" aria-hidden="true" />
             <span className="font-mono text-xs uppercase font-bold tracking-wide">
               Accueil
-            </span>
-          </button>
-
-          <button
-            type="button"
-            onClick={handleSelectProject}
-            aria-current={isProjectActive ? 'page' : undefined}
-            className={`w-full text-left px-3 py-2 border-2 border-ink rounded-brutal-btn transition-all flex items-center gap-2.5 min-h-[40px] ${
-              isProjectActive
-                ? 'bg-primary-red text-surface font-bold shadow-brutal-xs'
-                : 'bg-surface text-ink hover:bg-pale-pink/50'
-            }`}
-          >
-            <FolderKanban className="w-4 h-4 shrink-0 text-primary-red" aria-hidden="true" />
-            <span className="font-mono text-xs uppercase font-bold tracking-wide">
-              Mon Projet
             </span>
           </button>
         </div>
@@ -187,28 +157,6 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
               );
             })}
           </div>
-        </div>
-
-        {/* 5. Section RESSOURCES */}
-        <div className="space-y-1.5">
-          <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink/75 block px-1">
-            RESSOURCES
-          </span>
-          <button
-            type="button"
-            onClick={handleSelectResources}
-            aria-current={isResourcesActive ? 'page' : undefined}
-            className={`w-full text-left px-3 py-2 border-2 border-ink rounded-brutal-btn transition-all flex items-center gap-2.5 min-h-[40px] ${
-              isResourcesActive
-                ? 'bg-primary-red text-surface font-bold shadow-brutal-xs'
-                : 'bg-surface text-ink hover:bg-pale-pink/40'
-            }`}
-          >
-            <BookOpen className="w-4 h-4 shrink-0 text-primary-red" aria-hidden="true" />
-            <span className="font-mono text-xs uppercase font-bold tracking-wide">
-              Ressources et fiches pratiques
-            </span>
-          </button>
         </div>
       </div>
     </aside>

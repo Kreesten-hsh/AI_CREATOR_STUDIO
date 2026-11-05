@@ -80,7 +80,7 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
       expect(resolveActiveCourseId({ kind: 'home' })).toBeNull();
       expect(resolveActiveCourseId({ kind: 'bonus', bonusId: 'bonus-manychat' })).toBeNull();
       expect(resolveActiveCourseId({ kind: 'resources' })).toBeNull();
-      expect(resolveActiveCourseId({ kind: 'start-here', lessonId: 'introduction' })).toBeNull();
+      expect(resolveActiveCourseId({ kind: 'practical-sheets' })).toBeNull();
       expect(resolveActiveCourseId({ kind: 'day', dayNumber: 5 })).toBe('module-02');
       expect(resolveActiveCourseId({ kind: 'course', courseId: 'module-03', dayNumber: 7 })).toBe('module-03');
     });
@@ -247,7 +247,7 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
       );
 
       // Module 01 -> Leçon 1
-      const btnMod01 = screen.getByRole('button', { name: /L'OPPORTUNITÉ (&|ET) LE POSITIONNEMENT/i });
+      const btnMod01 = screen.getByRole('button', { name: /OPPORTUNITÉ (&|ET) POSITIONNEMENT/i });
       fireEvent.click(btnMod01);
       expect(currentRoute).toMatchObject({
         kind: 'course',
@@ -296,7 +296,7 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
       const mod02Btn = screen.getByRole('button', { name: /CONCEVOIR (&|ET) CRÉER AVEC CLAUDE/i });
       expect(mod02Btn).toHaveAttribute('aria-current', 'page');
 
-      const mod01Btn = screen.getByRole('button', { name: /L'OPPORTUNITÉ (&|ET) LE POSITIONNEMENT/i });
+      const mod01Btn = screen.getByRole('button', { name: /OPPORTUNITÉ (&|ET) POSITIONNEMENT/i });
       expect(mod01Btn).not.toHaveAttribute('aria-current');
     });
   });
@@ -505,7 +505,9 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
         result.current.updateProfileField('business', 'Yoga Studio');
       });
 
-      expect(result.current.getDayProgress(4).isCompleted).toBe(true);
+      // Une journée squelette vide (0 étapes) ne peut être marquée comme terminée
+      expect(result.current.getDayProgress(4).isCompleted).toBe(false);
+      expect(result.current.state.completedStepIdsByDay[4]).toHaveLength(4);
 
       act(() => {
         result.current.navigateToCourse('module-03', 7);
@@ -519,8 +521,9 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
         result.current.navigateToCourse('module-02', 4);
       });
 
-      expect(result.current.getDayProgress(4).isCompleted).toBe(true);
-      expect(result.current.getActiveStepForDay(4)).toBe('example');
+      expect(result.current.getDayProgress(4).isCompleted).toBe(false);
+      expect(result.current.state.completedStepIdsByDay[4]).toHaveLength(4);
+      expect(result.current.getActiveStepForDay(4)).toBe('');
       expect(result.current.state.profile.business).toBe('Yoga Studio');
     });
   });

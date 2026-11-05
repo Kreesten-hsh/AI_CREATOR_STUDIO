@@ -1,8 +1,6 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 import { COURSE_DATA, ALL_DAYS, TOTAL_COURSE_LESSONS } from '../data/course';
 import { BONUSES } from '../data/navigation/bonuses';
-import { isValidVideoUrl } from '../components/widgets/VideoBlock';
-import type { VideoBlockConfig } from '../types/course';
 import {
   calculateDailyProgress,
   calculateGlobalProgress,
@@ -39,21 +37,10 @@ describe('AI CREATOR STUDIO V2 : Course Data & Engine Verification', () => {
     expect(dayNumbers).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
 
-  it('ensures every single lesson (1 to 9) has 3 or 4 coherent steps with real content and zero skeleton placeholders', () => {
+  it('ensures every single lesson (1 to 9) is reset to an empty shell with zero steps and isSkeletonPlaceholder: true', () => {
     for (const day of ALL_DAYS) {
-      expect(day.isSkeletonPlaceholder).toBe(false);
-      expect([3, 4]).toContain(day.steps.length);
-      expect(day.steps.map((s) => s.number)).toEqual(
-        day.steps.map((_, idx) => idx + 1)
-      );
-
-      for (const step of day.steps) {
-        expect(step.blocks.length).toBeGreaterThan(0);
-        const videoBlocks = step.blocks.filter((b): b is VideoBlockConfig => b.type === 'video');
-        for (const vb of videoBlocks) {
-          expect(isValidVideoUrl(vb.videoUrl)).toBe(true);
-        }
-      }
+      expect(day.isSkeletonPlaceholder).toBe(true);
+      expect(day.steps).toHaveLength(0);
     }
   });
 
@@ -104,7 +91,7 @@ describe('AI CREATOR STUDIO V2 : Course Data & Engine Verification', () => {
     const template =
       'Business: {{business}} | Audience: {{targetAudience}} | Product: {{productType}} | Style: {{brandStyle}} | Goal: {{mainObjective}}';
 
-    const rendered = renderPromptTemplate(template, state.profile);
+    const rendered = renderPromptTemplate(template, { profile: state.profile });
     expect(rendered.missingKeys).toHaveLength(0);
     expect(rendered.renderedText).toBe(
       'Business: Strength Studio for Engineers | Audience: Remote Tech Workers | Product: 21-Day Interactive Kettlebell Kit | Style: Ardoise & Émeraude | Goal: Launch on Chariow'

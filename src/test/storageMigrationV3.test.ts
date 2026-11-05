@@ -93,10 +93,6 @@ describe('Persistance V3 & Chaîne de migration résiliente', () => {
 
       // Jour 5 : 'concept' -> 'day-05-step-1'
       expect(migrated.completedStepIdsByDay[5]).toEqual(['day-05-step-1']);
-
-      // Dossier initialisé proprement
-      expect(migrated.dossier).toBeDefined();
-      expect(migrated.dossier.version).toBe(1);
     });
 
     it('archive dans legacyArchive toute étape non appariée sans suppression silencieuse', () => {
@@ -182,15 +178,10 @@ describe('Persistance V3 & Chaîne de migration résiliente', () => {
   });
 
   describe('Export et Import JSON V3', () => {
-    it('exporte et importe fidèlement un état v3 avec dossier', () => {
+    it('exporte et importe fidèlement un état v3', () => {
       const original = createInitialProgress();
       original.profile.studentName = 'Sophie';
       original.completedStepIdsByDay[1] = ['day-01-step-1'];
-      original.dossier.fields.buyerProfile = {
-        value: 'Solopreneurs créatifs',
-        status: 'valid',
-        updatedAt: new Date().toISOString(),
-      };
 
       const exported = exportProgressJson(original);
       const imported = importProgressJson(exported);
@@ -198,7 +189,6 @@ describe('Persistance V3 & Chaîne de migration résiliente', () => {
       expect(imported).not.toBeNull();
       expect(imported?.profile.studentName).toBe('Sophie');
       expect(imported?.completedStepIdsByDay[1]).toEqual(['day-01-step-1']);
-      expect(imported?.dossier.fields.buyerProfile.value).toBe('Solopreneurs créatifs');
     });
   });
 });

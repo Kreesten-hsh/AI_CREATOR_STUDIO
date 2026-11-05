@@ -12,79 +12,37 @@ describe('Suivi et Aide : DayHeader, HelpPanel & StepTabs', () => {
   beforeEach(() => {
     localStorage.clear();
     const initial = createInitialProgress();
-    initial.dossier.fields.productIdentity = {
-      value: JSON.stringify({ productName: 'MicroSaaS', brandName: 'Studio', shortHook: 'Vendez vite' }),
-      status: 'valid',
-      updatedAt: '2026-11-05T00:00:00.000Z',
-    };
-    initial.dossier.fields.chosenProductModel = {
-      value: 'calculator',
-      status: 'valid',
-      updatedAt: '2026-11-05T00:00:00.000Z',
-    };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
   });
 
   describe('DayHeader', () => {
-    it('affiche le cadre complet à 4 ancres et calcule les validations préalables depuis le dossier et les jours terminés', () => {
+    it('affiche le numéro de leçon, le titre et la progression', () => {
       const mockDay: Day = {
         id: 'day-03',
         dayNumber: 3,
-        sprintId: 'sprint-01',
+        sprintId: 'module-01',
         title: 'Architecture du Produit',
         italicTitleWord: 'Architecture',
         objective: 'Structurer les écrans clés de votre produit.',
         deliverableSummary: 'Arborescence validée des 3 vues principales.',
         isSkeletonPlaceholder: false,
-        steps: [
-          { id: 'step-1', number: 1, title: 'Écran 1', completionLabel: 'Valider' } as any,
-          { id: 'step-2', number: 2, title: 'Écran 2', completionLabel: 'Valider' } as any,
-        ],
-        completedContext: 'Vos deux premières journées ont calé votre cible et votre modèle.',
-        todayAction: 'Assembler les composants interactifs.',
-        eveningDeliverable: 'Une maquette navigable locale.',
-        tomorrowUtility: 'Servira de base directe au premier prompt Claude.',
+        steps: [],
       };
 
       render(
         <ProgressProvider>
-          <DayHeader day={mockDay} completedDaysOverride={[1, 2]} />
+          <DayHeader day={mockDay} />
         </ProgressProvider>
       );
 
       // Titre & badges
-      expect(screen.getByText(/LEÇON 3 SUR/i)).toBeInTheDocument();
+      expect(screen.getAllByText(/LEÇON/i).length).toBeGreaterThanOrEqual(1);
+      expect(screen.getByText('03')).toBeInTheDocument();
+      expect(screen.getByText(/SUR 09/i)).toBeInTheDocument();
       expect(screen.getByText(/Architecture/i)).toBeInTheDocument();
-
-      // Ancre 1 : Acquis validés calculés
-      expect(screen.getByText(/Acquis validés/i)).toBeInTheDocument();
-      expect(screen.getByText(/\(L01, L02\)/i)).toBeInTheDocument();
-      expect(
-        screen.getByText((_content, element) => {
-          return (
-            element?.tagName.toLowerCase() === 'p' &&
-            /2 livrables validés/i.test(element.textContent || '')
-          );
-        })
-      ).toBeInTheDocument();
-      // Le texte contextuel optionnel complète sans remplacer
-      expect(screen.getByText(/Vos deux premières journées ont calé votre cible/i)).toBeInTheDocument();
-
-      // Ancre 2 : Aujourd'hui
-      expect(screen.getByText(/Aujourd’hui/i)).toBeInTheDocument();
-      expect(screen.getByText(/Assembler les composants interactifs./i)).toBeInTheDocument();
-
-      // Ancre 3 : Ce soir
-      expect(screen.getByText(/Ce soir/i)).toBeInTheDocument();
-      expect(screen.getByText(/Une maquette navigable locale./i)).toBeInTheDocument();
-
-      // Ancre 4 : Utilité demain
-      expect(screen.getByText(/Utilité demain/i)).toBeInTheDocument();
-      expect(screen.getByText(/Servira de base directe au premier prompt Claude./i)).toBeInTheDocument();
     });
 
     it('gère gracieusement les données partielles ou manquantes sans erreur', () => {
-      // Données très partielles : ni objective, ni deliverableSummary, ni champs optionnels
       const partialDay: Partial<Day> & { dayNumber: number } = {
         dayNumber: 5,
         title: 'Leçon en cours',
@@ -96,14 +54,9 @@ describe('Suivi et Aide : DayHeader, HelpPanel & StepTabs', () => {
         </ProgressProvider>
       );
 
-      expect(screen.getByText(/LEÇON 5 SUR/i)).toBeInTheDocument();
+      expect(screen.getAllByText(/LEÇON/i).length).toBeGreaterThanOrEqual(1);
+      expect(screen.getByText('05')).toBeInTheDocument();
       expect(screen.getByText(/Leçon en cours/i)).toBeInTheDocument();
-
-      // Vérifie les replis gracieux
-      const fallbacks = screen.getAllByText(/Découvrir, pratiquer et valider les compétences clés/i);
-      expect(fallbacks.length).toBeGreaterThanOrEqual(1);
-      expect(screen.getByText(/Un livrable concret validé et consigné/i)).toBeInTheDocument();
-      expect(screen.getByText(/Ce livrable servira directement de matière brute/i)).toBeInTheDocument();
     });
   });
 

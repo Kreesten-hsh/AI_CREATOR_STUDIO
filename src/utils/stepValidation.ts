@@ -37,6 +37,13 @@ export function validateDaySteps(day: Day): DayValidationResult {
   const isLegacyPending = LEGACY_DAYS_PENDING_REWRITE.includes(day.dayNumber);
   const maxAllowedSteps = isLegacyPending ? 4 : 3;
 
+  if (day.isSkeletonPlaceholder && stepCount === 0) {
+    return {
+      valid: true,
+      errors: [],
+    };
+  }
+
   if (stepCount < 1) {
     errors.push(
       `Journée ${day.dayNumber} : doit comporter au moins 1 étape (actuellement ${stepCount}).`

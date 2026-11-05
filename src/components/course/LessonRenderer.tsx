@@ -1,18 +1,14 @@
 import type { ContentBlock, ProseBlock } from '../../types/course';
 import { CalloutBox } from '../widgets/CalloutBox';
 import { CopyBlock } from '../widgets/CopyBlock';
-import { PromptBuilder } from '../widgets/PromptBuilder';
 import { QuizWidget } from '../widgets/QuizWidget';
 import { ResourceCard } from '../widgets/ResourceCard';
 import { StepChecklist } from '../widgets/StepChecklist';
 import { TextExercise } from '../widgets/TextExercise';
-import { VibePicker } from '../widgets/VibePicker';
 import { VideoBlock } from '../widgets/VideoBlock';
 import { ImageBlock } from '../widgets/media/ImageBlock';
 import { ScreenshotBlock } from '../widgets/media/ScreenshotBlock';
 import { DiagramBlock } from '../widgets/media/DiagramBlock';
-import { TemplatePicker } from '../widgets/TemplatePicker';
-import { HomePreview } from '../widgets/HomePreview';
 
 function ProseSection({ block }: { block: ProseBlock }) {
   return (
@@ -87,10 +83,6 @@ export function LessonRenderer({ blocks }: { blocks: ContentBlock[] }) {
         switch (block.type) {
           case 'prose':
             return <ProseSection key={block.id} block={block} />;
-          case 'vibe-picker':
-            return <VibePicker key={block.id} block={block} />;
-          case 'prompt-builder':
-            return <PromptBuilder key={block.id} block={block} />;
           case 'checklist':
             return <StepChecklist key={block.id} block={block} />;
           case 'callout':
@@ -107,10 +99,6 @@ export function LessonRenderer({ blocks }: { blocks: ContentBlock[] }) {
             return <ScreenshotBlock key={block.id} block={block} />;
           case 'diagram':
             return <DiagramBlock key={block.id} block={block} />;
-          case 'template-picker':
-            return <TemplatePicker key={block.id} title={block.title} description={block.description} />;
-          case 'home-preview':
-            return <HomePreview key={block.id} title={block.title} description={block.description} />;
           case 'resource':
             return <ResourceCard key={block.id} block={block} />;
           case 'copy':

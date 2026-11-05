@@ -10,8 +10,6 @@ import { COURSE_DATA } from '../data/course';
 import { BONUSES } from '../data/navigation/bonuses';
 import { normalizeStepIdList, normalizeStepList, TOTAL_COURSE_DAYS } from './progressCalculator';
 import { normalizeActiveRoute } from './courseNavigation';
-import { createEmptyDossier, importDossierJson } from './dossierStorage';
-import type { ProjectDossier } from '../types/dossier';
 
 export const STORAGE_KEY = 'ai_creator_studio_progress_v1';
 export const RAW_BACKUP_V1_STORAGE_KEY = 'ai_creator_studio_raw_backup_v1';
@@ -58,18 +56,45 @@ function collectBlocksIntoRegistry(blocks: readonly ContentBlock[], registry: Bl
       registry.checklistItemsByBlockId.set(block.id, itemSet);
     } else if (block.type === 'quiz') {
       registry.quizIds.add(block.id);
-    } else if (block.type === 'prompt-builder') {
-      registry.promptIds.add(block.id);
     }
   }
 }
 
+const PRESERVED_V1_EXERCISE_IDS = new Set([
+  'day01-deliverable-a',
+  'day02-deliverable-final-card',
+  'day03-deliverable-c-positioning',
+]);
+
+const PRESERVED_V1_CHECKLIST_ITEMS: Readonly<Record<string, readonly string[]>> = {
+  'day01-step4-checklist': ['item-c1-audience', 'item-c2-friction', 'item-c3-mechanism'],
+  'day02-step4-checklist': ['item-c1-buyer', 'item-c2-problem', 'item-c3-evidence'],
+  'day03-step4-checklist': ['item-c1-solution', 'item-c2-promise', 'item-c3-transformation'],
+};
+
+const PRESERVED_V1_QUIZ_IDS = new Set([
+  'day01-step1-quiz',
+  'day02-step1-quiz',
+  'day03-step1-quiz',
+]);
+
+const PRESERVED_V1_PROMPT_IDS = new Set([
+  'day01-step2-master-prompt',
+  'day02-step2-master-prompt',
+  'day03-step2-master-prompt',
+]);
+
 export function buildPreservedV1BlockRegistry(): BlockIdRegistry {
+  const checklistMap = new Map<string, Set<string>>();
+  for (const [blockId, items] of Object.entries(PRESERVED_V1_CHECKLIST_ITEMS)) {
+    checklistMap.set(blockId, new Set(items));
+  }
+
   const registry: BlockIdRegistry = {
-    exerciseIds: new Set<string>(),
-    checklistItemsByBlockId: new Map<string, Set<string>>(),
-    quizIds: new Set<string>(),
-    promptIds: new Set<string>(),
+    exerciseIds: new Set<string>(PRESERVED_V1_EXERCISE_IDS),
+    checklistItemsByBlockId: checklistMap,
+    quizIds: new Set<string>(PRESERVED_V1_QUIZ_IDS),
+    promptIds: new Set<string>(PRESERVED_V1_PROMPT_IDS),
   };
 
   for (const startLesson of COURSE_DATA.startHere) {
@@ -125,7 +150,6 @@ export function createInitialProgress(): StudentProgress {
       vibeConfirmed: false,
       customVariables: {},
     },
-    dossier: createEmptyDossier(),
     persistenceDisabled: false,
     lastUpdated: new Date().toISOString(),
   };
@@ -252,7 +276,7 @@ export function ensureV1BackupWritten(rawV1: Record<string, unknown>, rawSeriali
  * Migre un état intermédiaire V2 vers le schéma V3 :
  * - Migration des étapes terminées uniquement en cas de correspondance non ambiguë (legacyType -> step.id)
  * - Archivage sans perte dans legacyArchive pour toute donnée non appariée
- * - Initialisation du dossier de projet versionné
+ * - Schéma versionné 3 stabilisé
  */
 export function migrateV2ToV3(
   rawV2: Record<string, unknown>,
@@ -299,9 +323,26 @@ export function migrateV2ToV3(
             const matchingSteps = day?.steps.filter((s) => s.legacyType === item) ?? [];
             if (matchingSteps.length === 1) {
               mappedIds.push(matchingSteps[0].id);
-            } else {
-              unmappedList.push(item);
+              continue;
             }
+            // Si déjà un identifiant direct 'day-XX-step-Y'
+            if (/^day-\d{2}-step-\d+$/.test(item)) {
+              mappedIds.push(item);
+              continue;
+            }
+            // Mappage canonique des types legacy (concept -> step-1, prompt -> step-2, etc.)
+            const paddedDay = String(dayNum).padStart(2, '0');
+            const legacyStepMap: Record<string, string> = {
+              concept: `day-${paddedDay}-step-1`,
+              prompt: `day-${paddedDay}-step-2`,
+              example: `day-${paddedDay}-step-3`,
+              'your-turn': `day-${paddedDay}-step-4`,
+            };
+            if (legacyStepMap[item]) {
+              mappedIds.push(legacyStepMap[item]);
+              continue;
+            }
+            unmappedList.push(item);
           } else {
             unmappedList.push(item);
           }
@@ -347,11 +388,26 @@ export function migrateV2ToV3(
         const matchingSteps = day?.steps.filter((s) => s.legacyType === stepVal) ?? [];
         if (matchingSteps.length === 1) {
           activeStepIdByDay[dayNum] = matchingSteps[0].id;
-        } else {
-          unmappedActiveSteps[dayKey] = stepVal;
-          if (day?.steps[0]) {
-            activeStepIdByDay[dayNum] = day.steps[0].id;
-          }
+          continue;
+        }
+        if (/^day-\d{2}-step-\d+$/.test(stepVal)) {
+          activeStepIdByDay[dayNum] = stepVal;
+          continue;
+        }
+        const paddedDay = String(dayNum).padStart(2, '0');
+        const legacyStepMap: Record<string, string> = {
+          concept: `day-${paddedDay}-step-1`,
+          prompt: `day-${paddedDay}-step-2`,
+          example: `day-${paddedDay}-step-3`,
+          'your-turn': `day-${paddedDay}-step-4`,
+        };
+        if (legacyStepMap[stepVal]) {
+          activeStepIdByDay[dayNum] = legacyStepMap[stepVal];
+          continue;
+        }
+        unmappedActiveSteps[dayKey] = stepVal;
+        if (day?.steps[0]) {
+          activeStepIdByDay[dayNum] = day.steps[0].id;
         }
       } else {
         unmappedActiveSteps[dayKey] = stepVal;
@@ -372,15 +428,6 @@ export function migrateV2ToV3(
   const { profile, archivedStudioBrandStyle } = sanitizeProfile(rawV2.profile, false);
   if (archivedStudioBrandStyle) {
     unmappedData.archivedStudioBrandStyle = archivedStudioBrandStyle;
-  }
-
-  // 5. Dossier de projet (chargement existant ou initialisation vierge)
-  let dossier: ProjectDossier = createEmptyDossier();
-  if (rawV2.dossier && typeof rawV2.dossier === 'object') {
-    const importRes = importDossierJson(JSON.stringify(rawV2.dossier), { confirmOverwrite: true });
-    if (importRes.success && importRes.dossier) {
-      dossier = importRes.dossier;
-    }
   }
 
   const existingArchive =
@@ -415,7 +462,6 @@ export function migrateV2ToV3(
         ? (rawV2.customPromptInputs as Record<string, Record<string, string>>)
         : {},
     profile,
-    dossier,
     persistenceDisabled: persistenceDisabled || Boolean(rawV2.persistenceDisabled),
     ...(Object.keys(unmappedData).length > 0 || Object.keys(existingArchive).length > 0
       ? {
@@ -689,14 +735,6 @@ export function sanitizeProgressState(raw: unknown, rawSerialized?: string): Stu
 
   const { profile } = sanitizeProfile(data.profile, false);
 
-  let dossier: ProjectDossier = createEmptyDossier();
-  if (data.dossier && typeof data.dossier === 'object') {
-    const importRes = importDossierJson(JSON.stringify(data.dossier), { confirmOverwrite: true });
-    if (importRes.success && importRes.dossier) {
-      dossier = importRes.dossier;
-    }
-  }
-
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
     activeRoute,
@@ -724,7 +762,6 @@ export function sanitizeProgressState(raw: unknown, rawSerialized?: string): Stu
         ? (data.customPromptInputs as Record<string, Record<string, string>>)
         : {},
     profile,
-    dossier,
     persistenceDisabled: false,
     ...(data.legacyArchive && typeof data.legacyArchive === 'object'
       ? { legacyArchive: data.legacyArchive as Record<string, unknown> }
