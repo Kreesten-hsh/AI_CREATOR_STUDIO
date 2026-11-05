@@ -8,12 +8,17 @@ import {
 } from '../types/course';
 import { COURSE_DATA } from '../data/course';
 import { BONUSES } from '../data/navigation/bonuses';
-import { normalizeStepList, TOTAL_COURSE_DAYS } from './progressCalculator';
+import { normalizeStepIdList, normalizeStepList, TOTAL_COURSE_DAYS } from './progressCalculator';
 import { normalizeActiveRoute } from './courseNavigation';
+import { createEmptyDossier, importDossierJson } from './dossierStorage';
+import type { ProjectDossier } from '../types/dossier';
 
 export const STORAGE_KEY = 'ai_creator_studio_progress_v1';
-export const V1_BACKUP_STORAGE_KEY = 'ai_creator_studio_progress_v1_backup';
-export const CURRENT_SCHEMA_VERSION = 2 as const;
+export const RAW_BACKUP_V1_STORAGE_KEY = 'ai_creator_studio_raw_backup_v1';
+export const RAW_BACKUP_V2_STORAGE_KEY = 'ai_creator_studio_raw_backup_v2';
+export const CORRUPTED_BACKUP_STORAGE_KEY = 'ai_creator_studio_corrupted_backup';
+export const V1_BACKUP_STORAGE_KEY = RAW_BACKUP_V1_STORAGE_KEY; // Alias de compatibilité
+export const CURRENT_SCHEMA_VERSION = 3 as const;
 
 export const STUDIO_LEGACY_BRAND_STYLE =
   'Néo-Brutaliste Éditorial (Crème Papier #FAF6F0, Rouge Brique #B63131, Rose Poudré #E6A0A8, Encre Profonde #171313)';
@@ -30,6 +35,7 @@ export const DEFAULT_STUDENT_PROFILE: StudentProfile = {
     styleId: 'clean-modern-cards',
     typographyId: 'inter-system',
   },
+  vibeConfirmed: false,
   customVariables: {},
 };
 
@@ -58,9 +64,6 @@ function collectBlocksIntoRegistry(blocks: readonly ContentBlock[], registry: Bl
   }
 }
 
-/**
- * Construit le registre exact des blocs conservés entre V1 et V2 (Leçons 1 à 3 + Orientation startHere).
- */
 export function buildPreservedV1BlockRegistry(): BlockIdRegistry {
   const registry: BlockIdRegistry = {
     exerciseIds: new Set<string>(),
@@ -84,9 +87,6 @@ export function buildPreservedV1BlockRegistry(): BlockIdRegistry {
   return registry;
 }
 
-/**
- * Construit le registre complet de tous les blocs actifs de la V2 (Leçons 1 à 9 + Orientation + Bonus).
- */
 export function buildFullV2BlockRegistry(): BlockIdRegistry {
   const registry = buildPreservedV1BlockRegistry();
 
@@ -111,9 +111,9 @@ export function createInitialProgress(): StudentProgress {
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
     activeRoute: { kind: 'home' },
-    activeStepByDay: {},
+    activeStepIdByDay: {},
     completedStartHereIds: [],
-    completedStepsByDay: {},
+    completedStepIdsByDay: {},
     checklistAnswers: {},
     exerciseAnswers: {},
     quizStates: {},
@@ -122,8 +122,11 @@ export function createInitialProgress(): StudentProgress {
     profile: {
       ...DEFAULT_STUDENT_PROFILE,
       vibe: { ...DEFAULT_STUDENT_PROFILE.vibe },
+      vibeConfirmed: false,
       customVariables: {},
     },
+    dossier: createEmptyDossier(),
+    persistenceDisabled: false,
     lastUpdated: new Date().toISOString(),
   };
 }
@@ -146,7 +149,6 @@ function sanitizeProfile(
     typeof rawProfile.brandStyle === 'string' ? rawProfile.brandStyle : fallback.brandStyle;
   let archivedStudioBrandStyle: string | undefined;
 
-  // Neutralise uniquement la valeur par défaut exacte du Studio (conserve tout style personnalisé par l'apprenant)
   if (brandStyle === STUDIO_LEGACY_BRAND_STYLE) {
     archivedStudioBrandStyle = brandStyle;
     brandStyle = '';
@@ -172,6 +174,14 @@ function sanitizeProfile(
       }
     }
   }
+
+  const vibeConfirmed =
+    typeof rawProfile.vibeConfirmed === 'boolean'
+      ? rawProfile.vibeConfirmed
+      : !isLegacyDefaultVibe &&
+        (rawPaletteId !== fallback.vibe.paletteId ||
+          rawStyleId !== fallback.vibe.styleId ||
+          rawTypoId !== fallback.vibe.typographyId);
 
   return {
     profile: {
@@ -201,6 +211,7 @@ function sanitizeProfile(
             styleId: rawStyleId,
             typographyId: rawTypoId,
           },
+      vibeConfirmed,
       customVariables,
     },
     archivedStudioBrandStyle,
@@ -208,22 +219,21 @@ function sanitizeProfile(
 }
 
 /**
- * Sauvegarde l'état V1 dans `ai_creator_studio_progress_v1_backup` uniquement s'il n'existe pas déjà,
- * et vérifie par relecture que la sauvegarde est bien écrite.
+ * Sauvegarde l'état brut versionné (v1 ou v2) sous sa clé dédiée.
+ * Ne l'écrase JAMAIS si elle existe déjà, et vérifie par relecture immédiate la validité de l'écriture.
  */
-export function ensureV1BackupWritten(rawV1: Record<string, unknown>, rawSerialized?: string): boolean {
+export function ensureRawBackupWritten(version: 1 | 2, payload: string): boolean {
   if (typeof window === 'undefined' || !window.localStorage) {
     return false;
   }
+  const targetKey = version === 1 ? RAW_BACKUP_V1_STORAGE_KEY : RAW_BACKUP_V2_STORAGE_KEY;
   try {
-    const existingBackup = window.localStorage.getItem(V1_BACKUP_STORAGE_KEY);
-    if (existingBackup !== null && existingBackup.length > 0) {
-      // Ne jamais écraser une sauvegarde V1 existante
+    const existing = window.localStorage.getItem(targetKey);
+    if (existing !== null && existing.length > 0) {
       return true;
     }
-    const payload = rawSerialized ?? JSON.stringify(rawV1);
-    window.localStorage.setItem(V1_BACKUP_STORAGE_KEY, payload);
-    const readBack = window.localStorage.getItem(V1_BACKUP_STORAGE_KEY);
+    window.localStorage.setItem(targetKey, payload);
+    const readBack = window.localStorage.getItem(targetKey);
     return readBack === payload;
   } catch {
     return false;
@@ -231,22 +241,218 @@ export function ensureV1BackupWritten(rawV1: Record<string, unknown>, rawSeriali
 }
 
 /**
- * Migre un état V1 (`schemaVersion === 1`) vers le schéma V2 (`schemaVersion === 2`) :
- * 1. Crée et vérifie la sauvegarde `ai_creator_studio_progress_v1_backup` sans jamais l'écraser.
- * 2. Vérifie la correspondance exacte des identifiants d'exercices, checklists, quiz et prompts avec les leçons 1 à 3 et startHere.
- * 3. Préserve le profil et isole toutes les données incompatibles (jours 4 à 25 ou anciens IDs) dans `legacyArchive` sans suppression silencieuse.
+ * Rétro-compatibilité pour l'ancienne fonction ensureV1BackupWritten.
  */
-export function migrateV1ToV2(
-  rawV1: Record<string, unknown>,
+export function ensureV1BackupWritten(rawV1: Record<string, unknown>, rawSerialized?: string): boolean {
+  const payload = rawSerialized ?? JSON.stringify(rawV1);
+  return ensureRawBackupWritten(1, payload);
+}
+
+/**
+ * Migre un état intermédiaire V2 vers le schéma V3 :
+ * - Migration des étapes terminées uniquement en cas de correspondance non ambiguë (legacyType -> step.id)
+ * - Archivage sans perte dans legacyArchive pour toute donnée non appariée
+ * - Initialisation du dossier de projet versionné
+ */
+export function migrateV2ToV3(
+  rawV2: Record<string, unknown>,
   rawSerialized?: string
 ): StudentProgress {
-  ensureV1BackupWritten(rawV1, rawSerialized);
+  let persistenceDisabled = false;
+  if (rawSerialized) {
+    const backupSuccess = ensureRawBackupWritten(2, rawSerialized);
+    if (!backupSuccess) {
+      persistenceDisabled = true;
+    }
+  }
 
-  const registry = buildPreservedV1BlockRegistry();
-  const activeRoute = normalizeActiveRoute(rawV1.activeRoute);
+  const activeRoute = normalizeActiveRoute(rawV2.activeRoute);
   const unmappedData: Record<string, unknown> = {};
 
-  // 1. Progression par jour : conserver uniquement les leçons 1 à 3, isoler 4 à 25
+  // 1. Migration des étapes complétées par journée (legacyType -> step.id)
+  const completedStepIdsByDay: Record<number, string[]> = {};
+  const unmappedCompletedSteps: Record<string, unknown> = {};
+
+  if (rawV2.completedStepsByDay && typeof rawV2.completedStepsByDay === 'object') {
+    for (const [dayKey, steps] of Object.entries(
+      rawV2.completedStepsByDay as Record<string, unknown>
+    )) {
+      const dayNum = Number(dayKey);
+      if (
+        Number.isInteger(dayNum) &&
+        dayNum >= 1 &&
+        dayNum <= TOTAL_COURSE_DAYS &&
+        Array.isArray(steps)
+      ) {
+        const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNum);
+        const mappedIds: string[] = [];
+        const unmappedList: unknown[] = [];
+
+        for (const item of steps) {
+          if (typeof item === 'string') {
+            // Recherche par legacyType (ou id direct si déjà présent)
+            const matchById = day?.steps.find((s) => s.id === item);
+            if (matchById) {
+              mappedIds.push(matchById.id);
+              continue;
+            }
+            const matchingSteps = day?.steps.filter((s) => s.legacyType === item) ?? [];
+            if (matchingSteps.length === 1) {
+              mappedIds.push(matchingSteps[0].id);
+            } else {
+              unmappedList.push(item);
+            }
+          } else {
+            unmappedList.push(item);
+          }
+        }
+
+        if (mappedIds.length > 0) {
+          completedStepIdsByDay[dayNum] = normalizeStepIdList(mappedIds);
+        }
+        if (unmappedList.length > 0) {
+          unmappedCompletedSteps[dayKey] = unmappedList;
+        }
+      } else {
+        unmappedCompletedSteps[dayKey] = steps;
+      }
+    }
+  }
+
+  if (Object.keys(unmappedCompletedSteps).length > 0) {
+    unmappedData.completedStepsByDay = unmappedCompletedSteps;
+  }
+
+  // 2. Migration de l'étape active par journée (legacyType -> step.id)
+  const activeStepIdByDay: Record<number, string> = {};
+  const unmappedActiveSteps: Record<string, unknown> = {};
+
+  if (rawV2.activeStepByDay && typeof rawV2.activeStepByDay === 'object') {
+    for (const [dayKey, stepVal] of Object.entries(
+      rawV2.activeStepByDay as Record<string, unknown>
+    )) {
+      const dayNum = Number(dayKey);
+      if (
+        Number.isInteger(dayNum) &&
+        dayNum >= 1 &&
+        dayNum <= TOTAL_COURSE_DAYS &&
+        typeof stepVal === 'string'
+      ) {
+        const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNum);
+        const matchById = day?.steps.find((s) => s.id === stepVal);
+        if (matchById) {
+          activeStepIdByDay[dayNum] = matchById.id;
+          continue;
+        }
+        const matchingSteps = day?.steps.filter((s) => s.legacyType === stepVal) ?? [];
+        if (matchingSteps.length === 1) {
+          activeStepIdByDay[dayNum] = matchingSteps[0].id;
+        } else {
+          unmappedActiveSteps[dayKey] = stepVal;
+          if (day?.steps[0]) {
+            activeStepIdByDay[dayNum] = day.steps[0].id;
+          }
+        }
+      } else {
+        unmappedActiveSteps[dayKey] = stepVal;
+      }
+    }
+  }
+
+  if (Object.keys(unmappedActiveSteps).length > 0) {
+    unmappedData.activeStepByDay = unmappedActiveSteps;
+  }
+
+  // 3. Orientation
+  const completedStartHereIds = Array.isArray(rawV2.completedStartHereIds)
+    ? rawV2.completedStartHereIds.filter((item): item is string => typeof item === 'string')
+    : [];
+
+  // 4. Profil
+  const { profile, archivedStudioBrandStyle } = sanitizeProfile(rawV2.profile, false);
+  if (archivedStudioBrandStyle) {
+    unmappedData.archivedStudioBrandStyle = archivedStudioBrandStyle;
+  }
+
+  // 5. Dossier de projet (chargement existant ou initialisation vierge)
+  let dossier: ProjectDossier = createEmptyDossier();
+  if (rawV2.dossier && typeof rawV2.dossier === 'object') {
+    const importRes = importDossierJson(JSON.stringify(rawV2.dossier), { confirmOverwrite: true });
+    if (importRes.success && importRes.dossier) {
+      dossier = importRes.dossier;
+    }
+  }
+
+  const existingArchive =
+    rawV2.legacyArchive && typeof rawV2.legacyArchive === 'object'
+      ? (rawV2.legacyArchive as Record<string, unknown>)
+      : {};
+
+  const migratedState: StudentProgress = {
+    schemaVersion: CURRENT_SCHEMA_VERSION,
+    activeRoute,
+    activeStepIdByDay,
+    completedStartHereIds,
+    completedStepIdsByDay,
+    checklistAnswers:
+      rawV2.checklistAnswers && typeof rawV2.checklistAnswers === 'object'
+        ? (rawV2.checklistAnswers as Record<string, Record<string, boolean>>)
+        : {},
+    exerciseAnswers:
+      rawV2.exerciseAnswers && typeof rawV2.exerciseAnswers === 'object'
+        ? (rawV2.exerciseAnswers as Record<string, string>)
+        : {},
+    quizStates:
+      rawV2.quizStates && typeof rawV2.quizStates === 'object'
+        ? (rawV2.quizStates as StudentProgress['quizStates'])
+        : {},
+    savedPrompts:
+      rawV2.savedPrompts && typeof rawV2.savedPrompts === 'object'
+        ? (rawV2.savedPrompts as Record<string, string>)
+        : {},
+    customPromptInputs:
+      rawV2.customPromptInputs && typeof rawV2.customPromptInputs === 'object'
+        ? (rawV2.customPromptInputs as Record<string, Record<string, string>>)
+        : {},
+    profile,
+    dossier,
+    persistenceDisabled: persistenceDisabled || Boolean(rawV2.persistenceDisabled),
+    ...(Object.keys(unmappedData).length > 0 || Object.keys(existingArchive).length > 0
+      ? {
+          legacyArchive: {
+            ...existingArchive,
+            migratedToSchemaVersion: 3,
+            migratedAt: new Date().toISOString(),
+            ...unmappedData,
+          },
+        }
+      : {}),
+    lastUpdated: new Date().toISOString(),
+  };
+
+  if (!migratedState.persistenceDisabled) {
+    saveProgressToStorage(migratedState);
+  }
+  return migratedState;
+}
+
+/**
+ * Chaîne complète de migration V1 -> V2 -> V3.
+ */
+export function migrateV1ToV3(rawV1: Record<string, unknown>, rawSerialized?: string): StudentProgress {
+  const payload = rawSerialized ?? JSON.stringify(rawV1);
+  let persistenceDisabled = false;
+  const backupSuccess = ensureRawBackupWritten(1, payload);
+  if (!backupSuccess) {
+    persistenceDisabled = true;
+  }
+
+  const activeRoute = normalizeActiveRoute(rawV1.activeRoute);
+  const unmappedData: Record<string, unknown> = {
+    migratedFromSchemaVersion: 1,
+    migratedAt: new Date().toISOString(),
+  };
+
   const completedStepsByDay: Record<number, StepType[]> = {};
   const unmappedCompletedStepsByDay: Record<string, unknown> = {};
   if (rawV1.completedStepsByDay && typeof rawV1.completedStepsByDay === 'object') {
@@ -265,7 +471,6 @@ export function migrateV1ToV2(
     unmappedData.completedStepsByDay = unmappedCompletedStepsByDay;
   }
 
-  // 2. Étape active par jour : conserver uniquement les leçons 1 à 3, isoler le reste
   const activeStepByDay: Record<number, StepType> = {};
   const unmappedActiveStepByDay: Record<string, unknown> = {};
   if (rawV1.activeStepByDay && typeof rawV1.activeStepByDay === 'object') {
@@ -290,24 +495,9 @@ export function migrateV1ToV2(
     unmappedData.activeStepByDay = unmappedActiveStepByDay;
   }
 
-  // 3. Orientation startHere
-  const VALID_START_HERE_IDS = new Set(COURSE_DATA.startHere.map((l) => l.id));
-  const completedStartHereIds: string[] = [];
-  const unmappedStartHereIds: unknown[] = [];
-  if (Array.isArray(rawV1.completedStartHereIds)) {
-    for (const item of rawV1.completedStartHereIds) {
-      if (typeof item === 'string' && VALID_START_HERE_IDS.has(item)) {
-        completedStartHereIds.push(item);
-      } else {
-        unmappedStartHereIds.push(item);
-      }
-    }
-  }
-  if (unmappedStartHereIds.length > 0) {
-    unmappedData.completedStartHereIds = unmappedStartHereIds;
-  }
+  const registry = buildPreservedV1BlockRegistry();
 
-  // 4. Réponses aux exercices (vérifiées contre les blocs réels des leçons 1..3 et startHere)
+  // 4. Réponses aux exercices
   const exerciseAnswers: Record<string, string> = {};
   const unmappedExerciseAnswers: Record<string, unknown> = {};
   if (rawV1.exerciseAnswers && typeof rawV1.exerciseAnswers === 'object') {
@@ -323,7 +513,7 @@ export function migrateV1ToV2(
     unmappedData.exerciseAnswers = unmappedExerciseAnswers;
   }
 
-  // 5. États des checklists (vérifiés par bloc et par item)
+  // 5. Checklists
   const checklistAnswers: Record<string, Record<string, boolean>> = {};
   const unmappedChecklistAnswers: Record<string, unknown> = {};
   if (rawV1.checklistAnswers && typeof rawV1.checklistAnswers === 'object') {
@@ -356,7 +546,7 @@ export function migrateV1ToV2(
     unmappedData.checklistAnswers = unmappedChecklistAnswers;
   }
 
-  // 6. États des quiz
+  // 6. Quiz
   const quizStates: Record<string, QuizAttemptState> = {};
   const unmappedQuizStates: Record<string, unknown> = {};
   if (rawV1.quizStates && typeof rawV1.quizStates === 'object') {
@@ -372,7 +562,7 @@ export function migrateV1ToV2(
     unmappedData.quizStates = unmappedQuizStates;
   }
 
-  // 7. Prompts sauvegardés et variables locales de prompts
+  // 7. Prompts
   const savedPrompts: Record<string, string> = {};
   const unmappedSavedPrompts: Record<string, unknown> = {};
   if (rawV1.savedPrompts && typeof rawV1.savedPrompts === 'object') {
@@ -411,32 +601,30 @@ export function migrateV1ToV2(
     unmappedData.archivedStudioBrandStyle = archivedStudioBrandStyle;
   }
 
-  const migratedState: StudentProgress = {
-    schemaVersion: CURRENT_SCHEMA_VERSION,
+  const intermediateV2 = {
+    schemaVersion: 2,
     activeRoute,
-    activeStepByDay,
-    completedStartHereIds,
     completedStepsByDay,
+    activeStepByDay,
+    completedStartHereIds: Array.isArray(rawV1.completedStartHereIds) ? rawV1.completedStartHereIds : [],
     checklistAnswers,
     exerciseAnswers,
     quizStates,
     savedPrompts,
     customPromptInputs,
     profile,
-    ...(Object.keys(unmappedData).length > 0
-      ? {
-          legacyArchive: {
-            migratedFromSchemaVersion: 1,
-            migratedAt: new Date().toISOString(),
-            ...unmappedData,
-          },
-        }
-      : {}),
-    lastUpdated: new Date().toISOString(),
+    legacyArchive: unmappedData,
+    persistenceDisabled,
   };
 
-  saveProgressToStorage(migratedState);
-  return migratedState;
+  return migrateV2ToV3(intermediateV2, JSON.stringify(intermediateV2));
+}
+
+/**
+ * Migration de compatibilité V1 vers V2 (conservée pour l'export/import d'anciens formats).
+ */
+export function migrateV1ToV2(rawV1: Record<string, unknown>, rawSerialized?: string): StudentProgress {
+  return migrateV1ToV3(rawV1, rawSerialized);
 }
 
 export function sanitizeProgressState(raw: unknown, rawSerialized?: string): StudentProgress {
@@ -448,7 +636,11 @@ export function sanitizeProgressState(raw: unknown, rawSerialized?: string): Stu
   const data = raw as Record<string, unknown>;
 
   if (data.schemaVersion === 1) {
-    return migrateV1ToV2(data, rawSerialized);
+    return migrateV1ToV3(data, rawSerialized);
+  }
+
+  if (data.schemaVersion === 2) {
+    return migrateV2ToV3(data, rawSerialized);
   }
 
   if (data.schemaVersion !== CURRENT_SCHEMA_VERSION) {
@@ -457,10 +649,10 @@ export function sanitizeProgressState(raw: unknown, rawSerialized?: string): Stu
 
   const activeRoute = normalizeActiveRoute(data.activeRoute);
 
-  const completedStepsByDay: Record<number, StepType[]> = {};
-  if (data.completedStepsByDay && typeof data.completedStepsByDay === 'object') {
+  const completedStepIdsByDay: Record<number, string[]> = {};
+  if (data.completedStepIdsByDay && typeof data.completedStepIdsByDay === 'object') {
     for (const [dayKey, steps] of Object.entries(
-      data.completedStepsByDay as Record<string, unknown>
+      data.completedStepIdsByDay as Record<string, unknown>
     )) {
       const dayNum = Number(dayKey);
       if (
@@ -469,25 +661,24 @@ export function sanitizeProgressState(raw: unknown, rawSerialized?: string): Stu
         dayNum <= TOTAL_COURSE_DAYS &&
         Array.isArray(steps)
       ) {
-        completedStepsByDay[dayNum] = normalizeStepList(steps as StepType[]);
+        completedStepIdsByDay[dayNum] = normalizeStepIdList(steps as string[]);
       }
     }
   }
 
-  const activeStepByDay: Record<number, StepType> = {};
-  if (data.activeStepByDay && typeof data.activeStepByDay === 'object') {
+  const activeStepIdByDay: Record<number, string> = {};
+  if (data.activeStepIdByDay && typeof data.activeStepIdByDay === 'object') {
     for (const [dayKey, stepVal] of Object.entries(
-      data.activeStepByDay as Record<string, unknown>
+      data.activeStepIdByDay as Record<string, unknown>
     )) {
       const dayNum = Number(dayKey);
       if (
         Number.isInteger(dayNum) &&
         dayNum >= 1 &&
         dayNum <= TOTAL_COURSE_DAYS &&
-        typeof stepVal === 'string' &&
-        ALL_STEP_TYPES.includes(stepVal as StepType)
+        typeof stepVal === 'string'
       ) {
-        activeStepByDay[dayNum] = stepVal as StepType;
+        activeStepIdByDay[dayNum] = stepVal;
       }
     }
   }
@@ -498,12 +689,20 @@ export function sanitizeProgressState(raw: unknown, rawSerialized?: string): Stu
 
   const { profile } = sanitizeProfile(data.profile, false);
 
+  let dossier: ProjectDossier = createEmptyDossier();
+  if (data.dossier && typeof data.dossier === 'object') {
+    const importRes = importDossierJson(JSON.stringify(data.dossier), { confirmOverwrite: true });
+    if (importRes.success && importRes.dossier) {
+      dossier = importRes.dossier;
+    }
+  }
+
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
     activeRoute,
-    activeStepByDay,
+    activeStepIdByDay,
     completedStartHereIds,
-    completedStepsByDay,
+    completedStepIdsByDay,
     checklistAnswers:
       data.checklistAnswers && typeof data.checklistAnswers === 'object'
         ? (data.checklistAnswers as Record<string, Record<string, boolean>>)
@@ -525,6 +724,8 @@ export function sanitizeProgressState(raw: unknown, rawSerialized?: string): Stu
         ? (data.customPromptInputs as Record<string, Record<string, string>>)
         : {},
     profile,
+    dossier,
+    persistenceDisabled: false,
     ...(data.legacyArchive && typeof data.legacyArchive === 'object'
       ? { legacyArchive: data.legacyArchive as Record<string, unknown> }
       : {}),
@@ -533,23 +734,61 @@ export function sanitizeProgressState(raw: unknown, rawSerialized?: string): Stu
   };
 }
 
+/**
+ * Charge la progression depuis localStorage avec gestion intégrale des pannes :
+ * - Mode privé, quota ou exception système
+ * - Sauvegarde du JSON corrompu sous CORRUPTED_BACKUP_STORAGE_KEY sans écraser STORAGE_KEY
+ * - Activation de persistenceDisabled si l'intégrité de la persistance est compromise
+ */
 export function loadProgressFromStorage(): StudentProgress {
   if (typeof window === 'undefined' || !window.localStorage) {
+    const fallback = createInitialProgress();
+    fallback.persistenceDisabled = true;
+    return fallback;
+  }
+
+  let serialized: string | null = null;
+  try {
+    serialized = window.localStorage.getItem(STORAGE_KEY);
+  } catch {
+    const fallback = createInitialProgress();
+    fallback.persistenceDisabled = true;
+    return fallback;
+  }
+
+  if (!serialized) {
     return createInitialProgress();
   }
+
   try {
-    const serialized = window.localStorage.getItem(STORAGE_KEY);
-    if (!serialized) {
-      return createInitialProgress();
-    }
     const parsed: unknown = JSON.parse(serialized);
     return sanitizeProgressState(parsed, serialized);
   } catch {
-    return createInitialProgress();
+    // Le JSON est corrompu : isolation sous la clé dédiée et verrouillage de sécurité
+    try {
+      const existingCorrupted = window.localStorage.getItem(CORRUPTED_BACKUP_STORAGE_KEY);
+      if (!existingCorrupted) {
+        window.localStorage.setItem(CORRUPTED_BACKUP_STORAGE_KEY, serialized);
+      }
+    } catch {
+      // Ignorer si écriture impossible
+    }
+
+    const safeFallback = createInitialProgress();
+    safeFallback.persistenceDisabled = true;
+    return safeFallback;
   }
 }
 
+/**
+ * Enregistre l'état dans localStorage :
+ * - N'écrit JAMAIS si persistenceDisabled est actif (pour protéger les données utilisateur)
+ * - Tolère les erreurs de quota sans faire planter l'application
+ */
 export function saveProgressToStorage(state: StudentProgress): boolean {
+  if (state.persistenceDisabled) {
+    return false;
+  }
   if (typeof window === 'undefined' || !window.localStorage) {
     return false;
   }
@@ -577,7 +816,11 @@ export function importProgressJson(jsonString: string): StudentProgress | null {
       return null;
     }
     const candidate = parsed as Record<string, unknown>;
-    if (candidate.schemaVersion !== CURRENT_SCHEMA_VERSION && candidate.schemaVersion !== 1) {
+    if (
+      candidate.schemaVersion !== CURRENT_SCHEMA_VERSION &&
+      candidate.schemaVersion !== 2 &&
+      candidate.schemaVersion !== 1
+    ) {
       return null;
     }
     return sanitizeProgressState(parsed, jsonString);

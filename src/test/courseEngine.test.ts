@@ -55,36 +55,33 @@ describe('AI CREATOR STUDIO V2 : Course Data & Engine Verification', () => {
 
   it('calculates daily progress deterministically for 3-step and 4-step lessons', () => {
     // 4-step lesson
-    expect(calculateDailyProgress([]).percentage).toBe(0);
-    expect(calculateDailyProgress(['concept']).percentage).toBe(25);
-    expect(calculateDailyProgress(['concept', 'prompt']).percentage).toBe(50);
-    expect(calculateDailyProgress(['concept', 'prompt', 'example']).percentage).toBe(75);
+    expect(calculateDailyProgress([], 4).percentage).toBe(0);
+    expect(calculateDailyProgress(['day-01-step-1'], 4).percentage).toBe(25);
+    expect(calculateDailyProgress(['day-01-step-1', 'day-01-step-2'], 4).percentage).toBe(50);
+    expect(calculateDailyProgress(['day-01-step-1', 'day-01-step-2', 'day-01-step-3'], 4).percentage).toBe(75);
 
-    const full4 = calculateDailyProgress(['concept', 'prompt', 'example', 'your-turn']);
+    const full4 = calculateDailyProgress(['day-01-step-1', 'day-01-step-2', 'day-01-step-3', 'day-01-step-4'], 4);
     expect(full4.percentage).toBe(100);
     expect(full4.isCompleted).toBe(true);
-    expect(isDayCompleted(['concept', 'prompt', 'example', 'your-turn'])).toBe(true);
+    expect(isDayCompleted(['day-01-step-1', 'day-01-step-2', 'day-01-step-3', 'day-01-step-4'], 4)).toBe(true);
 
     // 3-step lesson
     expect(calculateDailyProgress([], 3).percentage).toBe(0);
-    expect(calculateDailyProgress(['concept'], 3).percentage).toBe(33);
-    expect(calculateDailyProgress(['concept', 'prompt'], 3).percentage).toBe(67);
-    const full3 = calculateDailyProgress(['concept', 'prompt', 'your-turn'], 3);
+    expect(calculateDailyProgress(['day-05-step-1'], 3).percentage).toBe(33);
+    expect(calculateDailyProgress(['day-05-step-1', 'day-05-step-2'], 3).percentage).toBe(67);
+    const full3 = calculateDailyProgress(['day-05-step-1', 'day-05-step-2', 'day-05-step-3'], 3);
     expect(full3.percentage).toBe(100);
     expect(full3.isCompleted).toBe(true);
-    expect(isDayCompleted(['concept', 'prompt', 'your-turn'], 3)).toBe(true);
+    expect(isDayCompleted(['day-05-step-1', 'day-05-step-2', 'day-05-step-3'], 3)).toBe(true);
   });
 
   it('calculates global progress over 9 lessons (completedDays / 9 * 100) and never counts partial lessons', () => {
     const partialMap = {
-      1: ['concept', 'prompt', 'example'] as const,
-      2: ['concept', 'prompt', 'example', 'your-turn'] as const,
+      1: ['day-01-step-1', 'day-01-step-2', 'day-01-step-3'],
+      2: ['day-02-step-1', 'day-02-step-2', 'day-02-step-3', 'day-02-step-4'],
     };
 
-    const res = calculateGlobalProgress({
-      1: [...partialMap[1]],
-      2: [...partialMap[2]],
-    });
+    const res = calculateGlobalProgress(partialMap, { 1: 4, 2: 4 });
 
     expect(res.completedDaysCount).toBe(1);
     expect(res.totalDays).toBe(9);
@@ -110,26 +107,32 @@ describe('AI CREATOR STUDIO V2 : Course Data & Engine Verification', () => {
     );
   });
 
-  it('persists in schemaVersion 2 and recovers safely from corrupted LocalStorage', () => {
+  it('persists in schemaVersion 3 and recovers safely from corrupted LocalStorage', () => {
     const initial = createInitialProgress();
     expect(initial.schemaVersion).toBe(CURRENT_SCHEMA_VERSION);
     expect(initial.profile.brandStyle).toBe('');
 
     initial.completedStartHereIds = ['introduction', 'setup'];
-    initial.completedStepsByDay[1] = ['concept', 'prompt', 'example', 'your-turn'];
+    initial.completedStepIdsByDay[1] = [
+      'day-01-step-1',
+      'day-01-step-2',
+      'day-01-step-3',
+      'day-01-step-4',
+    ];
     initial.profile.studentName = 'Camille';
 
     saveProgressToStorage(initial);
     const loaded = loadProgressFromStorage();
-    expect(loaded.schemaVersion).toBe(2);
+    expect(loaded.schemaVersion).toBe(3);
     expect(loaded.profile.studentName).toBe('Camille');
     expect(loaded.completedStartHereIds).toEqual(['introduction', 'setup']);
-    expect(calculateGlobalProgress(loaded.completedStepsByDay).completedDaysCount).toBe(1);
+    expect(calculateGlobalProgress(loaded.completedStepIdsByDay, { 1: 4 }).completedDaysCount).toBe(1);
 
-    // Corrupt localStorage and verify safe fallback
+    // Corrupt localStorage and verify safe fallback with persistenceDisabled
     window.localStorage.setItem(STORAGE_KEY, '{corrupted_json');
     const recovered = loadProgressFromStorage();
-    expect(recovered.schemaVersion).toBe(2);
+    expect(recovered.schemaVersion).toBe(3);
+    expect(recovered.persistenceDisabled).toBe(true);
     expect(recovered.completedStartHereIds).toEqual([]);
 
     // Verify JSON import validation

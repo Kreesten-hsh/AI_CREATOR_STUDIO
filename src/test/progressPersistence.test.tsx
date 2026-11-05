@@ -201,8 +201,8 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
       // 1. La sauvegarde V1 est créée et strictement identique au payload V1 d'origine
       expect(window.localStorage.getItem(V1_BACKUP_STORAGE_KEY)).toBe(rawSerialized);
 
-      // 2. Schéma passé en V2 et route normalisée vers module-01 leçon 2
-      expect(migrated.schemaVersion).toBe(2);
+      // 2. Schéma passé en V3 et route normalisée vers module-01 leçon 2
+      expect(migrated.schemaVersion).toBe(3);
       expect(migrated.activeRoute).toEqual({
         kind: 'course',
         courseId: 'module-01',
@@ -210,10 +210,15 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
       });
 
       // 3. Leçons 1 à 3 et leurs exercices/checklists/quiz/prompts valides sont préservés
-      expect(migrated.completedStepsByDay[1]).toEqual(['concept', 'prompt', 'example', 'your-turn']);
-      expect(migrated.completedStepsByDay[2]).toEqual(['concept', 'prompt']);
-      expect(migrated.completedStepsByDay[6]).toBeUndefined();
-      expect(migrated.completedStepsByDay[16]).toBeUndefined();
+      expect(migrated.completedStepIdsByDay[1]).toEqual([
+        'day-01-step-1',
+        'day-01-step-2',
+        'day-01-step-3',
+        'day-01-step-4',
+      ]);
+      expect(migrated.completedStepIdsByDay[2]).toEqual(['day-02-step-1', 'day-02-step-2']);
+      expect(migrated.completedStepIdsByDay[6]).toBeUndefined();
+      expect(migrated.completedStepIdsByDay[16]).toBeUndefined();
 
       expect(migrated.exerciseAnswers['day01-deliverable-a']).toBe(
         'Matière brute conservée du Jour 01'
@@ -257,13 +262,13 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
     it('Scénario 2 : Stockage V1 corrompu (JSON invalide ou structure corrompue -> repli propre en V2 sans crash)', () => {
       window.localStorage.setItem(STORAGE_KEY, '{corrupted_v1_json_payload');
       const recoveredFromInvalidJson = loadProgressFromStorage();
-      expect(recoveredFromInvalidJson.schemaVersion).toBe(2);
+      expect(recoveredFromInvalidJson.schemaVersion).toBe(3);
       expect(recoveredFromInvalidJson.activeRoute).toEqual({ kind: 'home' });
 
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify('not-an-object'));
       const recoveredFromPrimitive = loadProgressFromStorage();
-      expect(recoveredFromPrimitive.schemaVersion).toBe(2);
-      expect(recoveredFromPrimitive.completedStepsByDay).toEqual({});
+      expect(recoveredFromPrimitive.schemaVersion).toBe(3);
+      expect(recoveredFromPrimitive.completedStepIdsByDay).toEqual({});
     });
 
     it('Scénario 3 : Sauvegarde ai_creator_studio_progress_v1_backup déjà existante (ne jamais écraser la sauvegarde existante)', () => {
@@ -281,7 +286,7 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(newerV1State));
 
       const migrated = loadProgressFromStorage();
-      expect(migrated.schemaVersion).toBe(2);
+      expect(migrated.schemaVersion).toBe(3);
       expect(migrated.activeRoute).toEqual({ kind: 'home' });
       expect(migrated.profile.studentName).toBe('Nadia');
 
@@ -289,10 +294,10 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
       expect(window.localStorage.getItem(V1_BACKUP_STORAGE_KEY)).toBe(originalBackupPayload);
     });
 
-    it('Scénario 4 : Stockage vide (initialisation directe en schemaVersion 2 sans créer de backup V1 inutile)', () => {
+    it('Scénario 4 : Stockage vide (initialisation directe en schemaVersion 3 sans créer de backup V1 inutile)', () => {
       window.localStorage.clear();
       const fresh = loadProgressFromStorage();
-      expect(fresh.schemaVersion).toBe(2);
+      expect(fresh.schemaVersion).toBe(3);
       expect(fresh.activeRoute).toEqual({ kind: 'home' });
       expect(fresh.profile.brandStyle).toBe('');
       expect(window.localStorage.getItem(V1_BACKUP_STORAGE_KEY)).toBeNull();
@@ -317,7 +322,7 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(interruptedMainV1));
 
       const completedMigration = loadProgressFromStorage();
-      expect(completedMigration.schemaVersion).toBe(2);
+      expect(completedMigration.schemaVersion).toBe(3);
       expect(completedMigration.activeRoute).toEqual({
         kind: 'bonus',
         bonusId: 'bonus-manychat',
@@ -326,7 +331,7 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
       expect(window.localStorage.getItem(V1_BACKUP_STORAGE_KEY)).toBe(firstBackup);
 
       const persistedMain = JSON.parse(window.localStorage.getItem(STORAGE_KEY)!);
-      expect(persistedMain.schemaVersion).toBe(2);
+      expect(persistedMain.schemaVersion).toBe(3);
     });
 
     it('Scénario 6 : Stockage déjà en V2 (lecture idempotente sans relancer la migration)', () => {
@@ -365,20 +370,25 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(existingV2));
 
       const loaded = loadProgressFromStorage();
-      expect(loaded.schemaVersion).toBe(2);
+      expect(loaded.schemaVersion).toBe(3);
       expect(loaded.activeRoute).toEqual({
         kind: 'course',
         courseId: 'module-03',
         dayNumber: 8,
       });
-      expect(loaded.completedStepsByDay[8]).toEqual(['concept', 'prompt', 'example', 'your-turn']);
+      expect(loaded.completedStepIdsByDay[8]).toEqual([
+        'day-08-step-1',
+        'day-08-step-2',
+        'day-08-step-3',
+        'day-08-step-4',
+      ]);
       expect(loaded.exerciseAnswers['day08-exercise-chariow-checkout']).toBe(
         'Mon offre Chariow configurée'
       );
       expect(window.localStorage.getItem(V1_BACKUP_STORAGE_KEY)).toBeNull();
     });
 
-    it("Scénario 7 : Espace localStorage insuffisant (QuotaExceededError sur setItem -> retourne l'état V2 migré en mémoire sans crasher)", () => {
+    it("Scénario 7 : Espace localStorage insuffisant (QuotaExceededError sur setItem -> retourne l'état V3 migré en mémoire sans crasher)", () => {
       const v1Data = {
         schemaVersion: 1,
         activeRoute: { kind: 'course', courseId: 'course-01', dayNumber: 3 },
@@ -409,14 +419,17 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
 
       expect(() => loadProgressFromStorage()).not.toThrow();
       const inMemoryMigrated = loadProgressFromStorage();
-      expect(inMemoryMigrated.schemaVersion).toBe(2);
+      expect(inMemoryMigrated.schemaVersion).toBe(3);
       expect(inMemoryMigrated.activeRoute).toEqual({
         kind: 'course',
         courseId: 'module-01',
         dayNumber: 3,
       });
       expect(inMemoryMigrated.profile.studentName).toBe('Amina');
-      expect(inMemoryMigrated.completedStepsByDay[3]).toEqual(['concept', 'prompt']);
+      expect(inMemoryMigrated.completedStepIdsByDay[3]).toEqual([
+        'day-03-step-1',
+        'day-03-step-2',
+      ]);
     });
   });
 });
