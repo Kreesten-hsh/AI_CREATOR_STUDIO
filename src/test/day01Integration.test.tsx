@@ -35,7 +35,7 @@ describe('MISSION 04 : Day 01 Full React Integration Suite', () => {
       expect(day01.id).toBe('day-01');
       expect(day01.dayNumber).toBe(1);
       expect(day01.sprintId).toBe('module-01');
-      expect(day01.title).toBe('DE SON EXPERTISE AU PROBLÈME CLIENT');
+      expect(day01.title).toBe('PARTIR DE SON EXPERTISE ET IDENTIFIER UN PROBLÈME');
       expect(day01.italicTitleWord).toBe('PROBLÈME');
       expect(day01.isSkeletonPlaceholder).toBe(false);
       expect(day01.objective).toContain('problème client concret');
@@ -251,9 +251,9 @@ describe('MISSION 04 : Day 01 Full React Integration Suite', () => {
         </ProgressProvider>
       );
 
-      expect(screen.getByText('Démonstration réelle et déconstruction critique')).toBeInTheDocument();
+      expect(screen.getByText('Démonstration et déconstruction critique')).toBeInTheDocument();
       expect(screen.getByText(/avant-pdf-statique\.html/i)).toBeInTheDocument();
-      expect(screen.getByText(/Alexandre V\./i)).toBeInTheDocument();
+      expect(screen.getByText(/cas d'école fictif/i)).toBeInTheDocument();
 
       // Déconstruction du 90%
       expect(

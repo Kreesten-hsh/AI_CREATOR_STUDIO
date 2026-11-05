@@ -64,7 +64,7 @@ describe('V2 : Curriculum Editorial, Structural & Behavioral Verification (Lesso
       targetAudience: 'Jeunes actifs salariés',
       productType: "Calculateur d'épargne mensuelle",
       brandStyle: 'Ardoise & Émeraude (#0F172A, #0F766E)',
-      mainObjective: 'Lancer à 14 900 FCFA sur Chariow',
+      mainObjective: 'Lancer sur ma boutique Chariow',
     };
 
     const days04To09 = ALL_DAYS.filter((d) => d.dayNumber >= 4 && d.dayNumber <= 9);
@@ -124,7 +124,7 @@ describe('V2 : Curriculum Editorial, Structural & Behavioral Verification (Lesso
     expect(screen.getByText('LEÇON 4 SUR 9')).toBeInTheDocument();
     expect(
       screen.getByRole('heading', {
-        name: /CHOISIR LE FORMAT INTERACTIF ET CONCEVOIR SON BLUEPRINT/i,
+        name: /IMAGINER ET ORGANISER SON PRODUIT/i,
       })
     ).toBeInTheDocument();
     expect(

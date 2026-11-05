@@ -4,12 +4,12 @@ export const day09: Day = {
   id: 'day-09',
   dayNumber: 9,
   sprintId: 'module-03',
-  title: 'CRÉER SES CONTENUS DE LANCEMENT ET DE PROMOTION',
-  italicTitleWord: 'PROMOTION',
+  title: 'PRÉSENTER ET PROMOUVOIR SON PRODUIT',
+  italicTitleWord: 'PROMOUVOIR',
   objective:
-    "Construire votre premier kit promotionnel autour de la démonstration concrète de votre produit en action : un script de vidéo courte (Reel / TikTok), un carrousel pédagogique et une publication commerciale avec un appel à l'action clair.",
+    "Construire votre premier kit de promotion centré sur la démonstration concrète de votre produit en action : un script de vidéo courte (Reel / TikTok), un carrousel pédagogique et une publication claire orientant vers votre boutique Chariow.",
   deliverableSummary:
-    'Premier kit promotionnel : script vidéo, carrousel et publication commerciale',
+    'Kit promotionnel complet : script de démonstration, carrousel et publication de vente',
   isSkeletonPlaceholder: false,
   steps: [
     {
@@ -103,95 +103,64 @@ export const day09: Day = {
             },
           ],
           template: `<role>
-Tu es un Directeur de Création Contenu & Démonstration Produit.
-Tu conçois des contenus de lancement sobres, concrets et centrés sur la démonstration visuelle d'un produit interactif en action.
-Tu refuses tout jargon d'IA, toute fausse urgence, toute statistique inventée et toute promesse de viralité ou de revenus garantis.
+Tu es un concepteur de contenu et stratège de lancement produit spécialisé dans les démonstrations concrètes d'outils interactifs.
+Tu conçois des contenus sobres, rythmés et directement compréhensibles par l'acheteur final.
+Tu refuses tout jargon artificiel d'IA, toute fausse urgence, toute statistique inventée et toute promesse de gains garantis.
 </role>
 
 <context>
-- Domaine : {{business}}
-- Audience visée : {{targetAudience}}
-- Produit interactif : {{productType}}
-- Action clé démontrée à l'écran : {{mainObjective}}
+Je prépare le lancement de mon produit digital interactif :
+- Domaine d'expertise : {{business}}
+- Public cible : {{targetAudience}}
+- Nom du produit : {{productType}}
+- Action clé démontrée : {{mainObjective}}
 </context>
 
-<launch_parameters>
-[PRÉCISEZ ICI :
-1. Le cas concret que vous allez saisir à l'écran pendant la démonstration (ex. valeurs d'entrée -> résultat affiché)
-2. Votre prix de lancement et le lien ou mot-clé d'appel à l'action choisi]
-</launch_parameters>
+<consignes_de_redaction>
+Génère pour moi ces 3 contenus de lancement prêts à l'emploi :
+1. UN SCRIPT DE VIDÉO COURTE (Reel / TikTok, 35-45s) :
+   - Indique précisément le découpage temporel et les consignes visuelles (ce que l'on montre à l'écran).
+   - Accroche percutante orientée sur le problème sans verbiage.
+   - Saisie en direct dans l'outil et résultat obtenu.
+   - Appel à l'action sobre vers le lien Chariow.
 
-<constraints>
-- N'invente aucun témoignage client ni aucun chiffre de marché non sourcé.
-- Rédige dans un français naturel, direct et oral pour le script vidéo.
-- N'utilise aucun tiret cadratin.
-</constraints>
+2. UN PLAN DE CARROUSEL PÉDAGOGIQUE (7 slides) :
+   - Slide 1 : Titre problème engageant
+   - Slide 2 : Le blocage rencontré avec les approches traditionnelles
+   - Slides 3 à 5 : La logique de résolution avec captures d'écran de l'outil
+   - Slide 6 : Le récapitulatif de ce que l'acheteur obtient
+   - Slide 7 : Appel à l'action
 
-<output_format>
-Produis mon Kit Promotionnel de Lancement complet en 4 parties :
-
-### 1. 3 Accroches (Hooks) orientées problème et démonstration
-- Accroche A (Situation bloquante vécue)
-- Accroche B (Erreur fréquente de calcul ou de méthode manuelle)
-- Accroche C (Démonstration directe : "Voici comment calculer / diagnostiquer [X] en 2 minutes")
-
-### 2. Script complet de Reel / TikTok de démonstration (35 à 45 secondes)
-Tableau ou liste séquencée indiquant pour chaque segment (0-3s, 3-12s, 12-35s, 35-45s) :
-- **[VISUEL À L'ÉCRAN]** : ce que l'on filme précisément dans l'outil interactif.
-- **[VOIX OFF & SOUS-TITRES]** : le texte exact prononcé.
-
-### 3. Structure complète d'un Carrousel en 7 slides
-- Pour chaque slide (Slide 1 à Slide 7) : Titre visuel court, texte explicatif concis (max 35 mots par slide) et indication du visuel ou de la capture d'écran de l'outil à insérer.
-
-### 4. Publication commerciale de lancement (Post écrit)
-- Texte complet structuré : Problème concret -> Pourquoi j'ai conçu cet outil interactif -> Ce qui se passe quand on l'utilise (exemple chiffré) -> Ce qui est inclus + Tarif de lancement -> Appel à l'action clair vers la boutique Chariow.
-</output_format>`,
+3. UNE PUBLICATION ÉCRITE DE LANCEMENT :
+   - Texte pour LinkedIn, Instagram ou e-mail annonçant la disponibilité de l'outil.
+   - Présentation factuelle de la valeur d'usage et mention du tarif de lancement.
+   - Sans tirets cadratins dans les textes générés.
+</consignes_de_redaction>`,
         },
       ],
     },
     {
       id: 'day-09-step-3',
-      type: 'example',
+      type: 'your-turn',
       number: 3,
-      title: 'Exemple guidé',
-      subtitle: 'Script de démonstration et carrousel du cas fil rouge',
-      completionLabel: "Valider l'étape 3 : Exemple guidé",
+      title: 'Assembler et promouvoir',
+      subtitle: 'Exemple de script et validation de son kit de promotion',
+      completionLabel: "Valider le Module 03 : Kit promotionnel prêt",
       blocks: [
         {
           id: 'day09-step3-promo-example',
           type: 'prose',
-          eyebrow: '3.1 DÉMONSTRATION DU KIT DE LANCEMENT',
-          title: 'Exemple de script Reel (40s) pour le produit témoin',
+          eyebrow: '3.1 DÉMONSTRATION D’UN SCRIPT COURT (CAS D’ÉCOLE)',
+          title: 'Exemple de script Reel (40s) centré sur l’usage',
           paragraphs: [
-            "Voici comment le produit témoin (`/demos/pdf-to-hub/apres-hub-interactif.html`) est présenté en vidéo courte sans aucune surpromesse :",
+            "Voici comment un produit interactif est présenté en vidéo courte sans aucune surpromesse :",
           ],
           bullets: [
-            "0-3s [Accroche] : Visuel sur l'agenda chargé d'un consultant. Voix : « Pourquoi votre planning de création de contenu saute dès que vous signez un nouveau client ? »",
-            "3-10s [Friction] : Visuel sur la page 2 du PDF statique avec sa formule à calculer à la main. Voix : « Parce qu'on vous donne souvent des rythmes théoriques fixes sans tenir compte de vos heures facturables réelles. »",
-            "10-32s [Démonstration de l'outil] : Capture d'écran mobile du Hub interactif (Ardoise & Émeraude). Le doigt sélectionne « Freelance Solo », saisit 40h travaillées, 28h clients et 6h admin. Le compteur affiche instantanément « 3.9 h protégées : 1 publication pilier + 2 déclinaisons », puis bascule sur l'onglet Boîte à Prompts déjà pré-rempli. Voix : « J'ai transformé ma méthode en un calculateur interactif : vous entrez vos heures de la semaine, il calcule votre capacité soutenable, adapte vos 3 piliers et génère votre feuille de route 30 jours sauvegardable en JSON. »",
-            "32-40s [Appel à l'action] : Visuel de la fiche produit Chariow avec le palier de lancement. Voix : « L'outil est disponible en téléchargement immédiat (14 900 FCFA pour les 30 premiers accès). Le lien est dans ma bio, ou commentez SYSTÈME pour recevoir le lien en message privé. »",
+            "0-3s [Accroche] : Visuel sur l'agenda chargé d'un indépendant. Voix : « Pourquoi votre planning saute dès que vous signez un nouveau client ? »",
+            "3-10s [Friction] : Visuel sur une formule de calcul manuelle sur carnet. Voix : « Parce qu'on vous donne souvent des rythmes théoriques fixes sans tenir compte de vos heures facturables réelles. »",
+            "10-32s [Démonstration de l'outil] : Capture d'écran mobile de l'outil interactif. Le doigt sélectionne un profil et saisit les heures de la semaine. Le résultat s'ajuste instantanément. Voix : « J'ai transformé ma méthode en un outil interactif : vous entrez vos heures, il calcule votre capacité réelle et vous donne votre plan d'action immédiatement. »",
+            "32-40s [Appel à l'action] : Visuel de la page produit Chariow. Voix : « L'outil est disponible avec son tarif d'accès de lancement. Le lien direct est dans ma bio, ou commentez OUTIL pour le recevoir en message privé. »",
           ],
-        },
-      ],
-    },
-    {
-      id: 'day-09-step-4',
-      type: 'your-turn',
-      number: 4,
-      title: 'À vous de jouer',
-      subtitle: 'Assembler et valider votre premier kit promotionnel',
-      completionLabel: "Valider l'étape 4 : À vous de jouer",
-      blocks: [
-        {
-          id: 'day09-launch-kit',
-          type: 'text-exercise',
-          title: 'Exercice principal : Votre Kit Promotionnel de Lancement',
-          instructions:
-            "Exécutez le prompt de l'étape 2 dans Claude, adaptez les textes à votre ton personnel et collez ci-dessous vos 3 livrables finaux prêts à publier : 1) votre script vidéo de démonstration, 2) le plan de vos 7 slides de carrousel, et 3) votre publication écrite de lancement.",
-          placeholder:
-            "1. Script Vidéo Reel / TikTok (35-45s avec indications visuelles) :\n\n2. Structure du Carrousel (Slides 1 à 7) :\n\n3. Publication commerciale de lancement (avec appel à l'action vers Chariow) :",
-          minLength: 90,
-          maxLength: 6000,
         },
         {
           id: 'day09-checklist',

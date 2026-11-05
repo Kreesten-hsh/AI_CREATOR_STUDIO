@@ -2,7 +2,7 @@ import { Check } from 'lucide-react';
 import type { Step, StepType } from '../../types/course';
 
 interface StepTabsProps {
-  steps: [Step, Step, Step, Step];
+  steps: Step[];
   activeStep: StepType;
   completedSteps: StepType[];
   onSelectStep: (step: StepType) => void;
@@ -15,13 +15,17 @@ export function StepTabs({
   onSelectStep,
 }: StepTabsProps) {
   const completedSet = new Set(completedSteps);
+  const gridLayoutClass =
+    steps.length === 3
+      ? 'grid-cols-1 sm:grid-cols-3 gap-3'
+      : 'grid-cols-2 lg:grid-cols-4 gap-3';
 
   return (
-    <nav aria-label="Navigation des 4 étapes de la leçon">
+    <nav aria-label="Navigation des étapes de la leçon">
       <div
         role="tablist"
         aria-label="Étapes de la leçon"
-        className="grid grid-cols-2 lg:grid-cols-4 gap-3"
+        className={`grid ${gridLayoutClass}`}
       >
         {steps.map((step) => {
           const isActive = step.type === activeStep;

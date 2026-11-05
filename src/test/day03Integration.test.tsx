@@ -35,7 +35,7 @@ describe('MISSION 06 : Day 03 Positioning & Promise Full Integration Suite', () 
     expect(day03.id).toBe('day-03');
     expect(day03.dayNumber).toBe(3);
     expect(day03.sprintId).toBe('module-01');
-    expect(day03.title).toBe('POSITIONNEMENT ET PROMESSE DE TRANSFORMATION');
+    expect(day03.title).toBe('DÉFINIR SON POSITIONNEMENT ET SA PROMESSE');
     expect(day03.italicTitleWord).toBe('POSITIONNEMENT');
     expect(day03.isSkeletonPlaceholder).toBe(false);
     expect(day03.objective).toContain('choisirait votre offre');
@@ -284,9 +284,9 @@ describe('MISSION 06 : Day 03 Positioning & Promise Full Integration Suite', () 
   });
 
   // =========================================================================
-  // 11. Étape 3 : Exemple Alexandre V. et transparence sur les 5 pages
+  // 11. Étape 3 : Exemple d'école fictif et transparence sur les 5 pages
   // =========================================================================
-  it('11. présente le cas Alexandre V. avec avertissement déontologique (5 pages visibles) et 7 volets de déconstruction', () => {
+  it('11. présente le cas d\'école fictif avec avertissement déontologique (5 pages visibles) et 7 volets de déconstruction', () => {
     setupWorkspaceForDay(3, 'example');
 
     render(
@@ -295,7 +295,7 @@ describe('MISSION 06 : Day 03 Positioning & Promise Full Integration Suite', () 
       </ProgressProvider>
     );
 
-    expect(screen.getByText(/Analyse critique du matériau interne \(Cas Alexandre V\.\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Analyse critique du positionnement \(Cas d'école fictif\)/i)).toBeInTheDocument();
     expect(screen.getByText(/Le document comporte physiquement cinq pages visibles/i)).toBeInTheDocument();
     expect(screen.getByText(/De la matière statique au positionnement argumenté/i)).toBeInTheDocument();
     expect(screen.getByText(/L'alternative actuelle de l'acheteur/i)).toBeInTheDocument();

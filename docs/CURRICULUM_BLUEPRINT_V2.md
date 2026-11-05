@@ -71,7 +71,7 @@ Ce document détaille le plan directeur de la version V2 d'AI CREATOR Studio. Ch
 - **Périmètre** :
   - Définir précisément ce qui est vendu (l'outil interactif, son accès HTTPS mobile, son pack `.zip` et son guide de démarrage) et identifier les bénéfices concrets.
   - Définir les éventuels éléments complémentaires utiles et comparer honnêtement avec les alternatives du marché.
-  - Formuler son hypothèse de prix (avec présentation transparente du modèle de paliers progressifs : ex. 30 premières ventes à 14 900 FCFA, 70 suivantes à 24 900 FCFA, présenté comme cadre d'objectif commercial et jamais comme résultat garanti).
+  - Formuler son hypothèse de prix (avec présentation de la structuration par paliers d'accès anticipé et tarif standard de référence, présenté comme projection de planification et jamais comme résultat garanti).
   - Structurer les conditions de vente et de support.
 - **Livrable** : Offre commerciale structurée, prix choisi et argumentaire de valeur.
 

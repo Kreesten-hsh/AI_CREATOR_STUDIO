@@ -8,7 +8,7 @@ import { CompletionButton } from '../components/course/CompletionButton';
 import { CourseHomePage } from '../components/home/CourseHomePage';
 import { BonusView } from '../components/bonus/BonusView';
 import { ResourcesView } from '../components/resources/ResourcesView';
-import { ALL_STEP_TYPES, type Day } from '../types/course';
+import type { Day } from '../types/course';
 import { getCourseById } from '../utils/courseNavigation';
 
 function DayWorkspaceView({ day }: { day: Day }) {
@@ -33,10 +33,12 @@ function DayWorkspaceView({ day }: { day: Day }) {
     day.isSkeletonPlaceholder && (!activeStepObj.blocks || activeStepObj.blocks.length === 0);
 
   const handleCompleteCurrentStep = () => {
-    const currentIdx = ALL_STEP_TYPES.indexOf(activeStepObj.type);
-    const isLastStepOfDay = currentIdx === ALL_STEP_TYPES.length - 1;
+    const currentIdx = day.steps.findIndex((s) => s.type === activeStepObj.type);
+    const isLastStepOfDay = currentIdx === day.steps.length - 1;
+    const nextStepType =
+      !isLastStepOfDay && currentIdx >= 0 ? day.steps[currentIdx + 1]?.type : undefined;
 
-    completeStep(day.dayNumber, activeStepObj.type, !isLastStepOfDay);
+    completeStep(day.dayNumber, activeStepObj.type, !isLastStepOfDay, nextStepType);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -64,7 +66,7 @@ function DayWorkspaceView({ day }: { day: Day }) {
             isCompleted={isCurrentStepCompleted}
             label={activeStepObj.completionLabel}
             nextLabel={
-              activeStepObj.number < 4
+              activeStepObj.number < day.steps.length
                 ? `Étape ${activeStepObj.number} validée : Passer à l'étape ${
                     activeStepObj.number + 1
                   }`
@@ -78,7 +80,7 @@ function DayWorkspaceView({ day }: { day: Day }) {
           <div className="brutal-card rounded-brutal-card p-5 bg-primary-red text-surface flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <span className="font-mono text-xs font-bold uppercase px-2 py-0.5 bg-surface text-ink border border-ink rounded-brutal-tag">
-                4 ÉTAPES VALIDÉES
+                {day.steps.length} {day.steps.length === 1 ? 'ÉTAPE VALIDÉE' : 'ÉTAPES VALIDÉES'}
               </span>
               <p className="font-display text-lg uppercase mt-1">
                 La Leçon {String(day.dayNumber).padStart(2, '0')} est validée et enregistrée dans votre parcours !

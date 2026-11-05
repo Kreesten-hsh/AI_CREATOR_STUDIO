@@ -42,12 +42,12 @@ export const day07: Day = {
           title: 'Comparer les alternatives et structurer ses paliers tarifaires',
           paragraphs: [
             "Pour fixer votre prix, comparez votre produit aux alternatives réelles identifiées à la Leçon 03 : d'un côté, le bricolage manuel gratuit mais coûteux en temps et en erreurs ; de l'autre, une prestation de conseil sur mesure ou un logiciel par abonnement mensuel beaucoup plus onéreux.",
-            "Une méthode pragmatique pour lancer un nouveau produit digital consiste à définir un tarif d'amorçage pour les premiers acheteurs, suivi d'un tarif standard :",
+            "Une méthode pragmatique pour lancer un nouveau produit digital consiste à définir un tarif d'accès anticipé pour les premiers acheteurs, suivi d'un tarif standard de référence :",
           ],
           bullets: [
-            "Exemple de grille de lancement à deux paliers (modèle commercial d'AI CREATOR Studio) : fixer les 30 premières ventes à 14 900 FCFA (soit 447 000 FCFA), puis les 70 ventes suivantes à 24 900 FCFA (soit 1 743 000 FCFA).",
-            "Lecture du modèle : si ces 100 ventes sont réalisées, le chiffre d'affaires brut atteint 2 190 000 FCFA (dépassant un objectif commercial de 2 000 000 FCFA brut).",
-            "Règle de lucidité commerciale : ces montants sont des objectifs commerciaux et des projections arithmétiques de planification, jamais des résultats garantis. Votre volume réel de ventes dépendra de la pertinence du problème résolu, de votre audience et de la régularité de vos démonstrations.",
+            "Exemple de structuration par paliers : fixer un premier palier d'accès anticipé (par exemple à 12 000 FCFA ou 15 000 FCFA), puis passer au tarif standard (par exemple à 19 000 FCFA ou 25 000 FCFA). Cela permet de récompenser les premiers clients tout en testant la réception du produit.",
+            "Repères de marché pour les outils interactifs : un mini-outil ou une checklist interactive ciblée se positionne souvent entre 5 000 et 15 000 FCFA ; un calculateur ou simulateur opérationnel complet entre 15 000 et 35 000 FCFA ; un système métier complet avec modèles entre 25 000 et 50 000 FCFA.",
+            "Règle de lucidité commerciale : tout chiffre de vente prévisionnel constitue une projection arithmétique de planification, jamais un résultat garanti. Votre volume réel dépendra de la pertinence du problème résolu, de la clarté de votre offre et de vos actions de promotion.",
           ],
         },
         {
@@ -165,14 +165,14 @@ Structure ma fiche d'offre commerciale en 6 parties :
           eyebrow: '3.1 DÉMONSTRATION COMPLÈTE',
           title: 'Offre structurée pour « Le Système de Création Régulière »',
           paragraphs: [
-            "Voici comment se traduit l'offre commerciale du produit témoin d'Alexandre V. avant sa mise en ligne sur Chariow :",
+            "Voici comment se traduit l'offre commerciale pour le cas d'école fictif du cours avant sa mise en vente sur Chariow :",
           ],
           bullets: [
-            "Ce qui est vendu : L'outil interactif autonome « Le Système de Création Régulière » (Calculateur de capacité horaire + Matrice des 3 Piliers selon le profil + Feuille de route 30 jours + Compilateur de prompt), livré en archive `.zip` avec accès HTTPS mobile et sauvegarde portable `.json`.",
-            "Complément inclus : Le guide PDF initial de 12 pages pour ceux qui souhaitent lire les fondements méthodologiques au calme avant d'utiliser le calculateur.",
+            "Ce qui est vendu : L'outil interactif « Le Système de Création Régulière » (Calculateur de capacité horaire + Matrice des 3 Piliers selon le profil + Feuille de route 30 jours + Compilateur de prompt), accessible directement en ligne avec lien web et option de sauvegarde.",
+            "Complément inclus : Le document méthodologique de synthèse pour ceux qui souhaitent consulter les principes fondateurs au calme avant d'utiliser le simulateur.",
             "Comparaison des alternatives : Bricoler seul sur un carnet prend 1 à 2 heures chaque mois avec des calculs approximatifs ; un accompagnement individuel coûte plusieurs centaines de milliers de FCFA ; l'outil interactif offre le diagnostic et le plan d'action en 10 minutes.",
-            "Grille tarifaire choisie : 14 900 FCFA pour les 30 premiers acheteurs (palier de lancement), puis 24 900 FCFA en tarif normal.",
-            "Conditions et support : Livraison automatique immédiate après paiement sur Chariow ; fonctionnement sur tout navigateur (téléphone et ordinateur) sans abonnement ; support par e-mail sous 48h ouvrées pour toute question liée au téléchargement ou à l'ouverture de l'archive.",
+            "Grille tarifaire retenue à titre d'exemple : 15 000 FCFA pour le palier de lancement anticipé, puis 22 000 FCFA en tarif normal.",
+            "Conditions et support : Accès immédiat après paiement sur Chariow ; fonctionnement sur tout navigateur (téléphone et ordinateur) sans abonnement ; assistance par e-mail en cas de difficulté d'accès.",
           ],
         },
       ],

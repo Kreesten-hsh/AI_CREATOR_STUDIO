@@ -49,7 +49,7 @@ function mountPrototypeHTML(rawHtml: string): HubPrototypeAPI {
   return window.__HUB_PROTOTYPE__;
 }
 
-describe('Phase 02 — Prototype représentatif de bout en bout (apres-hub-interactif.html)', () => {
+describe('Phase 02 : Prototype représentatif de bout en bout (apres-hub-interactif.html)', () => {
   const rawHtml = fs.readFileSync(prototypePath, 'utf-8');
 
   beforeEach(() => {

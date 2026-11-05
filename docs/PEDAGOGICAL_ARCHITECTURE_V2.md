@@ -22,12 +22,9 @@
 
 ## 2. Cadre Commercial et Déontologique
 
-### 2.1 Contexte commercial d'AI CREATOR Studio
-- **Tarification envisagée** :
-  - 30 premières ventes : **14 900 FCFA**
-  - 70 ventes suivantes : **24 900 FCFA**
-- **Objectif commercial** : **2 000 000 FCFA** minimum de chiffre d'affaires brut (projection à **2 190 000 FCFA** si les 100 ventes sont réalisées).
-- **Règle d'éthique absolue** : Ces montants constituent des **objectifs commerciaux de référence**, jamais des résultats garantis, ni pour le Studio ni pour les apprenants. Aucune leçon ni aucun bonus ne promet un revenu garanti, un taux de conversion garanti ou une viralité garantie.
+### 2.1 Cadre commercial et déontologique
+- **Modèle tarifaire d'apprentissage** : structuration par paliers d'accès anticipé et tarif standard de référence selon la valeur d'usage et les repères de marché (5 000 à 15 000 FCFA pour un guide/checklist interactive ; 15 000 à 35 000 FCFA pour un simulateur ou outil métier).
+- **Règle d'éthique absolue** : Tout chiffre prévisionnel constitue une **projection de planification**, jamais un résultat garanti, ni pour le Studio ni pour les apprenants. Aucune leçon ni aucun bonus ne promet un revenu garanti, un taux de conversion garanti ou une viralité garantie.
 
 ### 2.2 Discipline épistémique dans l'usage de Claude
 Chaque prompt du parcours impose à Claude de distinguer :

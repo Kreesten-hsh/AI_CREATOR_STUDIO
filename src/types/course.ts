@@ -221,7 +221,7 @@ export interface Day {
   objective: string;
   deliverableSummary: string;
   isSkeletonPlaceholder: boolean;
-  steps: [Step, Step, Step, Step];
+  steps: Step[];
 }
 
 export interface StartHereLesson {

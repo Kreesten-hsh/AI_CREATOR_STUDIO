@@ -16,7 +16,6 @@ import {
   saveProgressToStorage,
   STORAGE_KEY,
 } from '../utils/storage';
-import { ALL_STEP_TYPES } from '../types/course';
 
 describe('AI CREATOR STUDIO V2 : Course Data & Engine Verification', () => {
   beforeEach(() => {
@@ -38,12 +37,13 @@ describe('AI CREATOR STUDIO V2 : Course Data & Engine Verification', () => {
     expect(dayNumbers).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
 
-  it('ensures every single lesson (1 to 9) has 4 canonical steps with real content and zero skeleton placeholders', () => {
+  it('ensures every single lesson (1 to 9) has 3 or 4 coherent steps with real content and zero skeleton placeholders', () => {
     for (const day of ALL_DAYS) {
       expect(day.isSkeletonPlaceholder).toBe(false);
-      expect(day.steps).toHaveLength(4);
-      expect(day.steps.map((s) => s.type)).toEqual(ALL_STEP_TYPES);
-      expect(day.steps.map((s) => s.number)).toEqual([1, 2, 3, 4]);
+      expect([3, 4]).toContain(day.steps.length);
+      expect(day.steps.map((s) => s.number)).toEqual(
+        day.steps.map((_, idx) => idx + 1)
+      );
 
       for (const step of day.steps) {
         expect(step.blocks.length).toBeGreaterThan(0);
@@ -53,16 +53,26 @@ describe('AI CREATOR STUDIO V2 : Course Data & Engine Verification', () => {
     }
   });
 
-  it('calculates daily progress deterministically (completedSteps / 4 * 100)', () => {
+  it('calculates daily progress deterministically for 3-step and 4-step lessons', () => {
+    // 4-step lesson
     expect(calculateDailyProgress([]).percentage).toBe(0);
     expect(calculateDailyProgress(['concept']).percentage).toBe(25);
     expect(calculateDailyProgress(['concept', 'prompt']).percentage).toBe(50);
     expect(calculateDailyProgress(['concept', 'prompt', 'example']).percentage).toBe(75);
 
-    const full = calculateDailyProgress(['concept', 'prompt', 'example', 'your-turn']);
-    expect(full.percentage).toBe(100);
-    expect(full.isCompleted).toBe(true);
+    const full4 = calculateDailyProgress(['concept', 'prompt', 'example', 'your-turn']);
+    expect(full4.percentage).toBe(100);
+    expect(full4.isCompleted).toBe(true);
     expect(isDayCompleted(['concept', 'prompt', 'example', 'your-turn'])).toBe(true);
+
+    // 3-step lesson
+    expect(calculateDailyProgress([], 3).percentage).toBe(0);
+    expect(calculateDailyProgress(['concept'], 3).percentage).toBe(33);
+    expect(calculateDailyProgress(['concept', 'prompt'], 3).percentage).toBe(67);
+    const full3 = calculateDailyProgress(['concept', 'prompt', 'your-turn'], 3);
+    expect(full3.percentage).toBe(100);
+    expect(full3.isCompleted).toBe(true);
+    expect(isDayCompleted(['concept', 'prompt', 'your-turn'], 3)).toBe(true);
   });
 
   it('calculates global progress over 9 lessons (completedDays / 9 * 100) and never counts partial lessons', () => {

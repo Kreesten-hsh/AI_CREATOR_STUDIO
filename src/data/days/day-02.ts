@@ -290,11 +290,11 @@ Pour chacune des 5 frictions :
         {
           id: 'day02-step3-context-ethics',
           type: 'prose',
-          eyebrow: '3.1 TRANSPARENCE DÉONTOLOGIQUE',
-          title: "Analyse critique du matériau interne (Cas Alexandre V.)",
+          eyebrow: "3.1 AUDIT D'UN EXEMPLE PÉDAGOGIQUE FICTIF",
+          title: "Analyse critique du profil acheteur (Cas d'école fictif)",
           paragraphs: [
-            "Pour illustrer concrètement la démarche, nous reprenons le fichier de démonstration interne utilisé au Jour 01 : public/demos/pdf-to-hub/avant-pdf-statique.html (« Le Système de Création Régulière », par Alexandre V.).",
-            "Avertissement déontologique rigoureux : Ce document est un support de simulation pédagogique conçu pour mettre en évidence les limites interactives d'un fichier PDF statique. Le lecteur affiche une mention « 12 pages », mais le code HTML ne contient physiquement que cinq blocs de pages visibles (Pages 1/12 à 5/12). Nous refusons formellement d'inventer des comportements d'acheteurs réels ou des anecdotes qui ne figurent pas dans le document.",
+            "Pour illustrer concrètement la démarche, nous reprenons le cas d'école fictif examiné à la Leçon 01 : public/demos/pdf-to-hub/avant-pdf-statique.html (« Le Système de Création Régulière », simulation d'un guide PDF).",
+            "Avertissement déontologique rigoureux : Ce document est un support de simulation conçu pour mettre en évidence les limites interactives d'un fichier PDF statique. Le lecteur affiche une mention « 12 pages », mais le code HTML ne contient physiquement que cinq blocs de pages visibles (Pages 1/12 à 5/12). Nous refusons formellement d'inventer des comportements d'acheteurs réels ou des anecdotes qui ne figurent pas dans le document.",
             "Voici comment extraire une analyse d'acheteur rigoureuse en séparant les faits documentés, les déductions sur le format et les hypothèses à vérifier sur le terrain.",
           ],
         },
@@ -318,7 +318,7 @@ Pour chacune des 5 frictions :
           eyebrow: '3.3 VIGILANCE ET ANTI-HALLUCINATION',
           title: 'Déconstruction critique et pièges à éviter',
           paragraphs: [
-            "Dans de nombreux cours de marketing génériques, on affirmerait ici : « Les consultants sont prêts à payer un abonnement de 29 euros par mois pour un outil de gestion éditoriale interactif ». Existe-t-il la moindre preuve de vente dans notre document source ? Aucune. Sur le marché des outils professionnels et de la formation, beaucoup d'indépendants manifestent une certaine réserve face à l'accumulation d'abonnements logiciels récurrents peu utilisés. Cette observation générale de marché constitue une hypothèse qualitative plausible pour le studio, mais elle n'est pas issue d'une mesure statistique de notre document test. Elle est donc rejetée comme certitude et conservée comme simple hypothèse de travail, qui sera mise à l'épreuve à la Leçon 04 (Format et hypothèse de prix) et au Module 03 (Mise en vente réelle sur Chariow).",
+            "Dans de nombreux cours de marketing génériques, on affirmerait ici : « Les consultants sont prêts à payer un abonnement de 29 euros par mois pour un outil de gestion éditoriale interactif ». Existe-t-il la moindre preuve de vente dans notre document source ? Aucune. Sur le marché des outils professionnels et de la formation, beaucoup d'indépendants manifestent une certaine réserve face à l'accumulation d'abonnements logiciels récurrents peu utilisés. Cette observation générale de marché constitue une hypothèse qualitative plausible pour un créateur, mais elle n'est pas issue d'une mesure statistique de notre document test. Elle est donc rejetée comme certitude et conservée comme simple hypothèse de travail, qui sera mise à l'épreuve à la Leçon 04 (Format et hypothèse de prix) et au Module 03 (Mise en vente réelle sur Chariow).",
             "Prenez garde à ces trois pièges fréquents lors de la rédaction de votre fiche acheteur :",
           ],
           bullets: [

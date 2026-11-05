@@ -247,7 +247,7 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
       );
 
       // Module 01 -> Leçon 1
-      const btnMod01 = screen.getByRole('button', { name: /L'OPPORTUNITÉ & LE POSITIONNEMENT/i });
+      const btnMod01 = screen.getByRole('button', { name: /L'OPPORTUNITÉ (&|ET) LE POSITIONNEMENT/i });
       fireEvent.click(btnMod01);
       expect(currentRoute).toMatchObject({
         kind: 'course',
@@ -256,7 +256,7 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
       });
 
       // Module 02 -> Leçon 4
-      const btnMod02 = screen.getByRole('button', { name: /CONCEVOIR & CRÉER AVEC CLAUDE/i });
+      const btnMod02 = screen.getByRole('button', { name: /CONCEVOIR (&|ET) CRÉER AVEC CLAUDE/i });
       fireEvent.click(btnMod02);
       expect(currentRoute).toMatchObject({
         kind: 'course',
@@ -265,7 +265,7 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
       });
 
       // Module 03 -> Leçon 7
-      const btnMod03 = screen.getByRole('button', { name: /VENDRE & PROMOUVOIR/i });
+      const btnMod03 = screen.getByRole('button', { name: /VENDRE (&|ET) PROMOUVOIR/i });
       fireEvent.click(btnMod03);
       expect(currentRoute).toMatchObject({
         kind: 'course',
@@ -293,10 +293,10 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
 
       fireEvent.click(screen.getByText('Set Module 02'));
 
-      const mod02Btn = screen.getByRole('button', { name: /CONCEVOIR & CRÉER AVEC CLAUDE/i });
+      const mod02Btn = screen.getByRole('button', { name: /CONCEVOIR (&|ET) CRÉER AVEC CLAUDE/i });
       expect(mod02Btn).toHaveAttribute('aria-current', 'page');
 
-      const mod01Btn = screen.getByRole('button', { name: /L'OPPORTUNITÉ & LE POSITIONNEMENT/i });
+      const mod01Btn = screen.getByRole('button', { name: /L'OPPORTUNITÉ (&|ET) LE POSITIONNEMENT/i });
       expect(mod01Btn).not.toHaveAttribute('aria-current');
     });
   });
@@ -545,7 +545,7 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
 
       expect(screen.getByRole('dialog')).toBeInTheDocument();
 
-      const courseBtn = screen.getByRole('button', { name: /CONCEVOIR & CRÉER AVEC CLAUDE/i });
+      const courseBtn = screen.getByRole('button', { name: /CONCEVOIR (&|ET) CRÉER AVEC CLAUDE/i });
       fireEvent.click(courseBtn);
 
       expect(onCloseMock).toHaveBeenCalled();

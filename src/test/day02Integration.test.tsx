@@ -276,7 +276,7 @@ describe('MISSION 05-D : Day 02 Epistemic Finalization & Full Integration Suite'
   // =========================================================================
   // 11. Étape 3 : Exemple guidé et Grille de Vérité en 3 colonnes
   // =========================================================================
-  it('11. présente le cas Alexandre V. avec avertissement déontologique (5 pages visibles) et Grille de Vérité en 3 colonnes', () => {
+  it('11. présente le cas d\'école fictif avec avertissement déontologique (5 pages visibles) et Grille de Vérité en 3 colonnes', () => {
     setupWorkspaceForDay(2, 'example');
     render(
       <ProgressProvider>
@@ -284,7 +284,7 @@ describe('MISSION 05-D : Day 02 Epistemic Finalization & Full Integration Suite'
       </ProgressProvider>
     );
 
-    expect(screen.getByText("Analyse critique du matériau interne (Cas Alexandre V.)")).toBeInTheDocument();
+    expect(screen.getByText("Analyse critique du profil acheteur (Cas d'école fictif)")).toBeInTheDocument();
     expect(
       screen.getByText(/le code HTML ne contient physiquement que cinq blocs de pages visibles \(Pages 1\/12 à 5\/12\)/i)
     ).toBeInTheDocument();

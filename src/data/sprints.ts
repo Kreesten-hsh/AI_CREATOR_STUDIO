@@ -4,7 +4,7 @@ export const SPRINTS: Sprint[] = [
   {
     id: 'module-01',
     sprintNumber: 1,
-    title: "L'OPPORTUNITÉ & LE POSITIONNEMENT",
+    title: "L'OPPORTUNITÉ ET LE POSITIONNEMENT",
     subtitle: 'Leçons 01 à 03',
     dayRange: [1, 3],
     deliverable:
@@ -13,16 +13,16 @@ export const SPRINTS: Sprint[] = [
   {
     id: 'module-02',
     sprintNumber: 2,
-    title: 'CONCEVOIR & CRÉER AVEC CLAUDE',
+    title: 'CONCEVOIR ET CRÉER AVEC CLAUDE',
     subtitle: 'Leçons 04 à 06',
     dayRange: [4, 6],
     deliverable:
-      'Produit digital interactif personnel, personnalisé, testé (hors ligne, HTTPS mobile et JSON) et exporté en ZIP.',
+      "Produit digital interactif personnel, personnalisé, testé et mis en ligne avec lien d'accès prêt pour la livraison client.",
   },
   {
     id: 'module-03',
     sprintNumber: 3,
-    title: 'VENDRE & PROMOUVOIR',
+    title: 'VENDRE ET PROMOUVOIR',
     subtitle: 'Leçons 07 à 09',
     dayRange: [7, 9],
     deliverable:

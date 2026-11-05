@@ -1,11 +1,12 @@
 import { ALL_STEP_TYPES, type StepType } from '../types/course';
 
 export const TOTAL_COURSE_DAYS = 9;
-export const STEPS_PER_DAY = 4;
+export const DEFAULT_STEPS_PER_DAY = 4;
+export const STEPS_PER_DAY = DEFAULT_STEPS_PER_DAY;
 
 export interface DailyProgressResult {
   completedCount: number;
-  total: 4;
+  total: number;
   percentage: number;
   isCompleted: boolean;
 }
@@ -30,28 +31,34 @@ export function normalizeStepList(steps: readonly StepType[] | undefined): StepT
   return ALL_STEP_TYPES.filter((step) => validSet.has(step));
 }
 
-export function isDayCompleted(completedSteps: readonly StepType[] | undefined): boolean {
+export function isDayCompleted(
+  completedSteps: readonly StepType[] | undefined,
+  totalSteps: number = DEFAULT_STEPS_PER_DAY
+): boolean {
   const normalized = normalizeStepList(completedSteps);
-  return normalized.length === STEPS_PER_DAY;
+  return normalized.length >= totalSteps && totalSteps > 0;
 }
 
 export function calculateDailyProgress(
-  completedSteps: readonly StepType[] | undefined
+  completedSteps: readonly StepType[] | undefined,
+  totalSteps: number = DEFAULT_STEPS_PER_DAY
 ): DailyProgressResult {
   const normalized = normalizeStepList(completedSteps);
-  const completedCount = normalized.length;
-  const percentage = Math.round((completedCount / STEPS_PER_DAY) * 100);
+  const safeTotal = totalSteps > 0 ? totalSteps : DEFAULT_STEPS_PER_DAY;
+  const completedCount = Math.min(normalized.length, safeTotal);
+  const percentage = Math.round((completedCount / safeTotal) * 100);
 
   return {
     completedCount,
-    total: STEPS_PER_DAY,
+    total: safeTotal,
     percentage,
-    isCompleted: completedCount === STEPS_PER_DAY,
+    isCompleted: completedCount >= safeTotal,
   };
 }
 
 export function calculateGlobalProgress(
-  completedStepsByDay: Readonly<Record<number, StepType[]>> | undefined
+  completedStepsByDay: Readonly<Record<number, StepType[]>> | undefined,
+  totalStepsByDay?: Readonly<Record<number, number>>
 ): GlobalProgressResult {
   if (!completedStepsByDay || typeof completedStepsByDay !== 'object') {
     return {
@@ -66,7 +73,8 @@ export function calculateGlobalProgress(
 
   for (let dayNum = 1; dayNum <= TOTAL_COURSE_DAYS; dayNum += 1) {
     const stepsForDay = completedStepsByDay[dayNum];
-    if (isDayCompleted(stepsForDay)) {
+    const totalSteps = totalStepsByDay?.[dayNum] ?? DEFAULT_STEPS_PER_DAY;
+    if (isDayCompleted(stepsForDay, totalSteps)) {
       completedDayNumbers.push(dayNum);
     }
   }

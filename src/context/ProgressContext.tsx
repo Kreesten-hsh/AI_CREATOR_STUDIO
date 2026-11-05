@@ -14,6 +14,7 @@ import {
   calculateGlobalProgress,
   normalizeStepList,
   TOTAL_COURSE_DAYS,
+  DEFAULT_STEPS_PER_DAY,
   type DailyProgressResult,
   type GlobalProgressResult,
 } from '../utils/progressCalculator';
@@ -25,6 +26,7 @@ import {
   saveProgressToStorage,
 } from '../utils/storage';
 import { getCourseById, resolveCourseIdForDay } from '../utils/courseNavigation';
+import { COURSE_DATA } from '../data/course';
 
 export interface ProgressContextValue {
   state: StudentProgress;
@@ -38,7 +40,12 @@ export interface ProgressContextValue {
   navigateToStartHere: (lessonId: string) => void;
   navigateToDay: (dayNumber: number, step?: StepType) => void;
   setActiveStepForDay: (dayNumber: number, step: StepType) => void;
-  completeStep: (dayNumber: number, step: StepType, advanceToNext?: boolean) => void;
+  completeStep: (
+    dayNumber: number,
+    step: StepType,
+    advanceToNext?: boolean,
+    explicitNextStep?: StepType
+  ) => void;
   toggleStartHereComplete: (lessonId: string) => void;
   isStartHereCompleted: (lessonId: string) => boolean;
   updateProfileField: (key: ProfileVariableKey, value: string) => void;
@@ -63,14 +70,24 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     saveProgressToStorage(state);
   }, [state]);
 
+  const stepCountByDay = useMemo(() => {
+    const map: Record<number, number> = {};
+    for (const d of COURSE_DATA.days) {
+      map[d.dayNumber] = d.steps.length;
+    }
+    return map;
+  }, []);
+
   const globalProgress = useMemo(
-    () => calculateGlobalProgress(state.completedStepsByDay),
-    [state.completedStepsByDay]
+    () => calculateGlobalProgress(state.completedStepsByDay, stepCountByDay),
+    [state.completedStepsByDay, stepCountByDay]
   );
 
   const getDayProgress = useCallback(
     (dayNumber: number): DailyProgressResult => {
-      return calculateDailyProgress(state.completedStepsByDay[dayNumber]);
+      const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNumber);
+      const totalSteps = day?.steps.length ?? DEFAULT_STEPS_PER_DAY;
+      return calculateDailyProgress(state.completedStepsByDay[dayNumber], totalSteps);
     },
     [state.completedStepsByDay]
   );
@@ -181,15 +198,33 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const completeStep = useCallback(
-    (dayNumber: number, step: StepType, advanceToNext = true) => {
+    (
+      dayNumber: number,
+      step: StepType,
+      advanceToNext = true,
+      explicitNextStep?: StepType
+    ) => {
       setState((prev) => {
         const existingSteps = prev.completedStepsByDay[dayNumber] ?? [];
         const updatedSteps = normalizeStepList([...existingSteps, step]);
-        const currentIdx = ALL_STEP_TYPES.indexOf(step);
-        const nextStep: StepType =
-          advanceToNext && currentIdx >= 0 && currentIdx < ALL_STEP_TYPES.length - 1
-            ? ALL_STEP_TYPES[currentIdx + 1]
-            : step;
+        const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNumber);
+
+        let nextStep: StepType = step;
+        if (advanceToNext) {
+          if (explicitNextStep) {
+            nextStep = explicitNextStep;
+          } else if (day) {
+            const currentIdx = day.steps.findIndex((s) => s.type === step);
+            if (currentIdx >= 0 && currentIdx < day.steps.length - 1) {
+              nextStep = day.steps[currentIdx + 1].type;
+            }
+          } else {
+            const currentIdx = ALL_STEP_TYPES.indexOf(step);
+            if (currentIdx >= 0 && currentIdx < ALL_STEP_TYPES.length - 1) {
+              nextStep = ALL_STEP_TYPES[currentIdx + 1];
+            }
+          }
+        }
 
         return {
           ...prev,
