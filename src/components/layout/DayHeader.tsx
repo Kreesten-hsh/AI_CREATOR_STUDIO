@@ -1,48 +1,67 @@
 import { motion } from 'framer-motion';
-import { COURSE_DATA } from '../../data/course';
+import { TOTAL_COURSE_LESSONS } from '../../data/course';
 import { useProgress } from '../../hooks/useProgress';
-import type { Day, Sprint } from '../../types/course';
-import type { DailyProgressResult } from '../../utils/progressCalculator';
+import type { CourseModule, Lesson } from '../../types/course';
+import type { DailyProgressResult, LessonProgressResult } from '../../utils/progressCalculator';
 
 export interface DayHeaderProps {
-  day: Partial<Day> & { dayNumber: number };
-  sprint?: Sprint;
-  progress?: DailyProgressResult;
+  lesson?: Partial<Lesson> & { lessonNumber: number };
+  day?: {
+    id?: string;
+    dayNumber?: number;
+    lessonNumber?: number;
+    title?: string;
+    italicTitleWord?: string;
+  };
+  sprint?: CourseModule;
+  progress?: LessonProgressResult | DailyProgressResult;
   completedDaysOverride?: number[];
 }
 
 export function DayHeader({
+  lesson,
   day,
   sprint,
   progress: progressProp,
 }: DayHeaderProps) {
-  const { getDayProgress } = useProgress();
+  const { getLessonProgress } = useProgress();
 
-  const dayNumber = day.dayNumber;
-  const paddedDay = String(dayNumber).padStart(2, '0');
-  const totalLessons = COURSE_DATA.totalDays;
+  const lessonNumber =
+    lesson?.lessonNumber ??
+    day?.lessonNumber ??
+    day?.dayNumber ??
+    1;
+  const dayNumber =
+    lesson?.dayNumber ??
+    day?.dayNumber ??
+    sprint?.dayNumber ??
+    1;
+  const paddedLesson = String(lessonNumber).padStart(2, '0');
+  const totalLessons = TOTAL_COURSE_LESSONS;
 
-  const currentProgress = progressProp ?? getDayProgress(dayNumber);
+  const currentProgress = progressProp ?? getLessonProgress(lessonNumber);
+
+  const titleSource: string = lesson?.title || day?.title || `Leçon ${paddedLesson}`;
+  const italicWord: string | undefined = lesson?.italicTitleWord ?? day?.italicTitleWord;
 
   const renderEditorialTitle = () => {
-    const title = day.title || `Leçon ${paddedDay}`;
-    if (!day.italicTitleWord) {
-      return title;
+    if (!italicWord) {
+      return titleSource;
     }
-    const regex = new RegExp(`(${day.italicTitleWord})`, 'i');
-    const parts = title.split(regex);
+    const regex = new RegExp(`(${italicWord})`, 'i');
+    const parts: string[] = titleSource.split(regex);
     if (parts.length === 1) {
       return (
         <>
-          {title}{' '}
+          {titleSource}{' '}
           <span className="font-serif italic font-normal lowercase text-2xl sm:text-3xl lg:text-4xl underline decoration-2 underline-offset-4 text-pale-pink">
-            {day.italicTitleWord}
+            {italicWord}
           </span>
         </>
       );
     }
-    return parts.map((part, idx) =>
-      part.toLowerCase() === day.italicTitleWord?.toLowerCase() ? (
+    return parts.map((part: string, idx: number) =>
+      part.toLowerCase() === italicWord.toLowerCase() ? (
         <span
           key={idx}
           className="font-serif italic font-normal lowercase text-2xl sm:text-3xl lg:text-4xl underline decoration-2 underline-offset-4 text-pale-pink mx-0.5"
@@ -67,7 +86,7 @@ export function DayHeader({
                 LEÇON
               </span>
               <span className="block font-serif text-4xl sm:text-5xl leading-none text-ink my-0.5">
-                {paddedDay}
+                {paddedLesson}
               </span>
               <span className="block font-mono text-[10px] font-bold uppercase tracking-widest text-primary-red">
                 SUR {String(totalLessons).padStart(2, '0')}
@@ -82,11 +101,11 @@ export function DayHeader({
               <div className="flex flex-wrap items-center gap-2 mb-2.5">
                 {sprint && (
                   <span className="px-2.5 py-0.5 bg-pale-pink text-ink border border-ink rounded-brutal-tag font-mono text-[11px] font-bold uppercase">
-                    MODULE {sprint.sprintNumber} : {sprint.title}
+                    MODULE {sprint.moduleNumber} : {sprint.title}
                   </span>
                 )}
                 <span className="px-2 py-0.5 bg-cream text-ink border border-ink/40 rounded-brutal-tag font-mono text-[10px] font-bold uppercase">
-                  LEÇON {paddedDay}
+                  JOURNÉE {dayNumber} • LEÇON {paddedLesson}
                 </span>
               </div>
 
@@ -114,7 +133,7 @@ export function DayHeader({
           aria-valuenow={currentProgress.percentage}
           aria-valuemin={0}
           aria-valuemax={100}
-          aria-label={`Progression de la leçon ${paddedDay}`}
+          aria-label={`Progression de la leçon ${paddedLesson}`}
           className="h-2.5 bg-cream border-t-2 border-ink w-full overflow-hidden"
         >
           <motion.div

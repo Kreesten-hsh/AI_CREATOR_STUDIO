@@ -1,18 +1,24 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import type {
-  ActiveRoute,
+  Lesson,
+  LessonId,
   ProfileVariableKey,
   QuizAttemptState,
   StudentProgress,
   VibeSelection,
 } from '../types/course';
 import {
-  calculateDailyProgress,
+  calculateDayProgress,
   calculateGlobalProgress,
+  calculateLessonProgress,
+  calculateModuleProgress,
   normalizeStepIdList,
   TOTAL_COURSE_DAYS,
-  type DailyProgressResult,
+  TOTAL_COURSE_LESSONS,
+  type DayProgressResult,
   type GlobalProgressResult,
+  type LessonProgressResult,
+  type ModuleProgressResult,
 } from '../utils/progressCalculator';
 import {
   createInitialProgress,
@@ -21,32 +27,43 @@ import {
   loadProgressFromStorage,
   saveProgressToStorage,
 } from '../utils/storage';
-import { getCourseById, resolveCourseIdForDay } from '../utils/courseNavigation';
-import { COURSE_DATA } from '../data/course';
+import {
+  getCourseById,
+  getDayById,
+  getDayByNumber,
+  getLessonById,
+  getLessonByNumber,
+} from '../utils/courseNavigation';
+import { ALL_DAYS, ALL_LESSONS } from '../data/course';
+import { COURSE_MODULES } from '../data/sprints';
+
+function resolveLessonEntity(lessonIdOrNumber: string | number): Lesson | undefined {
+  if (typeof lessonIdOrNumber === 'number') {
+    const clamped = Math.max(1, Math.min(TOTAL_COURSE_LESSONS, lessonIdOrNumber));
+    return getLessonByNumber(clamped);
+  }
+  return getLessonById(lessonIdOrNumber);
+}
 
 export interface ProgressContextValue {
   state: StudentProgress;
   globalProgress: GlobalProgressResult;
-  getDayProgress: (dayNumber: number) => DailyProgressResult;
-  getActiveStepIdForDay: (dayNumber: number) => string;
-  getActiveStepForDay: (dayNumber: number) => string;
+  getLessonProgress: (lessonIdOrNumber: string | number) => LessonProgressResult;
+  getDayProgress: (dayNumberOrId: number | string) => DayProgressResult;
+  getModuleProgress: (moduleId: string) => ModuleProgressResult;
+  getActiveStepIdForLesson: (lessonIdOrNumber: string | number) => string;
   navigateToHome: () => void;
-  navigateToCourse: (courseId: string, dayNumber?: number, lessonId?: string) => void;
+  navigateToLesson: (lessonIdOrNumber: string | number, stepId?: string) => void;
+  navigateToDay: (dayNumber: number, lessonId?: LessonId) => void;
+  navigateToCourse: (courseId: string, lessonIdOrNumber?: string | number) => void;
   navigateToBonus: (bonusId: string) => void;
-  navigateToResources: () => void;
-  navigateToPracticalSheets: () => void;
-  navigateToStartHere: (lessonId: string) => void;
-  navigateToDay: (dayNumber: number, stepId?: string) => void;
-  setActiveStepIdForDay: (dayNumber: number, stepId: string) => void;
-  setActiveStepForDay: (dayNumber: number, stepId: string) => void;
+  setActiveStepIdForLesson: (lessonIdOrNumber: string | number, stepId: string) => void;
   completeStep: (
-    dayNumber: number,
+    lessonIdOrNumber: string | number,
     stepId: string,
     advanceToNext?: boolean,
     explicitNextStepId?: string
   ) => void;
-  toggleStartHereComplete: (lessonId: string) => void;
-  isStartHereCompleted: (lessonId: string) => boolean;
   updateProfileField: (key: ProfileVariableKey, value: string) => void;
   updateCustomVariable: (key: string, value: string) => void;
   updateVibeSelection: (vibe: VibeSelection, brandStyleSummary: string) => void;
@@ -70,33 +87,60 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   }, [state]);
 
   const globalProgress = useMemo<GlobalProgressResult>(() => {
-    const totalStepsByDay: Record<number, number> = {};
-    for (const d of COURSE_DATA.days) {
-      totalStepsByDay[d.dayNumber] = d.steps.length;
-    }
-    return calculateGlobalProgress(state.completedStepIdsByDay, totalStepsByDay);
-  }, [state.completedStepIdsByDay]);
+    return calculateGlobalProgress(state.completedStepIdsByLesson, ALL_DAYS, COURSE_MODULES);
+  }, [state.completedStepIdsByLesson]);
 
-  const getDayProgress = useCallback(
-    (dayNumber: number): DailyProgressResult => {
-      const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNumber);
-      const totalSteps = day ? day.steps.length : 0;
-      return calculateDailyProgress(state.completedStepIdsByDay[dayNumber], totalSteps);
+  const getLessonProgress = useCallback(
+    (lessonIdOrNumber: string | number): LessonProgressResult => {
+      const lesson =
+        typeof lessonIdOrNumber === 'number'
+          ? getLessonByNumber(lessonIdOrNumber)
+          : getLessonById(lessonIdOrNumber);
+      if (!lesson) {
+        return {
+          completedStepIds: [],
+          completedCount: 0,
+          totalSteps: 0,
+          total: 0,
+          percentage: 0,
+          isCompleted: false,
+        };
+      }
+      return calculateLessonProgress(state.completedStepIdsByLesson[lesson.id], lesson.steps);
     },
-    [state.completedStepIdsByDay]
+    [state.completedStepIdsByLesson]
   );
 
-  const getActiveStepIdForDay = useCallback(
-    (dayNumber: number): string => {
-      const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNumber);
-      if (!day) return '';
-      const explicit = state.activeStepIdByDay[dayNumber];
-      if (explicit && day.steps.some((s) => s.id === explicit)) {
+  const getDayProgress = useCallback(
+    (dayNumberOrId: number | string): DayProgressResult => {
+      const day =
+        typeof dayNumberOrId === 'number'
+          ? getDayByNumber(dayNumberOrId)
+          : getDayById(dayNumberOrId);
+      return calculateDayProgress(day, state.completedStepIdsByLesson);
+    },
+    [state.completedStepIdsByLesson]
+  );
+
+  const getModuleProgress = useCallback(
+    (moduleId: string): ModuleProgressResult => {
+      const mod = getCourseById(moduleId);
+      return calculateModuleProgress(mod, ALL_DAYS, state.completedStepIdsByLesson);
+    },
+    [state.completedStepIdsByLesson]
+  );
+
+  const getActiveStepIdForLesson = useCallback(
+    (lessonIdOrNumber: string | number): string => {
+      const lesson = resolveLessonEntity(lessonIdOrNumber);
+      if (!lesson) return '';
+      const explicit = state.activeStepIdByLesson[lesson.id];
+      if (explicit && lesson.steps.some((s) => s.id === explicit)) {
         return explicit;
       }
-      return day.steps[0]?.id ?? '';
+      return lesson.steps[0]?.id ?? '';
     },
-    [state.activeStepIdByDay]
+    [state.activeStepIdByLesson]
   );
 
   const navigateToHome = useCallback(() => {
@@ -107,31 +151,92 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     }));
   }, []);
 
-  const navigateToCourse = useCallback(
-    (courseId: string, targetDayNumber?: number, _lessonId?: string) => {
+  const navigateToLesson = useCallback(
+    (lessonIdOrNumber: string | number, stepId?: string) => {
       setState((prev) => {
-        const course = getCourseById(courseId);
-        const startDay = course?.dayRange?.[0] ?? 1;
-        const endDay = course?.dayRange?.[1] ?? TOTAL_COURSE_DAYS;
-        let dayNum = targetDayNumber ?? startDay;
-        if (dayNum < startDay || dayNum > endDay) {
-          dayNum = startDay;
+        const lesson = resolveLessonEntity(lessonIdOrNumber) ?? ALL_LESSONS[0];
+        const nextStepId =
+          stepId ?? prev.activeStepIdByLesson[lesson.id] ?? lesson.steps[0]?.id ?? '';
+
+        return {
+          ...prev,
+          activeRoute: { kind: 'lesson', lessonId: lesson.id },
+          activeStepIdByLesson: nextStepId
+            ? {
+                ...prev.activeStepIdByLesson,
+                [lesson.id]: nextStepId,
+              }
+            : prev.activeStepIdByLesson,
+          lastUpdated: new Date().toISOString(),
+        };
+      });
+    },
+    []
+  );
+
+  const navigateToDay = useCallback((dayNumber: number, explicitLessonId?: LessonId) => {
+    setState((prev) => {
+      const safeDayNum = Math.max(1, Math.min(TOTAL_COURSE_DAYS, dayNumber));
+      const day = getDayByNumber(safeDayNum) ?? ALL_DAYS[0];
+      const targetLesson =
+        (explicitLessonId
+          ? day.lessons.find((l) => l.id === explicitLessonId)
+          : undefined) ??
+        day.lessons[0] ??
+        ALL_LESSONS[0];
+
+      const activeStepId =
+        prev.activeStepIdByLesson[targetLesson.id] ?? targetLesson.steps[0]?.id ?? '';
+
+      return {
+        ...prev,
+        activeRoute: { kind: 'lesson', lessonId: targetLesson.id },
+        activeStepIdByLesson: activeStepId
+          ? {
+              ...prev.activeStepIdByLesson,
+              [targetLesson.id]: activeStepId,
+            }
+          : prev.activeStepIdByLesson,
+        lastUpdated: new Date().toISOString(),
+      };
+    });
+  }, []);
+
+  const navigateToCourse = useCallback(
+    (courseId: string, lessonIdOrNumber?: string | number) => {
+      setState((prev) => {
+        const course = getCourseById(courseId) ?? COURSE_MODULES[0];
+        let targetLesson: Lesson | undefined;
+
+        if (lessonIdOrNumber !== undefined) {
+          const candidate =
+            typeof lessonIdOrNumber === 'number'
+              ? getLessonByNumber(lessonIdOrNumber)
+              : getLessonById(lessonIdOrNumber);
+          if (candidate && candidate.moduleId === course.id) {
+            targetLesson = candidate;
+          }
         }
 
-        const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNum);
-        const activeStepId = prev.activeStepIdByDay[dayNum] ?? day?.steps[0]?.id ?? '';
+        if (!targetLesson) {
+          targetLesson = getLessonById(course.lessonIds[0]) ?? ALL_LESSONS[0];
+        }
+
+        const activeStepId =
+          prev.activeStepIdByLesson[targetLesson.id] ?? targetLesson.steps[0]?.id ?? '';
 
         return {
           ...prev,
           activeRoute: {
-            kind: 'course',
-            courseId,
-            dayNumber: dayNum,
+            kind: 'lesson',
+            lessonId: targetLesson.id,
           },
-          activeStepIdByDay: {
-            ...prev.activeStepIdByDay,
-            [dayNum]: activeStepId,
-          },
+          activeStepIdByLesson: activeStepId
+            ? {
+                ...prev.activeStepIdByLesson,
+                [targetLesson.id]: activeStepId,
+              }
+            : prev.activeStepIdByLesson,
           lastUpdated: new Date().toISOString(),
         };
       });
@@ -147,98 +252,16 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     }));
   }, []);
 
-  const navigateToResources = useCallback(() => {
-    setState((prev) => ({
-      ...prev,
-      activeRoute: { kind: 'resources' },
-      lastUpdated: new Date().toISOString(),
-    }));
-  }, []);
-
-  const navigateToPracticalSheets = useCallback(() => {
-    setState((prev) => ({
-      ...prev,
-      activeRoute: { kind: 'practical-sheets' },
-      lastUpdated: new Date().toISOString(),
-    }));
-  }, []);
-
-  const navigateToStartHere = useCallback((lessonId: string) => {
-    const validLessonId = lessonId === 'setup' ? 'setup' : 'introduction';
-    const nextRoute: ActiveRoute = {
-      kind: 'start-here' as const,
-      lessonId: validLessonId,
-    } as unknown as ActiveRoute;
-    setState((prev) => ({
-      ...prev,
-      activeRoute: nextRoute,
-      lastUpdated: new Date().toISOString(),
-    }));
-  }, []);
-
-  const navigateToDay = useCallback((dayNumber: number, stepId?: string) => {
-    setState((prev) => {
-      const safeDay = Math.max(1, Math.min(TOTAL_COURSE_DAYS, dayNumber));
-      const courseId = resolveCourseIdForDay(safeDay) ?? 'module-01';
-      const day = COURSE_DATA.days.find((d) => d.dayNumber === safeDay);
-      const nextStepId = stepId ?? prev.activeStepIdByDay[safeDay] ?? day?.steps[0]?.id ?? '';
-
-      return {
-        ...prev,
-        activeRoute: { kind: 'course', courseId, dayNumber: safeDay },
-        activeStepIdByDay: {
-          ...prev.activeStepIdByDay,
-          [safeDay]: nextStepId,
-        },
-        lastUpdated: new Date().toISOString(),
-      };
-    });
-  }, []);
-
-  const setActiveStepIdForDay = useCallback((dayNumber: number, stepId: string) => {
-    setState((prev) => ({
-      ...prev,
-      activeStepIdByDay: {
-        ...prev.activeStepIdByDay,
-        [dayNumber]: stepId,
-      },
-      lastUpdated: new Date().toISOString(),
-    }));
-  }, []);
-
-  const completeStep = useCallback(
-    (
-      dayNumber: number,
-      stepId: string,
-      advanceToNext = true,
-      explicitNextStepId?: string
-    ) => {
+  const setActiveStepIdForLesson = useCallback(
+    (lessonIdOrNumber: string | number, stepId: string) => {
       setState((prev) => {
-        const existingSteps = prev.completedStepIdsByDay[dayNumber] ?? [];
-        const updatedSteps = normalizeStepIdList([...existingSteps, stepId]);
-        const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNumber);
-
-        let nextStepId: string = stepId;
-        if (advanceToNext) {
-          if (explicitNextStepId) {
-            nextStepId = explicitNextStepId;
-          } else if (day) {
-            const currentIdx = day.steps.findIndex((s) => s.id === stepId);
-            if (currentIdx >= 0 && currentIdx < day.steps.length - 1) {
-              nextStepId = day.steps[currentIdx + 1].id;
-            }
-          }
-        }
-
+        const lesson = resolveLessonEntity(lessonIdOrNumber);
+        if (!lesson) return prev;
         return {
           ...prev,
-          completedStepIdsByDay: {
-            ...prev.completedStepIdsByDay,
-            [dayNumber]: updatedSteps,
-          },
-          activeStepIdByDay: {
-            ...prev.activeStepIdByDay,
-            [dayNumber]: nextStepId,
+          activeStepIdByLesson: {
+            ...prev.activeStepIdByLesson,
+            [lesson.id]: stepId,
           },
           lastUpdated: new Date().toISOString(),
         };
@@ -247,23 +270,47 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     []
   );
 
-  const toggleStartHereComplete = useCallback((lessonId: string) => {
-    setState((prev) => {
-      const exists = prev.completedStartHereIds.includes(lessonId);
-      const next = exists
-        ? prev.completedStartHereIds.filter((id) => id !== lessonId)
-        : [...prev.completedStartHereIds, lessonId];
-      return {
-        ...prev,
-        completedStartHereIds: next,
-        lastUpdated: new Date().toISOString(),
-      };
-    });
-  }, []);
+  const completeStep = useCallback(
+    (
+      lessonIdOrNumber: string | number,
+      stepId: string,
+      advanceToNext = true,
+      explicitNextStepId?: string
+    ) => {
+      setState((prev) => {
+        const lesson = resolveLessonEntity(lessonIdOrNumber);
+        if (!lesson) return prev;
 
-  const isStartHereCompleted = useCallback(
-    (lessonId: string) => state.completedStartHereIds.includes(lessonId),
-    [state.completedStartHereIds]
+        const existingSteps = prev.completedStepIdsByLesson[lesson.id] ?? [];
+        const updatedSteps = normalizeStepIdList([...existingSteps, stepId]);
+
+        let nextStepId: string = stepId;
+        if (advanceToNext) {
+          if (explicitNextStepId) {
+            nextStepId = explicitNextStepId;
+          } else {
+            const currentIdx = lesson.steps.findIndex((s) => s.id === stepId);
+            if (currentIdx >= 0 && currentIdx < lesson.steps.length - 1) {
+              nextStepId = lesson.steps[currentIdx + 1].id;
+            }
+          }
+        }
+
+        return {
+          ...prev,
+          completedStepIdsByLesson: {
+            ...prev.completedStepIdsByLesson,
+            [lesson.id]: updatedSteps,
+          },
+          activeStepIdByLesson: {
+            ...prev.activeStepIdByLesson,
+            [lesson.id]: nextStepId,
+          },
+          lastUpdated: new Date().toISOString(),
+        };
+      });
+    },
+    []
   );
 
   const updateProfileField = useCallback((key: ProfileVariableKey, value: string) => {
@@ -424,21 +471,17 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     () => ({
       state,
       globalProgress,
+      getLessonProgress,
       getDayProgress,
-      getActiveStepIdForDay,
-      getActiveStepForDay: getActiveStepIdForDay,
+      getModuleProgress,
+      getActiveStepIdForLesson,
       navigateToHome,
+      navigateToLesson,
+      navigateToDay,
       navigateToCourse,
       navigateToBonus,
-      navigateToResources,
-      navigateToPracticalSheets,
-      navigateToStartHere,
-      navigateToDay,
-      setActiveStepIdForDay,
-      setActiveStepForDay: setActiveStepIdForDay,
+      setActiveStepIdForLesson,
       completeStep,
-      toggleStartHereComplete,
-      isStartHereCompleted,
       updateProfileField,
       updateCustomVariable,
       updateVibeSelection,
@@ -454,19 +497,17 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [
       state,
       globalProgress,
+      getLessonProgress,
       getDayProgress,
-      getActiveStepIdForDay,
+      getModuleProgress,
+      getActiveStepIdForLesson,
       navigateToHome,
+      navigateToLesson,
+      navigateToDay,
       navigateToCourse,
       navigateToBonus,
-      navigateToResources,
-      navigateToPracticalSheets,
-      navigateToStartHere,
-      navigateToDay,
-      setActiveStepIdForDay,
+      setActiveStepIdForLesson,
       completeStep,
-      toggleStartHereComplete,
-      isStartHereCompleted,
       updateProfileField,
       updateCustomVariable,
       updateVibeSelection,

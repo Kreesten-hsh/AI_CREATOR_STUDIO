@@ -5,51 +5,54 @@ import { ProgressProvider } from '../context/ProgressContext';
 import { CourseWorkspaceRouter } from '../app/routes';
 import { createInitialProgress, saveProgressToStorage } from '../utils/storage';
 
-describe('Jour 03 : Remise à zéro et état vide', () => {
+describe('Journée 3 (Module 3 — PUBLIER ET LIVRER) : Leçons 06 et 07 en état squelette', () => {
   beforeEach(() => {
     localStorage.clear();
+  });
+
+  it('affiche la Leçon 06 (Journée 3, Module 3 : PUBLIER ET LIVRER)', () => {
     const initial = createInitialProgress();
     initial.activeRoute = {
-      kind: 'course',
-      courseId: 'module-01',
-      dayNumber: 3,
+      kind: 'lesson',
+      lessonId: 'lesson-06',
     };
     saveProgressToStorage(initial);
-  });
 
-  it('affiche le titre validé du Jour 03 et le badge de module', () => {
     render(
       <ProgressProvider>
         <CourseWorkspaceRouter />
       </ProgressProvider>
     );
 
-    expect(screen.getByText('03')).toBeInTheDocument();
-    expect(screen.getByText(/MODULE 1 : Opportunité et positionnement/i)).toBeInTheDocument();
+    expect(screen.getByText('06')).toBeInTheDocument();
+    expect(screen.getByText(/MODULE 3 : PUBLIER ET LIVRER/i)).toBeInTheDocument();
     expect(
-      screen.getByText('Définir sa solution et sa promesse.')
+      screen.getByText(/Publier son application sur/i)
     ).toBeInTheDocument();
-  });
-
-  it('affiche le message d état de reconstruction de la leçon', () => {
-    render(
-      <ProgressProvider>
-        <CourseWorkspaceRouter />
-      </ProgressProvider>
-    );
-
     expect(
       screen.getByText('Cette leçon est en cours de reconstruction.')
     ).toBeInTheDocument();
   });
 
-  it('ne propose aucun bouton de complétion ni onglet d étape', () => {
+  it('affiche la Leçon 07 (Journée 3, Module 3 : PUBLIER ET LIVRER) sans bouton de complétion', () => {
+    const initial = createInitialProgress();
+    initial.activeRoute = {
+      kind: 'lesson',
+      lessonId: 'lesson-07',
+    };
+    saveProgressToStorage(initial);
+
     render(
       <ProgressProvider>
         <CourseWorkspaceRouter />
       </ProgressProvider>
     );
 
+    expect(screen.getByText('07')).toBeInTheDocument();
+    expect(screen.getByText(/MODULE 3 : PUBLIER ET LIVRER/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Organiser la livraison via Chariow/i)
+    ).toBeInTheDocument();
     expect(screen.queryByRole('tablist')).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /valider/i })).not.toBeInTheDocument();
   });

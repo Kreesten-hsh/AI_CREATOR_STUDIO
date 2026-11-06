@@ -18,7 +18,7 @@ export function isValidVideoUrl(
   if (!urlStr || typeof urlStr !== 'string') return false;
   const trimmed = urlStr.trim();
 
-  // Règle de sécurité : https uniquement (Adjustment 7)
+  // Règle de sécurité : https uniquement
   if (!trimmed.startsWith('https://')) return false;
 
   try {

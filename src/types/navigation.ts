@@ -1,16 +1,6 @@
-import type { ContentBlock } from './course';
+import type { ContentBlock, CourseModule } from './course';
 
-export interface CourseModuleItem {
-  id: string;
-  orderNumber: string; // e.g. "01", "02"
-  title: string;
-  subtitle: string;
-  lessonCount: number;
-  available: boolean;
-  dayRange?: [number, number];
-  badge?: string;
-  description: string;
-}
+export type CourseModuleItem = CourseModule;
 
 export interface BonusItem {
   id: string;
@@ -22,19 +12,4 @@ export interface BonusItem {
   description: string;
   keyTopics: string[];
   blocks?: ContentBlock[];
-}
-
-export interface ResourceCategoryItem {
-  id: string;
-  title: string;
-  description: string;
-  items: Array<{
-    id: string;
-    title: string;
-    format: string;
-    description: string;
-    url?: string;
-    downloadFilename?: string;
-    content?: string;
-  }>;
 }

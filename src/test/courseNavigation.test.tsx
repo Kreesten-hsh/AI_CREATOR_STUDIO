@@ -5,12 +5,14 @@ import { MAIN_COURSES } from '../data/navigation/mainCourses';
 import { COURSE_DATA } from '../data/course';
 import {
   getCourseById,
+  getCourseByLessonNumber,
   getCourseByDayNumber,
-  isDayInCourse,
+  isLessonInCourse,
+  resolveCourseIdForLesson,
   resolveCourseIdForDay,
   resolveActiveCourseId,
-  getCourseDays,
-  formatCourseDayRangeTitle,
+  getCourseLessons,
+  formatCourseLessonRangeTitle,
   validateCourseIntegrity,
   assertCourseIntegrity,
   normalizeActiveRoute,
@@ -22,70 +24,80 @@ import { MainSidebar } from '../components/layout/MainSidebar';
 import { CourseSidebar } from '../components/course/CourseSidebar';
 import { MobileNavigation } from '../components/layout/MobileNavigation';
 
-describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons)', () => {
+describe('V4 : Course Navigation and Routing Verification (3 Modules / 3 Days / 7 Lessons)', () => {
   beforeEach(() => {
     window.localStorage.clear();
   });
 
   // =========================================================================
-  // SECTION A : Tests de correspondance des 9 leçons et 3 frontières de modules
+  // SECTION A : Tests de correspondance des 7 leçons, 3 journées et 3 modules (2 + 3 + 2)
   // =========================================================================
-  describe('A. Correspondance des 9 leçons & 3 modules officiels', () => {
-    it('associe chaque leçon de 1 à 3 à module-01', () => {
-      for (let day = 1; day <= 3; day++) {
-        expect(resolveCourseIdForDay(day)).toBe('module-01');
-        expect(isDayInCourse(day, 'module-01')).toBe(true);
+  describe('A. Correspondance des 7 leçons, 3 journées & 3 modules officiels', () => {
+    it('associe les leçons 1 et 2 à module-01 / day-01', () => {
+      for (const lessonNum of [1, 2]) {
+        expect(resolveCourseIdForLesson(lessonNum)).toBe('module-01');
+        expect(isLessonInCourse(lessonNum, 'module-01')).toBe(true);
+        expect(isLessonInCourse(lessonNum, 'module-02')).toBe(false);
       }
-    });
-
-    it('associe chaque leçon de 4 à 6 à module-02', () => {
-      for (let day = 4; day <= 6; day++) {
-        expect(resolveCourseIdForDay(day)).toBe('module-02');
-        expect(isDayInCourse(day, 'module-02')).toBe(true);
-      }
-    });
-
-    it('associe chaque leçon de 7 à 9 à module-03', () => {
-      for (let day = 7; day <= 9; day++) {
-        expect(resolveCourseIdForDay(day)).toBe('module-03');
-        expect(isDayInCourse(day, 'module-03')).toBe(true);
-      }
-    });
-
-    it('vérifie rigoureusement les trois frontières officielles', () => {
       expect(resolveCourseIdForDay(1)).toBe('module-01');
-      expect(resolveCourseIdForDay(3)).toBe('module-01');
-      expect(resolveCourseIdForDay(4)).toBe('module-02');
-      expect(resolveCourseIdForDay(6)).toBe('module-02');
-      expect(resolveCourseIdForDay(7)).toBe('module-03');
-      expect(resolveCourseIdForDay(9)).toBe('module-03');
+    });
+
+    it('associe les leçons 3, 4 et 5 à module-02 / day-02', () => {
+      for (const lessonNum of [3, 4, 5]) {
+        expect(resolveCourseIdForLesson(lessonNum)).toBe('module-02');
+        expect(isLessonInCourse(lessonNum, 'module-02')).toBe(true);
+        expect(isLessonInCourse(lessonNum, 'module-01')).toBe(false);
+      }
+      expect(resolveCourseIdForDay(2)).toBe('module-02');
+    });
+
+    it('associe les leçons 6 et 7 à module-03 / day-03', () => {
+      for (const lessonNum of [6, 7]) {
+        expect(resolveCourseIdForLesson(lessonNum)).toBe('module-03');
+        expect(isLessonInCourse(lessonNum, 'module-03')).toBe(true);
+        expect(isLessonInCourse(lessonNum, 'module-02')).toBe(false);
+      }
+      expect(resolveCourseIdForDay(3)).toBe('module-03');
+    });
+
+    it('vérifie rigoureusement les frontières officielles 2 + 3 + 2', () => {
+      expect(resolveCourseIdForLesson(1)).toBe('module-01');
+      expect(resolveCourseIdForLesson(2)).toBe('module-01');
+      expect(resolveCourseIdForLesson(3)).toBe('module-02');
+      expect(resolveCourseIdForLesson(5)).toBe('module-02');
+      expect(resolveCourseIdForLesson(6)).toBe('module-03');
+      expect(resolveCourseIdForLesson(7)).toBe('module-03');
     });
 
     it('formate correctement les titres de plages de leçons', () => {
-      expect(formatCourseDayRangeTitle([1, 3])).toBe('LEÇONS 1 À 3');
-      expect(formatCourseDayRangeTitle([4, 6])).toBe('LEÇONS 4 À 6');
-      expect(formatCourseDayRangeTitle([7, 9])).toBe('LEÇONS 7 À 9');
+      expect(formatCourseLessonRangeTitle([1, 2])).toBe('LEÇONS 1 À 2');
+      expect(formatCourseLessonRangeTitle([3, 5])).toBe('LEÇONS 3 À 5');
+      expect(formatCourseLessonRangeTitle([6, 7])).toBe('LEÇONS 6 À 7');
     });
 
-    it('récupère le module correspondant via getCourseByDayNumber pour les 9 leçons', () => {
+    it('récupère le module correspondant via getCourseByLessonNumber pour les 7 leçons et getCourseByDayNumber pour les 3 journées', () => {
       expect(MAIN_COURSES).toHaveLength(3);
-      for (let day = 1; day <= 9; day++) {
-        const course = getCourseByDayNumber(day);
+      for (let lessonNum = 1; lessonNum <= 7; lessonNum++) {
+        const course = getCourseByLessonNumber(lessonNum);
         expect(course).toBeDefined();
-        expect(course?.id).toBe(resolveCourseIdForDay(day));
+        expect(course?.id).toBe(resolveCourseIdForLesson(lessonNum));
+      }
+      for (let dayNum = 1; dayNum <= 3; dayNum++) {
+        const course = getCourseByDayNumber(dayNum);
+        expect(course).toBeDefined();
+        expect(course?.id).toBe(`module-0${dayNum}`);
       }
     });
 
-    it('résout le module actif depuis les différents formats de routes', () => {
+    it('résout le module actif depuis la route canonique', () => {
       expect(resolveActiveCourseId({ kind: 'home' })).toBeNull();
       expect(resolveActiveCourseId({ kind: 'bonus', bonusId: 'bonus-manychat' })).toBeNull();
-      expect(resolveActiveCourseId({ kind: 'resources' })).toBeNull();
-      expect(resolveActiveCourseId({ kind: 'practical-sheets' })).toBeNull();
-      expect(resolveActiveCourseId({ kind: 'day', dayNumber: 5 })).toBe('module-02');
-      expect(resolveActiveCourseId({ kind: 'course', courseId: 'module-03', dayNumber: 7 })).toBe('module-03');
+      expect(resolveActiveCourseId({ kind: 'lesson', lessonId: 'lesson-01' })).toBe('module-01');
+      expect(resolveActiveCourseId({ kind: 'lesson', lessonId: 'lesson-04' })).toBe('module-02');
+      expect(resolveActiveCourseId({ kind: 'lesson', lessonId: 'lesson-07' })).toBe('module-03');
     });
 
-    it("valide l'intégrité stricte des trois modules officiels", () => {
+    it("valide l'intégrité stricte des 3 modules, 3 journées et 7 leçons", () => {
       const integrity = validateCourseIntegrity(MAIN_COURSES);
       expect(integrity.isValid).toBe(true);
       expect(integrity.errors).toHaveLength(0);
@@ -93,12 +105,10 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
     });
 
     it("détecte les anomalies d'intégrité du cursus (trous, chevauchements, nombre, identifiants)", () => {
-      // 1. Nombre de modules incorrect
       const invalidCount = validateCourseIntegrity(MAIN_COURSES.slice(0, 2));
       expect(invalidCount.isValid).toBe(false);
       expect(invalidCount.errors.some((e) => e.includes('Attendu 3 modules'))).toBe(true);
 
-      // 2. Identifiants dupliqués
       const duplicatedIds = validateCourseIntegrity([
         ...MAIN_COURSES.slice(0, 2),
         { ...MAIN_COURSES[0], id: 'module-02' },
@@ -106,89 +116,64 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
       expect(duplicatedIds.isValid).toBe(false);
       expect(duplicatedIds.errors.some((e) => e.includes('dupliqués'))).toBe(true);
 
-      // 3. Chevauchement de leçons
       const overlappingCourses = MAIN_COURSES.map((c) =>
-        c.id === 'module-02' ? { ...c, dayRange: [3, 6] as [number, number] } : c
+        c.id === 'module-02' ? { ...c, lessonRange: [2, 5] as [number, number] } : c
       );
       const overlapResult = validateCourseIntegrity(overlappingCourses);
       expect(overlapResult.isValid).toBe(false);
       expect(overlapResult.errors.some((e) => e.includes('chevauchement'))).toBe(true);
 
-      // 4. Trou dans les leçons
       const gapCourses = MAIN_COURSES.map((c) =>
-        c.id === 'module-01' ? { ...c, dayRange: [1, 2] as [number, number] } : c
+        c.id === 'module-01' ? { ...c, lessonRange: [1, 1] as [number, number] } : c
       );
       const gapResult = validateCourseIntegrity(gapCourses);
       expect(gapResult.isValid).toBe(false);
       expect(gapResult.errors.some((e) => e.includes('trou'))).toBe(true);
 
-      // 5. assertCourseIntegrity lève une exception en cas de violation
       expect(() => assertCourseIntegrity(gapCourses)).toThrowError(/Violation de l'intégrité/);
     });
 
-    it('élimine le masquage silencieux dans resolveCourseIdForDay pour les leçons hors plage', () => {
+    it('élimine le masquage silencieux dans resolveCourseIdForLesson et resolveCourseIdForDay', () => {
+      expect(resolveCourseIdForLesson(0)).toBeNull();
+      expect(resolveCourseIdForLesson(8)).toBeNull();
+      expect(resolveCourseIdForLesson(9)).toBeNull();
+      expect(resolveCourseIdForLesson(99, 'module-01')).toBe('module-01');
+
       expect(resolveCourseIdForDay(0)).toBeNull();
-      expect(resolveCourseIdForDay(10)).toBeNull();
-      expect(resolveCourseIdForDay(-5)).toBeNull();
-      expect(resolveCourseIdForDay(99)).toBeNull();
-
-      expect(resolveCourseIdForDay(99, 'module-01')).toBe('module-01');
-      expect(resolveCourseIdForDay(0, 'custom-fallback')).toBe('custom-fallback');
-
-      expect(resolveCourseIdForDay(1)).toBe('module-01');
-      expect(resolveCourseIdForDay(4)).toBe('module-02');
-      expect(resolveCourseIdForDay(7)).toBe('module-03');
+      expect(resolveCourseIdForDay(4)).toBeNull();
+      expect(resolveCourseIdForDay(9)).toBeNull();
     });
 
-    it('normalise rigoureusement les routes V2 et migre les routes V1 selon le contrat explicite', () => {
-      // Module V2 valide avec dayNumber hors de sa plage -> début du module
-      expect(
-        normalizeActiveRoute({ kind: 'course', courseId: 'module-02', dayNumber: 1 })
-      ).toEqual({
-        kind: 'course',
-        courseId: 'module-02',
-        dayNumber: 4,
+    it('normalise rigoureusement vers la seule route canonique (home | lesson | bonus) et ramène les anciennes routes à home', () => {
+      // Route canonique lesson valide
+      expect(normalizeActiveRoute({ kind: 'lesson', lessonId: 'lesson-04' })).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-04',
       });
 
-      // Module V2 valide avec dayNumber valide -> conservé
+      // Route lesson avec id inconnu -> { kind: 'home' }
+      expect(normalizeActiveRoute({ kind: 'lesson', lessonId: 'lesson-09' })).toEqual({
+        kind: 'home',
+      });
+
+      // Anciennes routes supprimées : resources, practical-sheets, start-here -> { kind: 'home' }
+      expect(normalizeActiveRoute({ kind: 'resources' })).toEqual({ kind: 'home' });
+      expect(normalizeActiveRoute({ kind: 'practical-sheets' })).toEqual({ kind: 'home' });
+      expect(normalizeActiveRoute({ kind: 'start-here', lessonId: 'introduction' })).toEqual({
+        kind: 'home',
+      });
+
+      // Anciennes routes V1/V2/V3 (course / day) : aucune réinterprétation risquée -> { kind: 'home' }
       expect(
         normalizeActiveRoute({ kind: 'course', courseId: 'module-02', dayNumber: 5 })
-      ).toEqual({
-        kind: 'course',
-        courseId: 'module-02',
-        dayNumber: 5,
-      });
-
-      // Module V2 valide sans dayNumber -> assigne dayRange[0]
-      expect(normalizeActiveRoute({ kind: 'course', courseId: 'module-03' })).toEqual({
-        kind: 'course',
-        courseId: 'module-03',
-        dayNumber: 7,
-      });
-
-      // Route V1 legacy : course-01 avec leçon 1..3 -> module-01
-      expect(
-        normalizeActiveRoute({ kind: 'course', courseId: 'course-01', dayNumber: 2 })
-      ).toEqual({
-        kind: 'course',
-        courseId: 'module-01',
-        dayNumber: 2,
-      });
-
-      // Route V1 legacy : course-01 avec jour > 3 -> { kind: 'home' }
-      expect(
-        normalizeActiveRoute({ kind: 'course', courseId: 'course-01', dayNumber: 12 })
       ).toEqual({ kind: 'home' });
+      expect(normalizeActiveRoute({ kind: 'day', dayNumber: 5 })).toEqual({ kind: 'home' });
 
-      // Routes V1 legacy : course-02..05 -> { kind: 'home' }
-      expect(
-        normalizeActiveRoute({ kind: 'course', courseId: 'course-02', dayNumber: 16 })
-      ).toEqual({ kind: 'home' });
-      expect(
-        normalizeActiveRoute({ kind: 'course', courseId: 'course-05', dayNumber: 25 })
-      ).toEqual({ kind: 'home' });
-
-      // Bonus V1 legacy : bonus-01 -> bonus-manychat, bonus-03 -> bonus-marketing, bonus-02 -> home
+      // Bonus actuels et legacy
+      expect(normalizeActiveRoute({ kind: 'bonus', bonusId: 'bonus-manychat' })).toEqual({
+        kind: 'bonus',
+        bonusId: 'bonus-manychat',
+      });
       expect(normalizeActiveRoute({ kind: 'bonus', bonusId: 'bonus-01' })).toEqual({
         kind: 'bonus',
         bonusId: 'bonus-manychat',
@@ -198,26 +183,6 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
         bonusId: 'bonus-marketing',
       });
       expect(normalizeActiveRoute({ kind: 'bonus', bonusId: 'bonus-02' })).toEqual({
-        kind: 'home',
-      });
-
-      // Route start-here supprimée -> redirigée vers { kind: 'home' }
-      expect(normalizeActiveRoute({ kind: 'start-here', lessonId: 'introduction' })).toEqual({
-        kind: 'home',
-      });
-      expect(normalizeActiveRoute({ kind: 'start-here', lessonId: 'setup' })).toEqual({
-        kind: 'home',
-      });
-
-      // Route day valide -> normalisée vers course
-      expect(normalizeActiveRoute({ kind: 'day', dayNumber: 5 })).toEqual({
-        kind: 'course',
-        courseId: 'module-02',
-        dayNumber: 5,
-      });
-
-      // Route day hors limite -> { kind: 'home' }
-      expect(normalizeActiveRoute({ kind: 'day', dayNumber: 42 })).toEqual({
         kind: 'home',
       });
 
@@ -232,7 +197,7 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
   // SECTION B : Tests MainSidebar
   // =========================================================================
   describe('B. MainSidebar navigation and active module identification', () => {
-    it('navigue vers la bonne leçon de départ pour chacun des 3 modules', () => {
+    it('navigue vers la première leçon de chacun des 3 modules (L1, L3, L6)', () => {
       let currentRoute: unknown;
       const TestComponent = () => {
         const { state } = useProgress();
@@ -246,31 +211,28 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
         </ProgressProvider>
       );
 
-      // Module 01 -> Leçon 1
-      const btnMod01 = screen.getByRole('button', { name: /OPPORTUNITÉ (&|ET) POSITIONNEMENT/i });
+      // Module 01 (CHOISIR) -> lesson-01
+      const btnMod01 = screen.getByRole('button', { name: /CHOISIR/i });
       fireEvent.click(btnMod01);
-      expect(currentRoute).toMatchObject({
-        kind: 'course',
-        courseId: 'module-01',
-        dayNumber: 1,
+      expect(currentRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-01',
       });
 
-      // Module 02 -> Leçon 4
-      const btnMod02 = screen.getByRole('button', { name: /CONCEVOIR (&|ET) CRÉER AVEC CLAUDE/i });
+      // Module 02 (CRÉER) -> lesson-03
+      const btnMod02 = screen.getByRole('button', { name: /CRÉER/i });
       fireEvent.click(btnMod02);
-      expect(currentRoute).toMatchObject({
-        kind: 'course',
-        courseId: 'module-02',
-        dayNumber: 4,
+      expect(currentRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-03',
       });
 
-      // Module 03 -> Leçon 7
-      const btnMod03 = screen.getByRole('button', { name: /VENDRE (&|ET) PROMOUVOIR/i });
+      // Module 03 (PUBLIER ET LIVRER) -> lesson-06
+      const btnMod03 = screen.getByRole('button', { name: /PUBLIER ET LIVRER/i });
       fireEvent.click(btnMod03);
-      expect(currentRoute).toMatchObject({
-        kind: 'course',
-        courseId: 'module-03',
-        dayNumber: 7,
+      expect(currentRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-06',
       });
     });
 
@@ -279,7 +241,7 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
         const { navigateToCourse } = useProgress();
         return (
           <div>
-            <button onClick={() => navigateToCourse('module-02', 4)}>Set Module 02</button>
+            <button onClick={() => navigateToCourse('module-02')}>Set Module 02</button>
             <MainSidebar />
           </div>
         );
@@ -293,10 +255,10 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
 
       fireEvent.click(screen.getByText('Set Module 02'));
 
-      const mod02Btn = screen.getByRole('button', { name: /CONCEVOIR (&|ET) CRÉER AVEC CLAUDE/i });
+      const mod02Btn = screen.getByRole('button', { name: /CRÉER/i });
       expect(mod02Btn).toHaveAttribute('aria-current', 'page');
 
-      const mod01Btn = screen.getByRole('button', { name: /OPPORTUNITÉ (&|ET) POSITIONNEMENT/i });
+      const mod01Btn = screen.getByRole('button', { name: /CHOISIR/i });
       expect(mod01Btn).not.toHaveAttribute('aria-current');
     });
   });
@@ -304,81 +266,72 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
   // =========================================================================
   // SECTION C : Tests CourseSidebar
   // =========================================================================
-  describe('C. CourseSidebar filtrage strict des leçons et dynamisme', () => {
-    it('affiche exactement 3 leçons correspondant à chaque module', () => {
-      const expectedDaysByCourse: Record<
+  describe('C. CourseSidebar filtrage strict des leçons (2 + 3 + 2) et dynamisme', () => {
+    it('associe exactement 2, 3 et 2 leçons à chaque module', () => {
+      const expectedLessonsByCourse: Record<
         string,
-        { count: number; title: string; firstDay: number }
+        { count: number; title: string; firstLesson: number }
       > = {
-        'module-01': { count: 3, title: 'LEÇONS 1 À 3', firstDay: 1 },
-        'module-02': { count: 3, title: 'LEÇONS 4 À 6', firstDay: 4 },
-        'module-03': { count: 3, title: 'LEÇONS 7 À 9', firstDay: 7 },
+        'module-01': { count: 2, title: 'LEÇONS 1 À 2', firstLesson: 1 },
+        'module-02': { count: 3, title: 'LEÇONS 3 À 5', firstLesson: 3 },
+        'module-03': { count: 2, title: 'LEÇONS 6 À 7', firstLesson: 6 },
       };
 
-      for (const [courseId, exp] of Object.entries(expectedDaysByCourse)) {
-        const days = getCourseDays(COURSE_DATA.days, courseId);
-        expect(days).toHaveLength(exp.count);
-        expect(days[0].dayNumber).toBe(exp.firstDay);
-        expect(days[days.length - 1].dayNumber).toBe(exp.firstDay + exp.count - 1);
+      for (const [courseId, exp] of Object.entries(expectedLessonsByCourse)) {
+        const lessons = getCourseLessons(COURSE_DATA.lessons, courseId);
+        expect(lessons).toHaveLength(exp.count);
+        expect(lessons[0].lessonNumber).toBe(exp.firstLesson);
+        expect(lessons[lessons.length - 1].lessonNumber).toBe(exp.firstLesson + exp.count - 1);
 
         const course = getCourseById(courseId);
-        expect(formatCourseDayRangeTitle(course?.dayRange)).toBe(exp.title);
+        expect(formatCourseLessonRangeTitle(course?.lessonRange)).toBe(exp.title);
       }
     });
 
     it('affiche les leçons correctes et le titre dynamique dans le DOM', () => {
-      const TestCourseView = ({
-        targetCourseId,
-        targetDay,
-      }: {
-        targetCourseId: string;
-        targetDay: number;
-      }) => {
+      const TestCourseView = ({ targetCourseId }: { targetCourseId: string }) => {
         const { navigateToCourse } = useProgress();
         React.useEffect(() => {
-          navigateToCourse(targetCourseId, targetDay);
-        }, [targetCourseId, targetDay, navigateToCourse]);
+          navigateToCourse(targetCourseId);
+        }, [targetCourseId, navigateToCourse]);
 
         return <CourseSidebar course={COURSE_DATA} />;
       };
 
       const { unmount } = render(
         <ProgressProvider>
-          <TestCourseView targetCourseId="module-02" targetDay={4} />
+          <TestCourseView targetCourseId="module-02" />
         </ProgressProvider>
       );
 
-      expect(screen.getByText(/LEÇONS 4 À 6/i)).toBeInTheDocument();
+      expect(screen.getByText(/LEÇONS 3 À 5/i)).toBeInTheDocument();
+      expect(screen.getByText('Leçon 3')).toBeInTheDocument();
       expect(screen.getByText('Leçon 4')).toBeInTheDocument();
       expect(screen.getByText('Leçon 5')).toBeInTheDocument();
-      expect(screen.getByText('Leçon 6')).toBeInTheDocument();
-      expect(screen.queryByText('Leçon 3')).not.toBeInTheDocument();
-      expect(screen.queryByText('Leçon 7')).not.toBeInTheDocument();
+      expect(screen.queryByText('Leçon 2')).not.toBeInTheDocument();
+      expect(screen.queryByText('Leçon 6')).not.toBeInTheDocument();
 
       unmount();
 
       render(
         <ProgressProvider>
-          <TestCourseView targetCourseId="module-03" targetDay={7} />
+          <TestCourseView targetCourseId="module-03" />
         </ProgressProvider>
       );
 
-      expect(screen.getByText(/LEÇONS 7 À 9/i)).toBeInTheDocument();
+      expect(screen.getByText(/LEÇONS 6 À 7/i)).toBeInTheDocument();
+      expect(screen.getByText('Leçon 6')).toBeInTheDocument();
       expect(screen.getByText('Leçon 7')).toBeInTheDocument();
-      expect(screen.getByText('Leçon 8')).toBeInTheDocument();
-      expect(screen.getByText('Leçon 9')).toBeInTheDocument();
-      expect(screen.queryByText('Leçon 6')).not.toBeInTheDocument();
+      expect(screen.queryByText('Leçon 5')).not.toBeInTheDocument();
     });
 
-    it('permet de basculer de module au clic sur une cellule de ProgressGrid', () => {
+    it('permet de basculer de module au clic sur une cellule de ProgressGrid (7 cellules)', () => {
       const TestGridInteraction = () => {
         const { state } = useProgress();
         return (
           <div>
             <div data-testid="active-route-info">
-              {state.activeRoute.kind === 'course'
-                ? `${state.activeRoute.courseId}:${state.activeRoute.dayNumber}`
-                : 'none'}
+              {state.activeRoute.kind === 'lesson' ? state.activeRoute.lessonId : 'none'}
             </div>
             <CourseSidebar course={COURSE_DATA} />
           </div>
@@ -391,97 +344,80 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
         </ProgressProvider>
       );
 
-      const day7Btn = screen.getByRole('button', { name: /^Leçon 7$/i });
-      fireEvent.click(day7Btn);
+      const lesson6Btn = screen.getByRole('button', { name: /^Leçon 6$/i });
+      fireEvent.click(lesson6Btn);
 
-      expect(screen.getByTestId('active-route-info')).toHaveTextContent('module-03:7');
-      expect(screen.getByText(/LEÇONS 7 À 9/i)).toBeInTheDocument();
+      expect(screen.getByTestId('active-route-info')).toHaveTextContent('lesson-06');
+      expect(screen.getByText(/LEÇONS 6 À 7/i)).toBeInTheDocument();
+      expect(screen.getByText('Leçon 6')).toBeInTheDocument();
       expect(screen.getByText('Leçon 7')).toBeInTheDocument();
-      expect(screen.getByText('Leçon 8')).toBeInTheDocument();
-      expect(screen.getByText('Leçon 9')).toBeInTheDocument();
     });
   });
 
   // =========================================================================
   // SECTION D : Tests ProgressContext
   // =========================================================================
-  describe('D. ProgressContext navigateToDay et transitions inter-modules', () => {
-    it('attribue le bon courseId pour chacune des 9 leçons', () => {
+  describe('D. ProgressContext navigateToLesson et navigateToDay', () => {
+    it('navigue vers chacune des 7 leçons via navigateToLesson', () => {
       const { result } = renderHook(() => useProgress(), {
         wrapper: ({ children }) => <ProgressProvider>{children}</ProgressProvider>,
       });
 
-      for (let day = 1; day <= 9; day++) {
+      for (let num = 1; num <= 7; num++) {
         act(() => {
-          result.current.navigateToDay(day);
+          result.current.navigateToLesson(num);
         });
 
-        const expectedCourseId = resolveCourseIdForDay(day);
         expect(result.current.state.activeRoute).toEqual({
-          kind: 'course',
-          courseId: expectedCourseId,
-          dayNumber: day,
+          kind: 'lesson',
+          lessonId: `lesson-0${num}`,
         });
       }
     });
 
-    it('gère les transitions consécutives entre les 3 modules', () => {
+    it('navigue vers la première leçon de chacune des 3 journées via navigateToDay', () => {
       const { result } = renderHook(() => useProgress(), {
         wrapper: ({ children }) => <ProgressProvider>{children}</ProgressProvider>,
       });
 
-      act(() => {
-        result.current.navigateToDay(3);
-      });
-      expect(result.current.state.activeRoute).toMatchObject({
-        courseId: 'module-01',
-        dayNumber: 3,
+      act(() => result.current.navigateToDay(1));
+      expect(result.current.state.activeRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-01',
       });
 
-      act(() => {
-        result.current.navigateToDay(4);
-      });
-      expect(result.current.state.activeRoute).toMatchObject({
-        courseId: 'module-02',
-        dayNumber: 4,
+      act(() => result.current.navigateToDay(2));
+      expect(result.current.state.activeRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-03',
       });
 
-      act(() => {
-        result.current.navigateToDay(6);
-      });
-      expect(result.current.state.activeRoute).toMatchObject({
-        courseId: 'module-02',
-        dayNumber: 6,
-      });
-
-      act(() => {
-        result.current.navigateToDay(7);
-      });
-      expect(result.current.state.activeRoute).toMatchObject({
-        courseId: 'module-03',
-        dayNumber: 7,
+      act(() => result.current.navigateToDay(3));
+      expect(result.current.state.activeRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-06',
       });
     });
 
-    it('protège navigateToDay avec du clamping de 1 à 9', () => {
+    it('protège navigateToLesson avec du clamping de 1 à 7', () => {
       const { result } = renderHook(() => useProgress(), {
         wrapper: ({ children }) => <ProgressProvider>{children}</ProgressProvider>,
       });
 
       act(() => {
-        result.current.navigateToDay(-5);
+        result.current.navigateToLesson(-5);
       });
-      expect(result.current.state.activeRoute).toMatchObject({
-        courseId: 'module-01',
-        dayNumber: 1,
+      expect(result.current.state.activeRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-01',
       });
 
       act(() => {
-        result.current.navigateToDay(999);
+        result.current.navigateToLesson(999);
       });
-      expect(result.current.state.activeRoute).toMatchObject({
-        courseId: 'module-03',
-        dayNumber: 9,
+      expect(result.current.state.activeRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-07',
       });
     });
   });
@@ -490,40 +426,39 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
   // SECTION E : Tests de préservation de la progression
   // =========================================================================
   describe("E. Préservation intégrale de la progression et de l'état élève", () => {
-    it('préserve les leçons complétées et les étapes actives lors des changements de module', () => {
+    it('préserve les étapes complétées par leçon et le profil lors des changements de module', () => {
       const { result } = renderHook(() => useProgress(), {
         wrapper: ({ children }) => <ProgressProvider>{children}</ProgressProvider>,
       });
 
       act(() => {
-        result.current.navigateToDay(4);
-        result.current.completeStep(4, 'concept', false);
-        result.current.completeStep(4, 'prompt', false);
-        result.current.completeStep(4, 'example', false);
-        result.current.completeStep(4, 'your-turn', false);
-        result.current.setActiveStepForDay(4, 'example');
+        result.current.navigateToLesson('lesson-04');
+        result.current.completeStep('lesson-04', 'lesson-04-step-1', false);
         result.current.updateProfileField('business', 'Yoga Studio');
       });
 
-      // Une journée squelette vide (0 étapes) ne peut être marquée comme terminée
-      expect(result.current.getDayProgress(4).isCompleted).toBe(false);
-      expect(result.current.state.completedStepIdsByDay[4]).toHaveLength(4);
+      // Une leçon squelette vide (0 étapes) a toujours 0 % et isCompleted: false
+      expect(result.current.getLessonProgress('lesson-04').isCompleted).toBe(false);
+      expect(result.current.state.completedStepIdsByLesson['lesson-04']).toEqual([
+        'lesson-04-step-1',
+      ]);
 
       act(() => {
-        result.current.navigateToCourse('module-03', 7);
+        result.current.navigateToCourse('module-03');
       });
-      expect(result.current.state.activeRoute).toMatchObject({
-        courseId: 'module-03',
-        dayNumber: 7,
+      expect(result.current.state.activeRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-06',
       });
 
       act(() => {
-        result.current.navigateToCourse('module-02', 4);
+        result.current.navigateToLesson('lesson-04');
       });
 
-      expect(result.current.getDayProgress(4).isCompleted).toBe(false);
-      expect(result.current.state.completedStepIdsByDay[4]).toHaveLength(4);
-      expect(result.current.getActiveStepForDay(4)).toBe('');
+      expect(result.current.getLessonProgress('lesson-04').isCompleted).toBe(false);
+      expect(result.current.state.completedStepIdsByLesson['lesson-04']).toEqual([
+        'lesson-04-step-1',
+      ]);
       expect(result.current.state.profile.business).toBe('Yoga Studio');
     });
   });
@@ -548,7 +483,7 @@ describe('V2 : Course Navigation and Routing Verification (3 Modules / 9 Lessons
 
       expect(screen.getByRole('dialog')).toBeInTheDocument();
 
-      const courseBtn = screen.getByRole('button', { name: /CONCEVOIR (&|ET) CRÉER AVEC CLAUDE/i });
+      const courseBtn = screen.getByRole('button', { name: /CRÉER/i });
       fireEvent.click(courseBtn);
 
       expect(onCloseMock).toHaveBeenCalled();

@@ -213,10 +213,6 @@ export function HelpPanel({ help, stepTitle, defaultOpen = true }: HelpPanelProp
               <ul className="list-disc list-inside space-y-1">
                 <li>Relisez attentivement la consigne et le résultat attendu.</li>
                 <li>
-                  Vérifiez que vos variables de projet sont bien renseignées dans l’onglet « Mon
-                  projet ».
-                </li>
-                <li>
                   En cas de doute sur la réponse de Claude, demandez-lui : « Explique-moi étape par
                   étape ce que tu as généré et comment le tester ».
                 </li>

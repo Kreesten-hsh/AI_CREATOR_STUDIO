@@ -2,7 +2,7 @@ import { Home } from 'lucide-react';
 import { useProgress } from '../../hooks/useProgress';
 import { MAIN_COURSES } from '../../data/navigation/mainCourses';
 import { BONUSES } from '../../data/navigation/bonuses';
-import { getCourseById, resolveActiveCourseId } from '../../utils/courseNavigation';
+import { resolveActiveCourseId } from '../../utils/courseNavigation';
 
 interface MainSidebarProps {
   onAfterNavigate?: () => void;
@@ -28,9 +28,7 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
   };
 
   const handleSelectCourse = (courseId: string) => {
-    const course = getCourseById(courseId);
-    const startDay = course?.dayRange?.[0] ?? 1;
-    navigateToCourse(courseId, startDay);
+    navigateToCourse(courseId);
     onAfterNavigate?.();
   };
 
@@ -110,9 +108,20 @@ export function MainSidebar({ onAfterNavigate }: MainSidebarProps) {
                     >
                       {course.orderNumber}
                     </span>
-                    <span className="text-[11px] sm:text-xs font-bold uppercase tracking-tight leading-snug break-words">
-                      {course.title}
-                    </span>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[11px] sm:text-xs font-bold uppercase tracking-tight leading-snug break-words block">
+                        {course.title}
+                      </span>
+                      {course.subtitle && (
+                        <span
+                          className={`font-mono text-[10px] block mt-0.5 ${
+                            isActive ? 'text-surface/85' : 'text-ink/70'
+                          }`}
+                        >
+                          {course.subtitle}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </button>
               );

@@ -1,16 +1,13 @@
-import type { Day } from '../types/course';
+import type { Day, Lesson } from '../types/course';
 
-/**
- * Liste explicite des journées encore en transition legacy (comportant 4 étapes),
- * en attente de leur réécriture en 1 à 3 étapes lors de la Mission C.
- * Cette liste ne fait que rétrécir au fil des missions.
- */
-export const LEGACY_DAYS_PENDING_REWRITE: readonly number[] = [1, 2, 3, 4, 7, 8];
+export const MAX_STEPS_PER_LESSON = 3;
 
-export interface DayValidationResult {
+export interface LessonValidationResult {
   valid: boolean;
   errors: string[];
 }
+
+export type DayValidationResult = LessonValidationResult;
 
 export interface CourseValidationResult {
   valid: boolean;
@@ -19,25 +16,24 @@ export interface CourseValidationResult {
 }
 
 /**
- * Valide la structure des étapes d'une journée :
- * - Une journée doit comporter entre 1 et 3 étapes (ou 4 uniquement si elle figure dans LEGACY_DAYS_PENDING_REWRITE).
- * - Les identifiants d'étapes doivent être non vides et uniques au sein de la journée.
+ * Valide la structure des étapes d'une leçon :
+ * - Une leçon squelette (isSkeletonPlaceholder: true) avec 0 étape est valide.
+ * - Une leçon publiée (isSkeletonPlaceholder: false) doit comporter entre 1 et 3 étapes.
+ * - Les identifiants d'étapes doivent être non vides et uniques au sein de la leçon.
  */
-export function validateDaySteps(day: Day): DayValidationResult {
+export function validateLessonSteps(lesson: Lesson): LessonValidationResult {
   const errors: string[] = [];
 
-  if (!day || !Array.isArray(day.steps)) {
+  if (!lesson || !Array.isArray(lesson.steps)) {
     return {
       valid: false,
-      errors: [`Journée ${day?.dayNumber ?? 'inconnue'} : structure d'étapes absente ou invalide.`],
+      errors: [`Leçon ${lesson?.lessonNumber ?? 'inconnue'} : structure d'étapes absente ou invalide.`],
     };
   }
 
-  const stepCount = day.steps.length;
-  const isLegacyPending = LEGACY_DAYS_PENDING_REWRITE.includes(day.dayNumber);
-  const maxAllowedSteps = isLegacyPending ? 4 : 3;
+  const stepCount = lesson.steps.length;
 
-  if (day.isSkeletonPlaceholder && stepCount === 0) {
+  if (lesson.isSkeletonPlaceholder && stepCount === 0) {
     return {
       valid: true,
       errors: [],
@@ -46,23 +42,23 @@ export function validateDaySteps(day: Day): DayValidationResult {
 
   if (stepCount < 1) {
     errors.push(
-      `Journée ${day.dayNumber} : doit comporter au moins 1 étape (actuellement ${stepCount}).`
+      `Leçon ${lesson.lessonNumber} : doit comporter au moins 1 étape (actuellement ${stepCount}).`
     );
-  } else if (stepCount > maxAllowedSteps) {
+  } else if (stepCount > MAX_STEPS_PER_LESSON) {
     errors.push(
-      `Journée ${day.dayNumber} : dépasse le maximum de ${maxAllowedSteps} étapes (actuellement ${stepCount}).`
+      `Leçon ${lesson.lessonNumber} : dépasse le maximum de ${MAX_STEPS_PER_LESSON} étapes (actuellement ${stepCount}).`
     );
   }
 
   const seenIds = new Set<string>();
-  for (const step of day.steps) {
+  for (const step of lesson.steps) {
     if (!step.id || step.id.trim().length === 0) {
-      errors.push(`Journée ${day.dayNumber} : une étape possède un identifiant vide.`);
+      errors.push(`Leçon ${lesson.lessonNumber} : une étape possède un identifiant vide.`);
       continue;
     }
     if (seenIds.has(step.id)) {
       errors.push(
-        `Journée ${day.dayNumber} : identifiant d'étape dupliqué '${step.id}'.`
+        `Leçon ${lesson.lessonNumber} : identifiant d'étape dupliqué '${step.id}'.`
       );
     }
     seenIds.add(step.id);
@@ -74,31 +70,44 @@ export function validateDaySteps(day: Day): DayValidationResult {
   };
 }
 
+export const validateDaySteps = validateLessonSteps;
+
 /**
- * Valide l'unicité globale des identifiants d'étapes sur l'ensemble du cours.
+ * Valide l'unicité globale des identifiants d'étapes sur l'ensemble des leçons du cours.
  */
-export function validateCourseStepIds(days: readonly Day[]): CourseValidationResult {
+export function validateCourseStepIds(
+  lessonsOrDays: readonly Lesson[] | readonly Day[]
+): CourseValidationResult {
   const errors: string[] = [];
-  const seenIds = new Map<string, number>(); // id -> dayNumber
+  const seenIds = new Map<string, number>(); // step.id -> lessonNumber
   const duplicateIdsSet = new Set<string>();
 
-  for (const day of days) {
-    const dayResult = validateDaySteps(day);
-    if (!dayResult.valid) {
-      errors.push(...dayResult.errors);
+  const lessons: Lesson[] = [];
+  for (const item of lessonsOrDays) {
+    if ('lessons' in item && Array.isArray(item.lessons)) {
+      lessons.push(...item.lessons);
+    } else if ('steps' in item) {
+      lessons.push(item as Lesson);
+    }
+  }
+
+  for (const lesson of lessons) {
+    const lessonResult = validateLessonSteps(lesson);
+    if (!lessonResult.valid) {
+      errors.push(...lessonResult.errors);
     }
 
-    if (Array.isArray(day.steps)) {
-      for (const step of day.steps) {
+    if (Array.isArray(lesson.steps)) {
+      for (const step of lesson.steps) {
         if (!step.id) continue;
         if (seenIds.has(step.id)) {
-          const firstDay = seenIds.get(step.id)!;
+          const firstLesson = seenIds.get(step.id)!;
           duplicateIdsSet.add(step.id);
           errors.push(
-            `Identifiant d'étape '${step.id}' dupliqué entre la Journée ${firstDay} et la Journée ${day.dayNumber}.`
+            `Identifiant d'étape '${step.id}' dupliqué entre la Leçon ${firstLesson} et la Leçon ${lesson.lessonNumber}.`
           );
         } else {
-          seenIds.set(step.id, day.dayNumber);
+          seenIds.set(step.id, lesson.lessonNumber);
         }
       }
     }

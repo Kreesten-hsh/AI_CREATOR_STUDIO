@@ -9,6 +9,39 @@ export const ALL_STEP_TYPES: readonly StepType[] = [
 
 export type CalloutVariant = 'important' | 'warning' | 'tip' | 'pro-insight';
 
+export type ModuleId = 'module-01' | 'module-02' | 'module-03';
+export type DayId = 'day-01' | 'day-02' | 'day-03';
+export type LessonId =
+  | 'lesson-01'
+  | 'lesson-02'
+  | 'lesson-03'
+  | 'lesson-04'
+  | 'lesson-05'
+  | 'lesson-06'
+  | 'lesson-07';
+
+export const ALL_MODULE_IDS: readonly ModuleId[] = [
+  'module-01',
+  'module-02',
+  'module-03',
+] as const;
+
+export const ALL_DAY_IDS: readonly DayId[] = [
+  'day-01',
+  'day-02',
+  'day-03',
+] as const;
+
+export const ALL_LESSON_IDS: readonly LessonId[] = [
+  'lesson-01',
+  'lesson-02',
+  'lesson-03',
+  'lesson-04',
+  'lesson-05',
+  'lesson-06',
+  'lesson-07',
+] as const;
+
 export interface VibePaletteOption {
   id: string;
   name: string;
@@ -250,57 +283,78 @@ export interface Step {
   help?: StepHelpConfig;
 }
 
-export interface Day {
-  id: string;
-  dayNumber: number;
-  sprintId: string;
+/**
+ * Unité pédagogique réellement suivie et validée par l'apprenant (L1 à L7).
+ * Seule une leçon possède des étapes pédagogiques (steps).
+ */
+export interface Lesson {
+  id: LessonId;
+  lessonNumber: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  moduleId: ModuleId;
+  dayId: DayId;
+  dayNumber: 1 | 2 | 3;
   title: string;
   italicTitleWord?: string;
+  duration: string;
   objective: string;
   deliverableSummary: string;
   isSkeletonPlaceholder: boolean;
   steps: Step[];
-  completedContext?: string;
-  todayAction?: string;
-  eveningDeliverable?: string;
-  tomorrowUtility?: string;
 }
 
-export interface StartHereLesson {
-  id: string;
-  lessonNumber: 1 | 2;
+/**
+ * Unité de progression temporelle (Journée 1 à 3).
+ * Regroupe exclusivement les leçons qui lui appartiennent.
+ */
+export interface Day {
+  id: DayId;
+  dayNumber: 1 | 2 | 3;
+  moduleId: ModuleId;
   title: string;
-  italicTitleWord?: string;
-  subtitle: string;
   objective: string;
-  blocks: ContentBlock[];
+  deliverableSummary: string;
+  lessons: Lesson[];
 }
 
-export interface Sprint {
-  id: string;
-  sprintNumber: 1 | 2 | 3;
+/**
+ * Regroupement pédagogique thématique (Modules 1 à 3).
+ */
+export interface CourseModule {
+  id: ModuleId;
+  moduleNumber: 1 | 2 | 3;
+  orderNumber: '01' | '02' | '03';
+  badge: string;
   title: string;
   subtitle: string;
-  dayRange: [number, number];
+  description: string;
+  dayId: DayId;
+  dayNumber: 1 | 2 | 3;
+  lessonIds: readonly LessonId[];
+  lessonRange: readonly [number, number];
   deliverable: string;
+  available: boolean;
 }
+
+export type Sprint = CourseModule;
 
 export interface Course {
   id: string;
   title: string;
+  modules: readonly CourseModule[];
+  days: readonly Day[];
+  lessons: readonly Lesson[];
+  totalModules: number;
   totalDays: number;
-  startHere: StartHereLesson[];
-  sprints: Sprint[];
-  days: Day[];
+  totalLessons: number;
 }
 
+/**
+ * Représentation canonique unique de la route active persistée.
+ */
 export type ActiveRoute =
   | { kind: 'home' }
-  | { kind: 'course'; courseId: string; dayNumber?: number; lessonId?: string }
-  | { kind: 'day'; dayNumber: number }
-  | { kind: 'bonus'; bonusId: string }
-  | { kind: 'resources' }
-  | { kind: 'practical-sheets' };
+  | { kind: 'lesson'; lessonId: LessonId }
+  | { kind: 'bonus'; bonusId: string };
 
 export interface QuizAttemptState {
   answers: Record<string, number>;
@@ -310,11 +364,11 @@ export interface QuizAttemptState {
 }
 
 export interface StudentProgress {
-  schemaVersion: 3;
+  schemaVersion: 4;
+  curriculumModel: '3m-3d-7l';
   activeRoute: ActiveRoute;
-  activeStepIdByDay: Record<number, string>;
-  completedStartHereIds: string[];
-  completedStepIdsByDay: Record<number, string[]>;
+  activeStepIdByLesson: Partial<Record<LessonId, string>>;
+  completedStepIdsByLesson: Partial<Record<LessonId, string[]>>;
   checklistAnswers: Record<string, Record<string, boolean>>;
   exerciseAnswers: Record<string, string>;
   quizStates: Record<string, QuizAttemptState>;

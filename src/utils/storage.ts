@@ -1,22 +1,24 @@
 import {
-  ALL_STEP_TYPES,
+  ALL_LESSON_IDS,
   type ContentBlock,
+  type LessonId,
   type QuizAttemptState,
-  type StepType,
   type StudentProfile,
   type StudentProgress,
 } from '../types/course';
-import { COURSE_DATA } from '../data/course';
+import { ALL_LESSONS } from '../data/course';
 import { BONUSES } from '../data/navigation/bonuses';
-import { normalizeStepIdList, normalizeStepList, TOTAL_COURSE_DAYS } from './progressCalculator';
-import { normalizeActiveRoute } from './courseNavigation';
+import { normalizeStepIdList } from './progressCalculator';
+import { normalizeActiveRoute, normalizeLessonId } from './courseNavigation';
 
 export const STORAGE_KEY = 'ai_creator_studio_progress_v1';
 export const RAW_BACKUP_V1_STORAGE_KEY = 'ai_creator_studio_raw_backup_v1';
 export const RAW_BACKUP_V2_STORAGE_KEY = 'ai_creator_studio_raw_backup_v2';
+export const RAW_BACKUP_V3_STORAGE_KEY = 'ai_creator_studio_raw_backup_v3';
 export const CORRUPTED_BACKUP_STORAGE_KEY = 'ai_creator_studio_corrupted_backup';
-export const V1_BACKUP_STORAGE_KEY = RAW_BACKUP_V1_STORAGE_KEY; // Alias de compatibilité
-export const CURRENT_SCHEMA_VERSION = 3 as const;
+export const V1_BACKUP_STORAGE_KEY = RAW_BACKUP_V1_STORAGE_KEY;
+export const CURRENT_SCHEMA_VERSION = 4 as const;
+export const CURRICULUM_MODEL = '3m-3d-7l' as const;
 
 export const STUDIO_LEGACY_BRAND_STYLE =
   'Néo-Brutaliste Éditorial (Crème Papier #FAF6F0, Rouge Brique #B63131, Rose Poudré #E6A0A8, Encre Profonde #171313)';
@@ -56,70 +58,23 @@ function collectBlocksIntoRegistry(blocks: readonly ContentBlock[], registry: Bl
       registry.checklistItemsByBlockId.set(block.id, itemSet);
     } else if (block.type === 'quiz') {
       registry.quizIds.add(block.id);
+    } else if (block.type === 'copy') {
+      registry.promptIds.add(block.id);
     }
   }
 }
 
-const PRESERVED_V1_EXERCISE_IDS = new Set([
-  'day01-deliverable-a',
-  'day02-deliverable-final-card',
-  'day03-deliverable-c-positioning',
-]);
-
-const PRESERVED_V1_CHECKLIST_ITEMS: Readonly<Record<string, readonly string[]>> = {
-  'day01-step4-checklist': ['item-c1-audience', 'item-c2-friction', 'item-c3-mechanism'],
-  'day02-step4-checklist': ['item-c1-buyer', 'item-c2-problem', 'item-c3-evidence'],
-  'day03-step4-checklist': ['item-c1-solution', 'item-c2-promise', 'item-c3-transformation'],
-};
-
-const PRESERVED_V1_QUIZ_IDS = new Set([
-  'day01-step1-quiz',
-  'day02-step1-quiz',
-  'day03-step1-quiz',
-]);
-
-const PRESERVED_V1_PROMPT_IDS = new Set([
-  'day01-step2-master-prompt',
-  'day02-step2-master-prompt',
-  'day03-step2-master-prompt',
-]);
-
-export function buildPreservedV1BlockRegistry(): BlockIdRegistry {
-  const checklistMap = new Map<string, Set<string>>();
-  for (const [blockId, items] of Object.entries(PRESERVED_V1_CHECKLIST_ITEMS)) {
-    checklistMap.set(blockId, new Set(items));
-  }
-
+export function buildCurrentCurriculumBlockRegistry(): BlockIdRegistry {
   const registry: BlockIdRegistry = {
-    exerciseIds: new Set<string>(PRESERVED_V1_EXERCISE_IDS),
-    checklistItemsByBlockId: checklistMap,
-    quizIds: new Set<string>(PRESERVED_V1_QUIZ_IDS),
-    promptIds: new Set<string>(PRESERVED_V1_PROMPT_IDS),
+    exerciseIds: new Set<string>(),
+    checklistItemsByBlockId: new Map<string, Set<string>>(),
+    quizIds: new Set<string>(),
+    promptIds: new Set<string>(),
   };
 
-  for (const startLesson of COURSE_DATA.startHere) {
-    collectBlocksIntoRegistry(startLesson.blocks, registry);
-  }
-
-  for (const day of COURSE_DATA.days) {
-    if (day.dayNumber >= 1 && day.dayNumber <= 3) {
-      for (const step of day.steps) {
-        collectBlocksIntoRegistry(step.blocks, registry);
-      }
-    }
-  }
-
-  return registry;
-}
-
-export function buildFullV2BlockRegistry(): BlockIdRegistry {
-  const registry = buildPreservedV1BlockRegistry();
-
-  for (const day of COURSE_DATA.days) {
-    if (day.dayNumber >= 4 && day.dayNumber <= TOTAL_COURSE_DAYS) {
-      for (const step of day.steps) {
-        collectBlocksIntoRegistry(step.blocks, registry);
-      }
+  for (const lesson of ALL_LESSONS) {
+    for (const step of lesson.steps) {
+      collectBlocksIntoRegistry(step.blocks, registry);
     }
   }
 
@@ -135,10 +90,10 @@ export function buildFullV2BlockRegistry(): BlockIdRegistry {
 export function createInitialProgress(): StudentProgress {
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
+    curriculumModel: CURRICULUM_MODEL,
     activeRoute: { kind: 'home' },
-    activeStepIdByDay: {},
-    completedStartHereIds: [],
-    completedStepIdsByDay: {},
+    activeStepIdByLesson: {},
+    completedStepIdsByLesson: {},
     checklistAnswers: {},
     exerciseAnswers: {},
     quizStates: {},
@@ -243,14 +198,20 @@ function sanitizeProfile(
 }
 
 /**
- * Sauvegarde l'état brut versionné (v1 ou v2) sous sa clé dédiée.
+ * Sauvegarde l'état brut versionné (v1, v2 ou v3) sous sa clé dédiée.
  * Ne l'écrase JAMAIS si elle existe déjà, et vérifie par relecture immédiate la validité de l'écriture.
  */
-export function ensureRawBackupWritten(version: 1 | 2, payload: string): boolean {
+export function ensureRawBackupWritten(version: 1 | 2 | 3, payload: string): boolean {
   if (typeof window === 'undefined' || !window.localStorage) {
     return false;
   }
-  const targetKey = version === 1 ? RAW_BACKUP_V1_STORAGE_KEY : RAW_BACKUP_V2_STORAGE_KEY;
+  const targetKey =
+    version === 1
+      ? RAW_BACKUP_V1_STORAGE_KEY
+      : version === 2
+      ? RAW_BACKUP_V2_STORAGE_KEY
+      : RAW_BACKUP_V3_STORAGE_KEY;
+
   try {
     const existing = window.localStorage.getItem(targetKey);
     if (existing !== null && existing.length > 0) {
@@ -264,416 +225,236 @@ export function ensureRawBackupWritten(version: 1 | 2, payload: string): boolean
   }
 }
 
-/**
- * Rétro-compatibilité pour l'ancienne fonction ensureV1BackupWritten.
- */
 export function ensureV1BackupWritten(rawV1: Record<string, unknown>, rawSerialized?: string): boolean {
   const payload = rawSerialized ?? JSON.stringify(rawV1);
   return ensureRawBackupWritten(1, payload);
 }
 
 /**
- * Migre un état intermédiaire V2 vers le schéma V3 :
- * - Migration des étapes terminées uniquement en cas de correspondance non ambiguë (legacyType -> step.id)
- * - Archivage sans perte dans legacyArchive pour toute donnée non appariée
- * - Schéma versionné 3 stabilisé
+ * Migre un ancien état (V1, V2 ou V3 à 9 jours) vers le schéma V4 ('3m-3d-7l').
+ * - Sauvegarde brute vérifiée avant remplacement.
+ * - Aucune conversion fictive des anciennes journées en nouvelles leçons :
+ *   completedStepIdsByLesson et activeStepIdByLesson sont initialisés à {}.
+ * - Archivage intégral sans perte dans legacyArchive.
  */
-export function migrateV2ToV3(
-  rawV2: Record<string, unknown>,
-  rawSerialized?: string
+export function migrateLegacyToV4(
+  rawLegacy: Record<string, unknown>,
+  fromVersion: 1 | 2 | 3,
+  rawSerialized?: string,
+  persistToStorage = true
 ): StudentProgress {
-  let persistenceDisabled = false;
-  if (rawSerialized) {
-    const backupSuccess = ensureRawBackupWritten(2, rawSerialized);
+  let persistenceDisabled = Boolean(rawLegacy.persistenceDisabled);
+  const serializedPayload = rawSerialized ?? JSON.stringify(rawLegacy);
+
+  if (persistToStorage) {
+    const backupSuccess = ensureRawBackupWritten(fromVersion, serializedPayload);
     if (!backupSuccess) {
       persistenceDisabled = true;
     }
   }
 
-  const activeRoute = normalizeActiveRoute(rawV2.activeRoute);
-  const unmappedData: Record<string, unknown> = {};
+  const activeRoute = normalizeActiveRoute(rawLegacy.activeRoute);
+  const { profile, archivedStudioBrandStyle } = sanitizeProfile(
+    rawLegacy.profile,
+    fromVersion === 1
+  );
 
-  // 1. Migration des étapes complétées par journée (legacyType -> step.id)
-  const completedStepIdsByDay: Record<number, string[]> = {};
-  const unmappedCompletedSteps: Record<string, unknown> = {};
-
-  if (rawV2.completedStepsByDay && typeof rawV2.completedStepsByDay === 'object') {
-    for (const [dayKey, steps] of Object.entries(
-      rawV2.completedStepsByDay as Record<string, unknown>
-    )) {
-      const dayNum = Number(dayKey);
-      if (
-        Number.isInteger(dayNum) &&
-        dayNum >= 1 &&
-        dayNum <= TOTAL_COURSE_DAYS &&
-        Array.isArray(steps)
-      ) {
-        const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNum);
-        const mappedIds: string[] = [];
-        const unmappedList: unknown[] = [];
-
-        for (const item of steps) {
-          if (typeof item === 'string') {
-            // Recherche par legacyType (ou id direct si déjà présent)
-            const matchById = day?.steps.find((s) => s.id === item);
-            if (matchById) {
-              mappedIds.push(matchById.id);
-              continue;
-            }
-            const matchingSteps = day?.steps.filter((s) => s.legacyType === item) ?? [];
-            if (matchingSteps.length === 1) {
-              mappedIds.push(matchingSteps[0].id);
-              continue;
-            }
-            // Si déjà un identifiant direct 'day-XX-step-Y'
-            if (/^day-\d{2}-step-\d+$/.test(item)) {
-              mappedIds.push(item);
-              continue;
-            }
-            // Mappage canonique des types legacy (concept -> step-1, prompt -> step-2, etc.)
-            const paddedDay = String(dayNum).padStart(2, '0');
-            const legacyStepMap: Record<string, string> = {
-              concept: `day-${paddedDay}-step-1`,
-              prompt: `day-${paddedDay}-step-2`,
-              example: `day-${paddedDay}-step-3`,
-              'your-turn': `day-${paddedDay}-step-4`,
-            };
-            if (legacyStepMap[item]) {
-              mappedIds.push(legacyStepMap[item]);
-              continue;
-            }
-            unmappedList.push(item);
-          } else {
-            unmappedList.push(item);
-          }
-        }
-
-        if (mappedIds.length > 0) {
-          completedStepIdsByDay[dayNum] = normalizeStepIdList(mappedIds);
-        }
-        if (unmappedList.length > 0) {
-          unmappedCompletedSteps[dayKey] = unmappedList;
-        }
-      } else {
-        unmappedCompletedSteps[dayKey] = steps;
-      }
-    }
-  }
-
-  if (Object.keys(unmappedCompletedSteps).length > 0) {
-    unmappedData.completedStepsByDay = unmappedCompletedSteps;
-  }
-
-  // 2. Migration de l'étape active par journée (legacyType -> step.id)
-  const activeStepIdByDay: Record<number, string> = {};
-  const unmappedActiveSteps: Record<string, unknown> = {};
-
-  if (rawV2.activeStepByDay && typeof rawV2.activeStepByDay === 'object') {
-    for (const [dayKey, stepVal] of Object.entries(
-      rawV2.activeStepByDay as Record<string, unknown>
-    )) {
-      const dayNum = Number(dayKey);
-      if (
-        Number.isInteger(dayNum) &&
-        dayNum >= 1 &&
-        dayNum <= TOTAL_COURSE_DAYS &&
-        typeof stepVal === 'string'
-      ) {
-        const day = COURSE_DATA.days.find((d) => d.dayNumber === dayNum);
-        const matchById = day?.steps.find((s) => s.id === stepVal);
-        if (matchById) {
-          activeStepIdByDay[dayNum] = matchById.id;
-          continue;
-        }
-        const matchingSteps = day?.steps.filter((s) => s.legacyType === stepVal) ?? [];
-        if (matchingSteps.length === 1) {
-          activeStepIdByDay[dayNum] = matchingSteps[0].id;
-          continue;
-        }
-        if (/^day-\d{2}-step-\d+$/.test(stepVal)) {
-          activeStepIdByDay[dayNum] = stepVal;
-          continue;
-        }
-        const paddedDay = String(dayNum).padStart(2, '0');
-        const legacyStepMap: Record<string, string> = {
-          concept: `day-${paddedDay}-step-1`,
-          prompt: `day-${paddedDay}-step-2`,
-          example: `day-${paddedDay}-step-3`,
-          'your-turn': `day-${paddedDay}-step-4`,
-        };
-        if (legacyStepMap[stepVal]) {
-          activeStepIdByDay[dayNum] = legacyStepMap[stepVal];
-          continue;
-        }
-        unmappedActiveSteps[dayKey] = stepVal;
-        if (day?.steps[0]) {
-          activeStepIdByDay[dayNum] = day.steps[0].id;
-        }
-      } else {
-        unmappedActiveSteps[dayKey] = stepVal;
-      }
-    }
-  }
-
-  if (Object.keys(unmappedActiveSteps).length > 0) {
-    unmappedData.activeStepByDay = unmappedActiveSteps;
-  }
-
-  // 3. Orientation
-  const completedStartHereIds = Array.isArray(rawV2.completedStartHereIds)
-    ? rawV2.completedStartHereIds.filter((item): item is string => typeof item === 'string')
-    : [];
-
-  // 4. Profil
-  const { profile, archivedStudioBrandStyle } = sanitizeProfile(rawV2.profile, false);
-  if (archivedStudioBrandStyle) {
-    unmappedData.archivedStudioBrandStyle = archivedStudioBrandStyle;
-  }
-
-  const existingArchive =
-    rawV2.legacyArchive && typeof rawV2.legacyArchive === 'object'
-      ? (rawV2.legacyArchive as Record<string, unknown>)
-      : {};
-
-  const migratedState: StudentProgress = {
-    schemaVersion: CURRENT_SCHEMA_VERSION,
-    activeRoute,
-    activeStepIdByDay,
-    completedStartHereIds,
-    completedStepIdsByDay,
-    checklistAnswers:
-      rawV2.checklistAnswers && typeof rawV2.checklistAnswers === 'object'
-        ? (rawV2.checklistAnswers as Record<string, Record<string, boolean>>)
-        : {},
-    exerciseAnswers:
-      rawV2.exerciseAnswers && typeof rawV2.exerciseAnswers === 'object'
-        ? (rawV2.exerciseAnswers as Record<string, string>)
-        : {},
-    quizStates:
-      rawV2.quizStates && typeof rawV2.quizStates === 'object'
-        ? (rawV2.quizStates as StudentProgress['quizStates'])
-        : {},
-    savedPrompts:
-      rawV2.savedPrompts && typeof rawV2.savedPrompts === 'object'
-        ? (rawV2.savedPrompts as Record<string, string>)
-        : {},
-    customPromptInputs:
-      rawV2.customPromptInputs && typeof rawV2.customPromptInputs === 'object'
-        ? (rawV2.customPromptInputs as Record<string, Record<string, string>>)
-        : {},
-    profile,
-    persistenceDisabled: persistenceDisabled || Boolean(rawV2.persistenceDisabled),
-    ...(Object.keys(unmappedData).length > 0 || Object.keys(existingArchive).length > 0
-      ? {
-          legacyArchive: {
-            ...existingArchive,
-            migratedToSchemaVersion: 3,
-            migratedAt: new Date().toISOString(),
-            ...unmappedData,
-          },
-        }
-      : {}),
-    lastUpdated: new Date().toISOString(),
-  };
-
-  if (!migratedState.persistenceDisabled) {
-    saveProgressToStorage(migratedState);
-  }
-  return migratedState;
-}
-
-/**
- * Chaîne complète de migration V1 -> V2 -> V3.
- */
-export function migrateV1ToV3(rawV1: Record<string, unknown>, rawSerialized?: string): StudentProgress {
-  const payload = rawSerialized ?? JSON.stringify(rawV1);
-  let persistenceDisabled = false;
-  const backupSuccess = ensureRawBackupWritten(1, payload);
-  if (!backupSuccess) {
-    persistenceDisabled = true;
-  }
-
-  const activeRoute = normalizeActiveRoute(rawV1.activeRoute);
-  const unmappedData: Record<string, unknown> = {
-    migratedFromSchemaVersion: 1,
+  const archivedFields: Record<string, unknown> = {
+    migratedFromSchemaVersion: fromVersion,
+    migratedToSchemaVersion: CURRENT_SCHEMA_VERSION,
     migratedAt: new Date().toISOString(),
   };
 
-  const completedStepsByDay: Record<number, StepType[]> = {};
-  const unmappedCompletedStepsByDay: Record<string, unknown> = {};
-  if (rawV1.completedStepsByDay && typeof rawV1.completedStepsByDay === 'object') {
-    for (const [dayKey, steps] of Object.entries(
-      rawV1.completedStepsByDay as Record<string, unknown>
-    )) {
-      const dayNum = Number(dayKey);
-      if (Number.isInteger(dayNum) && dayNum >= 1 && dayNum <= 3 && Array.isArray(steps)) {
-        completedStepsByDay[dayNum] = normalizeStepList(steps as StepType[]);
-      } else {
-        unmappedCompletedStepsByDay[dayKey] = steps;
-      }
-    }
+  if (rawLegacy.activeRoute !== undefined) {
+    archivedFields.previousActiveRoute = rawLegacy.activeRoute;
   }
-  if (Object.keys(unmappedCompletedStepsByDay).length > 0) {
-    unmappedData.completedStepsByDay = unmappedCompletedStepsByDay;
+  if (rawLegacy.completedStepsByDay !== undefined) {
+    archivedFields.completedStepsByDay = rawLegacy.completedStepsByDay;
   }
-
-  const activeStepByDay: Record<number, StepType> = {};
-  const unmappedActiveStepByDay: Record<string, unknown> = {};
-  if (rawV1.activeStepByDay && typeof rawV1.activeStepByDay === 'object') {
-    for (const [dayKey, stepVal] of Object.entries(
-      rawV1.activeStepByDay as Record<string, unknown>
-    )) {
-      const dayNum = Number(dayKey);
-      if (
-        Number.isInteger(dayNum) &&
-        dayNum >= 1 &&
-        dayNum <= 3 &&
-        typeof stepVal === 'string' &&
-        ALL_STEP_TYPES.includes(stepVal as StepType)
-      ) {
-        activeStepByDay[dayNum] = stepVal as StepType;
-      } else {
-        unmappedActiveStepByDay[dayKey] = stepVal;
-      }
-    }
+  if (rawLegacy.completedStepIdsByDay !== undefined) {
+    archivedFields.completedStepIdsByDay = rawLegacy.completedStepIdsByDay;
   }
-  if (Object.keys(unmappedActiveStepByDay).length > 0) {
-    unmappedData.activeStepByDay = unmappedActiveStepByDay;
+  if (rawLegacy.activeStepByDay !== undefined) {
+    archivedFields.activeStepByDay = rawLegacy.activeStepByDay;
+  }
+  if (rawLegacy.activeStepIdByDay !== undefined) {
+    archivedFields.activeStepIdByDay = rawLegacy.activeStepIdByDay;
+  }
+  if (rawLegacy.completedStartHereIds !== undefined) {
+    archivedFields.completedStartHereIds = rawLegacy.completedStartHereIds;
+  }
+  if (archivedStudioBrandStyle) {
+    archivedFields.archivedStudioBrandStyle = archivedStudioBrandStyle;
   }
 
-  const registry = buildPreservedV1BlockRegistry();
+  const registry = buildCurrentCurriculumBlockRegistry();
 
-  // 4. Réponses aux exercices
+  // Tri des réponses aux exercices : conserver si le bloc existe dans le cursus actuel, sinon archiver
   const exerciseAnswers: Record<string, string> = {};
-  const unmappedExerciseAnswers: Record<string, unknown> = {};
-  if (rawV1.exerciseAnswers && typeof rawV1.exerciseAnswers === 'object') {
-    for (const [exId, val] of Object.entries(rawV1.exerciseAnswers as Record<string, unknown>)) {
+  const archivedExercises: Record<string, unknown> = {};
+  if (rawLegacy.exerciseAnswers && typeof rawLegacy.exerciseAnswers === 'object') {
+    for (const [exId, val] of Object.entries(rawLegacy.exerciseAnswers as Record<string, unknown>)) {
       if (registry.exerciseIds.has(exId) && typeof val === 'string') {
         exerciseAnswers[exId] = val;
       } else {
-        unmappedExerciseAnswers[exId] = val;
+        archivedExercises[exId] = val;
       }
     }
   }
-  if (Object.keys(unmappedExerciseAnswers).length > 0) {
-    unmappedData.exerciseAnswers = unmappedExerciseAnswers;
+  if (Object.keys(archivedExercises).length > 0) {
+    archivedFields.exerciseAnswers = archivedExercises;
   }
 
-  // 5. Checklists
+  // Tri des checklists
   const checklistAnswers: Record<string, Record<string, boolean>> = {};
-  const unmappedChecklistAnswers: Record<string, unknown> = {};
-  if (rawV1.checklistAnswers && typeof rawV1.checklistAnswers === 'object') {
+  const archivedChecklists: Record<string, unknown> = {};
+  if (rawLegacy.checklistAnswers && typeof rawLegacy.checklistAnswers === 'object') {
     for (const [chkId, rawItems] of Object.entries(
-      rawV1.checklistAnswers as Record<string, unknown>
+      rawLegacy.checklistAnswers as Record<string, unknown>
     )) {
       const validItemSet = registry.checklistItemsByBlockId.get(chkId);
       if (validItemSet && rawItems && typeof rawItems === 'object') {
-        const keptItems: Record<string, boolean> = {};
-        const droppedItems: Record<string, unknown> = {};
+        const kept: Record<string, boolean> = {};
+        const dropped: Record<string, unknown> = {};
         for (const [itemId, checked] of Object.entries(rawItems as Record<string, unknown>)) {
           if (validItemSet.has(itemId) && typeof checked === 'boolean') {
-            keptItems[itemId] = checked;
+            kept[itemId] = checked;
           } else {
-            droppedItems[itemId] = checked;
+            dropped[itemId] = checked;
           }
         }
-        if (Object.keys(keptItems).length > 0) {
-          checklistAnswers[chkId] = keptItems;
+        if (Object.keys(kept).length > 0) {
+          checklistAnswers[chkId] = kept;
         }
-        if (Object.keys(droppedItems).length > 0) {
-          unmappedChecklistAnswers[chkId] = droppedItems;
+        if (Object.keys(dropped).length > 0) {
+          archivedChecklists[chkId] = dropped;
         }
       } else {
-        unmappedChecklistAnswers[chkId] = rawItems;
+        archivedChecklists[chkId] = rawItems;
       }
     }
   }
-  if (Object.keys(unmappedChecklistAnswers).length > 0) {
-    unmappedData.checklistAnswers = unmappedChecklistAnswers;
+  if (Object.keys(archivedChecklists).length > 0) {
+    archivedFields.checklistAnswers = archivedChecklists;
   }
 
-  // 6. Quiz
+  // Tri des quiz
   const quizStates: Record<string, QuizAttemptState> = {};
-  const unmappedQuizStates: Record<string, unknown> = {};
-  if (rawV1.quizStates && typeof rawV1.quizStates === 'object') {
-    for (const [qId, qState] of Object.entries(rawV1.quizStates as Record<string, unknown>)) {
+  const archivedQuizzes: Record<string, unknown> = {};
+  if (rawLegacy.quizStates && typeof rawLegacy.quizStates === 'object') {
+    for (const [qId, qState] of Object.entries(rawLegacy.quizStates as Record<string, unknown>)) {
       if (registry.quizIds.has(qId) && qState && typeof qState === 'object') {
         quizStates[qId] = qState as QuizAttemptState;
       } else {
-        unmappedQuizStates[qId] = qState;
+        archivedQuizzes[qId] = qState;
       }
     }
   }
-  if (Object.keys(unmappedQuizStates).length > 0) {
-    unmappedData.quizStates = unmappedQuizStates;
+  if (Object.keys(archivedQuizzes).length > 0) {
+    archivedFields.quizStates = archivedQuizzes;
   }
 
-  // 7. Prompts
+  // Tri des prompts sauvegardés
   const savedPrompts: Record<string, string> = {};
-  const unmappedSavedPrompts: Record<string, unknown> = {};
-  if (rawV1.savedPrompts && typeof rawV1.savedPrompts === 'object') {
-    for (const [pId, pVal] of Object.entries(rawV1.savedPrompts as Record<string, unknown>)) {
+  const archivedPrompts: Record<string, unknown> = {};
+  if (rawLegacy.savedPrompts && typeof rawLegacy.savedPrompts === 'object') {
+    for (const [pId, pVal] of Object.entries(rawLegacy.savedPrompts as Record<string, unknown>)) {
       if (registry.promptIds.has(pId) && typeof pVal === 'string') {
         savedPrompts[pId] = pVal;
       } else {
-        unmappedSavedPrompts[pId] = pVal;
+        archivedPrompts[pId] = pVal;
       }
     }
   }
-  if (Object.keys(unmappedSavedPrompts).length > 0) {
-    unmappedData.savedPrompts = unmappedSavedPrompts;
+  if (Object.keys(archivedPrompts).length > 0) {
+    archivedFields.savedPrompts = archivedPrompts;
   }
 
   const customPromptInputs: Record<string, Record<string, string>> = {};
-  const unmappedCustomPromptInputs: Record<string, unknown> = {};
-  if (rawV1.customPromptInputs && typeof rawV1.customPromptInputs === 'object') {
+  const archivedCustomInputs: Record<string, unknown> = {};
+  if (rawLegacy.customPromptInputs && typeof rawLegacy.customPromptInputs === 'object') {
     for (const [pId, pFields] of Object.entries(
-      rawV1.customPromptInputs as Record<string, unknown>
+      rawLegacy.customPromptInputs as Record<string, unknown>
     )) {
       if (registry.promptIds.has(pId) && pFields && typeof pFields === 'object') {
         customPromptInputs[pId] = pFields as Record<string, string>;
       } else {
-        unmappedCustomPromptInputs[pId] = pFields;
+        archivedCustomInputs[pId] = pFields;
       }
     }
   }
-  if (Object.keys(unmappedCustomPromptInputs).length > 0) {
-    unmappedData.customPromptInputs = unmappedCustomPromptInputs;
+  if (Object.keys(archivedCustomInputs).length > 0) {
+    archivedFields.customPromptInputs = archivedCustomInputs;
   }
 
-  // 8. Profil
-  const { profile, archivedStudioBrandStyle } = sanitizeProfile(rawV1.profile, true);
-  if (archivedStudioBrandStyle) {
-    unmappedData.archivedStudioBrandStyle = archivedStudioBrandStyle;
-  }
+  const existingArchive =
+    rawLegacy.legacyArchive && typeof rawLegacy.legacyArchive === 'object'
+      ? (rawLegacy.legacyArchive as Record<string, unknown>)
+      : {};
 
-  const intermediateV2 = {
-    schemaVersion: 2,
+  const migratedState: StudentProgress = {
+    schemaVersion: CURRENT_SCHEMA_VERSION,
+    curriculumModel: CURRICULUM_MODEL,
     activeRoute,
-    completedStepsByDay,
-    activeStepByDay,
-    completedStartHereIds: Array.isArray(rawV1.completedStartHereIds) ? rawV1.completedStartHereIds : [],
+    activeStepIdByLesson: {},
+    completedStepIdsByLesson: {},
     checklistAnswers,
     exerciseAnswers,
     quizStates,
     savedPrompts,
     customPromptInputs,
     profile,
-    legacyArchive: unmappedData,
     persistenceDisabled,
+    legacyArchive: {
+      ...existingArchive,
+      ...archivedFields,
+    },
+    lastUpdated: new Date().toISOString(),
   };
 
-  return migrateV2ToV3(intermediateV2, JSON.stringify(intermediateV2));
+  if (persistToStorage && !migratedState.persistenceDisabled) {
+    const saved = saveProgressToStorage(migratedState);
+    if (!saved) {
+      migratedState.persistenceDisabled = true;
+    }
+  }
+
+  return migratedState;
 }
 
-/**
- * Migration de compatibilité V1 vers V2 (conservée pour l'export/import d'anciens formats).
- */
-export function migrateV1ToV2(rawV1: Record<string, unknown>, rawSerialized?: string): StudentProgress {
-  return migrateV1ToV3(rawV1, rawSerialized);
+export function migrateV3ToV4(
+  rawV3: Record<string, unknown>,
+  rawSerialized?: string,
+  persistToStorage = true
+): StudentProgress {
+  return migrateLegacyToV4(rawV3, 3, rawSerialized, persistToStorage);
 }
 
-export function sanitizeProgressState(raw: unknown, rawSerialized?: string): StudentProgress {
+export function migrateV2ToV4(
+  rawV2: Record<string, unknown>,
+  rawSerialized?: string,
+  persistToStorage = true
+): StudentProgress {
+  return migrateLegacyToV4(rawV2, 2, rawSerialized, persistToStorage);
+}
+
+export function migrateV1ToV4(
+  rawV1: Record<string, unknown>,
+  rawSerialized?: string,
+  persistToStorage = true
+): StudentProgress {
+  return migrateLegacyToV4(rawV1, 1, rawSerialized, persistToStorage);
+}
+
+export const migrateV2ToV3 = migrateV2ToV4;
+export const migrateV1ToV3 = migrateV1ToV4;
+export const migrateV1ToV2 = migrateV1ToV4;
+
+export function sanitizeProgressState(
+  raw: unknown,
+  rawSerialized?: string,
+  persistToStorage = true
+): StudentProgress {
   const fallback = createInitialProgress();
   if (!raw || typeof raw !== 'object') {
     return fallback;
@@ -682,65 +463,70 @@ export function sanitizeProgressState(raw: unknown, rawSerialized?: string): Stu
   const data = raw as Record<string, unknown>;
 
   if (data.schemaVersion === 1) {
-    return migrateV1ToV3(data, rawSerialized);
+    return migrateV1ToV4(data, rawSerialized, persistToStorage);
   }
 
   if (data.schemaVersion === 2) {
-    return migrateV2ToV3(data, rawSerialized);
+    return migrateV2ToV4(data, rawSerialized, persistToStorage);
+  }
+
+  if (data.schemaVersion === 3) {
+    return migrateV3ToV4(data, rawSerialized, persistToStorage);
   }
 
   if (data.schemaVersion !== CURRENT_SCHEMA_VERSION) {
     return fallback;
   }
 
+  // Si un objet V4 ne porte pas le modèle de cursus canonique '3m-3d-7l',
+  // on n'accepte aucune validation de leçon non vérifiée.
+  if (data.curriculumModel !== CURRICULUM_MODEL) {
+    return migrateLegacyToV4(data, 3, rawSerialized, persistToStorage);
+  }
+
   const activeRoute = normalizeActiveRoute(data.activeRoute);
+  const validLessonIdSet = new Set<string>(ALL_LESSON_IDS);
 
-  const completedStepIdsByDay: Record<number, string[]> = {};
-  if (data.completedStepIdsByDay && typeof data.completedStepIdsByDay === 'object') {
-    for (const [dayKey, steps] of Object.entries(
-      data.completedStepIdsByDay as Record<string, unknown>
+  const completedStepIdsByLesson: Partial<Record<LessonId, string[]>> = {};
+  if (data.completedStepIdsByLesson && typeof data.completedStepIdsByLesson === 'object') {
+    for (const [lessonKey, steps] of Object.entries(
+      data.completedStepIdsByLesson as Record<string, unknown>
     )) {
-      const dayNum = Number(dayKey);
-      if (
-        Number.isInteger(dayNum) &&
-        dayNum >= 1 &&
-        dayNum <= TOTAL_COURSE_DAYS &&
-        Array.isArray(steps)
-      ) {
-        completedStepIdsByDay[dayNum] = normalizeStepIdList(steps as string[]);
+      const normalizedId = normalizeLessonId(lessonKey);
+      if (normalizedId && validLessonIdSet.has(normalizedId) && Array.isArray(steps)) {
+        const normalizedSteps = normalizeStepIdList(steps as string[]);
+        if (normalizedSteps.length > 0) {
+          completedStepIdsByLesson[normalizedId] = normalizedSteps;
+        }
       }
     }
   }
 
-  const activeStepIdByDay: Record<number, string> = {};
-  if (data.activeStepIdByDay && typeof data.activeStepIdByDay === 'object') {
-    for (const [dayKey, stepVal] of Object.entries(
-      data.activeStepIdByDay as Record<string, unknown>
+  const activeStepIdByLesson: Partial<Record<LessonId, string>> = {};
+  if (data.activeStepIdByLesson && typeof data.activeStepIdByLesson === 'object') {
+    for (const [lessonKey, stepVal] of Object.entries(
+      data.activeStepIdByLesson as Record<string, unknown>
     )) {
-      const dayNum = Number(dayKey);
+      const normalizedId = normalizeLessonId(lessonKey);
       if (
-        Number.isInteger(dayNum) &&
-        dayNum >= 1 &&
-        dayNum <= TOTAL_COURSE_DAYS &&
-        typeof stepVal === 'string'
+        normalizedId &&
+        validLessonIdSet.has(normalizedId) &&
+        typeof stepVal === 'string' &&
+        stepVal.trim().length > 0
       ) {
-        activeStepIdByDay[dayNum] = stepVal;
+        activeStepIdByLesson[normalizedId] = stepVal.trim();
       }
     }
   }
-
-  const completedStartHereIds = Array.isArray(data.completedStartHereIds)
-    ? data.completedStartHereIds.filter((item): item is string => typeof item === 'string')
-    : [];
 
   const { profile } = sanitizeProfile(data.profile, false);
 
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
+    curriculumModel: CURRICULUM_MODEL,
     activeRoute,
-    activeStepIdByDay,
-    completedStartHereIds,
-    completedStepIdsByDay,
+    activeStepIdByLesson,
+    completedStepIdsByLesson,
     checklistAnswers:
       data.checklistAnswers && typeof data.checklistAnswers === 'object'
         ? (data.checklistAnswers as Record<string, Record<string, boolean>>)
@@ -799,7 +585,10 @@ export function loadProgressFromStorage(): StudentProgress {
 
   try {
     const parsed: unknown = JSON.parse(serialized);
-    return sanitizeProgressState(parsed, serialized);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      return createInitialProgress();
+    }
+    return sanitizeProgressState(parsed, serialized, true);
   } catch {
     // Le JSON est corrompu : isolation sous la clé dédiée et verrouillage de sécurité
     try {
@@ -849,18 +638,19 @@ export function exportProgressJson(state: StudentProgress): string {
 export function importProgressJson(jsonString: string): StudentProgress | null {
   try {
     const parsed: unknown = JSON.parse(jsonString);
-    if (!parsed || typeof parsed !== 'object') {
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
       return null;
     }
     const candidate = parsed as Record<string, unknown>;
     if (
       candidate.schemaVersion !== CURRENT_SCHEMA_VERSION &&
+      candidate.schemaVersion !== 3 &&
       candidate.schemaVersion !== 2 &&
       candidate.schemaVersion !== 1
     ) {
       return null;
     }
-    return sanitizeProgressState(parsed, jsonString);
+    return sanitizeProgressState(parsed, jsonString, false);
   } catch {
     return null;
   }

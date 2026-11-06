@@ -4,13 +4,17 @@ import {
   COURSE_META_TITLE,
   COURSE_SUBTITLE,
   ALL_DAYS,
+  ALL_LESSONS,
   COURSE_DATA,
+  TOTAL_COURSE_MODULES,
+  TOTAL_COURSE_DAYS,
+  TOTAL_COURSE_LESSONS,
 } from '../data/course';
-import { RESOURCE_CATEGORIES } from '../data/navigation/resources';
 import { BONUSES } from '../data/navigation/bonuses';
 import { MAIN_COURSES } from '../data/navigation/mainCourses';
+import { COURSE_MODULES } from '../data/sprints';
 
-describe('Intégrité Curriculaire et Remise à Zéro (Mission 0)', () => {
+describe('Intégrité Curriculaire Canonique (3 Modules • 3 Journées • 7 Leçons)', () => {
   describe('1. Constantes de Titre et Sous-Titre Centralisées', () => {
     it('définit COURSE_TITLE et COURSE_META_TITLE avec la valeur officielle exacte', () => {
       const expectedTitle =
@@ -26,52 +30,145 @@ describe('Intégrité Curriculaire et Remise à Zéro (Mission 0)', () => {
     });
   });
 
-  describe('2. Structure des 3 Modules et 9 Leçons', () => {
-    it('contient exactement 3 modules dans MAIN_COURSES et COURSE_DATA.sprints', () => {
+  describe('2. Structure des 3 Modules, 3 Journées et 7 Leçons (Répartition 2 + 3 + 2)', () => {
+    it('contient exactement 3 modules dans MAIN_COURSES et COURSE_MODULES sans duplication', () => {
+      expect(TOTAL_COURSE_MODULES).toBe(3);
       expect(MAIN_COURSES).toHaveLength(3);
-      expect(COURSE_DATA.sprints).toHaveLength(3);
-      expect(MAIN_COURSES[0].title).toBe('Opportunité et positionnement');
-      expect(MAIN_COURSES[1].title).toBe('Concevoir et créer avec Claude');
-      expect(MAIN_COURSES[2].title).toBe('Vendre et promouvoir');
+      expect(COURSE_DATA.modules).toHaveLength(3);
+      expect(MAIN_COURSES).toBe(COURSE_MODULES);
+
+      expect(MAIN_COURSES[0]).toMatchObject({
+        id: 'module-01',
+        moduleNumber: 1,
+        title: 'CHOISIR',
+        dayId: 'day-01',
+        dayNumber: 1,
+        lessonIds: ['lesson-01', 'lesson-02'],
+        lessonRange: [1, 2],
+      });
+      expect(MAIN_COURSES[1]).toMatchObject({
+        id: 'module-02',
+        moduleNumber: 2,
+        title: 'CRÉER',
+        dayId: 'day-02',
+        dayNumber: 2,
+        lessonIds: ['lesson-03', 'lesson-04', 'lesson-05'],
+        lessonRange: [3, 5],
+      });
+      expect(MAIN_COURSES[2]).toMatchObject({
+        id: 'module-03',
+        moduleNumber: 3,
+        title: 'PUBLIER ET LIVRER',
+        dayId: 'day-03',
+        dayNumber: 3,
+        lessonIds: ['lesson-06', 'lesson-07'],
+        lessonRange: [6, 7],
+      });
     });
 
-    it('contient exactement 9 leçons avec les titres officiels validés', () => {
-      expect(ALL_DAYS).toHaveLength(9);
-      expect(COURSE_DATA.days).toHaveLength(9);
+    it('contient exactement 3 journées qui regroupent uniquement leurs leçons (aucun steps sur Day)', () => {
+      expect(TOTAL_COURSE_DAYS).toBe(3);
+      expect(ALL_DAYS).toHaveLength(3);
+      expect(COURSE_DATA.days).toHaveLength(3);
 
-      const expectedTitles = [
-        'Analyser son document et identifier son potentiel interactif.',
-        'Comprendre son acheteur et le problème à résoudre.',
-        'Définir sa solution et sa promesse.',
-        'Concevoir son expérience interactive.',
-        'Créer son application avec Claude.',
-        'Personnaliser, tester et publier son application.',
-        'Construire son offre commerciale.',
-        'Créer son dispositif de livraison et publier sur Chariow.',
-        'Présenter et promouvoir son application.',
+      expect(ALL_DAYS[0].id).toBe('day-01');
+      expect(ALL_DAYS[0].dayNumber).toBe(1);
+      expect(ALL_DAYS[0].moduleId).toBe('module-01');
+      expect(ALL_DAYS[0].lessons.map((l) => l.id)).toEqual(['lesson-01', 'lesson-02']);
+      expect('steps' in ALL_DAYS[0]).toBe(false);
+
+      expect(ALL_DAYS[1].id).toBe('day-02');
+      expect(ALL_DAYS[1].dayNumber).toBe(2);
+      expect(ALL_DAYS[1].moduleId).toBe('module-02');
+      expect(ALL_DAYS[1].lessons.map((l) => l.id)).toEqual(['lesson-03', 'lesson-04', 'lesson-05']);
+      expect('steps' in ALL_DAYS[1]).toBe(false);
+
+      expect(ALL_DAYS[2].id).toBe('day-03');
+      expect(ALL_DAYS[2].dayNumber).toBe(3);
+      expect(ALL_DAYS[2].moduleId).toBe('module-03');
+      expect(ALL_DAYS[2].lessons.map((l) => l.id)).toEqual(['lesson-06', 'lesson-07']);
+      expect('steps' in ALL_DAYS[2]).toBe(false);
+    });
+
+    it('contient exactement 7 leçons squelettes avec les titres et durées officiels du PRD', () => {
+      expect(TOTAL_COURSE_LESSONS).toBe(7);
+      expect(ALL_LESSONS).toHaveLength(7);
+      expect(COURSE_DATA.lessons).toHaveLength(7);
+
+      const expectedLessons = [
+        {
+          id: 'lesson-01',
+          lessonNumber: 1,
+          moduleId: 'module-01',
+          dayId: 'day-01',
+          title: 'Préparer son document et configurer Claude',
+          duration: '~15 min',
+        },
+        {
+          id: 'lesson-02',
+          lessonNumber: 2,
+          moduleId: 'module-01',
+          dayId: 'day-01',
+          title: 'Analyser son document, identifier 3 interactions et choisir',
+          duration: '~30 min',
+        },
+        {
+          id: 'lesson-03',
+          lessonNumber: 3,
+          moduleId: 'module-02',
+          dayId: 'day-02',
+          title: 'Définir sa direction artistique indépendante',
+          duration: '~20 min',
+        },
+        {
+          id: 'lesson-04',
+          lessonNumber: 4,
+          moduleId: 'module-02',
+          dayId: 'day-02',
+          title: 'Générer la première version (V1) de son application',
+          duration: '~40 min',
+        },
+        {
+          id: 'lesson-05',
+          lessonNumber: 5,
+          moduleId: 'module-02',
+          dayId: 'day-02',
+          title: 'Effectuer des retouches ciblées, corriger et tester',
+          duration: '~30 min',
+        },
+        {
+          id: 'lesson-06',
+          lessonNumber: 6,
+          moduleId: 'module-03',
+          dayId: 'day-03',
+          title: 'Publier son application sur Netlify',
+          duration: '~25 min',
+        },
+        {
+          id: 'lesson-07',
+          lessonNumber: 7,
+          moduleId: 'module-03',
+          dayId: 'day-03',
+          title: "Organiser la livraison via Chariow et tester le parcours d'achat",
+          duration: '~35 min',
+        },
       ];
 
-      ALL_DAYS.forEach((day, index) => {
-        expect(day.dayNumber).toBe(index + 1);
-        expect(day.title).toBe(expectedTitles[index]);
-        expect(day.steps).toHaveLength(0);
+      ALL_LESSONS.forEach((lesson, index) => {
+        expect(lesson).toMatchObject(expectedLessons[index]);
+        expect(lesson.isSkeletonPlaceholder).toBe(true);
+        expect(lesson.steps).toEqual([]);
       });
     });
   });
 
-  describe('3. Les 2 Bonus Vides', () => {
+  describe('3. Les 2 Bonus Différés Préservés', () => {
     it('contient exactement 2 bonus avec leurs intitulés officiels et contenu vidé', () => {
       expect(BONUSES).toHaveLength(2);
       expect(BONUSES[0].title).toBe('LE SYSTÈME MANYCHAT AUTOMATISÉ AVEC CLAUDE');
       expect(BONUSES[1].title).toBe('MARKETING LIBRARY');
       expect(BONUSES[0].blocks).toHaveLength(0);
       expect(BONUSES[1].blocks).toHaveLength(0);
-    });
-  });
-
-  describe('4. Ressources Vidées', () => {
-    it('RESOURCE_CATEGORIES est vide', () => {
-      expect(RESOURCE_CATEGORIES).toHaveLength(0);
     });
   });
 });

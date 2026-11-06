@@ -4,23 +4,23 @@ import { COURSE_TITLE, COURSE_SUBTITLE } from '../../data/course';
 import { CourseProgressCircle } from './CourseProgressCircle';
 
 export function CourseHero() {
-  const { globalProgress, navigateToDay } = useProgress();
+  const { globalProgress, navigateToLesson } = useProgress();
 
-  // Déterminer la prochaine leçon exacte à suivre parmi les 9 leçons
+  // Déterminer la prochaine leçon exacte à suivre parmi les 7 leçons
   const getNextStepInfo = () => {
-    for (let day = 1; day <= globalProgress.totalDays; day++) {
-      if (!globalProgress.completedDayNumbers.includes(day)) {
+    for (let lessonNum = 1; lessonNum <= globalProgress.totalLessons; lessonNum++) {
+      if (!globalProgress.completedLessonNumbers.includes(lessonNum)) {
         return {
-          label: `À suivre : Leçon ${day}`,
-          action: () => navigateToDay(day),
-          buttonText: day === 1 ? 'Commencer la Leçon 01' : 'Continuer',
+          label: `À suivre : Leçon ${lessonNum}`,
+          action: () => navigateToLesson(lessonNum),
+          buttonText: lessonNum === 1 ? 'Commencer la Leçon 01' : 'Continuer',
         };
       }
     }
 
     return {
-      label: 'Parcours des 9 leçons complété',
-      action: () => navigateToDay(1),
+      label: 'Parcours des 7 leçons complété',
+      action: () => navigateToLesson(1),
       buttonText: 'Revoir le parcours',
     };
   };
@@ -39,10 +39,10 @@ export function CourseHero() {
       <div className="p-6 sm:p-7 md:p-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="flex-1 min-w-0 space-y-4">
-            {/* Tag MINI-COURS PRATIQUE */}
+            {/* Tag MINI-COURS GUIDÉ */}
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-block px-2.5 py-0.5 bg-surface text-ink border border-ink rounded-brutal-tag font-mono text-[11px] font-bold uppercase shadow-brutal-xs">
-                MINI-COURS PRATIQUE : 3 MODULES • 9 LEÇONS • 2 BONUS
+                MINI-COURS GUIDÉ : 3 MODULES • 3 JOURS • 7 LEÇONS • 2 BONUS
               </span>
             </div>
 

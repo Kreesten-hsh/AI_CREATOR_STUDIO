@@ -14,9 +14,7 @@ export function CourseLayout({ course, children }: CourseLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { state } = useProgress();
 
-  const isInsideCourse =
-    state.activeRoute.kind === 'course' ||
-    state.activeRoute.kind === 'day';
+  const isInsideCourse = state.activeRoute.kind === 'lesson';
 
   return (
     <div className="min-h-screen bg-cream text-ink flex flex-col lg:flex-row">

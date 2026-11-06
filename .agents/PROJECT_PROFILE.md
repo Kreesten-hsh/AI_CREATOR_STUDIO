@@ -12,7 +12,7 @@
 
 ## 2. Resource Affinity (Auto-Routed)
 - **Primary Skills**: `frontend-ui-engineering`, `antislop-ui`, `taste-skill`, `ui-ux-pro-max`, `react-patterns`, `frontend-a11y`, `ui-styling`, `design-system`, `vite-patterns`, `codebase-design`, `performance-optimization`, `write-tests`, `browser-testing-with-devtools`
-- **Relevant MCPs**: `context7`, `invisible-playwright`, `StitchMCP`
+- **Relevant MCPs**: `context7`, `github-mcp-server`, `invisible-playwright`, `StitchMCP`
 
 ## 3. Local Constraints & Conventions
 - Maintain strict typing and early returns.

@@ -2,7 +2,7 @@
 
 ## 1. Identité Visuelle et Personnalité
 
-- **Plateforme** : **AI CREATOR Studio** (Mini-cours pratique : 3 Modules • 9 Leçons • 2 Bonus).
+- **Plateforme** : **AI CREATOR Studio** (Mini-cours pratique : 3 Modules • 3 Journées • 7 Leçons • 2 Bonus).
 - **Titre du cours** : *« Utiliser Claude pour créer un produit digital qui ne ressemble pas à de la merde générée par l'IA »*.
 - **Direction esthétique** : **Néo-Brutaliste Éditorial** (Inspiration print tactile, journaux indépendants, blocs structurés au scalpel, contrastes nets, zéro slop générique).
 - **Tonalité** : Pragmatique, rigoureuse, directe, épurée, concrète.
@@ -54,11 +54,9 @@ Les couleurs canoniques de l'application sont définies dans `tailwind.config.js
   - Tags / Badges : `4px` (`rounded-brutal-tag`)
 - **Structure de navigation** :
   - **Accueil** (`CourseHomePage` : `CourseHero`)
-  - **3 Modules** (Navigation latérale desktop et tiroir mobile fluide)
-  - **9 Leçons** (Ouverture avec en-tête `DayHeader` et conteneur responsive)
+  - **3 Modules** (Navigation latérale desktop et tiroir mobile fluide : `CHOISIR`, `CRÉER`, `PUBLIER ET LIVRER`)
+  - **7 Leçons** (Ouverture avec en-tête `DayHeader` et conteneur responsive)
   - **2 Bonus** (`BonusView`)
-  - **Ressources** (`ResourcesView`)
-  - **Fiches pratiques** (`PracticalSheetsView`)
 
 ---
 

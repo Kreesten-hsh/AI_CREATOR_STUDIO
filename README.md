@@ -8,30 +8,24 @@
 
 ## 1. Architecture du Programme
 
-Le cursus est structuré en **3 modules thématiques**, totalisant **9 journées pratiques**, complétées par **2 bonus** et deux espaces de synthèse :
+Le cursus est structuré en **3 modules thématiques**, totalisant **3 journées** et **7 leçons pratiques** (répartition 2 + 3 + 2), complétées par **2 bonus** pratiques :
 
-### Module 1 : Opportunité et positionnement
-- **Jour 01** : Analyser son document et identifier son potentiel interactif.
-- **Jour 02** : Comprendre son acheteur et le problème à résoudre.
-- **Jour 03** : Définir sa solution et sa promesse.
+### Module 1 : CHOISIR (Journée 1)
+- **Leçon 01** : Préparer son document et configurer Claude (~15 min)
+- **Leçon 02** : Analyser son document, identifier 3 interactions et choisir (~30 min)
 
-### Module 2 : Concevoir et créer avec Claude
-- **Jour 04** : Concevoir son expérience interactive.
-- **Jour 05** : Créer son application avec Claude.
-- **Jour 06** : Personnaliser, tester et publier son application.
+### Module 2 : CRÉER (Journée 2)
+- **Leçon 03** : Définir sa direction artistique indépendante (~20 min)
+- **Leçon 04** : Générer la première version (V1) de son application (~40 min)
+- **Leçon 05** : Effectuer des retouches ciblées, corriger et tester (~30 min)
 
-### Module 3 : Vendre et promouvoir
-- **Jour 07** : Construire son offre commerciale.
-- **Jour 08** : Créer son dispositif de livraison et publier sur Chariow.
-- **Jour 09** : Présenter et promouvoir son application.
+### Module 3 : PUBLIER ET LIVRER (Journée 3)
+- **Leçon 06** : Publier son application sur Netlify (~25 min)
+- **Leçon 07** : Organiser la livraison via Chariow et tester le parcours d'achat (~35 min)
 
 ### Les 2 Bonus
 - **Bonus 01** : LE SYSTÈME MANYCHAT AUTOMATISÉ AVEC CLAUDE
 - **Bonus 02** : MARKETING LIBRARY
-
-### Espaces d'Accompagnement
-- **Ressources** : Outils techniques et modèles de code.
-- **Fiches pratiques** : Synthèses méthodologiques et repères d'exécution.
 
 ---
 
@@ -72,5 +66,6 @@ npm run build
 
 ## 4. Documentation Technique
 
-- `docs/PROJECT_REBUILD_BRIEF.md` : Document de référence canonique pour la reconstruction pédagogique.
+- `docs/COURSE_PRD.md` : Document de référence canonique (PRD) pour l'architecture pédagogique et fonctionnelle.
+- `docs/PROJECT_REBUILD_BRIEF.md` : Spécification initiale de la refonte.
 - `DESIGN.md` : Spécification complète du design system et des règles visuelles.

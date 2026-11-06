@@ -6,13 +6,16 @@ import { useProgress } from '../hooks/useProgress';
 import {
   STORAGE_KEY,
   V1_BACKUP_STORAGE_KEY,
+  RAW_BACKUP_V2_STORAGE_KEY,
+  RAW_BACKUP_V3_STORAGE_KEY,
   CURRENT_SCHEMA_VERSION,
+  CURRICULUM_MODEL,
   STUDIO_LEGACY_BRAND_STYLE,
   loadProgressFromStorage,
 } from '../utils/storage';
 import type { QuizAttemptState } from '../types/course';
 
-describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Suite', () => {
+describe('V4 : Student Progress, State Persistence & V1/V2/V3 -> V4 Migration Suite', () => {
   beforeEach(() => {
     window.localStorage.clear();
     vi.restoreAllMocks();
@@ -29,9 +32,9 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
   }
 
   // =========================================================================
-  // SECTION A : Persistance courante V2
+  // SECTION A : Persistance courante V4
   // =========================================================================
-  it('1. persiste et restaure fidèlement les réponses aux exercices textuels en V2', () => {
+  it('1. persiste et restaure fidèlement les réponses aux exercices textuels en V4', () => {
     let capturedProgress!: ReturnType<typeof useProgress>;
 
     const { unmount } = render(
@@ -41,7 +44,7 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
     );
 
     act(() => {
-      capturedProgress.saveExerciseAnswer('day04-exercise-product-spec', 'Spécification V1 prête');
+      capturedProgress.saveExerciseAnswer('lesson02-exercise-choice', 'Interaction retenue');
     });
 
     unmount();
@@ -50,7 +53,9 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
     expect(rawStorage).not.toBeNull();
     const parsed = JSON.parse(rawStorage!);
     expect(parsed.schemaVersion).toBe(CURRENT_SCHEMA_VERSION);
-    expect(parsed.exerciseAnswers['day04-exercise-product-spec']).toBe('Spécification V1 prête');
+    expect(parsed.schemaVersion).toBe(4);
+    expect(parsed.curriculumModel).toBe(CURRICULUM_MODEL);
+    expect(parsed.exerciseAnswers['lesson02-exercise-choice']).toBe('Interaction retenue');
 
     let restoredProgress!: ReturnType<typeof useProgress>;
     render(
@@ -59,12 +64,12 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
       </ProgressProvider>
     );
 
-    expect(restoredProgress.state.exerciseAnswers['day04-exercise-product-spec']).toBe(
-      'Spécification V1 prête'
+    expect(restoredProgress.state.exerciseAnswers['lesson02-exercise-choice']).toBe(
+      'Interaction retenue'
     );
   });
 
-  it('2. persiste et restaure les validations de checklists, quiz, prompts et profil en V2', () => {
+  it('2. persiste et restaure les validations de checklists, quiz, prompts et profil en V4', () => {
     let capturedProgress!: ReturnType<typeof useProgress>;
 
     const { unmount } = render(
@@ -81,10 +86,10 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
     };
 
     act(() => {
-      capturedProgress.toggleChecklistItem('day05-checklist-build', 'chk-d05-standalone');
-      capturedProgress.saveQuizAttempt('day01-step1-quiz', quizAttempt);
+      capturedProgress.toggleChecklistItem('lesson04-checklist-v1', 'chk-l04-standalone');
+      capturedProgress.saveQuizAttempt('lesson01-quiz', quizAttempt);
       capturedProgress.saveCustomPromptInput(
-        'day01-step2-master-prompt',
+        'lesson01-master-prompt',
         'business',
         'Cabinet Comptable PME'
       );
@@ -111,11 +116,11 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
     );
 
     expect(
-      restoredProgress.state.checklistAnswers['day05-checklist-build']?.['chk-d05-standalone']
+      restoredProgress.state.checklistAnswers['lesson04-checklist-v1']?.['chk-l04-standalone']
     ).toBe(true);
-    expect(restoredProgress.state.quizStates['day01-step1-quiz']).toEqual(quizAttempt);
+    expect(restoredProgress.state.quizStates['lesson01-quiz']).toEqual(quizAttempt);
     expect(
-      restoredProgress.state.customPromptInputs['day01-step2-master-prompt']?.['business']
+      restoredProgress.state.customPromptInputs['lesson01-master-prompt']?.['business']
     ).toBe('Cabinet Comptable PME');
     expect(restoredProgress.state.profile.studentName).toBe('Camille');
     expect(restoredProgress.state.profile.business).toBe('Studio Vélo');
@@ -124,10 +129,10 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
   });
 
   // =========================================================================
-  // SECTION B : Les 7 scénarios obligatoires de migration LocalStorage V1 -> V2
+  // SECTION B : Scénarios de migration V1 / V2 / V3 -> V4 sans conversion fictive
   // =========================================================================
-  describe('7 Scénarios obligatoires de migration LocalStorage (schemaVersion 1 -> 2)', () => {
-    it('Scénario 1 : Stockage V1 valide (préserve leçons 1-3 & profil, neutralise le style Studio par défaut, isole jours 4-25 dans legacyArchive et écrit la sauvegarde V1)', () => {
+  describe('Scénarios de migration LocalStorage vers V4 (3m-3d-7l)', () => {
+    it('Scénario 1 : Stockage V1 valide (sauvegarde brute V1, profil préservé, anciennes validations archivées dans legacyArchive sans conversion fictive vers les 7 leçons)', () => {
       const validV1State = {
         schemaVersion: 1,
         activeRoute: {
@@ -135,52 +140,17 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
           courseId: 'course-01',
           dayNumber: 2,
         },
-        activeStepByDay: {
-          1: 'concept',
-          2: 'prompt',
-          16: 'example',
-        },
-        completedStartHereIds: ['introduction', 'obsolete-orientation'],
         completedStepsByDay: {
           1: ['concept', 'prompt', 'example', 'your-turn'],
           2: ['concept', 'prompt'],
-          6: ['concept', 'prompt', 'example', 'your-turn'],
-          16: ['concept'],
-        },
-        checklistAnswers: {
-          'day01-step4-checklist': {
-            'item-c1-audience': true,
-            'chk-obsolete-item': true,
-          },
-          'chk-day-07-obsolete': {
-            'item-1': true,
-          },
         },
         exerciseAnswers: {
           'day01-deliverable-a': 'Matière brute conservée du Jour 01',
-          'day02-deliverable-final-card': 'Fiche acheteur conservée du Jour 02',
-          'day03-deliverable-c-positioning': 'Positionnement conservé du Jour 03',
-          'exercise-day-06-obsolete': 'Ancien exercice du Jour 06 archivé sans perte',
-        },
-        quizStates: {
-          'day01-step1-quiz': { answers: { q1: 2 }, submitted: true, score: 1, total: 4 },
-          'quiz-day-06-obsolete': { answers: { q1: 1 }, submitted: true, score: 1, total: 1 },
-        },
-        savedPrompts: {
-          'day01-step2-master-prompt': 'Prompt J01 personnalisé',
-          'prompt-day-07-obsolete': 'Ancien prompt J07',
-        },
-        customPromptInputs: {
-          'day02-step2-master-prompt': { business: 'Conseil RH' },
-          'prompt-day-08-obsolete': { theme: 'Obsolete' },
         },
         profile: {
           studentName: 'Dr. Valérie',
           business: 'Cabinet Santé Préventive',
-          targetAudience: 'Patients chroniques',
-          productType: 'Carnet de suivi interactif',
           brandStyle: STUDIO_LEGACY_BRAND_STYLE,
-          mainObjective: 'Lancer sur Chariow',
           vibe: {
             paletteId: 'editorial-brique',
             styleId: 'neo-brutalist-print',
@@ -190,7 +160,6 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
             specialite: 'Cardiologie',
           },
         },
-        lastUpdated: '2026-10-01T10:00:00.000Z',
       };
 
       const rawSerialized = JSON.stringify(validV1State);
@@ -198,238 +167,132 @@ describe('V2 : Student Progress, State Persistence & Blinded V1->V2 Migration Su
 
       const migrated = loadProgressFromStorage();
 
-      // 1. La sauvegarde V1 est créée et strictement identique au payload V1 d'origine
+      // 1. Sauvegarde V1 intacte
       expect(window.localStorage.getItem(V1_BACKUP_STORAGE_KEY)).toBe(rawSerialized);
 
-      // 2. Schéma passé en V3 et route normalisée vers module-01 leçon 2
-      expect(migrated.schemaVersion).toBe(3);
-      expect(migrated.activeRoute).toEqual({
-        kind: 'course',
-        courseId: 'module-01',
-        dayNumber: 2,
-      });
+      // 2. Schéma passé en V4 (3m-3d-7l) et route ramenée à l'accueil
+      expect(migrated.schemaVersion).toBe(4);
+      expect(migrated.curriculumModel).toBe('3m-3d-7l');
+      expect(migrated.activeRoute).toEqual({ kind: 'home' });
 
-      // 3. Leçons 1 à 3 et leurs exercices/checklists/quiz/prompts valides sont préservés
-      expect(migrated.completedStepIdsByDay[1]).toEqual([
-        'day-01-step-1',
-        'day-01-step-2',
-        'day-01-step-3',
-        'day-01-step-4',
-      ]);
-      expect(migrated.completedStepIdsByDay[2]).toEqual(['day-02-step-1', 'day-02-step-2']);
-      expect(migrated.completedStepIdsByDay[6]).toBeUndefined();
-      expect(migrated.completedStepIdsByDay[16]).toBeUndefined();
+      // 3. Aucune validation fictive sur les 7 nouvelles leçons
+      expect(migrated.completedStepIdsByLesson).toEqual({});
 
-      expect(migrated.exerciseAnswers['day01-deliverable-a']).toBe(
-        'Matière brute conservée du Jour 01'
-      );
-      expect(migrated.exerciseAnswers['day02-deliverable-final-card']).toBe(
-        'Fiche acheteur conservée du Jour 02'
-      );
-      expect(migrated.exerciseAnswers['day03-deliverable-c-positioning']).toBe(
-        'Positionnement conservé du Jour 03'
-      );
-      expect(migrated.exerciseAnswers['exercise-day-06-obsolete']).toBeUndefined();
-
-      expect(migrated.checklistAnswers['day01-step4-checklist']).toEqual({
-        'item-c1-audience': true,
-      });
-      expect(migrated.quizStates['day01-step1-quiz']?.score).toBe(1);
-      expect(migrated.savedPrompts['day01-step2-master-prompt']).toBe('Prompt J01 personnalisé');
-      expect(migrated.customPromptInputs['day02-step2-master-prompt']?.business).toBe('Conseil RH');
-
-      // 4. Profil préservé mais charte par défaut du Studio neutralisée
+      // 4. Profil préservé et charte par défaut du Studio neutralisée
       expect(migrated.profile.studentName).toBe('Dr. Valérie');
       expect(migrated.profile.business).toBe('Cabinet Santé Préventive');
       expect(migrated.profile.brandStyle).toBe('');
       expect(migrated.profile.vibe.paletteId).toBe('slate-emerald');
       expect(migrated.profile.customVariables['specialite']).toBe('Cardiologie');
 
-      // 5. Isolation dans legacyArchive sans suppression silencieuse
+      // 5. Isolation dans legacyArchive
       expect(migrated.legacyArchive).toBeDefined();
       expect(migrated.legacyArchive?.migratedFromSchemaVersion).toBe(1);
+      expect(migrated.legacyArchive?.migratedToSchemaVersion).toBe(4);
       expect(migrated.legacyArchive?.archivedStudioBrandStyle).toBe(STUDIO_LEGACY_BRAND_STYLE);
-      expect(
-        (migrated.legacyArchive?.exerciseAnswers as Record<string, unknown>)?.[
-          'exercise-day-06-obsolete'
-        ]
-      ).toBe('Ancien exercice du Jour 06 archivé sans perte');
-      expect(
-        (migrated.legacyArchive?.completedStepsByDay as Record<string, unknown>)?.['6']
-      ).toEqual(['concept', 'prompt', 'example', 'your-turn']);
     });
 
-    it('Scénario 2 : Stockage V1 corrompu (JSON invalide ou structure corrompue -> repli propre en V2 sans crash)', () => {
-      window.localStorage.setItem(STORAGE_KEY, '{corrupted_v1_json_payload');
-      const recoveredFromInvalidJson = loadProgressFromStorage();
-      expect(recoveredFromInvalidJson.schemaVersion).toBe(3);
-      expect(recoveredFromInvalidJson.activeRoute).toEqual({ kind: 'home' });
-
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify('not-an-object'));
-      const recoveredFromPrimitive = loadProgressFromStorage();
-      expect(recoveredFromPrimitive.schemaVersion).toBe(3);
-      expect(recoveredFromPrimitive.completedStepIdsByDay).toEqual({});
-    });
-
-    it('Scénario 3 : Sauvegarde ai_creator_studio_progress_v1_backup déjà existante (ne jamais écraser la sauvegarde existante)', () => {
-      const originalBackupPayload = JSON.stringify({
-        schemaVersion: 1,
-        marker: 'ORIGINAL_UNTOUCHED_BACKUP',
-      });
-      window.localStorage.setItem(V1_BACKUP_STORAGE_KEY, originalBackupPayload);
-
-      const newerV1State = {
-        schemaVersion: 1,
-        activeRoute: { kind: 'course', courseId: 'course-04', dayNumber: 22 },
-        profile: { studentName: 'Nadia' },
-      };
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(newerV1State));
-
-      const migrated = loadProgressFromStorage();
-      expect(migrated.schemaVersion).toBe(3);
-      expect(migrated.activeRoute).toEqual({ kind: 'home' });
-      expect(migrated.profile.studentName).toBe('Nadia');
-
-      // La sauvegarde existante n'a JAMAIS été écrasée
-      expect(window.localStorage.getItem(V1_BACKUP_STORAGE_KEY)).toBe(originalBackupPayload);
-    });
-
-    it('Scénario 4 : Stockage vide (initialisation directe en schemaVersion 3 sans créer de backup V1 inutile)', () => {
-      window.localStorage.clear();
-      const fresh = loadProgressFromStorage();
-      expect(fresh.schemaVersion).toBe(3);
-      expect(fresh.activeRoute).toEqual({ kind: 'home' });
-      expect(fresh.profile.brandStyle).toBe('');
-      expect(window.localStorage.getItem(V1_BACKUP_STORAGE_KEY)).toBeNull();
-    });
-
-    it('Scénario 5 : Migration partiellement interrompue (backup déjà présent mais clé principale encore en V1 -> achève la migration sans écraser le backup)', () => {
-      const firstBackup = JSON.stringify({
-        schemaVersion: 1,
-        profile: { studentName: 'Premier Snapshot V1' },
-      });
-      window.localStorage.setItem(V1_BACKUP_STORAGE_KEY, firstBackup);
-
-      const interruptedMainV1 = {
-        schemaVersion: 1,
-        activeRoute: { kind: 'bonus', bonusId: 'bonus-01' },
-        completedStepsByDay: { 1: ['concept', 'prompt', 'example', 'your-turn'] },
-        profile: {
-          studentName: 'Élève Interrompu',
-          brandStyle: 'Palette Personnalisée Océan',
+    it('Scénario 2 : Stockage V3 valide (sauvegarde brute V3, archivage de completedStepIdsByDay dans legacyArchive et remise à 0 % des 7 nouvelles leçons)', () => {
+      const validV3State = {
+        schemaVersion: 3,
+        activeRoute: { kind: 'course', courseId: 'module-02', dayNumber: 5 },
+        completedStepIdsByDay: {
+          1: ['day-01-step-1', 'day-01-step-2', 'day-01-step-3', 'day-01-step-4'],
+          5: ['day-05-step-1', 'day-05-step-2', 'day-05-step-3'],
         },
-      };
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(interruptedMainV1));
-
-      const completedMigration = loadProgressFromStorage();
-      expect(completedMigration.schemaVersion).toBe(3);
-      expect(completedMigration.activeRoute).toEqual({
-        kind: 'bonus',
-        bonusId: 'bonus-manychat',
-      });
-      expect(completedMigration.profile.brandStyle).toBe('Palette Personnalisée Océan');
-      expect(window.localStorage.getItem(V1_BACKUP_STORAGE_KEY)).toBe(firstBackup);
-
-      const persistedMain = JSON.parse(window.localStorage.getItem(STORAGE_KEY)!);
-      expect(persistedMain.schemaVersion).toBe(3);
-    });
-
-    it('Scénario 6 : Stockage déjà en V2 (lecture idempotente sans relancer la migration)', () => {
-      const existingV2 = {
-        schemaVersion: 2,
-        activeRoute: { kind: 'course', courseId: 'module-03', dayNumber: 8 },
-        activeStepByDay: { 8: 'your-turn' },
-        completedStartHereIds: ['introduction', 'setup'],
-        completedStepsByDay: {
-          8: ['concept', 'prompt', 'example', 'your-turn'],
-        },
-        checklistAnswers: {},
-        exerciseAnswers: {
-          'day08-exercise-chariow-checkout': 'Mon offre Chariow configurée',
-        },
-        quizStates: {},
-        savedPrompts: {},
-        customPromptInputs: {},
+        activeStepIdByDay: { 5: 'day-05-step-2' },
+        exerciseAnswers: { 'day05-ex': 'Mon code HTML' },
         profile: {
           studentName: 'Koffi',
           business: 'Formation Fiscalité',
-          targetAudience: 'Commerçants',
-          productType: 'Simulateur de taxes',
           brandStyle: 'Cobalt & Papier',
-          mainObjective: 'Vendre sur Chariow',
-          vibe: {
-            paletteId: 'cobalt-folio',
-            styleId: 'structured-grid',
-            typographyId: 'serif-editorial',
-          },
-          customVariables: {},
         },
-        lastUpdated: '2026-11-04T12:00:00.000Z',
       };
 
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(existingV2));
+      const rawSerialized = JSON.stringify(validV3State);
+      window.localStorage.setItem(STORAGE_KEY, rawSerialized);
 
-      const loaded = loadProgressFromStorage();
-      expect(loaded.schemaVersion).toBe(3);
-      expect(loaded.activeRoute).toEqual({
-        kind: 'course',
-        courseId: 'module-03',
-        dayNumber: 8,
-      });
-      expect(loaded.completedStepIdsByDay[8]).toEqual([
-        'day-08-step-1',
-        'day-08-step-2',
-        'day-08-step-3',
-        'day-08-step-4',
-      ]);
-      expect(loaded.exerciseAnswers['day08-exercise-chariow-checkout']).toBe(
-        'Mon offre Chariow configurée'
+      const migrated = loadProgressFromStorage();
+
+      expect(window.localStorage.getItem(RAW_BACKUP_V3_STORAGE_KEY)).toBe(rawSerialized);
+      expect(migrated.schemaVersion).toBe(4);
+      expect(migrated.curriculumModel).toBe('3m-3d-7l');
+      expect(migrated.activeRoute).toEqual({ kind: 'home' });
+      expect(migrated.completedStepIdsByLesson).toEqual({});
+      expect(migrated.profile.studentName).toBe('Koffi');
+      expect(migrated.legacyArchive?.migratedFromSchemaVersion).toBe(3);
+      expect(migrated.legacyArchive?.completedStepIdsByDay).toEqual(
+        validV3State.completedStepIdsByDay
       );
-      expect(window.localStorage.getItem(V1_BACKUP_STORAGE_KEY)).toBeNull();
     });
 
-    it("Scénario 7 : Espace localStorage insuffisant (QuotaExceededError sur setItem -> retourne l'état V3 migré en mémoire sans crasher)", () => {
-      const v1Data = {
-        schemaVersion: 1,
-        activeRoute: { kind: 'course', courseId: 'course-01', dayNumber: 3 },
-        completedStepsByDay: { 3: ['concept', 'prompt'] },
+    it('Scénario 3 : Stockage corrompu (repli propre en V4 avec persistenceDisabled: true)', () => {
+      window.localStorage.setItem(STORAGE_KEY, '{corrupted_json_payload');
+      const recovered = loadProgressFromStorage();
+      expect(recovered.schemaVersion).toBe(4);
+      expect(recovered.persistenceDisabled).toBe(true);
+      expect(recovered.activeRoute).toEqual({ kind: 'home' });
+    });
+
+    it('Scénario 4 : Sauvegardes brutes V1/V2/V3 déjà existantes ne sont jamais écrasées', () => {
+      const originalBackupPayload = JSON.stringify({
+        schemaVersion: 3,
+        marker: 'ORIGINAL_UNTOUCHED_V3_BACKUP',
+      });
+      window.localStorage.setItem(RAW_BACKUP_V3_STORAGE_KEY, originalBackupPayload);
+
+      const newerV3State = {
+        schemaVersion: 3,
+        activeRoute: { kind: 'day', dayNumber: 7 },
+        profile: { studentName: 'Nadia' },
+      };
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(newerV3State));
+
+      const migrated = loadProgressFromStorage();
+      expect(migrated.schemaVersion).toBe(4);
+      expect(migrated.profile.studentName).toBe('Nadia');
+      expect(window.localStorage.getItem(RAW_BACKUP_V3_STORAGE_KEY)).toBe(originalBackupPayload);
+    });
+
+    it('Scénario 5 : Stockage vide initialise directement en schemaVersion 4 sans créer de backup inutile', () => {
+      window.localStorage.clear();
+      const fresh = loadProgressFromStorage();
+      expect(fresh.schemaVersion).toBe(4);
+      expect(fresh.curriculumModel).toBe('3m-3d-7l');
+      expect(fresh.activeRoute).toEqual({ kind: 'home' });
+      expect(window.localStorage.getItem(V1_BACKUP_STORAGE_KEY)).toBeNull();
+      expect(window.localStorage.getItem(RAW_BACKUP_V2_STORAGE_KEY)).toBeNull();
+      expect(window.localStorage.getItem(RAW_BACKUP_V3_STORAGE_KEY)).toBeNull();
+    });
+
+    it("Scénario 6 : QuotaExceededError lors de la sauvegarde de migration préserve les anciennes données dans STORAGE_KEY et retourne l'état V4 en mémoire avec persistenceDisabled: true", () => {
+      const v3Data = {
+        schemaVersion: 3,
+        activeRoute: { kind: 'bonus', bonusId: 'bonus-01' },
+        completedStepIdsByDay: { 1: ['day-01-step-1'] },
         profile: {
           studentName: 'Amina',
           business: 'Coaching Carrière',
-          targetAudience: 'Cadres',
-          productType: 'Diagnostic interactif',
-          brandStyle: 'Forêt & Crème',
-          mainObjective: 'Lancer en 7 jours',
-          vibe: {
-            paletteId: 'forest-editorial',
-            styleId: 'warm-editorial',
-            typographyId: 'system-clean',
-          },
-          customVariables: {},
         },
       };
+      const rawV3 = JSON.stringify(v3Data);
+      window.localStorage.setItem(STORAGE_KEY, rawV3);
 
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(v1Data));
-
-      // Simuler un QuotaExceededError sur toute nouvelle écriture localStorage
       vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
-        const quotaErr = new DOMException('QuotaExceededError', 'QuotaExceededError');
-        throw quotaErr;
+        throw new DOMException('QuotaExceededError', 'QuotaExceededError');
       });
 
       expect(() => loadProgressFromStorage()).not.toThrow();
       const inMemoryMigrated = loadProgressFromStorage();
-      expect(inMemoryMigrated.schemaVersion).toBe(3);
+      expect(inMemoryMigrated.schemaVersion).toBe(4);
+      expect(inMemoryMigrated.persistenceDisabled).toBe(true);
       expect(inMemoryMigrated.activeRoute).toEqual({
-        kind: 'course',
-        courseId: 'module-01',
-        dayNumber: 3,
+        kind: 'bonus',
+        bonusId: 'bonus-manychat',
       });
       expect(inMemoryMigrated.profile.studentName).toBe('Amina');
-      expect(inMemoryMigrated.completedStepIdsByDay[3]).toEqual([
-        'day-03-step-1',
-        'day-03-step-2',
-      ]);
+      // Les anciennes données n'ont pas été écrasées
+      expect(window.localStorage.getItem(STORAGE_KEY)).toBe(rawV3);
     });
   });
 });

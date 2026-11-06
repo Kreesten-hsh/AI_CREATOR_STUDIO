@@ -6,189 +6,159 @@ import {
   exportProgressJson,
   importProgressJson,
   loadProgressFromStorage,
-  migrateV1ToV3,
-  migrateV2ToV3,
+  migrateV1ToV4,
+  migrateV2ToV4,
+  migrateV3ToV4,
   RAW_BACKUP_V1_STORAGE_KEY,
   RAW_BACKUP_V2_STORAGE_KEY,
+  RAW_BACKUP_V3_STORAGE_KEY,
   saveProgressToStorage,
   STORAGE_KEY,
 } from '../utils/storage';
 
-describe('Persistance V3 & Chaîne de migration résiliente', () => {
+describe('Persistance V4 (3m-3d-7l) & Chaîne de migration résiliente V1/V2/V3 -> V4', () => {
   beforeEach(() => {
     window.localStorage.clear();
     vi.restoreAllMocks();
   });
 
-  describe('Sauvegardes brutes versionnées', () => {
-    it('écrit et vérifie par relecture la sauvegarde brute V1 et V2 sans jamais les écraser', () => {
+  describe('Sauvegardes brutes versionnées (V1, V2, V3)', () => {
+    it('écrit et vérifie par relecture les sauvegardes brutes V1, V2 et V3 sans jamais les écraser', () => {
       const v1Data = JSON.stringify({ schemaVersion: 1, test: 'v1_original' });
       expect(ensureRawBackupWritten(1, v1Data)).toBe(true);
       expect(window.localStorage.getItem(RAW_BACKUP_V1_STORAGE_KEY)).toBe(v1Data);
 
-      // Deuxième tentative avec un payload différent : ne doit pas écraser !
       const v1Tampered = JSON.stringify({ schemaVersion: 1, test: 'v1_tampered' });
       expect(ensureRawBackupWritten(1, v1Tampered)).toBe(true);
       expect(window.localStorage.getItem(RAW_BACKUP_V1_STORAGE_KEY)).toBe(v1Data);
 
-      // Sauvegarde brute V2
       const v2Data = JSON.stringify({ schemaVersion: 2, test: 'v2_original' });
       expect(ensureRawBackupWritten(2, v2Data)).toBe(true);
       expect(window.localStorage.getItem(RAW_BACKUP_V2_STORAGE_KEY)).toBe(v2Data);
+
+      const v3Data = JSON.stringify({ schemaVersion: 3, test: 'v3_original' });
+      expect(ensureRawBackupWritten(3, v3Data)).toBe(true);
+      expect(window.localStorage.getItem(RAW_BACKUP_V3_STORAGE_KEY)).toBe(v3Data);
     });
 
-    it("bascule en persistenceDisabled si la relecture de la sauvegarde brute échoue", () => {
-      // Simule un échec de relecture (getItem renvoie null pour la clé de backup)
+    it('bascule en persistenceDisabled si la relecture de la sauvegarde brute V3 échoue et préserve STORAGE_KEY', () => {
       const originalGetItem = Storage.prototype.getItem;
-      vi.spyOn(Storage.prototype, 'getItem').mockImplementation(function (this: Storage, key: string) {
-        if (key === RAW_BACKUP_V2_STORAGE_KEY) {
-          return null; // Échec de vérification
+      vi.spyOn(Storage.prototype, 'getItem').mockImplementation(function (
+        this: Storage,
+        key: string
+      ) {
+        if (key === RAW_BACKUP_V3_STORAGE_KEY) {
+          return null;
         }
         return originalGetItem.call(this, key);
       });
 
-      const rawV2 = {
-        schemaVersion: 2,
-        completedStepsByDay: { 1: ['concept'] },
+      const rawV3 = {
+        schemaVersion: 3,
+        completedStepIdsByDay: { 1: ['day-01-step-1'] },
       };
 
-      const result = migrateV2ToV3(rawV2, JSON.stringify(rawV2));
+      const result = migrateV3ToV4(rawV3, JSON.stringify(rawV3));
       expect(result.persistenceDisabled).toBe(true);
-      // N'a pas pollué la clé principale
       expect(window.localStorage.getItem(STORAGE_KEY)).toBeNull();
     });
   });
 
-  describe('Migration V2 -> V3', () => {
-    it('migre les étapes complétées de StepType vers les identifiants réels sans ambiguïté', () => {
-      const rawV2 = {
-        schemaVersion: 2,
-        activeRoute: { kind: 'course', courseId: 'module-01', dayNumber: 1 },
-        activeStepByDay: {
-          1: 'prompt',
-        },
-        completedStepsByDay: {
-          1: ['concept', 'prompt'],
-          5: ['concept'],
-        },
-        exerciseAnswers: {
-          'day01-deliverable-a': 'Mon analyse d expertise',
-        },
-        profile: {
-          studentName: 'Samira',
-          vibeConfirmed: true,
-        },
-      };
-
-      const migrated = migrateV2ToV3(rawV2, JSON.stringify(rawV2));
-
-      expect(migrated.schemaVersion).toBe(3);
-      expect(migrated.profile.studentName).toBe('Samira');
-      expect(migrated.profile.vibeConfirmed).toBe(true);
-      expect(migrated.exerciseAnswers['day01-deliverable-a']).toBe('Mon analyse d expertise');
-
-      // Jour 1 : 'concept' -> 'day-01-step-1', 'prompt' -> 'day-01-step-2'
-      expect(migrated.completedStepIdsByDay[1]).toEqual(['day-01-step-1', 'day-01-step-2']);
-      expect(migrated.activeStepIdByDay[1]).toBe('day-01-step-2');
-
-      // Jour 5 : 'concept' -> 'day-05-step-1'
-      expect(migrated.completedStepIdsByDay[5]).toEqual(['day-05-step-1']);
-    });
-
-    it('archive dans legacyArchive toute étape non appariée sans suppression silencieuse', () => {
-      const rawV2 = {
-        schemaVersion: 2,
-        completedStepsByDay: {
-          1: ['concept', 'unknown-future-step'],
-          99: ['concept'], // Jour inexistant
-        },
-      };
-
-      const migrated = migrateV2ToV3(rawV2, JSON.stringify(rawV2));
-
-      // L'étape valide est migrée
-      expect(migrated.completedStepIdsByDay[1]).toEqual(['day-01-step-1']);
-
-      // Les données inconnues sont archivées
-      expect(migrated.legacyArchive).toBeDefined();
-      const archive = migrated.legacyArchive as Record<string, unknown>;
-      expect(archive.migratedToSchemaVersion).toBe(3);
-      expect(archive.completedStepsByDay).toBeDefined();
-    });
-  });
-
-  describe('Migration V1 -> V3', () => {
-    it('exécute la chaîne 1 -> 2 -> 3 complète sans perte', () => {
+  describe('Migrations V1 / V2 / V3 -> V4 sans conversion arbitraire', () => {
+    it('archive les anciennes progressions V1, V2 et V3 dans legacyArchive sans valider artificiellement les 7 nouvelles leçons', () => {
       const rawV1 = {
         schemaVersion: 1,
-        activeRoute: { kind: 'course', courseId: 'module-01', dayNumber: 2 },
-        completedStepsByDay: {
-          1: ['concept', 'prompt', 'example', 'your-turn'],
-        },
-        exerciseAnswers: {
-          'day01-deliverable-a': 'Valeur V1',
-        },
-        profile: {
-          studentName: 'Élève V1',
-        },
+        completedStepsByDay: { 1: ['concept', 'prompt'] },
+        profile: { studentName: 'Élève V1' },
       };
+      const migratedV1 = migrateV1ToV4(rawV1, JSON.stringify(rawV1));
+      expect(migratedV1.schemaVersion).toBe(4);
+      expect(migratedV1.curriculumModel).toBe('3m-3d-7l');
+      expect(migratedV1.completedStepIdsByLesson).toEqual({});
+      expect(migratedV1.legacyArchive?.migratedFromSchemaVersion).toBe(1);
 
-      const migrated = migrateV1ToV3(rawV1, JSON.stringify(rawV1));
-      expect(migrated.schemaVersion).toBe(3);
-      expect(migrated.profile.studentName).toBe('Élève V1');
-      expect(migrated.exerciseAnswers['day01-deliverable-a']).toBe('Valeur V1');
-      expect(migrated.completedStepIdsByDay[1]).toEqual([
-        'day-01-step-1',
-        'day-01-step-2',
-        'day-01-step-3',
-        'day-01-step-4',
-      ]);
-      expect(window.localStorage.getItem(RAW_BACKUP_V1_STORAGE_KEY)).not.toBeNull();
+      const rawV2 = {
+        schemaVersion: 2,
+        completedStepsByDay: { 5: ['concept'] },
+        profile: { studentName: 'Samira', vibeConfirmed: true },
+      };
+      const migratedV2 = migrateV2ToV4(rawV2, JSON.stringify(rawV2));
+      expect(migratedV2.schemaVersion).toBe(4);
+      expect(migratedV2.completedStepIdsByLesson).toEqual({});
+      expect(migratedV2.profile.vibeConfirmed).toBe(true);
+      expect(migratedV2.legacyArchive?.migratedFromSchemaVersion).toBe(2);
+
+      const rawV3 = {
+        schemaVersion: 3,
+        completedStepIdsByDay: { 1: ['day-01-step-1', 'day-01-step-2'] },
+        profile: { studentName: 'Lucas' },
+      };
+      const migratedV3 = migrateV3ToV4(rawV3, JSON.stringify(rawV3));
+      expect(migratedV3.schemaVersion).toBe(4);
+      expect(migratedV3.completedStepIdsByLesson).toEqual({});
+      expect(migratedV3.legacyArchive?.migratedFromSchemaVersion).toBe(3);
+      expect(migratedV3.legacyArchive?.completedStepIdsByDay).toEqual({
+        1: ['day-01-step-1', 'day-01-step-2'],
+      });
     });
   });
 
   describe('Gestion du JSON corrompu & tolérance aux pannes', () => {
     it('isole le JSON corrompu sous la clé dédiée et active persistenceDisabled sans écraser la clé principale', () => {
-      const corruptedJson = '{"schemaVersion": 2, malformed JSON';
+      const corruptedJson = '{"schemaVersion": 3, malformed JSON';
       window.localStorage.setItem(STORAGE_KEY, corruptedJson);
 
       const loaded = loadProgressFromStorage();
       expect(loaded.persistenceDisabled).toBe(true);
-      expect(loaded.schemaVersion).toBe(3);
+      expect(loaded.schemaVersion).toBe(4);
 
-      // La sauvegarde corrompue a été isolée
       expect(window.localStorage.getItem(CORRUPTED_BACKUP_STORAGE_KEY)).toBe(corruptedJson);
-
-      // La clé principale n'a pas été écrasée
       expect(window.localStorage.getItem(STORAGE_KEY)).toBe(corruptedJson);
-
-      // Tentative d'écriture en mode persistenceDisabled : bloquée
       expect(saveProgressToStorage(loaded)).toBe(false);
-      expect(window.localStorage.getItem(STORAGE_KEY)).toBe(corruptedJson);
     });
 
-    it('gère gracieusement le mode privé ou les exceptions de quota localStorage', () => {
+    it('gère gracieusement les exceptions de quota localStorage', () => {
       vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
         throw new Error('QuotaExceededError');
       });
 
       const progress = createInitialProgress();
-      expect(saveProgressToStorage(progress)).toBe(false); // N'a pas levé d'exception non capturée
+      expect(saveProgressToStorage(progress)).toBe(false);
     });
   });
 
-  describe('Export et Import JSON V3', () => {
-    it('exporte et importe fidèlement un état v3', () => {
+  describe('Export et Import JSON (V4 et anciens exports V1/V2/V3)', () => {
+    it('exporte et importe fidèlement un état V4', () => {
       const original = createInitialProgress();
       original.profile.studentName = 'Sophie';
-      original.completedStepIdsByDay[1] = ['day-01-step-1'];
+      original.completedStepIdsByLesson['lesson-01'] = ['lesson-01-step-1'];
 
       const exported = exportProgressJson(original);
       const imported = importProgressJson(exported);
 
       expect(imported).not.toBeNull();
+      expect(imported?.schemaVersion).toBe(4);
+      expect(imported?.curriculumModel).toBe('3m-3d-7l');
       expect(imported?.profile.studentName).toBe('Sophie');
-      expect(imported?.completedStepIdsByDay[1]).toEqual(['day-01-step-1']);
+      expect(imported?.completedStepIdsByLesson['lesson-01']).toEqual(['lesson-01-step-1']);
+    });
+
+    it('applique les mêmes règles de migration V4 lors de l import JSON d une ancienne progression V3', () => {
+      const oldV3Json = JSON.stringify({
+        schemaVersion: 3,
+        activeRoute: { kind: 'day', dayNumber: 8 },
+        completedStepIdsByDay: { 8: ['day-08-step-1', 'day-08-step-2'] },
+        profile: { studentName: 'Import V3' },
+      });
+
+      const imported = importProgressJson(oldV3Json);
+      expect(imported).not.toBeNull();
+      expect(imported?.schemaVersion).toBe(4);
+      expect(imported?.curriculumModel).toBe('3m-3d-7l');
+      expect(imported?.activeRoute).toEqual({ kind: 'home' });
+      expect(imported?.completedStepIdsByLesson).toEqual({});
+      expect(imported?.profile.studentName).toBe('Import V3');
+      expect(imported?.legacyArchive?.migratedFromSchemaVersion).toBe(3);
     });
   });
 });

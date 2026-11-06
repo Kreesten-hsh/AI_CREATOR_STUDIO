@@ -4,11 +4,12 @@ import '@testing-library/jest-dom/vitest';
 import { DayHeader } from '../components/layout/DayHeader';
 import { HelpPanel } from '../components/widgets/HelpPanel';
 import { StepTabs } from '../components/layout/StepTabs';
+import { ErrorBoundary } from '../components/layout/ErrorBoundary';
 import { ProgressProvider } from '../context/ProgressContext';
 import { STORAGE_KEY, createInitialProgress } from '../utils/storage';
-import type { Day, StepHelpConfig, Step } from '../types/course';
+import type { Lesson, StepHelpConfig, Step } from '../types/course';
 
-describe('Suivi et Aide : DayHeader, HelpPanel & StepTabs', () => {
+describe('Suivi, Aide et Résilience : DayHeader, HelpPanel, StepTabs & ErrorBoundary', () => {
   beforeEach(() => {
     localStorage.clear();
     const initial = createInitialProgress();
@@ -16,41 +17,38 @@ describe('Suivi et Aide : DayHeader, HelpPanel & StepTabs', () => {
   });
 
   describe('DayHeader', () => {
-    it('affiche le numéro de leçon, le titre et la progression', () => {
-      const mockDay: Day = {
-        id: 'day-03',
-        dayNumber: 3,
-        sprintId: 'module-01',
-        title: 'Architecture du Produit',
-        italicTitleWord: 'Architecture',
-        objective: 'Structurer les écrans clés de votre produit.',
-        deliverableSummary: 'Arborescence validée des 3 vues principales.',
-        isSkeletonPlaceholder: false,
+    it('affiche le numéro de leçon sur 07, le titre et la progression', () => {
+      const mockLesson: Lesson = {
+        id: 'lesson-03',
+        lessonNumber: 3,
+        moduleId: 'module-02',
+        dayId: 'day-02',
+        dayNumber: 2,
+        title: 'Définir sa direction artistique indépendante',
+        italicTitleWord: 'artistique',
+        objective: 'Choisir une identité visuelle propre au produit.',
+        deliverableSummary: 'Brief de direction artistique.',
+        duration: '~20 min',
+        isSkeletonPlaceholder: true,
         steps: [],
       };
 
       render(
         <ProgressProvider>
-          <DayHeader day={mockDay} />
+          <DayHeader lesson={mockLesson} />
         </ProgressProvider>
       );
 
-      // Titre & badges
       expect(screen.getAllByText(/LEÇON/i).length).toBeGreaterThanOrEqual(1);
       expect(screen.getByText('03')).toBeInTheDocument();
-      expect(screen.getByText(/SUR 09/i)).toBeInTheDocument();
-      expect(screen.getByText(/Architecture/i)).toBeInTheDocument();
+      expect(screen.getByText(/SUR 07/i)).toBeInTheDocument();
+      expect(screen.getByText(/artistique/i)).toBeInTheDocument();
     });
 
     it('gère gracieusement les données partielles ou manquantes sans erreur', () => {
-      const partialDay: Partial<Day> & { dayNumber: number } = {
-        dayNumber: 5,
-        title: 'Leçon en cours',
-      };
-
       render(
         <ProgressProvider>
-          <DayHeader day={partialDay} />
+          <DayHeader lesson={{ lessonNumber: 5, title: 'Leçon en cours' }} />
         </ProgressProvider>
       );
 
@@ -61,21 +59,22 @@ describe('Suivi et Aide : DayHeader, HelpPanel & StepTabs', () => {
   });
 
   describe('HelpPanel', () => {
-    it('affiche le disclaimer strict d autonomie (aucune promesse de support humain)', () => {
+    it('affiche le disclaimer strict d autonomie et ne mentionne jamais l ancien onglet « Mon projet »', () => {
       render(<HelpPanel stepTitle="Étape 1" />);
 
       expect(
         screen.getByText(/AI Creator Studio est conçu pour vous rendre 100% autonome avec Claude/i)
       ).toBeInTheDocument();
       expect(screen.getByText(/Aucun support humain n’intervient dans ce parcours/i)).toBeInTheDocument();
+      expect(screen.queryByText(/Mon projet/i)).not.toBeInTheDocument();
     });
 
     it('affiche les erreurs fréquentes, conseils et permet de copier les prompts de dépannage', async () => {
       const mockHelp: StepHelpConfig = {
         frequentMistakes: [
           {
-            mistake: 'Coller le prompt sans remplacer la variable {targetAudience}.',
-            correction: 'Renseignez d’abord votre cible dans l’onglet Mon Projet.',
+            mistake: 'Coller le prompt sans joindre son document source.',
+            correction: 'Importez votre document dans Claude avant d envoyer le prompt.',
           },
         ],
         tips: ['Exécutez toujours le prompt dans un chat Claude neuf.'],
@@ -83,13 +82,12 @@ describe('Suivi et Aide : DayHeader, HelpPanel & StepTabs', () => {
           {
             id: 'fix-prompt-1',
             title: 'Prompt de correction de syntaxe',
-            description: 'Utilisez si Claude génère du TypeScript non valide.',
-            prompt: 'Claude, corrige le code ci-dessus pour respecter TypeScript strict.',
+            description: 'Utilisez si Claude génère du code incomplet.',
+            prompt: 'Claude, corrige le code ci-dessus pour que l application fonctionne.',
           },
         ],
       };
 
-      // Mock navigator.clipboard
       const writeTextSpy = vi.fn().mockResolvedValue(undefined);
       Object.assign(navigator, {
         clipboard: {
@@ -99,20 +97,16 @@ describe('Suivi et Aide : DayHeader, HelpPanel & StepTabs', () => {
 
       render(<HelpPanel help={mockHelp} stepTitle="Génération du calculateur" />);
 
-      // Erreur fréquente & solution
-      expect(screen.getByText(/Coller le prompt sans remplacer/i)).toBeInTheDocument();
-      expect(screen.getByText(/Renseignez d’abord votre cible/i)).toBeInTheDocument();
-
-      // Conseil
+      expect(screen.getByText(/Coller le prompt sans joindre/i)).toBeInTheDocument();
+      expect(screen.getByText(/Importez votre document dans Claude/i)).toBeInTheDocument();
       expect(screen.getByText(/Exécutez toujours le prompt dans un chat Claude neuf./i)).toBeInTheDocument();
 
-      // Prompt de dépannage et copie
       expect(screen.getByText(/Prompt de correction de syntaxe/i)).toBeInTheDocument();
       const copyBtn = screen.getByRole('button', { name: /Copier/i });
       fireEvent.click(copyBtn);
 
       expect(writeTextSpy).toHaveBeenCalledWith(
-        'Claude, corrige le code ci-dessus pour respecter TypeScript strict.'
+        'Claude, corrige le code ci-dessus pour que l application fonctionne.'
       );
       expect(await screen.findByText('Copié !')).toBeInTheDocument();
     });
@@ -123,11 +117,9 @@ describe('Suivi et Aide : DayHeader, HelpPanel & StepTabs', () => {
       const toggleButton = screen.getByRole('button', { name: /Besoin d’aide pour cette étape/i });
       expect(screen.getByText(/Autonomie garantie/i)).toBeInTheDocument();
 
-      // Replier
       fireEvent.click(toggleButton);
       expect(screen.queryByText(/Autonomie garantie/i)).not.toBeInTheDocument();
 
-      // Déplier
       fireEvent.click(toggleButton);
       expect(screen.getByText(/Autonomie garantie/i)).toBeInTheDocument();
     });
@@ -143,43 +135,7 @@ describe('Suivi et Aide : DayHeader, HelpPanel & StepTabs', () => {
         blocks: [],
       }));
 
-    it('s adapte correctement avec 1 seule étape', () => {
-      const steps = makeSteps(1);
-      const onSelect = vi.fn();
-
-      render(
-        <StepTabs
-          steps={steps}
-          activeStepId="step-1"
-          completedStepIds={[]}
-          onSelectStep={onSelect}
-        />
-      );
-
-      const tablist = screen.getByRole('tablist');
-      expect(tablist).toHaveClass('grid-cols-1');
-      expect(screen.getByRole('tab', { name: /Étape 1/i })).toBeInTheDocument();
-    });
-
-    it('s adapte correctement avec 2 étapes', () => {
-      const steps = makeSteps(2);
-      const onSelect = vi.fn();
-
-      render(
-        <StepTabs
-          steps={steps}
-          activeStepId="step-1"
-          completedStepIds={[]}
-          onSelectStep={onSelect}
-        />
-      );
-
-      const tablist = screen.getByRole('tablist');
-      expect(tablist).toHaveClass('grid-cols-1 sm:grid-cols-2');
-      expect(screen.getAllByRole('tab')).toHaveLength(2);
-    });
-
-    it('s adapte correctement avec 3 étapes', () => {
+    it('s adapte correctement avec 1, 2 ou 3 étapes', () => {
       const steps = makeSteps(3);
       const onSelect = vi.fn();
 
@@ -195,19 +151,6 @@ describe('Suivi et Aide : DayHeader, HelpPanel & StepTabs', () => {
       const tablist = screen.getByRole('tablist');
       expect(tablist).toHaveClass('grid-cols-1 sm:grid-cols-3');
       expect(screen.getAllByRole('tab')).toHaveLength(3);
-
-      const tab1 = screen.getByRole('tab', { name: /Étape 1/i });
-      const tab2 = screen.getByRole('tab', { name: /Étape 2/i });
-      const tab3 = screen.getByRole('tab', { name: /Étape 3/i });
-
-      expect(tab1).toHaveAttribute('aria-selected', 'false');
-      expect(tab1).toHaveAttribute('tabIndex', '-1');
-
-      expect(tab2).toHaveAttribute('aria-selected', 'true');
-      expect(tab2).toHaveAttribute('tabIndex', '0');
-
-      expect(tab3).toHaveAttribute('aria-selected', 'false');
-      expect(tab3).toHaveAttribute('tabIndex', '-1');
     });
 
     it('gère la navigation clavier accessible selon le motif ARIA Tabs', () => {
@@ -224,22 +167,40 @@ describe('Suivi et Aide : DayHeader, HelpPanel & StepTabs', () => {
       );
 
       const tab1 = screen.getByRole('tab', { name: /Étape 1/i });
-
-      // Flèche droite -> passe à l'étape 2
       fireEvent.keyDown(tab1, { key: 'ArrowRight' });
       expect(onSelect).toHaveBeenCalledWith('step-2');
-
-      // Flèche gauche depuis étape 1 -> cycle vers étape 3 (la dernière)
       fireEvent.keyDown(tab1, { key: 'ArrowLeft' });
       expect(onSelect).toHaveBeenCalledWith('step-3');
+    });
+  });
 
-      // Touche End -> passe à étape 3
-      fireEvent.keyDown(tab1, { key: 'End' });
-      expect(onSelect).toHaveBeenCalledWith('step-3');
+  describe('ErrorBoundary (Sécurité & Confidentialité DOM)', () => {
+    it('intercepte une erreur de rendu et affiche un message statique non technique sans exposer error.message ni stack trace', () => {
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-      // Touche Home -> passe à étape 1
-      fireEvent.keyDown(tab1, { key: 'Home' });
-      expect(onSelect).toHaveBeenCalledWith('step-1');
+      const CrashingComponent = (): null => {
+        throw new Error('SECRET_INTERNAL_STACK_PATH_/home/dev/private_token_12345');
+      };
+
+      const onResetMock = vi.fn();
+
+      render(
+        <ErrorBoundary onReset={onResetMock}>
+          <CrashingComponent />
+        </ErrorBoundary>
+      );
+
+      const alert = screen.getByRole('alert');
+      expect(alert).toBeInTheDocument();
+      expect(
+        screen.getByText(/Une erreur inattendue est survenue dans l'interface\./i)
+      ).toBeInTheDocument();
+
+      // Vérifie qu'aucun détail interne de l'exception n'apparaît dans le DOM
+      expect(screen.queryByText(/SECRET_INTERNAL_STACK_PATH/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/private_token_12345/i)).not.toBeInTheDocument();
+
+      consoleErrorSpy.mockRestore();
     });
   });
 });

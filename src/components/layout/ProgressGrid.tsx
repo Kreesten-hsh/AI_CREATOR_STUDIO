@@ -2,31 +2,42 @@ import { Check } from 'lucide-react';
 import { COURSE_DATA } from '../../data/course';
 import { MAIN_COURSES } from '../../data/navigation/mainCourses';
 
-interface ProgressGridProps {
-  completedDayNumbers: number[];
-  activeDayNumber: number | null;
-  onSelectDay: (dayNumber: number) => void;
+export interface ProgressGridProps {
+  completedLessonNumbers?: number[];
+  activeLessonNumber?: number | null;
+  onSelectLesson?: (lessonNumber: number) => void;
+  /** Alias de compatibilité tests unitaires */
+  completedDayNumbers?: number[];
+  activeDayNumber?: number | null;
+  onSelectDay?: (lessonNumber: number) => void;
 }
 
 export function ProgressGrid({
+  completedLessonNumbers,
+  activeLessonNumber,
+  onSelectLesson,
   completedDayNumbers,
   activeDayNumber,
   onSelectDay,
 }: ProgressGridProps) {
-  const completedSet = new Set(completedDayNumbers);
-  const totalLessons = COURSE_DATA.totalDays;
+  const completedNumbers = completedLessonNumbers ?? completedDayNumbers ?? [];
+  const activeNum = activeLessonNumber ?? activeDayNumber ?? null;
+  const handleSelect = onSelectLesson ?? onSelectDay ?? (() => undefined);
 
-  const renderCell = (dayNum: number) => {
-    const isCompleted = completedSet.has(dayNum);
-    const isActive = activeDayNumber === dayNum;
+  const completedSet = new Set(completedNumbers);
+  const totalLessons = COURSE_DATA.totalLessons;
+
+  const renderCell = (lessonNum: number) => {
+    const isCompleted = completedSet.has(lessonNum);
+    const isActive = activeNum === lessonNum;
 
     return (
       <button
-        key={dayNum}
+        key={lessonNum}
         type="button"
-        onClick={() => onSelectDay(dayNum)}
-        title={`Leçon ${dayNum}${isCompleted ? ' (Validée)' : ''}${isActive ? ' (En cours)' : ''}`}
-        aria-label={`Leçon ${dayNum}${isCompleted ? ' (Validée)' : ''}${isActive ? ' (En cours)' : ''}`}
+        onClick={() => handleSelect(lessonNum)}
+        title={`Leçon ${lessonNum}${isCompleted ? ' (Validée)' : ''}${isActive ? ' (En cours)' : ''}`}
+        aria-label={`Leçon ${lessonNum}${isCompleted ? ' (Validée)' : ''}${isActive ? ' (En cours)' : ''}`}
         aria-current={isActive ? 'page' : undefined}
         className={`w-5 h-5 sm:w-6 sm:h-6 rounded-[3px] border transition-all flex items-center justify-center shrink-0 font-mono text-[10px] font-bold ${
           isCompleted
@@ -39,7 +50,7 @@ export function ProgressGrid({
         {isCompleted ? (
           <Check className="w-3 h-3 stroke-[3]" aria-hidden="true" />
         ) : (
-          <span>{dayNum}</span>
+          <span>{lessonNum}</span>
         )}
       </button>
     );
@@ -51,10 +62,10 @@ export function ProgressGrid({
       className="flex flex-wrap items-center gap-2 select-none py-0.5 w-full"
     >
       {MAIN_COURSES.map((moduleItem) => {
-        const [start, end] = moduleItem.dayRange ?? [1, 3];
-        const moduleDays = COURSE_DATA.days
-          .filter((d) => d.dayNumber >= start && d.dayNumber <= end)
-          .map((d) => d.dayNumber);
+        const [start, end] = moduleItem.lessonRange;
+        const moduleLessonNumbers = COURSE_DATA.lessons
+          .filter((l) => l.lessonNumber >= start && l.lessonNumber <= end)
+          .map((l) => l.lessonNumber);
 
         return (
           <div
@@ -63,7 +74,7 @@ export function ProgressGrid({
             role="group"
             aria-label={`Module ${moduleItem.orderNumber}`}
           >
-            {moduleDays.map(renderCell)}
+            {moduleLessonNumbers.map(renderCell)}
           </div>
         );
       })}

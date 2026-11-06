@@ -1,36 +1,51 @@
 import { motion } from 'framer-motion';
-import { COURSE_DATA } from '../../data/course';
-import type { Day, Sprint } from '../../types/course';
-import type { DailyProgressResult } from '../../utils/progressCalculator';
+import { TOTAL_COURSE_LESSONS } from '../../data/course';
+import type { CourseModule, Day, Lesson } from '../../types/course';
+import type { DailyProgressResult, LessonProgressResult } from '../../utils/progressCalculator';
 
 interface DayBannerProps {
-  day: Day;
-  sprint?: Sprint;
-  progress: DailyProgressResult;
+  lesson?: Lesson;
+  day?: Day | Lesson;
+  sprint?: CourseModule;
+  progress: LessonProgressResult | DailyProgressResult;
 }
 
-export function DayBanner({ day, sprint, progress }: DayBannerProps) {
-  const paddedDay = String(day.dayNumber).padStart(2, '0');
-  const totalLessons = COURSE_DATA.totalDays;
+export function DayBanner({ lesson, day, sprint, progress }: DayBannerProps) {
+  const target = lesson ?? day;
+  const lessonNumber =
+    target && 'lessonNumber' in target
+      ? target.lessonNumber
+      : target && 'dayNumber' in target
+      ? target.dayNumber
+      : 1;
+  const paddedLesson = String(lessonNumber).padStart(2, '0');
+  const totalLessons = TOTAL_COURSE_LESSONS;
+  const totalSteps =
+    target && 'steps' in target && Array.isArray(target.steps)
+      ? target.steps.length
+      : progress.total;
 
   const renderEditorialTitle = () => {
-    if (!day.italicTitleWord) {
-      return day.title;
+    const title = target?.title ?? `Leçon ${paddedLesson}`;
+    const italicWord =
+      target && 'italicTitleWord' in target ? target.italicTitleWord : undefined;
+    if (!italicWord) {
+      return title;
     }
-    const regex = new RegExp(`(${day.italicTitleWord})`, 'i');
-    const parts = day.title.split(regex);
+    const regex = new RegExp(`(${italicWord})`, 'i');
+    const parts: string[] = title.split(regex);
     if (parts.length === 1) {
       return (
         <>
-          {day.title}{' '}
+          {title}{' '}
           <span className="font-serif italic font-normal lowercase text-2xl sm:text-3xl lg:text-4xl underline decoration-2 underline-offset-4 text-pale-pink">
-            {day.italicTitleWord}
+            {italicWord}
           </span>
         </>
       );
     }
-    return parts.map((part, idx) =>
-      part.toLowerCase() === day.italicTitleWord?.toLowerCase() ? (
+    return parts.map((part: string, idx: number) =>
+      part.toLowerCase() === italicWord.toLowerCase() ? (
         <span
           key={idx}
           className="font-serif italic font-normal lowercase text-2xl sm:text-3xl lg:text-4xl underline decoration-2 underline-offset-4 text-pale-pink mx-0.5"
@@ -53,10 +68,10 @@ export function DayBanner({ day, sprint, progress }: DayBannerProps) {
               LEÇON
             </span>
             <span className="block font-serif text-4xl sm:text-5xl leading-none text-ink my-0.5">
-              {paddedDay}
+              {paddedLesson}
             </span>
             <span className="block font-mono text-[9px] font-bold uppercase tracking-widest text-primary-red">
-              SUR {totalLessons}
+              SUR {String(totalLessons).padStart(2, '0')}
             </span>
           </div>
         </div>
@@ -66,11 +81,11 @@ export function DayBanner({ day, sprint, progress }: DayBannerProps) {
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className="inline-flex items-center px-2.5 py-0.5 bg-surface text-ink border border-ink rounded-brutal-tag font-mono text-xs font-bold uppercase shadow-brutal-xs">
-                LEÇON {day.dayNumber} SUR {totalLessons}
+                LEÇON {lessonNumber} SUR {totalLessons}
               </span>
               {sprint && (
                 <span className="inline-flex items-center px-2 py-0.5 bg-ink text-surface border border-surface/40 rounded-brutal-tag font-mono text-[11px] font-bold uppercase">
-                  MODULE 0{sprint.sprintNumber}
+                  MODULE 0{sprint.moduleNumber}
                 </span>
               )}
               {progress.isCompleted && (
@@ -84,15 +99,17 @@ export function DayBanner({ day, sprint, progress }: DayBannerProps) {
               {renderEditorialTitle()}
             </h2>
 
-            <p className="mt-1.5 text-xs sm:text-sm text-surface/90 max-w-2xl leading-relaxed">
-              {day.objective}
-            </p>
+            {target?.objective && (
+              <p className="mt-1.5 text-xs sm:text-sm text-surface/90 max-w-2xl leading-relaxed">
+                {target.objective}
+              </p>
+            )}
           </div>
 
-          {/* Barre de progression des 4 étapes */}
+          {/* Barre de progression des étapes */}
           <div className="pt-2 border-t border-surface/20 flex items-center gap-3">
             <span className="font-mono text-[11px] font-bold uppercase shrink-0 text-surface">
-              4 étapes dans cette leçon
+              {totalSteps} {totalSteps > 1 ? 'étapes' : 'étape'} dans cette leçon
             </span>
             <div className="flex-1 h-2.5 bg-cream border border-ink rounded-full overflow-hidden p-0.5">
               <motion.div
@@ -106,7 +123,7 @@ export function DayBanner({ day, sprint, progress }: DayBannerProps) {
               data-testid="day-banner-step-counter"
               className="font-mono text-xs font-bold px-2 py-0.5 bg-surface text-ink border border-ink rounded-brutal-tag shadow-brutal-xs shrink-0"
             >
-              {progress.completedCount}/4
+              {progress.completedCount}/{totalSteps}
             </span>
           </div>
         </div>

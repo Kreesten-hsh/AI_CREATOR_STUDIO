@@ -3,10 +3,11 @@ import type { Course } from '../../types/course';
 import { useProgress } from '../../hooks/useProgress';
 import { ProgressGrid } from '../layout/ProgressGrid';
 import {
-  formatCourseDayRangeTitle,
+  formatCourseLessonRangeTitle,
   getCourseById,
-  getCourseDays,
+  getCourseLessons,
   resolveActiveCourseId,
+  resolveActiveLesson,
 } from '../../utils/courseNavigation';
 
 interface CourseSidebarProps {
@@ -18,32 +19,29 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
   const {
     state,
     globalProgress,
-    getDayProgress,
+    getLessonProgress,
     navigateToHome,
-    navigateToDay,
+    navigateToLesson,
   } = useProgress();
 
-  const activeDayNumber =
-    state.activeRoute.kind === 'day'
-      ? state.activeRoute.dayNumber
-      : state.activeRoute.kind === 'course' && state.activeRoute.dayNumber
-      ? state.activeRoute.dayNumber
-      : 1;
+  const activeLesson =
+    resolveActiveLesson(state.activeRoute) ?? course.lessons[0];
+  const activeLessonNumber = activeLesson?.lessonNumber ?? 1;
 
   const handleGoHome = () => {
     navigateToHome();
     onAfterNavigate?.();
   };
 
-  const handleSelectDay = (dayNumber: number) => {
-    navigateToDay(dayNumber);
+  const handleSelectLesson = (lessonNumber: number) => {
+    navigateToLesson(lessonNumber);
     onAfterNavigate?.();
   };
 
   const activeCourseId = resolveActiveCourseId(state.activeRoute) ?? 'module-01';
   const currentCourse = getCourseById(activeCourseId);
-  const currentCourseDays = getCourseDays(course.days, activeCourseId);
-  const dayRangeTitle = formatCourseDayRangeTitle(currentCourse?.dayRange);
+  const currentCourseLessons = getCourseLessons(course.lessons, activeCourseId);
+  const lessonRangeTitle = formatCourseLessonRangeTitle(currentCourse?.lessonRange);
 
   return (
     <aside
@@ -71,7 +69,7 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
 
       {/* Corps défilable */}
       <div className="flex-1 overflow-y-auto no-scrollbar p-3.5 space-y-4 overflow-x-hidden">
-        {/* 2. Barre de progression & Grille compacte des 9 leçons */}
+        {/* 2. Barre de progression & Grille compacte des 7 leçons */}
         <section
           aria-label="Progression globale"
           className="p-3 bg-surface border-2 border-ink rounded-brutal-card shadow-brutal-xs space-y-2"
@@ -84,34 +82,36 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
               data-testid="sidebar-global-progress-label"
               className="font-mono text-[10px] font-bold px-1.5 py-0.5 bg-pale-pink border border-ink text-ink rounded-brutal-tag shrink-0"
             >
-              {globalProgress.completedDaysCount} sur {globalProgress.totalDays} leçons
+              {globalProgress.completedLessonsCount} sur {globalProgress.totalLessons} leçons
             </span>
           </div>
 
           <ProgressGrid
-            completedDayNumbers={globalProgress.completedDayNumbers}
-            activeDayNumber={activeDayNumber}
-            onSelectDay={handleSelectDay}
+            completedLessonNumbers={globalProgress.completedLessonNumbers}
+            activeLessonNumber={activeLessonNumber}
+            onSelectLesson={handleSelectLesson}
           />
         </section>
 
         {/* 3. Section dynamique des leçons du module actif */}
-        <section aria-label={dayRangeTitle} className="space-y-1.5">
+        <section aria-label={lessonRangeTitle} className="space-y-1.5">
           <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink/75 px-1 block">
-            {currentCourse ? `MODULE ${currentCourse.orderNumber} • ${dayRangeTitle}` : dayRangeTitle}
+            {currentCourse
+              ? `MODULE ${currentCourse.orderNumber} • JOURNÉE ${currentCourse.dayNumber} • ${lessonRangeTitle}`
+              : lessonRangeTitle}
           </span>
 
           <div className="space-y-1.5">
-            {currentCourseDays.map((day) => {
-              const isActive = activeDayNumber === day.dayNumber;
-              const dayProgress = getDayProgress(day.dayNumber);
-              const isDone = dayProgress.isCompleted;
+            {currentCourseLessons.map((lesson) => {
+              const isActive = activeLessonNumber === lesson.lessonNumber;
+              const lessonProgress = getLessonProgress(lesson.id);
+              const isDone = lessonProgress.isCompleted;
 
               return (
                 <button
-                  key={day.id}
+                  key={lesson.id}
                   type="button"
-                  onClick={() => handleSelectDay(day.dayNumber)}
+                  onClick={() => handleSelectLesson(lesson.lessonNumber)}
                   aria-current={isActive ? 'page' : undefined}
                   className={`w-full text-left px-2.5 sm:px-3 py-2 border-2 border-ink rounded-brutal-btn transition-all flex items-center justify-between gap-2 min-h-[40px] ${
                     isActive
@@ -131,10 +131,10 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
                           : 'bg-cream text-ink'
                       }`}
                     >
-                      Leçon {day.dayNumber}
+                      Leçon {lesson.lessonNumber}
                     </span>
                     <span className="text-[11px] sm:text-xs font-bold uppercase leading-snug break-words">
-                      {day.title}
+                      {lesson.title}
                     </span>
                   </div>
 

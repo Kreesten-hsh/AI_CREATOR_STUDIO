@@ -27,7 +27,7 @@ export function ScreenshotBlock({ block }: { block: ScreenshotBlockConfig }) {
       className="brutal-card rounded-brutal-card overflow-hidden bg-surface"
       aria-label={block.caption}
     >
-      {/* Cadre de fenêtre de navigateur - ZÉRO fausse URL (Adjustment 7) */}
+      {/* Cadre de fenêtre de navigateur - ZÉRO fausse URL */}
       <div className="px-4 py-2.5 bg-ink text-surface border-b-2 border-ink flex items-center justify-between gap-3">
         <div className="flex items-center gap-1.5" aria-hidden="true">
           <span className="w-3 h-3 rounded-full bg-red-400 border border-ink/40 inline-block" />

@@ -1,67 +1,56 @@
 import { describe, expect, it } from 'vitest';
 import { COURSE_DATA } from '../data/course';
 import {
-  LEGACY_DAYS_PENDING_REWRITE,
   validateCourseStepIds,
-  validateDaySteps,
+  validateLessonSteps,
 } from '../utils/stepValidation';
-import type { Day } from '../types/course';
+import type { Lesson } from '../types/course';
 
-describe('Validation des étapes du cours (1 à 3 étapes & unicité des IDs)', () => {
-  it('confirme que la liste LEGACY_DAYS_PENDING_REWRITE contient exactement les jours de transition [1, 2, 3, 4, 7, 8]', () => {
-    expect(LEGACY_DAYS_PENDING_REWRITE).toEqual([1, 2, 3, 4, 7, 8]);
-  });
-
-  it('valide toutes les leçons actuelles de COURSE_DATA (1 à 9)', () => {
-    for (const day of COURSE_DATA.days) {
-      const result = validateDaySteps(day);
-      expect(result.valid, `Erreurs pour le jour ${day.dayNumber}: ${result.errors.join(', ')}`).toBe(true);
+describe('Validation des étapes des 7 leçons (1 à 3 étapes & unicité des IDs)', () => {
+  it('valide toutes les 7 leçons squelettes actuelles de COURSE_DATA', () => {
+    expect(COURSE_DATA.lessons).toHaveLength(7);
+    for (const lesson of COURSE_DATA.lessons) {
+      const result = validateLessonSteps(lesson);
+      expect(
+        result.valid,
+        `Erreurs pour la leçon ${lesson.lessonNumber}: ${result.errors.join(', ')}`
+      ).toBe(true);
       expect(result.errors).toHaveLength(0);
     }
   });
 
-  it('échoue si une journée HORS de la liste legacy dépasse 3 étapes', () => {
-    // Le jour 5 a 3 étapes et n'est pas dans LEGACY_DAYS_PENDING_REWRITE
-    const day5Copy: Day = {
-      ...COURSE_DATA.days.find((d) => d.dayNumber === 5)!,
+  it('échoue si une leçon active dépasse 3 étapes', () => {
+    const lessonWith4Steps: Lesson = {
+      ...COURSE_DATA.lessons[0],
+      isSkeletonPlaceholder: false,
       steps: [
-        { id: 'd5-s1', number: 1, title: 'Step 1', completionLabel: 'OK 1', blocks: [] },
-        { id: 'd5-s2', number: 2, title: 'Step 2', completionLabel: 'OK 2', blocks: [] },
-        { id: 'd5-s3', number: 3, title: 'Step 3', completionLabel: 'OK 3', blocks: [] },
-        { id: 'd5-s4', number: 4, title: 'Step 4', completionLabel: 'OK 4', blocks: [] },
+        { id: 'l1-s1', number: 1, title: 'Step 1', completionLabel: 'OK 1', blocks: [] },
+        { id: 'l1-s2', number: 2, title: 'Step 2', completionLabel: 'OK 2', blocks: [] },
+        { id: 'l1-s3', number: 3, title: 'Step 3', completionLabel: 'OK 3', blocks: [] },
+        { id: 'l1-s4', number: 4, title: 'Step 4', completionLabel: 'OK 4', blocks: [] },
       ],
     };
 
-    const result = validateDaySteps(day5Copy);
+    const result = validateLessonSteps(lessonWith4Steps);
     expect(result.valid).toBe(false);
     expect(result.errors.some((e) => e.includes('dépasse le maximum de 3 étapes'))).toBe(true);
   });
 
-  it('échoue si une journée a 0 étape', () => {
-    const emptyDay: Day = {
-      id: 'day-empty',
-      dayNumber: 5,
-      sprintId: 'module-02',
-      title: 'Jour vide',
-      objective: 'Aucun',
-      deliverableSummary: 'Aucun',
+  it('échoue si une leçon non-squelette a 0 étape', () => {
+    const emptyActiveLesson: Lesson = {
+      ...COURSE_DATA.lessons[0],
       isSkeletonPlaceholder: false,
       steps: [],
     };
 
-    const result = validateDaySteps(emptyDay);
+    const result = validateLessonSteps(emptyActiveLesson);
     expect(result.valid).toBe(false);
     expect(result.errors.some((e) => e.includes('au moins 1 étape'))).toBe(true);
   });
 
-  it('échoue si une journée contient deux étapes avec le même identifiant', () => {
-    const duplicateDay: Day = {
-      id: 'day-dup',
-      dayNumber: 6,
-      sprintId: 'module-02',
-      title: 'Jour dupliqué',
-      objective: 'Test',
-      deliverableSummary: 'Test',
+  it('échoue si une leçon contient deux étapes avec le même identifiant', () => {
+    const duplicateLesson: Lesson = {
+      ...COURSE_DATA.lessons[1],
       isSkeletonPlaceholder: false,
       steps: [
         { id: 'step-duplicate-id', number: 1, title: 'Step 1', completionLabel: 'OK', blocks: [] },
@@ -69,13 +58,15 @@ describe('Validation des étapes du cours (1 à 3 étapes & unicité des IDs)', 
       ],
     };
 
-    const result = validateDaySteps(duplicateDay);
+    const result = validateLessonSteps(duplicateLesson);
     expect(result.valid).toBe(false);
-    expect(result.errors.some((e) => e.includes("identifiant d'étape dupliqué 'step-duplicate-id'"))).toBe(true);
+    expect(
+      result.errors.some((e) => e.includes("identifiant d'étape dupliqué 'step-duplicate-id'"))
+    ).toBe(true);
   });
 
-  it("garantit l'unicité stricte de tous les identifiants d'étapes sur l'ensemble du cours", () => {
-    const courseValidation = validateCourseStepIds(COURSE_DATA.days);
+  it("garantit l'unicité stricte de tous les identifiants d'étapes sur l'ensemble des 7 leçons", () => {
+    const courseValidation = validateCourseStepIds(COURSE_DATA.lessons);
     expect(courseValidation.valid).toBe(true);
     expect(courseValidation.duplicateIds).toHaveLength(0);
     expect(courseValidation.errors).toHaveLength(0);
