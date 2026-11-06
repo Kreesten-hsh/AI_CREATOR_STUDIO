@@ -53,7 +53,7 @@ Les couleurs canoniques de l'application sont définies dans `tailwind.config.js
   - Boutons : `6px` (`rounded-brutal-btn`)
   - Tags / Badges : `4px` (`rounded-brutal-tag`)
 - **Structure de navigation** :
-  - **Accueil** (`CourseHomePage` : `CourseHero` + `CourseOverview`)
+  - **Accueil** (`CourseHomePage` : `CourseHero`)
   - **3 Modules** (Navigation latérale desktop et tiroir mobile fluide)
   - **9 Leçons** (Ouverture avec en-tête `DayHeader` et conteneur responsive)
   - **2 Bonus** (`BonusView`)
