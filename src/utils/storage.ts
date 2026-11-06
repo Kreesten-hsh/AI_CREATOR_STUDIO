@@ -15,6 +15,8 @@ export const STORAGE_KEY = 'ai_creator_studio_progress_v1';
 export const RAW_BACKUP_V1_STORAGE_KEY = 'ai_creator_studio_raw_backup_v1';
 export const RAW_BACKUP_V2_STORAGE_KEY = 'ai_creator_studio_raw_backup_v2';
 export const RAW_BACKUP_V3_STORAGE_KEY = 'ai_creator_studio_raw_backup_v3';
+export const RAW_BACKUP_V4_INCOMPATIBLE_STORAGE_KEY = 'ai_creator_studio_raw_backup_v4_incompatible';
+export const UNRECOGNIZED_BACKUP_STORAGE_KEY = 'ai_creator_studio_unrecognized_backup';
 export const CORRUPTED_BACKUP_STORAGE_KEY = 'ai_creator_studio_corrupted_backup';
 export const V1_BACKUP_STORAGE_KEY = RAW_BACKUP_V1_STORAGE_KEY;
 export const CURRENT_SCHEMA_VERSION = 4 as const;
@@ -198,10 +200,16 @@ function sanitizeProfile(
 }
 
 /**
- * Sauvegarde l'état brut versionné (v1, v2 ou v3) sous sa clé dédiée.
+ * Sauvegarde l'état brut versionné (v1, v2, v3 ou v4 incompatible) sous sa clé dédiée.
  * Ne l'écrase JAMAIS si elle existe déjà, et vérifie par relecture immédiate la validité de l'écriture.
+ *
+ * Règle de validation stricte :
+ * - Si la clé n'existe pas : écrit le payload et vérifie par relecture que le contenu est strictement identique.
+ * - Si la clé existe et contient exactement le même payload : retourne true.
+ * - Si la clé existe mais contient un payload différent : retourne false sans modifier l'ancienne sauvegarde.
+ * - En cas d'exception ou d'échec de relecture : retourne false.
  */
-export function ensureRawBackupWritten(version: 1 | 2 | 3, payload: string): boolean {
+export function ensureRawBackupWritten(version: 1 | 2 | 3 | 4, payload: string): boolean {
   if (typeof window === 'undefined' || !window.localStorage) {
     return false;
   }
@@ -210,15 +218,44 @@ export function ensureRawBackupWritten(version: 1 | 2 | 3, payload: string): boo
       ? RAW_BACKUP_V1_STORAGE_KEY
       : version === 2
       ? RAW_BACKUP_V2_STORAGE_KEY
-      : RAW_BACKUP_V3_STORAGE_KEY;
+      : version === 3
+      ? RAW_BACKUP_V3_STORAGE_KEY
+      : RAW_BACKUP_V4_INCOMPATIBLE_STORAGE_KEY;
 
   try {
     const existing = window.localStorage.getItem(targetKey);
-    if (existing !== null && existing.length > 0) {
-      return true;
+    if (existing !== null) {
+      return existing === payload;
     }
     window.localStorage.setItem(targetKey, payload);
     const readBack = window.localStorage.getItem(targetKey);
+    return readBack === payload;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Sauvegarde les données brutes d'un état non reconnu (structure racine invalide ou schemaVersion inconnu)
+ * sous sa clé dédiée sans jamais écraser STORAGE_KEY.
+ *
+ * Règle de validation stricte :
+ * - Si la clé n'existe pas : écrit le payload et vérifie par relecture que le contenu est strictement identique.
+ * - Si la clé existe et contient exactement le même payload : retourne true.
+ * - Si la clé existe mais contient un payload différent : retourne false sans modifier l'ancienne sauvegarde.
+ * - En cas d'exception ou d'échec de relecture : retourne false.
+ */
+export function ensureUnrecognizedBackupWritten(payload: string): boolean {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return false;
+  }
+  try {
+    const existing = window.localStorage.getItem(UNRECOGNIZED_BACKUP_STORAGE_KEY);
+    if (existing !== null) {
+      return existing === payload;
+    }
+    window.localStorage.setItem(UNRECOGNIZED_BACKUP_STORAGE_KEY, payload);
+    const readBack = window.localStorage.getItem(UNRECOGNIZED_BACKUP_STORAGE_KEY);
     return readBack === payload;
   } catch {
     return false;
@@ -231,15 +268,15 @@ export function ensureV1BackupWritten(rawV1: Record<string, unknown>, rawSeriali
 }
 
 /**
- * Migre un ancien état (V1, V2 ou V3 à 9 jours) vers le schéma V4 ('3m-3d-7l').
+ * Migre un ancien état (V1, V2, V3 à 9 jours ou V4 avec modèle incompatible) vers le schéma V4 canonique ('3m-3d-7l').
  * - Sauvegarde brute vérifiée avant remplacement.
- * - Aucune conversion fictive des anciennes journées en nouvelles leçons :
+ * - Aucune conversion fictive des anciennes validations en nouvelles leçons :
  *   completedStepIdsByLesson et activeStepIdByLesson sont initialisés à {}.
  * - Archivage intégral sans perte dans legacyArchive.
  */
 export function migrateLegacyToV4(
   rawLegacy: Record<string, unknown>,
-  fromVersion: 1 | 2 | 3,
+  fromVersion: 1 | 2 | 3 | 4,
   rawSerialized?: string,
   persistToStorage = true
 ): StudentProgress {
@@ -265,8 +302,21 @@ export function migrateLegacyToV4(
     migratedAt: new Date().toISOString(),
   };
 
+  if (fromVersion === 4) {
+    archivedFields.incompatibleCurriculumModel =
+      typeof rawLegacy.curriculumModel === 'string'
+        ? rawLegacy.curriculumModel
+        : 'missing_or_invalid';
+  }
+
   if (rawLegacy.activeRoute !== undefined) {
     archivedFields.previousActiveRoute = rawLegacy.activeRoute;
+  }
+  if (rawLegacy.completedStepIdsByLesson !== undefined) {
+    archivedFields.completedStepIdsByLesson = rawLegacy.completedStepIdsByLesson;
+  }
+  if (rawLegacy.activeStepIdByLesson !== undefined) {
+    archivedFields.activeStepIdByLesson = rawLegacy.activeStepIdByLesson;
   }
   if (rawLegacy.completedStepsByDay !== undefined) {
     archivedFields.completedStepsByDay = rawLegacy.completedStepsByDay;
@@ -430,6 +480,14 @@ export function migrateV3ToV4(
   return migrateLegacyToV4(rawV3, 3, rawSerialized, persistToStorage);
 }
 
+export function migrateIncompatibleV4ToV4(
+  rawV4: Record<string, unknown>,
+  rawSerialized?: string,
+  persistToStorage = true
+): StudentProgress {
+  return migrateLegacyToV4(rawV4, 4, rawSerialized, persistToStorage);
+}
+
 export function migrateV2ToV4(
   rawV2: Record<string, unknown>,
   rawSerialized?: string,
@@ -475,13 +533,17 @@ export function sanitizeProgressState(
   }
 
   if (data.schemaVersion !== CURRENT_SCHEMA_VERSION) {
+    if (rawSerialized) {
+      ensureUnrecognizedBackupWritten(rawSerialized);
+    }
+    fallback.persistenceDisabled = true;
     return fallback;
   }
 
   // Si un objet V4 ne porte pas le modèle de cursus canonique '3m-3d-7l',
-  // on n'accepte aucune validation de leçon non vérifiée.
+  // on archive intégralement et on n'accepte aucune validation de leçon non vérifiée.
   if (data.curriculumModel !== CURRICULUM_MODEL) {
-    return migrateLegacyToV4(data, 3, rawSerialized, persistToStorage);
+    return migrateIncompatibleV4ToV4(data, rawSerialized, persistToStorage);
   }
 
   const activeRoute = normalizeActiveRoute(data.activeRoute);
@@ -586,7 +648,10 @@ export function loadProgressFromStorage(): StudentProgress {
   try {
     const parsed: unknown = JSON.parse(serialized);
     if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-      return createInitialProgress();
+      ensureUnrecognizedBackupWritten(serialized);
+      const fallback = createInitialProgress();
+      fallback.persistenceDisabled = true;
+      return fallback;
     }
     return sanitizeProgressState(parsed, serialized, true);
   } catch {
@@ -653,5 +718,71 @@ export function importProgressJson(jsonString: string): StudentProgress | null {
     return sanitizeProgressState(parsed, jsonString, false);
   } catch {
     return null;
+  }
+}
+
+/**
+ * Réinitialise de manière sécurisée la route active vers l'accueil ({ kind: 'home' })
+ * sans jamais court-circuiter les protections de persistance ni modifier un stockage incompatible.
+ *
+ * Contrôles obligatoires avant toute écriture :
+ * 1. Le JSON stocké sous STORAGE_KEY est syntaxiquement valide.
+ * 2. La racine est un objet standard non null et non array.
+ * 3. schemaVersion === 4 (CURRENT_SCHEMA_VERSION).
+ * 4. curriculumModel === '3m-3d-7l' (CURRICULUM_MODEL).
+ * 5. persistenceDisabled !== true.
+ *
+ * Comportement :
+ * - Si l'un des contrôles échoue : ne modifie aucune donnée, ne tente aucune migration,
+ *   ne supprime aucune sauvegarde, et retourne false.
+ * - Si activeRoute est déjà à l'accueil ({ kind: 'home' }) : évite toute réécriture inutile et retourne true.
+ * - Si tous les contrôles réussissent : met à jour uniquement activeRoute à { kind: 'home' },
+ *   préserve intégralement tous les autres champs (validations, profil, réponses, etc.),
+ *   persiste dans STORAGE_KEY et retourne true.
+ */
+export function safeResetActiveRouteToHome(): boolean {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return false;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      return false;
+    }
+
+    const parsed: unknown = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      return false;
+    }
+
+    const state = parsed as Record<string, unknown>;
+
+    if (state.schemaVersion !== CURRENT_SCHEMA_VERSION) {
+      return false;
+    }
+
+    if (state.curriculumModel !== CURRICULUM_MODEL) {
+      return false;
+    }
+
+    if (state.persistenceDisabled === true) {
+      return false;
+    }
+
+    const currentRoute = state.activeRoute as Record<string, unknown> | undefined;
+    if (
+      currentRoute &&
+      typeof currentRoute === 'object' &&
+      currentRoute.kind === 'home'
+    ) {
+      return true;
+    }
+
+    state.activeRoute = { kind: 'home' };
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return true;
+  } catch {
+    return false;
   }
 }

@@ -13,6 +13,8 @@ import {
 import { BONUSES } from '../data/navigation/bonuses';
 import { MAIN_COURSES } from '../data/navigation/mainCourses';
 import { COURSE_MODULES } from '../data/sprints';
+import { validateCourseIntegrity } from '../utils/courseNavigation';
+import type { Day, Lesson } from '../types/course';
 
 describe('Intégrité Curriculaire Canonique (3 Modules • 3 Journées • 7 Leçons)', () => {
   describe('1. Constantes de Titre et Sous-Titre Centralisées', () => {
@@ -169,6 +171,92 @@ describe('Intégrité Curriculaire Canonique (3 Modules • 3 Journées • 7 Le
       expect(BONUSES[1].title).toBe('MARKETING LIBRARY');
       expect(BONUSES[0].blocks).toHaveLength(0);
       expect(BONUSES[1].blocks).toHaveLength(0);
+    });
+  });
+
+  describe('4. Renforcement des Assertions d Intégrité (Mission 02-C)', () => {
+    it('valide l intégrité complète du cursus officiel canonique', () => {
+      const integrity = validateCourseIntegrity(MAIN_COURSES, ALL_DAYS);
+      expect(integrity.isValid).toBe(true);
+      expect(integrity.errors).toHaveLength(0);
+    });
+
+    it('détecte une discordance entre lesson.id et lesson.lessonNumber', () => {
+      const corruptedDays: Day[] = ALL_DAYS.map((day) => {
+        if (day.id === 'day-01') {
+          return {
+            ...day,
+            lessons: day.lessons.map((lesson) =>
+              lesson.id === 'lesson-01' ? ({ ...lesson, lessonNumber: 2 } as Lesson) : lesson
+            ),
+          };
+        }
+        return day;
+      });
+
+      const result = validateCourseIntegrity(MAIN_COURSES, corruptedDays);
+      expect(result.isValid).toBe(false);
+      expect(
+        result.errors.some((err) =>
+          err.includes("Discordance d'identifiant pour la leçon : lesson-01 ne correspond pas à son numéro 2")
+        )
+      ).toBe(true);
+    });
+
+    it('détecte une incohérence entre module.lessonIds et les leçons effectives de sa journée', () => {
+      const corruptedModules = MAIN_COURSES.map((mod) =>
+        mod.id === 'module-01'
+          ? { ...mod, lessonIds: ['lesson-01' as const] }
+          : mod
+      );
+
+      const result = validateCourseIntegrity(corruptedModules, ALL_DAYS);
+      expect(result.isValid).toBe(false);
+      expect(
+        result.errors.some((err) =>
+          err.includes('ne correspondent pas exactement aux leçons de sa journée')
+        )
+      ).toBe(true);
+    });
+
+    it('détecte une incohérence entre module.dayId / module.dayNumber et Day', () => {
+      const corruptedModules = MAIN_COURSES.map((mod) =>
+        mod.id === 'module-01'
+          ? { ...mod, dayNumber: 2 as const }
+          : mod
+      );
+
+      const result = validateCourseIntegrity(corruptedModules, ALL_DAYS);
+      expect(result.isValid).toBe(false);
+      expect(
+        result.errors.some((err) =>
+          err.includes('incohérence de numéro de journée')
+        )
+      ).toBe(true);
+    });
+
+    it('détecte une violation de la répartition canonique 2 + 3 + 2', () => {
+      // Déplacement artificiel de la leçon 3 dans le jour 1 (3 + 2 + 2)
+      const lesson3 = ALL_DAYS[1].lessons[0];
+      const corruptedDays: Day[] = [
+        {
+          ...ALL_DAYS[0],
+          lessons: [...ALL_DAYS[0].lessons, { ...lesson3, dayId: 'day-01', dayNumber: 1, moduleId: 'module-01' }],
+        },
+        {
+          ...ALL_DAYS[1],
+          lessons: ALL_DAYS[1].lessons.slice(1),
+        },
+        ALL_DAYS[2],
+      ];
+
+      const result = validateCourseIntegrity(MAIN_COURSES, corruptedDays);
+      expect(result.isValid).toBe(false);
+      expect(
+        result.errors.some((err) =>
+          err.includes('attendu exactement 2 leçons (répartition 2+3+2), reçu 3')
+        )
+      ).toBe(true);
     });
   });
 });

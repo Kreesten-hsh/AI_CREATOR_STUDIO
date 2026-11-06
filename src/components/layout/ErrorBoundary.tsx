@@ -1,5 +1,6 @@
 import React from 'react';
 import { AlertTriangle, RotateCcw } from 'lucide-react';
+import { safeResetActiveRouteToHome } from '../../utils/storage';
 
 export interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -40,7 +41,8 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     if (this.props.onReset) {
       this.props.onReset();
     } else if (typeof window !== 'undefined') {
-      window.location.reload();
+      safeResetActiveRouteToHome();
+      window.location.href = '/';
     }
   };
 

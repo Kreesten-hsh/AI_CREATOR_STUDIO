@@ -27,6 +27,9 @@ pnpm-debug.log*
 .venv/
 venv/
 
+# Agent configurations & work contexts
+.agents/
+
 # Graphify knowledge graph outputs
 graphify-out/
 

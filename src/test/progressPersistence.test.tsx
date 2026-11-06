@@ -251,6 +251,9 @@ describe('V4 : Student Progress, State Persistence & V1/V2/V3 -> V4 Migration Su
       const migrated = loadProgressFromStorage();
       expect(migrated.schemaVersion).toBe(4);
       expect(migrated.profile.studentName).toBe('Nadia');
+      // La sauvegarde existante étant différente, la migration bascule en mode protégé sans écraser STORAGE_KEY
+      expect(migrated.persistenceDisabled).toBe(true);
+      expect(window.localStorage.getItem(STORAGE_KEY)).toBe(JSON.stringify(newerV3State));
       expect(window.localStorage.getItem(RAW_BACKUP_V3_STORAGE_KEY)).toBe(originalBackupPayload);
     });
 

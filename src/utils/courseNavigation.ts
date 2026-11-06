@@ -247,6 +247,47 @@ export function validateCourseIntegrity(
     );
   }
 
+  // Vérification de la cohérence des modules avec leurs journées et leurs leçons
+  for (const mod of modules) {
+    const matchingDay = days.find((d) => d.id === mod.dayId);
+    if (!matchingDay) {
+      errors.push(`Module ${mod.id} : journée associée '${mod.dayId}' introuvable dans les journées.`);
+      continue;
+    }
+    if (matchingDay.dayNumber !== mod.dayNumber) {
+      errors.push(
+        `Module ${mod.id} : incohérence de numéro de journée (module.dayNumber=${mod.dayNumber} vs day.dayNumber=${matchingDay.dayNumber}).`
+      );
+    }
+    if (matchingDay.moduleId !== mod.id) {
+      errors.push(
+        `Module ${mod.id} : incohérence de module dans la journée associée (day.moduleId=${matchingDay.moduleId} vs module.id=${mod.id}).`
+      );
+    }
+
+    const dayLessonIds = matchingDay.lessons ? matchingDay.lessons.map((l) => l.id) : [];
+    if (
+      !Array.isArray(mod.lessonIds) ||
+      mod.lessonIds.length !== dayLessonIds.length ||
+      !mod.lessonIds.every((id, idx) => id === dayLessonIds[idx])
+    ) {
+      errors.push(
+        `Module ${mod.id} : les leçons référencées [${mod.lessonIds?.join(', ') ?? ''}] ne correspondent pas exactement aux leçons de sa journée [${dayLessonIds.join(', ')}].`
+      );
+    }
+  }
+
+  // Vérification de la répartition officielle 2 + 3 + 2
+  const expectedDistribution: Record<1 | 2 | 3, number> = { 1: 2, 2: 3, 3: 2 };
+  for (const day of days) {
+    const expectedCount = expectedDistribution[day.dayNumber];
+    if (expectedCount !== undefined && (!day.lessons || day.lessons.length !== expectedCount)) {
+      errors.push(
+        `Journée ${day.dayNumber} (${day.id}) : attendu exactement ${expectedCount} leçons (répartition 2+3+2), reçu ${day.lessons?.length ?? 0}.`
+      );
+    }
+  }
+
   const seenLessonIds = new Set<string>();
   for (const day of days) {
     if ('steps' in (day as unknown as Record<string, unknown>)) {
@@ -257,6 +298,13 @@ export function validateCourseIntegrity(
         errors.push(`Identifiant de leçon dupliqué : ${lesson.id}`);
       }
       seenLessonIds.add(lesson.id);
+
+      const expectedLessonIdFromNumber = `lesson-${String(lesson.lessonNumber).padStart(2, '0')}`;
+      if (lesson.id !== expectedLessonIdFromNumber) {
+        errors.push(
+          `Discordance d'identifiant pour la leçon : ${lesson.id} ne correspond pas à son numéro ${lesson.lessonNumber} (attendu ${expectedLessonIdFromNumber}).`
+        );
+      }
 
       if (lesson.dayId !== day.id || lesson.dayNumber !== day.dayNumber) {
         errors.push(

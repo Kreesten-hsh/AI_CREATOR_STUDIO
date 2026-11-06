@@ -202,5 +202,114 @@ describe('Suivi, Aide et Résilience : DayHeader, HelpPanel, StepTabs & ErrorBou
 
       consoleErrorSpy.mockRestore();
     });
+
+    it('déclenche onReset lors du clic sur le bouton Retourner à l accueil sans effacer la progression', () => {
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      const CrashingComponent = (): null => {
+        throw new Error('Simulation d erreur de rendu');
+      };
+
+      const initialStoredProgress = {
+        schemaVersion: 4,
+        curriculumModel: '3m-3d-7l',
+        activeRoute: { kind: 'lesson', lessonId: 'lesson-02' },
+        completedStepIdsByLesson: { 'lesson-01': ['step-1'] },
+        profile: { studentName: 'Alex' },
+      };
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(initialStoredProgress));
+
+      const onResetMock = vi.fn();
+
+      render(
+        <ErrorBoundary onReset={onResetMock}>
+          <CrashingComponent />
+        </ErrorBoundary>
+      );
+
+      const resetButton = screen.getByRole('button', { name: /retourner à l'accueil/i });
+      expect(resetButton).toBeInTheDocument();
+
+      fireEvent.click(resetButton);
+
+      expect(onResetMock).toHaveBeenCalledTimes(1);
+
+      // Vérifie que la progression enregistrée est intégralement préservée
+      const storedAfterClick = JSON.parse(
+        window.localStorage.getItem(STORAGE_KEY) ?? '{}'
+      );
+      expect(storedAfterClick.completedStepIdsByLesson).toEqual({ 'lesson-01': ['step-1'] });
+      expect(storedAfterClick.profile.studentName).toBe('Alex');
+
+      consoleErrorSpy.mockRestore();
+    });
+
+    it('navigue vers l accueil et réinitialise activeRoute par défaut lorsque onReset n est pas fourni', () => {
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      const CrashingComponent = (): null => {
+        throw new Error('Erreur composant orphelin');
+      };
+
+      const initialStoredProgress = {
+        schemaVersion: 4,
+        curriculumModel: '3m-3d-7l',
+        activeRoute: { kind: 'lesson', lessonId: 'lesson-03' },
+        completedStepIdsByLesson: { 'lesson-01': ['step-1', 'step-2'] },
+        profile: { studentName: 'Fatou' },
+      };
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(initialStoredProgress));
+
+      render(
+        <ErrorBoundary>
+          <CrashingComponent />
+        </ErrorBoundary>
+      );
+
+      const resetButton = screen.getByRole('button', { name: /retourner à l'accueil/i });
+      fireEvent.click(resetButton);
+
+      // Vérifie que activeRoute a été ramenée à home dans localStorage sans perte de progression
+      const stored = JSON.parse(
+        window.localStorage.getItem(STORAGE_KEY) ?? '{}'
+      );
+      expect(stored.activeRoute).toEqual({ kind: 'home' });
+      expect(stored.completedStepIdsByLesson).toEqual({ 'lesson-01': ['step-1', 'step-2'] });
+      expect(stored.profile.studentName).toBe('Fatou');
+
+      consoleErrorSpy.mockRestore();
+    });
+
+    it('ne modifie pas STORAGE_KEY lors du reset si persistenceDisabled est actif', () => {
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      const CrashingComponent = (): null => {
+        throw new Error('Erreur avec persistance verrouillée');
+      };
+
+      const protectedStoredProgress = {
+        schemaVersion: 4,
+        curriculumModel: '3m-3d-7l',
+        persistenceDisabled: true,
+        activeRoute: { kind: 'lesson', lessonId: 'lesson-05' },
+        profile: { studentName: 'Immuable' },
+      };
+      const serialized = JSON.stringify(protectedStoredProgress);
+      window.localStorage.setItem(STORAGE_KEY, serialized);
+
+      render(
+        <ErrorBoundary>
+          <CrashingComponent />
+        </ErrorBoundary>
+      );
+
+      const resetButton = screen.getByRole('button', { name: /retourner à l'accueil/i });
+      fireEvent.click(resetButton);
+
+      // Le stockage verrouillé n'a pas été modifié
+      expect(window.localStorage.getItem(STORAGE_KEY)).toBe(serialized);
+
+      consoleErrorSpy.mockRestore();
+    });
   });
 });

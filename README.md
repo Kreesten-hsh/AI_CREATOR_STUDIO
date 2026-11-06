@@ -67,5 +67,4 @@ npm run build
 ## 4. Documentation Technique
 
 - `docs/COURSE_PRD.md` : Document de référence canonique (PRD) pour l'architecture pédagogique et fonctionnelle.
-- `docs/PROJECT_REBUILD_BRIEF.md` : Spécification initiale de la refonte.
 - `DESIGN.md` : Spécification complète du design system et des règles visuelles.

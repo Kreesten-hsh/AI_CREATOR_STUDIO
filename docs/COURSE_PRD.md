@@ -787,7 +787,8 @@ L'application web **AI CREATOR Studio** sert de véhicule d'apprentissage. Ses f
 ### 15.2. Persistance Locale & Respect de la Vie Privée
 
 - **Persistance LocalStorage Pure** :  
-  L'état d'avancement de l'apprenant (leçons complétées, cases cochées) est sauvegardé automatiquement dans le `localStorage` de son navigateur (`ai-creator-studio:progress:v3`).
+  L'état d'avancement de l'apprenant (leçons complétées, étapes actives, cases cochées, réponses aux exercices, profil) est sauvegardé automatiquement dans le `localStorage` de son navigateur sous la clé canonique `ai_creator_studio_progress_v1`.  
+  *Note d'architecture sur le versionnement* : Cette clé de stockage (`ai_creator_studio_progress_v1`) est pérenne et distincte de la version du schéma interne des données, actuellement en **Schéma V4** gouverné par le modèle canonique `3m-3d-7l`. Le moteur de persistance intègre une chaîne de migration résiliente pour les anciens schémas (V1, V2, V3) et un mécanisme de sauvegardes brutes non destructives (`_raw_backup_v1`, `_v2`, `_v3`, `_v4_incompatible`, `_unrecognized`) empêchant tout écrasement accidentel.
 - **Sauvegarde et Restauration JSON** :  
   Possibilité pour l'apprenant d'exporter sa progression sous forme de fichier JSON de sauvegarde et de la réimporter sur un autre appareil.
 - **Zéro Inscription Obligatoire pour la V1** :  
