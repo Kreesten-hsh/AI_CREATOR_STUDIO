@@ -66,5 +66,10 @@ npm run build
 
 ## 4. Documentation Technique
 
-- `docs/COURSE_PRD.md` : Document de référence canonique (PRD) pour l'architecture pédagogique et fonctionnelle.
-- `DESIGN.md` : Spécification complète du design system et des règles visuelles.
+- [`docs/COURSE_PRD.md`](docs/COURSE_PRD.md) : Document de référence canonique (PRD) pour l'architecture pédagogique et fonctionnelle.
+- [`docs/DECISIONS-MISSION-03.md`](docs/DECISIONS-MISSION-03.md) : Synthèse d'architecture, méthode de transformation et décisions retenues de la Mission 03.
+- [`docs/ai-creator-design-intelligence/`](docs/ai-creator-design-intelligence/) : Skill autonome pour Claude Free (`SKILL.md`, références, archive ZIP et guide d'installation).
+- [`docs/prompts/`](docs/prompts/) : Les deux prompts maîtres du parcours standard (Entretien de direction artistique et Génération du produit HTML).
+- [`docs/guides/GUIDE-PARCOURS-APPRENANT.md`](docs/guides/GUIDE-PARCOURS-APPRENANT.md) : Guide d'utilisation pas-à-pas du parcours apprenant.
+- [`docs/examples/marc-v2/`](docs/examples/marc-v2/) : Preuve de concept unique (application interactive Marc V2 et rapport de validation technique).
+- [`DESIGN.md`](DESIGN.md) : Spécification complète du design system et des règles visuelles de la plateforme.
