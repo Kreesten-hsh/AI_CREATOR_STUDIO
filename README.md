@@ -25,7 +25,7 @@ Le cursus est structuré en **3 modules thématiques**, totalisant **3 journées
 
 ### Les 2 Bonus
 - **Bonus 01** : LE SYSTÈME MANYCHAT AUTOMATISÉ AVEC CLAUDE (5 leçons pratiques, 5 prompts Claude Free, qualification sans Tags obligatoires, conformité ManyChat Free 4 automatisations & WhatsApp par message livré)
-- **Bonus 02** : MARKETING LIBRARY (9 Skills IA originaux en téléchargement direct, 1 prompt universel de recherche concurrentielle et boîte à outils opérationnelle)
+- **Bonus 02** : MARKETING LIBRARY (Bibliothèque de 9 ressources de Skills marketing, avec 2 archives ZIP actuellement téléchargeables, 1 prompt universel de recherche concurrentielle et boîte à outils opérationnelle)
 
 ---
 
@@ -89,10 +89,10 @@ Le pilotage du projet s'articule en **11 missions ordonnées** respectant les d�
 | **Mission 02** | Refactoring Modèle & Routes | **Terminée** | Architecture 3 Modules / 3 Journées / 7 Leçons, typages stricts et assainissement des routes. |
 | **Mission 03** | Prototypage Moteur & DA | **Terminée** | Validation empirique du Master Prompt, Source Fidelity Mapping et prototype Marc V2. |
 | **Mission 04** | Contenu Module 01 (CHOISIR) | **Terminée** | Rédaction et intégration des leçons L1 & L2 (standard Abigail Peugh). |
-| **Mission 05** | Contenu Module 02 (CRÉER) | **Terminée** | Rédaction et intégration des leçons L3, L4 & L5, Skill Claude Free et trousseau de reprise. |
+| **Mission 05** | Contenu Module 02 (CRÉER) | **Terminée** | Rédaction et intégration des leçons L3, L4 & L5, Skill Claude Free et protocole de continuité « Continue ». |
 | **Mission 06** | Contenu Module 03 (PUBLIER & LIVRER) | **Terminée** | Rédaction et intégration des leçons L6 & L7 (Netlify Drop, offre Chariow Files). |
 | **Mission 07** | Bonus 01 : ManyChat Automation System | **Terminée** | Système d'automatisation conversationnelle Claude Free + ManyChat (FB Messenger, qualification sans Tags, conformité Meta 24h & Free 4 automatisations). |
-| **Mission 08** | Bonus 02 : Marketing Library | **Terminée** | Bibliothèque de 9 Skills IA originaux téléchargeables, prompt universel de recherche concurrentielle et modal interactive. |
-| **Mission 09** | Mission Intermédiaire 01 : Contenu & Livraison | **Prochaine Mission** | Enrichissement éditorial L1–L7, production & intégration des captures d'écran réelles, cadrage du Guide d'Accès PDF et validation multi-appareils. |
+| **Mission 08** | Bonus 02 : Marketing Library | **Terminée** | Bibliothèque de 9 ressources de Skills marketing (dont 2 archives ZIP téléchargeables et 7 fiches avec prompts prêts à l'emploi), prompt universel de recherche concurrentielle et modal interactive. |
+| **Mission 09** | Mission Intermédiaire 01 : Contenu & Livraison | **Prochaine Mission** | Enrichissement éditorial L1–L7, production & intégration des captures d'écran réelles, cadrage du Guide d'Accès PDF, test empirique du parcours de livraison Chariow et validation multi-appareils. |
 | **Mission 10** | Mission Intermédiaire 02 : Affinage UI/UX | **Planifiée** | Audit ergonomique, hiérarchie visuelle, micro-interactions sobres, conformité responsive et accessibilité WCAG AA. |
 | **Mission 11** | Harness Simulateur & Validation Humaine | **Mission Finale** | Harness d'évaluation automatisé (3 personas Claire, Marc, Sophie), tests Playwright/Vitest et recette cohorte réelle (5 créateurs). |

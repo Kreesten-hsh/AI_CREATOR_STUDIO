@@ -317,7 +317,7 @@ Chaque leçon dispose de sa propre logique d'apprentissage, adaptée à la natur
   - R7 : Décision d'état conditionnelle : mémoire vive volatile pour simulateurs éphémères ; `StorageAdapter` sécurisé local si persistance requise.
   - R8 : Accessibilité & ergonomie physique : cibles tactiles $\ge 44\text{ px}$, polices $\ge 16\text{ px}$ sur mobile, ratios WCAG AA, responsive 375 px strict sans scroll horizontal.
 - **Statut de React via CDN** :  
-  Dans l'état actuellement implémenté du code, React est formellement exclu (R2 proscrit tout framework). La possibilité d'une exception via CDN relève d'une intention d'arbitrage future (`DEC-ARB-13`) et n'est pas disponible dans le prompt actuel.
+  Dans l'état actuellement implémenté du code, React est formellement exclu (R2 proscrit tout framework). La possibilité d'une exception via CDN relève d'une intention d'arbitrage future (`DEC-ARB-14`) et n'est pas disponible dans le prompt actuel.
 - **Statut de la barrière par mot de passe** :  
   Le Master Prompt 2 actuel ne comporte pas d'instruction de génération d'écran mot de passe. L'alignement de cette exigence cible constitue un chantier prioritaire de la Mission Intermédiaire 01.
 - **Livrable concret** :  
@@ -426,7 +426,7 @@ Chaque leçon dispose de sa propre logique d'apprentissage, adaptée à la natur
      - *Cas B (Commande 0 € refusée par la passerelle)* : ne pas payer son propre produit, constater l'arrêt au panier et valider la configuration.
   8. Désactiver immédiatement le code promotionnel de test.
 - **Clarification sur les livrables et la sécurité** :  
-  - **Livrable existant vs livrable cible** : Le code de L7 intègre actuellement le texte `TEXTE_INSTRUCTIONS_POST_ACHAT` (lien Netlify, ajout aux favoris, mention du guide PDF, contact e-mail ; aucun mot de passe n'y figure actuellement). Le **Guide d'Accès PDF** complet décrit dans le PRD (avec gabarit formel, consignes multi-appareils, limites LocalStorage) constitue un livrable cible dont la production est inscrite dans la Mission Intermédiaire 01.
+  - **Livrable existant vs livrable cible et terminologie** : Le code de L7 (`src/data/days/day-03.ts`) intègre actuellement le texte `TEXTE_INSTRUCTIONS_POST_ACHAT` avec la mention « Guide d'Accueil PDF » (lien Netlify, favoris, mention du guide, contact e-mail ; aucun mot de passe n'y figure). Le PRD retient formellement **Guide d'Accès PDF** comme appellation canonique du futur livrable complet (avec gabarit formel, consignes multi-appareils, limites LocalStorage). Ce document PDF n'est pas encore un fichier livrable disponible dans le dépôt : sa rédaction/production ainsi que l'harmonisation de l'intitulé dans les données de L7 relèvent du périmètre de la Mission Intermédiaire 01.
   - **Prudence sur Chariow** : Ne pas présenter comme définitivement figés les chemins d'interface ni le modèle à double canal. La vérification empirique du parcours réel (achat test à 0 €, affichage des instructions, téléchargement du PDF, accès portail) fait partie intégrante de la Mission Intermédiaire 01.
 - **Utilisation exacte de Claude** :  
   Trame des instructions après achat intégrée dans la leçon (`TEXTE_INSTRUCTIONS_POST_ACHAT`) :
@@ -436,7 +436,7 @@ Chaque leçon dispose de sa propre logique d'apprentissage, adaptée à la natur
   Voici comment accéder immédiatement à votre application :
   1. Cliquez sur votre lien d'accès direct : [VOTRE LIEN NETLIFY]
   2. Ajoutez cette adresse à vos favoris pour la retrouver en un clic.
-  3. Téléchargez votre Guide d'Accès PDF depuis les fichiers disponibles après votre achat.
+  3. Téléchargez votre Guide d'Accueil PDF depuis les fichiers disponibles après votre achat.
 
   En cas de question ou de suggestion, contactez-moi directement à [VOTRE EMAIL].
   ```
@@ -555,7 +555,7 @@ flowchart TD
 Le parcours pédagogique est conçu pour se dérouler au sein d'une **discussion continue unique** sur Claude Free :
 - L'apprenant enchaîne la Phase 1 (cadrage fonctionnel L2), la Phase 2 (direction artistique L3), la génération V1 (L4) et les retouches chirurgicales (L5) dans le même fil de discussion, préservant ainsi l'historique complet de son document et de ses choix.
 - En cas d'interruption de génération par Claude (limite de longueur de réponse sur code volumineux), la consigne enseignée est d'utiliser le bouton natif **`Continue`** (ou d'envoyer la commande simple « Continue ») pour que Claude reprenne exactement au point d'arrêt sans générer de fragmentation.
-- *Perspective d'évolution (Trousseau de Reprise & Snapshot)* : Un protocole théorique plus formel de snapshot de continuité (`PROMPT-CONTINUITY-SNAPSHOT`) et de trousseau de reprise en cas de bascule de session forcée a été esquissé lors des phases amont ; son utilité réelle, son format et sa formalisation éventuelle en composant pédagogique seront arbitress et testés lors de la Mission Intermédiaire 01.
+- *Perspective d'évolution (Trousseau de Reprise & Snapshot)* : Aucun dispositif structuré de reprise en nouvelle session n'est matérialisé dans le parcours actuel. Un protocole formel de snapshot de continuité (`PROMPT-CONTINUITY-SNAPSHOT`) et de trousseau de reprise en cas de bascule de session forcée constitue une perspective d'évolution théorique (chantier futur non livré) dont l'utilité réelle et la pertinence pédagogique seront arbitrées lors de la Mission Intermédiaire 01.
 
 ### 10.2. Garantie d'Indépendance vis-à-vis de Claude Pro
 
@@ -611,7 +611,7 @@ classDiagram
 - **Vanilla JavaScript exclusif dans l'état actuellement implémenté** : Le Master Prompt 2 (`MASTER_PROMPT_2_XML`, règle R2) proscrit formellement tout framework ou bibliothèque externe (Node.js, npm, Vite, React, Vue). L'application s'appuie exclusivement sur JavaScript ES6+ moderne (DOM standard, API Web natives).
 - **Interdiction Formelle du Tailwind Play CDN en Production** :  
   L'utilisation de `<script src="https://cdn.tailwindcss.com"></script>` est **strictement interdite pour la production**. Ce script expérimental compile le CSS à la volée dans le navigateur du client, provoquant des sauts visuels majeurs (*Flash of Unstyled Content*), une surcharge mémoire et des risques de rupture d'API. Le Master Prompt contraint Claude à injecter du CSS compilé propre dans la balise `<style>`.
-- **Arbitrage futur : Éventuelle exception React via CDN (`DEC-ARB-13`)** :  
+- **Arbitrage futur : Éventuelle exception React via CDN (`DEC-ARB-14`)** :  
   L'opportunité d'autoriser une exception encadrée pour React via CDN (avec versions 18.3.1 figées et SHA-384) pour des applications à états hautement complexes relève d'une décision ouverte à arbitrer et n'est pas supportée dans le prompt actuel.
 
 ### 11.3. Barrière d'Accès par Mot de Passe JavaScript (Exigence Cible & Chantier Mission Intermédiaire 01)
@@ -652,7 +652,7 @@ flowchart TD
     subgraph MultiDevice["La Triple Distinction Multi-Appareils"]
         direction TB
         C1["1. Compatibilité multi-appareils\n(Affichage & ergonomie tactile responsive 375 px)"]
-        C2["2. Accès multi-appareils\n(Même lien Netlify & même mot de passe sur tout terminal)"]
+        C2["2. Accès multi-appareils\n(Même lien Netlify & mot de passe lorsque configuré)"]
         C3["3. Synchronisation des données\n(LocalStorage confiné à l'appareil • Pas de cloud sync auto)"]
     end
     C1 --- C2 --- C3
@@ -661,7 +661,7 @@ flowchart TD
 1. **Compatibilité multi-appareils** :  
    L'application s'affiche et fonctionne sur ordinateur, tablette et smartphone. Les composants respectent la grille d'exigences mobiles (375 px sans défilement horizontal, cibles tactiles $\ge 44$ px, typographie lisible).
 2. **Accès multi-appareils** :  
-   L'acheteur final peut ouvrir le même lien Netlify et utiliser le même mot de passe d'accès depuis son ordinateur de travail, sa tablette ou son téléphone mobile, sans restriction d'installation matérielle.
+   L'acheteur final peut ouvrir le même lien Netlify (et utiliser le mot de passe d'accès lorsque la barrière dissuasive est configurée) depuis son ordinateur de travail, sa tablette ou son téléphone mobile, sans restriction d'installation matérielle.
 3. **Synchronisation des données et persistance locale** :  
    - Les informations saisies et enregistrées par l'utilisateur (réponses à un diagnostic, résultats de calcul, états de formulaires) sont conservées **localement dans le navigateur de l'appareil utilisé** (`localStorage`).
    - Le parcours standard **ne promet aucune synchronisation cloud automatique** entre différents terminaux.
@@ -705,7 +705,7 @@ flowchart TD
         direction TB
         A1["Application Web Statique Publique"]
         A2["Exécution 100% dans le navigateur du client"]
-        A3["Barrière de mot de passe JS dissuasive par défaut"]
+        A3["Barrière d'accès par mot de passe JS dissuasive (exigence cible)"]
         A4["Données conservées localement (LocalStorage) • Export/Import manuel"]
     end
     
@@ -769,9 +769,9 @@ Le parcours standard cible de livraison des produits créés par les apprenants 
    - Les recommandations d'utilisation sur ordinateur, tablette et smartphone.
    - Les limites de sauvegarde locale (LocalStorage, données résidant sur le navigateur de l'appareil).
    - Un contact d'assistance directe.
-4. **ÉTAPE 4 — ACCÈS DU CLIENT (MODALITÉS CHARIOW)** :  
-   - **Accès initial direct** : Téléchargement du Guide d'Accès PDF et affichage des instructions post-achat sur la page de confirmation de commande ou via le lien reçu par e-mail, sans obligation de créer un compte client Chariow au préalable.
-   - **Accès ultérieur (hypothèse sous réserve de vérification)** : Possibilité de retrouver ses fichiers depuis le portail client Chariow avec son e-mail de commande. *Ce flux et la persistance des accès devront être vérifiés empiriquement lors de la Mission Intermédiaire 01.*
+4. **ÉTAPE 4 — ACCÈS DU CLIENT (MODALITÉS CHARIOW — MODÈLE CIBLE)** :  
+   - **Accès initial direct (hypothèse cible)** : Téléchargement du Guide d'Accès PDF et affichage des instructions post-achat sur la page de confirmation de commande ou via le lien reçu par e-mail, sans obligation de créer un compte client Chariow au préalable.
+   - **Accès ultérieur via portail client (À VÉRIFIER)** : Possibilité de retrouver ses fichiers depuis le portail client Chariow avec son e-mail de commande. *Ce flux, la synchronisation du double canal et la persistance des accès ne sont pas garantis sans preuve et devront être vérifiés empiriquement lors de la Mission Intermédiaire 01.*
 5. **ÉTAPE 5 — UTILISATION MULTI-APPAREILS** :  
    Le client ouvre l'URL Netlify et utilise son application indifféremment depuis son ordinateur, sa tablette ou son smartphone.
 
@@ -788,24 +788,24 @@ Le parcours standard cible de livraison des produits créés par les apprenants 
 - **Quota du Forfait Gratuit** :  
   L'hébergement gratuit utilise un quota mensuel de crédits. Les projets peuvent être mis en pause temporairement si le quota mensuel est épuisé, jusqu'à son renouvellement automatique.
 
-### 14.3. Paramétrage Pratique Chariow (Monétisation & Livraison)
+### 14.3. Paramétrage Pratique Chariow (Monétisation & Livraison — Parcours Cible)
 
 - **Paramétrage du Produit** :  
-  Création d'un produit de type **Files** (et non « Produit Digital » générique ou Licences) avec tarification et catégorie choisies par l'apprenant. Clic impératif sur **Publier** / **Publish** pour mettre l'offre en ligne.
+  Création d'un produit de type **Files** (et non « Produit Digital » générique ou Licences) avec tarification et catégorie choisies par l'apprenant. Clic impératif sur **Publier** / **Publish** pour mettre l'offre en ligne (chemins d'interface indicatifs à confirmer lors de la MI-01).
 - **Visuels Requis** :  
   Téléversement d'une miniature carrée ($\ge 600 \times 600\text{ px}$) et d'une bannière rectangulaire ($\ge 702 \times 260\text{ px}$) respectant l'identité visuelle de l'outil créé.
-- **Stratégie de Livraison Client (sans redirection automatique)** :  
-  Pour le type Files, Chariow ne propose pas de redirection automatique garantie vers un site externe. La livraison repose sur deux canaux synchronisés :
-  1. Le téléchargement direct du **Guide d'Accès PDF** mis à disposition dans les fichiers disponibles après l'achat.
-  2. Le champ `Instructions après achat` (`Produits > ⋮ > Modifier > Informations`) affiché sur la page de confirmation client avec le lien direct Netlify et le mot de passe.
-- **Protocole de Vérification Réelle du Parcours d'Achat** :  
+- **Stratégie de Livraison Client Cible (À VÉRIFIER empiriquement en MI-01)** :  
+  Pour le type Files, Chariow ne propose pas de redirection automatique garantie vers une URL externe. Le parcours cible repose sur l'hypothèse d'un double canal de livraison (marqué À VÉRIFIER tant qu'un test d'achat réel en Mission Intermédiaire 01 n'a pas validé son fonctionnement) :
+  1. Le téléchargement direct du **Guide d'Accès PDF** mis à disposition dans les fichiers disponibles après l'achat (livrable à produire en MI-01).
+  2. Le champ `Instructions après achat` (chemin indicatif : `Produits > ⋮ > Modifier > Informations`, à confirmer lors de la MI-01) affiché sur la page de confirmation client avec le lien direct Netlify et le mot de passe (lorsque configuré).
+- **Protocole de Vérification Réelle du Parcours d'Achat (Chantier MI-01)** :  
   L'apprenant crée dans `Marketing > Réductions` un code promo à 100 % strictement encadré (limité au produit concerné, 1 utilisation maximale totale, 1 utilisation par client).
-  - **Cas A (Commande 0 € acceptée)** : L'apprenant valide la commande en navigation privée, contrôle les instructions après achat, télécharge effectivement le Guide d'Accès PDF, ouvre le lien Netlify sur ordinateur et smartphone, déverrouille l'outil avec le mot de passe, puis désactive immédiatement le code promotionnel.
+  - **Cas A (Commande 0 € acceptée)** : L'apprenant valide la commande en navigation privée, contrôle les instructions après achat, vérifie la disponibilité effective du téléchargement du guide, ouvre le lien Netlify sur ordinateur et smartphone, teste l'accès à l'application, puis désactive immédiatement le code promotionnel.
   - **Cas B (Commande 0 € refusée par la passerelle)** : Si la passerelle refuse la commande à 0 €, l'apprenant ne doit jamais payer son propre produit. Il constate l'arrêt au panier, désactive immédiatement le code promo dans `Marketing > Réductions`, et valide la configuration sans attestation mensongère d'accès post-paiement.
 - **Grille de Validation du Parcours de Livraison** :
   - [ ] Ouverture du produit sur ordinateur.
   - [ ] Ouverture du même produit sur smartphone.
-  - [ ] Utilisation du même mot de passe sur les deux appareils.
+  - [ ] Utilisation du mot de passe sur les deux appareils lorsqu'une barrière dissuasive est en place.
   - [ ] Vérification du fonctionnement du mécanisme de sauvegarde et restauration JSON lorsqu'il existe.
   - [ ] Vérification du lien fonctionnel dans le Guide d'Accès PDF.
   - [ ] Vérification des instructions après achat sur Chariow.
@@ -869,7 +869,7 @@ L'audit technique du dépôt au stade actuel établit les faits vérifiables sui
 - **Contenus Pédagogiques Réels** : Données des leçons entièrement intégrées dans `src/data/days/` (`day-01.ts`, `day-02.ts`, `day-03.ts`) au standard Abigail Peugh.
 - **2 Bonus Pratiques Intégrés et Livrés** :
   - *Bonus 01* : ManyChat Automation System (`src/data/bonuses/bonus-manychat.ts`, 5 leçons complètes, vue dédiée `src/components/bonus/BonusView.tsx`).
-  - *Bonus 02* : Marketing Library (`src/data/bonuses/bonus-marketing.ts`, 9 Skills IA originaux, 1 prompt universel de veille concurrentielle, script `scripts/package-marketing-skills.js`, vue dédiée `MarketingLibraryView.tsx`).
+  - *Bonus 02* : Marketing Library (`src/data/bonuses/bonus-marketing.ts`, bibliothèque de 9 ressources de Skills marketing avec 2 archives ZIP actuellement téléchargeables, 1 prompt universel de veille concurrentielle, script `scripts/package-marketing-skills.js`, vue dédiée `MarketingLibraryView.tsx`).
 - **Nettoyage Intégral** : Routes et types résiduels pour `resources` et `practical-sheets` éliminés ; mention « Mon projet » définitivement bannie du code et des composants.
 - **Santé du Code & Tests Réels (Vérifiés)** :
   - Typage TypeScript strict (`npm run typecheck`) : **0 erreur**.
@@ -914,10 +914,10 @@ Toutes les exigences critiques du produit reçoivent un identifiant normé, une 
 | `REQ-GEN-04` | Génération | **MUST** | Compatibilité Claude Free | L'ensemble des invites fonctionne sans abonnement payant Claude Pro ni fonction Projects. |
 | `REQ-MOB-01` | Mobile | **MUST** | Conception Mobile-First | L'interface générée est exempte de débordement horizontal à 375px et propose des cibles tactiles $\ge$ 44px. |
 | `REQ-MOB-02` | Mobile | **MUST** | Cadrage Multi-Appareils | Distinction explicite entre compatibilité responsive (375 px), accès multi-terminaux (même URL et mot de passe) et persistance locale sans promesse de synchronisation cloud automatique (export/import JSON manuel si conservation d'état). |
-| `REQ-SEC-01` | Sécurité | **MUST** | Barrière d'Accès Dissuasive & Transparence | Le cours intègre par défaut un écran d'accès par mot de passe JavaScript commun aux acheteurs (sauf demande d'outil public). L'apprenant est informé de la réalité technique : barrière dissuasive sans authentification serveur, code inspectable, zéro secret privé ni clé d'API dans le code. |
+| `REQ-SEC-01` | Sécurité | **MUST** (Exigence cible — Non implémentée) | Barrière d'Accès Dissuasive & Transparence | Modèle cible : le cours prévoit l'intégration d'un écran d'accès par mot de passe JavaScript commun aux acheteurs pour les offres réservées. État réel du code : non implémenté (Master Prompt 2 sans consigne de mot de passe, checklist L6 sans mot de passe, instructions L7 sans mot de passe). Cadrage technique maintenu : barrière dissuasive sans authentification serveur, code inspectable, zéro secret privé ni clé d'API dans le code. Alignement prévu lors de la Mission Intermédiaire 01 (DEC-ARB-13). |
 | `REQ-LIV-01` | Livraison | **MUST** | Déploiement Netlify Drop | Le parcours guide l'apprenant vers l'obtention d'une URL HTTPS active sans ligne de commande. |
-| `REQ-LIV-02` | Livraison | **MUST** | Intégration Chariow | Le produit de type Files est configuré sur Chariow avec Guide d'Accès PDF et instructions post-achat ; un achat test valide la délivrance effective des accès et le téléchargement du fichier. |
-| `REQ-LIV-03` | Livraison | **MUST** | Double Canal d'Accès Chariow | Distinction explicite entre l'accès direct immédiat (page après achat ou lien sécurisé e-mail sans obligation de compte client) et l'accès ultérieur via le portail Chariow avec l'adresse e-mail de commande. |
+| `REQ-LIV-02` | Livraison | **MUST** (Parcours cible — À vérifier empiriquement en MI-01) | Intégration Chariow | Le produit de type Files est configuré sur Chariow avec Guide d'Accès PDF et instructions post-achat ; un achat test complet en conditions réelles (commande 0 € ou test) doit valider la délivrance effective des accès et le téléchargement du fichier (à exécuter lors de la Mission Intermédiaire 01). |
+| `REQ-LIV-03` | Livraison | **MUST** (Parcours cible — À vérifier empiriquement en MI-01) | Double Canal d'Accès Chariow | Modèle cible : articulation entre l'accès direct immédiat (page après achat / lien reçu par e-mail sans obligation de compte client) et l'accès ultérieur via portail client Chariow. Statut : À VÉRIFIER empiriquement lors de la Mission Intermédiaire 01 avant toute validation définitive. |
 | `REQ-PLT-01` | Plateforme | **MUST** | Persistance Locale | La progression est conservée en LocalStorage et survit au rechargement de la page. |
 | `REQ-PLT-02` | Plateforme | **MUST** | Blocs Prompts Copiables | Les blocs `CopyBlock` copient le texte intégral avec balises sans altération du presse-papier. |
 | `REQ-PLT-03` | Plateforme | **MUST** | Sortie de Ressources & Fiches | Aucune mention de « Ressources » ni « Fiches pratiques » n'apparaît dans la navigation active. |
@@ -1061,7 +1061,7 @@ flowchart TD
 
 | Risque Identifié | Probabilité | Impact | Stratégie d'Atténuation Prévue |
 |---|---|---|---|
-| **R-01 : Quotas et saturation de contexte sur Claude Free** | Moyenne | Élevé | Trousseau complet de reprise (Snapshot + document source + Blueprint + DA + dernier `index.html`) pour réamorcer une session propre sans rupture. |
+| **R-01 : Quotas et saturation de contexte sur Claude Free** | Moyenne | Élevé | Poursuite dans le même fil Claude, reprise immédiate des générations tronquées par le bouton natif ou la commande « Continue », et génération progressive en deux temps (structure HTML/CSS puis JS). La formalisation d'un éventuel trousseau de reprise pour nouvelle session (protocole Snapshot) constitue un chantier d'évolution futur (arbitrage MI-01). |
 | **R-02 : Modification de l'interface de Netlify Drop** | Faible | Moyen | Documentation du déploiement par dossier standardisé (`dist/` contenant `index.html`), méthode universelle pérenne quelle que soit l'évolution visuelle de Netlify. |
 | **R-03 : Complexité excessive du document source de l'apprenant** | Élevée | Élevé | La leçon 2 contraint le découpage en 1 seule interaction cœur (diagnostic, calculateur ou plan d'action) plutôt que de tenter de numériser un document encyclopédique d'un bloc. |
 | **R-04 : Régression lors du passage de 9 à 7 leçons dans le code** | Moyenne | Élevé | Roadmap ordonnée en missions atomiques avec validation systématique des tests de non-régression (`npm test`, `npm run typecheck`). |
@@ -1113,7 +1113,7 @@ gantt
   - Intégration des blocs `CopyBlock` calibrés pour la préparation, l'analyse et le Product Blueprint.
 - **Mission 05 (Terminée)** : Implémentation du Contenu Pédagogique du Module 02 (CRÉER) :
   - Rédaction et intégration des leçons L3, L4 et L5 dans `src/data/days/day-02.ts` au standard Abigail Peugh.
-  - Intégration du Master Prompt 2 validé, du trousseau de reprise et des protocoles de retouches ciblées.
+  - Intégration du Master Prompt 2 validé, de la consigne de reprise de génération « Continue » et des protocoles de retouches ciblées.
   - Packaging automatisé du Skill `ai-creator-design-intelligence` synchronisé via `npm run package:skill`.
 - **Mission 06 (Terminée)** : Implémentation du Contenu Pédagogique du Module 03 (PUBLIER ET LIVRER) :
   - Rédaction et intégration des leçons L6 et L7 dans `src/data/days/day-03.ts` (3 étapes par leçon, standard Abigail Peugh).
@@ -1128,10 +1128,10 @@ gantt
   - Rendu interactif dans `src/components/bonus/BonusView.tsx` en flux vertical continu, sans sous-onglets superflus et préservation du statut réservé du Bonus 02.
   - Validation complète de la suite de tests dédiée (`src/test/bonusManychatIntegration.test.tsx`, 21 tests passants sur 21).
 - **Mission 08 (Terminée)** : Implémentation et Validation du Bonus 02 — MARKETING ACCELERATORS & PROMPT LIBRARY :
-  - Conception et intégration de la bibliothèque de compétences dans `src/data/bonuses/bonus-marketing.ts` (9 Skills IA originaux, 1 prompt universel de recherche concurrentielle).
+  - Conception et intégration de la bibliothèque de compétences dans `src/data/bonuses/bonus-marketing.ts` (catalogue de 9 fiches de ressources de Skills marketing avec prompts prêts à l'emploi et 1 prompt universel de recherche concurrentielle).
   - Implémentation de la bibliothèque interactive dans `src/components/bonus/MarketingLibraryView.tsx` avec barre de filtres multicritères, cartes d'accélérateurs compétitifs et modal de prévisualisation détaillée.
   - Cadrage comparatif et benchmark face aux standards du marché (Alexandre Novitckii).
-  - Génération automatisée de l'archive zip téléchargeable des compétences packaging via `scripts/package-marketing-skills.js`.
+  - Génération automatisée des 2 archives ZIP aux droits vérifiés (`humanizer.zip`, `antislop-copywriting.zip`) via `scripts/package-marketing-skills.js` (les 7 autres compétences restant accessibles directement via leur prompt copiable sans archive ZIP distribuée).
   - Validation complète des tests d'intégration et d'archive (`src/test/bonusMarketingIntegration.test.tsx`, `src/test/marketingSkillsArchive.test.ts`).
 - **Mission 09 (Prochaine Mission — Mission Intermédiaire 01)** : Contenu, Clarté et Architecture de Livraison :
   - **Axe 1 — Enrichissement éditorial des 7 leçons du tronc commun** : Amélioration de la consistance pédagogique des leçons L1 à L7 sans allongement artificiel : contextualisation des actions, explications sur leur utilité métier, précisions sur les résultats attendus, transitions fluides entre étapes et clarifications des notions déroutantes pour un débutant. Maintien strict de la structure, des étapes, des prompts et des exercices validés.
@@ -1159,12 +1159,12 @@ gantt
 |---|---|---|---|
 | `DEC-ARB-01` | Suppression de Ressources & Fiches pratiques | **CONFIRMÉ** | Sortie définitive du périmètre fonctionnel. Les composants atomiques réutilisables restent dans la boîte à outils UI. |
 | `DEC-ARB-02` | Maintien des 2 Bonus pratiques | **CONFIRMÉ** | Bonus 01 (ManyChat) et Bonus 02 (Marketing Library) intégrés avec succès en Missions 07 et 08. |
-| `DEC-ARB-03` | Compatibilité stricte Claude Free | **CONFIRMÉ** | Tout le parcours fonctionne sur Claude Free via un fil unique et le trousseau de reprise en cas de nouvelle session. |
+| `DEC-ARB-03` | Compatibilité stricte Claude Free | **CONFIRMÉ** | Tout le parcours fonctionne sur Claude Free via un fil unique et la reprise d'interruption via le bouton/commande « Continue ». La formalisation d'un éventuel trousseau structuré de reprise en nouvelle session relève d'une perspective d'évolution future (à arbitrer en MI-01). |
 | `DEC-ARB-04` | Blocs de Prompts Copiables en V1 | **CONFIRMÉ** | `CopyBlock` avec placeholders textuels explicites. Bannissement absolu du concept « Mon projet ». |
 | `DEC-ARB-05` | Distinction Module / Journée / Leçon | **CONFIRMÉ** | 3 Modules, 3 Journées, 7 Leçons. Progression principale sur les 7 leçons, progression dérivée pour jours et modules. |
 | `DEC-ARB-06` | Propriétés techniques du livrable HTML | **CONFIRMÉ** | Fichier unique (`index.html`) $\neq$ Zero-Build $\neq$ Offline (dépendant des polices/CDNs). |
 | `DEC-ARB-07` | Parcours de déploiement Netlify | **CONFIRMÉ** | Déploiement guidé par dossier contenant `index.html` comme référence universelle robuste. |
-| `DEC-ARB-08` | Modèle de sécurité et d'accès V1 | **CONFIRMÉ** | Application statique publique hébergée sur Netlify avec barrière d'accès par mot de passe JavaScript par défaut pour offres réservées (dissuasif, commun aux acheteurs, communiqué dans le Guide d'Accès PDF et instructions après achat). Cadrage transparent : pas d'authentification serveur en V1, code inspectable, zéro secret dans le HTML. |
+| `DEC-ARB-08` | Modèle de sécurité et d'hébergement statique V1 | **CONFIRMÉ** | Application statique publique hébergée sur Netlify sans authentification serveur. L'intégration effective d'une barrière d'accès dissuasive par mot de passe JavaScript (commun aux acheteurs, communiqué dans le Guide d'Accès PDF et instructions post-achat) constitue une exigence cible non implémentée dans les prompts et leçons actuels, dont l'opportunité et l'alignement font l'objet de la décision ouverte DEC-ARB-13 (arbitrage en MI-01). Cadrage transparent : code client inspectable, zéro secret dans le HTML. |
 | `DEC-ARB-09` | Prototypage préalable du moteur (Mission 03) | **CONFIRMÉ** | Insertion d'une mission de validation du système de génération avant la rédaction définitive des leçons. |
 | `DEC-ARB-10` | Intégration d'un mini-moteur de prévisualisation iframe | **À DÉCIDER** | Faut-il intégrer dans AI CREATOR Studio un visualiseur HTML local ou laisser l'apprenant double-cliquer sur son fichier ? *(Arbitrage à rendre lors de la Mission Intermédiaire 01 ; le double-clic local est maintenu comme référence provisoire tant qu'aucun avantage concret d'une iframe n'est démontré).* |
 | `DEC-ARB-11` | Conditions d'accès aux Bonus 01 et 02 | **À DÉCIDER** | Débloqués à la complétion de la Leçon 7 ou accessibles librement dès le départ ? *(Recommandation : déblocage à la complétion).* |
@@ -1184,7 +1184,7 @@ gantt
 6. **Sécurité Transparente & Barrière d'Accès Dissuasive** : Modèle d'application web statique publique. Intégration cible d'une barrière dissuasive par mot de passe JavaScript commun aux acheteurs pour les produits réservés (à aligner avec le code en MI-01). Transparence totale sur la nature statique publique du fichier et de l'URL Netlify, inspectabilité du code, zéro secret/clé API dans le HTML, aucune fausse promesse d'authentification serveur forte.
 7. **Pédagogie Anti-Slop** : Approche Document-First, admission des documents de 1 page qualitatifs, Source Fidelity Mapping et direction artistique indépendante choisie par l'apprenant.
 8. **Roadmap Réaliste et Évolutive** : Insertion d'une étape de validation du système de génération (Mission 03) avant l'écriture des leçons, et insertion ordonnée des Missions 09 (Contenu & Livraison) et 10 (Affinage UI/UX) avant la Mission 11 finale.
-9. **Architecture de Livraison Standard Chariow Files** : Livraison via offre Files avec Guide d'Accès PDF cible et instructions après achat.
+9. **Architecture de Livraison Standard Chariow Files** : Parcours cible via offre Files avec Guide d'Accès PDF à produire et instructions après achat (à vérifier empiriquement lors de la Mission Intermédiaire 01).
 10. **Cadrage Multi-Appareils Explicite** : Triple distinction entre compatibilité responsive (375 px), accès multi-terminaux et persistance locale sans synchronisation cloud automatique.
 
 ---
@@ -1208,7 +1208,7 @@ gantt
 
 1. **Saturation de contexte sur Claude Free lors de la génération de code (L4)** :  
    Si le code généré est très long, Claude Free peut couper sa réponse en plein vol.  
-   *Mitigation* : Consigne explicite d'écrire « Continue » dans Claude, ou d'exploiter le trousseau de reprise en deux temps (structure HTML/CSS puis logique JavaScript).
+   *Mitigation* : Consigne explicite d'utiliser le bouton natif ou d'écrire « Continue » dans Claude en cas de coupure, combinée à la méthode de génération progressive en deux temps (structure HTML/CSS puis logique JavaScript). Un protocole formalisé de snapshot pour nouvelle session demeure un chantier d'évolution futur (MI-01).
 2. **Régression lors de l'intégration des futures captures d'écran et des enrichissements éditoriaux** :  
    Les tests actuels vérifient la présence stricte des blocs de contenu et leur typologie (notamment `curriculumIntegrityV2.test.ts`, `day01Integration.test.tsx`). L'intégration future des `ScreenshotBlock` lors de la Mission Intermédiaire 01 pourrait nécessiter une adaptation ciblée de ces tests.  
    *Mitigation* : Sanctuariser les principes pédagogiques *One Card, One Action* et les limites de prose, en adaptant uniquement les assertions de comptage de blocs autorisés sans relâcher les exigences fondamentales.
@@ -1233,7 +1233,7 @@ gantt
 - **Livrables attendus** :
   - Données des 7 leçons (`src/data/days/day-01.ts`, `day-02.ts`, `day-03.ts`) enrichies au standard Abigail Peugh.
   - Captures d'écran intégrées via les composants médias du studio.
-  - Gabarit canonique du Guide d'Accès PDF et trame d'instructions après achat.
+  - Gabarit canonique du Guide d'Accès PDF, production du livrable, harmonisation terminologique de L7 et trame d'instructions après achat.
   - Suite de tests de non-régression validée à 100 %.
 
 ---
@@ -1247,5 +1247,5 @@ Le présent document est déclaré **suffisamment complet, fiable et prêt pour 
 - [x] Les statistiques non sourcées et montants fabriqués ont été éliminés.
 - [x] Les 3 personas du simulateur sont rigoureusement alignés entre les diagrammes et le texte.
 - [x] Le système de notation de l'agent simulateur mesure le parcours global sur 10, journalise les frictions par leçon et distingue simulations automatisées et actions externes nécessitant une validation humaine.
-- [x] Le protocole de continuité Claude Free intègre un trousseau complet de reprise sans dépendre de fonctionnalités Pro.
+- [x] Le protocole de continuité Claude Free repose sur un fil unique et la reprise d'interruption via « Continue » sans dépendre de fonctionnalités Pro (la formalisation d'un trousseau structuré de nouvelle session restant une perspective d'évolution).
 - [x] La roadmap intègre la Mission 03 dédiée au prototypage du système de génération avant la rédaction des leçons.
