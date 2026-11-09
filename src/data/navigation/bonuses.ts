@@ -1,5 +1,6 @@
 import type { BonusItem } from '../../types/navigation';
 import { BONUS_MANYCHAT_LESSONS, BONUS_MANYCHAT_META } from '../bonuses/bonus-manychat';
+import { BONUS_MARKETING_DATA } from '../bonuses/bonus-marketing';
 
 export const BONUSES: BonusItem[] = [
   {
@@ -17,13 +18,18 @@ export const BONUSES: BonusItem[] = [
   {
     id: 'bonus-marketing',
     orderNumber: 'Bonus 02',
-    title: 'MARKETING LIBRARY',
-    subtitle: '',
-    duration: '',
-    deliverable: '',
-    description: '',
-    keyTopics: [],
+    title: BONUS_MARKETING_DATA.header.title,
+    subtitle: BONUS_MARKETING_DATA.header.subtitle,
+    duration: '9 Skills + 1 Prompt',
+    deliverable: '9 Skills originaux en téléchargement direct + prompt de recherche concurrentielle',
+    description: BONUS_MARKETING_DATA.header.description,
+    keyTopics: [
+      'Psychologie d’achat',
+      'Stratégie de prix',
+      'Copywriting anti-slop',
+      'Optimisation de profils',
+      'Engagement & DM',
+    ],
     blocks: [],
   },
 ];
-

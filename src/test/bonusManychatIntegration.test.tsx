@@ -404,7 +404,7 @@ describe('Bonus 01 : ManyChat Automation System — Intégrité, Pédagogie & UI
       expect(screen.getAllByText('Installer et connecter ManyChat').length).toBeGreaterThanOrEqual(1);
     });
 
-    it('conserve l’état de reconstruction pour Bonus 02 (Marketing Library)', () => {
+    it('affiche le Bonus 02 (Marketing Library) sans régression', () => {
       render(
         <ProgressProvider>
           <BonusView bonusId="bonus-marketing" />
@@ -412,7 +412,7 @@ describe('Bonus 01 : ManyChat Automation System — Intégrité, Pédagogie & UI
       );
 
       expect(screen.getByText('MARKETING LIBRARY')).toBeInTheDocument();
-      expect(screen.getByText('Contenu en cours de reconstruction.')).toBeInTheDocument();
+      expect(screen.getByText('9 SKILLS + 1 PROMPT')).toBeInTheDocument();
     });
   });
 

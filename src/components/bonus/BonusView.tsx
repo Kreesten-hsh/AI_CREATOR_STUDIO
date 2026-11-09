@@ -14,6 +14,7 @@ import { BONUSES } from '../../data/navigation/bonuses';
 import { useProgress } from '../../hooks/useProgress';
 import { LessonRenderer } from '../course/LessonRenderer';
 import { HelpPanel } from '../widgets/HelpPanel';
+import { MarketingLibraryView } from './MarketingLibraryView';
 import type { BonusLesson } from '../../types/navigation';
 
 interface BonusViewProps {
@@ -23,6 +24,11 @@ interface BonusViewProps {
 export function BonusView({ bonusId }: BonusViewProps) {
   const { navigateToHome } = useProgress();
   const bonus = BONUSES.find((b) => b.id === bonusId) ?? BONUSES[0];
+
+  // Le Bonus 02 (Marketing Library) est une bibliothèque opérationnelle de Skills et prompts
+  if (bonusId === 'bonus-marketing') {
+    return <MarketingLibraryView />;
+  }
 
   // Index de la leçon actuellement ouverte (0 à 4)
   const [activeLessonIndex, setActiveLessonIndex] = useState(0);
