@@ -17,7 +17,7 @@ Le cursus se positionne comme un **mini-cours guidé**, structuré en **3 module
 
 À rebours des formations théoriques ou des générateurs d'applications génériques produisant du « slop » IA standardisé, AI CREATOR Studio applique un principe strict d'**adaptation au document réel de l'apprenant** (*Document-First*), une **fidélité absolue aux connaissances sources** (*Source Fidelity*), et une **indépendance esthétique totale** de l'application produite vis-à-vis de la charte graphique de la plateforme formatrice.
 
-Le livrable final produit par l'apprenant est un **fichier unique `index.html`**, autonome vis-à-vis de tout processus de build (*Zero-Build*), pensé d'abord pour les écrans mobiles (*Mobile-First*), hébergé sans frais sur Netlify et mis à disposition des clients finaux via Chariow. La V1 assume en toute transparence le modèle d'une **application web statique publique** : toute personne détenant l'URL publique peut y accéder et consulter le code exécuté côté client. Les mécanismes d'authentification forte et de contrôle d'accès côté serveur relèvent d'architectures backend hors périmètre de cette version initiale.
+Le livrable final produit par l'apprenant est un **fichier unique `index.html`**, autonome vis-à-vis de tout processus de build (*Zero-Build*), pensé d'abord pour les écrans mobiles (*Mobile-First*), hébergé sans frais sur Netlify et mis à disposition des clients finaux via Chariow (Guide d'Accès PDF et instructions après achat). La V1 assume en toute transparence le modèle d'une **application web statique publique** : l'intégration d'un écran d'accès avec mot de passe JavaScript dissuasif pour les offres à accès réservé constitue une exigence cible du PRD dont l'alignement avec les prompts réels et les leçons sera finalisé lors de la Mission Intermédiaire 01. En tout état de cause, un tel mot de passe JavaScript constitue une barrière d'accès dissuasive et non une authentification forte côté serveur. Toute personne motivée détenant l'URL publique peut consulter le code HTML/JS exécuté côté client. Les architectures backend (serveurs dédiés, bases distantes, fonctions Netlify, webhooks) demeurent strictement hors périmètre de cette version initiale.
 
 Ce document constitue la spécification canonique exhaustive et immuable gouvernant la reconstruction pédagogique, l'ingénierie d'interface et le socle technique de la plateforme.
 
@@ -104,8 +104,8 @@ AI CREATOR Studio permet à un non-développeur de :
 
 Lorsque le document source présente des caractéristiques spécifiques, les mesures préalables suivantes sont recommandées en Leçon 1 :
 - **Tableurs (.xlsx, .csv)** : Extraire les formules clés, la logique de calcul et les libellés sous forme d'un tableau récapitulatif textuel ou d'un export Markdown structuré.
-- **Documents scannés (PDF images)** : Utiliser un outil d'OCR préalable (Google Drive, Apple Live Text, utilitaire système) pour extraire un texte sélectionnable propre avant soumission à Claude.
-- **Documents très volumineux (> 40–50 pages)** : Isoler le chapitre, module ou processus clé destiné à être interactif pour éviter la saturation prématurée du contexte de Claude Free.
+- **Documents scannés (PDF images)** : S'assurer que le texte est sélectionnable à la souris ou utiliser un outil d'OCR préalable (Google Drive, Apple Live Text, utilitaire système) si nécessaire pour extraire un texte brut exploitable avant soumission à Claude.
+- **Documents volumineux (> 30 pages, et a fortiori 40–50 pages)** : Isoler le chapitre, module ou processus clé destiné à être interactif (conformément à la règle enseignée en Leçon 1) pour éviter la saturation du contexte de Claude Free.
 
 ---
 
@@ -115,16 +115,16 @@ Lorsque le document source présente des caractéristiques spécifiques, les mes
 
 - **Parcours Didactique Complet** : Accompagnement structuré à travers 3 Modules, 3 Journées et 7 Leçons.
 - **Protocoles de Prompts Dédiés** : Blocs de prompts copiables (`CopyBlock`) pré-calibrés avec zones personnalisables explicites pour chaque étape clé avec Claude.
-- **Protocole de Continuité Conversationnelle Renforcé** : Méthode formelle de réamorçage de session garantissant le travail sur Claude Free sans dépendre de fonctionnalités Pro.
+- **Protocole de Continuité Conversationnelle** : Méthode pragmatique de conversation continue sur Claude Free (avec usage du bouton Continue en cas de réponse tronquée) sans dépendre de fonctionnalités Pro.
 - **Architecture de Génération HTML** : Directives strictes pour la production d'un fichier `index.html` unique, inline, mobile-first et sans dépendances de compilation.
 - **Déploiement et Monétisation** : Procédure pas-à-pas de publication sur Netlify et de paramétrage de la livraison client via Chariow.
-- **2 Bonus Pratiques Différés** : Fiches structurelles pour ManyChat et Marketing Library (hors évaluation du cursus principal).
+- **2 Bonus Pratiques** : Mini-cours ManyChat (Bonus 01) et Marketing Library (Bonus 02) intégrés et livrés (hors tronc commun de 7 leçons).
 
 ### 5.2. Périmètre Exclu (Out-of-Scope V1)
 
 - **Pas d'environnement de compilation complexe** : Aucun bundling Node.js, Webpack, Vite ou Tailwind CLI n'est imposé à l'apprenant pour son application.
 - **Pas de backend hébergé ni de base de données distante** : L'application générée fonctionne côté client sans serveur applicatif dédié ni microservices.
-- **Pas d'authentification utilisateur serveur** : La V1 n'intègre pas de système de connexion utilisateur (login/mot de passe avec contrôle de session serveur). L'application Netlify est une page publique statique.
+- **Pas d'authentification utilisateur serveur** : La V1 n'intègre pas de système de connexion utilisateur avec gestion de session serveur, tokens ou base de données distante. La protection par mot de passe envisagée est une barrière d'accès dissuasive intégrée en JavaScript dans l'application statique hébergée sur Netlify (exigence cible dont l'alignement avec le code du Master Prompt 2 et des étapes de cours est planifié en Mission Intermédiaire 01).
 - **Pas de système d'injection dynamique global « Mon projet »** : Proscription définitive du profil de projet global dans la plateforme AI CREATOR Studio. L'apprenant personnalise directement ses blocs de prompt locaux.
 - **Suppression définitive des sections `Ressources` et `Fiches pratiques`** : Sorties du périmètre applicatif et de la navigation.
 - **Pas d'éditeur de code intégré (Web IDE)** : L'apprenant teste son livrable directement dans son navigateur ou via l'interface de prévisualisation de Claude.
@@ -173,229 +173,208 @@ Chaque leçon dispose de sa propre logique d'apprentissage, adaptée à la natur
 
 ### LEÇON 1 : Préparer son document et configurer Claude
 
-- **Identifiant** : `LESSON-01`
-- **Module & Journée** : Module 01 (CHOISIR) — Journée 1
+- **Identifiant** : `LESSON-01` (id code : `lesson-01`)
+- **Module & Journée** : Module 01 (CHOISIR) — Journée 1 (`day-01`)
 - **Durée indicative cible** : ~15 minutes
+- **Titre dans le code** : *Préparer son document et configurer Claude* (Navigation : *Préparer*)
 - **Objectif opérationnel** :  
-  Préparer son document source pour une analyse par Claude sans perte de matière, appliquer les ajustements nécessaires selon son format (tableur, scan, document dense), et configurer une discussion dédiée dans Claude Free.
+  Sélectionner son document source (texte vérifié sélectionnable à la souris, ciblage de chapitre pour les guides volumineux > 30 pages), importer le Skill gratuit `ai-creator-design-intelligence` dans Claude Free via la procédure officielle en 7 gestes, et préparer sa session de travail.
 - **Entrées requises** :  
   - Le document digital existant de l'apprenant (PDF, DOCX, Google Doc, Notion, XLSX, 1 page ou plus).
   - Un compte actif Claude (version gratuite).
-- **Actions de l'apprenant** :  
-  1. Auditer son document : vérifier la présence des connaissances clés, étapes, calculs ou recommandations.
-  2. Préparer le texte brut selon le format : extraire les formules pour un tableur, lancer une OCR pour un document scanné, ou cibler la section cœur pour un document volumineux.
-  3. Ouvrir une discussion neuve dans Claude, nommée rigoureusement : `[PROJET] - Création Application Interactive`.
-  4. Envoyer le prompt de cadrage initial configurant le rôle d'analyste produit de Claude.
+  - L'archive officielle du Skill : `AI-CREATOR-DESIGN-INTELLIGENCE.zip`.
+- **Actions de l'apprenant (Les 3 étapes pédagogiques de la leçon)** :  
+  1. **Étape 1 : Choisir et préparer son document (`Quoi utiliser`)** :
+     - Vérifier que le contenu est exploitable (PDF, Word, Markdown, notes ou tableur avec formules visibles).
+     - Effectuer le test de sélection textuelle : s'assurer que le texte peut être sélectionné et copié à la souris (sans obligation d'OCR si le document est déjà un fichier textuel numérique).
+     - Si le document est un long guide (+30 pages), isoler le chapitre le plus pratique pour créer un outil ciblé et éviter la saturation du contexte.
+  2. **Étape 2 : Installer le Skill gratuit dans Claude (`Installer le zip`)** :
+     - Télécharger l'archive officielle `AI-CREATOR-DESIGN-INTELLIGENCE.zip` sans la décompresser.
+     - Exécuter la procédure officielle d'installation en **7 gestes** dans Claude Free :
+       1. Ouvrir `Settings > Capabilities`.
+       2. Activer `Code execution and file creation`.
+       3. Ouvrir `Customize > Skills`.
+       4. Cliquer sur le bouton `+`.
+       5. Choisir `+ Create skill`.
+       6. Choisir `Upload a skill`.
+       7. Téléverser l'archive `AI-CREATOR-DESIGN-INTELLIGENCE.zip` et vérifier que le Skill est actif.
+     *(Note d'alignement : les divergences rédactionnelles entre la leçon, `INSTALLATION-CLAUDE-FREE.md` et `GUIDE-PARCOURS-APPRENANT.md` sont inscrites pour harmonisation éditoriale et captures réelles lors de la Mission Intermédiaire 01).*
+  3. **Étape 3 : Vérifier et finaliser la préparation (`Prêt à lancer`)** :
+     - Confirmer l'activation effective du Skill dans les réglages de Claude.
+     - Ouvrir une nouvelle conversation propre, prête à recevoir le document et le Master Prompt 1 lors de la Leçon 2.
 - **Utilisation exacte de Claude** :  
-  Prompt d'initialisation de session (`PROMPT-L1-INIT`) :
-  ```text
-  Tu es un expert Senior en Product Design, Learning Experience Design et Architecture Web.
-  Je vais te confier le contenu de mon produit digital existant (guide, méthode ou tableur).
-  Ton rôle sera de m'accompagner pas à pas dans sa transformation en une application web interactive, utile, élégante et sans code.
-  
-  Règles fondamentales pour notre travail :
-  1. Tu ne génères aucun code pour l'instant.
-  2. Tu adoptes une posture consultative : pose-moi des questions pertinentes et attends mes réponses.
-  3. Tu respectes strictement la matière de mon document (ne supprime aucune expertise métier).
-  
-  Confirme simplement que tu as bien compris ces consignes et invite-moi à te soumettre mon document.
-  ```
+  Aucun prompt d'initialisation de session n'est exécuté dans la Leçon 1. Le dialogue avec Claude démarre directement au début de la Leçon 2 avec l'envoi simultané du document source et du Master Prompt 1 (`PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE`). L'ancien prompt distinct `PROMPT-L1-INIT` est supprimé.
 - **Livrable concret** :  
-  Une conversation Claude active et calée, prête à recevoir le document source.
+  Un document source prêt sur l'ordinateur, le Skill gratuit activé dans Claude et une nouvelle conversation ouverte.
 - **Critères de validation observables** :
-  - [ ] Le document source est lisible au format texte ou PDF téléchargeable sans artefact d'encodage.
-  - [ ] La conversation Claude est isolée et identifiée par le nom du projet.
-  - [ ] Claude a accusé réception des consignes d'attente sans générer prématurément du code.
+  - [ ] Le texte du document est vérifié comme sélectionnable à la souris.
+  - [ ] Si le document dépasse 30 pages, le chapitre cœur a été isolé.
+  - [ ] Le Skill zip a été importé et apparaît actif dans les paramètres de Claude.
+  - [ ] Une nouvelle discussion Claude est ouverte et prête pour la Leçon 2.
 
 ---
 
 ### LEÇON 2 : Faire analyser son document, identifier trois possibilités d'interaction et choisir la plus pertinente
 
-- **Identifiant** : `LESSON-02`
-- **Module & Journée** : Module 01 (CHOISIR) — Journée 1
+- **Identifiant** : `LESSON-02` (id code : `lesson-02`)
+- **Module & Journée** : Module 01 (CHOISIR) — Journée 1 (`day-01`)
 - **Durée indicative cible** : ~30 minutes
+- **Titre dans le code** : *Analyser son document, identifier 3 interactions et choisir* (Navigation : *Analyser*)
 - **Objectif opérationnel** :  
-  Soumettre son document à Claude, obtenir une synthèse structurée de sa substantifique moelle, confronter 3 concepts d'interaction distincts et figer le **Product Blueprint** de son application.
+  Faire analyser son document source par Claude, examiner 3 concepts d'interaction fonctionnels profondément contrastés et formaliser sans code ses deux documents fonctionnels : « Mon plan d'application » (Product Blueprint) et « Les règles de mon document » (Source Fidelity Mapping).
 - **Entrées requises** :  
   - Le document source préparé (L1).
-  - La session Claude initialisée (L1).
+  - La session Claude avec Skill actif (L1).
 - **Actions de l'apprenant** :  
-  1. Téléverser le document source ou coller son texte dans la session Claude.
-  2. Exécuter le prompt d'analyse et de proposition d'interaction (`PROMPT-L2-ANALYZE`).
-  3. Examiner les 3 concepts proposés (forces, limites, complexité perçue).
-  4. Choisir le concept le plus adapté à son audience cible.
-  5. Demander la génération du Product Blueprint formalisé.
+  1. Joindre le document source et exécuter le **Master Prompt 1 (Phase 1 : Cadrage Fonctionnel & Fidélité Source)** (`PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE` / `MASTER_PROMPT_1_XML`).
+  2. Claude commence obligatoirement par le contrôle du Skill (`[STATUT SKILL : ACTIF ...]`), produit une synthèse silencieuse en 3-4 lignes et propose 3 concepts d'interaction fonctionnels profondément différents avec une recommandation argumentée.
+  3. Choisir son concept d'interaction via la réponse guidée (`PROMPT_CHOIX_IDEE` : numéro de concept retenu, public visé, fonction principale).
+  4. Claude formalise immédiatement sans code les deux livrables fonctionnels :
+     - Livrable 1 : « Mon plan d'application » (Product Blueprint : promesse, entrées utilisateur, moteur logique avec formules exactes, sorties).
+     - Livrable 2 : « Les règles de mon document » (Source Fidelity Mapping : tableau exhaustif reliant chaque élément du document à sa règle de transcription et son mode de contrôle).
+  5. Sauvegarder ces deux documents et se préparer pour le passage au style (Leçon 3) dans cette même conversation.
 - **Utilisation exacte de Claude** :  
-  Prompt d'analyse et de divergence (`PROMPT-L2-ANALYZE`) :
-  ```text
-  Voici le contenu de mon document source :
-  ---
-  [COLLE ICI LE CONTENU OU JOINS TON DOCUMENT]
-  ---
-  
-  Effectue les deux tâches suivantes :
-  1. ANALYSE SOURCE : Résume en 5 points clés l'utilité métier, les étapes indispensables et les formules/règles d'or contenues dans ce document.
-  2. 3 CONCEPTS D'INTERACTION : Propose 3 manières fondamentalement différentes de transformer ce contenu en application interactive :
-     - Concept A (ex: Diagnostic / Audit avec score personnalisé et recommandations).
-     - Concept B (ex: Simulateur / Calculateur interactif ou matrice de décision).
-     - Concept C (ex: Générateur de plan d'action personnalisé étape par étape).
-  
-  Pour chaque concept, précise : le problème résolu, l'expérience de l'utilisateur final, et pourquoi ce format est supérieur à un simple document statique.
-  Termine en me demandant quel concept je souhaite retenir.
-  ```
-  Prompt de formalisation du Blueprint (`PROMPT-L2-BLUEPRINT`) :
-  ```text
-  Je retiens le [CONCEPT CHOISI : A, B ou C].
-  Rédige maintenant le PRODUCT BLUEPRINT complet de l'application selon cette structure :
-  - 1. Nom de travail de l'application & Promesse utilisateur
-  - 2. Profil de l'utilisateur cible
-  - 3. Entrées utilisateur (champs, curseurs, cases à cocher nécessaires)
-  - 4. Moteur de logique / Règles de calcul / Branches de décision (extraites fidèlement du document)
-  - 5. Sorties et Résultats affichés (rapport, visualisations, étapes concrètes, copie de plan)
-  - 6. Cartographie de Fidélité Source (liste des sections du document source et leur équivalent dans l'app)
-  ```
+  - Prompt initial : Master Prompt 1 (`PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE`, Phase 1).
+  - Réponse de validation du concept (`PROMPT_CHOIX_IDEE`) :
+    ```text
+    Je choisis l'idée numéro [1 / 2 / 3].
+
+    Précisions souhaitées pour mon application :
+    - Public visé : [Ex : dirigeants de TPE, indépendants, clients]
+    - Fonction principale : [Ex : calcul automatique du besoin de trésorerie]
+
+    Formalise maintenant mes deux documents fonctionnels :
+    1. Mon plan d'application (ce que l'utilisateur saisit, le fonctionnement logique et le résultat affiché).
+    2. Les règles de mon document (le tableau de toutes les formules, seuils et règles à conserver à 100 %).
+
+    N'émets aucun code informatique pour le moment et indique-moi quand tout est prêt pour passer au style.
+    ```
+  *(L'ancienne description de deux prompts indépendants d'analyse et de blueprint est remplacée par ce flux unifié du Master Prompt 1).*
 - **Livrable concret** :  
-  Le **Product Blueprint** complet et la première version du **Source Fidelity Mapping**.
+  Deux documents fonctionnels formalisés et validés : « Mon plan d'application » (Product Blueprint) et « Les règles de mon document » (Source Fidelity Mapping - SFM).
 - **Critères de validation observables** :
-  - [ ] Les 3 concepts d'interaction proposés sont variés et pertinents pour le document.
-  - [ ] Le concept retenu préserve l'expertise métier du document sans simplification abusive.
-  - [ ] Le Product Blueprint spécifie clairement les entrées, la logique interne et les résultats finaux.
+  - [ ] Le statut du Skill est confirmé au début de la réponse de Claude.
+  - [ ] Les 3 concepts d'interaction proposés sont variés et fidèles à la matière source.
+  - [ ] Le concept retenu préserve l'expertise métier sans simplification abusive.
+  - [ ] Le Product Blueprint spécifie clairement les entrées, la logique interne et les résultats.
+  - [ ] Le Source Fidelity Mapping répertorie l'intégralité des règles et formules du document.
 
 ---
 
 ### LEÇON 3 : Définir sa direction artistique indépendante
 
-- **Identifiant** : `LESSON-03`
-- **Module & Journée** : Module 02 (CRÉER) — Journée 2
+- **Identifiant** : `LESSON-03` (id code : `lesson-03`)
+- **Module & Journée** : Module 02 (CRÉER) — Journée 2 (`day-02`)
 - **Durée indicative cible** : ~20 minutes
+- **Titre dans le code** : *Définir sa direction artistique indépendante* (Navigation : *Style*)
 - **Objectif opérationnel** :  
-  Arrêter une charte visuelle personnalisée, professionnelle et accessible pour son application, sans subir l'esthétique de la plateforme formatrice ni les choix par défaut génériques de l'IA.
+  Mener un entretien visuel avec Claude dans la même conversation (Master Prompt 1, Phase 2) pour concevoir une identité graphique sur-mesure, indépendante de la charte de la plateforme, et formaliser « Ma fiche de style » (Visual Direction Brief - VDB).
 - **Entrées requises** :  
-  - Le Product Blueprint validé (L2).
+  - La session Claude continue avec le Blueprint et le SFM validés (L2).
 - **Actions de l'apprenant** :  
-  1. Choisir le tempérament visuel de son application parmi 4 archétypes éditoriaux :
-     - *Corporate Sobre & Précis* (Fond clair, ardoise, bleu marine, typographie sans-serif géométrique).
-     - *Éditorial Print & Chaleureux* (Fond crème/ivoire, encre noire, touches bordeaux/vert forêt, serif élégante).
-     - *Moderne Vibrant & SaaS* (Fond neutre, violet/indigo électrique, bordures subtiles, typographie tech).
-     - *Minimaliste Haute Lisibilité* (Contraste noir et blanc franc, typographie grotesk, zéro fioriture).
-  2. Valider les contrastes colorimétriques (norme WCAG AA : ratio minimal 4.5:1 sur le texte courant).
-  3. Exécuter le prompt de cadrage esthétique avec Claude.
+  1. Envoyer le signal de transition dans la même conversation Claude : `Plan et règles validés, passons au style.` (`PROMPT_SIGNAL_STYLE`).
+  2. Répondre à l'entretien visuel conversationnel (Claude pose 1 ou 2 questions ciblées sur l'esprit recherché : personnalité, tonalité, univers sensoriel).
+  3. Claude propose **3 directions artistiques adaptatives et contrastées** issues du document (et non 4 archétypes figés), présentées sous 6 points visuels clairs (nom, ambiance, palette, typographie, composition, justification).
+  4. Sélectionner et affiner son style avec Claude (ajustements de teintes, polices, densité).
+  5. Claude formalise le Livrable 3 : « Ma fiche de style » (Visual Direction Brief : spécification complète du design validé, tokens CSS `:root`, typographies sculptées, responsive 375 px, gestion d'état).
 - **Utilisation exacte de Claude** :  
-  Prompt de cadrage stylistique (`PROMPT-L3-STYLE`) :
-  ```text
-  Nous passons à la Direction Artistique (DA) de mon application.
-  IMPORTANT : Ne reproduis pas la charte graphique de la plateforme de formation. Cette application doit avoir sa propre identité visuelle.
-  
-  Voici mes choix d'ambiance :
-  - Archétype esthétique souhaité : [CHOISIS : Corporate / Éditorial Print / Vibrant SaaS / Minimaliste]
-  - Couleurs dominantes souhaitées : [EX: Fond blanc cassé #F8FAFC, Accent Bleu Nuit #1E293B, Boutons Émeraude #059669]
-  - Style des composants : [Bords légèrement arrondis 8px / Ombres douces / Bordures nettes 1px]
-  - Ton typographique : [Moderne et épuré : Inter ou Plus Jakarta Sans via Google Fonts]
-  
-  Génère le 'Style Sheet Descriptor' que nous injecterons dans le Master Prompt :
-  1. Variables CSS de couleurs (:root avec --bg, --surface, --text, --primary, --accent, --border).
-  2. Ratios de contraste vérifiés pour le texte (accessibilité WCAG AA).
-  3. Règles d'espacement et de typographie responsive.
-  ```
+  - Signal de passage : `Plan et règles validés, passons au style.` (`PROMPT_SIGNAL_STYLE`).
+  - Entretien visuel adaptatif et proposition des 3 directions artistiques personnalisées.
+  - Formalisation de « Ma fiche de style » (Visual Direction Brief).
+  *(L'ancienne description de 4 archétypes fixes et de `PROMPT-L3-STYLE` est remplacée par cette mécanique conversationnelle adaptative).*
 - **Livrable concret** :  
-  Le *Style Sheet Descriptor* personnalisé prêt à être intégré dans le Master Prompt.
+  Le troisième livrable validé : « Ma fiche de style » (Visual Direction Brief - VDB).
 - **Critères de validation observables** :
-  - [ ] La palette de couleurs comporte au minimum un fond, une surface, une encre de texte et un accent d'action.
-  - [ ] Les contrastes texte/fond garantissent une lisibilité optimale sur écran mobile.
-  - [ ] La DA est propre au produit de l'apprenant et n'utilise pas la charte Burgundy/Cream de la plateforme.
+  - [ ] Le dialogue visuel découle organiquement du sujet et du public cible.
+  - [ ] Les 3 directions proposées offrent de réels contrastes visuels.
+  - [ ] La DA retenue est propre au produit et n'utilise pas la charte Burgundy/Cream du studio.
+  - [ ] Le Visual Direction Brief formalise les tokens CSS, les polices et l'adaptation mobile.
 
 ---
 
 ### LEÇON 4 : Générer la première version (V1) de son application avec Claude
 
-- **Identifiant** : `LESSON-04`
-- **Module & Journée** : Module 02 (CRÉER) — Journée 2
+- **Identifiant** : `LESSON-04` (id code : `lesson-04`)
+- **Module & Journée** : Module 02 (CRÉER) — Journée 2 (`day-02`)
 - **Durée indicative cible** : ~40 minutes
+- **Titre dans le code** : *Générer la première version (V1) de son application* (Navigation : *Générer*)
 - **Objectif opérationnel** :  
-  Assembler le Master Prompt modulaire et générer la version 1 complète de l'application sous la forme d'un fichier `index.html` unique et immédiatement testable.
+  Exécuter le Master Prompt 2 (`MASTER_PROMPT_2_XML`) dans la même conversation pour générer l'intégralité du code de l'application dans un fichier unique `index.html`, autonome et immédiatement testable au double-clic.
 - **Entrées requises** :  
-  - Le Product Blueprint (L2).
-  - Le Style Sheet Descriptor (L3).
-  - La session Claude continue (ou protocole de reprise avec le trousseau complet si nécessaire).
+  - La session Claude continue avec le Blueprint, le SFM et le VDB validés.
 - **Actions de l'apprenant** :  
-  1. Récupérer le Master Prompt dans AI CREATOR Studio.
-  2. Renseigner les zones balisées avec son Blueprint et sa DA.
-  3. Envoyer l'instruction à Claude et lancer la génération complète.
-  4. Extraire le code généré : copier l'intégralité du bloc ou télécharger le fichier `index.html` produit.
-  5. Effectuer le premier test local : double-cliquer sur le fichier `index.html` pour l'ouvrir dans son navigateur web.
-- **Utilisation exacte de Claude** :  
-  Exécution du **Master Prompt de Génération V1** (`PROMPT-L4-MASTER-GEN`) :
-  ```text
-  Tu vas maintenant générer l'application web complète sous la forme d'UN FICHIER UNIQUE nommé 'index.html'.
-  
-  Règles techniques impératives :
-  1. FICHIER MONOPAGE TOTAL : Tout le HTML, tout le CSS (<style>) et tout le JavaScript (<script>) doivent être dans ce seul fichier index.html. Aucun fichier externe CSS ou JS séparé.
-  2. ZERO-BUILD : Le code doit s'exécuter directement dans un navigateur sans aucune étape de compilation.
-  3. JAVASCRIPT VANILLA DE PRÉFÉRENCE : Utilise JavaScript moderne vanilla (DOM standard, ES6+). N'utilise React que si la complexité des états le rend indispensable, et dans ce cas via CDN avec versions figées strictes. N'utilise JAMAIS le Play CDN de Tailwind en production : écris du CSS propre et compilé dans la balise <style>.
-  4. MOBILE-FIRST & ACCESSIBILITÉ : Balise <meta name="viewport" content="width=device-width, initial-scale=1.0">, zones de clic minimales de 44x44px, pas de texte inférieur à 14px, pas de débordement horizontal.
-  5. SÉCURITÉ : Aucune clé d'API, aucun mot de passe factice non sécurisé.
-  
-  Spécifications du produit :
-  [COLLER LE PRODUCT BLUEPRINT DE LA LEÇON 2]
-  
-  Spécifications de la direction artistique :
-  [COLLER LE STYLE SHEET DESCRIPTOR DE LA LEÇON 3]
-  
-  Génère l'intégralité du code dans un seul bloc de code sans coupure ni placeholder TODO.
-  ```
+  1. Copier le Master Prompt 2 (`PROMPT-GENERATION-PRODUIT-HTML`) depuis AI CREATOR Studio.
+  2. Coller l'instruction dans la même conversation Claude et lancer la génération.
+  3. Extraire le code généré : copier l'intégralité du bloc ou télécharger le fichier produit.
+  4. Effectuer le premier test local : double-cliquer sur le fichier `index.html` pour l'ouvrir dans son navigateur web (`file:///`).
+- **Contraintes techniques du code actuellement implémenté (Master Prompt 2)** :  
+  - R1 : Fichier unique exclusif `index.html` (HTML sémantique, CSS inline `<style>`, JS Vanilla inline `<script>`).
+  - R2 : Zero-Build & Zéro framework : aucun Node.js, npm, Vite, React, Vue ni bibliothèque externe. Interdiction formelle du Tailwind Play CDN (`cdn.tailwindcss.com`).
+  - R3 : Zéro placeholder ni commentaire TODO / troncature (`<!DOCTYPE html>` à `</html>`).
+  - R4 : Fidélité source absolue (100 %) conforme au SFM.
+  - R5 : Application intégrale de la DA du VDB.
+  - R6 : Précision arithmétique (calculs en centimes entiers si montants financiers, validation `isSafeInteger`, saisies invalides conservées dans le champ).
+  - R7 : Décision d'état conditionnelle : mémoire vive volatile pour simulateurs éphémères ; `StorageAdapter` sécurisé local si persistance requise.
+  - R8 : Accessibilité & ergonomie physique : cibles tactiles $\ge 44\text{ px}$, polices $\ge 16\text{ px}$ sur mobile, ratios WCAG AA, responsive 375 px strict sans scroll horizontal.
+- **Statut de React via CDN** :  
+  Dans l'état actuellement implémenté du code, React est formellement exclu (R2 proscrit tout framework). La possibilité d'une exception via CDN relève d'une intention d'arbitrage future (`DEC-ARB-13`) et n'est pas disponible dans le prompt actuel.
+- **Statut de la barrière par mot de passe** :  
+  Le Master Prompt 2 actuel ne comporte pas d'instruction de génération d'écran mot de passe. L'alignement de cette exigence cible constitue un chantier prioritaire de la Mission Intermédiaire 01.
 - **Livrable concret** :  
   Le fichier `index.html` V1 fonctionnel et ouvert dans le navigateur local.
 - **Critères de validation observables** :
-  - [ ] Le code est fourni dans un seul bloc de code complet ou un fichier téléchargeable.
-  - [ ] Le double-clic sur `index.html` affiche l'application sans écran blanc ni crash de la console.
-  - [ ] Les champs d'entrée principaux et le bouton d'action principal déclenchent une interaction visible.
+  - [ ] Le code est fourni dans un seul bloc complet de `<!DOCTYPE html>` à `</html>`.
+  - [ ] Le double-clic sur `index.html` affiche l'application sans écran blanc ni crash console.
+  - [ ] Les interactions principales (champs, calculs, boutons) réagissent conformément au document.
 
 ---
 
 ### LEÇON 5 : Effectuer des retouches ciblées, corriger et tester
 
-- **Identifiant** : `LESSON-05`
-- **Module & Journée** : Module 02 (CRÉER) — Journée 2
+- **Identifiant** : `LESSON-05` (id code : `lesson-05`)
+- **Module & Journée** : Module 02 (CRÉER) — Journée 2 (`day-02`)
 - **Durée indicative cible** : ~30 minutes
+- **Titre dans le code** : *Effectuer des retouches ciblées, corriger et tester* (Navigation : *Retoucher*)
 - **Objectif opérationnel** :  
-  Détecter les éventuels bugs, ajuster la réactivité mobile, vérifier la fidélité au contenu source (*Source Fidelity Check*) et finaliser le fichier `index.html` prêt pour la mise en ligne.
+  Contrôler son application (test des 3 largeurs d'écran, conformité mobile 375 px, fidélité source), formuler des retouches ciblées avec le gabarit dédié et finaliser le fichier `index.html` dans son dossier `mon-application/`.
 - **Entrées requises** :  
   - Le fichier `index.html` V1 généré (L4).
-  - La grille de contrôle qualité d'AI CREATOR Studio.
+  - La session Claude continue.
 - **Actions de l'apprenant** :  
-  1. Exécuter le test des 3 largeurs d'écran dans son navigateur (smartphone 375px, tablette 768px, desktop 1280px via l'inspecteur ou en redimensionnant la fenêtre).
+  1. Exécuter le test des 3 largeurs d'écran (smartphone 375 px, tablette, desktop).
   2. Tester les cas limites (champs vides, valeurs extrêmes, textes longs).
-  3. Vérifier la cartographie de fidélité source : s'assurer qu'aucun conseil fondamental du document original n'a été tronqué.
-  4. Formuler des requêtes de retouche chirurgicales à Claude si des anomalies sont constatées.
-  5. Valider la version finale du fichier `index.html`.
+  3. Vérifier la fidélité source : s'assurer qu'aucune règle métier n'a été tronquée.
+  4. Formuler des retouches chirurgicales à Claude si nécessaire via le prompt dédié.
+  5. Valider la version finale du fichier `index.html` et l'isoler à la racine d'un dossier nommé `mon-application/`.
 - **Utilisation exacte de Claude** :  
-  Prompt de correction ciblée (`PROMPT-L5-PATCH`) :
+  Prompt de retouche ciblée (`PROMPT_RETOUCHE_CIBLEE`) structuré selon les 3 champs obligatoires :
   ```text
-  Voici les ajustements précis à apporter à notre fichier index.html :
-  
-  Problèmes observés lors du test :
-  1. [EX: Sur écran mobile (375px), le tableau de résultat déborde horizontalement].
-  2. [EX: Il manque l'avertissement de sécurité de l'étape 3 du document original].
-  3. [EX: Le bouton 'Copier mon plan' n'affiche pas de confirmation visuelle quand on clique].
-  
-  Consigne : Modifie le code pour corriger ces points sans toucher aux fonctionnalités qui marchent déjà. Rends-moi le fichier index.html complet et corrigé.
+  Voici une retouche précise à apporter à mon application :
+  1. Comportement actuel : [décris ce qui se passe ou ce qui ne s'affiche pas correctement]
+  2. Comportement attendu : [décris le résultat souhaité d'après le document ou la fiche de style]
+  3. Zone concernée : [ex. le champ de saisie, le résultat final, l'affichage sur mobile]
+
+  Règles à respecter :
+  - Conserve toutes les règles de calcul et le design existant sans rien simplifier.
+  - Renvoie le code complet et corrigé dans le fichier unique index.html, de <!DOCTYPE html> à </html>.
   ```
 - **Livrable concret** :  
-  Le fichier `index.html` final, validé sur mobile et desktop, conforme à la grille de fidélité source.
+  Le fichier `index.html` final et validé, placé à la racine du dossier `mon-application/`.
 - **Critères de validation observables** :
-  - [ ] Zéro barre de défilement horizontale indésirable à 375px de large.
-  - [ ] L'ensemble des points clés de l'audit initial (L2) sont bien présents dans l'interface finale.
-  - [ ] Les interactions fonctionnent sans erreur visible dans la console du navigateur.
+  - [ ] Zéro défilement horizontal indésirable à 375 px de large.
+  - [ ] L'ensemble des règles du Source Fidelity Mapping sont vérifiées.
+  - [ ] Le dossier `mon-application/` contient `index.html` directement à la racine.
 
 ---
 
 ### LEÇON 6 : Publier son application sur Netlify
 
 - **Identifiant** : `LESSON-06` (id code : `lesson-06`)
-- **Module & Journée** : Module 03 (PUBLIER ET LIVRER) — Journée 3
+- **Module & Journée** : Module 03 (PUBLIER ET LIVRER) — Journée 3 (`day-03`)
 - **Durée indicative cible** : ~25 minutes
+- **Titre dans le code** : *Publier son application sur Netlify* (Navigation : *Publier*)
 - **Objectif opérationnel** :  
-  Déployer gratuitement son dossier `mon-application/index.html` sur Netlify Drop sans ligne de commande, personnaliser son sous-domaine HTTPS, vérifier la visibilité publique mondiale de l'application et tester l'affichage mobile.
+  Déployer gratuitement son dossier `mon-application` sur Netlify Drop sans ligne de commande, personnaliser son sous-domaine HTTPS et vérifier l'accessibilité publique mondiale sur ordinateur et smartphone.
 - **Entrées requises** :  
   - Le dossier `mon-application` contenant `index.html` à la racine (L5).
   - Un compte gratuit Netlify.
@@ -403,77 +382,73 @@ Chaque leçon dispose de sa propre logique d'apprentissage, adaptée à la natur
   1. Vérifier son dossier local : s'assurer que `index.html` se trouve directement à la racine de `mon-application` (sans sous-dossier superflu ni extension `.txt` masquée).
   2. Se connecter sur Netlify et ouvrir Netlify Drop ([app.netlify.com/drop](https://app.netlify.com/drop)).
   3. Glisser-déposer le dossier complet `mon-application` dans la zone de téléversement en pointillés.
-  4. Patienter pendant le déploiement instantané et récupérer la première URL en `*.netlify.app`.
-  5. Personnaliser le sous-domaine gratuit dans le parcours actuel : `Project Overview > Customize > Manage project name and cover image` (ex: `diagnostic-pme.netlify.app`).
-  6. Contrôler explicitement la visibilité publique dans : `Project configuration > General > Visitor access > Project visibility` (confirmer que la production est configurée sur **Public** et non Private).
-  7. Constater le provisionnement automatique du certificat HTTPS/SSL (zéro paramétrage manuel).
-  8. Prendre en compte la limite du forfait gratuit Netlify (quota mensuel de crédits pour builds et bande passante, renouvelé chaque mois).
-  9. Ouvrir l'URL en navigation privée et sur son smartphone pour valider le chargement tactile en conditions réelles à 375 px.
+  4. Récupérer la première URL générée en `*.netlify.app`.
+  5. Personnaliser le sous-domaine gratuit dans : `Project Overview > Customize > Manage project name and cover image` (ex: `diagnostic-pme.netlify.app`).
+  6. Contrôler explicitement la visibilité publique dans : `Project configuration > General > Visitor access > Project visibility` (confirmer la valeur sur **Public**).
+  7. Constater le provisionnement automatique du certificat HTTPS/SSL.
+  8. Prendre en compte la limite du forfait gratuit Netlify (quota mensuel de crédits).
+  9. Ouvrir l'URL en navigation privée sur ordinateur et sur smartphone (375 px) : vérifier l'accès réel et la réactivité tactile.
+- **Clarification sur la sécurité et le mot de passe** :  
+  - Distinguer nettement la visibilité publique de l'hébergement Netlify (`Visitor access = Public`) de la protection applicative de l'outil.
+  - Acter le décalage temporaire : la checklist actuelle de L6 (`l6-p2`) stipule : *« La page s’ouvre sans mot de passe en fenêtre de navigation privée. Tout visiteur externe peut utiliser l’application sans compte Netlify »*. Ce contrôle correspond à l'état actuel du code (sans mot de passe généré par Master Prompt 2), mais diverge de l'exigence de mot de passe dissuasif par défaut du PRD. La réconciliation sera effectuée lors de la Mission Intermédiaire 01.
 - **Utilisation exacte de Claude** :  
-  Support de dépannage réactif via le `HelpPanel` si l'apprenant rencontre une erreur 404 Netlify consécutive à un mauvais nom de fichier (`PROMPT-L6-NETLIFY-HELP`) :
-  ```text
-  Mon déploiement sur Netlify Drop affiche une erreur 404 (Page Not Found).
-  Voici l'organisation de mes fichiers : mon dossier [nom du dossier] contient [nom et emplacement exacts des fichiers].
-  Comment corriger mon dossier pour que la page s'affiche ?
-  ```
+  Prompt de dépannage réactif via le `HelpPanel` en cas d'erreur 404 Netlify (`PROMPT_L6_NETLIFY_HELP`).
 - **Livrable concret** :  
   Une URL publique HTTPS active (`https://[nom-personnalise].netlify.app`), accessible depuis n'importe quel terminal connecté à Internet.
 - **Critères de validation observables** :
-  - [ ] L'URL Netlify est sécurisée en HTTPS avec un certificat SSL valide provisionné automatiquement.
-  - [ ] L'application se charge correctement en fenêtre de navigation privée sans être connecté à son compte Netlify.
-  - [ ] L'application répond au toucher sur smartphone (375 px) sans débordement horizontal ni rupture visuelle.
-  - [ ] Le nom du site a été personnalisé pour être professionnel et lisible par un client.
+  - [ ] L'URL Netlify est active et sécurisée en HTTPS (certificat SSL provisionné automatiquement).
+  - [ ] L'application se charge en fenêtre de navigation privée sans connexion à Netlify.
+  - [ ] L'application fonctionne sur ordinateur et smartphone (375 px tactile) sans débordement horizontal.
+  - [ ] Le sous-domaine a été personnalisé de manière claire et professionnelle.
 
 ---
 
 ### LEÇON 7 : Organiser la livraison via Chariow et tester le parcours d'achat
 
 - **Identifiant** : `LESSON-07` (id code : `lesson-07`)
-- **Module & Journée** : Module 03 (PUBLIER ET LIVRER) — Journée 3
+- **Module & Journée** : Module 03 (PUBLIER ET LIVRER) — Journée 3 (`day-03`)
 - **Durée indicative cible** : ~35 minutes
+- **Titre dans le code** : *Organiser la livraison via Chariow et tester le parcours d'achat* (Navigation : *Vendre*)
 - **Objectif opérationnel** :  
-  Créer une offre commerciale de type **Files** sur Chariow, configurer la livraison du Guide d'Accueil PDF et les instructions après achat avec l'URL Netlify, puis vérifier le parcours client complet via un code promotionnel de test à 100 %.
+  Créer une offre commerciale de type **Files** sur Chariow, configurer la livraison du **Guide d'Accès PDF** et les instructions après achat, et tester le parcours d'achat en conditions réelles.
 - **Entrées requises** :  
   - L'URL publique de son application Netlify validée (L6).
   - Un compte vendeur Chariow.
-  - Un Guide d'Accueil rédigé au format PDF.
 - **Actions de l'apprenant** :  
-  1. Se connecter à son tableau de bord Chariow et créer un nouveau produit : `Produits > Créer un nouveau produit > Fichiers > Continuer`.
-  2. Renseigner les éléments de présentation commerciale : titre explicite, catégorie adaptée, prix de vente et description commerciale fidèle à ce que l'outil réalise.
-  3. Téléverser les visuels respectant les dimensions minimales : miniature carrée ($\ge 600 \times 600\text{ px}$) et bannière ($\ge 702 \times 260\text{ px}$) valorisant l'identité visuelle de l'outil (interdiction de réutiliser la charte Burgundy/Cream du studio).
-  4. Téléverser le Guide d'Accueil PDF dans la section Contenu du produit. Ce guide contient le lien Netlify direct, une présentation courte et 3 étapes d'onboarding.
-  5. Configurer le champ `Instructions après achat` via : `Produits > ⋮ > Modifier > Informations > Instructions après achat` avec la trame d'accueil et le lien direct vers l'application Netlify. Enregistrer les modifications.
-  6. Comprendre le modèle de sécurité : l'application Netlify demeure une application web statique publique. Chariow monétise et livre le guide d'accès, mais ne verrouille pas le code HTML/JS.
-  7. Configurer un code promo de test à 100 % dans `Marketing > Réductions > Créer une réduction` :
-     - Type : Pourcentage (100 %).
-     - Limiter au produit concerné uniquement.
-     - Utilisations maximales : 1.
-     - Utilisations maximum par client : 1.
-  8. Ouvrir la page produit Chariow dans une fenêtre de navigation privée pour contrôler la présentation acheteur.
-  9. Exécuter la commande test : si la passerelle Chariow valide la commande à 0 €, vérifier l'affichage des instructions et le téléchargement du PDF. Si la commande à 0 € est refusée par la passerelle, ne pas payer son propre produit et valider la configuration jusqu'au panier.
-  10. Vérifier que le lien Netlify transmis ouvre bien l'application sur un navigateur non connecté au compte créateur.
-  11. Désactiver immédiatement le code promotionnel dans `Marketing > Réductions > Désactiver`.
+  1. Se connecter à son tableau de bord Chariow : `Produits > Créer un nouveau produit > Fichiers > Continuer`.
+  2. Renseigner les informations commerciales : titre explicite, catégorie, prix et description.
+  3. Téléverser les visuels requis : miniature carrée ($\ge 600 \times 600\text{ px}$) et bannière ($\ge 702 \times 260\text{ px}$) aux couleurs de l'application (interdiction d'utiliser la charte Burgundy/Cream du studio).
+  4. Téléverser le **Guide d'Accès PDF** dans la section Contenu du produit.
+  5. Configurer le champ `Instructions après achat` (`Produits > ⋮ > Modifier > Informations`) avec la trame d'accueil et le lien Netlify.
+  6. Configurer un code promo de test à 100 % dans `Marketing > Réductions` (restreint au produit, 1 utilisation max).
+  7. Ouvrir la page produit Chariow en navigation privée et tester le flux d'achat :
+     - *Cas A (Commande 0 € acceptée)* : valider la commande, vérifier les instructions post-achat, télécharger le Guide d'Accès PDF et tester le lien sur ordinateur et mobile.
+     - *Cas B (Commande 0 € refusée par la passerelle)* : ne pas payer son propre produit, constater l'arrêt au panier et valider la configuration.
+  8. Désactiver immédiatement le code promotionnel de test.
+- **Clarification sur les livrables et la sécurité** :  
+  - **Livrable existant vs livrable cible** : Le code de L7 intègre actuellement le texte `TEXTE_INSTRUCTIONS_POST_ACHAT` (lien Netlify, ajout aux favoris, mention du guide PDF, contact e-mail ; aucun mot de passe n'y figure actuellement). Le **Guide d'Accès PDF** complet décrit dans le PRD (avec gabarit formel, consignes multi-appareils, limites LocalStorage) constitue un livrable cible dont la production est inscrite dans la Mission Intermédiaire 01.
+  - **Prudence sur Chariow** : Ne pas présenter comme définitivement figés les chemins d'interface ni le modèle à double canal. La vérification empirique du parcours réel (achat test à 0 €, affichage des instructions, téléchargement du PDF, accès portail) fait partie intégrante de la Mission Intermédiaire 01.
 - **Utilisation exacte de Claude** :  
-  Trame des instructions après achat et d'onboarding client intégrée directement dans le cours (`TEXTE_INSTRUCTIONS_POST_ACHAT`) via un `CopyBlock` sobre :
+  Trame des instructions après achat intégrée dans la leçon (`TEXTE_INSTRUCTIONS_POST_ACHAT`) :
   ```text
   Merci pour votre achat !
 
   Voici comment accéder immédiatement à votre application :
   1. Cliquez sur votre lien d'accès direct : [VOTRE LIEN NETLIFY]
   2. Ajoutez cette adresse à vos favoris pour la retrouver en un clic.
-  3. Téléchargez votre Guide d'Accueil PDF depuis les fichiers disponibles après votre achat.
+  3. Téléchargez votre Guide d'Accès PDF depuis les fichiers disponibles après votre achat.
 
   En cas de question ou de suggestion, contactez-moi directement à [VOTRE EMAIL].
   ```
 - **Livrable concret** :  
-  Une fiche produit active sur Chariow avec Guide d'Accueil PDF livré automatiquement, instructions post-achat configurées et parcours client vérifié.
+  Une fiche produit active sur Chariow avec Guide d'Accès PDF configuré, instructions post-achat enregistrées et parcours d'achat testé.
 - **Critères de validation observables** :
   - [ ] Le produit est publié sur Chariow avec le type Fichiers (titre, prix et visuels minimaux respectés).
   - [ ] Les visuels respectent les formats requis ($\ge 600 \times 600\text{ px}$ et $\ge 702 \times 260\text{ px}$).
-  - [ ] Le code promotionnel de test est restreint au produit avec 1 utilisation maximale et 1 par client.
-  - [ ] Le Guide d'Accueil PDF et les instructions après achat intègrent le lien Netlify fonctionnel.
-  - [ ] Le parcours d'achat a été vérifié en navigation privée : commande test à 0 € validée avec téléchargement du PDF (Cas A) ou panier vérifié sans payer son propre produit si 0 € refusé (Cas B).
-  - [ ] Le code promotionnel de test a été désactivé immédiatement dans Marketing > Réductions.
+  - [ ] Le code promotionnel de test est restreint au produit avec 1 utilisation maximale.
+  - [ ] Les instructions après achat intègrent le lien Netlify fonctionnel.
+  - [ ] Le parcours d'achat a été vérifié en conditions réelles (Cas A ou Cas B).
+  - [ ] Le code promotionnel de test a été désactivé immédiatement après vérification.
 
 ---
 
@@ -565,9 +540,9 @@ Le Master Prompt d'AI CREATOR Studio est conçu de manière modulaire afin d'ass
 flowchart TD
     subgraph MasterPrompt["Architecture du Master Prompt Modulaire"]
         M1["Module 1 : Cadre & Rôle Système (Senior Full-Stack & UI Architect)"]
-        M2["Module 2 : Contraintes Techniques Fermes (Single-file, Zero-Build, Vanilla/CDN)"]
+        M2["Module 2 : Contraintes Techniques Fermes (Single-file, Zero-Build, Vanilla pur)"]
         M3["Module 3 : Spécifications Métier (Product Blueprint injecté)"]
-        M4["Module 4 : Direction Artistique (Style Sheet Descriptor injecté)"]
+        M4["Module 4 : Direction Artistique (Visual Direction Brief injecté)"]
         M5["Module 5 : Garde-Fous Anti-Slop (Accessibilité WCAG AA, Mobile-First, Ergonomie tactile)"]
         M6["Module 6 : Format de Sortie Strict (Fichier unique index.html sans placeholders)"]
     end
@@ -575,35 +550,12 @@ flowchart TD
     M1 --> M2 --> M3 --> M4 --> M5 --> M6 --> Output["index.html"]
 ```
 
-### 10.1. Protocole de Continuité et Trousseau de Reprise sur Claude Free
+### 10.1. Continuité Conversationnelle sur Claude Free
 
-Sur Claude Free, la taille de contexte de la conversation et les limites horaires peuvent imposer d'ouvrir un nouveau fil de discussion.  
-Le *Snapshot de Continuité* ne remplace pas magiquement les actifs du projet : il en résume l'état logique. En cas de changement de conversation, l'apprenant utilise le **Trousseau Complet de Reprise** :
-
-```mermaid
-flowchart LR
-    subgraph HandoverPackage["Trousseau de Reprise de Conversation"]
-        direction TB
-        H1["1. Snapshot de Continuité (Texte synthétique)"]
-        H2["2. Document Source (ou extrait de la section active)"]
-        H3["3. Product Blueprint validé en Leçon 2"]
-        H4["4. Style Sheet Descriptor arrêté en Leçon 3"]
-        H5["5. Dernier fichier index.html fonctionnel"]
-    end
-    HandoverPackage --> NewSession["Nouvelle Conversation Claude Free"]
-```
-
-Prompt de génération du Snapshot de continuité (`PROMPT-CONTINUITY-SNAPSHOT`) :
-```text
-Nous approchons de la limite de longueur de cette conversation.
-Rédige un 'SNAPSHOT DE CONTINUITÉ' complet résumant :
-1. L'état actuel exact du projet.
-2. Le Product Blueprint validé.
-3. La Direction Artistique retenue.
-4. Les retouches restant à effectuer.
-5. Les 3 prochaines étapes précises que nous devons exécuter.
-Indique-moi également les fichiers que je devrai joindre dans la nouvelle conversation (document source, Blueprint, dernier code index.html).
-```
+Le parcours pédagogique est conçu pour se dérouler au sein d'une **discussion continue unique** sur Claude Free :
+- L'apprenant enchaîne la Phase 1 (cadrage fonctionnel L2), la Phase 2 (direction artistique L3), la génération V1 (L4) et les retouches chirurgicales (L5) dans le même fil de discussion, préservant ainsi l'historique complet de son document et de ses choix.
+- En cas d'interruption de génération par Claude (limite de longueur de réponse sur code volumineux), la consigne enseignée est d'utiliser le bouton natif **`Continue`** (ou d'envoyer la commande simple « Continue ») pour que Claude reprenne exactement au point d'arrêt sans générer de fragmentation.
+- *Perspective d'évolution (Trousseau de Reprise & Snapshot)* : Un protocole théorique plus formel de snapshot de continuité (`PROMPT-CONTINUITY-SNAPSHOT`) et de trousseau de reprise en cas de bascule de session forcée a été esquissé lors des phases amont ; son utilité réelle, son format et sa formalisation éventuelle en composant pédagogique seront arbitress et testés lors de la Mission Intermédiaire 01.
 
 ### 10.2. Garantie d'Indépendance vis-à-vis de Claude Pro
 
@@ -656,23 +608,31 @@ classDiagram
 
 ### 11.2. Règles d'Usage des Bibliothèques et CDNs
 
-- **Vanilla JavaScript privilégié** : JavaScript ES6+ pur pour l'immense majorité des cas d'usage (manipulation du DOM, LocalStorage, événements).
-- **React via CDN (Exception Cadrée)** :  
-  Autorisé uniquement lorsque la complexité de l'application (états multiples synchronisés, formulaires à embranchements profonds) le justifie expressément. Dans ce cas, les versions doivent être **figées et sécurisées par intégrité** :
-  ```html
-  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
-  ```
+- **Vanilla JavaScript exclusif dans l'état actuellement implémenté** : Le Master Prompt 2 (`MASTER_PROMPT_2_XML`, règle R2) proscrit formellement tout framework ou bibliothèque externe (Node.js, npm, Vite, React, Vue). L'application s'appuie exclusivement sur JavaScript ES6+ moderne (DOM standard, API Web natives).
 - **Interdiction Formelle du Tailwind Play CDN en Production** :  
   L'utilisation de `<script src="https://cdn.tailwindcss.com"></script>` est **strictement interdite pour la production**. Ce script expérimental compile le CSS à la volée dans le navigateur du client, provoquant des sauts visuels majeurs (*Flash of Unstyled Content*), une surcharge mémoire et des risques de rupture d'API. Le Master Prompt contraint Claude à injecter du CSS compilé propre dans la balise `<style>`.
+- **Arbitrage futur : Éventuelle exception React via CDN (`DEC-ARB-13`)** :  
+  L'opportunité d'autoriser une exception encadrée pour React via CDN (avec versions 18.3.1 figées et SHA-384) pour des applications à états hautement complexes relève d'une décision ouverte à arbitrer et n'est pas supportée dans le prompt actuel.
+
+### 11.3. Barrière d'Accès par Mot de Passe JavaScript (Exigence Cible & Chantier Mission Intermédiaire 01)
+
+- **Exigence cible du PRD** : Pour tout produit destiné à être commercialisé sous accès réservé, le modèle cible prévoit par défaut un écran d'accueil avec barrière de mot de passe JavaScript (mot de passe commun aux acheteurs, intégré dans la logique client du fichier).
+- **Statut d'alignement avec le code actuel** :  
+  L'audit révèle un **décalage formel entre cette exigence et le code actuellement présent dans le dépôt** :
+  1. Le Master Prompt 2 (`src/data/days/day-02.ts`) ne comporte pas de consigne de génération d'écran mot de passe.
+  2. La checklist de la Leçon 6 (`src/data/days/day-03.ts`, `l6-p2`) contrôle explicitement que « la page s'ouvre sans mot de passe en fenêtre de navigation privée ».
+  3. La trame d'instructions après achat de la Leçon 7 (`TEXTE_INSTRUCTIONS_POST_ACHAT`) ne transmet aucun mot de passe.
+  Cet alignement pédagogique et technique (arbitrage sur l'opportunité d'introduire le mot de passe dans le Master Prompt 2 ou d'assumer une application publique) constitue un **chantier prioritaire de la Mission Intermédiaire 01**.
+- **Nature strictement dissuasive du mécanisme** : En tout état de cause, un mot de passe JavaScript côté client ne constitue **jamais une authentification forte**. Le code source exécuté dans le navigateur reste inspectable (F12) par toute personne techniquement avertie. Il ne protège pas contre un utilisateur motivé et n'a de valeur que comme filtre d'usage immédiat.
+- **Hygiène absolue du code** : Aucune clé d'API privée payante (OpenAI, Anthropic, Stripe, Sendgrid, etc.), aucun secret sensible ni donnée confidentielle de tiers ne doit être placé dans le fichier HTML/JS.
 
 ---
 
-## 12. EXIGENCES MOBILES
+## 12. EXIGENCES MOBILES ET MULTI-APPAREILS
 
 La conception des applications créées par les apprenants accorde une priorité absolue aux terminaux mobiles (*Mobile-First*), compte tenu de la prépondérance des usages sur smartphone lors de la consultation de liens partagés.
 
-### Grille d'Exigences Mobiles Imposées
+### 12.1. Grille d'Exigences Mobiles Imposées
 
 | Critère Mobile | Spécification Technique Requise | Vérification en Leçon 5 |
 |---|---|---|
@@ -683,23 +643,59 @@ La conception des applications créées par les apprenants accorde une priorité
 | **Absence de Dépendance au Survol** | Aucune information critique ou action masquée derrière un état `:hover`. Toute information secondaire est accessible par clic/tap accordéon. | Fonctionnalité complète sur écran tactile |
 | **Formulaires Adaptés** | Attributs `inputmode` adaptés : `inputmode="numeric"` pour les chiffres, `type="email"` pour les courriels, `type="tel"` pour les téléphones. | Déploiement automatique du pavé tactile adapté |
 
+### 12.2. Utilisation Multi-Appareils : La Triple Distinction
+
+Le PRD établit une distinction formelle entre trois notions souvent confondues lors de la conception d'un produit digital :
+
+```mermaid
+flowchart TD
+    subgraph MultiDevice["La Triple Distinction Multi-Appareils"]
+        direction TB
+        C1["1. Compatibilité multi-appareils\n(Affichage & ergonomie tactile responsive 375 px)"]
+        C2["2. Accès multi-appareils\n(Même lien Netlify & même mot de passe sur tout terminal)"]
+        C3["3. Synchronisation des données\n(LocalStorage confiné à l'appareil • Pas de cloud sync auto)"]
+    end
+    C1 --- C2 --- C3
+```
+
+1. **Compatibilité multi-appareils** :  
+   L'application s'affiche et fonctionne sur ordinateur, tablette et smartphone. Les composants respectent la grille d'exigences mobiles (375 px sans défilement horizontal, cibles tactiles $\ge 44$ px, typographie lisible).
+2. **Accès multi-appareils** :  
+   L'acheteur final peut ouvrir le même lien Netlify et utiliser le même mot de passe d'accès depuis son ordinateur de travail, sa tablette ou son téléphone mobile, sans restriction d'installation matérielle.
+3. **Synchronisation des données et persistance locale** :  
+   - Les informations saisies et enregistrées par l'utilisateur (réponses à un diagnostic, résultats de calcul, états de formulaires) sont conservées **localement dans le navigateur de l'appareil utilisé** (`localStorage`).
+   - Le parcours standard **ne promet aucune synchronisation cloud automatique** entre différents terminaux.
+   - Lorsque le produit conserve des données que l'utilisateur a intérêt à retrouver ultérieurement, l'apprenant peut prévoir :
+     - Une fonction d'**exportation** des données dans un fichier de sauvegarde local (fichier `.json`).
+     - Une fonction d'**importation** de ce fichier de sauvegarde sur un autre appareil.
+   - Cette solution est explicitement présentée comme un **transfert manuel de sauvegarde** et non comme une synchronisation automatique transparente.
+   - Les produits qui ne conservent pas de données utilisateur (calculateurs instantanés, générateurs sans état) n'ont pas besoin de ces fonctions.
+   - Une véritable synchronisation automatique en temps réel avec authentification et base de données distante demeure strictement hors du parcours standard.
+
 ---
 
 ## 13. ARCHITECTURE ET EXIGENCES DE SÉCURITÉ
 
-La transparence technique la plus totale est exigée dans la pédagogie du cours. L'apprenant doit appréhender sans illusion le modèle de sécurité du web statique.
+La transparence technique la plus totale est exigée dans la pédagogie du cours. L'apprenant doit appréhender sans illusion le modèle de sécurité du web statique et les fonctionnalités réelles de son livrable.
 
-### 13.1. Le Principe Fondamental du Code Client
+### 13.1. Le Principe Fondamental du Code Client et la Barrière Dissuasive
 
 > [!CAUTION]
 > **Un fichier HTML statique ne peut dissimuler aucun code, aucune formule ni aucun secret au visiteur qui y accède.**  
 > Tout visiteur ouvrant la page peut afficher le code source ou inspecter les outils de développement (F12) et lire l'intégralité du code HTML, CSS et JavaScript.
 
-En conséquence, AI CREATOR Studio établit les interdits absolus suivants :
-- **Ne jamais présenter un mot de passe JavaScript en clair ou une invite `prompt()` comme une authentification ou un contrôle d'accès effectif**.
-- **Ne jamais considérer Chariow, une URL non publique, un token côté client ou un document PDF d'accès comme un verrou de sécurité protégeant une application Netlify**.
-- **Ne jamais intégrer de clé d'API privée payante (OpenAI, Stripe, Sendgrid, etc.) directement dans le fichier HTML**.
-- **Ne jamais stocker de données confidentielles de tiers dans le LocalStorage**.
+En conséquence, AI CREATOR Studio établit le cadrage de sécurité suivant :
+- **Comprendre le statut réel du mot de passe JavaScript** : L'écran de mot de passe intégré au JavaScript est une **barrière d'accès dissuasive** (friction d'entrée pratique réservant l'accès direct aux acheteurs de l'offre), mais **en aucun cas une authentification forte côté serveur**. Il peut être contourné par une personne techniquement motivée.
+- **Nature publique de l'URL Netlify** : L'URL Netlify demeure publique. Chariow monétise et livre le Guide d'Accès PDF et les instructions d'accès, mais ne filtre pas les requêtes réseau vers le serveur Netlify.
+- **Interdiction absolue de secrets dans le livrable** : Ne jamais intégrer de clé d'API privée payante (OpenAI, Anthropic, Stripe, Sendgrid, etc.) ni de token d'administration directement dans le code source de l'application.
+- **Protection des données personnelles** : Ne jamais stocker de données confidentielles de tiers dans le LocalStorage.
+
+#### Les 5 Consignes d'Hygiène de Sécurité Enseignées aux Apprenants :
+1. **Ne pas diffuser publiquement l'URL Netlify** : la réserver exclusivement aux acheteurs via le Guide d'Accès PDF et les instructions après achat Chariow.
+2. **Ne pas communiquer le mot de passe** en dehors des acheteurs autorisés de l'offre commerciale.
+3. **Choisir un mot de passe dissuasif et non trivial** : éviter les suites évidentes (`1234`, `password`, `azerty`).
+4. **Zéro secret dans le HTML/JS** : ne placer aucune clé API, aucun secret d'infrastructure ni information confidentielle dans le code.
+5. **Assumer sereinement les limites du modèle** : comprendre que cette barrière suffit amplement pour commercialiser des calculateurs, matrices et diagnostics sans complexité technique superflue.
 
 ### 13.2. Cadrage Transparent des Modèles Applicatifs
 
@@ -709,29 +705,31 @@ flowchart TD
         direction TB
         A1["Application Web Statique Publique"]
         A2["Exécution 100% dans le navigateur du client"]
-        A3["Données conservées localement (mémoire / LocalStorage de l'utilisateur)"]
-        A4["Toute personne disposant de l'URL peut y accéder"]
+        A3["Barrière de mot de passe JS dissuasive par défaut"]
+        A4["Données conservées localement (LocalStorage) • Export/Import manuel"]
     end
     
-    subgraph OutScopeV1["Hors Périmètre V1 (Évolutions Futures Requérant un Backend)"]
+    subgraph OutScopeV1["Hors Périmètre V1 (Architectures Backend Avancées)"]
         direction TB
-        B1["Accès authentifié avec contrôle de session serveur"]
-        B2["Comptes utilisateurs et gestion des droits (RBAC)"]
-        B3["Appels d'APIs tierces sécurisés par secrets serveur"]
-        B4["Bases de données multi-utilisateurs centralisées"]
+        B1["Authentification forte & contrôle de session serveur (JWT/OAuth)"]
+        B2["Configuration de backend Supabase / Firebase"]
+        B3["Création et maintenance de Netlify Functions"]
+        B4["Configuration de Webhooks Chariow ou API de licences"]
     end
 ```
 
 - **La V1 assume pleinement le modèle de l'application statique publique** :  
-  L'application est hébergée sur Netlify sous une URL accessible publiquement. Chariow sert de plateforme de vente et transmet l'adresse d'accès au client final (via page de confirmation et notice PDF). Toute personne possédant cette URL peut charger l'application. Ce modèle est parfaitement adapté à des calculateurs, diagnostics, générateurs de plans d'action ou ateliers d'auto-évaluation.
-- **Toute protection d'accès effective nécessite un backend** :  
-  Si un créateur souhaite restreindre techniquement l'accès aux seuls acheteurs vérifiés, cela exige une architecture serveur (Netlify Functions, Edge Middleware avec validation de token/webhook Chariow, authentification utilisateur) qui relève d'une phase avancée hors du périmètre de cette V1.
+  L'application est hébergée sur Netlify sous une URL publique HTTPS. La monétisation et la livraison s'effectuent via Chariow (lien d'accès transmis via instructions après achat et futur Guide d'Accès PDF). L'intégration d'un écran d'accès par mot de passe JavaScript dissuasif pour les offres à accès réservé constitue une exigence cible du PRD : l'audit technique a mis en évidence que le Master Prompt 2 actuel ne génère pas encore cette barrière, que la Leçon 6 valide l'accès libre sans mot de passe, et que les instructions de la Leçon 7 ne comportent pas de mot de passe. L'alignement de cette exigence avec les prompts réels et les données des leçons constitue un chantier prioritaire de la Mission Intermédiaire 01.
+- **Transparence sur le niveau réel de protection** :  
+  Le mot de passe JavaScript envisagé n'est qu'un filtre de dissuasion pratique. Le code client HTML/JS reste intégralement inspectable dans le navigateur (F12). Toute personne motivée disposant de l'URL peut en extraire le contenu. Ce niveau de friction suffit pour décourager les curieux sur des calculateurs et diagnostics, mais ne doit jamais être confondu avec une authentification forte serveur.
+- **Le parcours standard refuse toute complexification backend prématurée** :  
+  Pour préserver l'autonomie et l'accessibilité des créateurs non-développeurs, le parcours standard n'introduit **aucun développement backend**, **aucune configuration Supabase**, **aucune fonction Netlify**, **aucun webhook Chariow à router**, ni **aucune API de licences à intégrer**. Ces architectures relèvent d'une phase avancée hors du périmètre de cette formation.
 
 ---
 
 ## 14. PARCOURS NETLIFY ET CHARIOW
 
-Le parcours de distribution relie la création locale à la monétisation réelle :
+Le parcours de distribution relie la création locale à la monétisation réelle et à l'accès client :
 
 ```mermaid
 sequenceDiagram
@@ -742,18 +740,42 @@ sequenceDiagram
     participant Chariow as Plateforme Chariow
     actor ClientFinal as Acheteur / Client Final
 
-    Apprenant->>Claude: Master Prompt + Product Blueprint
-    Claude-->>Apprenant: Fichier index.html
-    Apprenant->>Netlify: Déploiement du dossier mon-application contenant index.html
-    Netlify-->>Apprenant: URL HTTPS active (ex: mon-app.netlify.app)
-    Apprenant->>Chariow: Création produit Files & téléversement Guide PDF
-    Note over Apprenant,Chariow: Transmission URL Netlify via Guide PDF et instructions après achat (sans redirection auto)
-    ClientFinal->>Chariow: Achat du produit Files
-    Chariow-->>ClientFinal: Confirmation d'achat + Instructions + Téléchargement Guide PDF
-    ClientFinal->>Netlify: Utilisation de l'application interactive
+    Apprenant->>Claude: Master Prompt (Product Blueprint + VDB)
+    Claude-->>Apprenant: Fichier index.html unique autonome
+    Apprenant->>Netlify: Déploiement dossier mon-application/ contenant index.html
+    Netlify-->>Apprenant: URL HTTPS active (ex: mon-outil.netlify.app)
+    Apprenant->>Chariow: Création produit Files & téléversement Guide d'Accès PDF
+    Apprenant->>Chariow: Saisie Instructions après achat (URL Netlify)
+    ClientFinal->>Chariow: Commande du produit Files
+    Chariow-->>ClientFinal: Confirmation immédiate + Instructions après achat + Téléchargement PDF
+    Note over ClientFinal: Accès initial direct (sans création obligatoire de compte client)
+    ClientFinal->>Netlify: Ouverture URL Netlify
+    Netlify-->>ClientFinal: Utilisation de l'application interactive (Desktop & Mobile)
+    Note over ClientFinal,Chariow: Accès ultérieur via portail Chariow (sur e-mail de commande, à tester en MI-01)
 ```
 
-### 14.1. Parcours Netlify (Hébergement)
+Le parcours standard cible de livraison des produits créés par les apprenants s'articule en **5 étapes canoniques** :
+
+### 14.1. L'Architecture Standard de Livraison en 5 Étapes
+
+1. **ÉTAPE 1 — CRÉATION** :  
+   L'apprenant utilise Claude pour produire son application dans un **fichier unique `index.html`** Zero-Build. L'intégration par défaut d'une barrière d'accès dissuasive par mot de passe JavaScript fait partie des arbitrages et enrichissements planifiés pour la Mission Intermédiaire 01 (dans le code actuel, le fichier généré s'ouvre directement sans mot de passe).
+2. **ÉTAPE 2 — PUBLICATION** :  
+   L'apprenant déploie son dossier local `mon-application/` sur Netlify Drop et récupère une **URL HTTPS publique** avec un sous-domaine personnalisé professionnel (ex : `https://mon-outil.netlify.app`).
+3. **ÉTAPE 3 — LIVRAISON** :  
+   L'apprenant crée un produit de type **Files** sur Chariow. Il configure le champ **Instructions après achat** (implémenté via `TEXTE_INSTRUCTIONS_POST_ACHAT`) et téléverse son **Guide d'Accès PDF** (livrable cible dont le gabarit sera modélisé en Mission Intermédiaire 01). Ces supports prévoient :
+   - Le lien public direct de l'application.
+   - Les instructions claires pour ouvrir et utiliser le produit.
+   - Les recommandations d'utilisation sur ordinateur, tablette et smartphone.
+   - Les limites de sauvegarde locale (LocalStorage, données résidant sur le navigateur de l'appareil).
+   - Un contact d'assistance directe.
+4. **ÉTAPE 4 — ACCÈS DU CLIENT (MODALITÉS CHARIOW)** :  
+   - **Accès initial direct** : Téléchargement du Guide d'Accès PDF et affichage des instructions post-achat sur la page de confirmation de commande ou via le lien reçu par e-mail, sans obligation de créer un compte client Chariow au préalable.
+   - **Accès ultérieur (hypothèse sous réserve de vérification)** : Possibilité de retrouver ses fichiers depuis le portail client Chariow avec son e-mail de commande. *Ce flux et la persistance des accès devront être vérifiés empiriquement lors de la Mission Intermédiaire 01.*
+5. **ÉTAPE 5 — UTILISATION MULTI-APPAREILS** :  
+   Le client ouvre l'URL Netlify et utilise son application indifféremment depuis son ordinateur, sa tablette ou son smartphone.
+
+### 14.2. Paramétrage Pratique Netlify (Hébergement)
 
 - **Mode de Déploiement Guidé** :  
   L'apprenant utilise son dossier local dédié `mon-application/` contenant son fichier nommé strictement `index.html` (en minuscules). Il glisse-dépose ce dossier sur Netlify Drop ([app.netlify.com/drop](https://app.netlify.com/drop)).
@@ -766,7 +788,7 @@ sequenceDiagram
 - **Quota du Forfait Gratuit** :  
   L'hébergement gratuit utilise un quota mensuel de crédits. Les projets peuvent être mis en pause temporairement si le quota mensuel est épuisé, jusqu'à son renouvellement automatique.
 
-### 14.2. Parcours Chariow (Monétisation & Livraison)
+### 14.3. Paramétrage Pratique Chariow (Monétisation & Livraison)
 
 - **Paramétrage du Produit** :  
   Création d'un produit de type **Files** (et non « Produit Digital » générique ou Licences) avec tarification et catégorie choisies par l'apprenant. Clic impératif sur **Publier** / **Publish** pour mettre l'offre en ligne.
@@ -774,12 +796,20 @@ sequenceDiagram
   Téléversement d'une miniature carrée ($\ge 600 \times 600\text{ px}$) et d'une bannière rectangulaire ($\ge 702 \times 260\text{ px}$) respectant l'identité visuelle de l'outil créé.
 - **Stratégie de Livraison Client (sans redirection automatique)** :  
   Pour le type Files, Chariow ne propose pas de redirection automatique garantie vers un site externe. La livraison repose sur deux canaux synchronisés :
-  1. Le téléchargement direct du **Guide d'Accueil PDF** mis à disposition dans les fichiers disponibles après l'achat (contenant le lien Netlify direct et les conseils de démarrage).
-  2. Le champ `Instructions après achat` (`Produits > ⋮ > Modifier > Informations`) affiché sur la page de confirmation client avec le lien direct Netlify.
-- **Vérification du Parcours & Code Promo Test** :  
-  L'apprenant crée dans `Marketing > Réductions` un code promo à 100 % strictement encadré par 3 restrictions : limité au produit concerné, 1 utilisation maximale totale, et 1 utilisation par client.
-  - **Cas A (Commande 0 € acceptée)** : L'apprenant valide la commande en navigation privée, vérifie la page de confirmation, télécharge son Guide PDF, teste l'ouverture de son application Netlify, puis désactive immédiatement le code promotionnel.
-  - **Cas B (Commande 0 € refusée par la passerelle)** : Si la passerelle refuse la commande à 0 €, l'apprenant ne doit jamais payer son propre produit. Il constate l'arrêt au panier, désactive immédiatement le code promo dans `Marketing > Réductions`, et valide le contrôle sans attestation mensongère d'accès post-paiement.
+  1. Le téléchargement direct du **Guide d'Accès PDF** mis à disposition dans les fichiers disponibles après l'achat.
+  2. Le champ `Instructions après achat` (`Produits > ⋮ > Modifier > Informations`) affiché sur la page de confirmation client avec le lien direct Netlify et le mot de passe.
+- **Protocole de Vérification Réelle du Parcours d'Achat** :  
+  L'apprenant crée dans `Marketing > Réductions` un code promo à 100 % strictement encadré (limité au produit concerné, 1 utilisation maximale totale, 1 utilisation par client).
+  - **Cas A (Commande 0 € acceptée)** : L'apprenant valide la commande en navigation privée, contrôle les instructions après achat, télécharge effectivement le Guide d'Accès PDF, ouvre le lien Netlify sur ordinateur et smartphone, déverrouille l'outil avec le mot de passe, puis désactive immédiatement le code promotionnel.
+  - **Cas B (Commande 0 € refusée par la passerelle)** : Si la passerelle refuse la commande à 0 €, l'apprenant ne doit jamais payer son propre produit. Il constate l'arrêt au panier, désactive immédiatement le code promo dans `Marketing > Réductions`, et valide la configuration sans attestation mensongère d'accès post-paiement.
+- **Grille de Validation du Parcours de Livraison** :
+  - [ ] Ouverture du produit sur ordinateur.
+  - [ ] Ouverture du même produit sur smartphone.
+  - [ ] Utilisation du même mot de passe sur les deux appareils.
+  - [ ] Vérification du fonctionnement du mécanisme de sauvegarde et restauration JSON lorsqu'il existe.
+  - [ ] Vérification du lien fonctionnel dans le Guide d'Accès PDF.
+  - [ ] Vérification des instructions après achat sur Chariow.
+  - [ ] Vérification du parcours de livraison après une commande test lorsque la passerelle le permet.
 
 ---
 
@@ -800,54 +830,70 @@ L'application web **AI CREATOR Studio** sert de véhicule d'apprentissage. Ses f
 - **Lecteur de Contenu Structuré (`ProseSection`)** :  
   Mise en page éditoriale soignée avec typographie contrastée, listes d'actions et encadrés d'accentuation.
 - **Composants Médias & Schémas (`ImageBlock`, `ScreenshotBlock`, `DiagramBlock`)** :  
-  Illustrations concrètes des étapes d'interface (captures d'écran Claude, Netlify, Chariow).
+  L'infrastructure technique des composants de rendu visuel est implémentée dans `src/components/widgets/media/` et couverte par les tests unitaires. En revanche, les captures d'écran réelles des interfaces externes (Claude, Netlify, Chariow) restent à produire et à intégrer dans les leçons lors de la Mission Intermédiaire 01 (les répertoires `public/screenshots/module-02/` et `public/screenshots/module-03/` ne contiennent actuellement que des marqueurs `.gitkeep`).
 
 ### 15.2. Persistance Locale & Respect de la Vie Privée
 
-- **Persistance LocalStorage Pure** :  
+- **Persistance LocalStorage Pure (Plateforme AI CREATOR Studio)** :  
   L'état d'avancement de l'apprenant (leçons complétées, étapes actives, cases cochées, réponses aux exercices, profil) est sauvegardé automatiquement dans le `localStorage` de son navigateur sous la clé canonique `ai_creator_studio_progress_v1`.  
   *Note d'architecture sur le versionnement* : Cette clé de stockage (`ai_creator_studio_progress_v1`) est pérenne et distincte de la version du schéma interne des données, actuellement en **Schéma V4** gouverné par le modèle canonique `3m-3d-7l`. Le moteur de persistance intègre une chaîne de migration résiliente pour les anciens schémas (V1, V2, V3) et un mécanisme de sauvegardes brutes non destructives (`_raw_backup_v1`, `_v2`, `_v3`, `_v4_incompatible`, `_unrecognized`) empêchant tout écrasement accidentel.
-- **Sauvegarde et Restauration JSON** :  
-  Possibilité pour l'apprenant d'exporter sa progression sous forme de fichier JSON de sauvegarde et de la réimporter sur un autre appareil.
+- **Fonctions Internes de Sauvegarde (Non Exposées dans l'UI)** :  
+  Le socle technique intègre les fonctions utilitaires internes `exportBackup` et `importBackup` au sein de `src/utils/storage.ts` et `src/context/ProgressContext.tsx`, permettant de manipuler des exports JSON de l'état complet. **Toutefois, aucun composant de l'interface utilisateur actuelle n'expose ces fonctions à l'apprenant**. L'export/import JSON de progression n'est donc pas disponible dans l'UI de la V1.
+- **Persistance du Produit HTML Généré vs Plateforme** :  
+  Il convient de distinguer formellement la persistance de l'apprentissage dans le studio de la persistance des données au sein de l'application créée par l'apprenant. Le Master Prompt R7 impose l'exécution 100 % en mémoire vive volatile pour les simulateurs éphémères et autorise un adaptateur local sécurisé (`StorageAdapter`) avec repli mémoire transparent si une persistance est requise. Aucun mécanisme de synchronisation automatique entre appareils ni export/import JSON prouvé n'est garanti dans le livrable HTML généré.
 - **Zéro Inscription Obligatoire pour la V1** :  
   L'apprenant démarre immédiatement son apprentissage sans barrière d'authentification préalable.
 
 ---
 
-## 16. ARCHITECTURE TECHNIQUE ACTUELLE ET ÉVOLUTIONS NÉCESSAIRES
+## 16. ARCHITECTURE TECHNIQUE ACTUELLE ET RAPPEL HISTORIQUE
 
-### 16.1. Diagnostic de la Base de Code Existante (Post-Mission 0)
+### 16.1. Rappel Historique : Architecture Initiale Héritée (Post-Reset / Remplacée lors de la Mission 02)
 
-L'audit technique du dépôt au commit actuel établit :
-- **Stack** : React 19, TypeScript 5.5, Vite 6, Tailwind CSS 3.4, Vitest 2.1.9, Framer Motion, Lucide React.
-- **Santé du Code** : Typage TypeScript strict (`npm run typecheck`) sans aucune erreur. Suite de tests unitaires et d'intégration validée à 100 % (13 fichiers de test, 98 tests passants).
-- **Structure Héritée Post-Reset** :
-  - `src/data/days/day-01.ts` à `day-09.ts` : Actuellement configurés comme squelettes vides (`isSkeletonPlaceholder: true`).
-  - `src/data/navigation/mainCourses.ts` : Référence 3 modules avec des plages de 3 jours chacun (J1-J3, J4-J6, J7-J9), ce qui correspond à l'ancienne organisation de 9 leçons.
-  - `src/data/course.ts` et `src/utils/progressCalculator.ts` : Définissent des constantes `TOTAL_COURSE_DAYS = 9` et `TOTAL_COURSE_LESSONS = 9`.
-  - `src/app/routes.tsx` et `src/types/course.ts` : Conservent encore des routes et types résiduels pour `resources` et `practical-sheets`.
-  - `src/components/widgets/HelpPanel.tsx` (ligne 216) : Contient une référence textuelle résiduelle obsolète à « l'onglet Mon projet ».
+Lors du reset initial du projet (avant la Mission 02), le dépôt présentait une dette technique transitoire :
+- `src/data/days/day-01.ts` à `day-09.ts` : configurés comme 9 squelettes vides (`isSkeletonPlaceholder: true`).
+- `src/data/navigation/mainCourses.ts` : 3 modules étalés sur 9 jours (J1-J3, J4-J6, J7-J9), héritage de l'ancienne organisation à 9 leçons.
+- `src/data/course.ts` et `src/utils/progressCalculator.ts` : constantes obsolètes `TOTAL_COURSE_DAYS = 9` et `TOTAL_COURSE_LESSONS = 9`.
+- Routes résiduelles pour `resources` et `practical-sheets`.
+- Référence textuelle obsolète à « l'onglet Mon projet » dans `HelpPanel.tsx` (L216).
+- Suite de tests limitée à 13 fichiers et 98 tests passants.
 
-### 16.2. Évolutions Techniques Nécessaires (Spécification pour les Missions Ultérieures)
+> [!NOTE]
+> Cette organisation à 9 jours / 9 leçons a été **intégralement dépréciée, assainie et remplacée** lors de la Mission 02 pour établir le modèle canonique à 3 modules, 3 journées et 7 leçons.
+
+### 16.2. Architecture Technique Réelle Validée (État Actuel Post-Mission 08)
+
+L'audit technique du dépôt au stade actuel établit les faits vérifiables suivants :
+- **Stack Technologique** : React 19, TypeScript strict, Vite 6, Tailwind CSS 3.4, Vitest 2.1.9, Framer Motion, Lucide React.
+- **Modèle Curriculaire Validé** : 3 Modules, 3 Journées et 7 Leçons (répartition 2 + 3 + 2), régi par les types `ModuleId` ('module-01' à 'module-03'), `DayId` ('day-01' à 'day-03') et `LessonId` ('lesson-01' à 'lesson-07').
+- **Contenus Pédagogiques Réels** : Données des leçons entièrement intégrées dans `src/data/days/` (`day-01.ts`, `day-02.ts`, `day-03.ts`) au standard Abigail Peugh.
+- **2 Bonus Pratiques Intégrés et Livrés** :
+  - *Bonus 01* : ManyChat Automation System (`src/data/bonuses/bonus-manychat.ts`, 5 leçons complètes, vue dédiée `src/components/bonus/BonusView.tsx`).
+  - *Bonus 02* : Marketing Library (`src/data/bonuses/bonus-marketing.ts`, 9 Skills IA originaux, 1 prompt universel de veille concurrentielle, script `scripts/package-marketing-skills.js`, vue dédiée `MarketingLibraryView.tsx`).
+- **Nettoyage Intégral** : Routes et types résiduels pour `resources` et `practical-sheets` éliminés ; mention « Mon projet » définitivement bannie du code et des composants.
+- **Santé du Code & Tests Réels (Vérifiés)** :
+  - Typage TypeScript strict (`npm run typecheck`) : **0 erreur**.
+  - Suite de tests automatisés (`npm test`) : **17 fichiers de test passants sur 17**, **205 tests passants sur 205**.
+  - Compilation de production (`npm run build`) : **Succès** sans erreur de compilation.
 
 ```mermaid
 flowchart TD
-    subgraph Current["Architecture Actuelle (Post-Reset)"]
-        C1["Constantes 9 leçons (TOTAL_COURSE_DAYS=9)"]
-        C2["3 Modules étalés sur 9 jours"]
-        C3["Routes résiduelles (resources, practical-sheets)"]
-        C4["HelpPanel L216 mention 'Mon projet'"]
+    subgraph Past["Architecture Héritée (Archivée & Remplacée)"]
+        P1["9 leçons / 9 jours squelettes"]
+        P2["Routes résiduelles (resources, practical-sheets)"]
+        P3["HelpPanel mention 'Mon projet'"]
+        P4["13 fichiers de tests / 98 tests"]
     end
 
-    subgraph Target["Architecture Cible Spécifiée par le PRD"]
-        T1["Modèle de données : 3 Modules • 3 Journées • 7 Leçons"]
-        T2["M1/J1 = L1-L2 | M2/J2 = L3-L5 | M3/J3 = L6-L7"]
-        T3["Suppression définitive des routes/vues de ressources"]
-        T4["Nettoyage textuel strict (fin définitive de 'Mon projet')"]
-        T5["Calculateur de progression dérivée : Leçons (1 à 7) -> Journées (1 à 3) -> Modules (1 à 3)"]
+    subgraph Present["Architecture Réelle Actuelle (Post-Mission 08)"]
+        T1["Modèle canonique 3m-3d-7l (2 + 3 + 2)"]
+        T2["7 Leçons intégrées dans day-01 à day-03"]
+        T3["2 Bonus complets livrés (ManyChat & Marketing)"]
+        T4["Purge complète des routes résiduelles"]
+        T5["17 fichiers de tests / 205 tests passants (100%)"]
     end
 
-    Current ==>|Refactoring ordonné via Roadmap| Target
+    Past ==>|Mission 02 à 08 (Livré & Validé)| Present
 ```
 
 ---
@@ -867,12 +913,15 @@ Toutes les exigences critiques du produit reçoivent un identifiant normé, une 
 | `REQ-GEN-03` | Génération | **MUST** | Exclusion de Tailwind Play CDN | Le CSS généré réside dans une balise `<style>` native et ne fait pas appel à `cdn.tailwindcss.com`. |
 | `REQ-GEN-04` | Génération | **MUST** | Compatibilité Claude Free | L'ensemble des invites fonctionne sans abonnement payant Claude Pro ni fonction Projects. |
 | `REQ-MOB-01` | Mobile | **MUST** | Conception Mobile-First | L'interface générée est exempte de débordement horizontal à 375px et propose des cibles tactiles $\ge$ 44px. |
-| `REQ-SEC-01` | Sécurité | **MUST** | Modèle Statique Transparent | Le cours informe explicitement l'apprenant que son code et son URL Netlify sont publics. Aucun secret ni pseudo-auth JS n'est généré. |
+| `REQ-MOB-02` | Mobile | **MUST** | Cadrage Multi-Appareils | Distinction explicite entre compatibilité responsive (375 px), accès multi-terminaux (même URL et mot de passe) et persistance locale sans promesse de synchronisation cloud automatique (export/import JSON manuel si conservation d'état). |
+| `REQ-SEC-01` | Sécurité | **MUST** | Barrière d'Accès Dissuasive & Transparence | Le cours intègre par défaut un écran d'accès par mot de passe JavaScript commun aux acheteurs (sauf demande d'outil public). L'apprenant est informé de la réalité technique : barrière dissuasive sans authentification serveur, code inspectable, zéro secret privé ni clé d'API dans le code. |
 | `REQ-LIV-01` | Livraison | **MUST** | Déploiement Netlify Drop | Le parcours guide l'apprenant vers l'obtention d'une URL HTTPS active sans ligne de commande. |
-| `REQ-LIV-02` | Livraison | **MUST** | Intégration Chariow | Le produit est configuré sur Chariow et un achat test à 0 € valide la transmission du lien d'accès. |
+| `REQ-LIV-02` | Livraison | **MUST** | Intégration Chariow | Le produit de type Files est configuré sur Chariow avec Guide d'Accès PDF et instructions post-achat ; un achat test valide la délivrance effective des accès et le téléchargement du fichier. |
+| `REQ-LIV-03` | Livraison | **MUST** | Double Canal d'Accès Chariow | Distinction explicite entre l'accès direct immédiat (page après achat ou lien sécurisé e-mail sans obligation de compte client) et l'accès ultérieur via le portail Chariow avec l'adresse e-mail de commande. |
 | `REQ-PLT-01` | Plateforme | **MUST** | Persistance Locale | La progression est conservée en LocalStorage et survit au rechargement de la page. |
 | `REQ-PLT-02` | Plateforme | **MUST** | Blocs Prompts Copiables | Les blocs `CopyBlock` copient le texte intégral avec balises sans altération du presse-papier. |
 | `REQ-PLT-03` | Plateforme | **MUST** | Sortie de Ressources & Fiches | Aucune mention de « Ressources » ni « Fiches pratiques » n'apparaît dans la navigation active. |
+| `REQ-UIX-01` | Plateforme | **MUST** | Qualité UI/UX & Motion Sobre | La plateforme AI CREATOR Studio intègre un audit UX complet et des micro-interactions sobres au service de l'usage, respectant strictement l'identité néo-brutaliste et prefers-reduced-motion. |
 
 ---
 
@@ -1023,28 +1072,30 @@ flowchart TD
 
 ## 20. ROADMAP D'IMPLÉMENTATION ORDONNÉE
 
-La reconstruction complète du projet s'articule en **8 missions ordonnées** respectant les dépendances techniques et pédagogiques réelles :
+La reconstruction complète du projet s'articule en **11 missions ordonnées** respectant les dépendances techniques et pédagogiques réelles :
 
 ```mermaid
 gantt
-    title Roadmap de Reconstruction AI CREATOR Studio (8 Missions)
+    title Roadmap de Reconstruction AI CREATOR Studio (11 Missions)
     dateFormat  YYYY-MM-DD
-    section Cadrage & Socle
+    section Socle & Pédagogie Tronc Commun
     Mission 01 - PRD Canonique :done, m1, 2026-11-06, 1d
     Mission 02 - Refactoring Modèle & Routes (3M/3J/7L) :done, m2, after m1, 2d
-    section Prototypage Moteur
     Mission 03 - Prototypage Système de Génération & Prompts :done, m3, after m2, 3d
-    section Contenu Pédagogique
     Mission 04 - Contenu Module 01 (L1 & L2) :done, m4, after m3, 2d
     Mission 05 - Contenu Module 02 (L3, L4 & L5) :done, m5, after m4, 3d
     Mission 06 - Contenu Module 03 (L6 & L7) :done, m6, after m5, 2d
-    section Bonus & Automatisation
-    Mission 07 - Implémentation Bonus 01 (ManyChat Automation System) :done, m7, after m6, 3d
+    section Bonus Pratiques
+    Mission 07 - Bonus 01 (ManyChat Automation System) :done, m7, after m6, 3d
+    Mission 08 - Bonus 02 (Marketing Library & Accélérateurs) :done, m8, after m7, 3d
+    section Missions Intermédiaires
+    Mission 09 - Contenu, Clarté & Architecture de Livraison :active, m9, after m8, 3d
+    Mission 10 - Affinage UI/UX de AI CREATOR Studio :m10, after m9, 3d
     section Recette & Validation Finale
-    Mission 08 - Harness Simulateur & Validation Humaine :active, m8, after m7, 3d
+    Mission 11 - Harness Simulateur & Validation Humaine :m11, after m10, 3d
 ```
 
-### Détail des 8 Missions Séquentielles
+### Détail des 11 Missions Séquentielles
 
 - **Mission 01 (Terminée)** : Création et audit de cohérence du PRD Canonique (`docs/COURSE_PRD.md`).
 - **Mission 02 (Terminée)** : Refactoring du Modèle de Données, Routage et Intégrité Technique :
@@ -1066,9 +1117,9 @@ gantt
   - Packaging automatisé du Skill `ai-creator-design-intelligence` synchronisé via `npm run package:skill`.
 - **Mission 06 (Terminée)** : Implémentation du Contenu Pédagogique du Module 03 (PUBLIER ET LIVRER) :
   - Rédaction et intégration des leçons L6 et L7 dans `src/data/days/day-03.ts` (3 étapes par leçon, standard Abigail Peugh).
-  - Intégration des procédures Netlify Drop (dossier, nom, visibilité publique, HTTPS) et Chariow Files (Guide PDF, instructions post-achat, coupon test).
-  - Cahier des charges du Storyboard visuel (`docs/storyboard/MODULE-03-VISUAL-STORYBOARD.md`) pour CAP-08 à CAP-15.
-  - Validation intégrale du tronc commun (14 suites, 163 tests passants).
+  - Intégration des procédures Netlify Drop (dossier, nom, visibilité publique, HTTPS) et Chariow Files (instructions post-achat, coupon test).
+  - Statut du Storyboard visuel : Initialement référencé sous `docs/storyboard/MODULE-03-VISUAL-STORYBOARD.md`, ce livrable n'a pas été matérialisé dans le dépôt (document manquant, à requalifier ou rattraper lors de la Mission Intermédiaire 01).
+  - Validation intégrale du tronc commun (17 suites, 205 tests passants post-Mission 08).
 - **Mission 07 (Terminée)** : Implémentation et Patch de Conformité du Bonus 01 — MANYCHAT AUTOMATION SYSTEM (Missions 07 & 07-A) :
   - Conception et intégration du mini-cours pratique en 5 leçons et 15 parties éditoriales verticales dans `src/data/bonuses/bonus-manychat.ts`.
   - Intégration des 5 prompts Claude Free (Diagnostic commercial, Architecture conversationnelle, Rédaction des messages, Configuration guidée, Audit et optimisation).
@@ -1076,8 +1127,25 @@ gantt
   - Cadrage tarifaire officiel ManyChat Free (25 contacts actifs/mois, jusqu'à 4 automatisations actives simultanément) et nouvelle tarification WhatsApp Meta par message livré (1 000 messages de service gratuits mensuels par numéro tous pays, gratuité sous Free Entry Point ouverte).
   - Rendu interactif dans `src/components/bonus/BonusView.tsx` en flux vertical continu, sans sous-onglets superflus et préservation du statut réservé du Bonus 02.
   - Validation complète de la suite de tests dédiée (`src/test/bonusManychatIntegration.test.tsx`, 21 tests passants sur 21).
-- **Mission 08 (Prochaine Mission — Mission Finale de Validation)** : Implémentation du Harness de Test de l'Agent Simulateur, Recette Automatisée et Validation Humaine :
-  - Reprise intégrale du périmètre initialement prévu pour le Harness de test, la recette et la validation humaine (intervenant après l'implémentation du Bonus 01).
+- **Mission 08 (Terminée)** : Implémentation et Validation du Bonus 02 — MARKETING ACCELERATORS & PROMPT LIBRARY :
+  - Conception et intégration de la bibliothèque de compétences dans `src/data/bonuses/bonus-marketing.ts` (9 Skills IA originaux, 1 prompt universel de recherche concurrentielle).
+  - Implémentation de la bibliothèque interactive dans `src/components/bonus/MarketingLibraryView.tsx` avec barre de filtres multicritères, cartes d'accélérateurs compétitifs et modal de prévisualisation détaillée.
+  - Cadrage comparatif et benchmark face aux standards du marché (Alexandre Novitckii).
+  - Génération automatisée de l'archive zip téléchargeable des compétences packaging via `scripts/package-marketing-skills.js`.
+  - Validation complète des tests d'intégration et d'archive (`src/test/bonusMarketingIntegration.test.tsx`, `src/test/marketingSkillsArchive.test.ts`).
+- **Mission 09 (Prochaine Mission — Mission Intermédiaire 01)** : Contenu, Clarté et Architecture de Livraison :
+  - **Axe 1 — Enrichissement éditorial des 7 leçons du tronc commun** : Amélioration de la consistance pédagogique des leçons L1 à L7 sans allongement artificiel : contextualisation des actions, explications sur leur utilité métier, précisions sur les résultats attendus, transitions fluides entre étapes et clarifications des notions déroutantes pour un débutant. Maintien strict de la structure, des étapes, des prompts et des exercices validés.
+  - **Axe 2 — Captures d'écran authentiques et ciblées** : Sélection, production et intégration de captures réelles et actuelles des plateformes clés (Claude, Netlify Drop, Chariow Files). Masquage strict des données sensibles (e-mails, identifiants, tokens), lisibilité mobile garantie et proscription des fausses maquettes d'interface ou images décoratives inutiles (périmètre restreint aux 7 leçons, bonus exclus).
+  - **Axe 3 — Architecture standard définitive de livraison apprenant** : Cadrage canonique en 5 étapes (Création `index.html`, Déploiement Netlify Drop, Livraison Chariow Files avec Guide d'Accès PDF complet, Modalités d'accès client sans création de compte obligatoire, et Utilisation multi-appareils). Cadrage honnête de la sécurité (barrière mot de passe dissuasive vs authentification forte) et de la persistance locale LocalStorage.
+  - **Protocole de validation de livraison** : Vérification sur ordinateur et smartphone, modélisation du Guide d'Accès PDF et des instructions post-achat, et test réel du flux d'achat à 0 €.
+- **Mission 10 (Planifiée — Mission Intermédiaire 02)** : Affinage UI/UX de AI CREATOR Studio :
+  - **Dépendance séquentielle stricte** : Démarre exclusivement après achèvement, validation et stabilisation complète des contenus et parcours de la Mission 09 (aucune exécution en parallèle).
+  - **Audit ergonomique et UX global** : Revue complète de la navigation, de la hiérarchie visuelle, de la densité d'information, de la cohérence des composants et des états de surface (états vides, feedbacks de chargement, confirmations, messages d'erreur).
+  - **Micro-interactions et motion sobre** : Implémentation d'animations intentionnelles et fonctionnelles (transitions de pages et sections, révélation progressive, micro-animations discrètes sur cartes et panneaux, retours tactiles/visuels sur boutons et progression) au service exclusif de la compréhension, dans le respect strict des performances, de l'accessibilité et de `prefers-reduced-motion`.
+  - **Intégrité esthétique néo-brutaliste** : Respect rigoureux du Design System et de la DA éditoriale validés, sans artifice visuel gratuit ni concession sur la rapidité de chargement.
+  - **Validation qualité globale** : Tests responsive approfondis, validation des interactions, audit d'accessibilité WCAG AA, contrôle des performances et comparatif visuel avant/après.
+- **Mission 11 (Planifiée — Mission Finale de Validation)** : Implémentation du Harness de Test de l'Agent Simulateur, Recette Automatisée et Validation Humaine :
+  - Reprise intégrale du périmètre initialement prévu pour l'ex-Mission 08 (Section 18).
   - Mise en place de l'outil d'évaluation automatisé basé sur les 3 personas de test (Claire — RH, Marc — Finance, Sophie — Organisation) spécifiés à la Section 18.
   - Exécution des tests d'intégrité pédagogique, de fidélité au document source (*Source Fidelity*) et tenue du journal de frictions par leçon.
   - Automatisation des tests techniques de rendu et conformité mobile (375 px, absence de débordement, accessibilité WCAG AA).
@@ -1090,41 +1158,49 @@ gantt
 | Référence | Sujet / Décision | Statut | Cadrage / Arbitrage Retenu |
 |---|---|---|---|
 | `DEC-ARB-01` | Suppression de Ressources & Fiches pratiques | **CONFIRMÉ** | Sortie définitive du périmètre fonctionnel. Les composants atomiques réutilisables restent dans la boîte à outils UI. |
-| `DEC-ARB-02` | Maintien des 2 Bonus pratiques | **CONFIRMÉ** | Bonus 01 (ManyChat) et Bonus 02 (Marketing Library) conservés dans la structure mais différés hors du tronc commun. |
+| `DEC-ARB-02` | Maintien des 2 Bonus pratiques | **CONFIRMÉ** | Bonus 01 (ManyChat) et Bonus 02 (Marketing Library) intégrés avec succès en Missions 07 et 08. |
 | `DEC-ARB-03` | Compatibilité stricte Claude Free | **CONFIRMÉ** | Tout le parcours fonctionne sur Claude Free via un fil unique et le trousseau de reprise en cas de nouvelle session. |
 | `DEC-ARB-04` | Blocs de Prompts Copiables en V1 | **CONFIRMÉ** | `CopyBlock` avec placeholders textuels explicites. Bannissement absolu du concept « Mon projet ». |
 | `DEC-ARB-05` | Distinction Module / Journée / Leçon | **CONFIRMÉ** | 3 Modules, 3 Journées, 7 Leçons. Progression principale sur les 7 leçons, progression dérivée pour jours et modules. |
 | `DEC-ARB-06` | Propriétés techniques du livrable HTML | **CONFIRMÉ** | Fichier unique (`index.html`) $\neq$ Zero-Build $\neq$ Offline (dépendant des polices/CDNs). |
 | `DEC-ARB-07` | Parcours de déploiement Netlify | **CONFIRMÉ** | Déploiement guidé par dossier contenant `index.html` comme référence universelle robuste. |
-| `DEC-ARB-08` | Modèle de sécurité V1 assumé | **CONFIRMÉ** | Application statique publique hébergée sur Netlify sans prétention d'authentification serveur en V1. |
+| `DEC-ARB-08` | Modèle de sécurité et d'accès V1 | **CONFIRMÉ** | Application statique publique hébergée sur Netlify avec barrière d'accès par mot de passe JavaScript par défaut pour offres réservées (dissuasif, commun aux acheteurs, communiqué dans le Guide d'Accès PDF et instructions après achat). Cadrage transparent : pas d'authentification serveur en V1, code inspectable, zéro secret dans le HTML. |
 | `DEC-ARB-09` | Prototypage préalable du moteur (Mission 03) | **CONFIRMÉ** | Insertion d'une mission de validation du système de génération avant la rédaction définitive des leçons. |
-| `DEC-ARB-10` | Intégration d'un mini-moteur de prévisualisation iframe | **À DÉCIDER** | Faut-il intégrer dans AI CREATOR Studio un visualiseur HTML local ou laisser l'apprenant double-cliquer sur son fichier ? *(Recommandation V1 : double-clic natif pour garantir l'autonomie).* |
+| `DEC-ARB-10` | Intégration d'un mini-moteur de prévisualisation iframe | **À DÉCIDER** | Faut-il intégrer dans AI CREATOR Studio un visualiseur HTML local ou laisser l'apprenant double-cliquer sur son fichier ? *(Arbitrage à rendre lors de la Mission Intermédiaire 01 ; le double-clic local est maintenu comme référence provisoire tant qu'aucun avantage concret d'une iframe n'est démontré).* |
 | `DEC-ARB-11` | Conditions d'accès aux Bonus 01 et 02 | **À DÉCIDER** | Débloqués à la complétion de la Leçon 7 ou accessibles librement dès le départ ? *(Recommandation : déblocage à la complétion).* |
-| `DEC-ARB-12` | Modalités exactes de la cohorte de test humaine | **À VÉRIFIER** | Cohorte test de 5 créateurs réels après validation technique lors de la Mission 08 (mission finale de validation). |
+| `DEC-ARB-12` | Modalités exactes de la cohorte de test humaine | **À VÉRIFIER** | Cohorte test de 5 créateurs réels après validation technique lors de la Mission 11 (mission finale de validation). |
+| `DEC-ARB-13` | Alignement du mot de passe JavaScript dans le Master Prompt 2 | **À DÉCIDER** | Arbitrer l'intégration de la consigne d'écran mot de passe dans `MASTER_PROMPT_2_XML` et réconcilier la checklist de L6 (`l6-p2`) ainsi que les instructions de L7 lors de la Mission Intermédiaire 01. |
+| `DEC-ARB-14` | Éventuelle exception React via CDN pour applications à états complexes | **À DÉCIDER** | Maintenir la proscription stricte actuelle de tout framework ou autoriser une exception encadrée avec versions figées CDN (arbitrage différé). |
 
 ---
 
 ## 22. DÉCISIONS VALIDÉES
 
-1. **Architecture Curriculaire Fixée** : 3 Modules, 3 Journées, 7 Leçons au total.
+1. **Architecture Curriculaire Fixée** : 3 Modules, 3 Journées, 7 Leçons au total (répartition 2 + 3 + 2).
 2. **Identité Immuable** : Titre officiel préservé au mot près (*« Utiliser Claude pour créer un produit digital qui ne ressemble pas à de la merde générée par l'IA »*). Statut de Mini-cours guidé (proscription absolue du terme « challenge »).
 3. **Sortie de Périmètre** : Suppression définitive des espaces `Ressources` et `Fiches pratiques`.
-4. **Maintien des 2 Bonus** : Conservés tels quels dans la navigation, différés hors cursus.
+4. **Maintien et Finalisation des 2 Bonus** : Bonus 01 (ManyChat Automation System) et Bonus 02 (Marketing Library & Accélérateurs Commerciaux) intégrés et validés en Missions 07 et 08.
 5. **Autonomie Technique** : Fichier unique `index.html`, Zero-Build, JavaScript vanilla prioritaire, interdiction formelle du Tailwind Play CDN en production.
-6. **Sécurité Transparente** : Transparence totale sur la nature publique du fichier statique, zéro secret dans le HTML, zéro fausse promesse d'authentification client.
+6. **Sécurité Transparente & Barrière d'Accès Dissuasive** : Modèle d'application web statique publique. Intégration cible d'une barrière dissuasive par mot de passe JavaScript commun aux acheteurs pour les produits réservés (à aligner avec le code en MI-01). Transparence totale sur la nature statique publique du fichier et de l'URL Netlify, inspectabilité du code, zéro secret/clé API dans le HTML, aucune fausse promesse d'authentification serveur forte.
 7. **Pédagogie Anti-Slop** : Approche Document-First, admission des documents de 1 page qualitatifs, Source Fidelity Mapping et direction artistique indépendante choisie par l'apprenant.
-8. **Roadmap Réaliste** : Insertion d'une étape de validation du système de génération (Mission 03) avant l'écriture des leçons.
+8. **Roadmap Réaliste et Évolutive** : Insertion d'une étape de validation du système de génération (Mission 03) avant l'écriture des leçons, et insertion ordonnée des Missions 09 (Contenu & Livraison) et 10 (Affinage UI/UX) avant la Mission 11 finale.
+9. **Architecture de Livraison Standard Chariow Files** : Livraison via offre Files avec Guide d'Accès PDF cible et instructions après achat.
+10. **Cadrage Multi-Appareils Explicite** : Triple distinction entre compatibilité responsive (375 px), accès multi-terminaux et persistance locale sans synchronisation cloud automatique.
 
 ---
 
 ## 23. DÉCISIONS ENCORE OUVERTES
 
-1. **Prévisualisation Iframe intégrée vs Double-clic local** :  
-   Arbitrage final à rendre en Mission 05 sur l'opportunité d'ajouter un composant d'aperçu HTML dans la leçon L5.
-2. **Déverrouillage des 2 Bonus** :  
+1. **Prévisualisation Iframe intégrée vs Double-clic local (`DEC-ARB-10`)** :  
+   Arbitrage final à rendre en Mission 09 (Mission Intermédiaire 01) sur l'opportunité d'ajouter un composant d'aperçu HTML dans la leçon L5. Le double-clic local demeure la référence provisoire.
+2. **Déverrouillage des 2 Bonus (`DEC-ARB-11`)** :  
    Conditionner l'accès au statut de complétion de la Leçon 7 (recommandé pour valoriser la fin du cursus) ou laisser un accès libre non linéaire.
-3. **Périmètre éditorial définitif du Bonus 01 (ManyChat) et Bonus 02 (Marketing Library)** :  
-   Le périmètre pédagogique et technique du Bonus 01 (ManyChat Automation System) est désormais formellement arrêté et planifié en Mission 07. Le cadrage du Bonus 02 (Marketing Library) reste différé.
+3. **Modalités exactes de la cohorte de test humaine (`DEC-ARB-12`)** :  
+   Cohorte test de 5 créateurs réels après validation technique lors de la Mission 11 (modalités de recrutement et protocole d'observation à figer).
+4. **Alignement de la barrière mot de passe JavaScript (`DEC-ARB-13`)** :  
+   Intégration formelle de l'écran d'accès dans le Master Prompt 2 et harmonisation des leçons L6 et L7 lors de la Mission Intermédiaire 01.
+5. **Opportunité d'une exception React via CDN (`DEC-ARB-14`)** :  
+   Arbitrage technique sur l'ouverture conditionnelle de React via CDN pour les architectures à forte densité d'états (hors V1 standard).
 
 ---
 
@@ -1133,26 +1209,32 @@ gantt
 1. **Saturation de contexte sur Claude Free lors de la génération de code (L4)** :  
    Si le code généré est très long, Claude Free peut couper sa réponse en plein vol.  
    *Mitigation* : Consigne explicite d'écrire « Continue » dans Claude, ou d'exploiter le trousseau de reprise en deux temps (structure HTML/CSS puis logique JavaScript).
-2. **Régression de la suite de tests existante lors du passage à 7 leçons** :  
-   Les tests actuels vérifient la présence de 9 leçons et 9 fichiers `day-xx`.  
-   *Mitigation* : La Mission 02 adaptera les assertions de test (`curriculumIntegrityV2.test.ts`, `progressCalculatorV3.test.ts`) pour refléter fidèlement le modèle canonique à 7 leçons.
+2. **Régression lors de l'intégration des futures captures d'écran et des enrichissements éditoriaux** :  
+   Les tests actuels vérifient la présence stricte des blocs de contenu et leur typologie (notamment `curriculumIntegrityV2.test.ts`, `day01Integration.test.tsx`). L'intégration future des `ScreenshotBlock` lors de la Mission Intermédiaire 01 pourrait nécessiter une adaptation ciblée de ces tests.  
+   *Mitigation* : Sanctuariser les principes pédagogiques *One Card, One Action* et les limites de prose, en adaptant uniquement les assertions de comptage de blocs autorisés sans relâcher les exigences fondamentales.
 3. **Génération d'un livrable trop complexe pour Claude Free sans prototypage** :  
-   *Mitigation* : L'insertion de la Mission 03 permet d'éprouver le Master Prompt et les Blueprints sur les 3 personas avant d'écrire les leçons pédagogiques définitives.
+   *Mitigation* : L'insertion de la Mission 03 a permis d'éprouver le Master Prompt et les Blueprints sur les 3 personas avant d'écrire les leçons pédagogiques définitives.
+4. **Confusion sur la sécurité de l'URL publique Netlify et du mot de passe JavaScript** :  
+   *Mitigation* : Cadrage transparent dès le début : l'application V1 est statique et le mot de passe JavaScript est une barrière dissuasive. Aucune promesse d'authentification serveur forte n'est formulée.
 
 ---
 
 ## 25. PROCHAINE MISSION RECOMMANDÉE
 
-### Mission 02 : Refactoring du Modèle de Données, Routage et Intégrité Technique
+### Mission 09 : Mission Intermédiaire 01 — Contenu, Clarté et Architecture de Livraison
 
-- **Objectif** : Adapter le socle technique du dépôt pour accueillir le cursus à 7 leçons spécifié dans le présent PRD canonique révisé.
+- **Objectif** : Rehausser la qualité pédagogique des 7 leçons du tronc commun, illustrer les étapes clés avec des captures d'écran réelles et figer l'architecture de livraison multi-appareils des apprenants.
 - **Périmètre** :
-  1. Mettre à jour `src/types/course.ts` pour distinguer explicitement `Module`, `Journée` et `Leçon`.
-  2. Aligner `src/data/course.ts`, `src/data/navigation/mainCourses.ts` et `src/data/sprints.ts` sur les 3 modules / 3 journées / 7 leçons.
-  3. Adapter `src/utils/progressCalculator.ts` pour calculer la progression sur 7 leçons et dériver la progression des 3 journées.
-  4. Déprécier et nettoyer les routes et composants résiduels `resources` et `practical-sheets`.
-  5. Supprimer la mention textuelle résiduelle « Mon projet » dans `src/components/widgets/HelpPanel.tsx` (L216).
-  6. Mettre à jour la suite de tests Vitest pour valider l'intégrité à 100 % du modèle à 7 leçons.
+  1. Enrichissement éditorial des 7 leçons sans remplissage : contextualisation des actions, explications sur leur utilité métier, précisions sur les résultats attendus, transitions naturelles et clarifications des notions déroutantes.
+  2. Sélection et intégration de captures d'écran réelles et actuelles des interfaces clés (Claude, Netlify Drop, Chariow Files) avec masquage des données sensibles et lisibilité mobile (hors bonus).
+  3. Cadrage du parcours standard de livraison en 5 étapes (Claude -> Netlify -> Chariow Files avec Guide d'Accès PDF & Instructions post-achat -> Double canal accès client -> Utilisation multi-appareils avec mot de passe dissuasif).
+  4. Réconciliation pédagogique du mot de passe JavaScript dissuasif et de l'export/import JSON manuel pour la persistance locale.
+  5. Protocole de vérification multi-appareils (desktop, smartphone, mot de passe, intégrité PDF/instructions, commande test à 0 €).
+- **Livrables attendus** :
+  - Données des 7 leçons (`src/data/days/day-01.ts`, `day-02.ts`, `day-03.ts`) enrichies au standard Abigail Peugh.
+  - Captures d'écran intégrées via les composants médias du studio.
+  - Gabarit canonique du Guide d'Accès PDF et trame d'instructions après achat.
+  - Suite de tests de non-régression validée à 100 %.
 
 ---
 

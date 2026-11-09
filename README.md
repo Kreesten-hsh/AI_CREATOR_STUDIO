@@ -25,7 +25,7 @@ Le cursus est structuré en **3 modules thématiques**, totalisant **3 journées
 
 ### Les 2 Bonus
 - **Bonus 01** : LE SYSTÈME MANYCHAT AUTOMATISÉ AVEC CLAUDE (5 leçons pratiques, 5 prompts Claude Free, qualification sans Tags obligatoires, conformité ManyChat Free 4 automatisations & WhatsApp par message livré)
-- **Bonus 02** : MARKETING LIBRARY (En cours de reconstruction)
+- **Bonus 02** : MARKETING LIBRARY (9 Skills IA originaux en téléchargement direct, 1 prompt universel de recherche concurrentielle et boîte à outils opérationnelle)
 
 ---
 
@@ -43,7 +43,7 @@ L'application adopte une esthétique **Néo-Brutaliste Éditoriale** :
 - **Framework** : React 19 + TypeScript strict
 - **Build Tool** : Vite 6
 - **Styling** : Tailwind CSS + Framer Motion + Lucide React
-- **Tests** : Vitest + Testing Library (15 fichiers de tests, 184 tests passants)
+- **Tests** : Vitest + Testing Library (17 fichiers de tests, 205 tests passants)
 
 ```bash
 # Installer les dépendances
@@ -79,9 +79,9 @@ npm run build
 
 ---
 
-## 5. Feuille de Route des Missions (8 Missions)
+## 5. Feuille de Route des Missions (11 Missions)
 
-Le pilotage du projet s'articule en **8 missions ordonnées** :
+Le pilotage du projet s'articule en **11 missions ordonnées** respectant les dépendances techniques et pédagogiques réelles :
 
 | Mission | Intitulé | Statut | Périmètre |
 |---|---|---|---|
@@ -92,4 +92,7 @@ Le pilotage du projet s'articule en **8 missions ordonnées** :
 | **Mission 05** | Contenu Module 02 (CRÉER) | **Terminée** | Rédaction et intégration des leçons L3, L4 & L5, Skill Claude Free et trousseau de reprise. |
 | **Mission 06** | Contenu Module 03 (PUBLIER & LIVRER) | **Terminée** | Rédaction et intégration des leçons L6 & L7 (Netlify Drop, offre Chariow Files). |
 | **Mission 07** | Bonus 01 : ManyChat Automation System | **Terminée** | Système d'automatisation conversationnelle Claude Free + ManyChat (FB Messenger, qualification sans Tags, conformité Meta 24h & Free 4 automatisations). |
-| **Mission 08** | Harness Simulateur & Validation Finale | **Mission Finale** | Harness d'évaluation automatisé (3 personas Claire, Marc, Sophie), tests Playwright/Vitest et recette cohorte réelle (5 créateurs). |
+| **Mission 08** | Bonus 02 : Marketing Library | **Terminée** | Bibliothèque de 9 Skills IA originaux téléchargeables, prompt universel de recherche concurrentielle et modal interactive. |
+| **Mission 09** | Mission Intermédiaire 01 : Contenu & Livraison | **Prochaine Mission** | Enrichissement éditorial L1–L7, production & intégration des captures d'écran réelles, cadrage du Guide d'Accès PDF et validation multi-appareils. |
+| **Mission 10** | Mission Intermédiaire 02 : Affinage UI/UX | **Planifiée** | Audit ergonomique, hiérarchie visuelle, micro-interactions sobres, conformité responsive et accessibilité WCAG AA. |
+| **Mission 11** | Harness Simulateur & Validation Humaine | **Mission Finale** | Harness d'évaluation automatisé (3 personas Claire, Marc, Sophie), tests Playwright/Vitest et recette cohorte réelle (5 créateurs). |
