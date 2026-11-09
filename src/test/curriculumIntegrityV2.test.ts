@@ -92,7 +92,7 @@ describe('Intégrité Curriculaire Canonique (3 Modules • 3 Journées • 7 Le
       expect('steps' in ALL_DAYS[2]).toBe(false);
     });
 
-    it('contient exactement 7 leçons squelettes avec les titres et durées officiels du PRD', () => {
+    it('contient exactement 7 leçons actives avec les titres et durées officiels du PRD (L1 à L7 complètes)', () => {
       expect(TOTAL_COURSE_LESSONS).toBe(7);
       expect(ALL_LESSONS).toHaveLength(7);
       expect(COURSE_DATA.lessons).toHaveLength(7);
@@ -158,8 +158,8 @@ describe('Intégrité Curriculaire Canonique (3 Modules • 3 Journées • 7 Le
 
       ALL_LESSONS.forEach((lesson, index) => {
         expect(lesson).toMatchObject(expectedLessons[index]);
-        expect(lesson.isSkeletonPlaceholder).toBe(true);
-        expect(lesson.steps).toEqual([]);
+        expect(lesson.isSkeletonPlaceholder).toBe(false);
+        expect(lesson.steps).toHaveLength(3);
       });
     });
   });

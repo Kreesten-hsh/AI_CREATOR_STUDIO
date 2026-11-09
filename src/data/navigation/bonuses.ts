@@ -1,16 +1,18 @@
 import type { BonusItem } from '../../types/navigation';
+import { BONUS_MANYCHAT_LESSONS, BONUS_MANYCHAT_META } from '../bonuses/bonus-manychat';
 
 export const BONUSES: BonusItem[] = [
   {
     id: 'bonus-manychat',
     orderNumber: 'Bonus 01',
     title: 'LE SYSTÈME MANYCHAT AUTOMATISÉ AVEC CLAUDE',
-    subtitle: '',
-    duration: '',
+    subtitle: BONUS_MANYCHAT_META.subtitle,
+    duration: BONUS_MANYCHAT_META.duration,
     deliverable: '',
-    description: '',
-    keyTopics: [],
+    description: BONUS_MANYCHAT_META.description,
+    keyTopics: BONUS_MANYCHAT_META.keyTopics,
     blocks: [],
+    lessons: BONUS_MANYCHAT_LESSONS,
   },
   {
     id: 'bonus-marketing',
@@ -24,3 +26,4 @@ export const BONUSES: BonusItem[] = [
     blocks: [],
   },
 ];
+

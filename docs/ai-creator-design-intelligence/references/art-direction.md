@@ -68,19 +68,23 @@ Claude puise librement dans l'ensemble des univers esthétiques et les adapte au
 - **Premium / Feutré & Confidentiel** : tons sombres profonds (bleu nuit, émeraude sombre, bordeaux velouté), dorures ou accents ocres délicats, typographie élégante, atmosphère de cabinet de conseil exclusif.
 - **Expérimental / Graphisme d'Auteur** : compositions asymétriques fortes, décalages géométriques, encadrés expressifs, identité visuelle marquante de galerie de design.
 
-### Structure Obligatoire de Chaque Proposition (11 Points) :
-Pour chacune des 3 pistes, détailler obligatoirement :
-1. **Nom évocateur & Idée créative** : Un titre mémorable incarnant le parti pris.
-2. **Univers visuel & Métaphore sensorielle** : Description concrète de ce que l'utilisateur ressent et visualise.
-3. **Palette de rôles & Hiérarchie de contrastes** : `--bg-canvas`, `--bg-surface`, `--bg-elevated`, `--bg-spotlight`, `--text-primary`, `--text-secondary`, `--accent-primary`, `--status-*`.
-4. **Système typographique** : Police d'affichage / titres, police de lecture / formulaires, police monospace pour données chiffrées, avec **piles système sculptées autonomes** et alternatives Google Fonts déclarées.
-5. **Composition générale de l'écran** : Asymétrie, répartition des masses, zones d'action vs zones de restitution.
-6. **Structure de navigation & flux utilisateur** : Sticky header, onglets tactiles, navigation latérale ou défilement d'étapes.
-7. **Traitement des titres, sections et hiérarchie** : Numérotation (`01`, `02`), étiquettes monospace, bandeaux de section.
-8. **Composants graphiques & signatures interactives** : La Pièce Maîtresse (ticket, carnet, cadran, baromètre) et le style des contrôles.
-9. **Interactions & Micro-transitions** : Retour tactile des boutons, comportement des alertes, transitions respectant `prefers-reduced-motion`.
-10. **Adaptation responsive mobile (`375 px`)** : Réorganisation de la grille pour le pouce, visibilité du verdict sans scroll excessif.
-11. **Justification métier** : Pourquoi cette direction valorise idéalement le sujet spécifique du document.
+### Structure des Propositions Visuelles :
+
+#### A. Avant le Choix : Les 3 Propositions Adaptatives (6 Points Simples)
+Pour chacune des 3 pistes, présenter un résumé clair sans jargon informatique ni code CSS :
+1. **Nom évocateur** : Un titre mémorable incarnant le concept et l'univers.
+2. **Ambiance et personnalité** : Description concrète de l'atmosphère ressentie par l'utilisateur.
+3. **Palette visuelle** : Rôles des couleurs principales (fond, cartes, boutons, accent) expliqués simplement.
+4. **Style typographique expliqué simplement** : Esprit des polices pour les titres, la lecture et les chiffres.
+5. **Composition générale** : Répartition de l'espace, mise en valeur de la pièce maîtresse et équilibre visuel.
+6. **Pertinence pour le sujet et le public** : Pourquoi cette direction valorise idéalement le sujet et sert l'utilisateur.
+
+#### B. Après le Choix : La Fiche de Style Technique Complète
+Dès que l'apprenant a sélectionné son univers, Claude formalise la fiche de style technique exhaustive nécessaire au Prompt 2 :
+- **Variables et contrastes** : `--bg-canvas`, `--bg-surface`, `--bg-elevated`, `--bg-spotlight`, `--text-primary`, `--text-secondary`, `--accent-primary`, `--status-*` avec conformité WCAG AA ($\ge 4.5:1$).
+- **Système typographique précis** : Familles exactes pour titres, lecture et monospace, piles système sculptées autonomes et dépendances Google Fonts déclarées.
+- **Pièce maîtresse et composants** : Mise en scène du verdict principal (ticket, cadran, carnet) et style physique des boutons et champs ($\ge 44\text{ px}$).
+- **Adaptation responsive et mouvements** : Grille pour smartphone à `375 px`, absence de défilement horizontal et respect strict de `prefers-reduced-motion`.
 
 ---
 

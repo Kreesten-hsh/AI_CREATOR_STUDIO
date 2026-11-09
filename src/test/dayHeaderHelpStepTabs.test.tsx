@@ -59,8 +59,15 @@ describe('Suivi, Aide et Résilience : DayHeader, HelpPanel, StepTabs & ErrorBou
   });
 
   describe('HelpPanel', () => {
-    it('affiche le disclaimer strict d autonomie et ne mentionne jamais l ancien onglet « Mon projet »', () => {
+    it('est replié par défaut et n affiche pas son contenu rétractable sans action', () => {
       render(<HelpPanel stepTitle="Étape 1" />);
+
+      expect(screen.queryByText(/Autonomie garantie/i)).not.toBeInTheDocument();
+      expect(screen.getByText(/Besoin d’aide pour cette étape/i)).toBeInTheDocument();
+    });
+
+    it('affiche le disclaimer strict d autonomie et ne mentionne jamais l ancien onglet « Mon projet »', () => {
+      render(<HelpPanel stepTitle="Étape 1" defaultOpen={true} />);
 
       expect(
         screen.getByText(/AI Creator Studio est conçu pour vous rendre 100% autonome avec Claude/i)
@@ -95,7 +102,7 @@ describe('Suivi, Aide et Résilience : DayHeader, HelpPanel, StepTabs & ErrorBou
         },
       });
 
-      render(<HelpPanel help={mockHelp} stepTitle="Génération du calculateur" />);
+      render(<HelpPanel help={mockHelp} stepTitle="Génération du calculateur" defaultOpen={true} />);
 
       expect(screen.getByText(/Coller le prompt sans joindre/i)).toBeInTheDocument();
       expect(screen.getByText(/Importez votre document dans Claude/i)).toBeInTheDocument();

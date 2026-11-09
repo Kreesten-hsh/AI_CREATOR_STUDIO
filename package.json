@@ -8,6 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
+    "package:skill": "node scripts/package-skill.js",
     "test": "vitest run"
   },
   "dependencies": {

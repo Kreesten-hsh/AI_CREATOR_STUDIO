@@ -78,7 +78,7 @@ function LessonWorkspaceView({ lesson }: { lesson: Lesson }) {
           >
             <LessonRenderer blocks={activeStep.blocks} />
 
-            <HelpPanel help={activeStep.help} stepTitle={activeStep.title} />
+            <HelpPanel help={activeStep.help} stepTitle={activeStep.title} defaultOpen={false} />
 
             <CompletionButton
               isCompleted={progress.completedStepIds.includes(activeStep.id)}

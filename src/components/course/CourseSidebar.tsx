@@ -134,7 +134,7 @@ export function CourseSidebar({ course, onAfterNavigate }: CourseSidebarProps) {
                       Leçon {lesson.lessonNumber}
                     </span>
                     <span className="text-[11px] sm:text-xs font-bold uppercase leading-snug break-words">
-                      {lesson.title}
+                      {lesson.navigationTitle ?? lesson.title}
                     </span>
                   </div>
 

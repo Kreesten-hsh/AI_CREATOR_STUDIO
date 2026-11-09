@@ -56,10 +56,10 @@ describe('AI CREATOR STUDIO : Course Data & Engine Verification (3M / 3J / 7L)',
     expect(BONUSES.map((b) => b.id)).toEqual(['bonus-manychat', 'bonus-marketing']);
   });
 
-  it('ensures every single lesson (1 to 7) is a skeleton placeholder with zero steps', () => {
+  it('ensures all 7 lessons are active with exactly 3 steps each and zero skeleton placeholders', () => {
     for (const lesson of ALL_LESSONS) {
-      expect(lesson.isSkeletonPlaceholder).toBe(true);
-      expect(lesson.steps).toHaveLength(0);
+      expect(lesson.isSkeletonPlaceholder).toBe(false);
+      expect(lesson.steps).toHaveLength(3);
     }
   });
 

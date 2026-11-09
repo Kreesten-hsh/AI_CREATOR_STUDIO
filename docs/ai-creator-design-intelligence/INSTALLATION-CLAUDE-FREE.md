@@ -1,66 +1,77 @@
 # Guide d'Installation et d'Utilisation sur Claude.ai Free
 
-Ce document explique comment importer, activer et exploiter le skill **`ai-creator-design-intelligence`** sur un compte **Claude.ai Free** (sans abonnement Pro ni fonctionnalité payante *Projects*).
+Ce document explique comment importer, activer et exploiter le skill **`ai-creator-design-intelligence`** sur un compte **Claude.ai Free** (sans abonnement Pro ni fonctionnalite payante *Projects*).
 
 ---
 
-## 1. Caractéristiques Techniques du Package
+## 1. Caracteristiques Techniques du Package
 
-- **Fichier d'archive à importer** : `docs/ai-creator-design-intelligence/AI-CREATOR-DESIGN-INTELLIGENCE.zip`
+- **Fichier d'archive a importer** : `AI-CREATOR-DESIGN-INTELLIGENCE.zip` (disponible au telechargement direct dans la plateforme ou dans `docs/ai-creator-design-intelligence/`)
 - **Dossier racine unique** : `ai-creator-design-intelligence/`
-- **Conformité stricte du frontmatter YAML (`SKILL.md`)** :
-  - `name` : `ai-creator-design-intelligence` (**30 caractères** — limite maximale Claude.ai : `64`)
-  - `description` : `Direction artistique, design system et exécution HTML/CSS/JS pour transformer un document métier en application web interactive distinctive.` (**140 caractères** — limite maximale Claude.ai : `200`)
-- **Portabilité 100 % Web** : Aucun binaire local, aucun appel Bash/Python externe, aucune variable d'environnement locale.
+- **Conformite stricte du frontmatter YAML (`SKILL.md`)** :
+  - `name` : `ai-creator-design-intelligence` (30 caracteres, limite maximale Claude.ai : 64)
+  - `description` : `Direction artistique, design system et execution HTML/CSS/JS pour transformer un document metier en application web interactive distinctive.` (140 caracteres, limite maximale Claude.ai : 200)
+- **Portabilite 100 % Web** : Aucun binaire local, aucun appel Bash/Python externe, aucune variable d'environnement locale.
 
 ---
 
-## 2. Procédure d'Installation Pas-à-Pas (7 Étapes)
+## 2. Procedure d'Installation Pas-a-Pas (Les 7 Gestes Officiels)
 
-1. Connecte-toi à ton compte sur **[claude.ai](https://claude.ai)**.
-2. Clique sur ton profil (en bas à gauche) puis ouvre **Settings** (*Paramètres*) $\rightarrow$ **Capabilities** (*Capacités* / *Fonctionnalités*).
-3. Vérifie que les options **Artifacts** et **Code execution and file creation** (si proposée sur ton interface) sont **activées (ON)**.
-4. Dans le menu latéral ou sous **Customize** / **Settings $\rightarrow$ Skills**, repère la section **Skills**.
-5. Clique sur le bouton **`+ Create skill`** (ou **`Add skill`**), puis choisis **`Upload a skill`**.
-6. Sélectionne le fichier **`AI-CREATOR-DESIGN-INTELLIGENCE.zip`** situé dans `docs/ai-creator-design-intelligence/`.
-7. Une fois l'import terminé, vérifie que **`ai-creator-design-intelligence`** apparaît dans ta liste de Skills avec son interrupteur **Activé (ON)**.
-
----
-
-## 3. Le Parcours Standard en Deux Prompts (Recommandé)
-
-Le dispositif standard permet de transformer n'importe quel document en application complète en **deux prompts successifs dans une même conversation** :
-
-### Étape 1 : Le Premier Prompt — Entretien de Direction Artistique (`PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE.md`)
-1. Ouvre une nouvelle conversation dans Claude Free.
-2. Glisse ou joins ton document source (PDF, tableur, guide, notes).
-3. Colle le contenu de `PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE.md`.
-4. Claude analyse silencieusement ton document puis te pose une ou deux questions simples pour cerner l'esprit visuel recherché.
-5. Il te propose ensuite **3 directions artistiques adaptatives et contrastées**, argumentées par rapport à ton sujet.
-6. Tu choisis ta direction préférée (ou demandes des ajustements de couleurs/typographies).
-7. Claude émet les **3 livrables fondateurs** (*Product Blueprint*, *Source Fidelity Mapping*, *Visual Direction Brief*) et t'invite à lancer le deuxième prompt. **Aucun code HTML n'est produit à cette étape.**
-
-### Étape 2 : Le Deuxième Prompt — Génération du Produit HTML (`PROMPT-GENERATION-PRODUIT-HTML.md`)
-1. Dans la même conversation, colle le contenu de `PROMPT-GENERATION-PRODUIT-HTML.md`.
-2. Claude s'appuie sur le document source, les invariants du Blueprint, le SFM et le Visual Direction Brief validé.
-3. Il exécute son auto-critique en 5 questions et émet le code intégral du fichier unique `index.html`.
-4. Tu télécharges ou copies le fichier `index.html` : il s'ouvre immédiatement par un simple double-clic dans ton navigateur, sans aucun serveur ni outil de compilation.
+1. Ouvrir **Settings > Capabilities**.
+2. Activer **Code execution and file creation**.
+3. Ouvrir **Customize > Skills**.
+4. Cliquer sur le bouton **`+`**.
+5. Choisir **`+ Create skill`**.
+6. Choisir **`Upload a skill`**.
+7. Importer le fichier **`AI-CREATOR-DESIGN-INTELLIGENCE.zip`** et verifier que le Skill est **active**.
 
 ---
 
-## 4. Contrôle de Disponibilité du Skill en Conversation
+## 3. Le Parcours Standard en Deux Prompts (Conversation Unique)
 
-Pour garantir la traçabilité de l'activation du Skill :
-- Chaque prompt demande à Claude de débuter sa réponse par :
-  `[STATUT SKILL : ACTIF — ai-creator-design-intelligence chargé]`
-- Si le Skill n'a pas été détecté, il répondra :
-  `[STATUT SKILL : NON DÉTECTÉ — Application des règles directrices embarquées]`
-  Les prompts maîtres contiennent directement les règles directrices de secours afin que la qualité visuelle et technique reste assurée même en mode dégradé.
+Le dispositif standard permet de transformer n'importe quel document en application complete en **deux prompts successifs dans une meme conversation** :
+
+### Premier Prompt : Cadrage Fonctionnel & Direction Artistique (`PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE.md`)
+
+Le Prompt 1 s'execute en deux phases distinctes dans la meme session Claude Free :
+
+#### Phase 1 (Lecon 2 : Cadrage Fonctionnel & Fidelite Source)
+1. Ouvrir une nouvelle conversation dans Claude Free.
+2. Joindre le document source (PDF, tableur, guide, notes).
+3. Coller le contenu de `PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE.md`.
+4. Claude analyse le document et propose **3 concepts d'interaction fonctionnels** adaptes au metier.
+5. Choisir le concept retenu (ou demander des ajustements).
+6. Claude genere les deux premiers livrables : le **Product Blueprint** (logique et formules) et le **Source Fidelity Mapping (SFM)** (matrice d'invariants documentes). Aucun code HTML n'est produit a ce stade.
+7. Sauvegarder localement le Blueprint et le SFM sur son ordinateur.
+
+#### Phase 2 (Lecon 3 : Direction Artistique Independante)
+8. Dans la meme conversation, annoncer a Claude que le Blueprint et le SFM sont valides pour passer a la direction artistique.
+9. Claude engage l'entretien visuel (1 ou 2 questions ciblees).
+10. Il propose ensuite **3 directions artistiques contrastees** decoulant du document.
+11. Choisir et affiner la direction retenue.
+12. Claude formalise le troisieme livrable fondateur : le **Visual Direction Brief (VDB)**.
+
+### Deuxieme Prompt : Generation du Produit HTML (`PROMPT-GENERATION-PRODUIT-HTML.md`)
+1. Dans la meme conversation, coller le contenu de `PROMPT-GENERATION-PRODUIT-HTML.md` (Lecon 4).
+2. Claude s'appuie sur le document source, les invariants du Blueprint, le SFM et le Visual Direction Brief valide.
+3. Il execute son auto-critique et produit le code integral du fichier unique `index.html`.
+4. Telecharger ou copier le fichier `index.html` : il s'ouvre immediatement par un simple double-clic dans le navigateur, sans aucun serveur ni outil de compilation.
 
 ---
 
-## 5. Bibliothèque des Prompts Maîtres
+## 4. Controle de Disponibilite du Skill en Conversation
 
-Le dispositif permanent repose sur les deux prompts maîtres stockés dans `docs/prompts/` :
-- `PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE.md` : Entretien visuel, Blueprint, SFM et Visual Direction Brief.
-- `PROMPT-GENERATION-PRODUIT-HTML.md` : Génération complète de l'application monofichier avec auto-critique.
+Pour garantir la tracabilite de l'activation du Skill :
+- Chaque prompt demande a Claude de debuter sa reponse par :
+  `[STATUT SKILL : ACTIF - ai-creator-design-intelligence charge]`
+- Si le Skill n'a pas ete detecte, il repondra :
+  `[STATUT SKILL : NON DETECTE - Application des regles directrices embarquees]`
+  Les prompts maitres contiennent directement les regles directrices de secours afin que la qualite visuelle et technique reste assuree meme en mode degrade.
+
+---
+
+## 5. Bibliotheque des Prompts Maitres
+
+Le dispositif permanent repose sur les deux prompts maitres stockes dans `docs/prompts/` :
+- `PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE.md` : Cadrage fonctionnel, Blueprint, SFM, entretien visuel et Visual Direction Brief.
+- `PROMPT-GENERATION-PRODUIT-HTML.md` : Generation complete de l'application monofichier avec auto-critique.

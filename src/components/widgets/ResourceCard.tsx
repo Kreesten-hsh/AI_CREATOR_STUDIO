@@ -1,4 +1,4 @@
-import { Download, ExternalLink, FileText } from 'lucide-react';
+import { Download, ExternalLink } from 'lucide-react';
 import type { ResourceBlock, ResourceItem } from '../../types/course';
 
 export function ResourceCard({ block }: { block: ResourceBlock }) {
@@ -18,61 +18,68 @@ export function ResourceCard({ block }: { block: ResourceBlock }) {
   };
 
   return (
-    <section className="brutal-card rounded-brutal-card p-5 md:p-6" aria-label={block.title}>
-      <div className="pb-3 mb-4 border-b-2 border-ink">
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-pale-pink border border-ink rounded-brutal-tag font-mono text-xs font-bold uppercase text-ink">
-          <FileText className="w-3.5 h-3.5 text-primary-red" aria-hidden="true" />
-          PACK DE RESSOURCES
-        </span>
-        <h3 className="font-display text-lg md:text-xl uppercase tracking-tight mt-1.5 text-ink">
+    <section
+      className="brutal-card rounded-brutal-card overflow-hidden border-2 border-ink shadow-brutal bg-surface"
+      aria-label={block.title}
+    >
+      <div className="px-4 py-3 bg-pale-pink border-b-2 border-ink flex items-center justify-between gap-3">
+        <h3 className="font-display text-xs md:text-sm uppercase tracking-tight text-ink font-bold">
           {block.title}
         </h3>
         {block.description && (
-          <p className="text-sm text-ink/80 mt-0.5">{block.description}</p>
+          <p className="text-xs text-ink/75 truncate hidden sm:block">{block.description}</p>
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="p-4 sm:p-5 space-y-3">
         {block.resources.map((res) => (
           <div
             key={res.id}
-            className="p-4 bg-cream border-2 border-ink rounded-brutal-card shadow-brutal-xs flex flex-col justify-between gap-4"
+            className="p-3.5 sm:p-4 bg-cream border-2 border-ink rounded-brutal-card shadow-brutal-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3"
           >
-            <div>
-              <div className="flex items-center justify-between gap-2 mb-2">
-                <span className="font-mono text-[11px] font-bold uppercase px-2 py-0.5 bg-surface border border-ink rounded-brutal-tag text-ink">
-                  {res.category}
-                </span>
-                <span className="font-mono text-[11px] font-bold text-ink/70">
+            <div className="space-y-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[10px] font-bold uppercase px-1.5 py-0.5 bg-surface border border-ink rounded-brutal-tag text-ink">
                   {res.format}
                 </span>
+                <h4 className="font-display text-sm uppercase text-ink font-bold truncate">
+                  {res.title}
+                </h4>
               </div>
-              <h4 className="font-display text-base uppercase text-ink">{res.title}</h4>
-              <p className="text-xs md:text-sm text-ink/80 mt-1 leading-relaxed">
-                {res.description}
-              </p>
+              <p className="text-xs text-ink/80 leading-relaxed">{res.description}</p>
             </div>
 
-            {res.externalUrl ? (
-              <a
-                href={res.externalUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="brutal-btn bg-surface text-ink px-3.5 py-2 min-h-[42px] rounded-brutal-btn font-mono text-xs font-bold uppercase inline-flex items-center justify-center gap-2 hover:bg-pale-pink"
-              >
-                <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
-                Ouvrir la ressource
-              </a>
-            ) : (
-              <button
-                type="button"
-                onClick={() => handleDownload(res)}
-                className="brutal-btn bg-primary-red text-surface px-3.5 py-2 min-h-[42px] rounded-brutal-btn font-mono text-xs font-bold uppercase inline-flex items-center justify-center gap-2 hover:bg-dark-red"
-              >
-                <Download className="w-3.5 h-3.5" aria-hidden="true" />
-                Télécharger la fiche ({res.downloadFilename ?? 'MD'})
-              </button>
-            )}
+            <div className="shrink-0">
+              {res.externalUrl ? (
+                <a
+                  href={res.externalUrl}
+                  download={res.downloadFilename}
+                  target={res.externalUrl.startsWith('http') ? '_blank' : undefined}
+                  rel="noopener noreferrer"
+                  className="brutal-btn bg-primary-red text-surface px-4 py-2 min-h-[38px] rounded-brutal-btn font-mono text-xs font-bold uppercase inline-flex items-center justify-center gap-2 hover:bg-dark-red shadow-brutal-xs w-full sm:w-auto"
+                >
+                  {res.downloadFilename ? (
+                    <Download className="w-4 h-4" aria-hidden="true" />
+                  ) : (
+                    <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                  )}
+                  <span>
+                    {res.downloadFilename
+                      ? `Télécharger (${res.downloadFilename})`
+                      : 'Ouvrir la ressource'}
+                  </span>
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => handleDownload(res)}
+                  className="brutal-btn bg-primary-red text-surface px-4 py-2 min-h-[38px] rounded-brutal-btn font-mono text-xs font-bold uppercase inline-flex items-center justify-center gap-2 hover:bg-dark-red shadow-brutal-xs w-full sm:w-auto"
+                >
+                  <Download className="w-4 h-4" aria-hidden="true" />
+                  <span>Télécharger ({res.downloadFilename ?? 'Fichier'})</span>
+                </button>
+              )}
+            </div>
           </div>
         ))}
       </div>

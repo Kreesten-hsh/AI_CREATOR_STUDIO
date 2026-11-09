@@ -198,6 +198,8 @@ export interface CopyBlockConfig {
   label: string;
   content: string;
   notes?: string;
+  buttonText?: string;
+  defaultExpanded?: boolean;
 }
 
 export interface ImageBlockConfig {
@@ -294,6 +296,7 @@ export interface Lesson {
   dayId: DayId;
   dayNumber: 1 | 2 | 3;
   title: string;
+  navigationTitle?: string;
   italicTitleWord?: string;
   duration: string;
   objective: string;

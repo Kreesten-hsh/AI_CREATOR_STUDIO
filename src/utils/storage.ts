@@ -84,6 +84,13 @@ export function buildCurrentCurriculumBlockRegistry(): BlockIdRegistry {
     if (bonus.blocks) {
       collectBlocksIntoRegistry(bonus.blocks, registry);
     }
+    if (bonus.lessons) {
+      for (const lesson of bonus.lessons) {
+        for (const part of lesson.parts) {
+          collectBlocksIntoRegistry(part.blocks, registry);
+        }
+      }
+    }
   }
 
   return registry;

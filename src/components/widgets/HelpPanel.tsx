@@ -18,7 +18,7 @@ export interface HelpPanelProps {
   defaultOpen?: boolean;
 }
 
-export function HelpPanel({ help, stepTitle, defaultOpen = true }: HelpPanelProps) {
+export function HelpPanel({ help, stepTitle, defaultOpen = false }: HelpPanelProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [copiedPromptId, setCopiedPromptId] = useState<string | null>(null);
 

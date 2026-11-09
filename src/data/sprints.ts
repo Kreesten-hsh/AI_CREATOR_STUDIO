@@ -28,7 +28,8 @@ export const COURSE_MODULES: readonly CourseModule[] = [
     dayNumber: 2,
     lessonIds: ['lesson-03', 'lesson-04', 'lesson-05'],
     lessonRange: [3, 5],
-    deliverable: 'Application HTML finale vérifiée, responsive et sans bug',
+    deliverable:
+      'Application HTML finale testée sur les principales interactions et les formats d’écran prévus',
     available: true,
   },
   {

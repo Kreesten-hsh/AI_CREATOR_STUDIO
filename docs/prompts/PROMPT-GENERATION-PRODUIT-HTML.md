@@ -15,8 +15,8 @@ Ce prompt est la seconde étape du parcours standard. Il doit être collé **dan
     INSTRUCTION PRIORITAIRE :
     1. Charge et applique le skill `ai-creator-design-intelligence` (notamment `references/frontend-craft.md`, `references/design-system.md`, `references/app-interface-design.md` et `references/visual-quality-checklist.md`).
     2. Commence obligatoirement ta réponse par l'une de ces deux mentions exactes :
-       - `[STATUT SKILL : ACTIF — ai-creator-design-intelligence chargé]` si les fichiers du skill sont accessibles dans cette session.
-       - `[STATUT SKILL : NON DÉTECTÉ — Application des règles directrices embarquées]` si le skill n'est pas détecté.
+       - `[STATUT SKILL : ACTIF - ai-creator-design-intelligence chargé]` si les fichiers du skill sont accessibles dans cette session.
+       - `[STATUT SKILL : NON DÉTECTÉ - Application des règles directrices embarquées]` si le skill n'est pas détecté.
   </skill_activation_check>
 
   <context>
@@ -68,12 +68,10 @@ Ce prompt est la seconde étape du parcours standard. Il doit être collé **dan
     1. Ligne `[STATUT SKILL : ...]`
     2. Court résumé d'auto-critique pré-livraison (3-4 puces soulignant les choix clés d'artisanat appliqués).
     3. Bloc de code HTML unique :
-    ```html
-    <!DOCTYPE html>
-    <html lang="fr">
-    ... (code complet et autonome sans aucune troncature) ...
-    </html>
-    ```
+       - Le fichier débute obligatoirement par `<!DOCTYPE html>`.
+       - Il contient le document intégralement (HTML sémantique, CSS complet dans `<style>` et JavaScript Vanilla complet dans `<script>`).
+       - Il s'achève obligatoirement par `</html>`.
+       - Aucun texte de substitution, commentaire d'omission, ellipse ou fragment fictif ne doit remplacer une partie du code.
     4. Brève consigne d'utilisation pour l'apprenant (double-clic local et préparation au déploiement Netlify).
   </output_format>
 </prompt>

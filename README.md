@@ -24,8 +24,8 @@ Le cursus est structuré en **3 modules thématiques**, totalisant **3 journées
 - **Leçon 07** : Organiser la livraison via Chariow et tester le parcours d'achat (~35 min)
 
 ### Les 2 Bonus
-- **Bonus 01** : LE SYSTÈME MANYCHAT AUTOMATISÉ AVEC CLAUDE
-- **Bonus 02** : MARKETING LIBRARY
+- **Bonus 01** : LE SYSTÈME MANYCHAT AUTOMATISÉ AVEC CLAUDE (5 leçons pratiques, 5 prompts Claude Free, qualification sans Tags obligatoires, conformité ManyChat Free 4 automatisations & WhatsApp par message livré)
+- **Bonus 02** : MARKETING LIBRARY (En cours de reconstruction)
 
 ---
 
@@ -43,7 +43,7 @@ L'application adopte une esthétique **Néo-Brutaliste Éditoriale** :
 - **Framework** : React 19 + TypeScript strict
 - **Build Tool** : Vite 6
 - **Styling** : Tailwind CSS + Framer Motion + Lucide React
-- **Tests** : Vitest + Testing Library
+- **Tests** : Vitest + Testing Library (15 fichiers de tests, 184 tests passants)
 
 ```bash
 # Installer les dépendances
@@ -54,6 +54,9 @@ npm run dev
 
 # Vérifier le typage strict TypeScript
 npm run typecheck
+
+# Packager le Skill ai-creator-design-intelligence et synchroniser l'archive
+npm run package:skill
 
 # Exécuter les tests unitaires et d'intégration
 npm test
@@ -66,10 +69,27 @@ npm run build
 
 ## 4. Documentation Technique
 
-- [`docs/COURSE_PRD.md`](docs/COURSE_PRD.md) : Document de référence canonique (PRD) pour l'architecture pédagogique et fonctionnelle.
-- [`docs/DECISIONS-MISSION-03.md`](docs/DECISIONS-MISSION-03.md) : Synthèse d'architecture, méthode de transformation et décisions retenues de la Mission 03.
+- [`docs/COURSE_PRD.md`](docs/COURSE_PRD.md) : Document de référence canonique (PRD) pour l'architecture pédagogique, la roadmap et les spécifications.
 - [`docs/ai-creator-design-intelligence/`](docs/ai-creator-design-intelligence/) : Skill autonome pour Claude Free (`SKILL.md`, références, archive ZIP et guide d'installation).
 - [`docs/prompts/`](docs/prompts/) : Les deux prompts maîtres du parcours standard (Entretien de direction artistique et Génération du produit HTML).
 - [`docs/guides/GUIDE-PARCOURS-APPRENANT.md`](docs/guides/GUIDE-PARCOURS-APPRENANT.md) : Guide d'utilisation pas-à-pas du parcours apprenant.
 - [`docs/examples/marc-v2/`](docs/examples/marc-v2/) : Preuve de concept unique (application interactive Marc V2 et rapport de validation technique).
 - [`DESIGN.md`](DESIGN.md) : Spécification complète du design system et des règles visuelles de la plateforme.
+- [`graphify-out/`](graphify-out/) : Graphe de connaissances architectural avec visualiseur interactif HTML (`graph.html`) et rapport de navigation (`GRAPH_REPORT.md`).
+
+---
+
+## 5. Feuille de Route des Missions (8 Missions)
+
+Le pilotage du projet s'articule en **8 missions ordonnées** :
+
+| Mission | Intitulé | Statut | Périmètre |
+|---|---|---|---|
+| **Mission 01** | PRD Canonique | **Terminée** | Spécifications complètes du cours, architecture curriculaire et standard pédagogique. |
+| **Mission 02** | Refactoring Modèle & Routes | **Terminée** | Architecture 3 Modules / 3 Journées / 7 Leçons, typages stricts et assainissement des routes. |
+| **Mission 03** | Prototypage Moteur & DA | **Terminée** | Validation empirique du Master Prompt, Source Fidelity Mapping et prototype Marc V2. |
+| **Mission 04** | Contenu Module 01 (CHOISIR) | **Terminée** | Rédaction et intégration des leçons L1 & L2 (standard Abigail Peugh). |
+| **Mission 05** | Contenu Module 02 (CRÉER) | **Terminée** | Rédaction et intégration des leçons L3, L4 & L5, Skill Claude Free et trousseau de reprise. |
+| **Mission 06** | Contenu Module 03 (PUBLIER & LIVRER) | **Terminée** | Rédaction et intégration des leçons L6 & L7 (Netlify Drop, offre Chariow Files). |
+| **Mission 07** | Bonus 01 : ManyChat Automation System | **Terminée** | Système d'automatisation conversationnelle Claude Free + ManyChat (FB Messenger, qualification sans Tags, conformité Meta 24h & Free 4 automatisations). |
+| **Mission 08** | Harness Simulateur & Validation Finale | **Mission Finale** | Harness d'évaluation automatisé (3 personas Claire, Marc, Sophie), tests Playwright/Vitest et recette cohorte réelle (5 créateurs). |

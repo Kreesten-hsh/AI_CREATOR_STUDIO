@@ -44,13 +44,13 @@ describe('Calculateur de progression V4 (7 leçons • 3 journées • 3 modules
 
   describe('calculateLessonProgress & isLessonCompleted', () => {
     it('retourne toujours 0 % et isCompleted: false pour une leçon sans étape (squelette)', () => {
-      const skeletonLesson = ALL_LESSONS[0]; // 0 steps
-      const res = calculateLessonProgress(skeletonLesson, ['lesson-01-step-1', 'fake-step']);
+      const skeletonLesson = createPopulatedLesson('lesson-06', 0);
+      const res = calculateLessonProgress(skeletonLesson, [`${skeletonLesson.id}-step-1`, 'fake-step']);
       expect(res.totalSteps).toBe(0);
       expect(res.completedCount).toBe(0);
       expect(res.percentage).toBe(0);
       expect(res.isCompleted).toBe(false);
-      expect(isLessonCompleted(skeletonLesson, ['lesson-01-step-1'])).toBe(false);
+      expect(isLessonCompleted(skeletonLesson, [`${skeletonLesson.id}-step-1`])).toBe(false);
     });
 
     it('ignore les stepIds inconnus ou dupliqués et ne dépasse jamais 100 %', () => {

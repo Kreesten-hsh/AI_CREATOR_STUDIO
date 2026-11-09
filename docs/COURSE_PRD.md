@@ -159,7 +159,7 @@ journey
 | | | **L2** | Analyser son document, identifier 3 interactions et choisir | ~30 min | **Product Blueprint validé** + Source Fidelity Mapping initial |
 | **M2 : CRÉER** | **Jour 2** | **L3** | Définir sa direction artistique indépendante | ~20 min | Spécification de style (Palette, Typographies, Composants) |
 | | | **L4** | Générer la première version (V1) de son application | ~40 min | Fichier `index.html` fonctionnel V1 généré par Claude |
-| | | **L5** | Effectuer des retouches ciblées, corriger et tester | ~30 min | **Application HTML finale vérifiée**, responsive et sans bug |
+| | | **L5** | Effectuer des retouches ciblées, corriger et tester | ~30 min | **Application HTML finale testée** sur les principales interactions et les formats d’écran prévus |
 | **M3 : PUBLIER ET LIVRER** | **Jour 3** | **L6** | Publier son application sur Netlify | ~25 min | URL publique HTTPS active et opérationnelle |
 | | | **L7** | Organiser la livraison via Chariow et tester le parcours d'achat | ~35 min | **Produit Chariow configuré**, accès testé et livraison validée |
 
@@ -391,79 +391,89 @@ Chaque leçon dispose de sa propre logique d'apprentissage, adaptée à la natur
 
 ### LEÇON 6 : Publier son application sur Netlify
 
-- **Identifiant** : `LESSON-06`
+- **Identifiant** : `LESSON-06` (id code : `lesson-06`)
 - **Module & Journée** : Module 03 (PUBLIER ET LIVRER) — Journée 3
 - **Durée indicative cible** : ~25 minutes
 - **Objectif opérationnel** :  
-  Déployer gratuitement son fichier `index.html` sur Netlify sans ligne de commande, configurer un sous-domaine HTTPS propre et vérifier l'accessibilité publique mondiale de l'application.
+  Déployer gratuitement son dossier `mon-application/index.html` sur Netlify Drop sans ligne de commande, personnaliser son sous-domaine HTTPS, vérifier la visibilité publique mondiale de l'application et tester l'affichage mobile.
 - **Entrées requises** :  
-  - Le fichier `index.html` final validé (L5).
+  - Le dossier `mon-application` contenant `index.html` à la racine (L5).
   - Un compte gratuit Netlify.
 - **Actions de l'apprenant** :  
-  1. Préparer son dossier de déploiement local : créer un dossier nommé `mon-application-interactive` et y placer son fichier `index.html`.
-  2. Se connecter sur Netlify ([app.netlify.com](https://app.netlify.com)).
-  3. Accéder à l'espace *Sites* > *Deploy manually* (Netlify Drop).
-  4. Glisser-déposer le dossier préparé (ou le fichier directement selon l'interface active de Netlify Drop).
-  5. Patienter pendant le déploiement instantané.
-  6. Personnaliser le sous-domaine gratuit dans *Site configuration* > *Change site name* (ex: `diagnostic-gestion-pro.netlify.app`).
-  7. Ouvrir l'URL sur son smartphone pour valider le chargement direct en conditions réelles.
+  1. Vérifier son dossier local : s'assurer que `index.html` se trouve directement à la racine de `mon-application` (sans sous-dossier superflu ni extension `.txt` masquée).
+  2. Se connecter sur Netlify et ouvrir Netlify Drop ([app.netlify.com/drop](https://app.netlify.com/drop)).
+  3. Glisser-déposer le dossier complet `mon-application` dans la zone de téléversement en pointillés.
+  4. Patienter pendant le déploiement instantané et récupérer la première URL en `*.netlify.app`.
+  5. Personnaliser le sous-domaine gratuit dans le parcours actuel : `Project Overview > Customize > Manage project name and cover image` (ex: `diagnostic-pme.netlify.app`).
+  6. Contrôler explicitement la visibilité publique dans : `Project configuration > General > Visitor access > Project visibility` (confirmer que la production est configurée sur **Public** et non Private).
+  7. Constater le provisionnement automatique du certificat HTTPS/SSL (zéro paramétrage manuel).
+  8. Prendre en compte la limite du forfait gratuit Netlify (quota mensuel de crédits pour builds et bande passante, renouvelé chaque mois).
+  9. Ouvrir l'URL en navigation privée et sur son smartphone pour valider le chargement tactile en conditions réelles à 375 px.
 - **Utilisation exacte de Claude** :  
-  Claude intervient ici en support de dépannage si l'apprenant rencontre une erreur d'affichage Netlify (ex: page 404 consécutive à un mauvais nom de fichier comme `Index.html` avec majuscule).  
-  Prompt de diagnostic Netlify (`PROMPT-L6-NETLIFY-HELP`) :
+  Support de dépannage réactif via le `HelpPanel` si l'apprenant rencontre une erreur 404 Netlify consécutive à un mauvais nom de fichier (`PROMPT-L6-NETLIFY-HELP`) :
   ```text
-  Mon déploiement Netlify affiche une page 'Page Not Found' (404).
-  Voici la structure de ce que j'ai téléversé : [décris ton fichier ou dossier].
-  Explique-moi comment résoudre ce problème immédiatement.
+  Mon déploiement sur Netlify Drop affiche une erreur 404 (Page Not Found).
+  Voici l'organisation de mes fichiers : mon dossier [nom du dossier] contient [nom et emplacement exacts des fichiers].
+  Comment corriger mon dossier pour que la page s'affiche ?
   ```
 - **Livrable concret** :  
-  Une URL publique HTTPS active, accessible depuis n'importe quel terminal connecté à Internet.
+  Une URL publique HTTPS active (`https://[nom-personnalise].netlify.app`), accessible depuis n'importe quel terminal connecté à Internet.
 - **Critères de validation observables** :
-  - [ ] L'URL Netlify est sécurisée en HTTPS avec un certificat SSL valide.
-  - [ ] L'application se charge correctement sur smartphone sans bug de mise en page.
-  - [ ] Le nom du site a été personnalisé pour être lisible par un client final.
+  - [ ] L'URL Netlify est sécurisée en HTTPS avec un certificat SSL valide provisionné automatiquement.
+  - [ ] L'application se charge correctement en fenêtre de navigation privée sans être connecté à son compte Netlify.
+  - [ ] L'application répond au toucher sur smartphone (375 px) sans débordement horizontal ni rupture visuelle.
+  - [ ] Le nom du site a été personnalisé pour être professionnel et lisible par un client.
 
 ---
 
 ### LEÇON 7 : Organiser la livraison via Chariow et tester le parcours d'achat
 
-- **Identifiant** : `LESSON-07`
+- **Identifiant** : `LESSON-07` (id code : `lesson-07`)
 - **Module & Journée** : Module 03 (PUBLIER ET LIVRER) — Journée 3
 - **Durée indicative cible** : ~35 minutes
 - **Objectif opérationnel** :  
-  Créer le produit sur Chariow, configurer la page de remerciement et le document d'accès, et exécuter une commande test réelle pour valider l'expérience client de bout en bout.
+  Créer une offre commerciale de type **Files** sur Chariow, configurer la livraison du Guide d'Accueil PDF et les instructions après achat avec l'URL Netlify, puis vérifier le parcours client complet via un code promotionnel de test à 100 %.
 - **Entrées requises** :  
-  - L'URL publique de son application Netlify (L6).
+  - L'URL publique de son application Netlify validée (L6).
   - Un compte vendeur Chariow.
-  - Un code promotionnel à 100 % ou mode test pour valider le parcours.
+  - Un Guide d'Accueil rédigé au format PDF.
 - **Actions de l'apprenant** :  
-  1. Se connecter à son tableau de bord Chariow et créer un nouveau produit digital.
-  2. Renseigner les éléments de présentation : Titre accrocheur, promesse claire, prix de vente.
-  3. Configurer le mode de livraison :
-     - *Option A (Recommandée)* : Page de confirmation avec bouton d'accès direct vers l'URL Netlify + Guide PDF d'accompagnement téléchargeable.
-     - *Option B* : Envoi d'un email automatique d'accès immédiat contenant le lien direct et les conseils d'utilisation.
-  4. Mettre en place un code promo de test à 100 % (ex: `TEST-VALIDATION`).
-  5. Ouvrir la page de vente Chariow dans une fenêtre de navigation privée.
-  6. Réaliser l'achat test : saisir ses coordonnées, appliquer le code de réduction, valider la commande.
-  7. Vérifier que la redirection vers l'application fonctionne parfaitement et que le client accède immédiatement à la promesse.
+  1. Se connecter à son tableau de bord Chariow et créer un nouveau produit : `Produits > Créer un nouveau produit > Fichiers > Continuer`.
+  2. Renseigner les éléments de présentation commerciale : titre explicite, catégorie adaptée, prix de vente et description commerciale fidèle à ce que l'outil réalise.
+  3. Téléverser les visuels respectant les dimensions minimales : miniature carrée ($\ge 600 \times 600\text{ px}$) et bannière ($\ge 702 \times 260\text{ px}$) valorisant l'identité visuelle de l'outil (interdiction de réutiliser la charte Burgundy/Cream du studio).
+  4. Téléverser le Guide d'Accueil PDF dans la section Contenu du produit. Ce guide contient le lien Netlify direct, une présentation courte et 3 étapes d'onboarding.
+  5. Configurer le champ `Instructions après achat` via : `Produits > ⋮ > Modifier > Informations > Instructions après achat` avec la trame d'accueil et le lien direct vers l'application Netlify. Enregistrer les modifications.
+  6. Comprendre le modèle de sécurité : l'application Netlify demeure une application web statique publique. Chariow monétise et livre le guide d'accès, mais ne verrouille pas le code HTML/JS.
+  7. Configurer un code promo de test à 100 % dans `Marketing > Réductions > Créer une réduction` :
+     - Type : Pourcentage (100 %).
+     - Limiter au produit concerné uniquement.
+     - Utilisations maximales : 1.
+     - Utilisations maximum par client : 1.
+  8. Ouvrir la page produit Chariow dans une fenêtre de navigation privée pour contrôler la présentation acheteur.
+  9. Exécuter la commande test : si la passerelle Chariow valide la commande à 0 €, vérifier l'affichage des instructions et le téléchargement du PDF. Si la commande à 0 € est refusée par la passerelle, ne pas payer son propre produit et valider la configuration jusqu'au panier.
+  10. Vérifier que le lien Netlify transmis ouvre bien l'application sur un navigateur non connecté au compte créateur.
+  11. Désactiver immédiatement le code promotionnel dans `Marketing > Réductions > Désactiver`.
 - **Utilisation exacte de Claude** :  
-  Prompt de rédaction de la notice d'accueil client (`PROMPT-L7-ONBOARDING`) :
+  Trame des instructions après achat et d'onboarding client intégrée directement dans le cours (`TEXTE_INSTRUCTIONS_POST_ACHAT`) via un `CopyBlock` sobre :
   ```text
-  Rédige le texte de la page de remerciement et de l'email de livraison pour mes acheteurs sur Chariow.
-  - Nom de l'application : [NOM]
-  - URL Netlify : [URL]
-  - Bénéfice immédiat : [CE QUE LE CLIENT VA RÉALISER DANS LES 5 PREMIÈRES MINUTES]
-  
-  Le ton doit être professionnel, chaleureux et donner 3 étapes simples pour démarrer immédiatement :
-  1. Cliquer sur le lien d'accès.
-  2. Enregistrer la page dans ses favoris.
-  3. Réaliser sa première session interactive en moins de 10 minutes.
+  Merci pour votre achat !
+
+  Voici comment accéder immédiatement à votre application :
+  1. Cliquez sur votre lien d'accès direct : [VOTRE LIEN NETLIFY]
+  2. Ajoutez cette adresse à vos favoris pour la retrouver en un clic.
+  3. Téléchargez votre Guide d'Accueil PDF depuis les fichiers disponibles après votre achat.
+
+  En cas de question ou de suggestion, contactez-moi directement à [VOTRE EMAIL].
   ```
 - **Livrable concret** :  
-  Une fiche produit active sur Chariow avec un parcours d'achat et de livraison entièrement vérifié.
+  Une fiche produit active sur Chariow avec Guide d'Accueil PDF livré automatiquement, instructions post-achat configurées et parcours client vérifié.
 - **Critères de validation observables** :
-  - [ ] Le produit est publié et accessible sur Chariow.
-  - [ ] L'achat test aboutit sans erreur à la page de confirmation d'accès.
-  - [ ] L'URL de l'application est transmise de manière fluide sans friction technique pour l'acheteur.
+  - [ ] Le produit est publié sur Chariow avec le type Fichiers (titre, prix et visuels minimaux respectés).
+  - [ ] Les visuels respectent les formats requis ($\ge 600 \times 600\text{ px}$ et $\ge 702 \times 260\text{ px}$).
+  - [ ] Le code promotionnel de test est restreint au produit avec 1 utilisation maximale et 1 par client.
+  - [ ] Le Guide d'Accueil PDF et les instructions après achat intègrent le lien Netlify fonctionnel.
+  - [ ] Le parcours d'achat a été vérifié en navigation privée : commande test à 0 € validée avec téléchargement du PDF (Cas A) ou panier vérifié sans payer son propre produit si 0 € refusé (Cas B).
+  - [ ] Le code promotionnel de test a été désactivé immédiatement dans Marketing > Réductions.
 
 ---
 
@@ -734,34 +744,42 @@ sequenceDiagram
 
     Apprenant->>Claude: Master Prompt + Product Blueprint
     Claude-->>Apprenant: Fichier index.html
-    Apprenant->>Netlify: Déploiement du dossier contenant index.html
+    Apprenant->>Netlify: Déploiement du dossier mon-application contenant index.html
     Netlify-->>Apprenant: URL HTTPS active (ex: mon-app.netlify.app)
-    Apprenant->>Chariow: Création fiche produit & configuration livraison
-    Note over Apprenant,Chariow: Transmission de l'URL Netlify dans la page de confirmation et le guide PDF
-    ClientFinal->>Chariow: Achat du produit digital
-    Chariow-->>ClientFinal: Confirmation d'achat + Lien d'accès
+    Apprenant->>Chariow: Création produit Files & téléversement Guide PDF
+    Note over Apprenant,Chariow: Transmission URL Netlify via Guide PDF et instructions après achat (sans redirection auto)
+    ClientFinal->>Chariow: Achat du produit Files
+    Chariow-->>ClientFinal: Confirmation d'achat + Instructions + Téléchargement Guide PDF
     ClientFinal->>Netlify: Utilisation de l'application interactive
 ```
 
 ### 14.1. Parcours Netlify (Hébergement)
 
 - **Mode de Déploiement Guidé** :  
-  L'apprenant crée un dossier local dédié (ex: `dist/` ou `mon-outil/`) contenant son fichier nommé strictement `index.html` (en minuscules). Il glisse-dépose ce dossier sur Netlify Drop.
-- **Alternative de déploiement** :  
-  Le dépôt direct du fichier `index.html` individuel est supporté selon les versions de l'interface Netlify, mais la méthode par dossier est documentée comme la référence universelle évitant toute erreur d'arborescence.
-- **Configuration** :  
-  Personnalisation du nom de sous-domaine gratuit (`[mon-projet].netlify.app`) et activation immédiate du certificat HTTPS gratuit automatique.
+  L'apprenant utilise son dossier local dédié `mon-application/` contenant son fichier nommé strictement `index.html` (en minuscules). Il glisse-dépose ce dossier sur Netlify Drop ([app.netlify.com/drop](https://app.netlify.com/drop)).
+- **Configuration & Renommage** :  
+  Personnalisation du nom de sous-domaine gratuit via le chemin complet : `Project Overview > Customize > Manage project name and cover image` (ex: `[mon-projet].netlify.app`).
+- **Contrôle de Visibilité Publique** :  
+  Vérification explicite dans `Project configuration > General > Visitor access > Project visibility` en réglant la valeur sur **Public**. Attention : certains projets Netlify sont configurés en privé par défaut selon les paramètres de l'équipe.
+- **Sécurité HTTPS** :  
+  Le certificat sécurisé HTTPS est provisionné automatiquement sans aucune configuration manuelle de certificat SSL.
+- **Quota du Forfait Gratuit** :  
+  L'hébergement gratuit utilise un quota mensuel de crédits. Les projets peuvent être mis en pause temporairement si le quota mensuel est épuisé, jusqu'à son renouvellement automatique.
 
 ### 14.2. Parcours Chariow (Monétisation & Livraison)
 
 - **Paramétrage du Produit** :  
-  Création d'un produit de type « Produit Digital » avec tarification choisie par l'apprenant.
-- **Stratégie de Livraison Client** :  
-  Chariow permet la redirection post-achat et la mise à disposition d'un fichier téléchargeable. Le cursus enseigne le modèle combiné :
-  1. Affichage du lien d'accès vers l'URL Netlify sur la page de confirmation de commande.
-  2. Fourniture d'un **Guide d'Accueil PDF** téléchargeable sur Chariow (contenant le lien d'accès permanent, le mode d'emploi et les conseils d'utilisation).
-- **Vérification Obligatoire** :  
-  L'apprenant exécute un test de commande réel à 0 € (via un code promotionnel à 100 %) pour valider le circuit client complet avant toute diffusion.
+  Création d'un produit de type **Files** (et non « Produit Digital » générique ou Licences) avec tarification et catégorie choisies par l'apprenant. Clic impératif sur **Publier** / **Publish** pour mettre l'offre en ligne.
+- **Visuels Requis** :  
+  Téléversement d'une miniature carrée ($\ge 600 \times 600\text{ px}$) et d'une bannière rectangulaire ($\ge 702 \times 260\text{ px}$) respectant l'identité visuelle de l'outil créé.
+- **Stratégie de Livraison Client (sans redirection automatique)** :  
+  Pour le type Files, Chariow ne propose pas de redirection automatique garantie vers un site externe. La livraison repose sur deux canaux synchronisés :
+  1. Le téléchargement direct du **Guide d'Accueil PDF** mis à disposition dans les fichiers disponibles après l'achat (contenant le lien Netlify direct et les conseils de démarrage).
+  2. Le champ `Instructions après achat` (`Produits > ⋮ > Modifier > Informations`) affiché sur la page de confirmation client avec le lien direct Netlify.
+- **Vérification du Parcours & Code Promo Test** :  
+  L'apprenant crée dans `Marketing > Réductions` un code promo à 100 % strictement encadré par 3 restrictions : limité au produit concerné, 1 utilisation maximale totale, et 1 utilisation par client.
+  - **Cas A (Commande 0 € acceptée)** : L'apprenant valide la commande en navigation privée, vérifie la page de confirmation, télécharge son Guide PDF, teste l'ouverture de son application Netlify, puis désactive immédiatement le code promotionnel.
+  - **Cas B (Commande 0 € refusée par la passerelle)** : Si la passerelle refuse la commande à 0 €, l'apprenant ne doit jamais payer son propre produit. Il constate l'arrêt au panier, désactive immédiatement le code promo dans `Marketing > Réductions`, et valide le contrôle sans attestation mensongère d'accès post-paiement.
 
 ---
 
@@ -1005,51 +1023,65 @@ flowchart TD
 
 ## 20. ROADMAP D'IMPLÉMENTATION ORDONNÉE
 
-La reconstruction complète du projet s'articule en **7 missions ordonnées** respectant les dépendances techniques et pédagogiques réelles :
+La reconstruction complète du projet s'articule en **8 missions ordonnées** respectant les dépendances techniques et pédagogiques réelles :
 
 ```mermaid
 gantt
-    title Roadmap de Reconstruction AI CREATOR Studio (7 Missions)
+    title Roadmap de Reconstruction AI CREATOR Studio (8 Missions)
     dateFormat  YYYY-MM-DD
     section Cadrage & Socle
     Mission 01 - PRD Canonique :done, m1, 2026-11-06, 1d
-    Mission 02 - Refactoring Modèle & Routes (3M/3J/7L) :active, m2, after m1, 2d
+    Mission 02 - Refactoring Modèle & Routes (3M/3J/7L) :done, m2, after m1, 2d
     section Prototypage Moteur
-    Mission 03 - Prototypage Système de Génération & Prompts :m3, after m2, 3d
+    Mission 03 - Prototypage Système de Génération & Prompts :done, m3, after m2, 3d
     section Contenu Pédagogique
-    Mission 04 - Contenu Module 01 (L1 & L2) :m4, after m3, 2d
-    Mission 05 - Contenu Module 02 (L3, L4 & L5) :m5, after m4, 3d
-    Mission 06 - Contenu Module 03 (L6 & L7) :m6, after m5, 2d
-    section Recette & Validation
-    Mission 07 - Simulateur d'Apprenant & Recette Cohorte :m7, after m6, 3d
+    Mission 04 - Contenu Module 01 (L1 & L2) :done, m4, after m3, 2d
+    Mission 05 - Contenu Module 02 (L3, L4 & L5) :done, m5, after m4, 3d
+    Mission 06 - Contenu Module 03 (L6 & L7) :done, m6, after m5, 2d
+    section Bonus & Automatisation
+    Mission 07 - Implémentation Bonus 01 (ManyChat Automation System) :done, m7, after m6, 3d
+    section Recette & Validation Finale
+    Mission 08 - Harness Simulateur & Validation Humaine :active, m8, after m7, 3d
 ```
 
-### Détail des 7 Missions Séquentielles
+### Détail des 8 Missions Séquentielles
 
 - **Mission 01 (Terminée)** : Création et audit de cohérence du PRD Canonique (`docs/COURSE_PRD.md`).
-- **Mission 02** : Refactoring du Modèle de Données, Routage et Intégrité Technique :
+- **Mission 02 (Terminée)** : Refactoring du Modèle de Données, Routage et Intégrité Technique :
   - Passage officiel à 3 Modules, 3 Journées et 7 Leçons dans `src/types/course.ts`, `src/data/navigation/mainCourses.ts`, `src/data/course.ts` et `src/utils/progressCalculator.ts`.
   - Suppression définitive des routes et fichiers résiduels pour `resources` et `practical-sheets`.
-  - Élimination de la mention « Mon projet » dans `HelpPanel.tsx` (L216).
+  - Élimination de la mention « Mon projet » dans `HelpPanel.tsx`.
   - Mise à jour de la suite de tests Vitest pour valider l'intégrité de la structure à 7 leçons.
-- **Mission 03 (CLÉ : Prototypage du Système de Génération)** :
-  - Concevoir, tester et valider les gabarits de Product Blueprint sur plusieurs catégories de documents réels (guide RH, tableur finance, matrice organisationnelle).
-  - Tester empiriquement la méthode de *Source Fidelity Mapping*.
-  - Calibrer le Master Prompt modulaire et les invites de retouche chirurgicale sur Claude Free.
-  - Vérifier la génération de code Zero-Build, single-file et mobile-first avant de figer le contenu des leçons.
-- **Mission 04** : Implémentation du Contenu Pédagogique du Module 01 (CHOISIR) :
-  - Rédaction et intégration des leçons L1 et L2 dans `src/data/days/day-01.ts`.
+- **Mission 03 (Terminée : Prototypage du Système de Génération)** :
+  - Conception, test et validation des gabarits de Product Blueprint sur documents réels.
+  - Validation empirique de la méthode de *Source Fidelity Mapping*.
+  - Calibration du Master Prompt modulaire et des invites de retouche chirurgicale sur Claude Free.
+  - Preuve de concept unique Marc V2 (`docs/examples/marc-v2/`) validée à 35/35.
+- **Mission 04 (Terminée)** : Implémentation du Contenu Pédagogique du Module 01 (CHOISIR) :
+  - Rédaction et intégration des leçons L1 et L2 dans `src/data/days/day-01.ts` au standard Abigail Peugh.
   - Intégration des blocs `CopyBlock` calibrés pour la préparation, l'analyse et le Product Blueprint.
-- **Mission 05** : Implémentation du Contenu Pédagogique du Module 02 (CRÉER) :
-  - Rédaction et intégration des leçons L3, L4 et L5 dans `src/data/days/day-02.ts`.
-  - Intégration du Master Prompt modulaire validé et des protocoles de retouches ciblées.
-- **Mission 06** : Implémentation du Contenu Pédagogique du Module 03 (PUBLIER ET LIVRER) :
-  - Rédaction et intégration des leçons L6 et L7 dans `src/data/days/day-03.ts`.
-  - Intégration des procédures de déploiement Netlify et de configuration de livraison Chariow.
-- **Mission 07** : Implémentation du Harness de Test de l'Agent Simulateur, Recette Automatisée et Validation Humaine :
-  - Mise en place de l'outil d'évaluation automatisé sur les 3 personas de test.
-  - Exécution des tests d'intégrité et de friction.
-  - Campagne de test sur cohorte réelle préalable au lancement.
+- **Mission 05 (Terminée)** : Implémentation du Contenu Pédagogique du Module 02 (CRÉER) :
+  - Rédaction et intégration des leçons L3, L4 et L5 dans `src/data/days/day-02.ts` au standard Abigail Peugh.
+  - Intégration du Master Prompt 2 validé, du trousseau de reprise et des protocoles de retouches ciblées.
+  - Packaging automatisé du Skill `ai-creator-design-intelligence` synchronisé via `npm run package:skill`.
+- **Mission 06 (Terminée)** : Implémentation du Contenu Pédagogique du Module 03 (PUBLIER ET LIVRER) :
+  - Rédaction et intégration des leçons L6 et L7 dans `src/data/days/day-03.ts` (3 étapes par leçon, standard Abigail Peugh).
+  - Intégration des procédures Netlify Drop (dossier, nom, visibilité publique, HTTPS) et Chariow Files (Guide PDF, instructions post-achat, coupon test).
+  - Cahier des charges du Storyboard visuel (`docs/storyboard/MODULE-03-VISUAL-STORYBOARD.md`) pour CAP-08 à CAP-15.
+  - Validation intégrale du tronc commun (14 suites, 163 tests passants).
+- **Mission 07 (Terminée)** : Implémentation et Patch de Conformité du Bonus 01 — MANYCHAT AUTOMATION SYSTEM (Missions 07 & 07-A) :
+  - Conception et intégration du mini-cours pratique en 5 leçons et 15 parties éditoriales verticales dans `src/data/bonuses/bonus-manychat.ts`.
+  - Intégration des 5 prompts Claude Free (Diagnostic commercial, Architecture conversationnelle, Rédaction des messages, Configuration guidée, Audit et optimisation).
+  - Implémentation du cas pratique complet *Atelier Botanica* (mot-clé `GUIDE`, réponse publique, réponse privée unique sous la fenêtre des 24h Meta, qualification sans Tags obligatoires, conversion et relais humain dans l'Inbox).
+  - Cadrage tarifaire officiel ManyChat Free (25 contacts actifs/mois, jusqu'à 4 automatisations actives simultanément) et nouvelle tarification WhatsApp Meta par message livré (1 000 messages de service gratuits mensuels par numéro tous pays, gratuité sous Free Entry Point ouverte).
+  - Rendu interactif dans `src/components/bonus/BonusView.tsx` en flux vertical continu, sans sous-onglets superflus et préservation du statut réservé du Bonus 02.
+  - Validation complète de la suite de tests dédiée (`src/test/bonusManychatIntegration.test.tsx`, 21 tests passants sur 21).
+- **Mission 08 (Prochaine Mission — Mission Finale de Validation)** : Implémentation du Harness de Test de l'Agent Simulateur, Recette Automatisée et Validation Humaine :
+  - Reprise intégrale du périmètre initialement prévu pour le Harness de test, la recette et la validation humaine (intervenant après l'implémentation du Bonus 01).
+  - Mise en place de l'outil d'évaluation automatisé basé sur les 3 personas de test (Claire — RH, Marc — Finance, Sophie — Organisation) spécifiés à la Section 18.
+  - Exécution des tests d'intégrité pédagogique, de fidélité au document source (*Source Fidelity*) et tenue du journal de frictions par leçon.
+  - Automatisation des tests techniques de rendu et conformité mobile (375 px, absence de débordement, accessibilité WCAG AA).
+  - Organisation et conduite de la campagne de test sur cohorte réelle (5 créateurs réels représentatifs des personas) pour validation humaine préalable au lancement final du projet.
 
 ---
 
@@ -1068,7 +1100,7 @@ gantt
 | `DEC-ARB-09` | Prototypage préalable du moteur (Mission 03) | **CONFIRMÉ** | Insertion d'une mission de validation du système de génération avant la rédaction définitive des leçons. |
 | `DEC-ARB-10` | Intégration d'un mini-moteur de prévisualisation iframe | **À DÉCIDER** | Faut-il intégrer dans AI CREATOR Studio un visualiseur HTML local ou laisser l'apprenant double-cliquer sur son fichier ? *(Recommandation V1 : double-clic natif pour garantir l'autonomie).* |
 | `DEC-ARB-11` | Conditions d'accès aux Bonus 01 et 02 | **À DÉCIDER** | Débloqués à la complétion de la Leçon 7 ou accessibles librement dès le départ ? *(Recommandation : déblocage à la complétion).* |
-| `DEC-ARB-12` | Modalités exactes de la cohorte de test humaine | **À VÉRIFIER** | Cohorte test de 5 créateurs réels après validation technique lors de la Mission 07. |
+| `DEC-ARB-12` | Modalités exactes de la cohorte de test humaine | **À VÉRIFIER** | Cohorte test de 5 créateurs réels après validation technique lors de la Mission 08 (mission finale de validation). |
 
 ---
 
@@ -1092,7 +1124,7 @@ gantt
 2. **Déverrouillage des 2 Bonus** :  
    Conditionner l'accès au statut de complétion de la Leçon 7 (recommandé pour valoriser la fin du cursus) ou laisser un accès libre non linéaire.
 3. **Périmètre éditorial définitif du Bonus 01 (ManyChat) et Bonus 02 (Marketing Library)** :  
-   À formaliser dans une mission dédiée ultérieure hors du tronc commun.
+   Le périmètre pédagogique et technique du Bonus 01 (ManyChat Automation System) est désormais formellement arrêté et planifié en Mission 07. Le cadrage du Bonus 02 (Marketing Library) reste différé.
 
 ---
 
