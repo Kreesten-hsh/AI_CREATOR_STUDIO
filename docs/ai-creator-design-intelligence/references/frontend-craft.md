@@ -145,11 +145,11 @@ function parseFrenchFinancialInput(raw, allowNegative) {
 
 ## 4. Graphiques & Jauges SVG Inline Accessibles
 
-Pour les jauges et comparatifs (ex. FRNG vs BFR) :
+Pour les jauges et comparatifs (ex. Coût de revient vs Marge nette) :
 1. **Séparation géométrique stricte** : Ne jamais superposer le calque de texte et le calque de barres. Disposer les libellés sur une bande dédiée au-dessus de chaque barre pour garantir une lisibilité absolue.
 2. **Gestion de l'axe zéro** :
-   - Échelle dynamique calculée sur `min(0, FRNG, BFR)` et `max(0, FRNG, BFR)`.
-   - Si toutes les valeurs sont nulles (`0 €`), centrer l'axe zéro (`X = W / 2`) avec un repère `0 €` parfaitement lisible.
+   - Échelle dynamique calculée sur `min(0, coutRevient, margeNette)` et `max(0, coutRevient, margeNette)`.
+   - Si toutes les valeurs sont nulles (`0 €` ou `0 FCFA`), centrer l'axe zéro (`X = W / 2`) avec un repère `0` parfaitement lisible.
 3. **Accessibilité SVG** :
    - `<svg role="img" aria-labelledby="gaugeTitle gaugeDesc" viewBox="...">`
    - Balise `<title id="gaugeTitle">` et résumé textuel dynamique dans `<desc id="gaugeDesc">`.
@@ -196,10 +196,11 @@ Pour les jauges et comparatifs (ex. FRNG vs BFR) :
 
 ---
 
-## 7. Écran de Verrouillage Acheteur (`.gate` & `ACCESS_CODE`)
+## 7. Patron d'Écran de Verrouillage Acheteur (`.gate` & `ACCESS_CODE`)
 
-Chaque application générée intègre dès le `<head>` le script de verrouillage pré-rendu (sans clignotement) ainsi que la superposition `.gate` :
+Chaque application générée intègre obligatoirement la barrière d'accès dissuasive par code d'accès JavaScript sans clignotement ni dépendance serveur (`DEC-ARB-08`, `DEC-ARB-13`).
 
+### Script synchrone de pré-rendu dans `<head>` (Zéro Flash FOUC)
 ```html
 <script>
   var ACCESS_CODE = "CREATOR2026", KEY = "pricing_access";
@@ -213,15 +214,154 @@ Chaque application générée intègre dès le `<head>` le script de verrouillag
 </script>
 ```
 
-Dans le `<script>` principal en fin de `<body>` :
-- Comparer la saisie normalisée (`codeInput.value.trim().toUpperCase() === ACCESS_CODE.toUpperCase()`).
-- En cas de succès : enregistrer `localStorage.setItem(KEY, "granted")` dans un bloc `try/catch`, retirer la classe `locked` de `document.documentElement` et placer le focus sur le premier champ de l'application.
-- En cas d'erreur : afficher le message explicite en français et déclencher l'animation `@keyframes shake`.
-- Connecter le bouton `#lockBtn` (`Verrouiller`) de l'en-tête pour supprimer la clé `KEY` et ré-appliquer la classe `locked`.
+### Formulaire `.gate`, validation `.trim()`, accessibilité `aria-invalid` et reverrouillage `#lockBtn`
+```javascript
+// Sélection des nœuds DOM du verrou
+var gate = document.getElementById("gate");
+var gateForm = document.getElementById("gateForm");
+var gateCode = document.getElementById("gateCode");
+var gateErr = document.getElementById("gateErr");
+var gateCard = document.getElementById("gateCard");
+var lockBtn = document.getElementById("lockBtn");
+
+// Validation à la soumission
+if (gateForm) {
+  gateForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var val = (gateCode.value || "").trim();
+    if (val.toUpperCase() === ACCESS_CODE.toUpperCase()) {
+      gateCode.removeAttribute("aria-invalid");
+      if (gateErr) gateErr.textContent = "";
+      try { localStorage.setItem(KEY, "granted"); } catch (err) {}
+      document.documentElement.classList.remove("locked");
+      var firstInput = document.querySelector("main input, .form input");
+      if (firstInput) firstInput.focus();
+    } else {
+      gateCode.setAttribute("aria-invalid", "true");
+      if (gateErr) gateErr.textContent = "Code d'accès incorrect. Vérifie les majuscules et réessaie.";
+      if (gateCard) {
+        gateCard.classList.remove("shake");
+        void gateCard.offsetWidth; // Forcer le reflow CSS
+        gateCard.classList.add("shake");
+      }
+      gateCode.focus();
+    }
+  });
+}
+
+// Réinitialisation de l'état d'erreur à la saisie
+if (gateCode) {
+  gateCode.addEventListener("input", function () {
+    gateCode.removeAttribute("aria-invalid");
+    if (gateErr) gateErr.textContent = "";
+  });
+}
+
+// Bouton de reverrouillage explicite dans l'en-tête
+if (lockBtn) {
+  lockBtn.addEventListener("click", function () {
+    try { localStorage.removeItem(KEY); } catch (err) {}
+    document.documentElement.classList.add("locked");
+    if (gateCode) {
+      gateCode.value = "";
+      gateCode.removeAttribute("aria-invalid");
+      gateCode.focus();
+    }
+    if (gateErr) gateErr.textContent = "";
+  });
+}
+```
 
 ---
 
-## 8. Sélecteur Multi-Devises (`FCFA` / `€`) & Sécurité Arithmétique de Tarification
+## 8. Patron `StorageAdapter` & Export/Import JSON Manuel Conditionnel
+
+> [!IMPORTANT]
+> **Condition d'activation stricte** : Ce patron ne doit être activé **que lorsque l'application persiste des données métier en `localStorage`** (par exemple un historique d'estimations, un suivi multi-jours ou une checklist de progression). Si l'application est un pur calculateur instantané sans persistance métier, seul le verrou `.gate` utilise `localStorage` et les boutons d'export/import JSON ne doivent pas être affichés.
+
+### Wrapper sécurisé `StorageAdapter` sous `try/catch`
+```javascript
+var memoryStore = {};
+var StorageAdapter = {
+  get: function (key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      return Object.prototype.hasOwnProperty.call(memoryStore, key) ? memoryStore[key] : null;
+    }
+  },
+  set: function (key, val) {
+    try {
+      localStorage.setItem(key, String(val));
+    } catch (e) {
+      memoryStore[key] = String(val);
+    }
+  },
+  remove: function (key) {
+    try {
+      localStorage.removeItem(key);
+    } catch (e) {
+      delete memoryStore[key];
+    }
+  }
+};
+```
+
+### Fonctions d'export (`Blob` JSON) et d'import (`FileReader` + `JSON.parse` sécurisé)
+```javascript
+// Export manuel au format JSON
+function exportStateAsJson(stateObj, filename) {
+  var dataStr = JSON.stringify(stateObj, null, 2);
+  var blob = new Blob([dataStr], { type: "application/json;charset=utf-8" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = filename || "sauvegarde-donnees.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Import manuel avec validation sécurisée
+function importStateFromJson(onSuccess, onError) {
+  var fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = ".json,application/json";
+  fileInput.style.display = "none";
+  document.body.appendChild(fileInput);
+
+  fileInput.addEventListener("change", function () {
+    var file = fileInput.files && fileInput.files[0];
+    if (!file) {
+      document.body.removeChild(fileInput);
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      try {
+        var parsed = JSON.parse(e.target.result);
+        if (typeof onSuccess === "function") onSuccess(parsed);
+      } catch (err) {
+        if (typeof onError === "function") onError(err);
+      } finally {
+        document.body.removeChild(fileInput);
+      }
+    };
+    reader.onerror = function (err) {
+      if (typeof onError === "function") onError(err);
+      document.body.removeChild(fileInput);
+    };
+    reader.readAsText(file);
+  });
+
+  fileInput.click();
+}
+```
+
+---
+
+## 9. Sélecteur Multi-Devises (`FCFA` / `€`) & Sécurité Arithmétique de Tarification
 
 Pour les calculateurs de prix et de rentabilité (comme `docs/examples/pricing-calculator/index.html`) :
 1. **Formatage par devise** :
@@ -233,31 +373,3 @@ Pour les calculateurs de prix et de rentabilité (comme `docs/examples/pricing-c
    - `tauxFrais = fraisPct / 100`
    - Si `coutRevientUnitaire <= 0 || tauxFrais >= 1`, retourner `0` pour éviter toute division par zéro ou prix négatif absurde.
    - Sinon : `prixConseille = (coutRevientUnitaire + margeCible + fraisFixe) / (1 - tauxFrais)`.
-
----
-
-## 9. Persistance Conditionnelle (`StorageAdapter`) & Export/Import JSON Manuel
-
-Lorsque l'application utilise `localStorage` pour sauvegarder l'avancement de l'utilisateur (suivi multi-jours, checklist), encapsuler systématiquement les accès et fournir l'export/import JSON :
-
-```javascript
-var memoryStore = {};
-var StorageAdapter = {
-  get: function (key) {
-    try { return localStorage.getItem(key); } catch (e) { return memoryStore[key] || null; }
-  },
-  set: function (key, val) {
-    try { localStorage.setItem(key, val); } catch (e) { memoryStore[key] = String(val); }
-  }
-};
-
-function exportStateAsJson(stateObj, filename) {
-  var blob = new Blob([JSON.stringify(stateObj, null, 2)], { type: "application/json" });
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement("a");
-  a.href = url;
-  a.download = filename || "sauvegarde-progression.json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-```

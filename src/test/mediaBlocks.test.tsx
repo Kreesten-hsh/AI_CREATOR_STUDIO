@@ -67,7 +67,7 @@ describe('Blocs Média & Accessibilité (ImageBlock, ScreenshotBlock, DiagramBlo
       expect(alert).toHaveTextContent(/Texte alternatif \(alt\) obligatoire manquant/i);
     });
 
-    it('affiche la capture sans fausse URL et avec date de capture visible', () => {
+    it('affiche la capture sans fausse URL et avec date de capture masquée publiquement', () => {
       render(
         <ScreenshotBlock
           block={{
@@ -82,8 +82,12 @@ describe('Blocs Média & Accessibilité (ImageBlock, ScreenshotBlock, DiagramBlo
       );
 
       expect(screen.getByAltText('Capture d écran de l artifact Claude avec tableau interactif')).toBeInTheDocument();
-      expect(screen.getAllByText(/05 Novembre 2026/).length).toBeGreaterThan(0);
+      expect(screen.getByText('Interface de simulation générée dans Claude Artifacts')).toBeInTheDocument();
       expect(screen.getByText(/Capture d’écran de référence • Interface réelle/i)).toBeInTheDocument();
+
+      // Assertion négative obligatoire : la date de capture est masquée du DOM
+      expect(screen.queryByText(/Date de capture/i)).toBeNull();
+      expect(screen.queryByText(/05 Novembre 2026/i)).not.toBeInTheDocument();
 
       // Vérifie qu'aucune fausse URL (ex: "https://faux-site.com") n'est affichée
       expect(screen.queryByText(/http:\/\/|https:\/\//i)).not.toBeInTheDocument();

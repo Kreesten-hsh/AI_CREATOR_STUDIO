@@ -26,7 +26,7 @@ Avant de parler de couleurs ou de typographies, extrais le **Quadrilatère de D�
    - *Organisation / Énergie / Productivité* : semainier d'atelier, console de charge énergétique, plateau d'arbitrage par jetons, matrice à quadrants.
    - *Santé / Bien-être / Développement personnel* : carnet d'introspection, journal de bord feutré, rituel quotidien, baromètre corporel.
 2. **Le Moment de Vérité (Verdict ou Restitution)** :
-   Quel est le cœur de valeur attendu après la saisie ? (ex. verdict de trésorerie nette immédiat ; script d'entretien prêt à lire ; score de charge avec alerte surmenage).
+   Quel est le cœur de valeur attendu après la saisie ? (ex. prix de vente conseillé et rentabilité immédiats ; script d'entretien prêt à lire ; score de charge avec alerte surmenage).
 3. **La Tonalité Émotionnelle Juste** :
    - Clarté chirurgicale et autorité calme pour des décisions critiques.
    - Chaleur éditoriale, tact et mise en page apaisante pour des sujets humains délicats.

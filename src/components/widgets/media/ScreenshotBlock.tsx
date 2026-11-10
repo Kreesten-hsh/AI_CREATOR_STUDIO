@@ -1,4 +1,4 @@
-import { AlertTriangle, Calendar, Monitor } from 'lucide-react';
+import { AlertTriangle, Monitor } from 'lucide-react';
 import type { ScreenshotBlockConfig } from '../../../types/course';
 
 export function ScreenshotBlock({ block }: { block: ScreenshotBlockConfig }) {
@@ -40,12 +40,6 @@ export function ScreenshotBlock({ block }: { block: ScreenshotBlockConfig }) {
           <Monitor className="w-3.5 h-3.5 text-dusty-pink shrink-0" aria-hidden="true" />
           <span className="truncate">Capture d’écran de référence • Interface réelle</span>
         </div>
-
-        {/* Date de capture visible */}
-        <div className="flex items-center gap-1 font-mono text-[11px] text-pale-pink shrink-0">
-          <Calendar className="w-3 h-3" aria-hidden="true" />
-          <span>{block.capturedAt}</span>
-        </div>
       </div>
 
       {/* Image de capture */}
@@ -59,11 +53,8 @@ export function ScreenshotBlock({ block }: { block: ScreenshotBlockConfig }) {
       </div>
 
       {/* Légende explicative */}
-      <figcaption className="p-3.5 bg-surface flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-ink/80">
+      <figcaption className="p-3.5 bg-surface text-xs font-mono text-ink/80">
         <span className="font-bold text-ink">{block.caption}</span>
-        <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 bg-pale-pink border border-ink rounded-brutal-tag text-ink">
-          Date de capture : {block.capturedAt}
-        </span>
       </figcaption>
     </figure>
   );

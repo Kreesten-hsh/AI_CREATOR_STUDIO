@@ -19,6 +19,7 @@ import type {
   ResourceBlock,
   StepChecklistBlock,
   ProseBlock,
+  ScreenshotBlockConfig,
   Day,
   Step,
 } from '../types/course';
@@ -70,6 +71,8 @@ function collectVisibleStrings(day: Day): string[] {
         } else if (block.type === 'resource') {
           strings.push(block.title, block.description ?? '');
           block.resources.forEach((res) => strings.push(res.title, res.description));
+        } else if (block.type === 'screenshot') {
+          strings.push(block.alt, block.caption);
         }
       });
       step.help?.frequentMistakes?.forEach((m) => strings.push(m.mistake, m.correction));
@@ -110,7 +113,26 @@ function assertEditorialStandard(step: Step): void {
 
   const actionBlocks = step.blocks.filter((b) => ACTION_BLOCK_TYPES.includes(b.type));
   expect(actionBlocks.length, `${step.id} a plus d'un bloc d'action`).toBeLessThanOrEqual(1);
-  expect(step.blocks.length, `${step.id} contient un bloc non autorisé`).toBe(1 + actionBlocks.length);
+
+  const screenshotBlocks = step.blocks.filter((b) => b.type === 'screenshot') as ScreenshotBlockConfig[];
+  expect(screenshotBlocks.length, `${step.id} a plus d'une capture d'écran`).toBeLessThanOrEqual(1);
+
+  // Plafond strict de 3 blocs : 1 prose + (0 ou 1 action) + (0 ou 1 screenshot)
+  expect(step.blocks.length, `${step.id} contient un nombre incorrect de blocs`).toBe(
+    1 + actionBlocks.length + screenshotBlocks.length
+  );
+  expect(step.blocks.length, `${step.id} dépasse le plafond de 3 cartes`).toBeLessThanOrEqual(3);
+
+  // Ordre ergonomique immuable : prose en premier, capture au milieu si présente, action à la fin
+  expect(step.blocks[0]).toBe(prose);
+  if (screenshotBlocks.length === 1 && actionBlocks.length === 1) {
+    expect(step.blocks[1]).toBe(screenshotBlocks[0]);
+    expect(step.blocks[2]).toBe(actionBlocks[0]);
+  } else if (screenshotBlocks.length === 1) {
+    expect(step.blocks[1]).toBe(screenshotBlocks[0]);
+  } else if (actionBlocks.length === 1) {
+    expect(step.blocks[1]).toBe(actionBlocks[0]);
+  }
 }
 
 describe('Journée 1 (Module 1 : CHOISIR) : Finition Éditoriale et Cohérence (Mission 09 LOT B)', () => {
@@ -499,6 +521,51 @@ describe('Journée 1 (Module 1 : CHOISIR) : Finition Éditoriale et Cohérence (
       expect(
         screen.getByRole('button', { name: /Terminer le Jour 1/i })
       ).toBeInTheDocument();
+    });
+  });
+
+  describe('6. Captures d’écran authentiques du Jour 1 (Mission 09 LOT C)', () => {
+    it('intègre exactement 2 captures réelles réparties sur L1-S2 et L2-S1 (0 sur les 4 autres)', () => {
+      const allSteps = day01.lessons.flatMap((l) => l.steps);
+      const stepsWithScreenshots = allSteps.filter((s) => s.blocks.some((b) => b.type === 'screenshot'));
+      expect(stepsWithScreenshots).toHaveLength(2);
+      expect(stepsWithScreenshots.map((s) => s.id)).toEqual([
+        'lesson-01-step-02',
+        'lesson-02-step-01',
+      ]);
+
+      const screenshots = allSteps.flatMap((s) => s.blocks.filter((b) => b.type === 'screenshot')) as ScreenshotBlockConfig[];
+      expect(screenshots).toHaveLength(2);
+
+      screenshots.forEach((sc) => {
+        // Présence physique du fichier PNG
+        const filePath = path.resolve(process.cwd(), 'public', sc.src.replace(/^\//, ''));
+        expect(fs.existsSync(filePath), `Fichier ${sc.src} introuvable`).toBe(true);
+
+        const stat = fs.statSync(filePath);
+        expect(stat.size, `Fichier ${sc.src} est vide`).toBeGreaterThan(0);
+
+        // Magic numbers PNG : 89 50 4E 47 0D 0A 1A 0A
+        const fd = fs.openSync(filePath, 'r');
+        const buffer = Buffer.alloc(8);
+        fs.readSync(fd, buffer, 0, 8, 0);
+        fs.closeSync(fd);
+        const pngHeader = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+        expect(buffer.equals(pngHeader), `${sc.src} n'est pas un fichier PNG valide`).toBe(true);
+
+        // Qualité de l'accessibilité
+        expect(sc.alt.trim().length, `alt manquant pour ${sc.id}`).toBeGreaterThan(15);
+        expect(sc.caption.trim().length, `caption manquante pour ${sc.id}`).toBeGreaterThan(10);
+        expect(sc.capturedAt).toBe('10 novembre 2026');
+
+        // Zéro terme de la liste noire et zéro tiret cadratin
+        BLACKLISTED_TERMS.forEach((term) => {
+          expect(containsTerm(sc.alt, term), `Terme "${term}" dans alt de ${sc.id}`).toBe(false);
+          expect(containsTerm(sc.caption, term), `Terme "${term}" dans caption de ${sc.id}`).toBe(false);
+        });
+        expect(sc.alt.includes('—'), `Tiret cadratin dans alt de ${sc.id}`).toBe(false);
+        expect(sc.caption.includes('—'), `Tiret cadratin dans caption de ${sc.id}`).toBe(false);
+      });
     });
   });
 });

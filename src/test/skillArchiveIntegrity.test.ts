@@ -66,4 +66,21 @@ describe('Intégrité Binaire et Pédagogique du Skill AI-CREATOR-DESIGN-INTELLI
     expect(artDirectionContent).toContain('--bg-canvas');
     expect(artDirectionContent).toContain('375 px');
   });
+
+  it('l’archive ZIP contient ACCESS_CODE dans frontend-craft.md et ne contient aucune mention de FRNG, BFR ou marc-v2', () => {
+    const frontendCraft = execSync(
+      `unzip -p "${zipPublic}" ai-creator-design-intelligence/references/frontend-craft.md`,
+      { encoding: 'utf-8' }
+    );
+    expect(frontendCraft).toContain('ACCESS_CODE');
+    expect(frontendCraft).not.toContain('FRNG');
+    expect(frontendCraft).not.toContain('BFR');
+    expect(frontendCraft).not.toContain('marc-v2');
+
+    // Vérification sur l'intégralité du contenu textuel de l'archive ZIP
+    const allZipContent = execSync(`unzip -p "${zipPublic}"`, { encoding: 'utf-8' });
+    expect(allZipContent).not.toContain('FRNG');
+    expect(allZipContent).not.toContain('BFR');
+    expect(allZipContent).not.toContain('marc-v2');
+  });
 });

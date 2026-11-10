@@ -14,6 +14,7 @@ import type {
   ResourceBlock,
   StepChecklistBlock,
   ProseBlock,
+  ScreenshotBlockConfig,
   Day,
   Step,
 } from '../types/course';
@@ -65,6 +66,8 @@ function collectVisibleStrings(day: Day): string[] {
         } else if (block.type === 'resource') {
           strings.push(block.title, block.description ?? '');
           block.resources.forEach((res) => strings.push(res.title, res.description));
+        } else if (block.type === 'screenshot') {
+          strings.push(block.alt, block.caption);
         }
       });
       step.help?.frequentMistakes?.forEach((m) => strings.push(m.mistake, m.correction));
@@ -105,7 +108,26 @@ function assertEditorialStandard(step: Step): void {
 
   const actionBlocks = step.blocks.filter((b) => ACTION_BLOCK_TYPES.includes(b.type));
   expect(actionBlocks.length, `${step.id} a plus d'un bloc d'action`).toBeLessThanOrEqual(1);
-  expect(step.blocks.length, `${step.id} contient un bloc non autorisé`).toBe(1 + actionBlocks.length);
+
+  const screenshotBlocks = step.blocks.filter((b) => b.type === 'screenshot') as ScreenshotBlockConfig[];
+  expect(screenshotBlocks.length, `${step.id} a plus d'une capture d'écran`).toBeLessThanOrEqual(1);
+
+  // Plafond strict de 3 blocs : 1 prose + (0 ou 1 action) + (0 ou 1 screenshot)
+  expect(step.blocks.length, `${step.id} contient un nombre incorrect de blocs`).toBe(
+    1 + actionBlocks.length + screenshotBlocks.length
+  );
+  expect(step.blocks.length, `${step.id} dépasse le plafond de 3 cartes`).toBeLessThanOrEqual(3);
+
+  // Ordre ergonomique immuable : prose en premier, capture au milieu si présente, action à la fin
+  expect(step.blocks[0]).toBe(prose);
+  if (screenshotBlocks.length === 1 && actionBlocks.length === 1) {
+    expect(step.blocks[1]).toBe(screenshotBlocks[0]);
+    expect(step.blocks[2]).toBe(actionBlocks[0]);
+  } else if (screenshotBlocks.length === 1) {
+    expect(step.blocks[1]).toBe(screenshotBlocks[0]);
+  } else if (actionBlocks.length === 1) {
+    expect(step.blocks[1]).toBe(actionBlocks[0]);
+  }
 }
 
 describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et Intégration (Mission 09 LOT B)', () => {
@@ -244,7 +266,7 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
     it('distingue la visibilité Public de Netlify et la barrière .gate par code d’accès en Étape 3', () => {
       const step3 = day03.lessons[0].steps[2];
       const prose = step3.blocks[0] as ProseBlock;
-      const chk = step3.blocks[1] as StepChecklistBlock;
+      const chk = step3.blocks[2] as StepChecklistBlock;
 
       expect(prose.highlightPill).toMatch(/Netlify rend ta page publique/i);
       expect(prose.highlightPill).toMatch(/écran de code/i);
@@ -288,7 +310,7 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
     it('transmet le lien Netlify, le code d’accès et la disponibilité du Guide d’Accès PDF dans TEXTE_INSTRUCTIONS_POST_ACHAT en Étape 2', () => {
       const step2 = day03.lessons[1].steps[1];
       const prose = step2.blocks[0] as ProseBlock;
-      const copy = step2.blocks[1] as CopyBlockConfig;
+      const copy = step2.blocks[2] as CopyBlockConfig;
 
       expect(prose.highlightPill).toMatch(/ne redirige pas automatiquement vers Netlify/i);
       expect(prose.bullets?.some((b) => b.includes('champs entre crochets') && b.includes('code d’accès'))).toBe(true);
@@ -460,6 +482,52 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
         'lesson-07-step-02',
         'lesson-07-step-03',
       ]);
+    });
+  });
+
+  describe('6. Captures d’écran authentiques du Jour 3 (Mission 09 LOT C)', () => {
+    it('intègre exactement 3 captures réelles réparties sur L6-S2, L6-S3 et L7-S2 (0 sur les 3 autres)', () => {
+      const allSteps = day03.lessons.flatMap((l) => l.steps);
+      const stepsWithScreenshots = allSteps.filter((s) => s.blocks.some((b) => b.type === 'screenshot'));
+      expect(stepsWithScreenshots).toHaveLength(3);
+      expect(stepsWithScreenshots.map((s) => s.id)).toEqual([
+        'lesson-06-step-02',
+        'lesson-06-step-03',
+        'lesson-07-step-02',
+      ]);
+
+      const screenshots = allSteps.flatMap((s) => s.blocks.filter((b) => b.type === 'screenshot')) as ScreenshotBlockConfig[];
+      expect(screenshots).toHaveLength(3);
+
+      screenshots.forEach((sc) => {
+        // Présence physique du fichier PNG
+        const filePath = path.resolve(process.cwd(), 'public', sc.src.replace(/^\//, ''));
+        expect(fs.existsSync(filePath), `Fichier ${sc.src} introuvable`).toBe(true);
+
+        const stat = fs.statSync(filePath);
+        expect(stat.size, `Fichier ${sc.src} est vide`).toBeGreaterThan(0);
+
+        // Magic numbers PNG : 89 50 4E 47 0D 0A 1A 0A
+        const fd = fs.openSync(filePath, 'r');
+        const buffer = Buffer.alloc(8);
+        fs.readSync(fd, buffer, 0, 8, 0);
+        fs.closeSync(fd);
+        const pngHeader = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+        expect(buffer.equals(pngHeader), `${sc.src} n'est pas un fichier PNG valide`).toBe(true);
+
+        // Qualité de l'accessibilité
+        expect(sc.alt.trim().length, `alt manquant pour ${sc.id}`).toBeGreaterThan(15);
+        expect(sc.caption.trim().length, `caption manquante pour ${sc.id}`).toBeGreaterThan(10);
+        expect(sc.capturedAt).toBe('10 novembre 2026');
+
+        // Zéro terme de la liste noire et zéro tiret cadratin
+        BLACKLISTED_TERMS.forEach((term) => {
+          expect(containsTerm(sc.alt, term), `Terme "${term}" dans alt de ${sc.id}`).toBe(false);
+          expect(containsTerm(sc.caption, term), `Terme "${term}" dans caption de ${sc.id}`).toBe(false);
+        });
+        expect(sc.alt.includes('—'), `Tiret cadratin dans alt de ${sc.id}`).toBe(false);
+        expect(sc.caption.includes('—'), `Tiret cadratin dans caption de ${sc.id}`).toBe(false);
+      });
     });
   });
 });

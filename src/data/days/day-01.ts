@@ -204,6 +204,14 @@ export const day01: Day = {
               ],
             },
             {
+              id: 'l1-s2-screen-skill',
+              type: 'screenshot',
+              src: '/screenshots/module-01/l1-claude-skill-install.png',
+              alt: 'Interface des paramètres de Claude montrant la compétence ai-creator-design-intelligence active sous la section Créé par vous',
+              caption: 'Activation de la compétence de design dans les paramètres de Claude',
+              capturedAt: '10 novembre 2026',
+            },
+            {
               id: 'l1-s2-resource-skill-zip',
               type: 'resource',
               title: 'Fichier du Skill',
@@ -338,6 +346,14 @@ export const day01: Day = {
                 'Joins ton document existant et colle le Master Prompt 1 sans le modifier.',
                 'Claude propose 3 idées de produits interactifs distinctes sans générer de code.',
               ],
+            },
+            {
+              id: 'l2-s1-screen-concepts',
+              type: 'screenshot',
+              src: '/screenshots/module-01/l2-claude-three-concepts.png',
+              alt: 'Réponse de Claude détaillant trois concepts d interaction concrets rédigés en langage clair sans code informatique',
+              caption: 'Trois propositions d interactions concrètes obtenues avec le premier message',
+              capturedAt: '10 novembre 2026',
             },
             {
               id: 'l2-s1-copy-prompt-analyse',

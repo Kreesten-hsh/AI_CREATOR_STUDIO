@@ -17,7 +17,7 @@ Cette application interactive fonctionne directement dans votre navigateur web s
 
 ## 2. Lien direct
 
-Accédez à votre application à tout moment depuis votre adresse sécurisée :
+Accédez à votre application à tout moment depuis votre lien direct vers l'application :
 
 - **Lien direct vers l'application :** [VOTRE LIEN NETLIFY] (exemple de format : `https://votre-outil.netlify.app`)
 - **Action recommandée :** Ouvrez ce lien dès maintenant et ajoutez-le à vos **favoris** (ou à votre écran d'accueil sur mobile) pour retrouver votre outil en un clic.

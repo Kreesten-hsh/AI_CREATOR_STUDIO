@@ -134,6 +134,14 @@ export const day03: Day = {
               ],
             },
             {
+              id: 'l6-s2-screen-netlify-drop',
+              type: 'screenshot',
+              src: '/screenshots/module-03/l6-netlify-drop-upload.png',
+              alt: 'Interface d accueil de Netlify Drop invitant à glisser et déposer un dossier ou un fichier HTML pour une publication immédiate',
+              caption: 'Zone de dépôt Netlify Drop pour publier un dossier sans ligne de commande',
+              capturedAt: '10 novembre 2026',
+            },
+            {
               id: 'l6-s2-checklist',
               type: 'checklist',
               title: 'Contrôles de mise en ligne',
@@ -205,6 +213,14 @@ export const day03: Day = {
                 'Ton code d’accès est une barrière JavaScript dissuasive, pas une authentification serveur.',
                 'Teste en navigation privée et sur smartphone : mauvais code refusé, bon code accepté.',
               ],
+            },
+            {
+              id: 'l6-s3-screen-netlify-public',
+              type: 'screenshot',
+              src: '/screenshots/module-03/l6-netlify-visibility-subdomain.png',
+              alt: 'Notification de Netlify confirmant que le projet déployé est public avec son adresse en ligne attribuée',
+              caption: 'Confirmation de la visibilité publique et de l adresse en ligne attribuée sur Netlify',
+              capturedAt: '10 novembre 2026',
             },
             {
               id: 'l6-s3-checklist',
@@ -356,6 +372,14 @@ export const day03: Day = {
                 'Exporte ton guide en PDF et téléverse-le dans le contenu de ton produit Fichiers.',
                 'Dans Produits > Modifier > Informations, colle le message ci-dessous complété, puis enregistre.',
               ],
+            },
+            {
+              id: 'l7-s2-screen-chariow-instructions',
+              type: 'screenshot',
+              src: '/screenshots/module-03/l7-chariow-post-purchase.png',
+              alt: 'Section de téléversement du contenu produit dans Chariow avec le guide d accès client au format PDF rattaché',
+              caption: 'Rattachement du guide d accès client au format PDF dans l espace vendeur Chariow',
+              capturedAt: '10 novembre 2026',
             },
             {
               id: 'l7-s2-copy-instructions',

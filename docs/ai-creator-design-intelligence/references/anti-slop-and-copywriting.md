@@ -17,7 +17,7 @@ Pour chaque choix visuel, applique le **Test d'Intention Fonctionnelle** :
 
 | Réflexe générique par défaut (Présomption de Slop) | Pourquoi cela affaiblit souvent l'interface | Exception fonctionnelle légitime & Exécution recommandée |
 | :--- | :--- | :--- |
-| **Grille uniforme de 3 ou 4 cartes blanches identiques sur fond gris `#F8FAFC`** | Écrase la hiérarchie : l'indicateur vital (ex. Trésorerie Nette) a exactement le même poids visuel qu'un sous-total secondaire. | **Exception** : comparer des éléments strictement homologues (ex. les 4 cadrans Q1–Q4 d'une matrice).<br>**Solution** : différencier chaque cadran par un en-tête/bordure sémantique et isoler le verdict principal dans un **Ticket de Verdict** distinct à fond plein engagé. |
+| **Grille uniforme de 3 ou 4 cartes blanches identiques sur fond gris `#F8FAFC`** | Écrase la hiérarchie : l'indicateur vital (ex. Prix de vente conseillé ou Bénéfice net par vente) a exactement le même poids visuel qu'un sous-total secondaire. | **Exception** : comparer des éléments strictement homologues (ex. les 4 cadrans Q1–Q4 d'une matrice).<br>**Solution** : différencier chaque cadran par un en-tête/bordure sémantique et isoler le verdict principal dans un **Ticket de Verdict** distinct à fond plein engagé. |
 | **Dégradés bleu-violet / cyan-indigo ou halos flous décoratifs** | Signature visuelle immédiate des templates SaaS générés par IA ; n'exprime aucune identité métier réelle. | **Exception** : une barre de jauge thermique progressive (vert $\rightarrow$ ambre $\rightarrow$ rouge) matérialisant un seuil critique.<br>**Solution** : utiliser des aplats francs, des surfaces teintées chaudes ou froides et des bordures nettes. |
 | **Glassmorphisme généralisé (`backdrop-filter: blur`) et ombres floues grises (`0 10px 25px rgba(0,0,0,0.05)`)** | Rend l'interface molle et brumeuse, réduit le contraste de lecture et manque de caractère graphique. | **Exception** : modale de confirmation superposée.<br>**Solution** : privilégier l'élévation par contraste de surface (`--bg-elevated`, `--bg-spotlight`), bordures franches (`1.5px`–`2px`) ou ombres décalées nettes (`4px 4px 0px`). |
 | **Emojis utilisés comme icônes d'interface structurelles (`💰`, `🚀`, `📊`, `⚠️` seuls)** | Rendu incohérent selon l'OS (Windows, macOS, Android), alignement approximatif et aspect amateur dans un outil professionnel. | **Exception** : lorsque le document source de l'apprenant utilise explicitement un code symbolique que l'utilisateur final souhaite retrouver dans du texte exporté.<br>**Solution** : utiliser des **icônes SVG inline** au trait `2px` (`stroke="currentColor"`) ou des badges numérotés typographiques (`01`, `02`, `ÉTAPE A`). |
@@ -35,10 +35,10 @@ Le texte affiché dans l'interface fait partie intégrante du design :
 2. **Bannir le vocabulaire promotionnel creux d'IA** :
    Proscrire dans les titres, sous-titres et consignes les formules : *« Plongez dans »*, *« Libérez le plein potentiel de »*, *« Révolutionnez votre gestion »*, *« Une approche holistique et transparente »*, *« Solution tout-en-un »*.
    - *Mauvais* : « Optimisez la synergie de vos flux financiers grâce à notre simulateur intelligent. »
-   - *Bon* : « Vérifiez en direct si votre Fonds de Roulement couvre votre Besoin en Fonds de Roulement. »
+   - *Bon* : « Calculez en direct votre prix de vente conseillé et vérifiez votre marge nette. »
 3. **Libellés de boutons précis et orientés action** :
    - Préférer *« Charger le cas de référence »* à *« Exemple »*.
    - Préférer *« Copier la trame d'entretien »* à *« Copier »*.
    - Préférer *« Effacer mes tâches enregistrées »* à *« Reset »*.
 4. **Messages de cas limites explicites et fidèles à la source** :
-   Lorsqu'un calcul est mathématiquement impossible ou hors seuil (ex. `CA = 0` ou `Dettes CT = 0`), affiche la formulation métier exacte prévue par le document source plutôt qu'un message générique `Erreur` ou un tiret `-` ambigu.
+   Lorsqu'un calcul est mathématiquement impossible ou hors seuil (ex. `coût de revient = 0` ou `cumul des frais >= 100 %`), affiche la formulation métier exacte prévue par le document source plutôt qu'un message générique `Erreur` ou un tiret `-` ambigu.

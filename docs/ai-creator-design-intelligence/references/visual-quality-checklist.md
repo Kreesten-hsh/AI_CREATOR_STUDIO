@@ -12,7 +12,7 @@ Avant d'écrire la balise `<!DOCTYPE html>`, passe mentalement l'interface conç
    *Si je masque le titre principal, devine-t-on immédiatement de quel outil métier il s'agit (un bordereau de solvabilité, un carnet d'entretien RH, un plateau de charge énergétique) ?*
    - *Correction immédiate si non* : transformer la zone de résultat en un composant signature nommé et structuré comme un objet réel du métier (ticket, feuille éditoriale, baromètre).
 2. **Test de la Pièce Maîtresse (Contre l'aplatissement visuel)** :
-   *Le verdict principal (ex. la Trésorerie Nette ou la trame générée) se détache-t-il au premier coup d'œil par sa surface (`--bg-spotlight`), sa bordure et son échelle typographique (`clamp(2rem, 4vw, 3.25rem)`) ?*
+   *Le verdict principal (ex. le Prix de vente conseillé ou l'encadré de Bénéfice net) se détache-t-il au premier coup d'œil par sa surface (`--bg-spotlight`), sa bordure et son échelle typographique (`clamp(2rem, 4vw, 3.25rem)`) ?*
    - *Correction immédiate si non* : engager une couleur de fond pleine sur le panneau de verdict et doubler l'écart d'échelle entre le chiffre/résultat roi et les sous-indicateurs.
 3. **Test d'Asymétrie et de Rythme (Contre la monotonie des grilles)** :
    *Ai-je empilé 3 ou 4 cartes blanches identiques sans variation de rôle ou d'importance ?*
@@ -35,6 +35,6 @@ Lorsque l'apprenant ou le testeur QA fournit une capture d'écran (`375 px`, `76
    - Y a-t-il une collision de texte, un chiffre tronqué ou un alignement cassé ?
    - Les bordures et contrastes de surface sont-ils suffisamment francs sur un écran réel ?
 2. **Formuler 3 corrections visuelles ciblées** :
-   Annoncer clairement en 3 puces ce qui va être modifié (ex. *« 1. Passage du panneau de résultat sur fond plein `#0F291E` avec montant en Serif `48px` ; 2. Regroupement des 6 champs en 2 blocs bilanciels numérotés ; 3. Ajout d'une barre visuelle FRNG vs BFR »*).
+   Annoncer clairement en 3 puces ce qui va être modifié (ex. *« 1. Passage du panneau de résultat sur fond plein forêt `#123829` avec montant en Serif `44px` ; 2. Regroupement des champs en 2 blocs structurés (Coûts directs & Paramètres de marge) ; 3. Ajout d'une jauge comparative Coût de revient vs Marge nette »*).
 3. **Préserver 100 % des formules et identifiants logiques** :
-   Une retouche visuelle en L5 ne doit jamais altérer une équation mathématique, supprimer un cas limite (`CA = 0`, `Dettes CT = 0`) ni casser le `StorageAdapter`.
+   Une retouche visuelle en L5 ne doit jamais altérer une équation mathématique, supprimer un cas limite (`coût de revient = 0` ou `taux de frais >= 100 %`) ni casser le `StorageAdapter`.

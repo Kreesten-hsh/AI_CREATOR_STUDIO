@@ -41,7 +41,7 @@ export const MASTER_PROMPT_2_XML = `<prompt id="PROMPT-GENERATION-PRODUIT-HTML" 
       - (c) Uniquement lorsque \`localStorage\` est utilisé pour le suivi métier (cas b), intégrer deux contrôles discrets et accessibles (« Exporter ma sauvegarde (.json) » et « Importer une sauvegarde (.json) ») permettant à l'acheteur de transférer manuellement sa progression entre son ordinateur et son smartphone, sans jamais promettre de synchronisation cloud automatique.
     </rule>
     <rule id="R8">ACCESSIBILITÉ & ERGONOMIE PHYSIQUE :
-      - Contrôles tactiles et champs \`<input>\` accessibles au doigt ($\\ge 38\\text{ px}$ à $44\\text{ px}$).
+      - Contrôles tactiles et champs \`<input>\` accessibles au doigt ($\\ge 44\\text{ px}$).
       - Anneau \`:focus-visible\` contrasté et visible (ratio $\\ge 3:1$).
       - Ratios de contraste WCAG AA respectés ($\\ge 4.5:1$ sur texte courant, $\\ge 3:1$ sur grands textes et composants).
       - Zéro scroll horizontal à \`375 px\` (\`overflow-x: hidden\` proscrit sur \`body/html\`).
@@ -372,6 +372,14 @@ export const day02: Day = {
               ],
             },
             {
+              id: 'l4-s2-screen-download',
+              type: 'screenshot',
+              src: '/screenshots/module-02/l4-claude-code-download.png',
+              alt: 'Interface de Claude présentant le code HTML autonome généré et la prévisualisation de l écran d accès réservé avec mot de passe',
+              caption: 'Code autonome généré dans Claude avec prévisualisation de l écran de verrouillage',
+              capturedAt: '10 novembre 2026',
+            },
+            {
               id: 'l4-s2-checklist',
               type: 'checklist',
               title: 'Vérification de ton fichier',
@@ -518,6 +526,14 @@ export const day02: Day = {
                 'Vérifie à nouveau le code d’accès : mauvais code refusé, bon code accepté.',
                 'Avec F12, teste l’affichage à 375 px et vérifie que chaque bouton se touche facilement au doigt.',
               ],
+            },
+            {
+              id: 'l5-s1-screen-responsive',
+              type: 'screenshot',
+              src: '/screenshots/module-02/l5-devtools-mobile-375px.png',
+              alt: 'Rendu du calculateur de prix sur écran mobile sans débordement horizontal avec formulaire déverrouillé',
+              caption: 'Contrôle du rendu mobile du calculateur de prix sans débordement horizontal',
+              capturedAt: '10 novembre 2026',
             },
             {
               id: 'l5-s1-checklist',

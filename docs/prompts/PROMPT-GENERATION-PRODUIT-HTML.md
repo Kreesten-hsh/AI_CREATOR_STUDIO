@@ -46,7 +46,7 @@ Ce prompt est la seconde étape du parcours standard. Il doit être collé **dan
       - (c) Uniquement lorsque `localStorage` est utilisé pour le suivi métier (cas b), intégrer deux contrôles discrets et accessibles (« Exporter ma sauvegarde (.json) » et « Importer une sauvegarde (.json) ») permettant à l'acheteur de transférer manuellement sa progression entre son ordinateur et son smartphone, sans jamais promettre de synchronisation cloud automatique.
     </rule>
     <rule id="R8">ACCESSIBILITÉ & ERGONOMIE PHYSIQUE :
-      - Contrôles tactiles et champs `<input>` accessibles au doigt ($\ge 38\text{ px}$ à $44\text{ px}$).
+      - Contrôles tactiles et champs `<input>` accessibles au doigt ($\ge 44\text{ px}$).
       - Anneau `:focus-visible` contrasté et visible (ratio $\ge 3:1$).
       - Ratios de contraste WCAG AA respectés ($\ge 4.5:1$ sur texte courant, $\ge 3:1$ sur grands textes et composants).
       - Zéro scroll horizontal à `375 px` (`overflow-x: hidden` proscrit sur `body/html`).
