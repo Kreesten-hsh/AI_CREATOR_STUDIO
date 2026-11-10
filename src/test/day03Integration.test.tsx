@@ -1,15 +1,114 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
+import * as fs from 'fs';
+import * as path from 'path';
 import { ProgressProvider } from '../context/ProgressContext';
 import { CourseWorkspaceRouter } from '../app/routes';
 import { CourseSidebar } from '../components/course/CourseSidebar';
 import { COURSE_DATA } from '../data/course';
 import { createInitialProgress, saveProgressToStorage, loadProgressFromStorage } from '../utils/storage';
 import { day03, PROMPT_L6_NETLIFY_HELP, TEXTE_INSTRUCTIONS_POST_ACHAT } from '../data/days/day-03';
-import type { CopyBlockConfig, StepChecklistBlock, ProseBlock } from '../types/course';
+import type {
+  CopyBlockConfig,
+  ResourceBlock,
+  StepChecklistBlock,
+  ProseBlock,
+  Day,
+  Step,
+} from '../types/course';
 
-describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et Intégration (Mission 06)', () => {
+// Liste noire commune aux trois journées (18 termes).
+const BLACKLISTED_TERMS = [
+  'invariant',
+  'invariants',
+  'logique métier',
+  'Source Fidelity Mapping',
+  'SFM',
+  'Product Blueprint',
+  'Blueprint',
+  'Visual Direction Brief',
+  'VDB',
+  'artefact',
+  'heuristique',
+  'nœuds clés',
+  'matrice conceptuelle',
+  'transcription accessible',
+  'repère pédagogique',
+  'mythe du document parfait',
+  'persistance volatile',
+  'monofichier',
+];
+
+const ACTION_BLOCK_TYPES = ['resource', 'copy', 'checklist'];
+
+const countWords = (text: string): number => text.trim().split(/\s+/).filter(Boolean).length;
+
+const containsTerm = (text: string, term: string): boolean =>
+  new RegExp(`(^|[^\\p{L}])${term}([^\\p{L}]|$)`, 'iu').test(text);
+
+// Contenu visible de l'apprenant, hors contenu des prompts copiables.
+function collectVisibleStrings(day: Day): string[] {
+  const strings: string[] = [day.title, day.objective, day.deliverableSummary];
+  day.lessons.forEach((lesson) => {
+    strings.push(lesson.title, lesson.navigationTitle ?? '', lesson.objective, lesson.deliverableSummary);
+    lesson.steps.forEach((step) => {
+      strings.push(step.title, step.subtitle ?? '', step.completionLabel);
+      step.blocks.forEach((block) => {
+        if (block.type === 'prose') {
+          strings.push(block.title ?? '', block.italicAccent ?? '', block.highlightPill ?? '', ...block.paragraphs, ...(block.bullets ?? []));
+        } else if (block.type === 'checklist') {
+          strings.push(block.title, block.description ?? '');
+          block.items.forEach((item) => strings.push(item.label, item.detail ?? ''));
+        } else if (block.type === 'copy') {
+          strings.push(block.title, block.label, block.notes ?? '', block.buttonText ?? '');
+        } else if (block.type === 'resource') {
+          strings.push(block.title, block.description ?? '');
+          block.resources.forEach((res) => strings.push(res.title, res.description));
+        }
+      });
+      step.help?.frequentMistakes?.forEach((m) => strings.push(m.mistake, m.correction));
+      step.help?.tips?.forEach((t) => strings.push(t));
+      step.help?.troubleshootingPrompts?.forEach((p) => strings.push(p.title, p.description));
+    });
+  });
+  return strings;
+}
+
+function assertEditorialStandard(step: Step): void {
+  expect(step.title.length, `Titre trop long : ${step.id}`).toBeLessThan(18);
+  expect(countWords(step.title), `Titre de ${step.id} > 2 mots ("${step.title}")`).toBeLessThanOrEqual(2);
+  if (step.subtitle) {
+    expect(step.subtitle.length, `Sous-titre trop long : ${step.id}`).toBeLessThan(22);
+    expect(countWords(step.subtitle), `Sous-titre de ${step.id} > 3 mots`).toBeLessThanOrEqual(3);
+  }
+
+  const proseBlocks = step.blocks.filter((b) => b.type === 'prose') as ProseBlock[];
+  expect(proseBlocks, `${step.id} doit avoir une seule carte prose`).toHaveLength(1);
+  const prose = proseBlocks[0];
+  expect(step.blocks[0]).toBe(prose);
+  expect(prose.title).toBeTruthy();
+  expect(prose.italicAccent).toBeTruthy();
+  expect(prose.highlightPill).toBeTruthy();
+  expect(prose.eyebrow).toBeUndefined();
+
+  const openingWords = countWords(prose.paragraphs[0]);
+  expect(openingWords, `Ouverture de ${step.id} (${openingWords} mots)`).toBeGreaterThanOrEqual(10);
+  expect(openingWords, `Ouverture de ${step.id} (${openingWords} mots)`).toBeLessThanOrEqual(18);
+
+  expect((prose.bullets ?? []).length, `${step.id} dépasse 3 puces`).toBeLessThanOrEqual(3);
+
+  const visibleWords = [prose.highlightPill ?? '', ...prose.paragraphs, ...(prose.bullets ?? [])]
+    .map(countWords)
+    .reduce((a, b) => a + b, 0);
+  expect(visibleWords, `Prose visible de ${step.id} = ${visibleWords} mots`).toBeLessThanOrEqual(80);
+
+  const actionBlocks = step.blocks.filter((b) => ACTION_BLOCK_TYPES.includes(b.type));
+  expect(actionBlocks.length, `${step.id} a plus d'un bloc d'action`).toBeLessThanOrEqual(1);
+  expect(step.blocks.length, `${step.id} contient un bloc non autorisé`).toBe(1 + actionBlocks.length);
+}
+
+describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et Intégration (Mission 09 LOT B)', () => {
   beforeEach(() => {
     localStorage.clear();
   });
@@ -26,7 +125,7 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
       expect(l6.moduleId).toBe('module-03');
       expect(l6.dayId).toBe('day-03');
       expect(l6.title).toBe('Publier son application sur Netlify');
-      expect(l6.navigationTitle).toBe('Publier');
+      expect(l6.navigationTitle).toBe('Mettre en ligne');
       expect(l6.duration).toBe('~25 min');
       expect(l6.isSkeletonPlaceholder).toBe(false);
       expect(l6.objective).toBeTruthy();
@@ -44,7 +143,7 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
       expect(l7.moduleId).toBe('module-03');
       expect(l7.dayId).toBe('day-03');
       expect(l7.title).toBe("Organiser la livraison via Chariow et tester le parcours d'achat");
-      expect(l7.navigationTitle).toBe('Vendre');
+      expect(l7.navigationTitle).toBe('Vendre sur Chariow');
       expect(l7.duration).toBe('~35 min');
       expect(l7.isSkeletonPlaceholder).toBe(false);
       expect(l7.objective).toBeTruthy();
@@ -71,97 +170,56 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
         </ProgressProvider>
       );
 
-      expect(screen.getByText(/^Publier$/i)).toBeInTheDocument();
-      expect(screen.getByText(/^Vendre$/i)).toBeInTheDocument();
+      expect(screen.getByText('Mettre en ligne')).toBeInTheDocument();
+      expect(screen.getByText('Vendre sur Chariow')).toBeInTheDocument();
     });
   });
 
-  describe('2. Standard éditorial Abigail Peugh (Concision, titres courts et rythme cognitif)', () => {
-    it('applique des titres d’étape de 2 mots maximum et des sous-titres de 3 mots maximum', () => {
-      for (const lesson of day03.lessons) {
-        for (const step of lesson.steps) {
-          const titleWords = step.title.trim().split(/\s+/).length;
-          expect(titleWords).toBeLessThanOrEqual(2);
-
-          if (step.subtitle) {
-            const subtitleWords = step.subtitle.trim().split(/\s+/).length;
-            expect(subtitleWords).toBeLessThanOrEqual(3);
-          }
-        }
-      }
+  describe('2. Standard éditorial Abigail Peugh, liste noire et anti-slop', () => {
+    it('applique le standard éditorial aux 6 étapes (titres <= 2 mots, sous-titres <= 3 mots, ouverture 10-18 mots, <= 80 mots, <= 3 puces, 1 carte prose, <= 1 bloc action)', () => {
+      const allSteps = day03.lessons.flatMap((l) => l.steps);
+      expect(allSteps).toHaveLength(6);
+      allSteps.forEach(assertEditorialStandard);
     });
 
-    it('débute chaque étape par une phrase d’ouverture active de 10 à 18 mots', () => {
-      for (const lesson of day03.lessons) {
-        for (const step of lesson.steps) {
-          const proseBlock = step.blocks.find((b) => b.type === 'prose') as ProseBlock | undefined;
-          expect(proseBlock).toBeDefined();
-          expect(proseBlock?.paragraphs.length).toBeGreaterThanOrEqual(1);
+    it('garantit l’absence des 18 termes interdits dans tout le contenu visible (hors prompts copiables)', () => {
+      const fullVisibleText = collectVisibleStrings(day03).join(' \n ');
 
-          const opener = proseBlock!.paragraphs[0];
-          const wordCount = opener.trim().split(/\s+/).length;
-          expect(
-            wordCount,
-            `L'ouverture de l'étape "${step.title}" (${lesson.id}) doit compter entre 10 et 18 mots (actuel: ${wordCount} mots: "${opener}")`
-          ).toBeGreaterThanOrEqual(10);
-          expect(
-            wordCount,
-            `L'ouverture de l'étape "${step.title}" (${lesson.id}) doit compter entre 10 et 18 mots (actuel: ${wordCount} mots: "${opener}")`
-          ).toBeLessThanOrEqual(18);
-        }
-      }
+      BLACKLISTED_TERMS.forEach((term) => {
+        expect(
+          containsTerm(fullVisibleText, term),
+          `Le terme interdit "${term}" a été détecté dans le contenu visible de l'élève en Journée 3 !`
+        ).toBe(false);
+      });
     });
 
-    it('respecte un plafond strict de 80 mots de prose visible par étape', () => {
-      for (const lesson of day03.lessons) {
-        for (const step of lesson.steps) {
-          const proseBlocks = step.blocks.filter((b) => b.type === 'prose') as ProseBlock[];
-          let totalProseWords = 0;
+    it('garantit l’absence formelle de blocs parasites dans day-03 (zéro diagram, quiz, callout, text-exercise)', () => {
+      const allSteps = day03.lessons.flatMap((l) => l.steps);
+      const bannedTypes = ['diagram', 'quiz', 'callout', 'text-exercise'];
 
-          for (const block of proseBlocks) {
-            for (const p of block.paragraphs) {
-              totalProseWords += p.trim().split(/\s+/).length;
-            }
-            if (block.bullets) {
-              for (const bullet of block.bullets) {
-                totalProseWords += bullet.trim().split(/\s+/).length;
-              }
-            }
-          }
-
-          expect(
-            totalProseWords,
-            `Le texte de l'étape "${step.title}" (${lesson.id}) dépasse la limite de 80 mots (actuel: ${totalProseWords} mots)`
-          ).toBeLessThanOrEqual(80);
-        }
-      }
+      allSteps.forEach((step) => {
+        step.blocks.forEach((block) => {
+          expect(bannedTypes.includes(block.type)).toBe(false);
+        });
+      });
     });
 
-    it('équipe chaque étape d’un highlightPill thématique et d’au plus un bloc d’action immédiate', () => {
-      for (const lesson of day03.lessons) {
-        for (const step of lesson.steps) {
-          const proseBlock = step.blocks.find((b) => b.type === 'prose') as ProseBlock | undefined;
-          expect(proseBlock?.highlightPill).toBeTruthy();
-
-          const actionBlocks = step.blocks.filter(
-            (b) => b.type === 'checklist' || b.type === 'copy'
-          );
-          expect(
-            actionBlocks.length,
-            `L'étape "${step.title}" (${lesson.id}) doit comporter au maximum 1 bloc d'action immédiate`
-          ).toBeLessThanOrEqual(1);
-        }
-      }
+    it('respecte la charte anti-slop sans aucun tiret cadratin dans day-03.ts', () => {
+      const day03FilePath = path.resolve(process.cwd(), 'src/data/days/day-03.ts');
+      const day03FileContent = fs.readFileSync(day03FilePath, 'utf-8');
+      expect(day03FileContent.includes('\u2014')).toBe(false);
     });
   });
 
-  describe('3. Contenu et rigueur technique de la Leçon 06 (Publier)', () => {
+  describe('3. Contenu et rigueur technique de la Leçon 06 (Mettre en ligne)', () => {
     it('cadre la structure du dossier mon-application et de index.html en Étape 1', () => {
       const step1 = day03.lessons[0].steps[0];
       const prose = step1.blocks[0] as ProseBlock;
       const chk = step1.blocks[1] as StepChecklistBlock;
 
       expect(prose.highlightPill).toMatch(/Ne dépose jamais un fichier isolé/i);
+      expect(prose.bullets?.some((b) => b.includes('index.html') && b.includes('minuscules'))).toBe(true);
+      expect(prose.bullets?.some((b) => b.includes('décompressé'))).toBe(true);
       expect(chk.items.some((i) => i.label.includes('index.html'))).toBe(true);
       expect(chk.items.some((i) => i.label.includes('minuscules'))).toBe(true);
 
@@ -174,89 +232,112 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
       const step2 = day03.lessons[0].steps[1];
       const prose = step2.blocks[0] as ProseBlock;
 
-      // Limite des crédits mensuels et mise en pause dans le highlightPill
       expect(prose.highlightPill).toMatch(/quota mensuel de crédits : les projets peuvent être mis en pause/i);
       expect(prose.bullets?.some((b) => b.includes('app.netlify.com/drop'))).toBe(true);
 
-      // Présence du prompt de dépannage 404
       const prompts = step2.help?.troubleshootingPrompts ?? [];
       expect(prompts).toHaveLength(1);
       expect(prompts[0].id).toBe('l6-troubleshoot-404');
       expect(prompts[0].prompt).toBe(PROMPT_L6_NETLIFY_HELP);
     });
 
-    it('cadre la personnalisation du nom, la visibilité publique, le paramétrage par défaut d’équipe et HTTPS sans config manuelle en Étape 3', () => {
+    it('distingue la visibilité Public de Netlify et la barrière .gate par code d’accès en Étape 3', () => {
       const step3 = day03.lessons[0].steps[2];
       const prose = step3.blocks[0] as ProseBlock;
       const chk = step3.blocks[1] as StepChecklistBlock;
 
-      // Affirme le statut d'application web statique publique
-      expect(prose.highlightPill).toMatch(/ton application statique reste publique/i);
+      expect(prose.highlightPill).toMatch(/Netlify rend ta page publique/i);
+      expect(prose.highlightPill).toMatch(/écran de code/i);
 
-      // Chemin complet de renommage
-      expect(prose.bullets?.some((b) => b.includes('Project Overview > Customize > Manage project name and cover image'))).toBe(true);
+      expect(prose.bullets?.some((b) => b.includes('Public') && b.includes('sans mot de passe Netlify'))).toBe(true);
+      expect(prose.bullets?.some((b) => b.includes('barrière JavaScript dissuasive') && b.includes('pas une authentification serveur'))).toBe(true);
+      expect(prose.bullets?.some((b) => b.includes('mauvais code refusé') && b.includes('bon code accepté'))).toBe(true);
 
-      // Chemin complet de visibilité publique
-      expect(prose.bullets?.some((b) => b.includes('Project configuration > General > Visitor access > Project visibility la valeur Public'))).toBe(true);
-
-      // Mention des projets privés par défaut selon l'équipe
-      expect(prose.bullets?.some((b) => b.includes('privés par défaut selon l’équipe'))).toBe(true);
-
-      // Certificat HTTPS provisionné automatiquement sans configuration manuelle
-      expect(prose.bullets?.some((b) => b.includes('certificat sécurisé HTTPS est provisionné automatiquement sans aucune configuration manuelle'))).toBe(true);
-
-      // Test en navigation privée et smartphone
-      expect(prose.bullets?.some((b) => b.includes('navigation privée et sur smartphone'))).toBe(true);
-
-      // Checklist mobile & HTTPS
-      expect(chk.items.some((i) => i.label.includes('netlify.app'))).toBe(true);
-      expect(chk.items.some((i) => i.label.includes('navigation privée'))).toBe(true);
-      expect(chk.items.some((i) => i.label.includes('smartphone'))).toBe(true);
+      expect(chk.items).toHaveLength(4);
+      expect(chk.items.some((i) => i.label.includes('HTTPS') && i.label.includes('Public'))).toBe(true);
+      expect(chk.items.some((i) => i.label.includes('écran de code') && (i.detail ?? '').includes('.gate'))).toBe(true);
+      expect(chk.items.some((i) => i.label.includes('mauvais code est refusé') && i.label.includes('bon code déverrouille'))).toBe(true);
+      expect(chk.items.some((i) => i.label.includes('ordinateur') && i.label.includes('smartphone'))).toBe(true);
     });
   });
 
-  describe('4. Contenu et rigueur commerciale de la Leçon 07 (Vendre)', () => {
-    it('utilise exclusivement le type Files, requiert les dimensions visuelles minimales et le clic sur Publier en Étape 1', () => {
+  describe('4. Contenu, Guide d’Accès PDF et rigueur commerciale de la Leçon 07 (Vendre sur Chariow)', () => {
+    it('intègre le téléchargement du modèle de Guide d’Accès PDF et préserve les critères de l’offre Fichiers en Étape 1', () => {
       const step1 = day03.lessons[1].steps[0];
       const prose = step1.blocks[0] as ProseBlock;
-      const chk = step1.blocks[1] as StepChecklistBlock;
+      const resourceBlock = step1.blocks[1] as ResourceBlock;
 
-      expect(prose.bullets?.some((b) => b.includes('Fichiers'))).toBe(true);
+      expect(prose.highlightPill).toContain('Guide d’Accès PDF');
+      expect(prose.bullets?.some((b) => b.includes('Fichiers') && b.includes('catégorie') && b.includes('prix'))).toBe(true);
       expect(prose.bullets?.some((b) => b.includes('600 × 600 px') && b.includes('702 × 260 px'))).toBe(true);
       expect(prose.bullets?.some((b) => b.includes('Publier'))).toBe(true);
-      expect(chk.items.some((i) => i.label.includes('Fichiers'))).toBe(true);
 
-      // Règle de design : interdiction d'imposer la charte Burgundy/Cream du studio
-      expect(prose.highlightPill).toMatch(/n’utilise pas la charte Burgundy\/Cream/i);
+      expect(resourceBlock).toBeDefined();
+      expect(resourceBlock.type).toBe('resource');
+      expect(resourceBlock.resources).toHaveLength(1);
+      const pdfRes = resourceBlock.resources[0];
+      expect(pdfRes.externalUrl).toBe('/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf');
+      expect(pdfRes.downloadFilename).toBe('GUIDE-ACCES-CLIENT-MODELE.pdf');
+      expect(pdfRes.format).toBe('PDF');
 
-      // Anti-piège : ne pas prétendre utiliser Licences pour verrouiller
       const mistakes = step1.help?.frequentMistakes ?? [];
       expect(mistakes.some((m) => m.mistake.includes('Licences'))).toBe(true);
-      expect(mistakes.some((m) => m.correction.includes('600 × 600 px') && m.correction.includes('702 × 260 px'))).toBe(true);
+      expect(mistakes.some((m) => m.correction.includes('Burgundy/Cream'))).toBe(true);
     });
 
-    it('fournit le Guide PDF et la trame d’instructions après achat sans fausse redirection ni mention ci-joint en Étape 2', () => {
+    it('transmet le lien Netlify, le code d’accès et la disponibilité du Guide d’Accès PDF dans TEXTE_INSTRUCTIONS_POST_ACHAT en Étape 2', () => {
       const step2 = day03.lessons[1].steps[1];
       const prose = step2.blocks[0] as ProseBlock;
       const copy = step2.blocks[1] as CopyBlockConfig;
 
-      // Clarification de la non-protection du site statique
-      expect(prose.highlightPill).toMatch(/l’adresse Netlify reste publique/i);
+      expect(prose.highlightPill).toMatch(/ne redirige pas automatiquement vers Netlify/i);
+      expect(prose.bullets?.some((b) => b.includes('champs entre crochets') && b.includes('code d’accès'))).toBe(true);
 
-      // CopyBlock des instructions post-achat
       expect(copy.type).toBe('copy');
       expect(copy.id).toBe('l7-s2-copy-instructions');
       expect(copy.content).toBe(TEXTE_INSTRUCTIONS_POST_ACHAT);
-      expect(copy.content).toMatch(/Merci pour votre achat/i);
-      expect(copy.content).toMatch(/\[VOTRE LIEN NETLIFY\]/i);
-
-      // Formulation exacte : "depuis les fichiers disponibles après votre achat" et bannissement de "ci-joint"
-      expect(copy.content).toMatch(/Téléchargez votre Guide d'Accueil PDF depuis les fichiers disponibles après votre achat/i);
+      expect(copy.content).toMatch(/\[VOTRE LIEN NETLIFY\]/);
+      expect(copy.content).toMatch(/\[VOTRE CODE D'ACCÈS\]/);
+      expect(copy.content).toMatch(/Guide d'Accès PDF depuis les fichiers disponibles après votre achat/);
+      expect(copy.content).toMatch(/ne sont pas synchronisées automatiquement/);
       expect(copy.content).not.toMatch(/ci-joint/i);
+    });
 
-      // Anti-piège : pas de redirection automatique universelle
-      const mistakes = step2.help?.frequentMistakes ?? [];
-      expect(mistakes.some((m) => m.mistake.includes('redirige automatiquement'))).toBe(true);
+    it('vérifie l’existence et la validité de la source Markdown et du fichier GUIDE-ACCES-CLIENT-MODELE.pdf', () => {
+      const sourcePath = path.resolve(process.cwd(), 'docs/guides/GUIDE-ACCES-CLIENT-SOURCE.md');
+      expect(fs.existsSync(sourcePath)).toBe(true);
+      const sourceContent = fs.readFileSync(sourcePath, 'utf-8');
+
+      // Vérifie les 10 sections obligatoires
+      expect(sourceContent).toContain('## 1. Présentation du produit');
+      expect(sourceContent).toContain('## 2. Lien direct');
+      expect(sourceContent).toContain("## 3. Code d'accès");
+      expect(sourceContent).toContain('## 4. Utilisation sur ordinateur');
+      expect(sourceContent).toContain('## 5. Utilisation sur smartphone et tablette');
+      expect(sourceContent).toContain('## 6. Sauvegarde des données');
+      expect(sourceContent).toContain('## 7. Export et import JSON');
+      expect(sourceContent).toContain('## 8. Dépannage');
+      expect(sourceContent).toContain('## 9. Contact');
+      expect(sourceContent).toContain('## 10. Mises à jour');
+
+      // Vérifie les champs personnalisables obligatoires et l'absence de CREATOR2026 imposé
+      expect(sourceContent).toContain('[NOM DE VOTRE APPLICATION]');
+      expect(sourceContent).toContain('[DESCRIPTION DE VOTRE APPLICATION]');
+      expect(sourceContent).toContain('[VOTRE LIEN NETLIFY]');
+      expect(sourceContent).toContain("[VOTRE CODE D'ACCÈS]");
+      expect(sourceContent).toContain('[VOTRE EMAIL]');
+      expect(sourceContent).toContain('[VOTRE DÉLAI DE RÉPONSE]');
+      expect(sourceContent).not.toContain('CREATOR2026');
+      expect(sourceContent).toMatch(/ne sont jamais synchronisées automatiquement/i);
+      expect(sourceContent).toMatch(/barrière d'accès dissuasive côté client/i);
+
+      // Vérifie l'existence physique et l'en-tête %PDF- du PDF généré
+      const pdfPath = path.resolve(process.cwd(), 'public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf');
+      expect(fs.existsSync(pdfPath)).toBe(true);
+      const stat = fs.statSync(pdfPath);
+      expect(stat.size).toBeGreaterThan(0);
+      const header = fs.readFileSync(pdfPath).subarray(0, 5).toString('ascii');
+      expect(header).toBe('%PDF-');
     });
 
     it('cadre le coupon test à 100 % avec 3 restrictions, désactivation obligatoire et distinction Cas A / Cas B en Étape 3', () => {
@@ -264,34 +345,18 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
       const prose = step3.blocks[0] as ProseBlock;
       const chk = step3.blocks[1] as StepChecklistBlock;
 
-      // Libellé de fin loyal
       expect(step3.completionLabel).toBe('Contrôles terminés');
+      expect(prose.highlightPill).toMatch(/Si Chariow refuse la commande à 0 €, ne paie pas/i);
 
-      // Vérité sur le test à 0 € dans highlightPill
-      expect(prose.highlightPill).toMatch(/Si Chariow refuse la commande à 0 €, valide le panier sans payer puis désactive le code/i);
+      expect(prose.bullets?.some((b) => b.includes('1 utilisation totale') && b.includes('1 par client'))).toBe(true);
+      expect(prose.bullets?.some((b) => b.includes('Marketing > Réductions'))).toBe(true);
 
-      // Les 3 restrictions du code promo (limité au produit, 1 utilisation totale, 1 par client)
-      expect(prose.bullets?.some((b) => b.includes('limité à ton produit') && b.includes('1 utilisation totale') && b.includes('1 par client'))).toBe(true);
-      expect(prose.bullets?.some((b) => b.includes('ne paie pas') && b.includes('s’arrête au panier'))).toBe(true);
-      expect(prose.bullets?.some((b) => b.includes('Désactive impérativement') && b.includes('Marketing > Réductions'))).toBe(true);
-
-      // Checklist de contrôle du parcours acheteur distinguant Cas A et Cas B
       expect(chk.items).toHaveLength(5);
-      expect(chk.items.some((i) => i.label.includes('aux bonnes dimensions'))).toBe(true);
+      expect(chk.items.some((i) => i.label.includes('Fichiers') && i.label.includes('aux bonnes dimensions'))).toBe(true);
       expect(chk.items.some((i) => i.label.includes('restreint au produit') && i.label.includes('1 utilisation maximale') && i.label.includes('1 par client'))).toBe(true);
-      
-      // Cas A : commande validée
       expect(chk.items.some((i) => i.label.includes('Si la commande à 0 € est validée') && i.label.includes('guide est téléchargé'))).toBe(true);
-
-      // Cas B : commande refusée sans payer son propre produit
-      expect(chk.items.some((i) => i.label.includes('Si la commande à 0 € est refusée') && i.label.includes('sans payer son propre produit'))).toBe(true);
-
-      // Désactivation finale
+      expect(chk.items.some((i) => i.label.includes('Si la commande à 0 € est refusée') && i.label.includes('sans payer mon propre produit'))).toBe(true);
       expect(chk.items.some((i) => i.label.includes('désactivé immédiatement'))).toBe(true);
-
-      // Anti-piège : ne pas payer son propre produit
-      const mistakes = step3.help?.frequentMistakes ?? [];
-      expect(mistakes.some((m) => m.mistake.includes('Payer son propre produit'))).toBe(true);
     });
   });
 
@@ -310,28 +375,21 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
         </ProgressProvider>
       );
 
-      // En-tête de la leçon 06
       expect(screen.getByText('06')).toBeInTheDocument();
       expect(screen.getByText(/MODULE 3 : PUBLIER ET LIVRER/i)).toBeInTheDocument();
       expect(screen.getByText(/Publier son/i)).toBeInTheDocument();
 
-      // HelpPanel replié par défaut (le contenu rétractable n'est pas visible)
       expect(screen.getByText(/Besoin d’aide pour cette étape/i)).toBeInTheDocument();
       expect(screen.queryByText(/Erreurs fréquentes à éviter/i)).not.toBeInTheDocument();
 
-      // Étape 1 active
       expect(screen.getByText(/Contrôles du dossier/i)).toBeInTheDocument();
       const validerBtn = screen.getByRole('button', { name: /Dossier vérifié/i });
-      expect(validerBtn).toBeInTheDocument();
-
-      // Validation de l'étape 1
       fireEvent.click(validerBtn);
 
       const saved1 = loadProgressFromStorage();
       expect(saved1.completedStepIdsByLesson['lesson-06']).toContain('lesson-06-step-01');
 
-      // Navigation vers l'étape 2 via l'onglet
-      const tabStep2 = screen.getByRole('tab', { name: /Déployer/i });
+      const tabStep2 = screen.getByRole('tab', { name: /En ligne/i });
       fireEvent.click(tabStep2);
 
       expect(screen.getByText(/Contrôles de mise en ligne/i)).toBeInTheDocument();
@@ -341,11 +399,10 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
       const saved2 = loadProgressFromStorage();
       expect(saved2.completedStepIdsByLesson['lesson-06']).toContain('lesson-06-step-02');
 
-      // Navigation vers l'étape 3
-      const tabStep3 = screen.getByRole('tab', { name: /Rendre public/i });
+      const tabStep3 = screen.getByRole('tab', { name: /Accès client/i });
       fireEvent.click(tabStep3);
 
-      expect(screen.getByText(/Contrôles d’accessibilité mondiale/i)).toBeInTheDocument();
+      expect(screen.getByText(/Contrôles de l’accès client/i)).toBeInTheDocument();
       const btnStep3 = screen.getByRole('button', { name: /Leçon 06 validée/i });
       fireEvent.click(btnStep3);
 
@@ -353,7 +410,7 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
       expect(saved3.completedStepIdsByLesson['lesson-06']).toContain('lesson-06-step-03');
     });
 
-    it('affiche la Leçon 07, permet d’utiliser le CopyBlock et de valider ses 3 étapes jusqu’à complétion finale', () => {
+    it('affiche la Leçon 07, permet de télécharger le modèle PDF, d’utiliser le CopyBlock et de valider ses 3 étapes', () => {
       const initial = createInitialProgress();
       initial.activeRoute = {
         kind: 'lesson',
@@ -367,21 +424,22 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
         </ProgressProvider>
       );
 
-      // En-tête de la leçon 07
       expect(screen.getByText('07')).toBeInTheDocument();
       expect(screen.getByText(/MODULE 3 : PUBLIER ET LIVRER/i)).toBeInTheDocument();
       expect(screen.getByText(/Organiser la/i)).toBeInTheDocument();
 
-      // Étape 1 active
-      expect(screen.getByText(/Contrôles de la fiche produit/i)).toBeInTheDocument();
+      // Étape 1 active avec téléchargement du modèle de Guide d'Accès PDF
+      expect(screen.getAllByText(/Modèle de Guide d’Accès PDF/i).length).toBeGreaterThan(0);
+      const downloadLink = screen.getByRole('link', { name: /Télécharger/i });
+      expect(downloadLink).toHaveAttribute('href', '/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf');
+
       const btnStep1 = screen.getByRole('button', { name: /Offre créée/i });
       fireEvent.click(btnStep1);
 
       // Navigation vers l'étape 2
-      const tabStep2 = screen.getByRole('tab', { name: /La livraison/i });
+      const tabStep2 = screen.getByRole('tab', { name: /La livraison Guide et message/i });
       fireEvent.click(tabStep2);
 
-      // Vérification du CopyBlock sur l'étape 2
       expect(screen.getByText(/Trame des instructions après achat/i)).toBeInTheDocument();
       expect(screen.getByText(/Copier les instructions/i)).toBeInTheDocument();
 
@@ -389,7 +447,7 @@ describe('Journée 3 (Module 3 : PUBLIER ET LIVRER) : Conception Pédagogique et
       fireEvent.click(btnStep2);
 
       // Navigation vers l'étape 3
-      const tabStep3 = screen.getByRole('tab', { name: /Tester l’achat/i });
+      const tabStep3 = screen.getByRole('tab', { name: /Achat test/i });
       fireEvent.click(tabStep3);
 
       expect(screen.getByText(/Vérifications du parcours client/i)).toBeInTheDocument();

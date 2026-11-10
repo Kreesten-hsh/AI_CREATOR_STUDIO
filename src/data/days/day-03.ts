@@ -1,17 +1,23 @@
 import type { Day } from '../../types/course';
 
+// Les chemins d'interface Netlify et Chariow cités ci-dessous restent à confirmer
+// avec les captures réelles réalisées par l'utilisateur au LOT C.
+
 export const PROMPT_L6_NETLIFY_HELP = `Mon déploiement sur Netlify Drop affiche une erreur 404 (Page Not Found).
 Voici l'organisation de mes fichiers : mon dossier [nom du dossier] contient [nom et emplacement exacts des fichiers].
 Comment corriger mon dossier pour que la page s'affiche ?`;
 
 export const TEXTE_INSTRUCTIONS_POST_ACHAT = `Merci pour votre achat !
 
-Voici comment accéder immédiatement à votre application :
-1. Cliquez sur votre lien d'accès direct : [VOTRE LIEN NETLIFY]
-2. Ajoutez cette adresse à vos favoris pour la retrouver en un clic.
-3. Téléchargez votre Guide d'Accueil PDF depuis les fichiers disponibles après votre achat.
+Voici comment accéder à votre application :
+1. Ouvrez votre lien d'accès direct : [VOTRE LIEN NETLIFY]
+2. Saisissez votre code d'accès sur l'écran d'accueil : [VOTRE CODE D'ACCÈS]
+3. Ajoutez cette adresse à vos favoris pour la retrouver en un clic.
+4. Téléchargez votre Guide d'Accès PDF depuis les fichiers disponibles après votre achat.
 
-En cas de question ou de suggestion, contactez-moi directement à [VOTRE EMAIL].`;
+Vos données ne sont pas synchronisées automatiquement entre vos appareils. Leur mode de conservation dépend du fonctionnement de l'application : consultez la section “Sauvegarde des données” de votre Guide d'Accès pour connaître les modalités applicables.
+
+En cas de question, contactez-moi à [VOTRE EMAIL].`;
 
 export const day03: Day = {
   id: 'day-03',
@@ -19,9 +25,9 @@ export const day03: Day = {
   moduleId: 'module-03',
   title: 'Journée 3 : Publier et livrer',
   objective:
-    'Publier gratuitement son application sur Netlify, configurer sa livraison commerciale sur Chariow et vérifier le parcours d’achat complet.',
+    'Mettre ton application en ligne sur Netlify, préparer ta livraison sur Chariow avec ton Guide d’Accès PDF et vérifier le parcours d’achat.',
   deliverableSummary:
-    'Une URL Netlify publique active et une fiche produit Chariow fonctionnelle avec livraison automatique de son Guide d’Accueil PDF.',
+    'Une adresse Netlify publique protégée par ton écran de code et un produit Chariow qui livre ton Guide d’Accès PDF et tes instructions.',
   lessons: [
     {
       id: 'lesson-06',
@@ -29,21 +35,21 @@ export const day03: Day = {
       moduleId: 'module-03',
       dayId: 'day-03',
       dayNumber: 3,
-      navigationTitle: 'Publier',
+      navigationTitle: 'Mettre en ligne',
       title: 'Publier son application sur Netlify',
       italicTitleWord: 'application',
       duration: '~25 min',
       objective:
-        'Déployer gratuitement son dossier mon-application sur Netlify Drop, personnaliser son adresse web et vérifier son accès public en HTTPS sur mobile.',
+        'Déposer ton dossier mon-application sur Netlify Drop, régler sa visibilité sur Public et tester ton écran de code en ligne.',
       deliverableSummary:
-        'Mon URL Netlify publique : une adresse web sécurisée en HTTPS, active et accessible par n’importe quel visiteur sur ordinateur et mobile.',
+        'Mon adresse Netlify en HTTPS : publique, avec l’écran de code d’accès testé sur ordinateur et smartphone.',
       isSkeletonPlaceholder: false,
       steps: [
         {
           id: 'lesson-06-step-01',
           number: 1,
-          title: 'Le dossier',
-          subtitle: 'Dossier et racine',
+          title: 'Ton dossier',
+          subtitle: 'Racine du dossier',
           completionLabel: 'Dossier vérifié',
           blocks: [
             {
@@ -57,9 +63,9 @@ export const day03: Day = {
                 'Vérifie que ton fichier index.html se trouve directement à la racine de ton dossier mon-application.',
               ],
               bullets: [
-                'Retrouve le dossier mon-application préparé lors de la Leçon 05.',
-                'Assure-toi que le nom s’écrit exactement index.html en minuscules.',
-                'Isole ce dossier pour ne jamais téléverser tes documents personnels.',
+                'Le nom s’écrit exactement index.html, en minuscules.',
+                'Aucun sous-dossier supplémentaire et aucun fichier personnel.',
+                'Utilise le dossier décompressé, jamais une archive .zip.',
               ],
             },
             {
@@ -71,17 +77,17 @@ export const day03: Day = {
                 {
                   id: 'l6-c1',
                   label: 'Le fichier index.html est situé directement au premier niveau du dossier.',
-                  detail: 'Il ne doit être enfermé dans aucun sous-dossier supplémentaire.',
+                  detail: 'Il n’est enfermé dans aucun sous-dossier supplémentaire.',
                 },
                 {
                   id: 'l6-c2',
                   label: 'Le nom s’écrit entièrement en minuscules sans extension .txt masquée.',
-                  detail: 'Le type du fichier doit être un Document HTML reconnu par l’ordinateur.',
+                  detail: 'Ton ordinateur le reconnaît comme un document HTML.',
                 },
                 {
                   id: 'l6-c3',
-                  label: 'Le dossier mon-application ne contient aucun fichier personnel étranger.',
-                  detail: 'Seul le code de ton application doit être envoyé vers l’hébergeur.',
+                  label: 'Le dossier mon-application ne contient aucun fichier personnel.',
+                  detail: 'Seul le fichier de ton application est envoyé en ligne.',
                 },
               ],
             },
@@ -91,23 +97,23 @@ export const day03: Day = {
               {
                 mistake: 'Nommer le fichier Index.html avec une majuscule ou laisser un sous-dossier.',
                 correction:
-                  'Renomme le fichier en minuscules strictes index.html et place-le à la racine exacte.',
+                  'Renomme le fichier en index.html, en minuscules, et place-le à la racine du dossier.',
               },
               {
                 mistake: 'Compresser le dossier en fichier .zip avant le dépôt.',
                 correction:
-                  'Netlify Drop accepte directement le dossier décompressé : n’utilise aucune archive zip.',
+                  'Netlify Drop accepte directement le dossier décompressé.',
               },
             ],
             tips: [
-              'Garde ce dossier ouvert sur ton bureau pour le glisser-déposer en un geste à l’étape suivante.',
+              'Garde ce dossier ouvert sur ton bureau pour le glisser en un geste à l’étape suivante.',
             ],
           },
         },
         {
           id: 'lesson-06-step-02',
           number: 2,
-          title: 'Déployer',
+          title: 'En ligne',
           subtitle: 'Glisser sur Netlify',
           completionLabel: 'Application déployée',
           blocks: [
@@ -119,35 +125,34 @@ export const day03: Day = {
               highlightPill:
                 'L’hébergement gratuit utilise un quota mensuel de crédits : les projets peuvent être mis en pause s’il est épuisé.',
               paragraphs: [
-                'Connecte-toi à Netlify Drop puis glisse ton dossier complet pour obtenir ton adresse en quelques secondes.',
+                'Glisse ton dossier sur Netlify Drop pour obtenir une adresse HTTPS en quelques secondes.',
               ],
               bullets: [
-                'Ouvre ton navigateur sur la page app.netlify.com/drop.',
-                'Glisse ton dossier mon-application dans la zone de dépôt.',
-                'Patiente quelques secondes pendant la publication sans fermer l’onglet.',
-                'Copie l’adresse générée se terminant par netlify.app.',
+                'Ouvre app.netlify.com/drop dans ton navigateur et connecte-toi.',
+                'Glisse le dossier mon-application dans la zone de dépôt, puis attends la fin de la publication.',
+                'Copie l’adresse générée qui se termine par netlify.app.',
               ],
             },
             {
               id: 'l6-s2-checklist',
               type: 'checklist',
               title: 'Contrôles de mise en ligne',
-              description: 'Vérifie la bonne publication de ton site sur Netlify.',
+              description: 'Vérifie la bonne publication de ton application.',
               items: [
                 {
                   id: 'l6-d1',
                   label: 'Le dossier a été déposé dans la zone Netlify Drop sans interruption.',
-                  detail: 'Le voyant de mise en ligne passe au vert sur le tableau de bord.',
+                  detail: 'Netlify indique que la publication est terminée.',
                 },
                 {
                   id: 'l6-d2',
-                  label: 'L’adresse web publique en netlify.app s’affiche sur ton écran.',
-                  detail: 'Cette première adresse provisoire prouve que le site est hébergé.',
+                  label: 'L’adresse publique en netlify.app s’affiche à l’écran.',
+                  detail: 'Copie-la : tu en auras besoin pour ton guide et ta livraison.',
                 },
                 {
                   id: 'l6-d3',
-                  label: 'L’application s’affiche en ouvrant ce lien dans un nouvel onglet.',
-                  detail: 'La page interactive répond normalement comme lors du test local.',
+                  label: 'Le lien s’ouvre en HTTPS dans un nouvel onglet et affiche l’écran de code.',
+                  detail: 'La page réagit comme lors de ton test au double-clic.',
                 },
               ],
             },
@@ -155,18 +160,18 @@ export const day03: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake: 'Une page 404 Page Not Found apparaît après l’ouverture de l’adresse.',
+                mistake: 'Une page 404 Page Not Found apparaît à l’ouverture de l’adresse.',
                 correction:
-                  'Vérifie que index.html était bien à la racine du dossier déposé et non dans un sous-dossier.',
+                  'Vérifie que index.html était à la racine du dossier déposé et non dans un sous-dossier.',
               },
               {
                 mistake: 'Le dépôt reste bloqué sans démarrer.',
                 correction:
-                  'Vérifie ta connexion Internet et réessaie en glissant à nouveau le dossier sur la page.',
+                  'Vérifie ta connexion Internet et glisse à nouveau le dossier sur la page.',
               },
             ],
             tips: [
-              'Tu peux mettre à jour ton site à tout moment en redéposant un dossier corrigé dans l’onglet Deploys.',
+              'Pour publier une nouvelle version, redépose ton dossier corrigé dans l’onglet Deploys de ton projet.',
             ],
             troubleshootingPrompts: [
               {
@@ -181,48 +186,51 @@ export const day03: Day = {
         {
           id: 'lesson-06-step-03',
           number: 3,
-          title: 'Rendre public',
-          subtitle: 'Nom et mobile',
+          title: 'Accès client',
+          subtitle: 'Public et code',
           completionLabel: 'Leçon 06 validée',
           blocks: [
             {
               id: 'l6-s3-prose-public',
               type: 'prose',
-              title: 'CONTRÔLER TON',
-              italicAccent: 'adresse',
+              title: 'OUVRIR AUX',
+              italicAccent: 'acheteurs',
               highlightPill:
-                'Toute personne disposant du lien peut ouvrir l’outil : ton application statique reste publique sur Internet.',
+                'Netlify rend ta page publique ; ton écran de code réserve ensuite l’usage aux acheteurs.',
               paragraphs: [
-                'Personnalise ton site et vérifie son affichage mobile avant de lancer sa commercialisation.',
+                'Règle la visibilité de ton projet Netlify sur Public, puis teste ton écran de code en ligne.',
               ],
               bullets: [
-                'Renomme via Project Overview > Customize > Manage project name and cover image.',
-                'Règle dans Project configuration > General > Visitor access > Project visibility la valeur Public.',
-                'Certains projets Netlify sont privés par défaut selon l’équipe.',
-                'Le certificat sécurisé HTTPS est provisionné automatiquement sans aucune configuration manuelle.',
-                'Teste en navigation privée et sur smartphone pour vérifier l’accès réel.',
+                'Dans Project configuration > General > Visitor access, choisis Public, sans mot de passe Netlify.',
+                'Ton code d’accès est une barrière JavaScript dissuasive, pas une authentification serveur.',
+                'Teste en navigation privée et sur smartphone : mauvais code refusé, bon code accepté.',
               ],
             },
             {
               id: 'l6-s3-checklist',
               type: 'checklist',
-              title: 'Contrôles d’accessibilité mondiale',
-              description: 'Vérifie ces 3 derniers points avant de passer à la vente.',
+              title: 'Contrôles de l’accès client',
+              description: 'Vérifie ces 4 points avant de passer à la vente.',
               items: [
                 {
                   id: 'l6-p1',
-                  label: 'L’adresse personnalisée en netlify.app est active et lisible.',
-                  detail: 'Le nom du site reflète clairement ton outil ou ton activité.',
+                  label: 'L’adresse HTTPS en netlify.app s’ouvre et le projet est réglé sur Public.',
+                  detail: 'Aucun mot de passe Netlify ne bloque tes futurs acheteurs.',
                 },
                 {
                   id: 'l6-p2',
-                  label: 'La page s’ouvre sans mot de passe en fenêtre de navigation privée.',
-                  detail: 'Tout visiteur externe peut utiliser l’application sans compte Netlify.',
+                  label: 'La page affiche l’écran de code d’accès avant tout contenu.',
+                  detail: 'C’est l’écran .gate prévu dans ton application.',
                 },
                 {
                   id: 'l6-p3',
-                  label: 'L’affichage sur smartphone est fluide et les boutons réagissent sans débordement.',
-                  detail: 'L’outil est prêt pour être distribué à tes futurs clients.',
+                  label: 'Un mauvais code est refusé et le bon code déverrouille l’application.',
+                  detail: 'Le code est celui que tu transmettras à tes acheteurs.',
+                },
+                {
+                  id: 'l6-p4',
+                  label: 'Le test fonctionne sur ordinateur en navigation privée et sur smartphone.',
+                  detail: 'Les boutons réagissent au doigt et rien ne déborde de l’écran.',
                 },
               ],
             },
@@ -230,18 +238,20 @@ export const day03: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake: 'Le site demande un mot de passe ou refuse les visiteurs externes.',
+                mistake: 'Activer une protection par mot de passe dans Netlify.',
                 correction:
-                  'Ouvre Visitor access dans les réglages du projet et sélectionne la visibilité publique.',
+                  'Laisse le projet en Public : seul ton écran de code doit demander le code acheteur.',
               },
               {
                 mistake: 'Le nom personnalisé choisi est déjà utilisé par un autre projet Netlify.',
                 correction:
-                  'Ajoute un suffixe simple comme ton prénom ou ton activité pour rendre le sous-domaine unique.',
+                  'Ajoute un suffixe simple, comme ton prénom ou ton activité.',
               },
             ],
             tips: [
-              'Envoie le lien sur ton propre smartphone via messagerie pour effectuer un test tactile immédiat.',
+              'Pour renommer ton adresse, passe par Project Overview > Customize > Manage project name and cover image.',
+              'Le HTTPS est fourni automatiquement, sans configuration manuelle.',
+              'Les intitulés des menus Netlify peuvent varier légèrement selon la version de l’interface.',
             ],
           },
         },
@@ -253,60 +263,55 @@ export const day03: Day = {
       moduleId: 'module-03',
       dayId: 'day-03',
       dayNumber: 3,
-      navigationTitle: 'Vendre',
+      navigationTitle: 'Vendre sur Chariow',
       title: "Organiser la livraison via Chariow et tester le parcours d'achat",
       italicTitleWord: 'livraison',
       duration: '~35 min',
       objective:
-        'Créer son offre Files sur Chariow, livrer son Guide d’Accueil PDF avec son URL Netlify et vérifier le parcours d’achat en conditions réelles.',
+        'Créer ton produit Fichiers sur Chariow, personnaliser ton Guide d’Accès PDF, préparer les instructions après achat et tester la livraison.',
       deliverableSummary:
-        'Mon produit Chariow publié : une fiche produit configurée avec son Guide PDF et son parcours client vérifié selon la réponse de la plateforme.',
+        'Mon produit Chariow publié avec mon Guide d’Accès PDF personnalisé, mes instructions après achat et un test de livraison documenté.',
       isSkeletonPlaceholder: false,
       steps: [
         {
           id: 'lesson-07-step-01',
           number: 1,
-          title: 'Créer l’offre',
-          subtitle: 'Fiche produit Files',
+          title: 'Ton offre',
+          subtitle: 'Produit Fichiers',
           completionLabel: 'Offre créée',
           blocks: [
             {
               id: 'l7-s1-prose-offre',
               type: 'prose',
-              title: 'CONFIGURER TON',
-              italicAccent: 'produit',
+              title: 'CRÉER TON',
+              italicAccent: 'offre',
               highlightPill:
-                'Les visuels doivent refléter ton application : n’utilise pas la charte Burgundy/Cream du studio.',
+                'Le modèle de Guide d’Accès PDF se personnalise avant d’être remis à tes clients.',
               paragraphs: [
-                'Ouvre ton tableau de bord vendeur Chariow pour créer ton produit téléchargeable avec son prix et ses visuels.',
+                'Crée ton produit de type Fichiers sur Chariow, puis télécharge le modèle de guide ci-dessous.',
               ],
               bullets: [
-                'Choisis Produits > Créer un nouveau produit puis sélectionne la carte Fichiers.',
-                'Renseigne un titre clair, sélectionne ta catégorie et indique ton tarif.',
-                'Ajoute une miniature carrée (minimum 600 × 600 px) et une bannière (minimum 702 × 260 px).',
-                'Vérifie le récapitulatif puis clique impérativement sur Publier pour mettre ton offre en ligne.',
+                'Dans Produits > Créer un nouveau produit, choisis Fichiers, puis indique nom, description, catégorie et prix.',
+                'Ajoute une miniature (600 × 600 px minimum) et une bannière (702 × 260 px minimum) aux couleurs de ton application.',
+                'Vérifie le récapitulatif, puis clique sur Publier.',
               ],
             },
             {
-              id: 'l7-s1-checklist',
-              type: 'checklist',
-              title: 'Contrôles de la fiche produit',
-              description: 'Valide ces 3 éléments clés avant d’enregistrer.',
-              items: [
+              id: 'l7-s1-resource-guide',
+              type: 'resource',
+              title: 'Modèle de Guide d’Accès PDF',
+              description:
+                'Modèle à personnaliser à l’étape suivante, à ne pas envoyer tel quel.',
+              resources: [
                 {
-                  id: 'l7-o1',
-                  label: 'Le type de produit sélectionné sur Chariow est bien Fichiers.',
-                  detail: 'Ce format assure la livraison automatique des documents après achat.',
-                },
-                {
-                  id: 'l7-o2',
-                  label: 'Le nom, la catégorie et le prix sont clairement renseignés.',
-                  detail: 'La promesse de vente correspond fidèlement à ce que fait l’outil.',
-                },
-                {
-                  id: 'l7-o3',
-                  label: 'La vignette carrée et la bannière rectangulaire sont ajoutées.',
-                  detail: 'Les visuels mettent en valeur l’identité graphique de ton application.',
+                  id: 'res-guide-acces-modele',
+                  title: 'GUIDE-ACCES-CLIENT-MODELE.pdf',
+                  category: 'guide',
+                  description:
+                    'Champs entre crochets à remplacer : nom, lien Netlify, code d’accès et contact.',
+                  format: 'PDF',
+                  externalUrl: '/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf',
+                  downloadFilename: 'GUIDE-ACCES-CLIENT-MODELE.pdf',
                 },
               ],
             },
@@ -316,16 +321,16 @@ export const day03: Day = {
               {
                 mistake: 'Choisir le type Licences en pensant verrouiller l’accès à son site.',
                 correction:
-                  'Choisis le type Fichiers : ton application est un site web statique accompagné d’un guide.',
+                  'Choisis le type Fichiers : ton guide est livré, et ton écran de code protège l’application.',
               },
               {
-                mistake: 'Uploader des images de couverture floues ou déformées.',
+                mistake: 'Ajouter des visuels flous ou aux couleurs du cours.',
                 correction:
-                  'Respecte au minimum 600 × 600 px pour le carré et 702 × 260 px pour la bannière.',
+                  'Respecte au minimum 600 × 600 px et 702 × 260 px, et n’utilise pas la charte Burgundy/Cream du studio.',
               },
             ],
             tips: [
-              'Tu peux utiliser l’assistant de rédaction Chariow pour enrichir ta description commerciale.',
+              'Les intitulés des menus Chariow peuvent varier légèrement selon la version de l’interface.',
             ],
           },
         },
@@ -333,7 +338,7 @@ export const day03: Day = {
           id: 'lesson-07-step-02',
           number: 2,
           title: 'La livraison',
-          subtitle: 'Guide et instructions',
+          subtitle: 'Guide et message',
           completionLabel: 'Livraison configurée',
           blocks: [
             {
@@ -342,15 +347,14 @@ export const day03: Day = {
               title: 'PRÉPARER LA',
               italicAccent: 'livraison',
               highlightPill:
-                'Chariow livre le guide PDF mais ne verrouille pas l’application : l’adresse Netlify reste publique.',
+                'Chariow livre ton guide et ton message ; il ne redirige pas automatiquement vers Netlify.',
               paragraphs: [
-                'Renseigne ton Guide d’Accueil PDF et les instructions affichées à ton acheteur juste après son paiement.',
+                'Personnalise le modèle téléchargé, exporte ton propre PDF, puis prépare ton message après achat.',
               ],
               bullets: [
-                'Prépare un PDF d’accueil contenant ton adresse Netlify et trois conseils pour commencer.',
-                'Téléverse ce fichier PDF dans la section Contenu du produit sur Chariow.',
-                'Accède au champ Instructions après achat via Produits > Modifier > Informations.',
-                'Colle la trame ci-dessous complétée avec ton lien et enregistre.',
+                'Remplace tous les champs entre crochets : ton lien HTTPS, ton code d’accès et ton adresse de contact.',
+                'Exporte ton guide en PDF et téléverse-le dans le contenu de ton produit Fichiers.',
+                'Dans Produits > Modifier > Informations, colle le message ci-dessous complété, puis enregistre.',
               ],
             },
             {
@@ -361,7 +365,7 @@ export const day03: Day = {
               buttonText: 'Copier les instructions',
               defaultExpanded: true,
               notes:
-                'Remplace les crochets par tes informations et colle ce texte dans les instructions après achat.',
+                'Remplace les crochets par ton lien Netlify, ton code d’accès et ton e-mail avant de coller ce texte.',
               content: TEXTE_INSTRUCTIONS_POST_ACHAT,
             },
           ],
@@ -371,24 +375,24 @@ export const day03: Day = {
                 mistake:
                   'Penser que Chariow redirige automatiquement le client vers Netlify avec le type Files.',
                 correction:
-                  'Le type Files livre un document : place le lien dans le PDF et les instructions après achat.',
+                  'Le type Files livre un document : place ton lien et ton code dans le guide et dans les instructions après achat.',
               },
               {
-                mistake: 'Oublier de cliquer sur Enregistrer en bas de page après avoir modifié les instructions.',
+                mistake: 'Téléverser le modèle sans remplacer les champs entre crochets.',
                 correction:
-                  'Valide systématiquement avec le bouton Enregistrer pour appliquer tes réglages.',
+                  'Relis ton PDF exporté : aucun crochet ne doit rester avant de le téléverser.',
               },
             ],
             tips: [
-              'Tu peux utiliser Canva, Word ou Google Docs pour exporter ton Guide d’Accueil en format PDF.',
+              'Tu peux personnaliser le modèle dans Word, Google Docs ou Canva, puis l’exporter en PDF.',
             ],
           },
         },
         {
           id: 'lesson-07-step-03',
           number: 3,
-          title: 'Tester l’achat',
-          subtitle: 'Vérifier le parcours',
+          title: 'Achat test',
+          subtitle: 'Vérifier la livraison',
           completionLabel: 'Contrôles terminés',
           blocks: [
             {
@@ -397,47 +401,46 @@ export const day03: Day = {
               title: 'VALIDER LE',
               italicAccent: 'parcours',
               highlightPill:
-                'Si Chariow refuse la commande à 0 €, valide le panier sans payer puis désactive le code.',
+                'Si Chariow refuse la commande à 0 €, ne paie pas : arrête-toi au panier et désactive le code.',
               paragraphs: [
-                'Teste ta page produit en navigation privée pour vérifier la commande et l’accès au guide.',
+                'Teste ta page produit en navigation privée avec un code promotionnel à 100 % réservé au test.',
               ],
               bullets: [
-                'Crée un code 100 % limité à ton produit, 1 utilisation totale et 1 par client.',
-                'En navigation privée, teste le panier : télécharge le guide si le 0 € est accepté.',
-                'Si la commande à 0 € est refusée, ne paie pas : le parcours s’arrête au panier.',
-                'Désactive impérativement le code de réduction dans Marketing > Réductions après ton test.',
+                'Limite le code à ton produit, à 1 utilisation totale et 1 par client.',
+                'Si la commande à 0 € passe, vérifie instructions, guide, lien Netlify et déverrouillage avec ton code.',
+                'Ensuite, désactive impérativement le code dans Marketing > Réductions.',
               ],
             },
             {
               id: 'l7-s3-checklist',
               type: 'checklist',
               title: 'Vérifications du parcours client',
-              description: 'Valide ces 5 vérifications pour clore la formation en toute sérénité.',
+              description: 'Valide ces 5 points selon la réponse de Chariow.',
               items: [
                 {
                   id: 'l7-t1',
-                  label: 'La fiche produit est publiée avec son titre, son prix et ses visuels aux bonnes dimensions.',
-                  detail: 'La description commerciale reflète fidèlement les fonctionnalités de ton application.',
+                  label: 'Ma fiche produit Fichiers est publiée avec nom, catégorie, prix et visuels aux bonnes dimensions.',
+                  detail: 'La description correspond fidèlement à ce que fait ton application.',
                 },
                 {
                   id: 'l7-t2',
                   label: 'Le code promo test est restreint au produit, avec 1 utilisation maximale et 1 par client.',
-                  detail: 'Ces trois restrictions évitent tout abus commercial pendant ton contrôle technique.',
+                  detail: 'Ces restrictions évitent tout usage non prévu pendant ton test.',
                 },
                 {
                   id: 'l7-t3',
-                  label: 'Si la commande à 0 € est validée : le guide est téléchargé et le lien Netlify fonctionne.',
-                  detail: 'Les instructions après achat s’affichent et le PDF d’accueil ouvre ton site web.',
+                  label: 'Si la commande à 0 € est validée : les instructions s’affichent et le guide est téléchargé.',
+                  detail: 'Le lien Netlify s’ouvre et ton code d’accès déverrouille l’application.',
                 },
                 {
                   id: 'l7-t4',
-                  label: 'Si la commande à 0 € est refusée : le panier est vérifié sans payer son propre produit.',
-                  detail: 'Ne réalise aucun faux achat : constate simplement le blocage de la commande à 0 €.',
+                  label: 'Si la commande à 0 € est refusée : je me suis arrêté au panier, sans payer mon propre produit.',
+                  detail: 'Note simplement que la livraison après achat n’a pas pu être testée.',
                 },
                 {
                   id: 'l7-t5',
                   label: 'Le code promotionnel a été désactivé immédiatement dans Marketing > Réductions.',
-                  detail: 'Le coupon test est clos et ta boutique est sécurisée contre tout usage non autorisé.',
+                  detail: 'Ta boutique est protégée contre tout usage non autorisé du code.',
                 },
               ],
             },
@@ -447,21 +450,21 @@ export const day03: Day = {
               {
                 mistake: 'Payer son propre produit au prix normal si la plateforme refuse le code à 0 €.',
                 correction:
-                  'Ne réalise pas de faux paiement : constate simplement que la passerelle refuse les paniers à 0 €.',
+                  'Ne fais aucun paiement : constate le refus, arrête-toi au panier et désactive le code.',
               },
               {
-                mistake: 'Laisser un code promo à 100 % actif et public après les vérifications.',
+                mistake: 'Laisser un code promo à 100 % actif après le test.',
                 correction:
-                  'Désactive le code immédiatement dans Marketing > Réductions pour protéger tes futures ventes.',
+                  'Désactive le code immédiatement dans Marketing > Réductions.',
               },
               {
-                mistake: 'Effectuer le test en restant connecté à son compte administrateur Chariow.',
+                mistake: 'Faire le test en restant connecté à son compte vendeur Chariow.',
                 correction:
-                  'Ouvre une fenêtre de navigation privée pour observer l’expérience réelle d’un nouveau client.',
+                  'Ouvre une fenêtre de navigation privée pour voir le parcours d’un nouveau client.',
               },
             ],
             tips: [
-              'Le portail client Chariow permet à tes acheteurs de retrouver leurs factures et leurs fichiers à tout moment.',
+              'Si la livraison n’a pas pu être testée, relis ton guide et ton message après achat avant ta première vente.',
             ],
           },
         },

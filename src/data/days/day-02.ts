@@ -1,6 +1,6 @@
 import type { Day } from '../../types/course';
 
-export const MASTER_PROMPT_2_XML = `<prompt id="PROMPT-GENERATION-PRODUIT-HTML" version="2.0">
+export const MASTER_PROMPT_2_XML = `<prompt id="PROMPT-GENERATION-PRODUIT-HTML" version="2.1">
   <role>
     Tu es un Principal Frontend Engineer et Directeur Artistique pour AI CREATOR Studio.
     Ta mission est d'écrire l'intégralité du code d'une application web interactive autonome dans un fichier unique \`index.html\`, en combinant une direction artistique remarquable et une fidélité fonctionnelle absolue au document source.
@@ -18,44 +18,54 @@ export const MASTER_PROMPT_2_XML = `<prompt id="PROMPT-GENERATION-PRODUIT-HTML" 
     Tu t'appuies sur l'ensemble de la conversation courante :
     - Le document source original joint au départ.
     - Ton analyse documentaire initiale.
-    - Le Product Blueprint formalisé à l'étape précédente.
+    - Le Product Blueprint formalisé à l'étape précédente (incluant le code d'accès acheteur choisi).
     - La matrice Source Fidelity Mapping (SFM).
     - Le Visual Direction Brief (VDB) approuvé par l'apprenant.
   </context>
 
   <strict_rules>
-    <rule id="R1">FICHIER UNIQUE EXCLUSIF : Tout le code réside dans un unique fichier \`index.html\` intégrant le HTML sémantique, tout le CSS dans une balise \`<style>\` unique dans \`<head>\`, et tout le JavaScript Vanilla dans une balise \`<script>\` unique avant \`</body>\`.</rule>
+    <rule id="R1">FICHIER UNIQUE EXCLUSIF : Tout le code réside dans un unique fichier \`index.html\` intégrant le HTML sémantique, tout le CSS dans une balise \`<style>\` unique dans \`<head>\`, et tout le JavaScript Vanilla dans une balise \`<script>\` unique avant \`</body>\` (ainsi que le script synchrone de verrouillage initial dans \`<head>\`).</rule>
     <rule id="R2">ZÉRO OUTIL DE COMPILATION NI FRAMEWORK : Aucun Node.js, npm, Vite, React, Vue ou bibliothèque externe. Interdiction formelle du script Tailwind Play CDN (\`cdn.tailwindcss.com\`). Le fichier doit s'ouvrir et fonctionner au double-clic local sous protocole \`file:///\`.</rule>
     <rule id="R3">ZÉRO PLACEHOLDER NI TRONCATURE : Aucun commentaire de type \`// reste du code ici\`, \`/* TODO */\` ou \`...\` n'est toléré. Émets le code intégral de \`<!DOCTYPE html>\` à \`</html>\`.</rule>
     <rule id="R4">FIDÉLITÉ SOURCE ABSOLUE (100 %) : Conserve l'intégralité des formules mathématiques, règles de calcul, seuils, conditions d'affichage, avertissements, étapes et exercices. Chaque composant doit avoir une correspondance identifiable dans le SFM. N'invente aucune règle métier et ne supprime aucune nuance par commodité.</rule>
-    <rule id="R5">APPLICATION INTÉGRALE DE LA DIRECTION ARTISTIQUE : Le Visual Direction Brief n'est pas une suggestion. Il s'applique à l'intégralité du produit : en-tête, formulaires, visualisations, tickets de résultat, états d'alerte, boutons et adaptation mobile. Interdiction formelle de retomber dans un tableau de bord générique à cartes blanches après l'en-tête.</rule>
+    <rule id="R5">APPLICATION INTÉGRALE DE LA DIRECTION ARTISTIQUE : Le Visual Direction Brief n'est pas une suggestion. Il s'applique à l'intégralité du produit : écran de verrouillage (\`.gate\`), en-tête, formulaires, visualisations, tickets de résultat, états d'alerte, boutons et adaptation mobile. Interdiction formelle de retomber dans un tableau de bord générique à cartes blanches après l'en-tête.</rule>
     <rule id="R6">PRÉCISION ARITHMÉTIQUE & INTÉGRITÉ DES SAISIES :
-      - Pour les applications financières ou de calcul, utiliser un calcul en centimes entiers pour éliminer les erreurs de virgule flottante.
-      - Ne JAMAIS convertir silencieusement une saisie invalide en 0.
+      - Pour les applications financières ou de calcul de prix, garantir une arithmétique exacte (support de la virgule et du point décimal, gestion propre des devises comme FCFA et EUR).
+      - Ne JAMAIS convertir silencieusement une saisie invalide en 0 lorsqu'un contrôle de validité explicite est requis.
       - Conserver le texte saisi dans le champ en cas d'erreur pour que l'utilisateur comprenne son erreur (\`aria-invalid="true"\`).
-      - Ne PAS exécuter les calculs dépendants tant qu'un champ obligatoire comporte une saisie invalide.
-      - Vérifier systématiquement \`Number.isSafeInteger\` sur les montants et opérations intermédiaires.
+      - Vérifier systématiquement la finitude des calculs (protection contre division par zéro ou taux de frais >= 100 %).
     </rule>
-    <rule id="R7">DÉCISION D'ÉTAT CONDITIONNELLE : Si l'outil est un simulateur éphémère (ex. calcul de trésorerie), maintenir l'état 100 % en mémoire vive volatile (confidentialité totale, 0 persistance). Si une persistance est requise (ex. checklist de progression), utiliser un \`StorageAdapter\` sécurisé avec fallback mémoire transparent et mention explicite des données conservées.</rule>
+    <rule id="R7">DÉCISION D'ÉTAT CONDITIONNELLE & EXPORT/IMPORT MANUEL :
+      - (a) Si l'outil est un calculateur ou simulateur éphémère (ex. calculateur de prix et de rentabilité), maintenir l'état métier 100 % en mémoire vive volatile (confidentialité totale, 0 persistance locale des chiffres saisis, aucun bouton d'export/import JSON inutile).
+      - (b) Si l'outil nécessite un suivi dans le temps sur un même appareil (ex. planificateur, checklist de progression, journal), utiliser un \`StorageAdapter\` sécurisé (\`localStorage\` avec fallback mémoire transparent sous \`file:///\`) et indiquer clairement que les données restent sur l'appareil courant.
+      - (c) Uniquement lorsque \`localStorage\` est utilisé pour le suivi métier (cas b), intégrer deux contrôles discrets et accessibles (« Exporter ma sauvegarde (.json) » et « Importer une sauvegarde (.json) ») permettant à l'acheteur de transférer manuellement sa progression entre son ordinateur et son smartphone, sans jamais promettre de synchronisation cloud automatique.
+    </rule>
     <rule id="R8">ACCESSIBILITÉ & ERGONOMIE PHYSIQUE :
-      - Contrôles tactiles et champs \`<input>\` avec une hauteur effective réelle $\\ge 44\\text{ px}$.
-      - Taille de police $\\ge 1\\text{rem}$ ($16\\text{ px}$) sur les inputs (anti-zoom iOS).
+      - Contrôles tactiles et champs \`<input>\` accessibles au doigt ($\\ge 38\\text{ px}$ à $44\\text{ px}$).
       - Anneau \`:focus-visible\` contrasté et visible (ratio $\\ge 3:1$).
       - Ratios de contraste WCAG AA respectés ($\\ge 4.5:1$ sur texte courant, $\\ge 3:1$ sur grands textes et composants).
       - Zéro scroll horizontal à \`375 px\` (\`overflow-x: hidden\` proscrit sur \`body/html\`).
       - Respect strict de \`prefers-reduced-motion\`.
-      - Déclaration transparente du statut d'autonomie réseau (100 % hors-ligne ou dépendances Google Fonts signalées).
+      - Déclaration transparente du statut d'autonomie réseau (100 % hors-ligne ou dépendances Google Fonts signalées avec fallbacks système).
+    </rule>
+    <rule id="R9">BARRIÈRE D'ACCÈS PAR MOT DE PASSE JAVASCRIPT OBLIGATOIRE (PRODUIT RÉSERVÉ AUX ACHETEURS) :
+      - Toutes les applications générées sont des produits réservés aux acheteurs et doivent obligatoirement intégrer un écran de verrouillage par code d'accès (\`.gate\`) au lancement.
+      - Exécuter un script synchrone dans \`<head>\` avant le premier rendu qui vérifie \`localStorage.getItem(KEY) === "granted"\` (sous \`try/catch\`) et applique \`document.documentElement.classList.add("locked")\` tant que l'accès n'est pas validé (\`html.locked .frame { display: none }\` / \`html:not(.locked) .gate { display: none }\`).
+      - Déclarer clairement en tête de la logique de verrouillage la constante modifiable : \`var ACCESS_CODE = "CREATOR2026", KEY = "pricing_access";\` initialisée avec le code d'accès défini par l'apprenant dans son plan d'application (ou \`CREATOR2026\` par défaut).
+      - Styliser l'écran \`.gate\` avec exactement la même Direction Artistique que l'application (badge \`.tag\` « Accès réservé », titre « Entre ton code d'accès », champ mot de passe, bouton « Déverrouiller l'outil », animation \`.bad\` et message d'erreur accessible \`role="alert"\` si le code est erroné).
+      - Intégrer dans l'en-tête de l'application un bouton discret « Verrouiller » permettant de réinitialiser \`localStorage.removeItem(KEY)\` et de réafficher immédiatement l'écran \`.gate\` pour faciliter le test par l'apprenant.
+      - Rappel d'architecture : cette barrière JavaScript côté client est un filtre d'usage dissuasif et non une authentification cryptographique serveur ; n'inclure aucun secret sensible ni clé d'API privée dans le code.
     </rule>
   </strict_rules>
 
   <mission>
     1. Indique la ligne \`[STATUT SKILL : ...]\`.
     2. Effectue intérieurement l'**Auto-Critique Visuelle Pré-Livraison en 5 Questions** :
-       - *Test d'identité métier* : l'outil ressemble-t-il immédiatement à un objet réel du domaine (ticket, carnet, cadran) ?
-       - *Test de la pièce maîtresse* : le verdict principal se détache-t-il au premier regard par sa surface et son échelle ?
-       - *Test de composition & rythme* : les masses sont-elles asymétriques et aérées sans monotonie de cartes répétées ?
+       - *Test d'identité métier* : l'outil ressemble-t-il immédiatement à un objet réel et désirable du domaine (carnet d'atelier, calculateur de créateur, cadran) ?
+       - *Test de la pièce maîtresse* : le verdict principal (ex. Prix de vente conseillé et Bénéfice Net) se détache-t-il au premier regard par sa surface et son échelle ?
+       - *Test de composition & rythme* : les masses sont-elles asymétriques et aérées sans monotonie de cartes blanches répétées ?
        - *Test de contrastes & surfaces* : les surfaces secondaires sont-elles teintées et les textes lisibles ?
-       - *Test d'équilibre mobile \`375 px\`* : la hiérarchie pour le pouce est-elle naturelle avec accès rapide au verdict ?
+       - *Test d'équilibre mobile \`375 px\`* : la hiérarchie pour le pouce est-elle naturelle avec accès rapide au verdict et à l'écran de déverrouillage ?
     3. Émets le fichier \`index.html\` complet et directement exécutable dans un bloc de code unique.
   </mission>
 
@@ -64,10 +74,10 @@ export const MASTER_PROMPT_2_XML = `<prompt id="PROMPT-GENERATION-PRODUIT-HTML" 
     2. Court résumé d'auto-critique pré-livraison (3-4 puces soulignant les choix clés d'artisanat appliqués).
     3. Bloc de code HTML unique :
        - Le fichier débute obligatoirement par \`<!DOCTYPE html>\`.
-       - Il contient le document intégralement (HTML sémantique, CSS complet dans \`<style>\` et JavaScript Vanilla complet dans \`<script>\`).
+       - Il contient le document intégralement (HTML sémantique avec écran \`.gate\` et application principale, CSS complet dans \`<style>\` et JavaScript Vanilla complet dans \`<script>\`).
        - Il s'achève obligatoirement par \`</html>\`.
        - Aucun texte de substitution, commentaire d'omission, ellipse ou fragment fictif ne doit remplacer une partie du code.
-    4. Brève consigne d'utilisation pour l'apprenant (double-clic local et préparation au déploiement Netlify).
+    4. Brève consigne d'utilisation pour l'apprenant (rappel du code d'accès configuré dans \`ACCESS_CODE\`, test au double-clic local et préparation au déploiement Netlify).
   </output_format>
 </prompt>`;
 
@@ -79,7 +89,7 @@ export const PROMPT_RETOUCHE_CIBLEE = `Voici une retouche précise à apporter �
 3. Zone concernée : [ex. le champ de saisie, le résultat final, l'affichage sur mobile]
 
 Règles à respecter :
-- Conserve toutes les règles de calcul et le design existant sans rien simplifier.
+- Conserve toutes les règles de calcul, le code d'accès et le design existant sans rien simplifier.
 - Renvoie le code complet et corrigé dans le fichier unique index.html, de <!DOCTYPE html> à </html>.`;
 
 export const day02: Day = {
@@ -88,9 +98,9 @@ export const day02: Day = {
   moduleId: 'module-02',
   title: 'Journée 2 : Créer',
   objective:
-    'Définir l’identité visuelle de ton application, générer son code autonome dans un fichier unique et vérifier son bon fonctionnement.',
+    'Créer le style de ton application, générer son fichier index.html et vérifier son écran de code d’accès, ses calculs et son affichage mobile.',
   deliverableSummary:
-    'Une fiche de style personnalisée, un fichier index.html fonctionnel au double-clic et une application vérifiée sur ton ordinateur.',
+    'Ma fiche de style sauvegardée et un fichier index.html testé au double-clic, prêt pour la mise en ligne.',
   lessons: [
     {
       id: 'lesson-03',
@@ -98,21 +108,21 @@ export const day02: Day = {
       moduleId: 'module-02',
       dayId: 'day-02',
       dayNumber: 2,
-      navigationTitle: 'Créer le style',
+      navigationTitle: 'Créer ton style',
       title: 'Définir sa direction artistique indépendante',
       italicTitleWord: 'direction',
       duration: '~20 min',
       objective:
-        'Reprendre l’échange avec Claude, explorer 3 univers visuels contrastés et valider ta fiche de style.',
+        'Reprendre la même conversation Claude, choisir parmi 3 styles contrastés et sauvegarder ta fiche de style.',
       deliverableSummary:
-        'Ma fiche de style : un document de référence clair précisant tes couleurs, tes polices et tes composants.',
+        'Ma fiche de style sauvegardée sur ton ordinateur, à côté de Mon plan d’application et Les règles de mon document.',
       isSkeletonPlaceholder: false,
       steps: [
         {
           id: 'lesson-03-step-01',
           number: 1,
           title: 'Le signal',
-          subtitle: "Reprendre l'échange",
+          subtitle: 'Même discussion',
           completionLabel: 'Signal envoyé',
           blocks: [
             {
@@ -121,14 +131,14 @@ export const day02: Day = {
               title: 'ENVOYER LE',
               italicAccent: 'signal',
               highlightPill:
-                'Ne crée pas de nouvelle discussion : reste dans la même conversation pour conserver ton plan.',
+                'Reste dans la même conversation Claude : ton document et ton plan y sont déjà.',
               paragraphs: [
-                'Retrouve ta conversation Claude de la veille dans ton historique pour continuer ton projet.',
+                'Retrouve ta conversation de la Leçon 2 dans l’historique Claude et envoie ce signal.',
               ],
               bullets: [
-                "Ouvre la discussion où tu as validé ton plan d'application et tes règles.",
-                'Copie le court message ci-dessous et envoie-le directement à Claude.',
-                'Claude passe immédiatement à la phase visuelle en te posant une ou deux questions simples.',
+                'Ouvre la discussion où tu as validé ton plan d’application et tes règles.',
+                'Copie le message ci-dessous et envoie-le tel quel, sans ouvrir de nouvelle discussion.',
+                'Claude passe au style et te pose une ou deux questions simples.',
               ],
             },
             {
@@ -136,7 +146,7 @@ export const day02: Day = {
               type: 'copy',
               title: 'Message à envoyer à Claude',
               label: 'SIGNAL VISUEL',
-              notes: 'Envoie cette phrase dans ta discussion existante pour démarrer le travail sur le style.',
+              notes: 'Envoie cette phrase exacte dans ta discussion existante.',
               content: PROMPT_SIGNAL_STYLE,
               buttonText: 'Copier le message',
               defaultExpanded: true,
@@ -147,12 +157,12 @@ export const day02: Day = {
               {
                 mistake: 'Ouvrir une nouvelle discussion pour choisir son style.',
                 correction:
-                  'Reste dans la même conversation pour que Claude conserve ton document et tes règles.',
+                  'Reviens dans la conversation de la Leçon 2 : Claude y garde ton document et tes règles.',
               },
               {
-                mistake: 'Modifier les règles validées la veille pendant cette étape.',
+                mistake: 'Modifier ses règles ou ses formules pendant cette étape.',
                 correction:
-                  "Reste concentré sur l'apparence visuelle et les couleurs sans retoucher aux formules.",
+                  'Concentre-toi sur l’apparence : tes règles sont déjà validées.',
               },
             ],
             tips: [
@@ -173,39 +183,39 @@ export const day02: Day = {
               title: 'CHOISIR TON',
               italicAccent: 'univers',
               highlightPill:
-                "Choisis l'univers qui allie ta sensibilité de créateur et le confort de tes futurs utilisateurs.",
+                'Choisis le style qui convient à ton public et au sujet de ton document.',
               paragraphs: [
-                'Réponds avec tes propres mots aux questions de Claude sur ton public cible.',
+                'Réponds avec tes propres mots aux questions de Claude sur l’ambiance et ton public.',
               ],
               bullets: [
-                'Claude te présente 3 propositions contrastées avec une ambiance, des couleurs et des polices adaptées.',
-                'Chaque concept est expliqué simplement en 6 points sans aucun code informatique.',
-                "Indique à Claude le numéro ou le nom de l'ambiance que tu préfères, ou demande un ajustement.",
+                'Claude propose ensuite trois styles contrastés : ambiance, couleurs, polices et mise en page.',
+                'Chaque style est justifié par rapport à ton document et à ton public.',
+                'Indique le style retenu ou demande un ajustement précis, par exemple une autre couleur.',
               ],
             },
           ],
           help: {
             frequentMistakes: [
               {
-                mistake: 'Chercher un style passe-partout sans personnalité.',
+                mistake: 'Choisir un style passe-partout sans personnalité.',
                 correction:
-                  'Une identité visuelle marquée rend ton outil mémorable et plus attrayant à vendre.',
+                  'Un style marqué rend ton outil reconnaissable et plus facile à vendre.',
               },
               {
-                mistake: 'Demander du code informatique dès cette étape.',
+                mistake: 'Demander du code dès cette étape.',
                 correction:
-                  "Prends d'abord le temps de fixer l'ambiance visuelle avant de passer à la fabrication.",
+                  'Fixe d’abord le style : le code arrive en Leçon 4.',
               },
             ],
             tips: [
-              'Tu peux combiner deux propositions : par exemple les couleurs du style 1 avec les polices du style 2.',
+              'Tu peux combiner deux propositions, par exemple les couleurs du style 1 avec les polices du style 2.',
             ],
           },
         },
         {
           id: 'lesson-03-step-03',
           number: 3,
-          title: 'Fiche prête',
+          title: 'Ta fiche',
           subtitle: 'Garder le style',
           completionLabel: 'Fiche validée',
           blocks: [
@@ -215,36 +225,42 @@ export const day02: Day = {
               title: 'GARDER TA',
               italicAccent: 'fiche',
               highlightPill:
-                'Ta fiche de style est prête : elle donne à ton outil une identité soignée et mémorable.',
+                'Tu as maintenant tes trois textes : plan, règles et fiche de style.',
               paragraphs: [
-                'Claude formalise ta fiche de style avec tes couleurs, tes polices et tes composants.',
+                'Claude rédige Ma fiche de style : relis-la, puis sauvegarde-la avec tes deux autres textes.',
               ],
               bullets: [
-                "Ce document résume l'ambiance retenue, les boutons, les cartes et la mise en page.",
-                'Copie et conserve ce texte dans tes notes pour garder une trace claire de tes choix.',
-                'Tu disposes désormais de tous les éléments nécessaires pour lancer la fabrication de ton application.',
+                'Vérifie les couleurs, l’ambiance et la mise en page retenues.',
+                'Vérifie que l’écran de code d’accès est prévu dans le même style.',
+                'Enregistre Ma fiche de style à côté de Mon plan d’application et Les règles de mon document.',
               ],
             },
             {
               id: 'l3-s3-checklist',
               type: 'checklist',
               title: 'Contrôle de ta fiche de style',
-              description: 'Coche ces 3 points pour valider ton identité visuelle avant la génération.',
+              description: 'Coche ces 4 points avant de générer ton application.',
               items: [
                 {
                   id: 'l3-c1',
-                  label: "J'ai choisi l'une des 3 ambiances proposées par Claude.",
-                  detail: 'Le concept retenu est adapté à ton sujet et à tes futurs utilisateurs.',
+                  label: 'J’ai choisi l’un des 3 styles proposés par Claude.',
+                  detail: 'Il convient à ton sujet et à tes futurs acheteurs.',
                 },
                 {
                   id: 'l3-c2',
-                  label: 'Claude a rédigé ma fiche de style avec mes couleurs et mes polices.',
-                  detail: 'Le texte détaille le fond, les cartes, les boutons et les contrastes.',
+                  label: 'Les couleurs et l’ambiance de ma fiche de style sont validées.',
+                  detail: 'Fond, boutons, textes et résultat principal sont décrits clairement.',
                 },
                 {
                   id: 'l3-c3',
-                  label: 'J’ai copié et sauvegardé le texte de ma fiche de style dans mes notes.',
-                  detail: 'Ce texte servira de repère lors des retouches et des évolutions futures.',
+                  label: 'L’écran de code d’accès est prévu dans ma fiche de style.',
+                  detail: 'Il reprend les couleurs et les polices de l’application.',
+                },
+                {
+                  id: 'l3-c4',
+                  label: 'Ma fiche de style est sauvegardée sur mon ordinateur.',
+                  detail:
+                    'Elle rejoint Mon plan d’application et Les règles de mon document.',
                 },
               ],
             },
@@ -252,13 +268,13 @@ export const day02: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake: 'Oublier de sauvegarder la fiche de style hors de Claude.',
+                mistake: 'Garder sa fiche de style uniquement dans Claude.',
                 correction:
-                  'Conserve toujours une copie du texte dans une note personnelle sur ton ordinateur.',
+                  'Copie-la dans un fichier sur ton ordinateur avec tes deux autres textes.',
               },
             ],
             tips: [
-              'Ta fiche de style servira de guide exact lors de la génération de ton application en Leçon 4.',
+              'Si la conversation devient trop longue, ces trois textes te permettront de reprendre ailleurs.',
             ],
           },
         },
@@ -270,14 +286,14 @@ export const day02: Day = {
       moduleId: 'module-02',
       dayId: 'day-02',
       dayNumber: 2,
-      navigationTitle: 'Générer',
+      navigationTitle: 'Générer ton app',
       title: 'Générer la première version (V1) de son application',
       italicTitleWord: 'première',
       duration: '~40 min',
       objective:
-        'Générer le code complet de ton application avec le Prompt 2, créer ton fichier index.html et l’ouvrir au double-clic.',
+        'Générer le code complet de ton application avec le Prompt 2, enregistrer ton fichier index.html et tester son écran de code.',
       deliverableSummary:
-        'Mon fichier index.html V1 : une vraie application web interactive enregistrée sur ton ordinateur et fonctionnelle au double-clic.',
+        'Mon fichier index.html enregistré sur ton ordinateur, avec un écran de code d’accès testé au double-clic.',
       isSkeletonPlaceholder: false,
       steps: [
         {
@@ -293,14 +309,14 @@ export const day02: Day = {
               title: 'LANCER LA',
               italicAccent: 'génération',
               highlightPill:
-                'Tu peux ouvrir ton fichier directement dans ton navigateur, sans installer de serveur ni d’outil de code.',
+                'Claude a besoin de ton document et de tes trois textes : reste dans la même conversation.',
               paragraphs: [
-                'Claude réunit ton document, ton plan et ton style pour fabriquer toute ton application.',
+                'Colle le Prompt 2 dans la même discussion pour que Claude écrive toute ton application.',
               ],
               bullets: [
-                'Copie le Prompt 2 officiel ci-dessous et colle-le dans la même discussion continue.',
-                'Claude écrit l’intégralité du code HTML, CSS et JavaScript dans un seul bloc continu.',
-                'La rédaction prend un instant : laisse Claude rédiger jusqu’au bout sans interrompre.',
+                'Claude s’appuie sur ton document, ton plan, tes règles et ta fiche de style.',
+                'Si tu dois changer de conversation, joins ton document et colle tes trois textes avant le prompt.',
+                'Laisse Claude écrire jusqu’à la dernière ligne du code.',
               ],
             },
             {
@@ -311,24 +327,24 @@ export const day02: Day = {
               buttonText: 'Copier le prompt',
               defaultExpanded: false,
               content: MASTER_PROMPT_2_XML,
-              notes: 'Colle ce message dans ta conversation continue pour obtenir tout le code de ton application.',
+              notes: 'Colle ce message dans ta conversation pour obtenir tout le code de ton application.',
             },
           ],
           help: {
             frequentMistakes: [
               {
-                mistake: 'Coller le prompt dans une nouvelle conversation vide.',
+                mistake: 'Coller le prompt dans une conversation vide, sans contexte.',
                 correction:
-                  'Reste dans la même discussion : Claude a besoin de ton plan et de ta fiche de style.',
+                  'Reste dans la même discussion, ou joins ton document et tes trois textes avant le prompt.',
               },
               {
-                mistake: 'Interrompre Claude avant la fin du bloc de code.',
+                mistake: 'Interrompre Claude avant la fin du code.',
                 correction:
-                  'Patiente jusqu’à la balise de fin pour obtenir un fichier complet sans morceau manquant.',
+                  'Attends la dernière ligne, qui se termine par </html>.',
               },
             ],
             tips: [
-              'Si la réponse s’arrête en cours de route, clique simplement sur Continuer pour obtenir la fin du code.',
+              'Si la réponse s’arrête en cours de route, clique sur Continuer pour obtenir la fin du code.',
             ],
           },
         },
@@ -345,14 +361,14 @@ export const day02: Day = {
               title: 'CRÉER TON',
               italicAccent: 'fichier',
               highlightPill:
-                'Ton fichier doit s’appeler exactement index.html en minuscules, sans espace ni accent.',
+                'Ton fichier doit s’appeler exactement index.html, en minuscules, sans espace.',
               paragraphs: [
-                'Récupère le code produit par Claude pour enregistrer ton application sur ton ordinateur.',
+                'Récupère le code complet de Claude et enregistre-le sur ton ordinateur sous le nom index.html.',
               ],
               bullets: [
-                'Méthode rapide : si un bouton Télécharger apparaît au-dessus du code dans Claude, clique dessus.',
-                'Méthode universelle : copie tout le code, ouvre le Bloc-notes ou TextEdit en mode texte brut, et colle-le.',
-                'Enregistre sous le nom index.html en évitant l’extension cachée index.html.txt sur Windows.',
+                'Si Claude affiche un bouton Télécharger, utilise-le : c’est la méthode la plus sûre.',
+                'Sinon, copie tout le code et colle-le dans le Bloc-notes ou TextEdit en texte brut.',
+                'Enregistre sous index.html en évitant l’extension cachée index.html.txt.',
               ],
             },
             {
@@ -364,17 +380,17 @@ export const day02: Day = {
                 {
                   id: 'l4-c1',
                   label: 'Le code commence bien par <!DOCTYPE html> et se termine par </html>.',
-                  detail: 'Le code est complet du premier au dernier caractère, sans coupure.',
+                  detail: 'Le code est complet, du premier au dernier caractère.',
                 },
                 {
                   id: 'l4-c2',
                   label: 'Le fichier s’appelle bien index.html (sans .txt à la fin).',
-                  detail: 'Vérifie que Windows ou macOS n’a pas ajouté une extension texte cachée.',
+                  detail: 'Vérifie que ton ordinateur n’a pas ajouté une extension texte cachée.',
                 },
                 {
                   id: 'l4-c3',
-                  label: 'Le fichier est enregistré dans un dossier dédié sur ton ordinateur.',
-                  detail: 'Crée par exemple un dossier mon-application pour retrouver facilement ton travail.',
+                  label: 'Le fichier est enregistré dans un dossier mon-application.',
+                  detail: 'Tu retrouveras facilement ton travail pour la mise en ligne.',
                 },
               ],
             },
@@ -384,62 +400,62 @@ export const day02: Day = {
               {
                 mistake: 'Avoir un fichier nommé index.html.txt sous Windows.',
                 correction:
-                  'Dans le Bloc-notes, choisis Tous les fichiers dans Type puis enregistre sous index.html.',
+                  'Dans le Bloc-notes, choisis Tous les fichiers dans Type, puis enregistre sous index.html.',
               },
               {
                 mistake: 'Coller du texte enrichi avec TextEdit sur Mac.',
                 correction:
-                  'Utilise le raccourci Maj+Cmd+T pour convertir le document en texte brut avant de coller.',
+                  'Utilise Maj+Cmd+T pour passer en texte brut avant de coller.',
               },
             ],
             tips: [
-              'Si Claude te propose un bouton de téléchargement direct, utilise-le : c’est la méthode la plus sûre.',
+              'Garde une copie de cette première version dans un autre dossier avant toute retouche.',
             ],
           },
         },
         {
           id: 'lesson-04-step-03',
           number: 3,
-          title: 'Premier test',
-          subtitle: 'Double-clic local',
+          title: 'Le code',
+          subtitle: 'Tester le verrou',
           completionLabel: 'Application ouverte',
           blocks: [
             {
               id: 'l4-s3-prose-test',
               type: 'prose',
-              title: 'OUVRIR TON',
-              italicAccent: 'application',
+              title: 'TESTER TON',
+              italicAccent: 'code',
               highlightPill:
-                'Ton document devient une application réelle exécutable localement, sans aucun serveur ni outil de code.',
+                'Ce code d’accès est une barrière dissuasive dans la page, pas une sécurité de serveur.',
               paragraphs: [
-                'Ton application s’ouvre directement depuis ton ordinateur, sans installer de serveur ni d’outil de développement.',
+                'Double-clique sur index.html : ton application s’ouvre dans ton navigateur, sans installer de serveur.',
               ],
               bullets: [
-                'Double-clique sur ton fichier index.html pour charger immédiatement ton application dans ton navigateur par défaut.',
-                'Certaines polices, images ou ressources externes peuvent toutefois nécessiter une connexion Internet.',
-                'Vérifie que l’en-tête, les couleurs choisies et l’interaction principale réagissent bien à tes clics.',
+                'L’écran de code apparaît avant tout contenu ; certaines polices peuvent nécessiter une connexion Internet.',
+                'Tape un mauvais code : il doit être refusé avec un message clair.',
+                'Tape ton code (ex. CREATOR2026), puis vérifie que Verrouiller réaffiche l’écran de code.',
               ],
             },
             {
               id: 'l4-s3-checklist',
               type: 'checklist',
               title: 'Contrôles au double-clic',
-              description: 'Vérifie ces 3 éléments lors de ta première ouverture.',
+              description: 'Vérifie ces 3 points lors de ta première ouverture.',
               items: [
                 {
                   id: 'l4-t1',
-                  label: 'Le fichier s’ouvre directement dans Chrome, Safari, Edge ou Firefox.',
-                  detail: 'L’application démarre en local depuis ton ordinateur sans installer de serveur.',
+                  label: 'Le fichier s’ouvre au double-clic et affiche d’abord l’écran de code d’accès.',
+                  detail: 'Le contenu de l’application reste masqué tant que le code n’est pas saisi.',
                 },
                 {
                   id: 'l4-t2',
-                  label: 'L’écran affiche l’interface complète sans page blanche ni message d’erreur.',
-                  detail: 'Le titre, les formulaires et les boutons sont bien visibles à l’écran.',
+                  label: 'Un mauvais code est refusé et le bon code déverrouille l’application.',
+                  detail: 'C’est le code choisi en Leçon 2, inscrit dans ACCESS_CODE au début du fichier.',
                 },
                 {
                   id: 'l4-t3',
-                  label: 'L’interaction principale fonctionne (calcul, case à cocher ou bouton cliquable).',
-                  detail: 'Une première action produit immédiatement une mise à jour sur l’écran.',
+                  label: 'Le bouton Verrouiller réaffiche immédiatement l’écran de code.',
+                  detail: 'Sans ce bouton, le navigateur garde le déverrouillage en mémoire.',
                 },
               ],
             },
@@ -452,13 +468,13 @@ export const day02: Day = {
                   'Renomme ton fichier pour retirer l’extension .txt et garder uniquement .html.',
               },
               {
-                mistake: 'Une page blanche s’affiche à l’ouverture.',
+                mistake: 'L’application s’affiche directement, sans écran de code.',
                 correction:
-                  'Fais un clic droit sur le fichier puis Ouvrir avec pour essayer un autre navigateur.',
+                  'Clique sur Verrouiller, ou demande à Claude d’ajouter l’écran de code prévu dans ta fiche de style.',
               },
             ],
             tips: [
-              'Tu peux garder ton fichier ouvert dans un onglet et le rafraîchir avec F5 à chaque modification.',
+              'Pour changer ton code plus tard, demande à Claude de modifier la valeur ACCESS_CODE dans ton fichier.',
             ],
           },
         },
@@ -470,14 +486,14 @@ export const day02: Day = {
       moduleId: 'module-02',
       dayId: 'day-02',
       dayNumber: 2,
-      navigationTitle: 'Améliorer',
+      navigationTitle: 'Tester et ajuster',
       title: 'Effectuer des retouches ciblées, corriger et tester',
       italicTitleWord: 'retouches',
       duration: '~30 min',
       objective:
-        'Tester ton application avec des données types, effectuer les ajustements nécessaires et valider ton fichier final.',
+        'Tester ton application avec des valeurs fictives, demander une retouche ciblée si besoin et valider ta version finale.',
       deliverableSummary:
-        'Mon application finale vérifiée : un fichier index.html testé sur ordinateur et mobile, prêt pour la mise en ligne.',
+        'Mon application finale vérifiée : calculs, code d’accès, affichage mobile et sauvegarde adaptée, prête pour la mise en ligne.',
       isSkeletonPlaceholder: false,
       steps: [
         {
@@ -493,36 +509,36 @@ export const day02: Day = {
               title: 'TESTER TON',
               italicAccent: 'application',
               highlightPill:
-                'Ne transmets jamais de données confidentielles : utilise toujours des valeurs fictives ou d’exemple.',
+                'Ne transmets jamais de données confidentielles : teste avec des valeurs fictives ou d’exemple.',
               paragraphs: [
-                'Utilise les exemples de ton document ou des données fictives pour effectuer tes tests.',
+                'Compare chaque résultat de ton application avec les exemples et les règles de ton document.',
               ],
               bullets: [
-                'Compare les résultats avec les exemples de ton document ou des valeurs recalculées selon ses règles.',
-                'Teste un cas extrême ou laisse un champ vide pour vérifier que l’outil affiche une alerte claire.',
-                'Ouvre les outils de développement de Chrome ou Edge pour tester précisément 375 px, 768 px et 1280 px.',
+                'Essaie des valeurs habituelles, un champ vide et un cas extrême.',
+                'Vérifie à nouveau le code d’accès : mauvais code refusé, bon code accepté.',
+                'Avec F12, teste l’affichage à 375 px et vérifie que chaque bouton se touche facilement au doigt.',
               ],
             },
             {
               id: 'l5-s1-checklist',
               type: 'checklist',
               title: 'Grille de contrôle en 3 dimensions',
-              description: 'Valide ces 3 vérifications essentielles avant de finaliser.',
+              description: 'Valide ces 3 vérifications avant de finaliser.',
               items: [
                 {
                   id: 'l5-q1',
                   label: 'Les résultats correspondent aux exemples de mon document ou à mes calculs de référence.',
-                  detail: 'Les formules, seuils et barèmes sont justes et fidèles à tes règles d’origine.',
+                  detail: 'Formules, seuils et barèmes sont fidèles à tes règles.',
                 },
                 {
                   id: 'l5-q2',
                   label: 'Une saisie vide ou incomplète affiche une alerte claire sans casser la page.',
-                  detail: 'L’outil guide l’utilisateur avec bienveillance en cas de valeur inattendue.',
+                  detail: 'L’outil guide l’utilisateur en cas de valeur inattendue.',
                 },
                 {
                   id: 'l5-q3',
-                  label: 'L’affichage est vérifié aux trois largeurs clés : 375 px (mobile), 768 px (tablette) et 1280 px (ordinateur).',
-                  detail: 'Les textes restent lisibles et aucun bouton ne déborde de l’écran.',
+                  label: 'L’affichage est vérifié à 375 px (mobile), 768 px (tablette) et 1280 px (ordinateur).',
+                  detail: 'Les textes restent lisibles et aucun bouton ne déborde.',
                 },
               ],
             },
@@ -532,16 +548,16 @@ export const day02: Day = {
               {
                 mistake: 'Saisir des données personnelles sensibles pour tester.',
                 correction:
-                  'Utilise toujours des chiffres fictifs ou les valeurs données en exemple dans ton support.',
+                  'Utilise des chiffres fictifs ou les exemples de ton document.',
               },
               {
-                mistake: 'Tester uniquement en rétrécissant grossièrement la fenêtre à la main.',
+                mistake: 'Tester le mobile en rétrécissant la fenêtre à la main.',
                 correction:
-                  'Utilise les outils de développement pour mesurer précisément 375 px, 768 px et 1280 px.',
+                  'Utilise les outils de développement (F12) pour mesurer précisément 375 px.',
               },
             ],
             tips: [
-              'Dans Chrome ou Edge, appuie sur F12 puis clique sur l’icône d’écran pour tester 375 px, 768 px et 1280 px.',
+              'Dans Chrome ou Edge, appuie sur F12 puis clique sur l’icône d’écran pour choisir une largeur.',
             ],
           },
         },
@@ -558,15 +574,14 @@ export const day02: Day = {
               title: 'DEMANDER UNE',
               italicAccent: 'retouche',
               highlightPill:
-                'Cette étape est facultative : si tout fonctionne déjà correctement, tu peux passer à la suite.',
+                'Une seule correction par message, sur la dernière version de ton fichier.',
               paragraphs: [
-                'Si tu constates un petit défaut, demande une retouche ciblée dans ta discussion continue.',
+                'Si un détail ne fonctionne pas, décris-le à Claude avec la trame ci-dessous.',
               ],
               bullets: [
-                'Travaille toujours à partir de la dernière version de ton fichier index.html.',
-                'Tu peux joindre ton fichier actuel à Claude et ajouter une capture d’écran si le défaut est visuel.',
-                'Demande une seule correction à la fois, exige le fichier complet et reteste chaque modification.',
-                'Si ton application fonctionne déjà comme prévu, termine cette étape sans inventer de retouche.',
+                'Joins la dernière version de ton fichier index.html dans la même discussion.',
+                'Demande le fichier complet : formules, écran de code, code d’accès et sauvegarde doivent rester intacts.',
+                'Reteste après chaque correction ; si tout fonctionne déjà, passe à la suite.',
               ],
             },
             {
@@ -583,18 +598,18 @@ export const day02: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake: 'Demander dix corrections en même temps dans un seul message.',
+                mistake: 'Demander dix corrections dans un seul message.',
                 correction:
                   'Traite un problème après l’autre pour garder le contrôle sur chaque modification.',
               },
               {
-                mistake: 'Tenter de modifier le code à la main sans maîtriser la programmation.',
+                mistake: 'Accepter une version où l’écran de code ou une formule a disparu.',
                 correction:
-                  'Laisse Claude corriger et réclame toujours le fichier complet prêt à l’emploi.',
+                  'Reviens à ta version précédente et redemande la correction en rappelant ce qui doit rester intact.',
               },
             ],
             tips: [
-              'Tu peux réutiliser cette même trame plusieurs fois si tu as deux ou trois détails distincts à ajuster.',
+              'Ajoute une capture d’écran à ton message si le défaut est visuel.',
             ],
           },
         },
@@ -602,23 +617,23 @@ export const day02: Day = {
           id: 'lesson-05-step-03',
           number: 3,
           title: 'Fichier prêt',
-          subtitle: 'Valider pour Netlify',
+          subtitle: 'Prêt à publier',
           completionLabel: 'Module 02 terminé',
           blocks: [
             {
               id: 'l5-s3-prose-valider',
               type: 'prose',
-              title: 'RÉSERVER TON',
+              title: 'VALIDER TON',
               italicAccent: 'application',
               highlightPill:
-                'Si tes vérifications sont concluantes, ton application est prête pour la mise en ligne au Jour 3.',
+                'Le déverrouillage du code d’accès est mémorisé à part de tes données.',
               paragraphs: [
-                'Quand tes contrôles sont terminés et concluants, range ton fichier final dans le dossier mon-application.',
+                'Quand tes contrôles sont terminés, vérifie la sauvegarde prévue puis range ton fichier final.',
               ],
               bullets: [
-                'Crée un dossier nommé mon-application et glisses-y ton fichier index.html final.',
-                'Conserve précieusement une copie de sauvegarde de ta première version dans un autre dossier.',
-                'Ton produit est prêt à être hébergé dès que tous tes contrôles ont été validés.',
+                'Calculateur éphémère : les chiffres disparaissent à la fermeture, sans boutons d’export.',
+                'Outil de suivi : les données restent dans le même navigateur, sur le même appareil.',
+                'Données de suivi sauvegardées : des boutons d’export et d’import JSON permettent de changer d’appareil.',
               ],
             },
             {
@@ -629,18 +644,19 @@ export const day02: Day = {
               items: [
                 {
                   id: 'l5-f1',
-                  label: 'Mes contrôles de calculs et d’affichages ont été effectués avec satisfaction.',
-                  detail: 'Ton application réagit conformément aux règles et aux exemples testés.',
+                  label: 'Les résultats, les interactions et l’affichage mobile sont validés.',
+                  detail: 'Les calculs restent justes à 375 px comme sur ordinateur.',
                 },
                 {
                   id: 'l5-f2',
-                  label: 'Mon fichier index.html final est rangé dans un dossier mon-application.',
-                  detail: 'Ce dossier sera déposé en un clic sur Netlify lors du Jour 3.',
+                  label: 'Le code d’accès fonctionne et la sauvegarde correspond à mon type d’outil.',
+                  detail:
+                    'Aucun bouton JSON pour un calculateur éphémère ; export et import seulement si les données sont sauvegardées.',
                 },
                 {
                   id: 'l5-f3',
-                  label: 'Une copie de sauvegarde de ma première version est conservée en sécurité.',
-                  detail: 'Tu disposes d’un historique propre en cas de fausse manipulation future.',
+                  label: 'Mon index.html final est dans le dossier mon-application, avec une copie de secours ailleurs.',
+                  detail: 'Ce dossier sera déposé sur Netlify en Leçon 6.',
                 },
               ],
             },
@@ -648,13 +664,18 @@ export const day02: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake: 'Laisser traîner plusieurs versions mélangées dans son dossier Téléchargements.',
+                mistake: 'Demander des boutons d’export et d’import JSON pour un simple calculateur.',
                 correction:
-                  'Crée un dossier dédié mon-application et n’y garde que le fichier définitif.',
+                  'Un calculateur éphémère ne garde aucune donnée : ces boutons seraient inutiles.',
+              },
+              {
+                mistake: 'Laisser plusieurs versions mélangées dans le dossier mon-application.',
+                correction:
+                  'Garde uniquement le fichier final index.html dans ce dossier.',
               },
             ],
             tips: [
-              'Au Jour 3, tu glisseras simplement ce dossier sur la plateforme d’hébergement pour le rendre public.',
+              'En Leçon 6, tu glisseras simplement ce dossier sur Netlify pour le mettre en ligne.',
             ],
           },
         },

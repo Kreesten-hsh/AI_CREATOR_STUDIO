@@ -193,3 +193,71 @@ Pour les jauges et comparatifs (ex. FRNG vs BFR) :
   }
 }
 ```
+
+---
+
+## 7. Écran de Verrouillage Acheteur (`.gate` & `ACCESS_CODE`)
+
+Chaque application générée intègre dès le `<head>` le script de verrouillage pré-rendu (sans clignotement) ainsi que la superposition `.gate` :
+
+```html
+<script>
+  var ACCESS_CODE = "CREATOR2026", KEY = "pricing_access";
+  try {
+    if (localStorage.getItem(KEY) !== "granted") {
+      document.documentElement.classList.add("locked");
+    }
+  } catch (e) {
+    document.documentElement.classList.add("locked");
+  }
+</script>
+```
+
+Dans le `<script>` principal en fin de `<body>` :
+- Comparer la saisie normalisée (`codeInput.value.trim().toUpperCase() === ACCESS_CODE.toUpperCase()`).
+- En cas de succès : enregistrer `localStorage.setItem(KEY, "granted")` dans un bloc `try/catch`, retirer la classe `locked` de `document.documentElement` et placer le focus sur le premier champ de l'application.
+- En cas d'erreur : afficher le message explicite en français et déclencher l'animation `@keyframes shake`.
+- Connecter le bouton `#lockBtn` (`Verrouiller`) de l'en-tête pour supprimer la clé `KEY` et ré-appliquer la classe `locked`.
+
+---
+
+## 8. Sélecteur Multi-Devises (`FCFA` / `€`) & Sécurité Arithmétique de Tarification
+
+Pour les calculateurs de prix et de rentabilité (comme `docs/examples/pricing-calculator/index.html`) :
+1. **Formatage par devise** :
+   - En **`FCFA`** : arrondir à l'entier (`Math.round(n)`) avec séparateur de milliers espace (`15 000 FCFA`), `step="100"` sur les champs monétaires.
+   - En **`€`** : afficher deux décimales avec virgule française (`24,50 €`), `step="0.5"` sur les champs monétaires.
+2. **Formule de prix de vente conseillé avec couverture des frais** :
+   - `coutRevientUnitaire = materiel + emballage + (minutes / 60) * tauxHoraire`
+   - `margeCible = coutRevientUnitaire * (margePct / 100)`
+   - `tauxFrais = fraisPct / 100`
+   - Si `coutRevientUnitaire <= 0 || tauxFrais >= 1`, retourner `0` pour éviter toute division par zéro ou prix négatif absurde.
+   - Sinon : `prixConseille = (coutRevientUnitaire + margeCible + fraisFixe) / (1 - tauxFrais)`.
+
+---
+
+## 9. Persistance Conditionnelle (`StorageAdapter`) & Export/Import JSON Manuel
+
+Lorsque l'application utilise `localStorage` pour sauvegarder l'avancement de l'utilisateur (suivi multi-jours, checklist), encapsuler systématiquement les accès et fournir l'export/import JSON :
+
+```javascript
+var memoryStore = {};
+var StorageAdapter = {
+  get: function (key) {
+    try { return localStorage.getItem(key); } catch (e) { return memoryStore[key] || null; }
+  },
+  set: function (key, val) {
+    try { localStorage.setItem(key, val); } catch (e) { memoryStore[key] = String(val); }
+  }
+};
+
+function exportStateAsJson(stateObj, filename) {
+  var blob = new Blob([JSON.stringify(stateObj, null, 2)], { type: "application/json" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = filename || "sauvegarde-progression.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+```

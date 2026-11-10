@@ -18,9 +18,101 @@ import type {
   CopyBlockConfig,
   StepChecklistBlock,
   ProseBlock,
+  Day,
+  Step,
 } from '../types/course';
 
-describe('Journée 2 (Module 2 : CRÉER) : Conception Pédagogique et Intégration (Mission 05)', () => {
+// Liste noire commune aux trois journées (18 termes).
+const BLACKLISTED_TERMS = [
+  'invariant',
+  'invariants',
+  'logique métier',
+  'Source Fidelity Mapping',
+  'SFM',
+  'Product Blueprint',
+  'Blueprint',
+  'Visual Direction Brief',
+  'VDB',
+  'artefact',
+  'heuristique',
+  'nœuds clés',
+  'matrice conceptuelle',
+  'transcription accessible',
+  'repère pédagogique',
+  'mythe du document parfait',
+  'persistance volatile',
+  'monofichier',
+];
+
+const ACTION_BLOCK_TYPES = ['resource', 'copy', 'checklist'];
+
+const countWords = (text: string): number => text.trim().split(/\s+/).filter(Boolean).length;
+
+const containsTerm = (text: string, term: string): boolean =>
+  new RegExp(`(^|[^\\p{L}])${term}([^\\p{L}]|$)`, 'iu').test(text);
+
+// Contenu visible de l'apprenant, hors contenu des prompts copiables.
+function collectVisibleStrings(day: Day): string[] {
+  const strings: string[] = [day.title, day.objective, day.deliverableSummary];
+  day.lessons.forEach((lesson) => {
+    strings.push(lesson.title, lesson.navigationTitle ?? '', lesson.objective, lesson.deliverableSummary);
+    lesson.steps.forEach((step) => {
+      strings.push(step.title, step.subtitle ?? '', step.completionLabel);
+      step.blocks.forEach((block) => {
+        if (block.type === 'prose') {
+          strings.push(block.title ?? '', block.italicAccent ?? '', block.highlightPill ?? '', ...block.paragraphs, ...(block.bullets ?? []));
+        } else if (block.type === 'checklist') {
+          strings.push(block.title, block.description ?? '');
+          block.items.forEach((item) => strings.push(item.label, item.detail ?? ''));
+        } else if (block.type === 'copy') {
+          strings.push(block.title, block.label, block.notes ?? '', block.buttonText ?? '');
+        } else if (block.type === 'resource') {
+          strings.push(block.title, block.description ?? '');
+          block.resources.forEach((res) => strings.push(res.title, res.description));
+        }
+      });
+      step.help?.frequentMistakes?.forEach((m) => strings.push(m.mistake, m.correction));
+      step.help?.tips?.forEach((t) => strings.push(t));
+      step.help?.troubleshootingPrompts?.forEach((p) => strings.push(p.title, p.description));
+    });
+  });
+  return strings;
+}
+
+function assertEditorialStandard(step: Step): void {
+  expect(step.title.length, `Titre trop long : ${step.id}`).toBeLessThan(18);
+  expect(countWords(step.title), `Titre de ${step.id} > 2 mots (\"${step.title}\")`).toBeLessThanOrEqual(2);
+  if (step.subtitle) {
+    expect(step.subtitle.length, `Sous-titre trop long : ${step.id}`).toBeLessThan(22);
+    expect(countWords(step.subtitle), `Sous-titre de ${step.id} > 3 mots`).toBeLessThanOrEqual(3);
+  }
+
+  const proseBlocks = step.blocks.filter((b) => b.type === 'prose') as ProseBlock[];
+  expect(proseBlocks, `${step.id} doit avoir une seule carte prose`).toHaveLength(1);
+  const prose = proseBlocks[0];
+  expect(step.blocks[0]).toBe(prose);
+  expect(prose.title).toBeTruthy();
+  expect(prose.italicAccent).toBeTruthy();
+  expect(prose.highlightPill).toBeTruthy();
+  expect(prose.eyebrow).toBeUndefined();
+
+  const openingWords = countWords(prose.paragraphs[0]);
+  expect(openingWords, `Ouverture de ${step.id} (${openingWords} mots)`).toBeGreaterThanOrEqual(10);
+  expect(openingWords, `Ouverture de ${step.id} (${openingWords} mots)`).toBeLessThanOrEqual(18);
+
+  expect((prose.bullets ?? []).length, `${step.id} dépasse 3 puces`).toBeLessThanOrEqual(3);
+
+  const visibleWords = [prose.highlightPill ?? '', ...prose.paragraphs, ...(prose.bullets ?? [])]
+    .map(countWords)
+    .reduce((a, b) => a + b, 0);
+  expect(visibleWords, `Prose visible de ${step.id} = ${visibleWords} mots`).toBeLessThanOrEqual(80);
+
+  const actionBlocks = step.blocks.filter((b) => ACTION_BLOCK_TYPES.includes(b.type));
+  expect(actionBlocks.length, `${step.id} a plus d'un bloc d'action`).toBeLessThanOrEqual(1);
+  expect(step.blocks.length, `${step.id} contient un bloc non autorisé`).toBe(1 + actionBlocks.length);
+}
+
+describe('Journée 2 (Module 2 : CRÉER) : Conception Pédagogique et Intégration (Mission 09 LOT B)', () => {
   beforeEach(() => {
     localStorage.clear();
   });
@@ -37,7 +129,7 @@ describe('Journée 2 (Module 2 : CRÉER) : Conception Pédagogique et Intégrati
       expect(l3.moduleId).toBe('module-02');
       expect(l3.dayId).toBe('day-02');
       expect(l3.title).toBe('Définir sa direction artistique indépendante');
-      expect(l3.navigationTitle).toBe('Créer le style');
+      expect(l3.navigationTitle).toBe('Créer ton style');
       expect(l3.duration).toBe('~20 min');
       expect(l3.isSkeletonPlaceholder).toBe(false);
       expect(l3.steps).toHaveLength(3);
@@ -53,7 +145,7 @@ describe('Journée 2 (Module 2 : CRÉER) : Conception Pédagogique et Intégrati
       expect(l4.moduleId).toBe('module-02');
       expect(l4.dayId).toBe('day-02');
       expect(l4.title).toBe('Générer la première version (V1) de son application');
-      expect(l4.navigationTitle).toBe('Générer');
+      expect(l4.navigationTitle).toBe('Générer ton app');
       expect(l4.duration).toBe('~40 min');
       expect(l4.isSkeletonPlaceholder).toBe(false);
       expect(l4.steps).toHaveLength(3);
@@ -69,7 +161,7 @@ describe('Journée 2 (Module 2 : CRÉER) : Conception Pédagogique et Intégrati
       expect(l5.moduleId).toBe('module-02');
       expect(l5.dayId).toBe('day-02');
       expect(l5.title).toBe('Effectuer des retouches ciblées, corriger et tester');
-      expect(l5.navigationTitle).toBe('Améliorer');
+      expect(l5.navigationTitle).toBe('Tester et ajuster');
       expect(l5.duration).toBe('~30 min');
       expect(l5.isSkeletonPlaceholder).toBe(false);
       expect(l5.steps).toHaveLength(3);
@@ -94,171 +186,25 @@ describe('Journée 2 (Module 2 : CRÉER) : Conception Pédagogique et Intégrati
         </ProgressProvider>
       );
 
-      expect(screen.getByText(/Créer le style/i)).toBeInTheDocument();
-      expect(screen.getByText(/Générer/i)).toBeInTheDocument();
-      expect(screen.getByText(/Améliorer/i)).toBeInTheDocument();
+      expect(screen.getByText('Créer ton style')).toBeInTheDocument();
+      expect(screen.getByText('Générer ton app')).toBeInTheDocument();
+      expect(screen.getByText('Tester et ajuster')).toBeInTheDocument();
     });
 
-    it('respecte la règle R1 (One Card, One Action) avec ouverture stricte entre 10 et 18 mots et max 80 mots de texte pédagogique', () => {
-      const allSteps = [
-        ...day02.lessons[0].steps,
-        ...day02.lessons[1].steps,
-        ...day02.lessons[2].steps,
-      ];
-
+    it('applique le standard éditorial aux 9 étapes (titres, ouverture, 80 mots, 3 puces, une carte, une action)', () => {
+      const allSteps = day02.lessons.flatMap((l) => l.steps);
       expect(allSteps).toHaveLength(9);
-
-      allSteps.forEach((step) => {
-        expect(step.blocks.length).toBeGreaterThanOrEqual(1);
-        expect(step.blocks.length).toBeLessThanOrEqual(2);
-
-        const firstBlock = step.blocks[0] as ProseBlock;
-        expect(firstBlock.type).toBe('prose');
-        expect(firstBlock.title).toBeDefined();
-        expect(firstBlock.italicAccent).toBeDefined();
-        expect(firstBlock.highlightPill).toBeDefined();
-        expect(firstBlock.eyebrow).toBeUndefined();
-
-        // Contrôle strict du nombre de mots d'ouverture : entre 10 et 18 mots
-        const opening = firstBlock.paragraphs[0];
-        const wordCount = opening.trim().split(/\s+/).length;
-        expect(
-          wordCount,
-          `Ouverture de ${step.id} hors limites (${wordCount} mots) : "${opening}"`
-        ).toBeGreaterThanOrEqual(10);
-        expect(
-          wordCount,
-          `Ouverture de ${step.id} trop longue (${wordCount} mots) : "${opening}"`
-        ).toBeLessThanOrEqual(18);
-
-        // Calcul du total des mots de prose pédagogique visible
-        let totalProseWords = wordCount;
-        if (firstBlock.paragraphs.length > 1) {
-          for (let i = 1; i < firstBlock.paragraphs.length; i++) {
-            totalProseWords += firstBlock.paragraphs[i].trim().split(/\s+/).length;
-          }
-        }
-        if (firstBlock.bullets) {
-          for (const b of firstBlock.bullets) {
-            totalProseWords += b.trim().split(/\s+/).length;
-          }
-        }
-        expect(
-          totalProseWords,
-          `Total de prose de ${step.id} dépasse 80 mots (${totalProseWords} mots)`
-        ).toBeLessThanOrEqual(80);
-
-        if (step.blocks.length === 2) {
-          const secondBlock = step.blocks[1];
-          expect(['copy', 'checklist']).toContain(secondBlock.type);
-        }
-      });
-    });
-
-    it('respecte la règle R4 stricte (Titres <= 2 mots / < 18 car. et sous-titres <= 3 mots / < 22 car.)', () => {
-      const allSteps = [
-        ...day02.lessons[0].steps,
-        ...day02.lessons[1].steps,
-        ...day02.lessons[2].steps,
-      ];
-
-      allSteps.forEach((step) => {
-        expect(step.title.length).toBeLessThan(18);
-        const titleWords = step.title.trim().split(/\s+/).length;
-        expect(
-          titleWords,
-          `Titre de ${step.id} dépasse 2 mots ("${step.title}")`
-        ).toBeLessThanOrEqual(2);
-
-        if (step.subtitle) {
-          expect(step.subtitle.length).toBeLessThan(22);
-          const subtitleWords = step.subtitle.trim().split(/\s+/).length;
-          expect(
-            subtitleWords,
-            `Sous-titre de ${step.id} dépasse 3 mots ("${step.subtitle}")`
-          ).toBeLessThanOrEqual(3);
-        }
-      });
+      allSteps.forEach(assertEditorialStandard);
     });
   });
 
   describe('2. Absence de jargon technique et charte anti-slop', () => {
-    it('garantit l’absence TOTALE des 15 termes interdits dans tout le contenu textuel affiché à l’élève', () => {
-      const blacklistedTerms = [
-        'invariant',
-        'invariants',
-        'logique métier',
-        'Source Fidelity Mapping',
-        'SFM',
-        'Product Blueprint',
-        'Blueprint',
-        'Visual Direction Brief',
-        'VDB',
-        'artefact',
-        'nœuds clés',
-        'matrice conceptuelle',
-        'transcription accessible',
-        'repère pédagogique',
-        'mythe du document parfait',
-        'persistance volatile',
-        'monofichier',
-      ];
+    it('garantit l’absence des 18 termes interdits dans tout le contenu visible (hors prompts copiables)', () => {
+      const fullVisibleText = collectVisibleStrings(day02).join(' \n ');
 
-      const visibleStrings: string[] = [
-        day02.title,
-        day02.objective,
-        day02.deliverableSummary,
-      ];
-
-      day02.lessons.forEach((lesson) => {
-        visibleStrings.push(
-          lesson.title,
-          lesson.navigationTitle ?? '',
-          lesson.objective,
-          lesson.deliverableSummary
-        );
-
-        lesson.steps.forEach((step) => {
-          visibleStrings.push(step.title, step.subtitle ?? '', step.completionLabel);
-
-          step.blocks.forEach((block) => {
-            if (block.type === 'prose') {
-              if (block.eyebrow) visibleStrings.push(block.eyebrow);
-              if (block.title) visibleStrings.push(block.title);
-              if (block.italicAccent) visibleStrings.push(block.italicAccent);
-              if (block.highlightPill) visibleStrings.push(block.highlightPill);
-              block.paragraphs.forEach((p) => visibleStrings.push(p));
-              block.bullets?.forEach((b) => visibleStrings.push(b));
-            } else if (block.type === 'copy') {
-              visibleStrings.push(block.title, block.label);
-              if (block.notes) visibleStrings.push(block.notes);
-              if (block.buttonText) visibleStrings.push(block.buttonText);
-            } else if (block.type === 'checklist') {
-              visibleStrings.push(block.title);
-              if (block.description) visibleStrings.push(block.description);
-              block.items.forEach((item) => {
-                visibleStrings.push(item.label);
-                if (item.detail) visibleStrings.push(item.detail);
-              });
-            }
-          });
-
-          if (step.help) {
-            step.help.frequentMistakes?.forEach((m) => {
-              visibleStrings.push(m.mistake, m.correction);
-            });
-            step.help.tips?.forEach((t) => visibleStrings.push(t));
-          }
-        });
-      });
-
-      const fullVisibleText = visibleStrings.join(' \n ');
-
-      blacklistedTerms.forEach((term) => {
-        const regex = new RegExp(`\\b${term}\\b`, 'i');
-        const found = regex.test(fullVisibleText);
+      BLACKLISTED_TERMS.forEach((term) => {
         expect(
-          found,
+          containsTerm(fullVisibleText, term),
           `Le terme interdit "${term}" a été détecté dans le contenu visible de l'élève en Journée 2 !`
         ).toBe(false);
       });
@@ -328,7 +274,13 @@ describe('Journée 2 (Module 2 : CRÉER) : Conception Pédagogique et Intégrati
         (b) => b.type === 'checklist'
       ) as StepChecklistBlock | undefined;
       expect(checklist3).toBeDefined();
-      expect(checklist3?.items).toHaveLength(3);
+      expect(checklist3?.items).toHaveLength(4);
+
+      const step3Text = JSON.stringify(l3Step3);
+      expect(step3Text).toContain('Ma fiche de style');
+      expect(step3Text).toContain('Mon plan d’application');
+      expect(step3Text).toContain('Les règles de mon document');
+      expect(step3Text).toContain('écran de code d’accès');
     });
 
     it('équipe la Leçon 4 avec le Master Prompt 2 replié par défaut (defaultExpanded: false) en Étape 1', () => {
@@ -361,7 +313,7 @@ describe('Journée 2 (Module 2 : CRÉER) : Conception Pédagogique et Intégrati
       expect(copyBlock.notes).not.toMatch(/Blueprint|SFM|VDB|invariant/i);
     });
 
-    it('équipe la Leçon 5 avec la trame de retouche chirurgicale en Étape 2 et la checklist conditionnelle en Étape 3', () => {
+    it('équipe la Leçon 5 avec la trame de retouche chirurgicale en Étape 2 et les 3 cas de sauvegarde en Étape 3', () => {
       const l5Step2 = day02.lessons[2].steps[1];
       expect(l5Step2.completionLabel).toBe('Contrôle terminé');
       const copyBlock = l5Step2.blocks.find(
@@ -381,6 +333,11 @@ describe('Journée 2 (Module 2 : CRÉER) : Conception Pédagogique et Intégrati
       const proseBlock = l5Step3.blocks[0] as ProseBlock;
       expect(proseBlock.paragraphs[0]).toMatch(/^Quand tes contrôles sont terminés/i);
 
+      const step3Text = JSON.stringify(l5Step3);
+      expect(step3Text).toContain('Calculateur éphémère');
+      expect(step3Text).toContain('même navigateur');
+      expect(step3Text).toContain('JSON');
+
       const chkBlock = l5Step3.blocks[1] as StepChecklistBlock;
       expect(chkBlock).toBeDefined();
       expect(chkBlock.items).toHaveLength(3);
@@ -388,13 +345,11 @@ describe('Journée 2 (Module 2 : CRÉER) : Conception Pédagogique et Intégrati
   });
 
   describe('4. Vérité technique, protocole QA et ergonomie sans pièges', () => {
-    it('distingue rigoureusement l’exécution locale du 100% hors-ligne en L4', () => {
-      const l4Step1 = day02.lessons[1].steps[0];
-      const prose1 = l4Step1.blocks[0] as ProseBlock;
-      expect(prose1.highlightPill).toContain('sans installer de serveur');
-
+    it('distingue rigoureusement l’exécution locale, le test du code d’accès et la non-sécurité serveur en L4', () => {
       const l4Step3 = day02.lessons[1].steps[2];
       const prose3 = l4Step3.blocks[0] as ProseBlock;
+      expect(prose3.highlightPill).toContain('barrière dissuasive');
+      expect(prose3.highlightPill).toContain('pas une sécurité de serveur');
       // Ouverture locale sans serveur
       expect(prose3.paragraphs[0]).toContain('sans installer de serveur');
       // Mention explicite des dépendances externes possibles
@@ -405,6 +360,11 @@ describe('Journée 2 (Module 2 : CRÉER) : Conception Pédagogique et Intégrati
       expect(
         prose3.bullets?.some((b) => b.includes('sans nécessiter de connexion internet'))
       ).toBe(false);
+
+      const step3Text = JSON.stringify(l4Step3);
+      expect(step3Text).toContain('ACCESS_CODE');
+      expect(step3Text).toContain('Verrouiller');
+      expect(step3Text).toContain('mauvais code');
     });
 
     it('fournit le guide d’enregistrement anti-pièges (.txt) en L4 Étape 2', () => {
@@ -459,7 +419,7 @@ describe('Journée 2 (Module 2 : CRÉER) : Conception Pédagogique et Intégrati
       expect(tabs).toHaveLength(3);
       expect(tabs[0]).toHaveTextContent(/Le signal/i);
       expect(tabs[1]).toHaveTextContent(/3 styles/i);
-      expect(tabs[2]).toHaveTextContent(/Fiche prête/i);
+      expect(tabs[2]).toHaveTextContent(/Ta fiche/i);
       expect(tabs[0]).toHaveAttribute('aria-selected', 'true');
       expect(screen.getByText(/Plan et règles validés, passons au style/i)).toBeInTheDocument();
 

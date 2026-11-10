@@ -35,13 +35,13 @@ Le dispositif standard permet de transformer n'importe quel document en applicat
 
 Le Prompt 1 s'execute en deux phases distinctes dans la meme session Claude Free :
 
-#### Phase 1 (Lecon 2 : Cadrage Fonctionnel & Fidelite Source)
+#### Phase 1 (Lecon 2 : Cadrage Fonctionnel, Code d'Acces & Fidelite Source)
 1. Ouvrir une nouvelle conversation dans Claude Free.
 2. Joindre le document source (PDF, tableur, guide, notes).
 3. Coller le contenu de `PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE.md`.
 4. Claude analyse le document et propose **3 concepts d'interaction fonctionnels** adaptes au metier.
-5. Choisir le concept retenu (ou demander des ajustements).
-6. Claude genere les deux premiers livrables : le **Product Blueprint** (logique et formules) et le **Source Fidelity Mapping (SFM)** (matrice d'invariants documentes). Aucun code HTML n'est produit a ce stade.
+5. Choisir le concept retenu (ou demander des ajustements) et indiquer le **code d'acces choisi pour les acheteurs** (ex. `CREATOR2026`).
+6. Claude genere les deux premiers livrables : le **Product Blueprint** (logique, formules et code d'acces acheteur) et le **Source Fidelity Mapping (SFM)** (matrice d'invariants documentes). Aucun code HTML n'est produit a ce stade.
 7. Sauvegarder localement le Blueprint et le SFM sur son ordinateur.
 
 #### Phase 2 (Lecon 3 : Direction Artistique Independante)
@@ -49,12 +49,12 @@ Le Prompt 1 s'execute en deux phases distinctes dans la meme session Claude Free
 9. Claude engage l'entretien visuel (1 ou 2 questions ciblees).
 10. Il propose ensuite **3 directions artistiques contrastees** decoulant du document.
 11. Choisir et affiner la direction retenue.
-12. Claude formalise le troisieme livrable fondateur : le **Visual Direction Brief (VDB)**.
+12. Claude formalise le troisieme livrable fondateur : le **Visual Direction Brief (VDB)** (incluant la mise en scene de l'ecran d'accueil par code d'acces `.gate`).
 
 ### Deuxieme Prompt : Generation du Produit HTML (`PROMPT-GENERATION-PRODUIT-HTML.md`)
 1. Dans la meme conversation, coller le contenu de `PROMPT-GENERATION-PRODUIT-HTML.md` (Lecon 4).
 2. Claude s'appuie sur le document source, les invariants du Blueprint, le SFM et le Visual Direction Brief valide.
-3. Il execute son auto-critique et produit le code integral du fichier unique `index.html`.
+3. Il execute son auto-critique et produit le code integral du fichier unique `index.html`, dote de l'ecran de verrouillage par code d'acces (`.gate`) et du bouton `Verrouiller`.
 4. Telecharger ou copier le fichier `index.html` : il s'ouvre immediatement par un simple double-clic dans le navigateur, sans aucun serveur ni outil de compilation.
 
 ---

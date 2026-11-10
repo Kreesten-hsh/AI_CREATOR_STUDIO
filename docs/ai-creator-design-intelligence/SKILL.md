@@ -28,24 +28,29 @@ Ce skill équipe Claude en tant que **Directeur Artistique Digital** et **Princi
 
 ### Prompt 1 : Entretien de Direction Artistique (`PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE.md`)
 1. **Analyse intérieure du document** : Extraction des données, formules, règles et moments de vérité sans émettre de code.
-2. **Entretien conversationnel ciblé** : Dialogue bienveillant en 1 ou 2 questions à la fois, avec options concrètes et illustrées adaptées au document.
-3. **Proposition de 3 directions artistiques ouvertes** : Pistes contrastées avec palette de rôles, typographies, composition spatiale, pièce maîtresse et justification métier.
-4. **Sélection et ajustements** : Intégration des préférences de l'apprenant.
-5. **Formalisation des 3 Livrables Fondateurs (sans code HTML)** :
-   - **Product Blueprint** (architecture fonctionnelle, variables, formules, interactions).
+2. **Choix fonctionnel & code d'accès acheteur** : Sélection parmi 3 idées d'applications et définition du code d'accès (mot de passe) réservé aux acheteurs (ex. `CREATOR2026`).
+3. **Entretien conversationnel ciblé** : Dialogue bienveillant en 1 ou 2 questions à la fois, avec options concrètes et illustrées adaptées au document.
+4. **Proposition de 3 directions artistiques ouvertes** : Pistes contrastées avec palette de rôles, typographies, composition spatiale, pièce maîtresse et justification métier.
+5. **Sélection et ajustements** : Intégration des préférences de l'apprenant.
+6. **Formalisation des 3 Livrables Fondateurs (sans code HTML)** :
+   - **Product Blueprint** (architecture fonctionnelle, variables, formules, interactions et code d'accès choisi pour les acheteurs).
    - **Source Fidelity Mapping** (matrice reliant chaque règle du document à sa transcription).
-   - **Visual Direction Brief** (spécifications visuelles validées, tokens `:root`, typographie, composants, responsive, stratégie d'état).
+   - **Visual Direction Brief** (spécifications visuelles validées, tokens `:root`, typographie, composants, écran d'accueil par code d'accès `.gate`, responsive, stratégie d'état).
 
 ### Prompt 2 : Génération du Produit HTML (`PROMPT-GENERATION-PRODUIT-HTML.md`)
 1. **Intrants sacrés** : Document source + Blueprint + SFM + Visual Direction Brief approuvé.
-2. **Application intégrale du brief visuel** : Cohérence de l'identité de l'en-tête au pied de page.
+2. **Application intégrale du brief visuel** : Cohérence de l'identité de l'en-tête au pied de page, incluant l'écran de verrouillage `.gate` assorti au thème.
 3. **Artisanat frontend & arithmétique rigoureuse** :
    - Fichier unique `index.html` (HTML, CSS dans `<style>`, JS Vanilla dans `<script>`).
+   - Écran de verrouillage obligatoire par code d'accès côté client (`var ACCESS_CODE = "CREATOR2026", KEY = "pricing_access";`) avec script de pré-rendu dans `<head>` et bouton `Verrouiller` dans l'en-tête.
    - Cibles tactiles et inputs $\ge 44\text{ px}$, `:focus-visible` contrasté.
-   - Arithmétique sécurisée en centimes entiers pour les montants financiers (`parseFrenchFinancialInput`).
+   - Arithmétique sécurisée pour les montants financiers et sélecteurs multi-devises (`FCFA` entiers / `€` décimaux ou `parseFrenchFinancialInput`).
    - Aucune falsification silencieuse de saisie : préservation du texte saisi sur erreur et blocage du calcul tant qu'un champ requis est invalide.
    - SVG responsive et accessible (`drawGauge()`).
-4. **Décision d'état conditionnelle** : Mémoire vive volatile pour simulateurs éphémères ; persistance locale proportionnée uniquement si requise.
+4. **Décision d'état conditionnelle (Matrice à 3 niveaux)** :
+   - (a) Mémoire vive volatile pure pour les calculateurs et simulateurs éphémères (sans boutons d'export/import JSON inutiles).
+   - (b) Persistance locale via `StorageAdapter` (`localStorage` avec repli mémoire) pour les outils de suivi sur un même appareil.
+   - (c) Boutons d'Export/Import JSON manuel (`Exporter ma sauvegarde (.json)` / `Importer une sauvegarde (.json)`) obligatoirement intégrés dès que `localStorage` est utilisé pour les données métier, afin de transférer sa progression entre ordinateur et téléphone.
 5. **Auto-critique pré-livraison** : Vérification des 5 critères visuels avant d'émettre le code complet de `<!DOCTYPE html>` à `</html>`.
 
 ---

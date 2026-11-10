@@ -22,18 +22,20 @@ Avant d'agencer l'écran, identifie le mode dominant du produit :
 > **Interdiction du stockage forcé ou dogmatique** :  
 > Ne jamais imposer mécaniquement un `localStorage` ou un `StorageAdapter` à toutes les applications. L'architecture de données doit découler rigoureusement de la nature du document et du besoin réel de l'utilisateur.
 
-### Matrice de Décision d'État :
-1. **Outil Éphémère / Simulateur Temps Réel (ex. Marc V2)** :
-   - **Besoin** : Tester des hypothèses à la volée, comparer des scénarios, sans trace persistante.
-   - **Stratégie** : **Mémoire vive volatile pure (`in-memory`)**.
-   - **Avantage** : Zéro risque de blocage `localStorage` sous `file://` (mode privé, restrictions iframe), confidentialité financière absolue (rien n'est stocké sur le disque).
-   - **Transparence produit** : Mention explicite sous les résultats : *« Données traitées 100 % en mémoire vive : aucune information n'est conservée après fermeture de l'onglet. »*
-2. **Plateforme Pédagogique / Checklist de Progression / Défi sur plusieurs jours** :
-   - **Besoin** : Reprendre son avancement là où on s'était arrêté.
+### Matrice de Décision d'État (3 Niveaux Explicites) :
+1. **(a) Outil Éphémère / Calculateur Temps Réel (ex. Calculateur de Prix & Rentabilité `pricing-calculator`)** :
+   - **Besoin** : Tester des hypothèses de prix à la volée, basculer entre `FCFA` et `€ (EUR)`, comparer des marges sans trace persistante des données métier.
+   - **Stratégie** : **Mémoire vive volatile pure (`in-memory`)** pour les saisies métier (seul le jeton de déverrouillage `pricing_access` de l'écran `.gate` utilise `localStorage` sous `try/catch`). Aucun bouton d'export/import JSON n'est requis pour un calculateur éphémère.
+   - **Avantage** : Zéro risque de blocage `localStorage` sous `file://` (mode privé, restrictions iframe), confidentialité absolue.
+2. **(b) Plateforme Pédagogique / Checklist de Progression / Défi sur plusieurs jours** :
+   - **Besoin** : Reprendre son avancement là où on s'était arrêté sur un même appareil.
    - **Stratégie** : **Persistance locale ciblée avec fallback mémoire transparent** (`StorageAdapter`).
-   - **Transparence produit** : Expliquer clairement ce qui est sauvegardé (ex. *« Vos cases cochées sont enregistrées localement dans votre navigateur sur cet appareil. »*).
-   - **Avertissement de sécurité** : Ne jamais présenter le `localStorage` comme un coffre-fort sécurisé ou un système d'authentification.
-3. **Atelier de Rédaction / Générateur Éditorial (ex. Claire)** :
+   - **Transparence produit** : Expliquer clairement ce qui est sauvegardé (ex. *« Vos cases cochées sont enregistrées localement dans votre navigateur sur cet appareil (ordinateur ou téléphone). »*).
+   - **Avertissement de sécurité** : Ne jamais présenter le `localStorage` comme un coffre-fort sécurisé, une synchronisation cloud inter-appareils ou un système d'authentification serveur.
+3. **(c) Boutons d'Export / Import JSON Manuel (Obligatoires dès que `localStorage` est utilisé pour les données métier)** :
+   - **Besoin** : Permettre à l'acheteur de sauvegarder sa progression ou de la transférer manuellement entre son ordinateur et son smartphone (puisque `localStorage` est isolé par navigateur et par appareil).
+   - **Stratégie** : Ajouter deux contrôles explicites : **« Exporter ma sauvegarde (.json) »** (téléchargement d'un fichier `.json` horodaté) et **« Importer une sauvegarde (.json) »** (chargement via `<input type="file" accept=".json">` avec validation `try/catch`).
+4. **Atelier de Rédaction / Générateur Éditorial (ex. Claire)** :
    - **Besoin** : Produire une trame d'entretien ou un document finalisé.
    - **Stratégie** : Mémoire vive + action d'exportation externe (bouton *« Copier dans le presse-papier »* ou téléchargement d'un fichier `.txt` / `.md`).
 
@@ -41,11 +43,11 @@ Avant d'agencer l'écran, identifie le mode dominant du produit :
 
 ## 3. Les 4 Blueprints d'Interfaces AI CREATOR Studio
 
-### Famille A — Le Calculateur / Simulateur Financier ou Technique (ex. Marc)
-- **En-tête de Poste de Pilotage** : Titre éditorial fort, promesse métier, et sélecteurs de scénarios de référence.
-- **Disposition asymétrique en 2 zones sur Desktop (`1280 px`, ratio `7:5`)** :
-  - *Gauche — L'Atelier de Saisie Structurée* : Champs groupés par logique métier avec numérotation (`01`, `02`), unités explicites, et aide contextuelle.
-  - *Droite (Sticky) — Le Ticket de Verdict (*Pièce Maîtresse*)* : Panneau à fond plein engagé (`--bg-spotlight`), indicateur roi en grand corps, bandeau d'état sémantique, bordereau à filets pointillés et jauge comparative SVG inline (FRNG vs BFR).
+### Famille A — Le Calculateur de Prix, de Marge ou Simulateur Technique (ex. `pricing-calculator`)
+- **En-tête d'Atelier & Sélecteur de Devise** : Titre éditorial fort, promesse métier, sélecteur de devise en pilule (`FCFA` | `€ (EUR)`), et bouton `Verrouiller` (`#lockBtn`).
+- **Disposition asymétrique en 2 zones sur Desktop (`1280 px` / `860 px`)** :
+  - *Gauche — L'Atelier de Saisie Structurée* : Champs groupés par logique métier (Coût matière, Emballage, Temps passé, Taux horaire, Accordéon des frais de plateforme et marge souhaitée) avec unités dynamiques (`FCFA` ou `€`).
+  - *Droite — Le Panneau de Résultat & Encadré de Bénéfice (*Pièce Maîtresse*)* : Carte de résultat indiquant le **Prix de vente conseillé**, la décomposition ligne à ligne (Coût de revient, Frais de plateforme, Total des coûts) et l'encadré jaune de **Bénéfice net par vente** (`#profitBox`), complété par des conseils repliables.
 
 ### Famille B — Le Générateur / Assistant Éditorial Structuré (ex. Claire)
 - **L'Atelier de Contexte Tactile** : Cartes de sélection cliquables plutôt que menus déroulants tristes, badges de statut contextuels.
@@ -75,3 +77,15 @@ Une application produite doit déclarer son niveau d'indépendance réseau :
    - Fichier unique `index.html`.
    - Utilisation optionnelle d'une police Google Fonts pour renforcer le caractère éditorial.
    - **Exigence impérative** : Déclarer explicitement la dépendance dans l'en-tête ou le pied de page, et prévoir une pile de polices système de repli (*fallback*) qui préserve intégralement la hiérarchie visuelle hors-ligne.
+
+---
+
+## 5. Écran de Verrouillage Acheteur Obligatoire (`.gate` & `ACCESS_CODE`)
+
+Toutes les applications générées dans le cursus AI CREATOR Studio sont des produits réservés aux acheteurs. Elles intègrent systématiquement une barrière d'accès côté client en JavaScript :
+1. **Rôle produit** : Offrir une expérience d'accès VIP aux clients qui reçoivent le lien public Netlify et le code d'accès dans leur **Guide d'Accès PDF** et dans les **Instructions après achat Chariow**.
+2. **Transparence pédagogique** : Cette barrière JavaScript côté client est **dissuasive** (un utilisateur curieux pourrait inspecter le code source HTML) et ne remplace pas une authentification serveur cryptographique.
+3. **Architecture technique** :
+   - Script de pré-rendu dans `<head>` définissant clairement `var ACCESS_CODE = "CREATOR2026", KEY = "pricing_access";` et ajoutant la classe `locked` sur `<html>` si le code n'a pas encore été validé dans `localStorage`.
+   - Superposition `.gate` dessinée avec le même soin que l'application (cadre assorti, badge `.tag` *« Accès réservé aux acheteurs »*, champ mot de passe, bouton *« Déverrouiller l'outil »*, message d'erreur avec animation `shake`).
+   - Bouton discret `Verrouiller` (`#lockBtn`) dans l'en-tête de l'application permettant de tester à nouveau l'écran d'accueil en un clic.

@@ -1,12 +1,12 @@
 import type { Day } from '../../types/course';
 
-export const MASTER_PROMPT_1_XML = `<prompt id="PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE" version="2.2">
+export const MASTER_PROMPT_1_XML = `<prompt id="PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE" version="2.3">
   <role>
     Tu es un Directeur Artistique Digital Senior et Principal Frontend Designer pour AI CREATOR Studio.
     Ta mission est d'analyser le document métier fourni par l'apprenant, de mener avec lui un parcours structuré en deux phases dans cette même conversation (Phase 1 : cadrage fonctionnel en Leçon 2 ; Phase 2 : direction artistique en Leçon 3), puis de formaliser ses documents de référence :
-    1. Mon plan d'application (Product Blueprint : structure, logique, formules, interactions).
+    1. Mon plan d'application (Product Blueprint : structure, logique, formules, interactions, code d'accès acheteur).
     2. Les règles de mon document (Source Fidelity Mapping : matrice des règles source préservées).
-    3. Ma fiche de style (Visual Direction Brief : spécification complète du design validé).
+    3. Ma fiche de style (Visual Direction Brief : spécification complète du design validé et de l'écran de verrouillage).
   </role>
 
   <skill_activation_check>
@@ -18,7 +18,7 @@ export const MASTER_PROMPT_1_XML = `<prompt id="PROMPT-ENTRETIEN-DIRECTION-ARTIS
   </skill_activation_check>
 
   <context>
-    L'apprenant apporte son propre document métier (PDF, guide, tableur, méthode, checklist, support de formation). Il ne possède pas de compétences en programmation ni en design d'interface. Tu dois le guider pas à pas avec clarté, pertinence et pédagogie, en nommant toujours ses documents avec des mots simples : « Mon plan d'application », « Les règles de mon document » et « Ma fiche de style ».
+    L'apprenant apporte son propre document métier (PDF, guide, tableur, méthode, checklist, fiche pratique d'une page, support de formation). Il ne possède pas de compétences en programmation ni en design d'interface. Tu dois le guider pas à pas avec clarté, pertinence et pédagogie, en nommant toujours ses documents avec des mots simples : « Mon plan d'application », « Les règles de mon document » et « Ma fiche de style ».
   </context>
 
   <strict_rules>
@@ -51,12 +51,12 @@ export const MASTER_PROMPT_1_XML = `<prompt id="PROMPT-ENTRETIEN-DIRECTION-ARTIS
       3. Mécanique d'interaction concrète (saisies, contrôles, mode de calcul ou d'exploration).
       4. Règles du document directement exploitées.
       5. Forces et limites de l'approche.
-      Formule une recommandation argumentée vers l'un des trois concepts et invite l'apprenant à choisir son concept d'interaction ou à proposer un ajustement.
+      Formule une recommandation argumentée vers l'un des trois concepts et invite l'apprenant à choisir son concept d'interaction, à préciser son public et à indiquer le code d'accès (ex : CREATOR2026) que ses acheteurs utiliseront pour déverrouiller l'application.
     </step>
 
     <step id="3" name="VALIDATION DU CONCEPT ET DOCUMENTS FONCTIONNELS">
       Dès que l'apprenant a confirmé son choix de concept fonctionnel, génère sans délai les deux documents fonctionnels :
-      - Livrable 1 : Mon plan d'application (Product Blueprint : Nom public, promesse utilisateur, public cible, typologie d'application, spécification des entrées utilisateur, moteur logique avec formules exactes et alertes, restitution des sorties).
+      - Livrable 1 : Mon plan d'application (Product Blueprint : Nom public, promesse utilisateur, public cible, typologie d'application, code d'accès acheteur retenu [ou proposition d'un code pertinent non trivial comme CREATOR2026 si l'apprenant ne l'a pas précisé], spécification des entrées utilisateur, moteur logique avec formules exactes et alertes, stratégie de sauvegarde [mémoire vive volatile ou localStorage avec export/import JSON manuel], restitution des sorties).
       - Livrable 2 : Les règles de mon document (Source Fidelity Mapping : Tableau exhaustif reliant chaque élément clé du document original à sa règle de transcription et son mode de contrôle).
 
       Conclus impérativement cette Phase 1 par le point de passage vers la Leçon 3 :
@@ -80,7 +80,7 @@ export const MASTER_PROMPT_1_XML = `<prompt id="PROMPT-ENTRETIEN-DIRECTION-ARTIS
       1. Nom court et évocateur.
       2. Phrase décrivant l'ambiance et la personnalité.
       3. Palette visuelle (teintes concrètes de fond, surface, texte et accent).
-      4. Esprit typographique en termes simples (ex : ronde et moderne, élégante avec empattements, technique et carrée).
+      4. Esprit typographique en termes simples (ex : ronde et moderne, élégante avec empattements, manuscrite chaleureuse).
       5. Composition générale de l'écran et mise en scène du résultat principal.
       6. Justification expliquant pourquoi ce style convient au document et à son public.
       Termine en recommandant l'une des 3 pistes avec ton argumentation de Directeur Artistique, puis invite l'apprenant à choisir son style ou à demander un ajustement.
@@ -88,7 +88,7 @@ export const MASTER_PROMPT_1_XML = `<prompt id="PROMPT-ENTRETIEN-DIRECTION-ARTIS
 
     <step id="6" name="SELECTION, AFFINAGE ET LIVRABLE 3 (FICHE DE STYLE)">
       Dès que l'apprenant a indiqué son choix et ses éventuels ajustements (couleurs, polices, densité), formalise le troisième livrable complet :
-      - Livrable 3 : Ma fiche de style (Visual Direction Brief : spécification complète du design validé, tokens CSS :root, typographies sculptées, pièce maîtresse interactive, équilibre spatial, responsive 375 px et gestion d'état).
+      - Livrable 3 : Ma fiche de style (Visual Direction Brief : spécification complète du design validé, tokens CSS :root, typographies sculptées, mise en scène de l'écran de verrouillage par code d'accès (.gate), pièce maîtresse interactive, équilibre spatial, responsive 375 px et gestion d'état).
       Cette fiche servira de référence technique au Prompt 2 pour générer le code.
 
       Conclus impérativement en annonçant :
@@ -102,11 +102,12 @@ export const PROMPT_ANALYSE_DOC = MASTER_PROMPT_1_XML;
 export const PROMPT_CHOIX_IDEE = `Je choisis l'idée numéro [1 / 2 / 3].
 
 Précisions souhaitées pour mon application :
-- Public visé : [Ex : dirigeants de TPE, indépendants, clients]
-- Fonction principale : [Ex : calcul automatique du besoin de trésorerie]
+- Public visé : [Ex : créateurs, artisans, formateurs, indépendants]
+- Fonction principale : [Ex : calculer automatiquement son prix de vente et son bénéfice net en FCFA ou en euros]
+- Code d'accès choisi pour mes acheteurs : [Ex : CREATOR2026]
 
 Formalise maintenant mes deux documents fonctionnels :
-1. Mon plan d'application (ce que l'utilisateur saisit, le fonctionnement logique et le résultat affiché).
+1. Mon plan d'application (ce que l'utilisateur saisit, le fonctionnement logique, le résultat affiché et le code d'accès réservé aux acheteurs).
 2. Les règles de mon document (le tableau de toutes les formules, seuils et règles à conserver à 100 %).
 
 N'émets aucun code informatique pour le moment et indique-moi quand tout est prêt pour passer au style.`;
@@ -117,9 +118,9 @@ export const day01: Day = {
   moduleId: 'module-01',
   title: 'Journée 1 : Choisir',
   objective:
-    'Choisir ton document, équiper Claude du Skill gratuit et sélectionner ton concept pour obtenir ton plan d’application et tes règles.',
+    'Choisir ton document, équiper Claude du Skill gratuit et sélectionner ton idée pour obtenir ton plan d’application et tes règles.',
   deliverableSummary:
-    'Un document sélectionné, le Skill gratuit activé dans Claude et deux documents validés : Mon plan d’application et Les règles de mon document.',
+    'Un document sélectionné, le Skill gratuit activé dans Claude et deux textes sauvegardés : Mon plan d’application et Les règles de mon document.',
   lessons: [
     {
       id: 'lesson-01',
@@ -127,14 +128,14 @@ export const day01: Day = {
       moduleId: 'module-01',
       dayId: 'day-01',
       dayNumber: 1,
-      navigationTitle: 'Préparer',
+      navigationTitle: 'Préparer ton document',
       title: 'Préparer son document et configurer Claude',
       italicTitleWord: 'configurer',
       duration: '~15 min',
       objective:
-        'Sélectionner ton document, importer le Skill gratuit dans Claude en 7 gestes et préparer tes outils.',
+        'Sélectionner ton document existant, importer le Skill gratuit dans Claude en 7 gestes et vérifier tes outils.',
       deliverableSummary:
-        'Un document prêt sur ton ordinateur, le Skill activé et une nouvelle conversation ouverte dans Claude.',
+        'Un document prêt sur ton ordinateur, un compte Claude gratuit ouvert et le Skill installé et actif.',
       isSkeletonPlaceholder: false,
       steps: [
         {
@@ -150,39 +151,39 @@ export const day01: Day = {
               title: 'CHOISIR TON',
               italicAccent: 'document',
               highlightPill:
-                "Un document existant d'une seule page ou un simple tableau Excel suffit si son contenu est utile.",
+                "Une fiche pratique d'une page ou un tableau avec formules visibles suffit.",
               paragraphs: [
-                "On commence avec un support existant : inutile d'écrire un nouveau document de zéro.",
+                'Choisis un document existant sur ton ordinateur sans chercher à en rédiger un nouveau.',
               ],
               bullets: [
-                'PDF, Word ou notes : tu le glisseras tel quel dans Claude.',
-                'Tableau Excel : vérifie simplement que tes formules sont bien visibles.',
-                'Long guide (+30 pages) : garde uniquement le chapitre le plus pratique pour créer un outil ciblé.',
+                'Utilise un document texte, un PDF ou un tableau dont les formules restent visibles.',
+                'Si ton guide dépasse 30 pages, garde uniquement le chapitre le plus utile.',
+                "Si le texte d'un PDF ne se sélectionne pas, copie ou retranscris les passages utiles.",
               ],
             },
           ],
           help: {
             frequentMistakes: [
               {
-                mistake: 'Vouloir créer un nouveau document parfait avant de démarrer.',
+                mistake: 'Vouloir rédiger un nouveau document complet avant de commencer.',
                 correction:
-                  "Prends un fichier existant avec des règles claires, même s'il fait une seule page.",
+                  "Prends un support existant contenant des règles claires, même s'il tient sur une seule page.",
               },
               {
-                mistake: 'Choisir un document scanné sans texte sélectionnable.',
+                mistake: 'Envoyer un PDF scanné dont le texte ne peut pas être sélectionné.',
                 correction:
-                  "Vérifie que tu peux copier le texte à la souris avant de l'envoyer à Claude.",
+                  'Récupère une version texte exploitable ou recopie simplement les règles et passages utiles.',
               },
             ],
             tips: [
-              'Un simple tableau avec des formules donne souvent les meilleurs outils interactifs.',
+              'Une fiche pratique d’une page ou un tableau de calcul donne d’excellents outils interactifs.',
             ],
           },
         },
         {
           id: 'lesson-01-step-02',
           number: 2,
-          title: 'Le Skill Claude',
+          title: 'Le Skill',
           subtitle: 'Installer le zip',
           completionLabel: 'Le Skill est activé',
           blocks: [
@@ -194,12 +195,12 @@ export const day01: Day = {
               highlightPill:
                 'Ce fichier gratuit apprend à Claude à concevoir des écrans modernes et soignés.',
               paragraphs: [
-                'Ce pack donne à Claude le sens du design pour éviter les interfaces génériques.',
+                'Importe ce pack dans Claude en sept gestes pour éviter les interfaces banales.',
               ],
               bullets: [
-                "Dans Settings > Capabilities, active 'Code execution and file creation'.",
-                "Dans Customize > Skills, clique sur '+' puis choisis '+ Create skill' et 'Upload a skill'.",
-                "Sélectionne l'archive ZIP téléchargée ci-dessous et vérifie que le Skill est actif.",
+                "1-2. Ouvre Settings > Capabilities et active 'Code execution and file creation'.",
+                "3-6. Ouvre Customize > Skills, clique sur '+', puis '+ Create skill' et 'Upload a skill'.",
+                "7. Sélectionne l'archive ZIP téléchargée sans la décompresser, puis vérifie que le Skill est actif.",
               ],
             },
             {
@@ -225,23 +226,23 @@ export const day01: Day = {
               {
                 mistake: "Importer le ZIP sans activer l'exécution de code.",
                 correction:
-                  "Ouvre Settings > Capabilities et active d'abord 'Code execution and file creation'.",
+                  "1. Ouvre Settings > Capabilities et 2. active d'abord 'Code execution and file creation'.",
               },
               {
                 mistake: "Décompresser l'archive avant de l'importer dans Claude.",
                 correction:
-                  'Importe directement le fichier .zip téléchargé sans le décompresser.',
+                  "Dans Customize > Skills > + > + Create skill > Upload a skill, sélectionne le fichier .zip sans le décompresser.",
               },
             ],
             tips: [
-              "Dans Customize > Skills, utilise '+ Create skill' puis 'Upload a skill' pour téléverser le ZIP.",
+              'Une fois le fichier importé, vérifie que le bouton du Skill est bien activé dans la liste.',
             ],
           },
         },
         {
           id: 'lesson-01-step-03',
           number: 3,
-          title: 'Prêt à lancer',
+          title: 'Prêt',
           subtitle: 'Vérification',
           completionLabel: 'Terminer la Leçon 1',
           blocks: [
@@ -251,9 +252,9 @@ export const day01: Day = {
               title: 'VÉRIFIER TES',
               italicAccent: 'outils',
               highlightPill:
-                'Tu peux suivre ce parcours avec un compte Claude gratuit.',
+                'Tu peux suivre tout ce parcours avec un compte Claude gratuit.',
               paragraphs: [
-                "Trois vérifications rapides avant de commencer l'analyse de ton document dans Claude.",
+                'Vérifie ces trois points rapides sur ton poste avant de passer à la Leçon 2.',
               ],
             },
             {
@@ -261,23 +262,23 @@ export const day01: Day = {
               type: 'checklist',
               title: 'Vérifications de départ',
               description:
-                'Coche ces 3 points pour valider la préparation de tes outils.',
+                'Coche ces 3 points pour confirmer que tout est prêt.',
               items: [
                 {
                   id: 'chk-doc-ready',
                   label: 'Mon document est prêt sur mon ordinateur.',
                   detail:
-                    'Fichier PDF, texte ou tableau avec des formules visibles.',
+                    'Fiche pratique d’une page, document texte/PDF ou tableau avec formules visibles.',
                 },
                 {
                   id: 'chk-claude-ready',
-                  label: 'Mon compte Claude gratuit est ouvert.',
+                  label: 'Mon compte Claude Free est accessible.',
                   detail:
-                    'Une nouvelle conversation vierge est prête à être utilisée.',
+                    'Tu es connecté et prêt à ouvrir une nouvelle conversation.',
                 },
                 {
                   id: 'chk-skill-imported',
-                  label: 'Le fichier ZIP du Skill est importé et actif.',
+                  label: 'Le Skill est installé et actif.',
                   detail:
                     'Vérifié dans Settings > Capabilities et Customize > Skills.',
                 },
@@ -287,13 +288,13 @@ export const day01: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake: 'Changer de conversation Claude entre les étapes.',
+                mistake: 'Changer de conversation Claude en cours de route.',
                 correction:
-                  'Garde la même discussion ouverte pour que Claude conserve la mémoire de ton document.',
+                  'Dès la Leçon 2, garde la même discussion ouverte pour que Claude conserve ton document.',
               },
             ],
             tips: [
-              'Garde la fenêtre Claude ouverte à côté de cette page pour travailler confortablement.',
+              'Garde la fenêtre Claude ouverte à côté de ce cours pour copier les messages facilement.',
             ],
           },
         },
@@ -305,14 +306,14 @@ export const day01: Day = {
       moduleId: 'module-01',
       dayId: 'day-01',
       dayNumber: 1,
-      navigationTitle: 'Choisir',
+      navigationTitle: 'Choisir ton idée',
       title: 'Analyser son document, identifier 3 interactions et choisir',
       italicTitleWord: 'choisir',
       duration: '~30 min',
       objective:
-        'Analyser ton document dans Claude, explorer 3 idées d’outils et valider ton plan d’application ainsi que les règles à conserver.',
+        'Faire analyser ton document par Claude, choisir parmi 3 idées d’outils avec ton code d’accès acheteur et sauvegarder tes deux premiers textes.',
       deliverableSummary:
-        'Une idée d’outil retenue et deux documents validés : Mon plan d’application et Les règles de mon document.',
+        'Une idée d’outil retenue avec son code d’accès et deux textes sauvegardés : Mon plan d’application et Les règles de mon document.',
       isSkeletonPlaceholder: false,
       steps: [
         {
@@ -328,14 +329,14 @@ export const day01: Day = {
               title: 'TROUVER TON',
               italicAccent: 'idée',
               highlightPill:
-                'Claude lit ton document et te propose 3 concepts d’outils concrets.',
+                'Claude lit ton document et te propose 3 concepts d’outils interactifs distincts.',
               paragraphs: [
-                'Ouvre une conversation, glisse ton document et colle ce message pour explorer 3 pistes.',
+                'Ouvre une nouvelle conversation Claude, joins ton document et envoie ce premier message.',
               ],
               bullets: [
-                'Glisse ton fichier dans une nouvelle discussion Claude.',
-                'Colle le prompt maître ci-dessous sans rien modifier.',
-                'Claude analyse ton contenu sans générer de code pour le moment.',
+                'Confirme que le Skill est bien actif dans ton compte Claude.',
+                'Joins ton document existant et colle le Master Prompt 1 sans le modifier.',
+                'Claude propose 3 idées de produits interactifs distinctes sans générer de code.',
               ],
             },
             {
@@ -347,24 +348,24 @@ export const day01: Day = {
               defaultExpanded: false,
               content: MASTER_PROMPT_1_XML,
               notes:
-                'Glisse ton document dans Claude en même temps que tu colles ce message.',
+                'Joins ton document dans Claude en même temps que tu envoies ce message.',
             },
           ],
           help: {
             frequentMistakes: [
               {
-                mistake: 'Envoyer le message sans joindre son fichier.',
+                mistake: 'Envoyer le message sans joindre son document.',
                 correction:
-                  'Glisse ton document dans la boîte de saisie Claude avant d’envoyer le message.',
+                  'Ajoute ton fichier dans la zone de message Claude avant d’envoyer le prompt.',
               },
               {
-                mistake: 'Laisser Claude générer du code tout de suite.',
+                mistake: 'Demander du code HTML dès cette première étape.',
                 correction:
-                  'Prends d’abord le temps de choisir la meilleure idée d’outil parmi les 3 propositions.',
+                  'Choisis d’abord ton idée parmi les 3 propositions avant toute création de code.',
               },
             ],
             tips: [
-              'Si les 3 idées ne te plaisent pas, demande simplement à Claude 2 nouvelles propositions.',
+              'Si aucune des 3 idées ne te convient, demande simplement à Claude 2 nouvelles pistes.',
             ],
           },
         },
@@ -381,15 +382,14 @@ export const day01: Day = {
               title: 'CHOISIR LE',
               italicAccent: 'meilleur',
               highlightPill:
-                'Choisis l’outil qui apporte le résultat le plus utile à ton utilisateur, sans compliquer inutilement son utilisation.',
+                'CREATOR2026 est un code d’exemple : tu peux le conserver ou le remplacer.',
               paragraphs: [
-                'Pour notre exemple, partons d’une grille d’évaluation de trésorerie contenant huit données d’entrée.',
-                'Elle peut devenir un simulateur qui calcule la situation financière à partir des chiffres saisis.',
+                'Notre fiche pratique d’une page devient un calculateur de prix en FCFA et euros.',
               ],
               bullets: [
-                'Privilégie l’idée la plus utile pour ton public au quotidien.',
-                'Vérifie que tes formules et calculs importants sont bien conservés.',
-                'L’utilisateur doit comprendre son résultat sans notice.',
+                'La fiche « Fixer un prix qui respecte ton temps et ton travail » demande coût de création ou de matière, temps passé, tarif horaire et frais de vente.',
+                'L’outil affiche aussitôt le prix conseillé et le bénéfice par vente.',
+                'Indique l’idée retenue, ton public et le code d’accès acheteur (ex. CREATOR2026).',
               ],
             },
             {
@@ -399,16 +399,21 @@ export const day01: Day = {
               label: 'MESSAGE-CHOIX-IDEE',
               content: PROMPT_CHOIX_IDEE,
               notes:
-                'Indique à Claude le numéro de l’idée que tu préfères (1, 2 ou 3).',
+                'Précise le numéro de l’idée retenue, ton public et le code d’accès que tes acheteurs utiliseront (CREATOR2026 sert d’exemple si tu n’en proposes aucun).',
             },
           ],
           help: {
             frequentMistakes: [
               {
                 mistake:
-                  'Choisir l’idée la plus complexe en pensant qu’elle aura plus de valeur.',
+                  'Choisir l’idée la plus compliquée en pensant qu’elle aura plus de valeur.',
                 correction:
-                  'Les outils les plus utilisés sont souvent les plus simples et rapides.',
+                  'Privilégie l’outil qui donne un résultat clair et rapide à ton acheteur.',
+              },
+              {
+                mistake: 'Oublier de préciser le code d’accès destiné aux acheteurs.',
+                correction:
+                  'Indique ton propre code dans le message ou garde le code d’exemple CREATOR2026.',
               },
             ],
             tips: [
@@ -419,7 +424,7 @@ export const day01: Day = {
         {
           id: 'lesson-02-step-03',
           number: 3,
-          title: 'Valider le plan',
+          title: 'Ton plan',
           subtitle: 'Préparer la suite',
           completionLabel: 'Terminer le Jour 1',
           blocks: [
@@ -429,14 +434,14 @@ export const day01: Day = {
               title: 'GARDER TON',
               italicAccent: 'plan',
               highlightPill:
-                'Conserve ton plan et tes règles sur ton ordinateur avant de passer au Jour 2.',
+                'Sauvegarde Mon plan d’application et Les règles de mon document sur ton ordinateur.',
               paragraphs: [
-                'Relis le plan rédigé par Claude pour t’assurer que tes règles importantes y figurent toutes.',
+                'Relis les deux textes produits par Claude et vérifie qu’il n’a rien inventé.',
               ],
               bullets: [
-                'Enregistre ton document original, ton plan d’application et la liste de tes règles dans un dossier sur ton ordinateur.',
-                'Retrouve cette même conversation dans ton historique Claude au Jour 2. Ne recommence pas une nouvelle discussion.',
-                'Si un calcul ou une règle manque dans le texte de Claude, demande-lui de l’ajouter.',
+                'Contrôle tes règles, tes formules et le code d’accès acheteur retenu.',
+                'Enregistre Mon plan d’application et Les règles de mon document sur ton ordinateur.',
+                'Garde cette discussion dans ton historique Claude pour envoyer : Plan et règles validés, passons au style.',
               ],
             },
             {
@@ -444,27 +449,27 @@ export const day01: Day = {
               type: 'checklist',
               title: 'Validation du Jour 1',
               description:
-                'Coche ces 3 points pour valider la première journée du programme.',
+                'Coche ces 3 points avant de passer à la Leçon 3.',
               items: [
                 {
                   id: 'chk-idea-chosen',
-                  label: 'J’ai choisi mon idée parmi les 3 propositions.',
+                  label: 'J’ai choisi mon idée parmi les 3 propositions et défini mon code d’accès acheteur.',
                   detail:
-                    'Le concept répond au besoin direct de mes utilisateurs.',
+                    'Le code choisi (ou CREATOR2026 par défaut) figure bien dans Mon plan d’application.',
                 },
                 {
                   id: 'chk-rules-verified',
                   label:
-                    'Toutes mes formules et règles figurent bien dans le plan de Claude.',
+                    'J’ai relu les règles et formules extraites sans aucun ajout inventé par Claude.',
                   detail:
-                    'Mon plan d’application et les règles de mon document sont vérifiés.',
+                    'Mon plan d’application et Les règles de mon document sont complets et fidèles.',
                 },
                 {
                   id: 'chk-work-saved',
                   label:
-                    'J’ai sauvegardé mon plan et mes règles sur mon ordinateur et je reprendrai cette même discussion au Jour 2.',
+                    'J’ai sauvegardé ces deux textes sur mon ordinateur et je garde la même conversation Claude.',
                   detail:
-                    'Tous les documents sont en sécurité sur mon poste pour aborder le Jour 2.',
+                    'Le signal de passage à la Leçon 3 sera : Plan et règles validés, passons au style.',
                 },
               ],
             },
@@ -473,13 +478,13 @@ export const day01: Day = {
             frequentMistakes: [
               {
                 mistake:
-                  'Fermer la discussion Claude sans sauvegarder ses textes sur son ordinateur.',
+                  'Quitter Claude sans enregistrer les deux textes sur son ordinateur.',
                 correction:
-                  'Copie le texte de ton plan d’application et de tes règles dans des fichiers locaux.',
+                  'Copie Mon plan d’application et Les règles de mon document dans deux fichiers locaux.',
               },
             ],
             tips: [
-              'Félicitations, tu as terminé le Jour 1 ! Tes documents sont validés pour le style au Jour 2.',
+              'Au début de la Leçon 3, tu répondras simplement dans cette même discussion : Plan et règles validés, passons au style.',
             ],
           },
         },

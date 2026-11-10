@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "package:skill": "node scripts/package-skill.js",
+    "generate:guide-pdf": "node scripts/generate-access-guide-pdf.js",
     "test": "vitest run"
   },
   "dependencies": {

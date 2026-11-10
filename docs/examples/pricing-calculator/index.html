@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculateur de Prix &amp; Rentabilité</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;family=Gaegu:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #2563eb;
+  --blue-hover: #1d4ed8;
+  --blue-line: #93c5fd;
+  --cream: #fdf0e0;
+  --bg-page: #fff7ef;
+  --ink: #1e293b;
+  --yellow: #ffd65c;
+  --white: #ffffff;
+  --muted: #64748b;
+  --danger: #b3123b;
+  --hand: 'Gaegu', 'Comic Sans MS', cursive;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--bg-page);
+  font-family: var(--sans);
+  color: var(--ink);
+}
+.frame {
+  width: 100%;
+  max-width: 880px;
+  background: var(--blue-line);
+  border-radius: 22px;
+  padding: 6px;
+}
+.outer {
+  background: var(--white);
+  border-radius: 17px;
+  padding: 14px;
+  border: 0;
+}
+.tag {
+  display: inline-block;
+  background: var(--blue);
+  color: #fff;
+  font-family: var(--hand);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 4px 16px;
+  border-radius: 99px;
+  margin: 0 0 -14px 14px;
+  position: relative;
+  z-index: 1;
+  letter-spacing: .04em;
+}
+.wrap {
+  background: var(--cream);
+  border: 2px solid var(--blue-line);
+  border-radius: 18px;
+  padding: 22px 22px 26px;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+h1 {
+  margin: 0;
+  font-family: var(--hand);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--blue);
+  letter-spacing: .04em;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.toggle {
+  display: inline-flex;
+  background: #fff;
+  border-radius: 99px;
+  padding: 3px;
+  box-shadow: 0 0 0 1px #dbeafe;
+}
+.toggle button {
+  border: 0;
+  background: none;
+  font: 700 13px var(--sans);
+  padding: 10px 18px;
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: 99px;
+  cursor: pointer;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.toggle button.on {
+  background: var(--blue);
+  color: #fff;
+}
+.lock-link {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: var(--muted);
+  font: 700 13px var(--sans);
+  padding: 10px 16px;
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: 99px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.lock-link:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  align-items: start;
+}
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 12px;
+  align-content: start;
+}
+.full {
+  grid-column: 1 / -1;
+}
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+label small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 2px;
+}
+.field {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 9px;
+  box-shadow: 0 0 0 1px #dbeafe;
+  padding: 0 12px;
+  min-height: 46px;
+  height: 46px;
+}
+.field:focus-within {
+  box-shadow: 0 0 0 2px var(--blue);
+}
+.field.has-err {
+  box-shadow: 0 0 0 2px var(--danger);
+}
+.field span {
+  font-size: 14px;
+  color: var(--muted);
+  margin-right: 6px;
+  white-space: nowrap;
+}
+.field span.suf {
+  margin-right: 0;
+  margin-left: 6px;
+}
+.field input {
+  border: 0;
+  outline: 0;
+  background: none;
+  width: 100%;
+  font: 500 16px var(--sans);
+  color: var(--ink);
+  min-width: 0;
+  min-height: 44px;
+  height: 44px;
+  line-height: 44px;
+}
+.field.name input {
+  font-size: 16px;
+}
+.field-err {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--danger);
+  margin-top: 4px;
+  line-height: 1.3;
+}
+.field-err:empty {
+  display: none;
+}
+.global-alert {
+  background: #fee2e2;
+  border: 1px solid #f87171;
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: 12px;
+  line-height: 1.4;
+}
+.settings {
+  background: #fff;
+  border-radius: 9px;
+  box-shadow: 0 0 0 1px #dbeafe;
+}
+.settings summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 12px 14px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.settings summary::-webkit-details-marker {
+  display: none;
+}
+.settings summary::after {
+  content: " +";
+  color: var(--blue);
+  font-size: 16px;
+  font-weight: 700;
+}
+.settings[open] summary::after {
+  content: " −";
+}
+.settings .inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 4px 12px 14px;
+}
+.result {
+  background: var(--blue);
+  color: #fff;
+  border-radius: 14px;
+  padding: 18px 18px 16px;
+}
+.result .k {
+  font-family: var(--hand);
+  color: var(--yellow);
+  font-size: 15px;
+  letter-spacing: .06em;
+}
+.price {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 38px;
+  line-height: 1.1;
+  margin: 4px 0 2px;
+}
+.sub {
+  font-size: 12px;
+  opacity: .95;
+  line-height: 1.4;
+}
+.fees {
+  background: rgba(255, 255, 255, .14);
+  border-radius: 10px;
+  margin-top: 14px;
+  padding: 10px 12px;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 11.5px;
+  line-height: 1.35;
+  padding: 7px 0;
+  opacity: .95;
+}
+.row b {
+  font-weight: 700;
+  white-space: nowrap;
+}
+.row.total {
+  border-top: 1px solid rgba(255, 255, 255, .35);
+  margin-top: 2px;
+  padding-top: 9px;
+}
+.profit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: var(--yellow);
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.profit small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 500;
+  margin-top: 2px;
+}
+.profit strong {
+  font-family: var(--serif);
+  font-size: 22px;
+  white-space: nowrap;
+}
+.profit.neg strong {
+  color: var(--danger);
+}
+.tips {
+  margin-top: 12px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--ink);
+  box-shadow: 0 0 0 1px #dbeafe;
+}
+.tips b {
+  color: var(--blue);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+.actions button {
+  font: 700 13px var(--sans);
+  padding: 12px 18px;
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: 99px;
+  cursor: pointer;
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid #cbd5e1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.actions button.main {
+  border: 1.5px solid var(--ink);
+}
+button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+@media (max-width: 700px) {
+  .grid { grid-template-columns: 1fr; }
+  .price { font-size: 32px; }
+}
+@media (max-width: 560px) {
+  body { padding: 12px; }
+  .wrap { padding: 16px 12px 20px; }
+  .form { grid-template-columns: 1fr; }
+  .settings .inner { grid-template-columns: 1fr; }
+  header { flex-direction: column; align-items: flex-start; }
+  .header-actions { width: 100%; justify-content: space-between; }
+}
+
+/* Écran de verrouillage (.gate) */
+html.locked .frame { display: none; }
+html:not(.locked) .gate { display: none; }
+.gate {
+  width: 100%;
+  max-width: 400px;
+  background: var(--blue-line);
+  border-radius: 22px;
+  padding: 6px;
+}
+.gate .wrap {
+  text-align: center;
+  padding: 30px 24px 28px;
+}
+.gate h2 {
+  font-family: var(--hand);
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--blue);
+  margin: 0 0 6px;
+  letter-spacing: .04em;
+}
+.gate p {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 18px;
+  line-height: 1.5;
+}
+.gate .field {
+  min-height: 46px;
+  height: 46px;
+  margin-bottom: 12px;
+}
+.gate .field input {
+  font-size: 16px;
+  letter-spacing: .08em;
+  text-align: center;
+  min-height: 44px;
+  height: 44px;
+}
+.gate .field.bad {
+  box-shadow: 0 0 0 2px var(--danger);
+  animation: shake .35s;
+}
+.gate .go {
+  width: 100%;
+  border: 0;
+  background: var(--blue);
+  color: #fff;
+  font: 700 14px var(--sans);
+  padding: 12px;
+  min-height: 44px;
+  border-radius: 99px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gate .go:hover { background: var(--blue-hover); }
+.gate .err {
+  min-height: 18px;
+  margin: 10px 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--danger);
+}
+@keyframes shake {
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gate .field.bad { animation: none; }
+}
+</style>
+<script>
+/* Masque l'application tant que le code d'accès n'est pas validé (s'exécute avant le premier rendu) */
+(function(){
+  var ACCESS_CODE = "CREATOR2026", KEY = "pricing_access";
+  var ok = false;
+  try { ok = localStorage.getItem(KEY) === "granted"; } catch(e) {}
+  if (!ok) document.documentElement.classList.add("locked");
+})();
+</script>
+</head>
+<body>
+<div class="gate">
+  <div class="outer">
+    <div class="tag">Accès réservé</div>
+    <div class="wrap">
+      <h2>Entre ton code d'accès</h2>
+      <p>Cet outil est réservé aux acheteurs. Saisis ton code secret pour le déverrouiller.</p>
+      <form id="gateForm" autocomplete="off">
+        <div class="field" id="gateField">
+          <input id="gateInput" type="password" placeholder="Code d'accès (ex: CREATOR2026)" aria-label="Code d'accès" aria-describedby="gateErr" autocapitalize="off" spellcheck="false">
+        </div>
+        <button class="go" type="submit">Déverrouiller l'outil</button>
+        <div class="err" id="gateErr" role="alert"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="frame"><div class="outer">
+<div class="tag">À ton tour</div>
+<div class="wrap">
+  <header>
+    <h1>Calculateur de Prix &amp; Rentabilité</h1>
+    <div class="header-actions">
+      <div class="toggle" role="group" aria-label="Devise">
+        <button id="bFCFA" type="button" class="on">FCFA</button>
+        <button id="bEUR" type="button">€ (EUR)</button>
+      </div>
+      <button id="lockBtn" class="lock-link" type="button" title="Reverrouiller l'application">Verrouiller</button>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="form">
+      <div class="full" id="formAlert" class="global-alert" role="alert" style="display:none; margin-bottom: 8px;"></div>
+
+      <div class="full">
+        <label for="name">Nom de ton produit ou offre</label>
+        <div class="field name">
+          <input id="name" type="text" placeholder="ex. Coffret Soin Naturel ou Pack Templates" aria-describedby="err-name">
+        </div>
+        <div class="field-err" id="err-name" role="alert"></div>
+      </div>
+
+      <div>
+        <label for="material">Coût matière ou création<small>Ce que coûte 1 unité à produire</small></label>
+        <div class="field"><span class="cur"></span><input id="material" type="text" inputmode="decimal" aria-describedby="err-material"></div>
+        <div class="field-err" id="err-material" role="alert"></div>
+      </div>
+
+      <div>
+        <label for="packaging">Emballage / habillage<small>0 si produit 100 % digital</small></label>
+        <div class="field"><span class="cur"></span><input id="packaging" type="text" inputmode="decimal" aria-describedby="err-packaging"></div>
+        <div class="field-err" id="err-packaging" role="alert"></div>
+      </div>
+
+      <div>
+        <label for="minutes">Temps passé par unité<small>Préparation ou création</small></label>
+        <div class="field"><input id="minutes" type="text" inputmode="numeric" aria-describedby="err-minutes"><span class="suf">min</span></div>
+        <div class="field-err" id="err-minutes" role="alert"></div>
+      </div>
+
+      <div>
+        <label for="hourly">Tarif horaire souhaité<small>Ce que tu veux gagner par heure</small></label>
+        <div class="field"><span class="cur"></span><input id="hourly" type="text" inputmode="decimal" aria-describedby="err-hourly"></div>
+        <div class="field-err" id="err-hourly" role="alert"></div>
+      </div>
+
+      <div>
+        <label for="margin">Marge de profit visée<small>Objectif de rentabilité nette (0 % autorisé)</small></label>
+        <div class="field"><input id="margin" type="text" inputmode="numeric" aria-describedby="err-margin"><span class="suf">%</span></div>
+        <div class="field-err" id="err-margin" role="alert"></div>
+      </div>
+
+      <div>
+        <label for="shipping">Livraison / envoi réel<small>Frais d'expédition à ta charge</small></label>
+        <div class="field"><span class="cur"></span><input id="shipping" type="text" inputmode="decimal" aria-describedby="err-shipping"></div>
+        <div class="field-err" id="err-shipping" role="alert"></div>
+      </div>
+
+      <details class="settings full">
+        <summary>Réglages des frais de vente (Chariow, Mobile Money, Stripe...)</summary>
+        <div class="inner">
+          <div>
+            <label for="pFee">Commission plateforme (%)</label>
+            <div class="field"><input id="pFee" type="text" inputmode="decimal" aria-describedby="err-pFee"><span class="suf">%</span></div>
+            <div class="field-err" id="err-pFee" role="alert"></div>
+          </div>
+          <div>
+            <label for="pFlat">Frais fixes par vente</label>
+            <div class="field"><span class="cur"></span><input id="pFlat" type="text" inputmode="decimal" aria-describedby="err-pFlat"></div>
+            <div class="field-err" id="err-pFlat" role="alert"></div>
+          </div>
+          <div class="full">
+            <label for="sTax">Taxe éventuelle sur les ventes (%)</label>
+            <div class="field"><input id="sTax" type="text" inputmode="decimal" aria-describedby="err-sTax"><span class="suf">%</span></div>
+            <div class="field-err" id="err-sTax" role="alert"></div>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div>
+      <div id="globalAlert" class="global-alert" role="alert" style="display:none; margin-bottom: 12px;"></div>
+
+      <div class="result" aria-live="polite">
+        <div class="k">Prix de vente conseillé</div>
+        <div class="price" id="price">—</div>
+        <div class="sub" id="sub"></div>
+        <div class="fees">
+          <div class="row"><span>Matière, emballage &amp; livraison</span><b id="vMat">—</b></div>
+          <div class="row"><span id="lTime">Valeur de ton temps (0 min)</span><b id="vTime">—</b></div>
+          <div class="row"><span id="lPlat">Commission plateforme</span><b id="vPlat">—</b></div>
+          <div class="row"><span id="lTax">Taxes éventuelles (0%)</span><b id="vTax">—</b></div>
+          <div class="row total"><span>Total des coûts &amp; frais déduits</span><b id="vTot">—</b></div>
+        </div>
+      </div>
+      <div class="profit" id="profitBox">
+        <div>
+          <span>Ton Bénéfice Net par vente</span>
+          <small>En sus de ton temps déjà rémunéré !</small>
+        </div>
+        <strong id="profit">—</strong>
+      </div>
+      <div class="tips">
+        <b>Conseil anti-guerre des prix :</b> Ne brade jamais ton tarif horaire. Propose une version <b>Pack / Deluxe</b> de cette offre pour augmenter ton panier moyen sans nouveau stock.
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="main" id="clear" type="button">Vider pour mon produit</button>
+    <button id="example" type="button">Charger l'exemple de démonstration</button>
+  </div>
+</div>
+</div></div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var CURRENCIES = {
+    FCFA: { sym: "FCFA", pFlat: 100 },
+    EUR:  { sym: "€",    pFlat: 0.25 }
+  };
+  var cur = "FCFA";
+  var ids = ["material", "packaging", "minutes", "hourly", "margin", "shipping", "pFee", "pFlat", "sTax"];
+  var monetaryIds = ["material", "packaging", "hourly", "shipping", "pFlat"];
+
+  // Unité interne canonique (micro-FCFA) garantissant une précision absolue sans dérive cumulative :
+  // 1 FCFA = 100 000 unités
+  // 1 centime EUR = 655 957 unités (1 EUR = 65 595 700 unités)
+  // Parité officielle BCEAO : 1 EUR = 655,957 FCFA
+  var UNITS_PER_FCFA = 100000;
+  var UNITS_PER_EUR_CENT = 655957;
+
+  var canonicalUnits = {
+    material: 0,
+    packaging: 0,
+    hourly: 0,
+    shipping: 0,
+    pFlat: 0
+  };
+
+  // Regex stricte pour groupement des milliers et décimales :
+  // Accepte : nombres sans séparateur (1000) OU avec groupes de 3 chiffres (1 000, 12 500, 1 250 000)
+  // suivi optionnellement d'une partie décimale (. ou ,).
+  // Rejette : 1 00, 12 34, 1 2 3, 12abc, 12..5, -5.
+  var STRICT_NUM_RE = /^(?:(?:\d{1,3}(?:[\s\u00A0\u202F]\d{3})+)|(?:\d+))(?:[.,](\d+))?$/;
+
+  function parseFrenchFinancialInput(raw, id, currentCur) {
+    var str = String(raw == null ? "" : raw).trim();
+    if (str === "") {
+      return { ok: false, empty: true, err: "Ce champ est obligatoire." };
+    }
+    if (str.charAt(0) === "-") {
+      return { ok: false, err: "Les montants négatifs ne sont pas acceptés." };
+    }
+    if (!STRICT_NUM_RE.test(str)) {
+      return { ok: false, err: "Format numérique invalide. Exemple : 1 000 ou 12,50." };
+    }
+
+    var normalized = str.replace(/[\s\u00A0\u202F]/g, "").replace(",", ".");
+    var val = parseFloat(normalized);
+    if (!isFinite(val) || isNaN(val)) {
+      return { ok: false, err: "Nombre invalide." };
+    }
+    if (val > 1000000000) {
+      return { ok: false, err: "Montant trop élevé (maximum 1 milliard)." };
+    }
+
+    var decMatch = str.match(/[.,](\d+)$/);
+    var decLen = decMatch ? decMatch[1].length : 0;
+
+    if (id === "minutes") {
+      if (decLen > 0) return { ok: false, err: "Saisissez un nombre entier de minutes." };
+      if (val < 0) return { ok: false, err: "Les minutes ne peuvent pas être négatives." };
+    } else if (id === "margin") {
+      if (decLen > 0) return { ok: false, err: "Saisissez un pourcentage entier de marge." };
+      if (val < 0) return { ok: false, err: "La marge ne peut pas être négative." };
+    } else if (id === "pFee" || id === "sTax") {
+      if (decLen > 2) return { ok: false, err: "Au maximum 2 décimales pour ce taux." };
+      if (val < 0 || val >= 100) return { ok: false, err: "Le taux doit être compris entre 0 et 99,99 %." };
+    } else if (monetaryIds.indexOf(id) !== -1) {
+      if (currentCur === "FCFA") {
+        if (decLen > 0) return { ok: false, err: "En FCFA, saisissez un montant entier sans centimes." };
+      } else {
+        if (decLen > 2) return { ok: false, err: "En euros, saisissez au maximum 2 décimales." };
+      }
+      if (val < 0) return { ok: false, err: "Le montant ne peut pas être négatif." };
+    }
+
+    return { ok: true, val: val, str: str };
+  }
+
+  function updateCanonicalFromField(id, val) {
+    if (monetaryIds.indexOf(id) === -1) return;
+    if (cur === "FCFA") {
+      canonicalUnits[id] = Math.round(val * UNITS_PER_FCFA);
+    } else {
+      var centimes = Math.round(val * 100);
+      canonicalUnits[id] = centimes * UNITS_PER_EUR_CENT;
+    }
+  }
+
+  function getValFromCanonical(id, targetCur) {
+    var units = canonicalUnits[id] || 0;
+    if (targetCur === "FCFA") {
+      return Math.round(units / UNITS_PER_FCFA);
+    }
+    var centimes = Math.round(units / UNITS_PER_EUR_CENT);
+    return centimes / 100;
+  }
+
+  function formatNumberForInput(val, targetCur) {
+    if (targetCur === "FCFA") {
+      var rounded = Math.round(val);
+      return String(rounded).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+    var roundedCentimes = Math.round(val * 100);
+    var intPart = Math.floor(roundedCentimes / 100);
+    var fracPart = roundedCentimes % 100;
+    var intStr = String(intPart).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    var fracStr = fracPart < 10 ? "0" + fracPart : String(fracPart);
+    return intStr + "," + fracStr;
+  }
+
+  function money(n) {
+    var safe = isFinite(n) ? n : 0;
+    if (cur === "FCFA") {
+      var rounded = Math.round(safe);
+      return String(rounded).replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " FCFA";
+    }
+    var fixed = safe.toFixed(2).replace(".", ",");
+    var parts = fixed.split(",");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return parts.join(",") + " €";
+  }
+
+  function setCurDisplay() {
+    var els = document.querySelectorAll(".cur");
+    for (var i = 0; i < els.length; i++) {
+      els[i].textContent = CURRENCIES[cur].sym;
+    }
+    $("bFCFA").className = cur === "FCFA" ? "on" : "";
+    $("bEUR").className = cur === "EUR" ? "on" : "";
+  }
+
+  function setFieldErr(id, errText) {
+    var input = $(id);
+    if (!input) return;
+    input.setAttribute("aria-invalid", "true");
+    var fieldDiv = input.closest(".field") || input.parentElement;
+    if (fieldDiv) fieldDiv.classList.add("has-err");
+    var errDiv = $("err-" + id);
+    if (errDiv) {
+      errDiv.textContent = errText || "Saisie invalide.";
+    }
+  }
+
+  function clearFieldErr(id) {
+    var input = $(id);
+    if (!input) return;
+    input.removeAttribute("aria-invalid");
+    var fieldDiv = input.closest(".field") || input.parentElement;
+    if (fieldDiv) fieldDiv.classList.remove("has-err");
+    var errDiv = $("err-" + id);
+    if (errDiv) {
+      errDiv.textContent = "";
+    }
+  }
+
+  function clearAllErrors() {
+    for (var i = 0; i < ids.length; i++) {
+      clearFieldErr(ids[i]);
+    }
+    var globalAlert = $("globalAlert");
+    if (globalAlert) {
+      globalAlert.textContent = "";
+      globalAlert.style.display = "none";
+    }
+    var formAlert = $("formAlert");
+    if (formAlert) {
+      formAlert.textContent = "";
+      formAlert.style.display = "none";
+    }
+  }
+
+  function renderSuspended(msg, prodName) {
+    $("price").textContent = "—";
+    $("sub").textContent = prodName + " · " + msg;
+    $("vMat").textContent = "—";
+    $("vTime").textContent = "—";
+    $("vPlat").textContent = "—";
+    $("vTax").textContent = "—";
+    $("vTot").textContent = "—";
+    $("profit").textContent = "—";
+    $("profitBox").className = "profit";
+  }
+
+  function renderResults(P, matPackShip, minutes, coutTemps, pFee, pFlat, sTax, coutRevientUnitaire, prodName, margeCible) {
+    var fraisPlateforme = P * (pFee / 100) + pFlat;
+    var fraisTaxes = P * (sTax / 100);
+    var totalFrais = fraisPlateforme + fraisTaxes;
+    var totalDeductions = coutRevientUnitaire + totalFrais;
+    var beneficeNet = margeCible;
+
+    $("price").textContent = money(P);
+    $("sub").textContent = prodName + " · Coût de revient total : " + money(coutRevientUnitaire);
+
+    $("lTime").textContent = "Valeur de ton temps (" + Math.round(minutes) + " min)";
+    $("lPlat").textContent = "Commission plateforme (" + pFee + "% + " + money(pFlat) + ")";
+    $("lTax").textContent = "Taxes éventuelles (" + sTax + "%)";
+
+    $("vMat").textContent = money(matPackShip);
+    $("vTime").textContent = money(coutTemps);
+    $("vPlat").textContent = money(fraisPlateforme);
+    $("vTax").textContent = money(fraisTaxes);
+    $("vTot").textContent = money(totalDeductions);
+
+    $("profit").textContent = money(beneficeNet);
+    $("profitBox").className = "profit" + (beneficeNet < -0.005 ? " neg" : "");
+  }
+
+  function calc() {
+    var vals = {};
+    var hasLocalError = false;
+
+    for (var i = 0; i < ids.length; i++) {
+      var id = ids[i];
+      var parsed = parseFrenchFinancialInput($(id).value, id, cur);
+      if (!parsed.ok) {
+        hasLocalError = true;
+        setFieldErr(id, parsed.err);
+      } else {
+        clearFieldErr(id);
+        vals[id] = parsed.val;
+      }
+    }
+
+    var globalAlert = $("globalAlert");
+    var prodName = ($("name").value || "").trim() || "Mon produit";
+
+    if (hasLocalError) {
+      if (globalAlert) {
+        globalAlert.textContent = "";
+        globalAlert.style.display = "none";
+      }
+      renderSuspended("Corrige les erreurs de saisie en surbrillance pour afficher le résultat.", prodName);
+      return;
+    }
+
+    var material = vals.material;
+    var packaging = vals.packaging;
+    var minutes = vals.minutes;
+    var hourly = vals.hourly;
+    var margin = vals.margin;
+    var shipping = vals.shipping;
+    var pFee = vals.pFee;
+    var pFlat = vals.pFlat;
+    var sTax = vals.sTax;
+
+    var coutTemps = (minutes / 60) * hourly;
+    var matPackShip = material + packaging + shipping;
+    var coutRevientUnitaire = matPackShip + coutTemps;
+    var tauxFrais = (pFee / 100) + (sTax / 100);
+
+    if (tauxFrais >= 1) {
+      if (globalAlert) {
+        globalAlert.textContent = "Le cumul des commissions et taxes (" + (pFee + sTax).toFixed(1).replace(".", ",") + " %) est supérieur ou égal à 100 %, ce qui rend le calcul du prix conseillé impossible.";
+        globalAlert.style.display = "block";
+      }
+      renderSuspended("Le cumul des frais et taxes empêche le calcul.", prodName);
+      return;
+    }
+
+    if (coutRevientUnitaire <= 0) {
+      if (globalAlert) {
+        globalAlert.textContent = "Le coût de revient unitaire est nul (0 " + CURRENCIES[cur].sym + "). Renseigne au moins un coût de matière, d'emballage, de livraison ou du temps passé.";
+        globalAlert.style.display = "block";
+      }
+      renderSuspended("Renseigne au moins un coût pour calculer ton prix.", prodName);
+      return;
+    }
+
+    if (globalAlert) {
+      globalAlert.textContent = "";
+      globalAlert.style.display = "none";
+    }
+
+    var margeCible = coutRevientUnitaire * (margin / 100);
+    var P = (coutRevientUnitaire + margeCible + pFlat) / (1 - tauxFrais);
+
+    renderResults(P, matPackShip, minutes, coutTemps, pFee, pFlat, sTax, coutRevientUnitaire, prodName, margeCible);
+  }
+
+  function switchCurrency(targetCur) {
+    if (targetCur === cur) return;
+
+    var hasErr = false;
+    for (var i = 0; i < ids.length; i++) {
+      var id = ids[i];
+      var parsed = parseFrenchFinancialInput($(id).value, id, cur);
+      if (!parsed.ok) {
+        hasErr = true;
+        setFieldErr(id, parsed.err);
+      }
+    }
+
+    var formAlert = $("formAlert");
+    if (hasErr) {
+      if (formAlert) {
+        formAlert.textContent = "Corrige les erreurs de saisie avant de changer de devise.";
+        formAlert.style.display = "block";
+      }
+      return;
+    }
+
+    if (formAlert) {
+      formAlert.textContent = "";
+      formAlert.style.display = "none";
+    }
+
+    cur = targetCur;
+    setCurDisplay();
+
+    for (var j = 0; j < monetaryIds.length; j++) {
+      var mId = monetaryIds[j];
+      var val = getValFromCanonical(mId, cur);
+      $(mId).value = formatNumberForInput(val, cur);
+    }
+
+    calc();
+  }
+
+  function fillForm(o) {
+    $("name").value = o.name || "";
+    for (var k in o) {
+      if (k !== "name" && $(k)) $(k).value = o[k];
+    }
+  }
+
+  function blank() {
+    clearAllErrors();
+    $("name").value = "";
+    ["material", "packaging", "minutes", "hourly", "shipping", "margin"].forEach(function(i){
+      $(i).value = "";
+    });
+    $("pFee").value = "5";
+    $("pFlat").value = cur === "FCFA" ? "100" : "0,25";
+    $("sTax").value = "0";
+
+    canonicalUnits.material = 0;
+    canonicalUnits.packaging = 0;
+    canonicalUnits.hourly = 0;
+    canonicalUnits.shipping = 0;
+    canonicalUnits.pFlat = cur === "FCFA" ? 100 * UNITS_PER_FCFA : 25 * UNITS_PER_EUR_CENT;
+
+    renderSuspended("Remplis les champs ci-contre pour calculer ton prix de vente conseillé.", "Mon produit");
+  }
+
+  function example() {
+    clearAllErrors();
+    setCurDisplay();
+    if (cur === "FCFA") {
+      fillForm({
+        name: "Kit Découverte Artisanal",
+        material: "3 500",
+        packaging: "1 000",
+        minutes: "30",
+        hourly: "4 000",
+        margin: "50",
+        shipping: "0",
+        pFee: "5",
+        pFlat: "100",
+        sTax: "0"
+      });
+      canonicalUnits.material = 3500 * UNITS_PER_FCFA;
+      canonicalUnits.packaging = 1000 * UNITS_PER_FCFA;
+      canonicalUnits.hourly = 4000 * UNITS_PER_FCFA;
+      canonicalUnits.shipping = 0;
+      canonicalUnits.pFlat = 100 * UNITS_PER_FCFA;
+    } else {
+      fillForm({
+        name: "Kit Découverte Artisanal",
+        material: "6,50",
+        packaging: "1,50",
+        minutes: "30",
+        hourly: "20",
+        margin: "50",
+        shipping: "0",
+        pFee: "5",
+        pFlat: "0,25",
+        sTax: "0"
+      });
+      canonicalUnits.material = 650 * UNITS_PER_EUR_CENT;
+      canonicalUnits.packaging = 150 * UNITS_PER_EUR_CENT;
+      canonicalUnits.hourly = 2000 * UNITS_PER_EUR_CENT;
+      canonicalUnits.shipping = 0;
+      canonicalUnits.pFlat = 25 * UNITS_PER_EUR_CENT;
+    }
+    calc();
+  }
+
+  ids.concat(["name"]).forEach(function(i){
+    $(i).addEventListener("input", function(){
+      if ($("formAlert")) {
+        $("formAlert").textContent = "";
+        $("formAlert").style.display = "none";
+      }
+      if (monetaryIds.indexOf(i) !== -1) {
+        var p = parseFrenchFinancialInput($(i).value, i, cur);
+        if (p.ok) {
+          updateCanonicalFromField(i, p.val);
+        }
+      }
+      calc();
+    });
+  });
+
+  $("bFCFA").onclick = function(){ switchCurrency("FCFA"); };
+  $("bEUR").onclick  = function(){ switchCurrency("EUR"); };
+  $("clear").onclick = blank;
+  $("example").onclick = example;
+
+  setCurDisplay();
+  example();
+})();
+
+/* Logique de l'écran de verrouillage (.gate) */
+(function(){
+  var ACCESS_CODE = "CREATOR2026", KEY = "pricing_access";
+  var form = document.getElementById("gateForm"),
+      input = document.getElementById("gateInput"),
+      field = document.getElementById("gateField"),
+      err = document.getElementById("gateErr"),
+      lockBtn = document.getElementById("lockBtn");
+
+  function unlock() {
+    document.documentElement.classList.remove("locked");
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if (input.value.trim() === ACCESS_CODE) {
+      try { localStorage.setItem(KEY, "granted"); } catch(x) {}
+      err.textContent = "";
+      input.removeAttribute("aria-invalid");
+      unlock();
+    } else {
+      err.textContent = "Ce code n'est pas valide. Vérifie-le dans ton Guide d'Accès et réessaie.";
+      input.setAttribute("aria-invalid", "true");
+      field.classList.remove("bad");
+      void field.offsetWidth;
+      field.classList.add("bad");
+      input.value = "";
+      input.focus();
+    }
+  });
+
+  input.addEventListener("input", function(){
+    err.textContent = "";
+    field.classList.remove("bad");
+    input.removeAttribute("aria-invalid");
+  });
+
+  if (lockBtn) {
+    lockBtn.addEventListener("click", function(){
+      try { localStorage.removeItem(KEY); } catch(x) {}
+      document.documentElement.classList.add("locked");
+      err.textContent = "";
+      field.classList.remove("bad");
+      input.value = "";
+      input.focus();
+    });
+  }
+
+  if (document.documentElement.classList.contains("locked")) input.focus();
+})();
+</script>
+</body>
+</html>

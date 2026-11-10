@@ -43,8 +43,8 @@ Toute direction artistique valide doit pouvoir se résumer en une phrase unique 
 > **« Dans cette application, [élément distinctif du métier] devient [élément central de l'expérience visuelle]. »**
 
 ### Exemples concrets par domaine :
-- **Simulateur de Trésorerie (Marc)** :  
-  *« Dans cette application, le diagnostic bilanciel (FRNG, BFR et Trésorerie Nette) devient un ticket de solvabilité en temps réel qui confronte visuellement l'équilibre structurel à la liquidité immédiate. »*
+- **Calculateur de Prix & Rentabilité (`pricing-calculator`, FCFA / €)** :  
+  *« Dans cette application, la fiche de tarification artisanale devient un atelier de calcul bleu cobalt et crème où les coûts, le temps de création et les frais de plateforme révèlent instantanément le prix de vente conseillé et le bénéfice net par vente. »*
 - **Générateur de Feedback RH (Claire)** :  
   *« Dans cette application, la méthode managériale en 4 étapes devient un carnet de préparation éditorial où les paramètres de contexte façonnent une feuille de conduite prête pour l'entretien. »*
 - **Planificateur Hebdomadaire Énergétique (Sophie)** :  
@@ -83,7 +83,7 @@ Pour chacune des 3 pistes, présenter un résumé clair sans jargon informatique
 Dès que l'apprenant a sélectionné son univers, Claude formalise la fiche de style technique exhaustive nécessaire au Prompt 2 :
 - **Variables et contrastes** : `--bg-canvas`, `--bg-surface`, `--bg-elevated`, `--bg-spotlight`, `--text-primary`, `--text-secondary`, `--accent-primary`, `--status-*` avec conformité WCAG AA ($\ge 4.5:1$).
 - **Système typographique précis** : Familles exactes pour titres, lecture et monospace, piles système sculptées autonomes et dépendances Google Fonts déclarées.
-- **Pièce maîtresse et composants** : Mise en scène du verdict principal (ticket, cadran, carnet) et style physique des boutons et champs ($\ge 44\text{ px}$).
+- **Pièce maîtresse, écran de verrouillage (`.gate`) et composants** : Mise en scène du verdict principal (ticket, cadran, carnet), de l'écran d'accueil par code d'accès réservé aux acheteurs (`.gate`) et style physique des boutons et champs ($\ge 44\text{ px}$).
 - **Adaptation responsive et mouvements** : Grille pour smartphone à `375 px`, absence de défilement horizontal et respect strict de `prefers-reduced-motion`.
 
 ---

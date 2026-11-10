@@ -27,7 +27,7 @@ Pour adapter cette grammaire à tous les métiers sans uniformité, calibre l'in
   - Badges et stickers d'état à fort contraste (ex. fond jaune d'or `#FACC15` ou vert lime `#A3E635` avec texte et bordure noirs).
 
 ### Niveau 2 — Intensité Moyenne (*Éditorial Structuré & Tactile* — Recommandé par défaut)
-- **Idéal pour** : simulateurs financiers PME (Marc), assistants RH et management (Claire), outils de conseil et d'audit.
+- **Idéal pour** : calculateurs de prix et de rentabilité (en FCFA / €), assistants RH et management (Claire), outils de conseil et d'audit.
 - **Signature visuelle** :
   - Bordures nettes (`1.5px` ou `2px solid`) sur le **Ticket de Verdict / Pièce Maîtresse** et les contrôles actifs ; bordures plus calmes (`1px solid var(--border-subtle)`) sur les sous-éléments internes.
   - Ombre décalée franche réservée à la **Pièce Maîtresse** et au bouton d'action primaire (`3px 3px 0px` ou `4px 4px 0px`), évitant d'alourdir chaque champ de saisie.
