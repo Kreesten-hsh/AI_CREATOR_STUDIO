@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen, fireEvent, renderHook, act } from '@testing-library/react';
+import { render, screen, fireEvent, renderHook, act, within } from '@testing-library/react';
 import React from 'react';
 import { MAIN_COURSES } from '../data/navigation/mainCourses';
 import { COURSE_DATA } from '../data/course';
@@ -20,9 +20,12 @@ import {
 import '@testing-library/jest-dom/vitest';
 import { ProgressProvider } from '../context/ProgressContext';
 import { useProgress } from '../hooks/useProgress';
+import { CourseWorkspaceRouter } from '../app/routes';
+import { ModuleCompletionDialog } from '../components/course/ModuleCompletionDialog';
 import { MainSidebar } from '../components/layout/MainSidebar';
 import { CourseSidebar } from '../components/course/CourseSidebar';
 import { MobileNavigation } from '../components/layout/MobileNavigation';
+import { createInitialProgress, loadProgressFromStorage, saveProgressToStorage } from '../utils/storage';
 
 describe('V4 : Course Navigation and Routing Verification (3 Modules / 3 Days / 7 Lessons)', () => {
   beforeEach(() => {
@@ -489,7 +492,7 @@ describe('V4 : Course Navigation and Routing Verification (3 Modules / 3 Days / 
       expect(onCloseMock).toHaveBeenCalled();
     });
 
-    it('ferme le tiroir mobile lors de la pression sur Escape', () => {
+    it("ferme le tiroir mobile uniquement via la croix de fermeture (sans fermeture par Escape)", () => {
       const onCloseMock = vi.fn();
 
       render(
@@ -503,8 +506,195 @@ describe('V4 : Course Navigation and Routing Verification (3 Modules / 3 Days / 
         </ProgressProvider>
       );
 
+      expect(screen.queryByText(/FERMER \[ESC\]/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/NAVIGATION DU PARCOURS/i)).not.toBeInTheDocument();
+
       fireEvent.keyDown(window, { key: 'Escape' });
-      expect(onCloseMock).toHaveBeenCalled();
+      expect(onCloseMock).not.toHaveBeenCalled();
+
+      const closeCrossBtn = screen.getByRole('button', { name: 'Fermer le tiroir' });
+      fireEvent.click(closeCrossBtn);
+      expect(onCloseMock).toHaveBeenCalledTimes(1);
+    });
+
+    it("place la croix de fermeture directement à côté du logo AI CREATOR studio en vue Accueil et vue Cours", () => {
+      // 1. Vue Accueil (MainSidebar)
+      const { unmount } = render(
+        <ProgressProvider>
+          <MobileNavigation
+            course={COURSE_DATA}
+            isOpen={true}
+            onToggle={() => {}}
+            onClose={() => {}}
+          />
+        </ProgressProvider>
+      );
+
+      const homeDialog = screen.getByRole('dialog');
+      const homeLogoHeading = within(homeDialog).getByRole('heading', { level: 1 });
+      const homeLogoRow = homeLogoHeading.closest('div');
+      expect(homeLogoRow).not.toBeNull();
+      expect(
+        within(homeLogoRow!).getByRole('button', { name: 'Fermer le tiroir' })
+      ).toBeInTheDocument();
+      unmount();
+
+      // 2. Vue Cours (CourseSidebar)
+      const initial = createInitialProgress();
+      initial.activeRoute = { kind: 'lesson', lessonId: 'lesson-01' };
+      saveProgressToStorage(initial);
+
+      render(
+        <ProgressProvider>
+          <MobileNavigation
+            course={COURSE_DATA}
+            isOpen={true}
+            onToggle={() => {}}
+            onClose={() => {}}
+          />
+        </ProgressProvider>
+      );
+
+      const courseDialog = screen.getByRole('dialog');
+      const courseLogoHeading = within(courseDialog).getByRole('heading', { level: 1 });
+      const courseLogoRow = courseLogoHeading.parentElement;
+      expect(courseLogoRow).not.toBeNull();
+      expect(
+        within(courseLogoRow!).getByRole('button', { name: 'Fermer le tiroir' })
+      ).toBeInTheDocument();
+    });
+  });
+
+  // =========================================================================
+  // SECTION G : Navigation linéaire par le CTA inférieur (CompletionButton)
+  // =========================================================================
+  describe('G. Navigation via le CTA inférieur entre étapes, leçons et journées', () => {
+    it("passe automatiquement d'une leçon intermédiaire à la leçon suivante après validation de sa 3e étape", () => {
+      const initial = createInitialProgress();
+      initial.activeRoute = { kind: 'lesson', lessonId: 'lesson-01' };
+      saveProgressToStorage(initial);
+
+      render(
+        <ProgressProvider>
+          <CourseWorkspaceRouter />
+        </ProgressProvider>
+      );
+
+      // Étape 1 -> Étape 2
+      fireEvent.click(screen.getByRole('button', { name: /J'ai mon document/i }));
+      // Étape 2 -> Étape 3
+      fireEvent.click(screen.getByRole('button', { name: /Le Skill est activé/i }));
+      // Étape 3 -> Leçon 02 · Étape 1
+      fireEvent.click(screen.getByRole('button', { name: /Terminer la Leçon 1/i }));
+
+      const stored = loadProgressFromStorage();
+      expect(stored.activeRoute).toEqual({ kind: 'lesson', lessonId: 'lesson-02' });
+      expect(stored.completedStepIdsByLesson['lesson-01']).toEqual([
+        'lesson-01-step-01',
+        'lesson-01-step-02',
+        'lesson-01-step-03',
+      ]);
+      expect(screen.getByText('02')).toBeInTheDocument();
+    });
+
+    it("navigue de Jour 1 -> Jour 2, Jour 2 -> Jour 3 et Jour 3 -> Accueil lors du clic sur « Étape validée (Continuer) »", () => {
+      const seeded = createInitialProgress();
+      for (const lesson of COURSE_DATA.lessons) {
+        seeded.completedStepIdsByLesson[lesson.id] = lesson.steps.map((s) => s.id);
+      }
+
+      // 1. Fin Jour 1 (Leçon 02 Étape 3) -> Jour 2 (Leçon 03)
+      seeded.activeRoute = { kind: 'lesson', lessonId: 'lesson-02' };
+      seeded.activeStepIdByLesson['lesson-02'] = 'lesson-02-step-03';
+      saveProgressToStorage(seeded);
+
+      const { unmount } = render(
+        <ProgressProvider>
+          <CourseWorkspaceRouter />
+        </ProgressProvider>
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: /Étape validée \(Continuer\)/i }));
+      expect(loadProgressFromStorage().activeRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-03',
+      });
+      unmount();
+
+      // 2. Fin Jour 2 (Leçon 05 Étape 3) -> Jour 3 (Leçon 06)
+      seeded.activeRoute = { kind: 'lesson', lessonId: 'lesson-05' };
+      seeded.activeStepIdByLesson['lesson-05'] = 'lesson-05-step-03';
+      saveProgressToStorage(seeded);
+
+      const r2 = render(
+        <ProgressProvider>
+          <CourseWorkspaceRouter />
+        </ProgressProvider>
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: /Étape validée \(Continuer\)/i }));
+      expect(loadProgressFromStorage().activeRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-06',
+      });
+      r2.unmount();
+
+      // 3. Fin Jour 3 (Leçon 07 Étape 3) -> Accueil
+      seeded.activeRoute = { kind: 'lesson', lessonId: 'lesson-07' };
+      seeded.activeStepIdByLesson['lesson-07'] = 'lesson-07-step-03';
+      saveProgressToStorage(seeded);
+
+      render(
+        <ProgressProvider>
+          <CourseWorkspaceRouter />
+        </ProgressProvider>
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: /Étape validée \(Continuer\)/i }));
+      expect(loadProgressFromStorage().activeRoute).toEqual({ kind: 'home' });
+    });
+
+    it("ouvre la modale sans redirection forcée à la 1re fin de module, puis permet de continuer au jour suivant via « Étape validée (Continuer) » après fermeture par la croix", () => {
+      const initial = createInitialProgress();
+      initial.completedStepIdsByLesson['lesson-01'] = [
+        'lesson-01-step-01',
+        'lesson-01-step-02',
+        'lesson-01-step-03',
+      ];
+      initial.completedStepIdsByLesson['lesson-02'] = [
+        'lesson-02-step-01',
+        'lesson-02-step-02',
+      ];
+      initial.activeRoute = { kind: 'lesson', lessonId: 'lesson-02' };
+      initial.activeStepIdByLesson['lesson-02'] = 'lesson-02-step-03';
+      saveProgressToStorage(initial);
+
+      render(
+        <ProgressProvider>
+          <CourseWorkspaceRouter />
+          <ModuleCompletionDialog />
+        </ProgressProvider>
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: /Terminer le Jour 1/i }));
+
+      // La modale s'ouvre mais la route reste sur lesson-02 en arrière-plan
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+      expect(loadProgressFromStorage().activeRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-02',
+      });
+
+      // Fermeture via la croix X de la modale
+      fireEvent.click(screen.getByRole('button', { name: 'Fermer la fenêtre de félicitations' }));
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+      // Clic sur le CTA désormais en « Étape validée (Continuer) » -> passe au Jour 2 (lesson-03)
+      fireEvent.click(screen.getByRole('button', { name: /Étape validée \(Continuer\)/i }));
+      expect(loadProgressFromStorage().activeRoute).toEqual({
+        kind: 'lesson',
+        lessonId: 'lesson-03',
+      });
     });
   });
 });

@@ -44,7 +44,7 @@ export function ProgressGrid({
             ? 'bg-primary-red border-ink text-surface'
             : isActive
             ? 'bg-cream border-2 border-primary-red ring-1 ring-primary-red text-ink'
-            : 'bg-surface border-ink/80 hover:border-ink hover:bg-pale-pink text-ink/80'
+            : 'bg-surface border-ink hover:bg-pale-pink text-ink'
         }`}
       >
         {isCompleted ? (

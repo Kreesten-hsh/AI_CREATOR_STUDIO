@@ -184,7 +184,7 @@ export const BONUS_MANYCHAT_LESSONS: BonusLesson[] = [
             id: 'bm-l01-p01-prose',
             type: 'prose',
             title: 'Le rôle de l’automatisation conversationnelle',
-            highlightPill: 'CONVERSION CONVERSATIONNELLE',
+            highlightPill: 'Un bon assistant guide le prospect vers une décision claire.',
             paragraphs: [
               'Une automatisation commerciale réussie ne tente pas d’imiter maladroitement une longue discussion humaine. Son rôle est de guider un prospect intéressé vers une décision claire, en lui apportant immédiatement la bonne ressource ou la bonne réponse sans délai d’attente.',
               'Le mécanisme central repose sur un déclencheur simple et gratuit : un utilisateur commente un mot-clé précis sous une publication Facebook organique de votre Page professionnelle. ManyChat détecte instantanément ce commentaire et lui adresse une réponse privée dans Facebook Messenger.',
@@ -228,7 +228,7 @@ export const BONUS_MANYCHAT_LESSONS: BonusLesson[] = [
             id: 'bm-l01-p02-prose',
             type: 'prose',
             title: 'Analyser son activité avant de construire',
-            highlightPill: 'DIAGNOSTIC CLAUDE FREE',
+            highlightPill: 'Repérez d’abord la friction commerciale qui vous fait perdre des prospects.',
             paragraphs: [
               'Avant de manipuler l’interface de ManyChat, vous devez cibler la friction commerciale la plus coûteuse de votre activité : les commentaires sous publications qui restent sans réponse, les demandes de tarifs répétitives ou les prospects qui abandonnent faute d’orientation.',
               'Utilisez Claude Free comme copilote stratégique. Le prompt ci-dessous analyse vos offres, vos clients idéaux et vos goulots d’étranglement pour vous recommander les 3 automatisations les plus rentables.',
@@ -275,7 +275,7 @@ Dès que j'aurai répondu, analyse ma situation et propose-moi :
             id: 'bm-l01-p03-prose',
             type: 'prose',
             title: 'Les repères indispensables avant l’installation',
-            highlightPill: 'CADRAGE STRATÉGIQUE',
+            highlightPill: 'Définissez le périmètre de votre automatisation avant de rédiger.',
             paragraphs: [
               'Ne démarrez jamais la configuration technique sans avoir formalisé votre plan d’action sur papier ou dans vos notes. Ce cadrage servira de cahier des charges direct pour les leçons suivantes.',
               'Familiarisez-vous également avec le vocabulaire technique de ManyChat pour naviguer facilement dans l’interface.',
@@ -348,7 +348,7 @@ Dès que j'aurai répondu, analyse ma situation et propose-moi :
             id: 'bm-l02-p01-prose',
             type: 'prose',
             title: 'Les prérequis de connexion et la vérité sur les coûts',
-            highlightPill: 'SÉCURITÉ & BUDGET',
+            highlightPill: 'Commencez par le plan gratuit et vérifiez les limites de votre compte.',
             paragraphs: [
               'ManyChat se connecte exclusivement à une **Page Facebook professionnelle**. Il est techniquement impossible d’automatiser un profil Facebook personnel en raison des politiques de confidentialité strictes de Meta.',
               'La création du compte s’effectue en vous identifiant via le profil Facebook administrateur de votre Page. L’authentification se fait entièrement dans la fenêtre sécurisée officielle de Meta : vous ne devez jamais communiquer vos identifiants ou mots de passe à Claude ni à un tiers.',
@@ -382,7 +382,7 @@ Dès que j'aurai répondu, analyse ma situation et propose-moi :
             id: 'bm-l02-p02-prose',
             type: 'prose',
             title: 'Liaison officielle dans ManyChat',
-            highlightPill: 'CONNEXION OFFICIELLE',
+            highlightPill: 'Connectez votre Page Facebook professionnelle depuis l’accès officiel Meta.',
             paragraphs: [
               'Rendez-vous sur manychat.com et cliquez sur Get Started Free. Choisissez l’authentification par Facebook. Sélectionnez votre Page professionnelle dans la liste et accordez l’ensemble des autorisations demandées.',
               'Ces autorisations permettent à ManyChat de lire les commentaires déposés sur vos publications et d’envoyer la réponse privée au nom de votre Page.',
@@ -433,7 +433,7 @@ Dès que j'aurai répondu, analyse ma situation et propose-moi :
             id: 'bm-l02-p03-prose',
             type: 'prose',
             title: 'L’environnement visuel de construction',
-            highlightPill: 'FLOW BUILDER VISUEL',
+            highlightPill: 'Construisez votre parcours avec des blocs simples reliés entre eux.',
             paragraphs: [
               'Le Flow Builder de ManyChat est un éditeur visuel basé sur une toile infinie. Vous construisez vos conversations en reliant des blocs d’action avec votre souris, exactement comme un schéma décisionnel.',
               'Dans le plan gratuit, vous pouvez créer jusqu’à 4 automatisations actives simultanées. C’est amplement suffisant pour déployer votre premier assistant de conversion complet.',
@@ -483,7 +483,7 @@ Dès que j'aurai répondu, analyse ma situation et propose-moi :
             id: 'bm-l03-p01-prose',
             type: 'prose',
             title: 'Le cas pratique fil rouge : Atelier Botanica',
-            highlightPill: 'CAS PRATIQUE FIL ROUGE',
+            highlightPill: 'Suivez l’exemple fictif d’Atelier Botanica de bout en bout.',
             paragraphs: [
               'Pour illustrer chaque étape, nous suivons l’entreprise fictive **Atelier Botanica**, spécialisée dans la création de terrariums et kits DIY. Son objectif est de promouvoir son Kit Débutant à 39 €.',
               'Sur sa Page Facebook, elle publie une publication montrant un terrarium réussi avec ce texte d’accroche : *« Envie de créer votre propre écosystème végétal autonome ? Commentez GUIDE sous ce post pour recevoir gratuitement notre fiche complète d’entretien et nos conseils de composition ! »*. Le mot-clé surveillé est **GUIDE**.',
@@ -521,7 +521,7 @@ Dès que j'aurai répondu, analyse ma situation et propose-moi :
             id: 'bm-l03-p02-prose',
             type: 'prose',
             title: 'Structurer l’arbre de conversation avant la rédaction',
-            highlightPill: 'PROMPT 02 ARCHITECTURE',
+            highlightPill: 'Faites structurer l’arborescence de votre flow par Claude.',
             paragraphs: [
               'Un flux ManyChat bien conçu suit une arborescence claire : Déclencheur commentaire $\rightarrow$ Réponse publique courtoise $\rightarrow$ Réponse privée avec bouton $\rightarrow$ Clic $\rightarrow$ Question de qualification $\rightarrow$ Recommandation d’offre adaptée $\rightarrow$ Option de relais humain.',
               'Utilisez Claude Free pour formaliser l’arbre exact de votre activité. Le Prompt 02 garantit le respect de la règle Meta des 24 heures et prévoit toutes les branches nécessaires.',
@@ -570,7 +570,7 @@ Conçois pour moi l'arborescence complète (Flow Tree) en détaillant précisém
             id: 'bm-l03-p03-prose',
             type: 'prose',
             title: 'Des messages concis orientés vers l’action',
-            highlightPill: 'PROMPT 03 RÉDACTION & PUBLISH',
+            highlightPill: 'Rédigez des messages concis et respectez la limite des 20 caractères.',
             paragraphs: [
               'Dans Messenger, la concision est la clé. Les pavés de texte découragent la lecture sur smartphone. Les libellés des boutons **Quick Replies** sont quant à eux soumis à une limite technique stricte de **20 caractères maximum, espaces compris** fixée par Meta.',
               'Le Prompt 03 produit l’intégralité des textes prêts à coller dans ManyChat. Une fois vos blocs assemblés, vous vérifiez qu’aucun connecteur n’est orphelin et vous cliquez sur le bouton bleu **Publish**.',
@@ -664,7 +664,7 @@ Consignes strictes de rédaction :
             id: 'bm-l04-p01-prose',
             type: 'prose',
             title: 'Structurer l’accueil pour réduire les frictions',
-            highlightPill: 'ORIENTATION RAPIDE',
+            highlightPill: 'Orientez chaque prospect vers la ressource adaptée à son besoin.',
             paragraphs: [
               'Lorsqu’un prospect entre dans votre assistant, il a un niveau d’intention variable : certains veulent acheter immédiatement, d’autres souhaitent comparer les prix, et d’autres ont une question spécifique.',
               'Un bon menu d’accueil propose 3 ou 4 options claires pour canaliser immédiatement chaque visiteur vers le parcours qui correspond à son intention.',
@@ -700,7 +700,7 @@ Consignes strictes de rédaction :
             id: 'bm-l04-p02-prose',
             type: 'prose',
             title: 'Qualifier et orienter sans dépendre des Tags',
-            highlightPill: 'PARCOURS FREE SANS TAGS',
+            highlightPill: 'Qualifiez vos contacts sans dépendre des tags payants.',
             paragraphs: [
               'Le parcours principal ManyChat Free ne dépend d’aucun Tag : chaque réponse rapide (Quick Reply) relie directement le prospect à la branche conversationnelle et à l’offre commerciale adaptées à son choix.',
               'Dans notre cas Atelier Botanica, la question de qualification est : *« Quel est votre niveau en terrarium ? »*. Trois boutons de réponses rapides (20 caractères maximum, espaces compris) sont proposés : *Débutant*, *Expérimenté*, *Pour offrir*. Chaque bouton pointe directement vers un bloc Send Message spécifique présentant l’offre idoine, sans imposer de création d’étiquettes.',
@@ -752,7 +752,7 @@ Fournis-moi la procédure de configuration pas à pas dans le Flow Builder de Ma
             id: 'bm-l04-p03-prose',
             type: 'prose',
             title: 'Le protocole de passage de relais sans friction',
-            highlightPill: 'LIVE CHAT & HANDOVER',
+            highlightPill: 'Reprenez la conversation dans Live Chat lorsque c’est nécessaire.',
             paragraphs: [
               'Lorsqu’un prospect demande à parler à un conseiller ou pose une question spécifique, l’automatisation doit céder la place à l’opérateur humain pour éviter que le robot ne réponde par-dessus les messages de l’équipe.',
               'Dans le Flow Builder ManyChat, ce transfert s’articule en une architecture claire : d’abord un message de transition rassurant, puis un nœud Action regroupant les opérations Inbox, sans aucun nœud raccordé après la pause.',
@@ -825,7 +825,7 @@ Fournis-moi la procédure de configuration pas à pas dans le Flow Builder de Ma
             id: 'bm-l05-p01-prose',
             type: 'prose',
             title: 'La règle d’or de la recette opérationnelle',
-            highlightPill: 'RECETTE TERRAIN',
+            highlightPill: 'Testez chaque étape du parcours avec un compte dédié.',
             paragraphs: [
               'Pour tester votre automatisation de commentaire, utilisez un profil Facebook personnel distinct de l’identité de la Page : les commentaires publiés au nom de la Page elle-même ne déclenchent pas le système.',
               'Notez également qu’en raison des limitations de l’API Meta, le test de commentaire ne peut être effectué qu’une seule fois par profil utilisateur. Veillez donc à tester depuis un profil Facebook personnel distinct (le vôtre en tant que profil personnel ou celui d’un proche ou collaborateur) sur une publication standard de la Page professionnelle.',
@@ -887,7 +887,7 @@ Fournis-moi la procédure de configuration pas à pas dans le Flow Builder de Ma
             id: 'bm-l05-p02-prose',
             type: 'prose',
             title: 'La boucle d’optimisation en 5 temps',
-            highlightPill: 'PROMPT 05 AUDIT',
+            highlightPill: 'Auditez votre parcours pour repérer les points de blocage.',
             paragraphs: [
               'Une automatisation n’est pas figée : ses performances s’améliorent par retouches successives. ManyChat fournit des statistiques détaillées au-dessus de chaque bloc (nombre d’envois, taux d’ouverture, taux de clics).',
               'Appliquez la méthode d’optimisation en 5 temps : 1. Observer les données $\rightarrow$ 2. Repérer le bloc où les prospects arrêtent de cliquer $\rightarrow$ 3. Comprendre la cause de la friction $\rightarrow$ 4. Modifier un seul paramètre (texte ou bouton) $\rightarrow$ 5. Tester à nouveau.',
@@ -934,7 +934,7 @@ Analyse rigoureusement ce dispositif et fournis-moi :
             id: 'bm-l05-p03-prose',
             type: 'prose',
             title: 'Élargir la portée de son système conversationnel',
-            highlightPill: 'EXTENSIONS PAYANTES & CANAUX',
+            highlightPill: 'Ajoutez des canaux ou des options selon vos besoins.',
             paragraphs: [
               'Une fois votre automatisation organique validée et rentable sur publication gratuite, vous pouvez étendre sa portée grâce à la publicité payante et aux canaux complémentaires.',
               'La publicité reste une extension optionnelle : elle nécessite un budget publicitaire distinct à programmer dans Meta Ads Manager.',

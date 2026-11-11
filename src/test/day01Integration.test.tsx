@@ -386,19 +386,19 @@ describe('Journée 1 (Module 1 : CHOISIR) : Finition Éditoriale et Cohérence (
 
       // En-tête de leçon
       expect(screen.getByText('01')).toBeInTheDocument();
-      expect(screen.getByText(/SUR 07/i)).toBeInTheDocument();
+      expect(screen.getAllByText(/SUR 07/i).length).toBeGreaterThanOrEqual(1);
       expect(
         screen.getByRole('heading', { level: 2 })
       ).toHaveTextContent(/Préparer son document et configurer Claude/i);
 
-      // HelpPanel replié par défaut (Tâche 4)
+      // HelpPanel replié par défaut (Tâche 4 épurée)
       expect(screen.queryByText(/Autonomie garantie/i)).not.toBeInTheDocument();
-      const helpToggleBtn = screen.getByRole('button', { name: /Besoin d’aide pour cette étape/i });
+      const helpToggleBtn = screen.getByRole('button', { name: /Un blocage \?/i });
       expect(helpToggleBtn).toBeInTheDocument();
 
       // Dépliement en un clic
       fireEvent.click(helpToggleBtn);
-      expect(screen.getByText(/Autonomie garantie/i)).toBeInTheDocument();
+      expect(screen.getByText(/Erreurs fréquentes & solutions/i)).toBeInTheDocument();
 
       // Onglets d'étapes (StepTabs)
       const tabsL1 = screen.getAllByRole('tab');

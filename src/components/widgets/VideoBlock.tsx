@@ -85,7 +85,7 @@ export function VideoBlock({
             <h4 className="font-display text-base sm:text-lg uppercase text-ink leading-tight">
               {block.posterLabel || block.title}
             </h4>
-            <p className="text-xs sm:text-sm text-ink/80 leading-relaxed">
+            <p className="text-xs sm:text-sm text-ink leading-relaxed">
               Ce module fera l’objet d’un tutoriel vidéo pas-à-pas dédié. En attendant sa mise en ligne,
               suivez la progression méthodique et les exercices guidés ci-dessous.
             </p>
@@ -100,7 +100,7 @@ export function VideoBlock({
             {block.title}
           </h3>
           {block.description && (
-            <p className="text-sm text-ink/80 mt-1 leading-relaxed">
+            <p className="text-sm text-ink mt-1 leading-relaxed">
               {block.description}
             </p>
           )}
@@ -112,7 +112,7 @@ export function VideoBlock({
               <BookOpen className="w-3.5 h-3.5 text-primary-red" aria-hidden="true" />
               <span>Points clés à retenir :</span>
             </div>
-            <ul className="space-y-1.5 text-xs sm:text-sm text-ink/90 list-disc list-inside">
+            <ul className="space-y-1.5 text-xs sm:text-sm text-ink list-disc list-inside">
               {block.keyTakeaways.map((item, idx) => (
                 <li key={idx} className="leading-relaxed">{item}</li>
               ))}

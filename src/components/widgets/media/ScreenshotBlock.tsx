@@ -1,4 +1,4 @@
-import { AlertTriangle, Monitor } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 import type { ScreenshotBlockConfig } from '../../../types/course';
 
 export function ScreenshotBlock({ block }: { block: ScreenshotBlockConfig }) {
@@ -15,7 +15,7 @@ export function ScreenshotBlock({ block }: { block: ScreenshotBlockConfig }) {
           <AlertTriangle className="w-4 h-4 shrink-0" aria-hidden="true" />
           <span>Erreur d’accessibilité : Texte alternatif (alt) obligatoire manquant pour la capture</span>
         </div>
-        <p className="text-xs text-ink/80">
+        <p className="text-xs text-ink">
           Une capture d’écran requiert une description textuelle complète de ce qui est visible à l’écran.
         </p>
       </div>
@@ -24,21 +24,15 @@ export function ScreenshotBlock({ block }: { block: ScreenshotBlockConfig }) {
 
   return (
     <figure
-      className="brutal-card rounded-brutal-card overflow-hidden bg-surface"
+      className="brutal-card rounded-brutal-card overflow-hidden bg-surface border-2 border-ink shadow-brutal"
       aria-label={block.caption}
     >
-      {/* Cadre de fenêtre de navigateur - ZÉRO fausse URL */}
-      <div className="px-4 py-2.5 bg-ink text-surface border-b-2 border-ink flex items-center justify-between gap-3">
+      {/* Barre supérieure minimaliste avec pastilles décoratives */}
+      <div className="px-4 py-2 bg-ink text-surface border-b-2 border-ink flex items-center justify-start">
         <div className="flex items-center gap-1.5" aria-hidden="true">
-          <span className="w-3 h-3 rounded-full bg-red-400 border border-ink/40 inline-block" />
-          <span className="w-3 h-3 rounded-full bg-amber-400 border border-ink/40 inline-block" />
-          <span className="w-3 h-3 rounded-full bg-emerald-400 border border-ink/40 inline-block" />
-        </div>
-
-        {/* Contexte explicite de l'interface SANS fausse URL */}
-        <div className="flex items-center gap-2 px-3 py-1 bg-surface/10 rounded border border-surface/20 text-xs font-mono text-surface/90 max-w-md truncate">
-          <Monitor className="w-3.5 h-3.5 text-dusty-pink shrink-0" aria-hidden="true" />
-          <span className="truncate">Capture d’écran de référence • Interface réelle</span>
+          <span className="w-2.5 h-2.5 rounded-full bg-red-400/90 border border-ink/40 inline-block" />
+          <span className="w-2.5 h-2.5 rounded-full bg-amber-400/90 border border-ink/40 inline-block" />
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/90 border border-ink/40 inline-block" />
         </div>
       </div>
 
@@ -53,7 +47,7 @@ export function ScreenshotBlock({ block }: { block: ScreenshotBlockConfig }) {
       </div>
 
       {/* Légende explicative */}
-      <figcaption className="p-3.5 bg-surface text-xs font-mono text-ink/80">
+      <figcaption className="p-3.5 bg-surface text-xs font-mono text-ink">
         <span className="font-bold text-ink">{block.caption}</span>
       </figcaption>
     </figure>

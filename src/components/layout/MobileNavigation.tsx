@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
 import type { Course } from '../../types/course';
 import { useProgress } from '../../hooks/useProgress';
@@ -19,30 +19,65 @@ export function MobileNavigation({
   onClose,
 }: MobileNavigationProps) {
   const { state, globalProgress } = useProgress();
+  const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const previousBodyOverflowRef = useRef<string | null>(null);
+  const wasOpenRef = useRef(false);
 
   const isInsideCourse = state.activeRoute.kind === 'lesson';
 
+  // Verrouille le scroll arrière-plan et gère le focus à l'ouverture/fermeture du tiroir.
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
+    if (isOpen && !wasOpenRef.current) {
+      wasOpenRef.current = true;
+      previousBodyOverflowRef.current = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      closeButtonRef.current?.focus();
+      return;
+    }
+
+    if (!isOpen && wasOpenRef.current) {
+      wasOpenRef.current = false;
+      document.body.style.overflow = previousBodyOverflowRef.current ?? '';
+      previousBodyOverflowRef.current = null;
+      toggleButtonRef.current?.focus();
+    }
+  }, [isOpen]);
+
+  // Nettoie le verrouillage si le composant est démonté tiroir ouvert (ex. passage lg).
+  useEffect(() => {
+    return () => {
+      if (wasOpenRef.current) {
+        document.body.style.overflow = previousBodyOverflowRef.current ?? '';
+        wasOpenRef.current = false;
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  }, []);
+
+  const drawerCloseButton = (
+    <button
+      ref={closeButtonRef}
+      type="button"
+      onClick={onClose}
+      aria-label="Fermer le tiroir"
+      className="p-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center bg-surface text-ink border-2 border-ink rounded-brutal-btn shadow-brutal-xs hover:bg-cream transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-red"
+    >
+      <X className="w-5 h-5 stroke-[2.5]" aria-hidden="true" />
+    </button>
+  );
 
   return (
     <>
       <div className="lg:hidden sticky top-0 z-30 bg-surface border-b-2 border-ink px-4 py-3 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5 min-w-0">
           <button
+            ref={toggleButtonRef}
             type="button"
             onClick={onToggle}
             aria-expanded={isOpen}
             aria-controls="mobile-sidebar-drawer"
             aria-label={isOpen ? 'Fermer le menu de navigation' : 'Ouvrir le menu de navigation'}
-            className="brutal-btn bg-primary-red text-surface p-2 min-h-[44px] min-w-[44px] rounded-brutal-btn flex items-center justify-center"
+            className="brutal-btn bg-primary-red text-surface p-2 min-h-[44px] min-w-[44px] rounded-brutal-btn flex items-center justify-center shrink-0"
           >
             {isOpen ? (
               <X className="w-5 h-5 stroke-[2.5]" aria-hidden="true" />
@@ -57,7 +92,7 @@ export function MobileNavigation({
                 studio
               </span>
             </span>
-            <span className="font-mono text-[11px] font-bold text-ink/75 block">
+            <span className="font-mono text-[11px] font-bold text-ink block">
               {globalProgress.completedLessonsCount} sur {globalProgress.totalLessons} leçons validées
             </span>
           </div>
@@ -77,25 +112,19 @@ export function MobileNavigation({
             onClick={onClose}
             aria-hidden="true"
           />
-          <div className="relative z-50 w-80 max-w-[85vw] h-full bg-pale-pink border-r-2 border-ink flex flex-col">
-            <div className="p-3 bg-ink text-surface flex items-center justify-between border-b-2 border-ink">
-              <span className="font-mono text-xs font-bold uppercase text-pale-pink">
-                NAVIGATION DU PARCOURS
-              </span>
-              <button
-                type="button"
-                onClick={onClose}
-                aria-label="Fermer le tiroir"
-                className="px-2.5 py-1 bg-surface text-ink font-mono text-xs font-bold uppercase border border-surface rounded-brutal-tag min-h-[36px]"
-              >
-                FERMER [ESC]
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto">
+          <div className="relative z-50 w-80 max-w-[85vw] h-full bg-pale-pink flex flex-col shadow-brutal">
+            <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
               {isInsideCourse ? (
-                <CourseSidebar course={course} onAfterNavigate={onClose} />
+                <CourseSidebar
+                  course={course}
+                  onAfterNavigate={onClose}
+                  mobileCloseButton={drawerCloseButton}
+                />
               ) : (
-                <MainSidebar onAfterNavigate={onClose} />
+                <MainSidebar
+                  onAfterNavigate={onClose}
+                  mobileCloseButton={drawerCloseButton}
+                />
               )}
             </div>
           </div>

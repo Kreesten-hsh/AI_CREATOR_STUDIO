@@ -83,7 +83,8 @@ describe('Blocs Média & Accessibilité (ImageBlock, ScreenshotBlock, DiagramBlo
 
       expect(screen.getByAltText('Capture d écran de l artifact Claude avec tableau interactif')).toBeInTheDocument();
       expect(screen.getByText('Interface de simulation générée dans Claude Artifacts')).toBeInTheDocument();
-      expect(screen.getByText(/Capture d’écran de référence • Interface réelle/i)).toBeInTheDocument();
+      // Suppression du libellé administratif dans la barre supérieure
+      expect(screen.queryByText(/Capture d’écran de référence • Interface réelle/i)).not.toBeInTheDocument();
 
       // Assertion négative obligatoire : la date de capture est masquée du DOM
       expect(screen.queryByText(/Date de capture/i)).toBeNull();

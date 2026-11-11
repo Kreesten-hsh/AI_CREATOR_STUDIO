@@ -55,11 +55,11 @@ export function QuizWidget({ block }: { block: QuizBlock }) {
             {block.title}
           </h3>
           {block.description && (
-            <p className="text-sm text-ink/80 mt-0.5">{block.description}</p>
+            <p className="text-sm text-ink mt-0.5">{block.description}</p>
           )}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <div className="px-3 py-1.5 bg-pale-pink border-2 border-ink rounded-brutal-tag font-mono text-xs font-bold uppercase text-ink">
             SCORE : {savedAttempt.score}/{block.questions.length}
           </div>
@@ -67,7 +67,7 @@ export function QuizWidget({ block }: { block: QuizBlock }) {
             <button
               type="button"
               onClick={handleRetry}
-              className="brutal-btn bg-surface px-3 py-1.5 min-h-[38px] rounded-brutal-btn font-mono text-xs font-bold uppercase inline-flex items-center gap-1.5"
+              className="brutal-btn bg-surface px-3 py-2 min-h-[44px] rounded-brutal-btn font-mono text-xs font-bold uppercase inline-flex items-center gap-1.5"
             >
               <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
               Recommencer

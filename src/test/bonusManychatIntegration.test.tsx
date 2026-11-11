@@ -301,10 +301,14 @@ describe('Bonus 01 : ManyChat Automation System — Intégrité, Pédagogie & UI
       );
 
       // Titre officiel
-      expect(screen.getByText('LE SYSTÈME MANYCHAT AUTOMATISÉ AVEC CLAUDE')).toBeInTheDocument();
-      // Badges
-      expect(screen.getByText('Claude Free + ManyChat Free')).toBeInTheDocument();
-      expect(screen.getByText('0 € de budget pub requis')).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { level: 2, name: /LE SYSTÈME MANYCHAT AUTOMATISÉ AVEC CLAUDE/i })
+      ).toBeInTheDocument();
+      // Badge épuré et suppression des badges superflus
+      expect(screen.getByText('BONUS')).toBeInTheDocument();
+      expect(screen.getAllByText('01').length).toBeGreaterThanOrEqual(1);
+      expect(screen.queryByText('Claude Free + ManyChat Free')).not.toBeInTheDocument();
+      expect(screen.queryByText('0 € de budget pub requis')).not.toBeInTheDocument();
       // Sélecteur des leçons
       expect(screen.getByText('L01')).toBeInTheDocument();
       expect(screen.getByText('L02')).toBeInTheDocument();
@@ -411,8 +415,12 @@ describe('Bonus 01 : ManyChat Automation System — Intégrité, Pédagogie & UI
         </ProgressProvider>
       );
 
-      expect(screen.getByText('MARKETING LIBRARY')).toBeInTheDocument();
-      expect(screen.getByText('9 SKILLS + 1 PROMPT')).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { level: 1, name: /MARKETING library/i })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/9 compétences IA et un prompt de recherche/i)
+      ).toBeInTheDocument();
     });
   });
 

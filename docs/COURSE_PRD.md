@@ -1,7 +1,7 @@
 # PRODUCT REQUIREMENTS DOCUMENT (PRD) CANONIQUE : AI CREATOR STUDIO
 
-> **Version** : 1.2.0-CANONICAL
-> **Statut** : RÉFÉRENCE CANONIQUE OFFICIELLE (POST-MISSION 09)
+> **Version** : 1.3.0-CANONICAL
+> **Statut** : RÉFÉRENCE CANONIQUE OFFICIELLE (POST-MISSION 10)
 > **Date** : Novembre 2026
 > **Auteur** : Senior Product Manager, Software Architect & Learning Experience Designer
 > **Dépôt** : [https://github.com/Kreesten-hsh/AI_CREATOR_STUDIO](https://github.com/Kreesten-hsh/AI_CREATOR_STUDIO)
@@ -18,12 +18,12 @@ Le cursus se positionne comme un **mini-cours guidé**, structuré en **3 module
 À rebours des formations théoriques ou des générateurs d'applications génériques produisant du « slop » IA standardisé, AI CREATOR Studio applique un principe strict d'**adaptation au document réel de l'apprenant** (*Document-First*), une **fidélité absolue aux connaissances sources** (*Source Fidelity*), et une **indépendance esthétique totale** de l'application produite vis-à-vis de la charte graphique de la plateforme formatrice.
 
 Le projet établit une dichotomie technologique explicite entre deux environnements distincts :
-- **La plateforme formatrice AI CREATOR Studio** : application monopage moderne développée en React 19, TypeScript strict, Vite 6, Tailwind CSS, Framer Motion et Lucide React.
+- **La plateforme formatrice AI CREATOR Studio** : application monopage moderne développée en React 19, TypeScript strict, Vite 6, Tailwind CSS, Framer Motion 11, Lucide React et `@lottiefiles/dotlottie-react` (chargé paresseusement en local).
 - **Les applications générées pour les acheteurs finaux** : fichier unique `index.html` strict, HTML5 sémantique, CSS moderne inline (`<style>`), JavaScript Vanilla inline (`<script>`) exécutable sans compilation (*Zero-Build*) ni dépendance externe. Toute utilisation de frameworks (React, Vue) ou de bibliothèques tierces chargées via CDN est formellement proscrite dans la V1.
 
 Le livrable final produit par l'apprenant est un **fichier unique `index.html`**, autonome vis-à-vis de tout processus de build (*Zero-Build*), pensé d'abord pour les écrans mobiles (*Mobile-First*), hébergé sans frais sur Netlify et mis à disposition des clients finaux via Chariow (Guide d'Accès PDF et instructions après achat). La V1 intègre de manière canonique (règle R9) un écran d'accès `.gate` avec mot de passe JavaScript dissuasif dont le code est choisi en Leçon 2 (valeur par défaut `CREATOR2026`). L'état de déverrouillage de l'application est mémorisé localement dans `localStorage` sur le navigateur de l'acheteur. Cette mécanique est purement dissuasive et ne constitue pas une authentification serveur : toute personne détenant l'URL publique peut inspecter le code source côté client. Les architectures backend (serveurs dédiés, bases distantes, fonctions Netlify, webhooks) demeurent strictement hors périmètre de cette version initiale.
 
-Ce document constitue la spécification canonique exhaustive et immuable gouvernant la reconstruction pédagogique, l'ingénierie d'interface et le socle technique de la plateforme post-Mission 09.
+Ce document constitue la spécification canonique exhaustive et immuable gouvernant la reconstruction pédagogique, l'ingénierie d'interface et le socle technique de la plateforme post-Mission 10.
 
 ---
 
@@ -872,21 +872,26 @@ Lors du reset initial du projet (avant la Mission 02), le dépôt présentait un
 > [!NOTE]
 > Cette organisation à 9 jours / 9 leçons a été **intégralement dépréciée, assainie et remplacée** lors de la Mission 02 pour établir le modèle canonique à 3 modules, 3 journées et 7 leçons.
 
-### 16.2. Architecture Technique Réelle Validée (État Actuel Post-MI-01)
+### 16.2. Architecture Technique Réelle Validée (État Actuel Post-Mission 10)
 
 L'audit technique du dépôt au stade actuel établit les faits vérifiables suivants :
-- **Stack Technologique** : React 19, TypeScript strict, Vite 6, Tailwind CSS 3.4, Vitest 2.1.9, Framer Motion, Lucide React.
+- **Stack Technologique** : React 19, TypeScript strict, Vite 6, Tailwind CSS 3.4, Vitest 2.1.8, Framer Motion 11 (`MotionConfig reducedMotion="user"`), Lucide React et `@lottiefiles/dotlottie-react` (bundle paresseux avec WASM et asset `public/animations/confetti.json` auto-hébergés, sans CDN externe).
 - **Modèle Curriculaire Validé** : 3 Modules, 3 Journées et 7 Leçons (répartition 2 + 3 + 2), régi par les types `ModuleId` ('module-01' à 'module-03'), `DayId` ('day-01' à 'day-03') et `LessonId` ('lesson-01' à 'lesson-07').
 - **Contenus Pédagogiques Réels** : Données des leçons entièrement intégrées dans `src/data/days/` (`day-01.ts`, `day-02.ts`, `day-03.ts`) au standard Abigail Peugh.
 - **2 Bonus Pratiques Intégrés et Livrés** :
   - *Bonus 01* : ManyChat Automation System (`src/data/bonuses/bonus-manychat.ts`, 5 leçons complètes, vue dédiée `src/components/bonus/BonusView.tsx`).
   - *Bonus 02* : Marketing Library (`src/data/bonuses/bonus-marketing.ts`, bibliothèque de 9 ressources de Skills marketing avec 2 archives ZIP actuellement téléchargeables, 1 prompt universel de veille concurrentielle, script `scripts/package-marketing-skills.js`, vue dédiée `MarketingLibraryView.tsx`).
+- **Ergonomie, Motion & Navigation UI/UX** :
+  - Tiroir mobile pliable `MobileNavigation` sous `lg` avec croix de fermeture `X` alignée à côté du logo `AI CREATOR studio`, verrouillage du scroll et maintien intact de la sidebar desktop.
+  - Navigation CTA linéaire (`CompletionButton`) permettant d'enchaîner étapes, leçons et journées, sans persister d'état transitoire de modale dans le schéma V4 (`StudentProgress` / `localStorage`).
+  - Célébration éphémère de module (`ModuleCompletionDialog`) déclenchée exclusivement lors de la première transition `incomplet → terminé` d'un module, combinant Lottie paresseux auto-hébergé (repli statique sur erreur), son Web Audio doux (`playSuccessChime`) et désactivation complète des animations/sons sous `prefers-reduced-motion: reduce`.
 - **Nettoyage Intégral** : Routes et types résiduels pour `resources` et `practical-sheets` éliminés ; mention « Mon projet » définitivement bannie du code et des composants.
 - **Santé du Code & Tests Réels (Vérifiés)** :
   - Typage TypeScript strict (`npm run typecheck`) : **0 erreur**.
   - Jalon historique post-Mission 08 : **17 fichiers de test passants sur 17**, **205 tests passants sur 205**.
-  - Nouvelle référence post-MI-01 : **18 fichiers de test passants sur 18**, **223 tests passants sur 223**.
-  - Compilation de production (`npm run build`) : **Succès** sans erreur de compilation.
+  - Jalon historique post-MI-01 (Mission 09) : **18 fichiers de test passants sur 18**, **223 tests passants sur 223**.
+  - Nouvelle référence post-Mission 10 (MI-02) : **19 fichiers de test passants sur 19**, **262 tests passants sur 262**, accompagnée d'une recette Playwright multi-viewport (`320–1280 px`) sans débordement horizontal.
+  - Compilation de production (`npm run build`) : **Succès** sans erreur de compilation (avec chunk paresseux `ConfettiAnimation` et WASM DotLottie auto-hébergé).
 
 ```mermaid
 flowchart TD
@@ -897,15 +902,15 @@ flowchart TD
         P4["13 fichiers de tests / 98 tests"]
     end
 
-    subgraph Present["Architecture Réelle Actuelle (Post-Mission 08)"]
+    subgraph Present["Architecture Réelle Actuelle (Post-Mission 10)"]
         T1["Modèle canonique 3m-3d-7l (2 + 3 + 2)"]
         T2["7 Leçons intégrées dans day-01 à day-03"]
         T3["2 Bonus complets livrés (ManyChat & Marketing)"]
-        T4["Purge complète des routes résiduelles"]
-        T5["17 fichiers de tests / 205 tests passants (100%)"]
+        T4["UI/UX WCAG AA, Motion & Célébrations Lottie/Web Audio"]
+        T5["19 fichiers de tests / 262 tests passants (100%)"]
     end
 
-    Past ==>|Mission 02 à 08 (Livré & Validé)| Present
+    Past ==>|Missions 02 à 10 (Livré & Validé)| Present
 ```
 
 ---
@@ -1102,9 +1107,9 @@ gantt
     Mission 08 - Bonus 02 (Marketing Library & Accélérateurs) :done, m8, after m7, 3d
     section Missions Intermédiaires
     Mission 09 - Contenu, Clarté & Architecture de Livraison :done, m9, after m8, 3d
-    Mission 10 - Affinage UI/UX de AI CREATOR Studio :active, m10, after m9, 3d
+    Mission 10 - Affinage UI/UX de AI CREATOR Studio :done, m10, after m9, 3d
     section Recette & Validation Finale
-    Mission 11 - Harness Simulateur & Validation Humaine :m11, after m10, 3d
+    Mission 11 - Harness Simulateur & Validation Humaine :active, m11, after m10, 3d
 ```
 
 ### Détail des 11 Missions Séquentielles
@@ -1150,12 +1155,10 @@ gantt
   - **Lot B (Refonte Éditoriale & Guide d'Accès Client)** : Refonte des 7 leçons au standard Abigail Peugh (*One Card, One Action*), production du Guide d'Accès Client (source Markdown `docs/guides/GUIDE-ACCES-CLIENT-SOURCE.md` et PDF modèle téléchargeable `public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf`), harmonisation de la Leçon 7 (offre Chariow Files, trame d'instructions post-achat) et modélisation du storyboard de référence.
   - **Lot C (Captures Réelles & Finitions Visuelles)** : Intégration physique de 7 captures d'écran réelles et actuelles des interfaces clés (Claude, Netlify Drop, Chariow), ordonnancement canonique `Prose → Screenshot → Action`, masquage des dates dans l'interface et formalisation du storyboard complet `docs/storyboard/VISUAL-STORYBOARD-L1-L7.md`.
   - **Lot D (Clôture Officielle)** : Alignement documentaire canonique (`docs/COURSE_PRD.md` v1.2.0-CANONICAL, `README.md`), recette technique globale de bout en bout (typings, packaging, PDF, tests, build) et synchronisation du graphe architectural.
-- **Mission 10 (Active — Mission Intermédiaire 02)** : Affinage UI/UX de AI CREATOR Studio :
-  - **Dépendance séquentielle stricte** : Démarre exclusivement après achèvement, validation et stabilisation complète des contenus et parcours de la Mission 09 (aucune exécution en parallèle).
-  - **Audit ergonomique et UX global** : Revue complète de la navigation, de la hiérarchie visuelle, de la densité d'information, de la cohérence des composants et des états de surface (états vides, feedbacks de chargement, confirmations, messages d'erreur).
-  - **Micro-interactions et motion sobre** : Implémentation d'animations intentionnelles et fonctionnelles (transitions de pages et sections, révélation progressive, micro-animations discrètes sur cartes et panneaux, retours tactiles/visuels sur boutons et progression) au service exclusif de la compréhension, dans le respect strict des performances, de l'accessibilité et de `prefers-reduced-motion`.
-  - **Intégrité esthétique néo-brutaliste** : Respect rigoureux du Design System et de la DA éditoriale validés, sans artifice visuel gratuit ni concession sur la rapidité de chargement.
-  - **Validation qualité globale** : Tests responsive approfondis, validation des interactions, audit d'accessibilité WCAG AA, contrôle des performances et comparatif visuel avant/après.
+- **Mission 10 (Terminée — Mission Intermédiaire 02)** : Affinage UI/UX de AI CREATOR Studio :
+  - **Lot 01 (Audit ergonomique, hiérarchie visuelle & responsive)** : Renforcement des contrastes WCAG AA, épurage des cartes (`StepChecklist`, `DayHeader`, `ProseSection`, `HelpPanel`, vues Bonus), vérification multi-viewport sans débordement horizontal de `320 px` à `1280 px`, tiroir mobile fluide `MobileNavigation` avec croix `X` alignée sur le logo `AI CREATOR studio` (maintien intact de la sidebar desktop).
+  - **Lot 02 & Finitions (Motion Design, célébration & navigation linéaire)** : Encadrement global `<MotionConfig reducedMotion="user">` (Framer Motion 11), micro-interactions sobres sur onglets, transitions et boutons, modale éphémère `ModuleCompletionDialog` déclenchée uniquement lors de la première transition `incomplet → terminé` d'un module avec Lottie paresseux auto-hébergé (`@lottiefiles/dotlottie-react`, `public/animations/confetti.json`, repli statique sur erreur), son Web Audio doux (`playSuccessChime`), coupure des animations/sons sous `prefers-reduced-motion: reduce`, et enchaînement linéaire du CTA inférieur (`CompletionButton`) entre étapes, leçons et journées.
+  - **Validation qualité globale** : Typage TypeScript strict (`0` erreur), 19 fichiers / 262 tests Vitest passants, build Vite 6 vérifié avec WASM local et audit Playwright multi-viewport (`320–1280 px`).
 - **Mission 11 (Planifiée — Mission Finale de Validation)** : Implémentation du Harness de Test de l'Agent Simulateur, Recette Automatisée et Validation Humaine :
   - Reprise intégrale du périmètre initialement prévu pour l'ex-Mission 08 (Section 18).
   - Mise en place de l'outil d'évaluation automatisé basé sur les 3 personas de test (Claire — RH, Marc — Consultant PME & Tarification, Sophie — Organisation) spécifiés à la Section 18.
@@ -1195,7 +1198,7 @@ gantt
 5. **Autonomie Technique Absolue** : Fichier unique `index.html`, Zero-Build, JavaScript Vanilla pur exclusif, interdiction formelle de React via CDN et de Tailwind Play CDN en production.
 6. **Sécurité Transparente & Barrière d'Accès Dissuasive** : Modèle d'application web statique publique. Intégration canonique de la barrière dissuasive `.gate` avec mémorisation locale dans `localStorage` sur le navigateur de l'acheteur et bouton « Verrouiller ». Dissociation formelle de la persistance métier (R7). Transparence totale : zéro secret ni clé API dans le HTML, aucune fausse promesse d'authentification serveur forte.
 7. **Pédagogie Anti-Slop** : Approche Document-First, admission des documents de 1 page qualitatifs, Source Fidelity Mapping et direction artistique indépendante choisie par l'apprenant.
-8. **Roadmap Réaliste et Évolutive** : Missions 01 à 09 achevées et validées. Mission 10 dédiée à l'affinage UI/UX, Mission 11 finale dédiée au harness d'évaluation et à la validation cohorte.
+8. **Roadmap Réaliste et Évolutive** : Missions 01 à 10 achevées et validées. Mission 11 finale dédiée au harness d'évaluation et à la validation cohorte.
 9. **Architecture de Livraison Chariow Files** : Parcours canonique via offre Files avec Guide d'Accès Client (source Markdown et modèle PDF) et trame d'instructions post-achat éprouvée.
 10. **Cadrage Multi-Appareils Explicite** : Triple distinction entre compatibilité responsive (375 px), accès multi-terminaux et persistance locale sans synchronisation cloud automatique.
 
@@ -1203,7 +1206,7 @@ gantt
 
 ## 23. STATUT DES ARBITRAGES D'ARCHITECTURE
 
-L'ensemble des décisions d'arbitrage de la V1 (`DEC-ARB-01` à `DEC-ARB-14`) est **intégralement tranché, validé et verrouillé** au terme de la Mission 09.
+L'ensemble des décisions d'arbitrage de la V1 (`DEC-ARB-01` à `DEC-ARB-14`) est **intégralement tranché, validé et verrouillé** au terme des Missions 09 et 10.
 Aucun arbitrage fonctionnel ou technique ne demeure en suspens pour le tronc commun et les bonus de la V1.
 
 ---
@@ -1222,14 +1225,14 @@ Aucun arbitrage fonctionnel ou technique ne demeure en suspens pour le tronc com
 
 ## 25. PROCHAINE MISSION OFFICIELLE
 
-### Mission 10 : Mission Intermédiaire 02 — Affinage UI/UX de AI CREATOR Studio
+### Mission 11 : Harness Simulateur & Validation Humaine
 
-- **Statut** : **Active** (Démarre immédiatement suite à la clôture officielle de la Mission 09).
-- **Objectif** : Perfectionner l'ergonomie, la hiérarchie visuelle, l'accessibilité WCAG AA et les micro-interactions de la plateforme AI CREATOR Studio.
+- **Statut** : **Planifiée** (Démarre suite à la clôture officielle de la Mission 10).
+- **Objectif** : Mettre en œuvre le harness d'évaluation automatisé multi-personas et mener la recette sur cohorte réelle avant lancement.
 - **Périmètre** :
-  1. Audit ergonomique global de la navigation, des états de surface et de la densité d'information.
-  2. Implémentation de micro-interactions et transitions sobres conformes à `prefers-reduced-motion`.
-  3. Contrôle rigoureux des performances et de l'accessibilité sur desktop et mobile.
+  1. Exécution du simulateur d'apprenant sur les 3 personas de test (Claire, Marc, Sophie) avec journalisation des frictions par leçon.
+  2. Validation automatisée Playwright/Vitest du rendu mobile (`375 px`), des parcours de génération et de l'accessibilité WCAG AA.
+  3. Campagne de validation humaine auprès d'une cohorte de 5 créateurs réels.
 
 ---
 

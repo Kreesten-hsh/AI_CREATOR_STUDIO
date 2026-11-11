@@ -43,7 +43,7 @@ export function CourseLayout({ course, children }: CourseLayoutProps) {
         </main>
 
         {/* Pied de page sobre */}
-        <footer className="mt-12 border-t-2 border-ink bg-surface px-4 md:px-8 py-4 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-ink/75">
+        <footer className="mt-12 border-t-2 border-ink bg-surface px-4 md:px-8 py-4 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-ink">
           <span>AI CREATOR Studio : Parcours de formation interactif</span>
           <span>Expériences interactives &amp; automatisations</span>
         </footer>

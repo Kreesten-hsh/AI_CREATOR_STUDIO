@@ -42,14 +42,14 @@ export function TextExercise({ block }: { block: TextExerciseBlock }) {
               Enregistré automatiquement
             </span>
           ) : (
-            <span className="px-2.5 py-1 bg-cream border-2 border-ink rounded-brutal-tag font-mono text-xs uppercase text-ink/70">
+            <span className="px-2.5 py-1 bg-cream border-2 border-ink rounded-brutal-tag font-mono text-xs uppercase text-ink font-medium">
               En attente de saisie
             </span>
           )}
         </div>
       </div>
 
-      <p className="text-sm md:text-base text-ink/85 leading-relaxed">{block.instructions}</p>
+      <p className="text-sm md:text-base text-ink leading-relaxed">{block.instructions}</p>
 
       <div>
         <label
@@ -66,9 +66,9 @@ export function TextExercise({ block }: { block: TextExerciseBlock }) {
           value={currentAnswer}
           onChange={(e) => handleMainChange(e.target.value)}
           placeholder={block.placeholder}
-          className="w-full p-3.5 bg-cream border-2 border-ink rounded-brutal-btn font-sans text-sm md:text-base text-ink placeholder:text-ink/45 focus:bg-surface leading-relaxed"
+          className="w-full p-3.5 bg-cream border-2 border-ink rounded-brutal-btn font-sans text-sm md:text-base text-ink placeholder:text-ink/60 focus:bg-surface leading-relaxed"
         />
-        <div className="flex items-center justify-between mt-1.5 font-mono text-xs text-ink/70">
+        <div className="flex items-center justify-between mt-1.5 font-mono text-xs text-ink font-medium">
           <span>
             {block.profileBinding
               ? `Synchronisé avec : {{${block.profileBinding}}}`
@@ -99,7 +99,7 @@ export function TextExercise({ block }: { block: TextExerciseBlock }) {
                   value={val}
                   onChange={(e) => updateProfileField(field.key, e.target.value)}
                   placeholder={field.placeholder}
-                  className="px-3.5 py-2.5 bg-cream border-2 border-ink rounded-brutal-btn text-sm text-ink placeholder:text-ink/45 focus:bg-surface min-h-[44px]"
+                  className="px-3.5 py-2.5 bg-cream border-2 border-ink rounded-brutal-btn text-sm text-ink placeholder:text-ink/60 focus:bg-surface min-h-[44px]"
                 />
               </div>
             );

@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type {
   Lesson,
   LessonId,
@@ -45,9 +45,20 @@ function resolveLessonEntity(lessonIdOrNumber: string | number): Lesson | undefi
   return getLessonById(lessonIdOrNumber);
 }
 
+export interface ModuleCompletionEvent {
+  id: number;
+  moduleId: string;
+}
+
+export interface CompleteStepResult {
+  triggeredModuleCompletion: boolean;
+}
+
 export interface ProgressContextValue {
   state: StudentProgress;
   globalProgress: GlobalProgressResult;
+  moduleCompletionEvent: ModuleCompletionEvent | null;
+  dismissModuleCompletion: () => void;
   getLessonProgress: (lessonIdOrNumber: string | number) => LessonProgressResult;
   getDayProgress: (dayNumberOrId: number | string) => DayProgressResult;
   getModuleProgress: (moduleId: string) => ModuleProgressResult;
@@ -63,7 +74,7 @@ export interface ProgressContextValue {
     stepId: string,
     advanceToNext?: boolean,
     explicitNextStepId?: string
-  ) => void;
+  ) => CompleteStepResult;
   updateProfileField: (key: ProfileVariableKey, value: string) => void;
   updateCustomVariable: (key: string, value: string) => void;
   updateVibeSelection: (vibe: VibeSelection, brandStyleSummary: string) => void;
@@ -81,8 +92,13 @@ export const ProgressContext = createContext<ProgressContextValue | null>(null);
 
 export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<StudentProgress>(() => loadProgressFromStorage());
+  const [moduleCompletionEvent, setModuleCompletionEvent] =
+    useState<ModuleCompletionEvent | null>(null);
+  const completedStepsRef = useRef<Record<string, string[]>>(state.completedStepIdsByLesson);
+  const eventCounterRef = useRef(0);
 
   useEffect(() => {
+    completedStepsRef.current = state.completedStepIdsByLesson;
     saveProgressToStorage(state);
   }, [state]);
 
@@ -270,13 +286,47 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     []
   );
 
+  const dismissModuleCompletion = useCallback(() => {
+    setModuleCompletionEvent(null);
+  }, []);
+
   const completeStep = useCallback(
     (
       lessonIdOrNumber: string | number,
       stepId: string,
       advanceToNext = true,
       explicitNextStepId?: string
-    ) => {
+    ): CompleteStepResult => {
+      let triggeredModuleCompletion = false;
+      const targetLesson = resolveLessonEntity(lessonIdOrNumber);
+      if (targetLesson) {
+        const currentCompletedMap = completedStepsRef.current;
+        const existingLessonSteps = currentCompletedMap[targetLesson.id] ?? [];
+
+        if (!existingLessonSteps.includes(stepId)) {
+          const updatedLessonSteps = normalizeStepIdList([...existingLessonSteps, stepId]);
+          const nextCompletedMap: Record<string, string[]> = {
+            ...currentCompletedMap,
+            [targetLesson.id]: updatedLessonSteps,
+          };
+          completedStepsRef.current = nextCompletedMap;
+
+          for (const mod of COURSE_MODULES) {
+            const before = calculateModuleProgress(mod, ALL_DAYS, currentCompletedMap);
+            const after = calculateModuleProgress(mod, ALL_DAYS, nextCompletedMap);
+            if (!before.isCompleted && after.isCompleted) {
+              eventCounterRef.current += 1;
+              triggeredModuleCompletion = true;
+              setModuleCompletionEvent({
+                id: eventCounterRef.current,
+                moduleId: mod.id,
+              });
+              break;
+            }
+          }
+        }
+      }
+
       setState((prev) => {
         const lesson = resolveLessonEntity(lessonIdOrNumber);
         if (!lesson) return prev;
@@ -309,6 +359,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
           lastUpdated: new Date().toISOString(),
         };
       });
+
+      return { triggeredModuleCompletion };
     },
     []
   );
@@ -458,12 +510,16 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     if (!imported) {
       return false;
     }
+    completedStepsRef.current = imported.completedStepIdsByLesson;
+    setModuleCompletionEvent(null);
     setState(imported);
     return true;
   }, []);
 
   const resetAllProgress = useCallback(() => {
     const fresh = createInitialProgress();
+    completedStepsRef.current = fresh.completedStepIdsByLesson;
+    setModuleCompletionEvent(null);
     setState(fresh);
   }, []);
 
@@ -471,6 +527,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     () => ({
       state,
       globalProgress,
+      moduleCompletionEvent,
+      dismissModuleCompletion,
       getLessonProgress,
       getDayProgress,
       getModuleProgress,
@@ -497,6 +555,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [
       state,
       globalProgress,
+      moduleCompletionEvent,
+      dismissModuleCompletion,
       getLessonProgress,
       getDayProgress,
       getModuleProgress,

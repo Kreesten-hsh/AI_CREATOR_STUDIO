@@ -15,7 +15,7 @@ export function DiagramBlock({ block }: { block: DiagramBlockConfig }) {
           <AlertTriangle className="w-4 h-4 shrink-0" aria-hidden="true" />
           <span>Erreur d’accessibilité : Description textuelle accessible obligatoire manquante</span>
         </div>
-        <p className="text-xs text-ink/80">
+        <p className="text-xs text-ink">
           Un schéma ou diagramme interactif doit impérativement fournir une alternative textuelle structurée (accessibleDescription).
         </p>
       </div>
@@ -23,14 +23,16 @@ export function DiagramBlock({ block }: { block: DiagramBlockConfig }) {
   }
 
   const { kind, nodes, links } = block.data;
+  const descriptionId = `diagram-desc-${block.id}`;
 
   return (
     <figure
-      className="brutal-card rounded-brutal-card overflow-hidden bg-surface space-y-0"
+      className="brutal-card rounded-brutal-card overflow-hidden bg-surface border-2 border-ink shadow-brutal space-y-0"
       aria-label={block.title || 'Schéma explicatif'}
+      aria-describedby={descriptionId}
     >
-      {/* En-tête du diagramme */}
-      <div className="px-5 py-3.5 bg-cream border-b-2 border-ink flex flex-wrap items-center justify-between gap-2">
+      {/* En-tête sobre du diagramme sans faux badge */}
+      <div className="px-5 py-3.5 bg-cream border-b-2 border-ink flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           {kind === 'steps' ? (
             <GitCommit className="w-4 h-4 text-primary-red" aria-hidden="true" />
@@ -43,9 +45,6 @@ export function DiagramBlock({ block }: { block: DiagramBlockConfig }) {
             {block.title || `Schéma conceptuel (${kind})`}
           </span>
         </div>
-        <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 bg-pale-pink border border-ink rounded-brutal-tag text-ink">
-          {nodes.length} NŒUDS CLÉS
-        </span>
       </div>
 
       {/* Rendu visuel accessible piloté par les données */}
@@ -63,7 +62,7 @@ export function DiagramBlock({ block }: { block: DiagramBlockConfig }) {
                   </span>
                   <div>
                     <h5 className="font-display text-sm uppercase text-ink font-bold">{node.label}</h5>
-                    {node.description && <p className="text-xs text-ink/80 mt-0.5">{node.description}</p>}
+                    {node.description && <p className="text-xs text-ink mt-0.5">{node.description}</p>}
                   </div>
                 </div>
                 {node.tag && (
@@ -77,39 +76,49 @@ export function DiagramBlock({ block }: { block: DiagramBlockConfig }) {
         )}
 
         {kind === 'flow' && (
-          <div className="space-y-4" aria-label="Flux logique entre les composants">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              {nodes.map((node) => (
-                <div
-                  key={node.id}
-                  className="p-4 border-2 border-ink rounded-brutal-card bg-cream shadow-brutal-xs flex flex-col justify-between"
-                >
-                  <div>
-                    {node.tag && (
-                      <span className="font-mono text-[10px] font-bold uppercase text-primary-red block mb-1">
-                        {node.tag}
-                      </span>
-                    )}
-                    <h5 className="font-display text-sm uppercase text-ink font-bold">{node.label}</h5>
-                    {node.description && <p className="text-xs text-ink/80 mt-1">{node.description}</p>}
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="space-y-4" aria-label="Flux séquentiel du parcours">
+            <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 list-none p-0 m-0">
+              {nodes.map((node, idx) => {
+                const stepNum = String(idx + 1).padStart(2, '0');
+                const nextLink = links && links[idx];
+                const displayLabel = node.label.replace(/^\d+\.\s*/, '');
 
-            {links && links.length > 0 && (
-              <div className="p-3 bg-pale-pink/50 border border-ink/40 rounded text-xs font-mono space-y-1">
-                <span className="font-bold uppercase text-ink/75 block mb-1">Relations et transitions :</span>
-                {links.map((link, idx) => (
-                  <div key={idx} className="flex items-center gap-1.5 text-ink/90">
-                    <span className="font-bold">{link.from}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-primary-red shrink-0" aria-hidden="true" />
-                    <span className="font-bold">{link.to}</span>
-                    {link.label && <span className="text-ink/70">({link.label})</span>}
-                  </div>
-                ))}
-              </div>
-            )}
+                return (
+                  <li
+                    key={node.id}
+                    className="p-4 border-2 border-ink rounded-brutal-card bg-cream shadow-brutal-xs flex flex-col justify-between space-y-2.5"
+                  >
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between gap-1.5">
+                        <span className="w-6 h-6 rounded-full bg-primary-red text-surface font-mono text-xs font-bold flex items-center justify-center shrink-0 shadow-brutal-xs">
+                          {stepNum}
+                        </span>
+                        {node.tag && (
+                          <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 bg-pale-pink border border-ink rounded-full text-ink shrink-0">
+                            {node.tag}
+                          </span>
+                        )}
+                      </div>
+                      <h5 className="font-display text-sm uppercase text-ink font-bold leading-tight">
+                        {displayLabel}
+                      </h5>
+                      {node.description && (
+                        <p className="text-xs text-ink leading-relaxed font-sans">
+                          {node.description}
+                        </p>
+                      )}
+                    </div>
+
+                    {nextLink && (
+                      <div className="pt-2 border-t border-ink/20 flex items-start gap-1.5 text-[11px] font-mono text-primary-red font-semibold">
+                        <ArrowRight className="w-3.5 h-3.5 shrink-0 mt-0.5" aria-hidden="true" />
+                        <span className="leading-snug break-words">{nextLink.label}</span>
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
           </div>
         )}
 
@@ -126,15 +135,18 @@ export function DiagramBlock({ block }: { block: DiagramBlockConfig }) {
                   </span>
                 )}
                 <h5 className="font-display text-sm uppercase text-ink font-bold">{node.label}</h5>
-                {node.description && <p className="text-xs text-ink/80 leading-relaxed">{node.description}</p>}
+                {node.description && <p className="text-xs text-ink leading-relaxed">{node.description}</p>}
               </div>
             ))}
           </div>
         )}
       </div>
 
-      {/* Description textuelle accessible obligatoire pour lecteurs d'écran */}
-      <figcaption className="p-4 bg-cream border-t-2 border-ink text-xs text-ink/85 leading-relaxed">
+      {/* Description textuelle accessible reliée via aria-describedby */}
+      <figcaption
+        id={descriptionId}
+        className={kind === 'flow' ? 'sr-only' : 'p-4 bg-cream border-t-2 border-ink text-xs text-ink leading-relaxed'}
+      >
         <strong className="font-mono font-bold uppercase block text-ink mb-1">
           Transcription accessible du schéma :
         </strong>

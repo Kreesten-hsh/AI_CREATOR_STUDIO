@@ -26,9 +26,9 @@ export function MarketingFilterBar({
       {/* Barre de recherche */}
       <div className="relative">
         <label htmlFor="marketing-search-input" className="sr-only">
-          Rechercher une ressource ou un skill
+          Rechercher une compétence ou un besoin
         </label>
-        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-ink/60">
+        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-ink">
           <Search className="w-4 h-4 stroke-[2.5]" aria-hidden="true" />
         </div>
         <input
@@ -36,15 +36,15 @@ export function MarketingFilterBar({
           type="text"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Rechercher par mot-clé, problème, nom technique (ex: pricing, bio, story)..."
-          className="w-full pl-10 pr-10 py-2.5 bg-cream border-2 border-ink rounded-brutal-btn font-serif text-sm text-ink placeholder:text-ink/50 focus:outline-none focus:bg-surface focus:shadow-brutal-xs transition-all"
+          placeholder="Rechercher une compétence ou un besoin..."
+          className="w-full pl-10 pr-10 py-2.5 bg-cream border-2 border-ink rounded-brutal-btn font-serif text-sm text-ink placeholder:text-ink/65 focus:outline-none focus:bg-surface focus:shadow-brutal-xs transition-all min-h-[44px]"
         />
         {searchQuery && (
           <button
             type="button"
             onClick={() => onSearchChange('')}
             aria-label="Effacer la recherche"
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-ink/60 hover:text-primary-red"
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-ink hover:text-primary-red min-w-[44px] min-h-[44px] justify-center"
           >
             <X className="w-4 h-4 stroke-[2.5]" aria-hidden="true" />
           </button>
@@ -66,7 +66,7 @@ export function MarketingFilterBar({
                 type="button"
                 aria-pressed={isSelected}
                 onClick={() => onCategoryChange(cat.id)}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-xs font-bold uppercase transition-all border-2 border-ink rounded-brutal-tag ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-xs font-bold uppercase transition-all border-2 border-ink rounded-full min-h-[44px] ${
                   isSelected
                     ? 'bg-primary-red text-surface shadow-brutal-xs -translate-y-0.5'
                     : 'bg-cream text-ink hover:bg-surface'
@@ -87,7 +87,7 @@ export function MarketingFilterBar({
           })}
         </div>
 
-        <div className="font-mono text-xs text-ink/70">
+        <div className="font-mono text-xs text-ink font-medium">
           <span className="font-bold text-ink">{totalResults}</span> ressource{totalResults > 1 ? 's' : ''} trouvée{totalResults > 1 ? 's' : ''}
         </div>
       </div>

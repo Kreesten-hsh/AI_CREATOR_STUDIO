@@ -63,7 +63,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
               <h1 className="font-display text-xl sm:text-2xl uppercase tracking-tight text-ink">
                 Une erreur inattendue est survenue dans l&apos;interface.
               </h1>
-              <p className="font-serif text-sm text-ink/80 leading-relaxed">
+              <p className="font-serif text-sm text-ink leading-relaxed">
                 Votre progression enregistrée sur cet appareil est préservée. Vous pouvez recharger
                 l&apos;espace de formation pour reprendre votre parcours.
               </p>

@@ -15,7 +15,7 @@ export function ImageBlock({ block }: { block: ImageBlockConfig }) {
           <AlertTriangle className="w-4 h-4 shrink-0" aria-hidden="true" />
           <span>Erreur d’accessibilité : Texte alternatif (alt) obligatoire manquant</span>
         </div>
-        <p className="text-xs text-ink/80">
+        <p className="text-xs text-ink">
           Chaque visuel doit obligatoirement comporter un attribut alt explicite pour être intelligible par les technologies d’assistance.
         </p>
       </div>
@@ -37,7 +37,7 @@ export function ImageBlock({ block }: { block: ImageBlockConfig }) {
       </div>
 
       {block.caption && (
-        <figcaption className="p-3 bg-surface border-t border-ink/20 flex items-center gap-2 font-mono text-xs text-ink/80 italic">
+        <figcaption className="p-3 bg-surface border-t border-ink/20 flex items-center gap-2 font-mono text-xs text-ink italic">
           <ImageIcon className="w-3.5 h-3.5 text-primary-red shrink-0" aria-hidden="true" />
           <span>{block.caption}</span>
         </figcaption>

@@ -32,14 +32,17 @@ describe('Intégration du Bonus 02 : Marketing Library', () => {
     it('affiche le header officiel du Bonus 02 et les badges de contexte sobres', () => {
       renderBonusMarketing();
 
-      expect(screen.getByText('MARKETING LIBRARY')).toBeInTheDocument();
-      expect(screen.getByText('9 SKILLS + 1 PROMPT')).toBeInTheDocument();
       expect(
-        screen.getByText('Usage textuel direct • Importation selon plateforme')
+        screen.getByRole('heading', { level: 1, name: /MARKETING library/i })
       ).toBeInTheDocument();
+      expect(screen.getByText('BONUS')).toBeInTheDocument();
+      expect(screen.getAllByText('02').length).toBeGreaterThanOrEqual(1);
       expect(
-        screen.getByText(/Scénario pédagogique fictif : Pack Freelance/i)
-      ).toBeInTheDocument();
+        screen.queryByText('Usage textuel direct • Importation selon plateforme')
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByText(/Scénario pédagogique fictif : Pack Freelance/i)
+      ).not.toBeInTheDocument();
     });
 
     it('affiche les compteurs de catégories exacts (Stratégie & Psychologie = 4, Total = 10)', () => {
@@ -61,7 +64,6 @@ describe('Intégration du Bonus 02 : Marketing Library', () => {
 
       for (const skill of BONUS_MARKETING_DATA.skills) {
         expect(screen.getByText(skill.title)).toBeInTheDocument();
-        expect(screen.getByText(skill.technicalName)).toBeInTheDocument();
       }
 
       // Exactement 9 compétences
@@ -76,10 +78,10 @@ describe('Intégration du Bonus 02 : Marketing Library', () => {
       ).toBeInTheDocument();
       expect(screen.getByText('PROMPT UNIVERSEL PRÊT À L’EMPLOI')).toBeInTheDocument();
 
-      // Règle d'or rigoureuse
+      // Règle d'or rigoureuse condensée
       expect(
         screen.getByText(
-          'Sources Web réelles, informations vérifiables et hypothèses clairement séparées.'
+          'Sources vérifiables. Faits et hypothèses clairement séparés.'
         )
       ).toBeInTheDocument();
 
@@ -91,9 +93,8 @@ describe('Intégration du Bonus 02 : Marketing Library', () => {
       renderBonusMarketing();
 
       expect(screen.getByText('Bibliothèque de ressources Novitckii')).toBeInTheDocument();
-      expect(screen.getByText('Ressource externe')).toBeInTheDocument();
       expect(
-        screen.getByText(/Veille indépendante non auditée par AI CREATOR STUDIO/i)
+        screen.getByText(/Ressource externe indépendante, non auditée par AI CREATOR Studio/i)
       ).toBeInTheDocument();
 
       const novitckiiLink = screen.getByRole('link', {
@@ -145,7 +146,7 @@ describe('Intégration du Bonus 02 : Marketing Library', () => {
     it('filtre les ressources par recherche textuelle en direct', () => {
       renderBonusMarketing();
 
-      const searchInput = screen.getByPlaceholderText(/Rechercher par mot-clé/i);
+      const searchInput = screen.getByPlaceholderText(/Rechercher une compétence ou un besoin/i);
       fireEvent.change(searchInput, { target: { value: 'pricing' } });
 
       expect(
@@ -159,7 +160,7 @@ describe('Intégration du Bonus 02 : Marketing Library', () => {
     it('affiche un état vide soigné lorsque la recherche ne donne aucun résultat et permet la réinitialisation', () => {
       renderBonusMarketing();
 
-      const searchInput = screen.getByPlaceholderText(/Rechercher par mot-clé/i);
+      const searchInput = screen.getByPlaceholderText(/Rechercher une compétence ou un besoin/i);
       fireEvent.change(searchInput, { target: { value: 'mot-cle-inexistant-xyz' } });
 
       expect(
@@ -185,18 +186,19 @@ describe('Intégration du Bonus 02 : Marketing Library', () => {
       const modal = screen.getByRole('dialog');
       expect(modal).toBeInTheDocument();
 
-      // Titre et sections
+      // Titre et sections épurées
       expect(
         screen.getAllByText('Comprendre la Psychologie d’Achat & Biais Cognitifs').length
       ).toBeGreaterThanOrEqual(1);
-      expect(screen.getByText('Problème concret résolu')).toBeInTheDocument();
-      expect(screen.getByText('Quand utiliser ce Skill ?')).toBeInTheDocument();
+      expect(screen.getByText('Problème résolu')).toBeInTheDocument();
+      expect(screen.getByText("Quand l'utiliser")).toBeInTheDocument();
+      expect(screen.getByText('Exemple fictif')).toBeInTheDocument();
       expect(
         screen.getByText(/Scénario pédagogique fictif : Pack « Freelance Prospector »/i)
       ).toBeInTheDocument();
 
-      // Téléchargement indisponible pour droits non établis
-      expect(screen.getByText(/Statut de distribution/i)).toBeInTheDocument();
+      // Téléchargement indisponible avec statut sobre
+      expect(screen.getByText('Prompt direct · Archive non distribuée.')).toBeInTheDocument();
       expect(
         screen.getByText(/Téléchargement de l’archive ZIP indisponible/i)
       ).toBeInTheDocument();
@@ -209,7 +211,7 @@ describe('Intégration du Bonus 02 : Marketing Library', () => {
       renderBonusMarketing();
 
       // Filtrer sur humanizer
-      const searchInput = screen.getByPlaceholderText(/Rechercher par mot-clé/i);
+      const searchInput = screen.getByPlaceholderText(/Rechercher une compétence ou un besoin/i);
       fireEvent.change(searchInput, { target: { value: 'humanizer' } });
 
       const openBtn = screen.getByRole('button', { name: /Consulter la fiche/i });
@@ -293,6 +295,29 @@ describe('Intégration du Bonus 02 : Marketing Library', () => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
+    it('n’affiche plus le pied de modale redondant et se ferme uniquement via la croix', () => {
+      renderBonusMarketing();
+
+      // Clic direct sur la carte (pas uniquement le bouton)
+      const firstCard = screen.getByRole('article', {
+        name: /Ressource : Comprendre la Psychologie d’Achat & Biais Cognitifs/i,
+      });
+      fireEvent.click(firstCard);
+
+      const modal = screen.getByRole('dialog');
+      expect(modal).toBeInTheDocument();
+
+      // Aucune mention ni bouton de pied de modale
+      expect(screen.queryByText(/AI CREATOR STUDIO • BONUS 02/i)).not.toBeInTheDocument();
+
+      // Un seul bouton de fermeture (la croix supérieure)
+      const closeButtons = screen.getAllByRole('button', { name: /Fermer la fiche/i });
+      expect(closeButtons).toHaveLength(1);
+
+      fireEvent.click(closeButtons[0]);
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+
     it('intercepte Tab dans la modale pour former un focus trap', () => {
       renderBonusMarketing();
 
@@ -318,7 +343,7 @@ describe('Intégration du Bonus 02 : Marketing Library', () => {
     it('affiche la consigne spécifique pour pricing et antislop', () => {
       renderBonusMarketing();
 
-      const searchInput = screen.getByPlaceholderText(/Rechercher par mot-clé/i);
+      const searchInput = screen.getByPlaceholderText(/Rechercher une compétence ou un besoin/i);
       fireEvent.change(searchInput, { target: { value: 'pricing' } });
 
       const openBtn = screen.getByRole('button', { name: /Consulter la fiche/i });

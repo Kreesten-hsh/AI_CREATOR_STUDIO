@@ -27,6 +27,12 @@ export function CourseHero() {
 
   const nextStep = getNextStepInfo();
 
+  const highlightPhrase = "de la merde générée par l'IA";
+  const hasHighlight = COURSE_TITLE.includes(highlightPhrase);
+  const titlePrefix = hasHighlight
+    ? COURSE_TITLE.replace(highlightPhrase, '').trimEnd()
+    : COURSE_TITLE;
+
   return (
     <section
       aria-label="Présentation de la formation"
@@ -39,20 +45,40 @@ export function CourseHero() {
       <div className="p-6 sm:p-7 md:p-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="flex-1 min-w-0 space-y-4">
-            {/* Tag MINI-COURS GUIDÉ */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-block px-2.5 py-0.5 bg-surface text-ink border border-ink rounded-brutal-tag font-mono text-[11px] font-bold uppercase shadow-brutal-xs">
-                MINI-COURS GUIDÉ : 3 MODULES • 3 JOURS • 7 LEÇONS • 2 BONUS
+            {/* Tag MINI-COURS sobre style Abigail */}
+            <div>
+              <span className="inline-block px-3 py-0.5 bg-surface text-ink border border-ink rounded-full font-mono text-[10px] font-bold uppercase shadow-brutal-xs">
+                MINI-COURS
               </span>
             </div>
 
-            {/* Titre officiel en casse normale lisible dès 375px */}
+            {/* Titre officiel avec accentuation serif crème et filet ondulé organique */}
             <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight tracking-tight text-surface">
-              {COURSE_TITLE}
+              {titlePrefix}{' '}
+              {hasHighlight && (
+                <span className="relative inline-block font-serif italic font-normal text-cream">
+                  {highlightPhrase}
+                  <svg
+                    className="absolute -bottom-1.5 left-0 w-full h-2 text-pale-pink overflow-visible pointer-events-none"
+                    viewBox="0 0 100 8"
+                    fill="none"
+                    preserveAspectRatio="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M0 4 Q 12.5 0, 25 4 T 50 4 T 75 4 T 100 4"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </span>
+              )}
             </h2>
 
             {/* Sous-titre officiel */}
-            <p className="text-sm sm:text-base text-surface/90 font-serif leading-relaxed max-w-2xl">
+            <p className="text-sm sm:text-base text-surface font-serif leading-relaxed max-w-2xl">
               {COURSE_SUBTITLE}
             </p>
 

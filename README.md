@@ -44,9 +44,9 @@ L'application adopte une esthétique **Néo-Brutaliste Éditoriale** :
 ## 3. Architecture Technique et Commandes
 
 Le projet établit une dichotomie stricte entre la plateforme et les applications livrées :
-- **Plateforme formatrice AI CREATOR Studio** : React 19, TypeScript strict, Vite 6, Tailwind CSS, Framer Motion, Lucide React.
+- **Plateforme formatrice AI CREATOR Studio** : React 19, TypeScript strict, Vite 6, Tailwind CSS, Framer Motion 11, Lucide React, `@lottiefiles/dotlottie-react`.
 - **Applications générées pour les acheteurs finaux** : Fichier unique `index.html`, Zero-Build, HTML5 sémantique, CSS moderne inline (`<style>`), JavaScript Vanilla pur inline (`<script>`). Interdiction totale de React, Vue ou de bibliothèques tierces chargées via CDN.
-- **Suite de tests automatisés** : Vitest + Testing Library (**18 fichiers de tests, 223 tests passants**, vérifiés en novembre 2026).
+- **Suite de tests automatisés** : Vitest + Testing Library (**19 fichiers de tests, 262 tests passants**, typage TypeScript strict et recette Playwright multi-viewport vérifiés en novembre 2026).
 
 ### Installation des dépendances
 
@@ -83,7 +83,7 @@ npm run generate:guide-pdf
 
 ## 4. Documentation Technique et Ressources
 
-- [`docs/COURSE_PRD.md`](docs/COURSE_PRD.md) : Document de référence canonique (PRD v1.2.0-CANONICAL) pour l'architecture pédagogique, la roadmap et les spécifications techniques.
+- [`docs/COURSE_PRD.md`](docs/COURSE_PRD.md) : Document de référence canonique (PRD v1.3.0-CANONICAL) pour l'architecture pédagogique, la roadmap et les spécifications techniques.
 - [`docs/ai-creator-design-intelligence/SKILL.md`](docs/ai-creator-design-intelligence/SKILL.md) : Fichier maître du Skill autonome pour Claude Free (avec son [dossier de références](docs/ai-creator-design-intelligence/)).
 - [`public/downloads/AI-CREATOR-DESIGN-INTELLIGENCE.zip`](public/downloads/AI-CREATOR-DESIGN-INTELLIGENCE.zip) : Archive ZIP téléchargeable du Skill Claude autonome.
 - [`docs/prompts/`](docs/prompts/) : Les deux prompts maîtres du parcours standard (Entretien de direction artistique v2.3 et Génération du produit HTML v2.1).
@@ -111,5 +111,5 @@ Le pilotage du projet s'articule en **11 missions ordonnées** respectant les d�
 | **Mission 07** | Bonus 01 : ManyChat Automation System | **Terminée** | Système d'automatisation conversationnelle Claude Free + ManyChat (FB Messenger, qualification sans Tags, conformité Meta 24h & Free 4 automatisations). |
 | **Mission 08** | Bonus 02 : Marketing Library | **Terminée** | Bibliothèque de 9 ressources de Skills marketing (dont 2 archives ZIP téléchargeables et 7 fiches avec prompts prêts à l'emploi), prompt universel de recherche concurrentielle et modal interactive. |
 | **Mission 09** | Mission Intermédiaire 01 : Contenu & Livraison | **Terminée** | Lot A (Prompts v2 & Skill v2), Lot B (Refonte 7 leçons & Guide d'Accès PDF), Lot C (7 captures réelles & Storyboard), Lot D (Alignement PRD/README & recette globale). |
-| **Mission 10** | Mission Intermédiaire 02 : Affinage UI/UX | **Active** | Audit ergonomique, hiérarchie visuelle, micro-interactions sobres, conformité responsive et accessibilité WCAG AA. |
+| **Mission 10** | Mission Intermédiaire 02 : Affinage UI/UX | **Terminée** | Lot 01 (audit ergonomique, contraste WCAG AA, hiérarchie visuelle et responsive 320–1280 px) & Lot 02 (Motion Design Framer Motion 11, célébration éphémère Lottie paresseuse et son Web Audio, navigation CTA linéaire inter-journées, tiroir mobile à croix inline et support `prefers-reduced-motion`). |
 | **Mission 11** | Harness Simulateur & Validation Humaine | **Mission Finale** | Harness d'évaluation automatisé (3 personas Claire, Marc, Sophie), tests Playwright/Vitest et recette cohorte réelle (5 créateurs). |

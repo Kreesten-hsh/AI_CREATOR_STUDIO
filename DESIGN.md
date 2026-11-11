@@ -53,14 +53,18 @@ Les couleurs canoniques de l'application sont définies dans `tailwind.config.js
   - Boutons : `6px` (`rounded-brutal-btn`)
   - Tags / Badges : `4px` (`rounded-brutal-tag`)
 - **Structure de navigation** :
-  - **Accueil** (`CourseHomePage` : `CourseHero`)
-  - **3 Modules** (Navigation latérale desktop et tiroir mobile fluide : `CHOISIR`, `CRÉER`, `PUBLIER ET LIVRER`)
-  - **7 Leçons** (Ouverture avec en-tête `DayHeader` et conteneur responsive)
-  - **2 Bonus** (`BonusView`)
+  - **Accueil** (`CourseHomePage` : `CourseHero` avec `CourseProgressCircle`)
+  - **3 Modules** (Sidebar persistante desktop `MainSidebar` / `CourseSidebar` en `lg+`, et tiroir mobile fluide `MobileNavigation` sous `lg` avec croix de fermeture `X` alignée à côté du logo `AI CREATOR studio`, gestion du focus et verrouillage du scroll : `CHOISIR`, `CRÉER`, `PUBLIER ET LIVRER`)
+  - **7 Leçons** (En-tête `DayHeader`, onglets `StepTabs`, conteneur responsive sans débordement dès `320 px` et bouton d'action linéaire `CompletionButton` permettant d'enchaîner les étapes, les leçons et les journées)
+  - **2 Bonus** (`BonusView` & `MarketingLibraryView`)
 
 ---
 
 ## 6. Mouvement et Retours Visuels
 
-- **États de pression** : Les boutons et cartes interactives utilisent un effet tactile brutaliste (`active:translate-x-[2px] active:translate-y-[2px] active:shadow-none`).
-- **Transitions** : Transitions fluides (120ms à 200ms) pour les survols et le scroll de page.
+- **Configuration globale** : Animations pilotées par Framer Motion 11 et encadrées par `<MotionConfig reducedMotion="user">` dans `src/app/App.tsx`.
+- **États de pression** : Les boutons et cartes interactives utilisent un effet tactile brutaliste (`active:translate-x-[2px] active:translate-y-[2px] active:shadow-none`) avec cibles tactiles conformes (≥ 44 px).
+- **Transitions et micro-interactions** : Transitions de vues et de panneaux d'étapes sobres (`180 ms`, translation verticale `6 px`), coche animée dans `StepTabs`, micro-retour sur `CompletionButton` et remontée fluide en haut de page entre étapes et leçons.
+- **Modale de célébration (`ModuleCompletionDialog`)** : Affichée de façon strictement éphémère lors de la première transition `incomplet → terminé` d'un module (jamais persistée dans `StudentProgress` V4 / `localStorage`), avec un CTA principal unique (`Continuer` pour les Modules 01–02, `Accueil` pour le Module 03) et une croix de fermeture `X`.
+- **Confettis & retour audio sobres** : Chargement paresseux et auto-hébergé de `ConfettiAnimation` (`@lottiefiles/dotlottie-react`, `public/animations/confetti.json` et WASM local sans CDN, avec repli vers une coche statique en cas d'erreur), combiné à une brève sonnerie ascendante synthétisée via Web Audio API (`playSuccessChime`, sans fichier externe).
+- **Accessibilité & `prefers-reduced-motion: reduce`** : Contrastes WCAG AA renforcés sur la hiérarchie éditoriale ; lorsque l'utilisateur active la réduction des animations, aucun lecteur Lottie n'est importé ni monté, la coche statique s'affiche immédiatement, les transitions basculent en opacité douce (`100 ms`) et le son de succès est désactivé.

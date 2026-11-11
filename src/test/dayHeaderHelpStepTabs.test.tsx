@@ -41,7 +41,7 @@ describe('Suivi, Aide et Résilience : DayHeader, HelpPanel, StepTabs & ErrorBou
 
       expect(screen.getAllByText(/LEÇON/i).length).toBeGreaterThanOrEqual(1);
       expect(screen.getByText('03')).toBeInTheDocument();
-      expect(screen.getByText(/SUR 07/i)).toBeInTheDocument();
+      expect(screen.getAllByText(/SUR 07/i).length).toBeGreaterThanOrEqual(1);
       expect(screen.getByText(/artistique/i)).toBeInTheDocument();
     });
 
@@ -63,16 +63,17 @@ describe('Suivi, Aide et Résilience : DayHeader, HelpPanel, StepTabs & ErrorBou
       render(<HelpPanel stepTitle="Étape 1" />);
 
       expect(screen.queryByText(/Autonomie garantie/i)).not.toBeInTheDocument();
-      expect(screen.getByText(/Besoin d’aide pour cette étape/i)).toBeInTheDocument();
+      expect(screen.getByText(/Un blocage \?/i)).toBeInTheDocument();
     });
 
-    it('affiche le disclaimer strict d autonomie et ne mentionne jamais l ancien onglet « Mon projet »', () => {
+    it('affiche le titre épuré Un blocage ? et supprime l ancien pavé administratif sans mentionner l ancien onglet « Mon projet »', () => {
       render(<HelpPanel stepTitle="Étape 1" defaultOpen={true} />);
 
+      expect(screen.getByText(/Un blocage \?/i)).toBeInTheDocument();
       expect(
-        screen.getByText(/AI Creator Studio est conçu pour vous rendre 100% autonome avec Claude/i)
-      ).toBeInTheDocument();
-      expect(screen.getByText(/Aucun support humain n’intervient dans ce parcours/i)).toBeInTheDocument();
+        screen.queryByText(/AI Creator Studio est conçu pour vous rendre 100% autonome avec Claude/i)
+      ).not.toBeInTheDocument();
+      expect(screen.queryByText(/Autonomie garantie/i)).not.toBeInTheDocument();
       expect(screen.queryByText(/Mon projet/i)).not.toBeInTheDocument();
     });
 
@@ -119,16 +120,20 @@ describe('Suivi, Aide et Résilience : DayHeader, HelpPanel, StepTabs & ErrorBou
     });
 
     it('permet de replier et déplier le panneau d aide', () => {
-      render(<HelpPanel stepTitle="Étape Test" defaultOpen={true} />);
+      const mockHelp: StepHelpConfig = {
+        tips: ['Conseil de repliement'],
+      };
 
-      const toggleButton = screen.getByRole('button', { name: /Besoin d’aide pour cette étape/i });
-      expect(screen.getByText(/Autonomie garantie/i)).toBeInTheDocument();
+      render(<HelpPanel help={mockHelp} stepTitle="Étape Test" defaultOpen={true} />);
+
+      const toggleButton = screen.getByRole('button', { name: /Un blocage \?/i });
+      expect(screen.getByText(/Conseil de repliement/i)).toBeInTheDocument();
 
       fireEvent.click(toggleButton);
-      expect(screen.queryByText(/Autonomie garantie/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/Conseil de repliement/i)).not.toBeInTheDocument();
 
       fireEvent.click(toggleButton);
-      expect(screen.getByText(/Autonomie garantie/i)).toBeInTheDocument();
+      expect(screen.getByText(/Conseil de repliement/i)).toBeInTheDocument();
     });
   });
 
