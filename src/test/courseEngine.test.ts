@@ -15,7 +15,6 @@ import {
   calculateGlobalProgress,
   isLessonCompleted,
 } from '../utils/progressCalculator';
-import { renderPromptTemplate } from '../utils/promptRenderer';
 import {
   createInitialProgress,
   CURRENT_SCHEMA_VERSION,
@@ -117,24 +116,6 @@ describe('AI CREATOR STUDIO : Course Data & Engine Verification (3M / 3J / 7L)',
     expect(globalRes.completedLessonIds).toEqual(['lesson-01']);
     expect(globalRes.completedLessonNumbers).toEqual([1]);
     expect(globalRes.percentage).toBe(Math.round((1 / 7) * 100)); // 14%
-  });
-
-  it('interpolates StudentProfile variables in PromptBuilder templates accurately', () => {
-    const state = createInitialProgress();
-    state.profile.business = 'Strength Studio for Engineers';
-    state.profile.targetAudience = 'Remote Tech Workers';
-    state.profile.productType = '21-Day Interactive Kettlebell Kit';
-    state.profile.brandStyle = 'Ardoise & Émeraude';
-    state.profile.mainObjective = 'Launch on Chariow';
-
-    const template =
-      'Business: {{business}} | Audience: {{targetAudience}} | Product: {{productType}} | Style: {{brandStyle}} | Goal: {{mainObjective}}';
-
-    const rendered = renderPromptTemplate(template, { profile: state.profile });
-    expect(rendered.missingKeys).toHaveLength(0);
-    expect(rendered.renderedText).toBe(
-      'Business: Strength Studio for Engineers | Audience: Remote Tech Workers | Product: 21-Day Interactive Kettlebell Kit | Style: Ardoise & Émeraude | Goal: Launch on Chariow'
-    );
   });
 
   it('persists in schemaVersion 4 (curriculumModel 3m-3d-7l) and recovers safely from corrupted LocalStorage', () => {

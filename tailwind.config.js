@@ -14,7 +14,6 @@ export default {
         cream: '#FAF6F0',
         surface: '#FFFDFC',
         ink: '#171313',
-        'pale-blue': '#DCE9F7',
       },
       fontFamily: {
         display: ['"Archivo Black"', '"Syne"', 'Impact', 'system-ui', 'sans-serif'],
@@ -24,16 +23,12 @@ export default {
       },
       boxShadow: {
         'brutal-xs': '2px 2px 0px #171313',
-        'brutal-sm': '3px 3px 0px #171313',
         'brutal': '4px 4px 0px #171313',
-        'brutal-lg': '6px 6px 0px #171313',
-        'brutal-red': '4px 4px 0px #B63131',
       },
       borderRadius: {
         'brutal-tag': '4px',
         'brutal-btn': '6px',
         'brutal-card': '8px',
-        'brutal-banner': '10px',
       },
     },
   },

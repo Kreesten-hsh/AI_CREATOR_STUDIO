@@ -885,12 +885,14 @@ L'audit technique du dépôt au stade actuel établit les faits vérifiables sui
   - Tiroir mobile pliable `MobileNavigation` sous `lg` avec croix de fermeture `X` alignée à côté du logo `AI CREATOR studio`, verrouillage du scroll et maintien intact de la sidebar desktop.
   - Navigation CTA linéaire (`CompletionButton`) permettant d'enchaîner étapes, leçons et journées, sans persister d'état transitoire de modale dans le schéma V4 (`StudentProgress` / `localStorage`).
   - Célébration éphémère de module (`ModuleCompletionDialog`) déclenchée exclusivement lors de la première transition `incomplet → terminé` d'un module, combinant Lottie paresseux auto-hébergé (repli statique sur erreur), son Web Audio doux (`playSuccessChime`) et désactivation complète des animations/sons sous `prefers-reduced-motion: reduce`.
-- **Nettoyage Intégral** : Routes et types résiduels pour `resources` et `practical-sheets` éliminés ; mention « Mon projet » définitivement bannie du code et des composants.
+  - Accueil enrichi avec l'encart d'affiliation Chariow (`src/components/home/CourseAffiliateCard.tsx`) intégré dans `CourseHomePage.tsx`.
+  - Pipeline automatisé de mise en ligne Chariow (`npm run generate:sales-page` via `scripts/generate-chariow-sales-page.js`) produisant dans `public/downloads/chariow-sales-page/` les 10 exports PNG Retina de `public/demos/chariow-sales-page.html`, la vignette carrée (`1200×1200`), la bannière (`1404×520`), le Guide d'Accès PDF acheteur (source `docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html`) et `GUIDE-PUBLICATION-CHARIOW.md`.
+- **Nettoyage Intégral** : Routes et types résiduels pour `resources` et `practical-sheets` éliminés ; mention « Mon projet » définitivement bannie du code et des composants ; suppression des anciens fichiers morts et code hérité (`DayBanner`, `useStudentProfile`, `contrast`, `promptRenderer`, `stepValidation`, anciens tokens CSS/Tailwind inutilisés et alias `SPRINTS`), avec migration de l'invariant d'unicité des 21 `step.id` dans `src/test/curriculumIntegrityV2.test.ts`.
 - **Santé du Code & Tests Réels (Vérifiés)** :
   - Typage TypeScript strict (`npm run typecheck`) : **0 erreur**.
   - Jalon historique post-Mission 08 : **17 fichiers de test passants sur 17**, **205 tests passants sur 205**.
   - Jalon historique post-MI-01 (Mission 09) : **18 fichiers de test passants sur 18**, **223 tests passants sur 223**.
-  - Nouvelle référence post-Mission 10 (MI-02) : **19 fichiers de test passants sur 19**, **262 tests passants sur 262**, accompagnée d'une recette Playwright multi-viewport (`320–1280 px`) sans débordement horizontal.
+  - Nouvelle référence post-Mission 10 (MI-02) : **19 fichiers de test passants sur 19**, **265 tests passants sur 265**, accompagnée d'une recette Playwright multi-viewport (`320–1280 px`) sans débordement horizontal.
   - Compilation de production (`npm run build`) : **Succès** sans erreur de compilation (avec chunk paresseux `ConfettiAnimation` et WASM DotLottie auto-hébergé).
 
 ```mermaid
@@ -907,7 +909,7 @@ flowchart TD
         T2["7 Leçons intégrées dans day-01 à day-03"]
         T3["2 Bonus complets livrés (ManyChat & Marketing)"]
         T4["UI/UX WCAG AA, Motion & Célébrations Lottie/Web Audio"]
-        T5["19 fichiers de tests / 262 tests passants (100%)"]
+        T5["19 fichiers de tests / 265 tests passants (100%)"]
     end
 
     Past ==>|Missions 02 à 10 (Livré & Validé)| Present
@@ -1158,7 +1160,8 @@ gantt
 - **Mission 10 (Terminée — Mission Intermédiaire 02)** : Affinage UI/UX de AI CREATOR Studio :
   - **Lot 01 (Audit ergonomique, hiérarchie visuelle & responsive)** : Renforcement des contrastes WCAG AA, épurage des cartes (`StepChecklist`, `DayHeader`, `ProseSection`, `HelpPanel`, vues Bonus), vérification multi-viewport sans débordement horizontal de `320 px` à `1280 px`, tiroir mobile fluide `MobileNavigation` avec croix `X` alignée sur le logo `AI CREATOR studio` (maintien intact de la sidebar desktop).
   - **Lot 02 & Finitions (Motion Design, célébration & navigation linéaire)** : Encadrement global `<MotionConfig reducedMotion="user">` (Framer Motion 11), micro-interactions sobres sur onglets, transitions et boutons, modale éphémère `ModuleCompletionDialog` déclenchée uniquement lors de la première transition `incomplet → terminé` d'un module avec Lottie paresseux auto-hébergé (`@lottiefiles/dotlottie-react`, `public/animations/confetti.json`, repli statique sur erreur), son Web Audio doux (`playSuccessChime`), coupure des animations/sons sous `prefers-reduced-motion: reduce`, et enchaînement linéaire du CTA inférieur (`CompletionButton`) entre étapes, leçons et journées.
-  - **Validation qualité globale** : Typage TypeScript strict (`0` erreur), 19 fichiers / 262 tests Vitest passants, build Vite 6 vérifié avec WASM local et audit Playwright multi-viewport (`320–1280 px`).
+  - **Kit Chariow, Affiliation & Assainissement** : Intégration de l'encart d'affiliation `CourseAffiliateCard` sur la page d'accueil, création du pipeline `npm run generate:sales-page` (10 tranches PNG, vignette `1200×1200`, bannière `1404×520`, Guide d'Accès PDF acheteur et fiche de publication Chariow) et suppression du code/assets morts (`DayBanner`, `useStudentProfile`, `contrast`, `promptRenderer`, `stepValidation`, anciens tokens CSS).
+  - **Validation qualité globale** : Typage TypeScript strict (`0` erreur), 19 fichiers / 265 tests Vitest passants, build Vite 6 vérifié avec WASM local et audit Playwright multi-viewport (`320–1280 px`).
 - **Mission 11 (Planifiée — Mission Finale de Validation)** : Implémentation du Harness de Test de l'Agent Simulateur, Recette Automatisée et Validation Humaine :
   - Reprise intégrale du périmètre initialement prévu pour l'ex-Mission 08 (Section 18).
   - Mise en place de l'outil d'évaluation automatisé basé sur les 3 personas de test (Claire — RH, Marc — Consultant PME & Tarification, Sophie — Organisation) spécifiés à la Section 18.

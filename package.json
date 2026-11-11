@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "package:skill": "node scripts/package-skill.js",
     "generate:guide-pdf": "node scripts/generate-access-guide-pdf.js",
+    "generate:sales-page": "node scripts/generate-chariow-sales-page.js",
     "test": "vitest run"
   },
   "dependencies": {

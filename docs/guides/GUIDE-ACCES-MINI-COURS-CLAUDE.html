@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guide d'Accès Officiel • Mini-Cours Interactif Claude</title>
+  <style>
+    @font-face {
+      font-family: 'Instrument Serif';
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+      src: url('/public/fonts/InstrumentSerif-Regular.ttf') format('truetype'),
+           url('../../public/fonts/InstrumentSerif-Regular.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Instrument Serif';
+      font-style: italic;
+      font-weight: 400;
+      font-display: block;
+      src: url('/public/fonts/InstrumentSerif-Italic.ttf') format('truetype'),
+           url('../../public/fonts/InstrumentSerif-Italic.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Plus Jakarta Sans';
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: block;
+      src: url('/public/fonts/PlusJakartaSans-latin-ext.woff2') format('woff2'),
+           url('../../public/fonts/PlusJakartaSans-latin-ext.woff2') format('woff2');
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+    @font-face {
+      font-family: 'Plus Jakarta Sans';
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: block;
+      src: url('/public/fonts/PlusJakartaSans-latin.woff2') format('woff2'),
+           url('../../public/fonts/PlusJakartaSans-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-style: normal;
+      font-weight: 400 500;
+      font-display: block;
+      src: url('/public/fonts/JetBrainsMono-Regular.ttf') format('truetype'),
+           url('../../public/fonts/JetBrainsMono-Regular.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-style: normal;
+      font-weight: 700;
+      font-display: block;
+      src: url('/public/fonts/JetBrainsMono-Bold.ttf') format('truetype'),
+           url('../../public/fonts/JetBrainsMono-Bold.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Archivo Black';
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+      src: url('/public/fonts/ArchivoBlack-latin.woff2') format('woff2'),
+           url('../../public/fonts/ArchivoBlack-latin.woff2') format('woff2');
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    :root {
+      --red: #B63131;
+      --cream: #FAF6F0;
+      --pale-pink: #F7E0E2;
+      --surface: #FFFDFC;
+      --ink: #171313;
+
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-display: 'Archivo Black', Impact, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 210mm;
+      height: 297mm;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    .a4-sheet {
+      width: 210mm;
+      height: 297mm;
+      padding: 20mm 18mm 18mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--cream);
+      position: relative;
+    }
+
+    .sheet-top {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* En-tete Rouge Brique */
+    .hero-header {
+      background: var(--red);
+      border: 1.5px solid var(--ink);
+      border-radius: 10px;
+      padding: 28px 32px;
+      color: var(--cream);
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--pale-pink);
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 38px;
+      line-height: 1.06;
+      color: var(--cream);
+      margin-top: 12px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--pale-pink);
+    }
+
+    .hero-sub {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 1.55;
+      letter-spacing: 0.01em;
+      word-spacing: 0.05em;
+      color: var(--pale-pink);
+      margin-top: 9px;
+      max-width: 540px;
+    }
+
+    /* Carte Principale d'Acces */
+    .access-card {
+      background: var(--surface);
+      border: 1.5px solid var(--ink);
+      border-radius: 10px;
+      padding: 24px 28px;
+      box-shadow: 4px 4px 0px var(--ink);
+      margin-top: 24px;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    .steps-list {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .step-item {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      align-items: baseline;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(23, 19, 19, 0.1);
+    }
+
+    .step-item:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .step-num {
+      font-family: var(--font-serif);
+      font-size: 25px;
+      line-height: 1;
+      color: var(--red);
+      font-weight: 400;
+    }
+
+    .step-text {
+      font-size: 13px;
+      line-height: 1.6;
+      letter-spacing: 0.008em;
+      word-spacing: 0.05em;
+      color: var(--ink);
+    }
+
+    .step-text strong {
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    /* Note encadree calme pour retrouver son lien */
+    .access-reminder {
+      margin-top: 20px;
+      background: var(--cream);
+      border: 1px solid rgba(23, 19, 19, 0.22);
+      border-radius: 8px;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .access-reminder-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      flex-shrink: 0;
+    }
+
+    .access-reminder-copy {
+      font-size: 11.8px;
+      line-height: 1.5;
+      letter-spacing: 0.008em;
+      word-spacing: 0.05em;
+      color: rgba(23, 19, 19, 0.85);
+    }
+
+    /* Grille de Contenu du Programme en 2 colonnes sobres */
+    .program-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .program-card-left {
+      background: var(--surface);
+      border: 1px solid var(--ink);
+      border-radius: 8px;
+      padding: 20px 20px;
+    }
+
+    .program-card-right {
+      background: var(--pale-pink);
+      border: 1px solid var(--ink);
+      border-radius: 8px;
+      padding: 20px 20px;
+    }
+
+    .card-heading {
+      font-family: var(--font-serif);
+      font-size: 21px;
+      line-height: 1.15;
+      color: var(--ink);
+      font-weight: 400;
+      margin-top: 4px;
+      padding-bottom: 11px;
+      border-bottom: 1px solid rgba(23, 19, 19, 0.15);
+    }
+
+    .module-list {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      list-style: none;
+    }
+
+    .module-item {
+      font-size: 12px;
+      line-height: 1.52;
+      letter-spacing: 0.008em;
+      word-spacing: 0.05em;
+      color: var(--ink);
+    }
+
+    .module-tag {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    /* Pied de page sobre */
+    .sheet-footer {
+      margin-top: 18px;
+      padding-top: 13px;
+      border-top: 1px solid rgba(23, 19, 19, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      letter-spacing: 0.008em;
+      word-spacing: 0.05em;
+      color: rgba(23, 19, 19, 0.78);
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+
+    .footer-brand span {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      text-transform: lowercase;
+      color: var(--red);
+      font-size: 14.5px;
+      margin-left: 2px;
+    }
+  </style>
+</head>
+<body>
+  <main class="a4-sheet">
+    <div class="sheet-top">
+      <!-- En-tete Rouge Brique #B63131 -->
+      <header class="hero-header">
+        <div class="hero-eyebrow">BIENVENUE DANS LE STUDIO • GUIDE D'ACCÈS OFFICIEL</div>
+        <h1 class="hero-title">Mini-Cours <em>Interactif</em> Claude</h1>
+        <p class="hero-sub">
+          Tout est prêt pour transformer ton premier document en produit digital interactif.
+        </p>
+      </header>
+
+      <!-- Carte Principale d'Acces -->
+      <section class="access-card">
+        <div class="section-eyebrow">ACCÉDER À TON ESPACE DE FORMATION</div>
+
+        <div class="steps-list">
+          <div class="step-item">
+            <span class="step-num">01</span>
+            <p class="step-text">
+              <strong>Ouvre ton espace membre interactif</strong> : clique sur le lien privé reçu dans tes instructions après achat Chariow (ou copie-le dans ton navigateur sur ordinateur ou téléphone).
+            </p>
+          </div>
+
+          <div class="step-item">
+            <span class="step-num">02</span>
+            <p class="step-text">
+              <strong>Enregistre la page dans tes favoris</strong> : ta progression (leçons terminées et checklists cochées) est sauvegardée automatiquement sur ton appareil.
+            </p>
+          </div>
+
+          <div class="step-item">
+            <span class="step-num">03</span>
+            <p class="step-text">
+              <strong>Télécharge tes ressources dès la Leçon 01</strong> : le Skill Design pour Claude, les 2 Prompts Maîtres et le modèle de Guide d'Accès Client sont directement inclus à l'intérieur des leçons.
+            </p>
+          </div>
+        </div>
+
+        <div class="access-reminder">
+          <span class="access-reminder-label">ACCÈS IMMÉDIAT</span>
+          <p class="access-reminder-copy">
+            Ton lien d'accès personnel figure également dans l'e-mail de confirmation envoyé par Chariow juste après ta commande.
+          </p>
+        </div>
+      </section>
+
+      <!-- Grille de Contenu du Programme en 2 colonnes sobres -->
+      <section class="program-grid">
+        <div class="program-card-left">
+          <div class="section-eyebrow">STRUCTURE DU COURS</div>
+          <h2 class="card-heading">Le Parcours en 3 Modules (7 Leçons)</h2>
+          <ul class="module-list">
+            <li class="module-item">
+              <span class="module-tag">Module 01 • CHOISIR</span>
+              Préparer ton document et définir ton concept.
+            </li>
+            <li class="module-item">
+              <span class="module-tag">Module 02 • CRÉER</span>
+              Choisir ton style visuel et créer ton produit interactif.
+            </li>
+            <li class="module-item">
+              <span class="module-tag">Module 03 • PUBLIER ET LIVRER</span>
+              Mettre en ligne gratuitement et vendre sur Chariow.
+            </li>
+          </ul>
+        </div>
+
+        <div class="program-card-right">
+          <div class="section-eyebrow">RESSOURCES OFFERTES</div>
+          <h2 class="card-heading">Tes 2 Bonus Inclus</h2>
+          <ul class="module-list">
+            <li class="module-item">
+              <span class="module-tag">Bonus 01 • Système ManyChat</span>
+              5 leçons et 5 prompts pour automatiser tes réponses Messenger.
+            </li>
+            <li class="module-item">
+              <span class="module-tag">Bonus 02 • Marketing Library</span>
+              9 Assistants IA et 1 prompt d'étude de marché pour vendre ton offre.
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <!-- Pied de page sobre -->
+    <footer class="sheet-footer">
+      <div>
+        Conseil : utilise toujours le même navigateur (hors navigation privée) pour conserver le suivi de tes cases cochées.
+      </div>
+      <div class="footer-brand">AI CREATOR <span>studio</span></div>
+    </footer>
+  </main>
+</body>
+</html>

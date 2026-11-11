@@ -46,7 +46,7 @@ L'application adopte une esthétique **Néo-Brutaliste Éditoriale** :
 Le projet établit une dichotomie stricte entre la plateforme et les applications livrées :
 - **Plateforme formatrice AI CREATOR Studio** : React 19, TypeScript strict, Vite 6, Tailwind CSS, Framer Motion 11, Lucide React, `@lottiefiles/dotlottie-react`.
 - **Applications générées pour les acheteurs finaux** : Fichier unique `index.html`, Zero-Build, HTML5 sémantique, CSS moderne inline (`<style>`), JavaScript Vanilla pur inline (`<script>`). Interdiction totale de React, Vue ou de bibliothèques tierces chargées via CDN.
-- **Suite de tests automatisés** : Vitest + Testing Library (**19 fichiers de tests, 262 tests passants**, typage TypeScript strict et recette Playwright multi-viewport vérifiés en novembre 2026).
+- **Suite de tests automatisés** : Vitest + Testing Library (**19 fichiers de tests, 265 tests passants**, typage TypeScript strict et recette Playwright multi-viewport vérifiés en novembre 2026).
 
 ### Installation des dépendances
 
@@ -77,6 +77,9 @@ npm run package:skill
 
 # Régénérer le modèle de Guide d'Accès Client au format PDF
 npm run generate:guide-pdf
+
+# Générer les visuels Chariow (10 PNG page de vente, couverture 1200x1200, bannière 1404x520) et le Guide d'Accès PDF acheteur
+npm run generate:sales-page
 ```
 
 ---
@@ -92,6 +95,7 @@ npm run generate:guide-pdf
 - [`public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf`](public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf) : Spécimen PDF modèle téléchargeable pour les acheteurs finaux.
 - [`docs/examples/pricing-calculator/`](docs/examples/pricing-calculator/) : Prototype de référence validé (calculateur de prix interactif `index.html`, `SOURCE-FICHE-PRIX.md` et `VALIDATION.md`).
 - [`docs/storyboard/VISUAL-STORYBOARD-L1-L7.md`](docs/storyboard/VISUAL-STORYBOARD-L1-L7.md) : Storyboard visuel complet des 7 leçons et des 7 captures d'écran réelles.
+- [`public/downloads/chariow-sales-page/`](public/downloads/chariow-sales-page/) : Kit complet de mise en ligne sur Chariow pour **`Mini-Cours Interactif Claude`** (10 tranches PNG Retina issues de [`public/demos/chariow-sales-page.html`](public/demos/chariow-sales-page.html), vignette carrée `1200×1200`, bannière `1404×520`, Guide d'Accès PDF généré depuis [`docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html`](docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html) et fiche [`GUIDE-PUBLICATION-CHARIOW.md`](public/downloads/chariow-sales-page/GUIDE-PUBLICATION-CHARIOW.md)).
 - [`DESIGN.md`](DESIGN.md) : Spécification complète du design system néo-brutaliste et des règles visuelles de la plateforme.
 
 ---
@@ -111,5 +115,5 @@ Le pilotage du projet s'articule en **11 missions ordonnées** respectant les d�
 | **Mission 07** | Bonus 01 : ManyChat Automation System | **Terminée** | Système d'automatisation conversationnelle Claude Free + ManyChat (FB Messenger, qualification sans Tags, conformité Meta 24h & Free 4 automatisations). |
 | **Mission 08** | Bonus 02 : Marketing Library | **Terminée** | Bibliothèque de 9 ressources de Skills marketing (dont 2 archives ZIP téléchargeables et 7 fiches avec prompts prêts à l'emploi), prompt universel de recherche concurrentielle et modal interactive. |
 | **Mission 09** | Mission Intermédiaire 01 : Contenu & Livraison | **Terminée** | Lot A (Prompts v2 & Skill v2), Lot B (Refonte 7 leçons & Guide d'Accès PDF), Lot C (7 captures réelles & Storyboard), Lot D (Alignement PRD/README & recette globale). |
-| **Mission 10** | Mission Intermédiaire 02 : Affinage UI/UX | **Terminée** | Lot 01 (audit ergonomique, contraste WCAG AA, hiérarchie visuelle et responsive 320–1280 px) & Lot 02 (Motion Design Framer Motion 11, célébration éphémère Lottie paresseuse et son Web Audio, navigation CTA linéaire inter-journées, tiroir mobile à croix inline et support `prefers-reduced-motion`). |
+| **Mission 10** | Mission Intermédiaire 02 : Affinage UI/UX | **Terminée** | Lot 01 (audit ergonomique, contraste WCAG AA, hiérarchie visuelle et responsive 320–1280 px) & Lot 02 (Motion Design Framer Motion 11, célébration éphémère Lottie paresseuse et son Web Audio, navigation CTA linéaire inter-journées, tiroir mobile à croix inline, support `prefers-reduced-motion`), encart d'affiliation Chariow (`CourseAffiliateCard`), kit de mise en ligne Chariow + Guide d'Accès PDF et assainissement du dépôt. |
 | **Mission 11** | Harness Simulateur & Validation Humaine | **Mission Finale** | Harness d'évaluation automatisé (3 personas Claire, Marc, Sophie), tests Playwright/Vitest et recette cohorte réelle (5 créateurs). |

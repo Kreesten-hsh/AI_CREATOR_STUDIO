@@ -53,7 +53,7 @@ Les couleurs canoniques de l'application sont définies dans `tailwind.config.js
   - Boutons : `6px` (`rounded-brutal-btn`)
   - Tags / Badges : `4px` (`rounded-brutal-tag`)
 - **Structure de navigation** :
-  - **Accueil** (`CourseHomePage` : `CourseHero` avec `CourseProgressCircle`)
+  - **Accueil** (`CourseHomePage` : `CourseHero` avec `CourseProgressCircle`, et `CourseAffiliateCard` pour l'encart d'affiliation Chariow)
   - **3 Modules** (Sidebar persistante desktop `MainSidebar` / `CourseSidebar` en `lg+`, et tiroir mobile fluide `MobileNavigation` sous `lg` avec croix de fermeture `X` alignée à côté du logo `AI CREATOR studio`, gestion du focus et verrouillage du scroll : `CHOISIR`, `CRÉER`, `PUBLIER ET LIVRER`)
   - **7 Leçons** (En-tête `DayHeader`, onglets `StepTabs`, conteneur responsive sans débordement dès `320 px` et bouton d'action linéaire `CompletionButton` permettant d'enchaîner les étapes, les leçons et les journées)
   - **2 Bonus** (`BonusView` & `MarketingLibraryView`)

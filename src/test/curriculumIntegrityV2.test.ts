@@ -162,6 +162,20 @@ describe('Intégrité Curriculaire Canonique (3 Modules • 3 Journées • 7 Le
         expect(lesson.steps).toHaveLength(3);
       });
     });
+
+    it("garantit des identifiants d'étapes non vides et globalement uniques sur les 7 leçons", () => {
+      const seenStepIds = new Set<string>();
+      for (const lesson of ALL_LESSONS) {
+        expect(lesson.steps.length).toBeGreaterThanOrEqual(1);
+        expect(lesson.steps.length).toBeLessThanOrEqual(3);
+        for (const step of lesson.steps) {
+          expect(step.id.trim().length).toBeGreaterThan(0);
+          expect(seenStepIds.has(step.id), `step.id dupliqué : ${step.id}`).toBe(false);
+          seenStepIds.add(step.id);
+        }
+      }
+      expect(seenStepIds.size).toBe(21);
+    });
   });
 
   describe('3. Les 2 Bonus Différés Préservés', () => {

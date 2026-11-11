@@ -48,5 +48,3 @@ export const COURSE_MODULES: readonly CourseModule[] = [
     available: true,
   },
 ] as const;
-
-export const SPRINTS = COURSE_MODULES;
