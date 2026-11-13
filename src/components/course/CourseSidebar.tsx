@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Check, ChevronLeft } from 'lucide-react';
 import type { Course } from '../../types/course';
+import { useAuth } from '../../context/AuthContext';
 import { useProgress } from '../../hooks/useProgress';
 import { ProgressGrid } from '../layout/ProgressGrid';
 import {
@@ -22,6 +23,7 @@ export function CourseSidebar({
   onAfterNavigate,
   mobileCloseButton,
 }: CourseSidebarProps) {
+  const { buyerEmail } = useAuth();
   const {
     state,
     globalProgress,
@@ -173,6 +175,21 @@ export function CourseSidebar({
           </div>
         </section>
       </div>
+
+      {buyerEmail && (
+        <div
+          data-testid="sidebar-buyer-session"
+          className="p-3 bg-pale-pink border-t-2 border-ink flex items-center gap-2"
+        >
+          <span className="w-2 h-2 rounded-full bg-emerald-600 shrink-0" aria-hidden="true" />
+          <span
+            className="font-mono text-[11px] font-medium text-ink truncate min-w-0"
+            title={buyerEmail}
+          >
+            {buyerEmail}
+          </span>
+        </div>
+      )}
     </aside>
   );
 }

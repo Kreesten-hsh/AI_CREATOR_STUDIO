@@ -41,12 +41,22 @@ L'application adopte une esthétique **Néo-Brutaliste Éditoriale** :
 
 ---
 
-## 3. Architecture Technique et Commandes
+## 3. Architecture Technique et Sécurité
 
 Le projet établit une dichotomie stricte entre la plateforme et les applications livrées :
 - **Plateforme formatrice AI CREATOR Studio** : React 19, TypeScript strict, Vite 6, Tailwind CSS, Framer Motion 11, Lucide React, `@lottiefiles/dotlottie-react`.
+- **Authentification Sécurisée Acheteur (Supabase + Gmail SMTP)** :
+  - Accès membre protégé par `BuyerAuthGate` (formulaire épuré à 2 champs : E-mail d'achat + Code d'accès à 6 chiffres).
+  - Webhook Chariow / Pulse connecté directement à l'Edge Function Supabase `chariow-webhook`.
+  - Hachage cryptographique SHA-256 du code à usage unique dans la table `authorized_buyers` (avec RLS actif).
+  - Envoi automatisé du code par e-mail via Gmail SMTP (`smtp.gmail.com:465`, TLS) avec salutation personnalisée **« Bonjour Boss, »**.
+  - Session élève persistée localement et définitivement (aucun bouton de déconnexion pour l'apprenant).
 - **Applications générées pour les acheteurs finaux** : Fichier unique `index.html`, Zero-Build, HTML5 sémantique, CSS moderne inline (`<style>`), JavaScript Vanilla pur inline (`<script>`). Interdiction totale de React, Vue ou de bibliothèques tierces chargées via CDN.
-- **Suite de tests automatisés** : Vitest + Testing Library (**19 fichiers de tests, 265 tests passants**, typage TypeScript strict et recette Playwright multi-viewport vérifiés en novembre 2026).
+- **Suite de tests automatisés** : Vitest + Testing Library (**20 fichiers de tests, 270 tests passants**, typage TypeScript strict vérifié).
+
+---
+
+## 4. Installation et Commandes
 
 ### Installation des dépendances
 
@@ -54,13 +64,27 @@ Le projet établit une dichotomie stricte entre la plateforme et les application
 npm install
 ```
 
-### Scripts de développement et de build
+### Configuration des variables d'environnement
+
+Copiez `.env.example` en `.env` :
+
+```bash
+cp .env.example .env
+```
+
+Le fichier `.env` configure l'accès local et la liaison avec Supabase Edge Functions :
+- `VITE_SUPABASE_URL` : URL de votre projet Supabase (`https://<project-ref>.supabase.co`).
+- `VITE_SUPABASE_ANON_KEY` : Clé publique anon de votre projet Supabase.
+- `VITE_AUTH_REQUIRED` : `false` en local pour développer librement, `true` en production.
+- `STUDIO_PUBLIC_URL` : URL publique officielle sur Netlify.
+
+### Scripts de développement et de production
 
 ```bash
 # Démarrer le serveur de développement local avec HMR
 npm run dev
 
-# Compiler le bundle de production de la plateforme
+# Compiler le bundle de production de la plateforme (dist/)
 npm run build
 
 # Prévisualiser localement le build de production
@@ -69,7 +93,7 @@ npm run preview
 # Vérifier le typage strict TypeScript
 npm run typecheck
 
-# Exécuter l'intégralité des tests unitaires et d'intégration
+# Exécuter l'intégralité des 270 tests unitaires et d'intégration
 npm test
 
 # Packager le Skill ai-creator-design-intelligence et synchroniser l'archive ZIP
@@ -78,42 +102,32 @@ npm run package:skill
 # Régénérer le modèle de Guide d'Accès Client au format PDF
 npm run generate:guide-pdf
 
-# Générer les visuels Chariow (10 PNG page de vente, couverture 1200x1200, bannière 1404x520) et le Guide d'Accès PDF acheteur
+# Générer les visuels Chariow Retina et le Guide d'Accès PDF acheteur officiel (1 page A4)
 npm run generate:sales-page
 ```
 
 ---
 
-## 4. Documentation Technique et Ressources
+## 5. Documentation Technique et Ressources
 
 - [`docs/COURSE_PRD.md`](docs/COURSE_PRD.md) : Document de référence canonique (PRD v1.3.0-CANONICAL) pour l'architecture pédagogique, la roadmap et les spécifications techniques.
 - [`docs/ai-creator-design-intelligence/SKILL.md`](docs/ai-creator-design-intelligence/SKILL.md) : Fichier maître du Skill autonome pour Claude Free (avec son [dossier de références](docs/ai-creator-design-intelligence/)).
 - [`public/downloads/AI-CREATOR-DESIGN-INTELLIGENCE.zip`](public/downloads/AI-CREATOR-DESIGN-INTELLIGENCE.zip) : Archive ZIP téléchargeable du Skill Claude autonome.
 - [`docs/prompts/`](docs/prompts/) : Les deux prompts maîtres du parcours standard (Entretien de direction artistique v2.3 et Génération du produit HTML v2.1).
 - [`docs/guides/GUIDE-PARCOURS-APPRENANT.md`](docs/guides/GUIDE-PARCOURS-APPRENANT.md) : Guide d'utilisation pas-à-pas du parcours apprenant.
-- [`docs/guides/GUIDE-ACCES-CLIENT-SOURCE.md`](docs/guides/GUIDE-ACCES-CLIENT-SOURCE.md) : Modèle source Markdown du Guide d'Accès Client remis après achat.
+- [`docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html`](docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html) : Source HTML officielle du Guide d'Accès acheteur (1 page A4 épurée).
 - [`public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf`](public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf) : Spécimen PDF modèle téléchargeable pour les acheteurs finaux.
 - [`docs/examples/pricing-calculator/`](docs/examples/pricing-calculator/) : Prototype de référence validé (calculateur de prix interactif `index.html`, `SOURCE-FICHE-PRIX.md` et `VALIDATION.md`).
-- [`docs/storyboard/VISUAL-STORYBOARD-L1-L7.md`](docs/storyboard/VISUAL-STORYBOARD-L1-L7.md) : Storyboard visuel complet des 7 leçons et des 7 captures d'écran réelles.
-- [`public/downloads/chariow-sales-page/`](public/downloads/chariow-sales-page/) : Kit complet de mise en ligne sur Chariow pour **`Mini-Cours Interactif Claude`** (10 tranches PNG Retina issues de [`public/demos/chariow-sales-page.html`](public/demos/chariow-sales-page.html), vignette carrée `1200×1200`, bannière `1404×520`, Guide d'Accès PDF généré depuis [`docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html`](docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html) et fiche [`GUIDE-PUBLICATION-CHARIOW.md`](public/downloads/chariow-sales-page/GUIDE-PUBLICATION-CHARIOW.md)).
+- [`public/downloads/chariow-sales-page/`](public/downloads/chariow-sales-page/) : Kit complet de mise en ligne sur Chariow pour **`Mini-Cours Interactif Claude`** (10 tranches PNG Retina issues de [`public/demos/chariow-sales-page.html`](public/demos/chariow-sales-page.html), vignette carrée `1200×1200`, bannière `1404×520`, Guide d'Accès PDF acheteur [`GUIDE-ACCES-MINI-COURS-INTERACTIF-CLAUDE.pdf`](public/downloads/chariow-sales-page/GUIDE-ACCES-MINI-COURS-INTERACTIF-CLAUDE.pdf) et fiche d'instructions [`GUIDE-PUBLICATION-CHARIOW.md`](public/downloads/chariow-sales-page/GUIDE-PUBLICATION-CHARIOW.md)).
 - [`DESIGN.md`](DESIGN.md) : Spécification complète du design system néo-brutaliste et des règles visuelles de la plateforme.
 
 ---
 
-## 5. Feuille de Route des Missions (11 Missions)
+## 6. Déploiement en Production
 
-Le pilotage du projet s'articule en **11 missions ordonnées** respectant les dépendances techniques et pédagogiques réelles :
-
-| Mission | Intitulé | Statut | Périmètre |
-|---|---|---|---|
-| **Mission 01** | PRD Canonique | **Terminée** | Spécifications complètes du cours, architecture curriculaire et standard pédagogique. |
-| **Mission 02** | Refactoring Modèle & Routes | **Terminée** | Architecture 3 Modules / 3 Journées / 7 Leçons, typages stricts et assainissement des routes. |
-| **Mission 03** | Prototypage Moteur & DA | **Terminée** | Validation empirique du Master Prompt, Source Fidelity Mapping et prototype de référence (`pricing-calculator/`). |
-| **Mission 04** | Contenu Module 01 (CHOISIR) | **Terminée** | Rédaction et intégration des leçons L1 & L2 (standard Abigail Peugh, *One Card, One Action*). |
-| **Mission 05** | Contenu Module 02 (CRÉER) | **Terminée** | Rédaction et intégration des leçons L3, L4 & L5, Skill Claude Free et protocole de continuité « Continue ». |
-| **Mission 06** | Contenu Module 03 (PUBLIER & LIVRER) | **Terminée** | Rédaction et intégration des leçons L6 & L7 (Netlify Drop, offre Chariow Files). |
-| **Mission 07** | Bonus 01 : ManyChat Automation System | **Terminée** | Système d'automatisation conversationnelle Claude Free + ManyChat (FB Messenger, qualification sans Tags, conformité Meta 24h & Free 4 automatisations). |
-| **Mission 08** | Bonus 02 : Marketing Library | **Terminée** | Bibliothèque de 9 ressources de Skills marketing (dont 2 archives ZIP téléchargeables et 7 fiches avec prompts prêts à l'emploi), prompt universel de recherche concurrentielle et modal interactive. |
-| **Mission 09** | Mission Intermédiaire 01 : Contenu & Livraison | **Terminée** | Lot A (Prompts v2 & Skill v2), Lot B (Refonte 7 leçons & Guide d'Accès PDF), Lot C (7 captures réelles & Storyboard), Lot D (Alignement PRD/README & recette globale). |
-| **Mission 10** | Mission Intermédiaire 02 : Affinage UI/UX | **Terminée** | Lot 01 (audit ergonomique, contraste WCAG AA, hiérarchie visuelle et responsive 320–1280 px) & Lot 02 (Motion Design Framer Motion 11, célébration éphémère Lottie paresseuse et son Web Audio, navigation CTA linéaire inter-journées, tiroir mobile à croix inline, support `prefers-reduced-motion`), encart d'affiliation Chariow (`CourseAffiliateCard`), kit de mise en ligne Chariow + Guide d'Accès PDF et assainissement du dépôt. |
-| **Mission 11** | Harness Simulateur & Validation Humaine | **Mission Finale** | Harness d'évaluation automatisé (3 personas Claire, Marc, Sophie), tests Playwright/Vitest et recette cohorte réelle (5 créateurs). |
+- **URL de production** : `https://ai-creator-studio-vtma.netlify.app`
+- **Hébergement Frontend** : Netlify (Vite static SPA, `netlify.toml`).
+- **Backend & Fonctions Serveur** : Supabase Edge Functions (`itmcmzohnjfrkymkcrmj`).
+  - `chariow-webhook` : Réception des ventes Chariow, génération du code et envoi Gmail SMTP.
+  - `verify-buyer-code` : Vérification du code OTP et ouverture de session JWT.
+  - `request-new-code` : Renvoyer un code par mail avec rate-limit anti-abus (60s).

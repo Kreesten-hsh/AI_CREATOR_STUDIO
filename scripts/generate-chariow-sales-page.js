@@ -605,7 +605,7 @@ function renderStudioMacbookMarkup() {
               </div>
               <div class="studio-affiliate-card">
                 <div class="studio-affiliate-tag">AFFILIATION</div>
-                <div class="studio-affiliate-title">Partage ce cours + gagne 20%</div>
+                <div class="studio-affiliate-title">Partage ce cours + gagne 15%</div>
                 <div class="studio-affiliate-desc">
                   Recommande le mini-cours à ton audience et perçois ta commission automatiquement.
                 </div>
@@ -769,7 +769,6 @@ function buildBannerHtml() {
       height: 260px;
       display: grid;
       grid-template-columns: 1.08fr 0.92fr;
-      border: 1.5px solid var(--ink);
       overflow: hidden;
       background: var(--cream);
     }

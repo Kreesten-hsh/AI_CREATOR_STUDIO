@@ -23,7 +23,7 @@ describe("Page d'accueil : Encart Affiliation Chariow", () => {
     expect(screen.getByRole('region', { name: "Programme d'affiliation Chariow" })).toBeInTheDocument();
 
     expect(screen.getByText('LANCEMENT UNIQUEMENT · CHARIOW')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /Partage ce cours \+ gagne\s*20%/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Partage ce cours \+ gagne\s*15%/i })).toBeInTheDocument();
     expect(screen.getByText(/automatiquement affilié sur Chariow/i)).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: /Récupérer mon lien Chariow/i })

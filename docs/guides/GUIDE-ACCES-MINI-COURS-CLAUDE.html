@@ -104,7 +104,7 @@
     .a4-sheet {
       width: 210mm;
       height: 297mm;
-      padding: 20mm 18mm 18mm;
+      padding: 24mm 22mm 22mm;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -121,15 +121,15 @@
     .hero-header {
       background: var(--red);
       border: 1.5px solid var(--ink);
-      border-radius: 10px;
-      padding: 28px 32px;
+      border-radius: 12px;
+      padding: 32px 36px;
       color: var(--cream);
       position: relative;
     }
 
     .hero-eyebrow {
       font-family: var(--font-mono);
-      font-size: 9.5px;
+      font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.16em;
       text-transform: uppercase;
@@ -139,8 +139,8 @@
     .hero-title {
       font-family: var(--font-serif);
       font-weight: 400;
-      font-size: 38px;
-      line-height: 1.06;
+      font-size: 42px;
+      line-height: 1.05;
       color: var(--cream);
       margin-top: 12px;
     }
@@ -152,28 +152,27 @@
 
     .hero-sub {
       font-family: var(--font-sans);
-      font-size: 13px;
+      font-size: 14px;
       line-height: 1.55;
       letter-spacing: 0.01em;
-      word-spacing: 0.05em;
       color: var(--pale-pink);
-      margin-top: 9px;
-      max-width: 540px;
+      margin-top: 10px;
+      max-width: 560px;
     }
 
     /* Carte Principale d'Acces */
     .access-card {
       background: var(--surface);
       border: 1.5px solid var(--ink);
-      border-radius: 10px;
-      padding: 24px 28px;
+      border-radius: 12px;
+      padding: 28px 32px;
       box-shadow: 4px 4px 0px var(--ink);
-      margin-top: 24px;
+      margin-top: 26px;
     }
 
     .section-eyebrow {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 700;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -181,18 +180,18 @@
     }
 
     .steps-list {
-      margin-top: 18px;
+      margin-top: 20px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 20px;
     }
 
     .step-item {
       display: grid;
-      grid-template-columns: 38px 1fr;
+      grid-template-columns: 42px 1fr;
       align-items: baseline;
-      gap: 12px;
-      padding-bottom: 16px;
+      gap: 14px;
+      padding-bottom: 18px;
       border-bottom: 1px solid rgba(23, 19, 19, 0.1);
     }
 
@@ -203,18 +202,24 @@
 
     .step-num {
       font-family: var(--font-serif);
-      font-size: 25px;
+      font-size: 28px;
       line-height: 1;
       color: var(--red);
       font-weight: 400;
     }
 
+    .step-content h3 {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
     .step-text {
-      font-size: 13px;
+      font-size: 13.5px;
       line-height: 1.6;
       letter-spacing: 0.008em;
-      word-spacing: 0.05em;
-      color: var(--ink);
+      color: rgba(23, 19, 19, 0.88);
     }
 
     .step-text strong {
@@ -222,22 +227,53 @@
       color: var(--ink);
     }
 
-    /* Note encadree calme pour retrouver son lien */
-    .access-reminder {
-      margin-top: 20px;
-      background: var(--cream);
-      border: 1px solid rgba(23, 19, 19, 0.22);
+    /* Bouton d'acces majeur cliquable */
+    .cta-container {
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 1.5px dashed rgba(23, 19, 19, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      width: 100%;
+      background: var(--red);
+      color: var(--cream);
+      text-decoration: none;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 16px 28px;
+      border: 1.5px solid var(--ink);
       border-radius: 8px;
-      padding: 13px 16px;
+      box-shadow: 3px 3px 0px var(--ink);
+      text-align: center;
+      transition: all 0.15s ease;
+    }
+
+    /* Note d'assistance sobre */
+    .support-box {
+      margin-top: 24px;
+      background: var(--cream);
+      border: 1px solid rgba(23, 19, 19, 0.2);
+      border-radius: 8px;
+      padding: 16px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
+      gap: 16px;
     }
 
-    .access-reminder-label {
+    .support-label {
       font-family: var(--font-mono);
-      font-size: 9px;
+      font-size: 9.5px;
       font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -245,91 +281,31 @@
       flex-shrink: 0;
     }
 
-    .access-reminder-copy {
-      font-size: 11.8px;
-      line-height: 1.5;
-      letter-spacing: 0.008em;
-      word-spacing: 0.05em;
+    .support-text {
+      font-size: 12px;
+      line-height: 1.55;
       color: rgba(23, 19, 19, 0.85);
     }
 
-    /* Grille de Contenu du Programme en 2 colonnes sobres */
-    .program-grid {
-      margin-top: 24px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .program-card-left {
-      background: var(--surface);
-      border: 1px solid var(--ink);
-      border-radius: 8px;
-      padding: 20px 20px;
-    }
-
-    .program-card-right {
-      background: var(--pale-pink);
-      border: 1px solid var(--ink);
-      border-radius: 8px;
-      padding: 20px 20px;
-    }
-
-    .card-heading {
-      font-family: var(--font-serif);
-      font-size: 21px;
-      line-height: 1.15;
+    .support-text strong {
       color: var(--ink);
-      font-weight: 400;
-      margin-top: 4px;
-      padding-bottom: 11px;
-      border-bottom: 1px solid rgba(23, 19, 19, 0.15);
-    }
-
-    .module-list {
-      margin-top: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      list-style: none;
-    }
-
-    .module-item {
-      font-size: 12px;
-      line-height: 1.52;
-      letter-spacing: 0.008em;
-      word-spacing: 0.05em;
-      color: var(--ink);
-    }
-
-    .module-tag {
-      display: block;
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: var(--red);
-      text-transform: uppercase;
-      margin-bottom: 3px;
     }
 
     /* Pied de page sobre */
     .sheet-footer {
-      margin-top: 18px;
-      padding-top: 13px;
+      margin-top: 20px;
+      padding-top: 14px;
       border-top: 1px solid rgba(23, 19, 19, 0.2);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 11px;
-      letter-spacing: 0.008em;
-      word-spacing: 0.05em;
-      color: rgba(23, 19, 19, 0.78);
+      font-size: 11.5px;
+      color: rgba(23, 19, 19, 0.75);
     }
 
     .footer-brand {
       font-family: var(--font-display);
-      font-size: 11.5px;
+      font-size: 12px;
       letter-spacing: -0.02em;
       color: var(--ink);
       text-transform: uppercase;
@@ -341,7 +317,7 @@
       font-weight: 400;
       text-transform: lowercase;
       color: var(--red);
-      font-size: 14.5px;
+      font-size: 15px;
       margin-left: 2px;
     }
   </style>
@@ -351,90 +327,71 @@
     <div class="sheet-top">
       <!-- En-tete Rouge Brique #B63131 -->
       <header class="hero-header">
-        <div class="hero-eyebrow">BIENVENUE DANS LE STUDIO • GUIDE D'ACCÈS OFFICIEL</div>
+        <div class="hero-eyebrow">CONFIRMATION D'ACHAT • GUIDE D'ACCÈS IMMÉDIAT</div>
         <h1 class="hero-title">Mini-Cours <em>Interactif</em> Claude</h1>
         <p class="hero-sub">
-          Tout est prêt pour transformer ton premier document en produit digital interactif.
+          Félicitations Boss ! Ton espace interactif est prêt. Suis les 3 étapes simples ci-dessous pour déverrouiller ta formation.
         </p>
       </header>
 
       <!-- Carte Principale d'Acces -->
       <section class="access-card">
-        <div class="section-eyebrow">ACCÉDER À TON ESPACE DE FORMATION</div>
+        <div class="section-eyebrow">ACCÉDER À TON ESPACE EN 3 ÉTAPES</div>
 
         <div class="steps-list">
           <div class="step-item">
             <span class="step-num">01</span>
-            <p class="step-text">
-              <strong>Ouvre ton espace membre interactif</strong> : clique sur le lien privé reçu dans tes instructions après achat Chariow (ou copie-le dans ton navigateur sur ordinateur ou téléphone).
-            </p>
+            <div class="step-content">
+              <h3>Ouvre ton espace de formation</h3>
+              <p class="step-text">
+                Clique directement sur le bouton rouge ci-dessous pour accéder immédiatement à ton studio depuis ton téléphone ou ton ordinateur.
+              </p>
+            </div>
           </div>
 
           <div class="step-item">
             <span class="step-num">02</span>
-            <p class="step-text">
-              <strong>Enregistre la page dans tes favoris</strong> : ta progression (leçons terminées et checklists cochées) est sauvegardée automatiquement sur ton appareil.
-            </p>
+            <div class="step-content">
+              <h3>Vérifie ta boîte mail (et ton dossier Spams)</h3>
+              <p class="step-text">
+                Un e-mail contenant ton <strong>code personnel à 6 chiffres à usage unique</strong> vient de t'être envoyé.<br />
+                <strong>Important : pense à bien vérifier ton dossier Spams / Courriers indésirables</strong> si tu ne le vois pas dans ta boîte de réception principale.
+              </p>
+            </div>
           </div>
 
           <div class="step-item">
             <span class="step-num">03</span>
-            <p class="step-text">
-              <strong>Télécharge tes ressources dès la Leçon 01</strong> : le Skill Design pour Claude, les 2 Prompts Maîtres et le modèle de Guide d'Accès Client sont directement inclus à l'intérieur des leçons.
-            </p>
+            <div class="step-content">
+              <h3>Saisis ton e-mail et ton code unique</h3>
+              <p class="step-text">
+                Renseigne ton <strong>adresse e-mail d'achat Chariow</strong> et ton <strong>code à 6 chiffres</strong>. Ton accès est activé à vie et reste mémorisé sur ton navigateur.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div class="access-reminder">
-          <span class="access-reminder-label">ACCÈS IMMÉDIAT</span>
-          <p class="access-reminder-copy">
-            Ton lien d'accès personnel figure également dans l'e-mail de confirmation envoyé par Chariow juste après ta commande.
-          </p>
+        <!-- Bouton Cliquable Vers la Plateforme -->
+        <div class="cta-container">
+          <a href="https://ai-creator-studio-vtma.netlify.app" class="cta-btn" target="_blank" rel="noopener noreferrer">
+            ACCÉDER À MON ESPACE INTERACTIF →
+          </a>
         </div>
       </section>
 
-      <!-- Grille de Contenu du Programme en 2 colonnes sobres -->
-      <section class="program-grid">
-        <div class="program-card-left">
-          <div class="section-eyebrow">STRUCTURE DU COURS</div>
-          <h2 class="card-heading">Le Parcours en 3 Modules (7 Leçons)</h2>
-          <ul class="module-list">
-            <li class="module-item">
-              <span class="module-tag">Module 01 • CHOISIR</span>
-              Préparer ton document et définir ton concept.
-            </li>
-            <li class="module-item">
-              <span class="module-tag">Module 02 • CRÉER</span>
-              Choisir ton style visuel et créer ton produit interactif.
-            </li>
-            <li class="module-item">
-              <span class="module-tag">Module 03 • PUBLIER ET LIVRER</span>
-              Mettre en ligne gratuitement et vendre sur Chariow.
-            </li>
-          </ul>
-        </div>
-
-        <div class="program-card-right">
-          <div class="section-eyebrow">RESSOURCES OFFERTES</div>
-          <h2 class="card-heading">Tes 2 Bonus Inclus</h2>
-          <ul class="module-list">
-            <li class="module-item">
-              <span class="module-tag">Bonus 01 • Système ManyChat</span>
-              5 leçons et 5 prompts pour automatiser tes réponses Messenger.
-            </li>
-            <li class="module-item">
-              <span class="module-tag">Bonus 02 • Marketing Library</span>
-              9 Assistants IA et 1 prompt d'étude de marché pour vendre ton offre.
-            </li>
-          </ul>
-        </div>
-      </section>
+      <!-- Boite d'Assistance Sobre -->
+      <div class="support-box">
+        <span class="support-label">ASSISTANCE & CONTACT</span>
+        <p class="support-text">
+          Une question ou un souci pour te connecter ? Écris à notre équipe à <strong>aicreatorstudio.support@gmail.com</strong>. Nous te répondrons sous 24h.
+        </p>
+      </div>
     </div>
 
     <!-- Pied de page sobre -->
     <footer class="sheet-footer">
       <div>
-        Conseil : utilise toujours le même navigateur (hors navigation privée) pour conserver le suivi de tes cases cochées.
+        Conserve précieusement ce document PDF pour retrouver facilement ton lien d'accès.
       </div>
       <div class="footer-brand">AI CREATOR <span>studio</span></div>
     </footer>

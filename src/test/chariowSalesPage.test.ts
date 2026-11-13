@@ -185,9 +185,11 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () =
     }
   });
 
-  it('genere le Guide d Acces PDF valide sur exactement 1 page A4', () => {
+  it('genere le Guide d Acces PDF valide sur exactement 1 page A4 et synchronise avec la source HTML', () => {
     const pdfPath = path.join(downloadsDir, 'GUIDE-ACCES-MINI-COURS-INTERACTIF-CLAUDE.pdf');
+    const guideHtmlPath = path.join(rootDir, 'docs', 'guides', 'GUIDE-ACCES-MINI-COURS-CLAUDE.html');
     expect(fs.existsSync(pdfPath)).toBe(true);
+    expect(fs.existsSync(guideHtmlPath)).toBe(true);
 
     const pdfBuffer = fs.readFileSync(pdfPath);
     expect(pdfBuffer.length).toBeGreaterThan(5000);
@@ -202,6 +204,11 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () =
         : (pdfAscii.match(/\/Type\s*\/Page\b(?!s)/g) ?? []).length;
 
     expect(pageCount).toBe(1);
+
+    // Vérifie que le PDF généré est plus récent ou concomitant à la mise à jour de GUIDE-ACCES-MINI-COURS-CLAUDE.html
+    const pdfStat = fs.statSync(pdfPath);
+    const htmlStat = fs.statSync(guideHtmlPath);
+    expect(pdfStat.mtimeMs).toBeGreaterThanOrEqual(htmlStat.mtimeMs - 1000);
   });
 
   it('fournit la source HTML du Guide d Acces et la fiche Markdown conformes sans jargon ni tiret cadratin', () => {
@@ -219,6 +226,20 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () =
     expect(publishMd).toContain('GUIDE-ACCES-MINI-COURS-INTERACTIF-CLAUDE.pdf');
     expect(publishMd).toContain('chariow-cover-square-1200x1200.png');
     expect(publishMd).toContain('chariow-banner-1404x520.png');
+
+    // Vérification du Guide d'Accès épuré
+    expect(guideHtml).toContain('Ouvre ton espace de formation');
+    expect(guideHtml).toContain('Vérifie ta boîte mail (et ton dossier Spams)');
+    expect(guideHtml).toContain('Saisis ton e-mail et ton code unique');
+    expect(guideHtml).toContain('CONFIRMATION D\'ACHAT • GUIDE D\'ACCÈS IMMÉDIAT');
+    expect(guideHtml).not.toContain('class="cta-url-caption"');
+
+    expect(publishMd).toContain('1. OUVRE LA PLATEFORME :');
+    expect(publishMd).toContain('https://ai-creator-studio-vtma.netlify.app');
+    expect(publishMd).toContain('2. VÉRIFIE TA BOÎTE MAIL (ET TES SPAMS) :');
+    expect(publishMd).toContain('3. CONNECTE-TOI À TON ESPACE :');
+    expect(publishMd).toContain("adresse e-mail d'achat et ton code à 6 chiffres");
+    expect(publishMd).toContain('Se connecter');
 
     for (const content of [guideHtml, publishMd]) {
       expect(content).toContain('Mini-Cours Interactif Claude');

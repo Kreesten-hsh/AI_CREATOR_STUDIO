@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Check, Gift, Home } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import { useProgress } from '../../hooks/useProgress';
 import { MAIN_COURSES } from '../../data/navigation/mainCourses';
 import { BONUSES } from '../../data/navigation/bonuses';
@@ -14,6 +15,7 @@ export function MainSidebar({
   onAfterNavigate,
   mobileCloseButton,
 }: MainSidebarProps) {
+  const { buyerEmail } = useAuth();
   const {
     state,
     navigateToHome,
@@ -207,6 +209,21 @@ export function MainSidebar({
           </div>
         </div>
       </div>
+
+      {buyerEmail && (
+        <div
+          data-testid="sidebar-buyer-session"
+          className="p-3 bg-pale-pink border-t-2 border-ink flex items-center gap-2"
+        >
+          <span className="w-2 h-2 rounded-full bg-emerald-600 shrink-0" aria-hidden="true" />
+          <span
+            className="font-mono text-[11px] font-medium text-ink truncate min-w-0"
+            title={buyerEmail}
+          >
+            {buyerEmail}
+          </span>
+        </div>
+      )}
     </aside>
   );
 }

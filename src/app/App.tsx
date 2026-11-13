@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react';
 import { MotionConfig } from 'framer-motion';
+import { AuthProvider } from '../context/AuthContext';
 import { ProgressProvider } from '../context/ProgressContext';
+import { BuyerAuthGate } from '../components/auth/BuyerAuthGate';
 import { COURSE_DATA } from '../data/course';
 import { CourseLayout } from '../components/layout/CourseLayout';
 import { ErrorBoundary } from '../components/layout/ErrorBoundary';
@@ -8,7 +10,11 @@ import { ModuleCompletionDialog } from '../components/course/ModuleCompletionDia
 import { CourseWorkspaceRouter } from './routes';
 import { safeResetActiveRouteToHome } from '../utils/storage';
 
-export function App() {
+export interface AppProps {
+  forceAuthRequired?: boolean;
+}
+
+export function App({ forceAuthRequired }: AppProps = {}) {
   const [boundaryKey, setBoundaryKey] = useState(0);
 
   const handleResetToHome = useCallback(() => {
@@ -19,12 +25,16 @@ export function App() {
   return (
     <MotionConfig reducedMotion="user">
       <ErrorBoundary key={boundaryKey} onReset={handleResetToHome}>
-        <ProgressProvider>
-          <CourseLayout course={COURSE_DATA}>
-            <CourseWorkspaceRouter />
-          </CourseLayout>
-          <ModuleCompletionDialog />
-        </ProgressProvider>
+        <AuthProvider forceAuthRequired={forceAuthRequired}>
+          <BuyerAuthGate>
+            <ProgressProvider>
+              <CourseLayout course={COURSE_DATA}>
+                <CourseWorkspaceRouter />
+              </CourseLayout>
+              <ModuleCompletionDialog />
+            </ProgressProvider>
+          </BuyerAuthGate>
+        </AuthProvider>
       </ErrorBoundary>
     </MotionConfig>
   );

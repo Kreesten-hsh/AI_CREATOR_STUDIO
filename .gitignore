@@ -4,6 +4,7 @@ node_modules/
 # Production build
 dist/
 dist-ssr/
+.netlify/
 
 # Local env files
 .env
@@ -32,4 +33,8 @@ venv/
 
 # Graphify knowledge graph outputs
 graphify-out/
+
+# Local media outputs
+output/
+
 

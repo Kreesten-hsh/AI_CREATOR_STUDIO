@@ -19,7 +19,7 @@ export function CourseAffiliateCard() {
 
         <h2 className="font-serif text-2xl sm:text-3xl leading-tight text-ink">
           Partage ce cours + gagne{' '}
-          <span className="italic text-primary-red">20%</span>
+          <span className="italic text-primary-red">15%</span>
         </h2>
 
         <p className="text-sm sm:text-base text-ink leading-relaxed">
