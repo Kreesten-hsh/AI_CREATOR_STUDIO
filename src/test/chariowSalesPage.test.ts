@@ -119,7 +119,52 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () =
     expect(text).toContain('3 ventes');
     expect(text).toContain('5 000 FCFA');
     expect(text).toContain('env. 23 €');
-    expect(text).toContain('Réserve ta place ci-dessous');
+    expect(text).not.toContain('Réserve ta place ci-dessous');
+    expect(doc.querySelector('.cta-pill')).toBeNull();
+  });
+
+  it('applique le positionnement economique Mission 12, les 4 transformations d idees et la maitrise des emojis', () => {
+    const html = fs.readFileSync(htmlPath, 'utf-8');
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const column = doc.getElementById('sales-column');
+    expect(column).not.toBeNull();
+    const text = column!.textContent ?? '';
+
+    // Positionnement economique & honnetete editoriale
+    expect(text).toContain('Arrête de créer des produits digitaux que tout le monde vend au même prix');
+    expect(text).toContain('10 000 FCFA');
+    expect(text).toContain('1 vente à 15 000 F = 5 ventes à 3 000 F');
+    expect(text).toContain("chiffre d'affaires brut");
+    expect(text).toContain("code d'accès");
+    expect(text).toContain('dissuasif');
+
+    // Remplacement des faux temoignages par les 4 Transformations d'Idees
+    for (const domain of ['FIXATION DE PRIX', 'GESTION & BUDGET', 'COACHING, VENTE', 'ORGANISATION, BIEN-ÊTRE']) {
+      expect(text).toContain(domain);
+    }
+    expect(text).not.toContain('10 minutes dans le cours et la mise en page est INCROYABLE');
+
+    // Suppression des damiers 4x2 autonomes & signature logo sur une seule ligne
+    expect(doc.querySelector('.slice-01-top svg')).toBeNull();
+    expect(doc.querySelector('.slice-02-bottom svg[width="36"]')).toBeNull();
+    expect(doc.querySelector('.slice-09-head svg')).toBeNull();
+    expect(html).toContain('.brand-signature {\n      display: inline-flex;');
+
+    // Maitrise stricte des emojis : uniquement 🤭, ✨ et 👀 (aucun emoji excessif)
+    for (const allowedEmoji of ['🤭', '✨', '👀']) {
+      expect(text).toContain(allowedEmoji);
+    }
+    for (const forbiddenEmoji of ['🫣', '🥰', '😭', '👏', '🔥', '❤️', '❤']) {
+      expect(text).not.toContain(forbiddenEmoji);
+    }
+
+    const foundEmojis = text.match(/[\u{1F300}-\u{1FAFF}]/gu) ?? [];
+    expect(foundEmojis).toEqual(['🤭', '👀']);
+    expect((text.match(/✨/gu) ?? []).length).toBe(1);
+
+    // Zero mention du mot Excel
+    expect(html).not.toMatch(/\bexcel\b/i);
   });
 
   it('ne contient aucun tiret cadratin, terme interne ou jargon technique banni', () => {

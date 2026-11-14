@@ -307,6 +307,7 @@ const STUDIO_MACBOOK_CSS = `
     letter-spacing: -0.02em;
     color: var(--ink);
     line-height: 1;
+    white-space: nowrap;
   }
 
   .studio-logo span {
@@ -663,6 +664,7 @@ function buildCoverHtml() {
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--red);
+      white-space: nowrap;
     }
 
     .cover-title {
@@ -732,7 +734,7 @@ function buildCoverHtml() {
         Claude
       </h1>
       <p class="cover-subtitle">
-        Transformer un simple document en produit digital interactif.
+        Transformer une méthode ou un document en produit digital interactif avec Claude.
       </p>
     </header>
 
@@ -797,6 +799,7 @@ function buildBannerHtml() {
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--pale-pink);
+      white-space: nowrap;
     }
 
     .banner-title {
@@ -878,7 +881,7 @@ function buildBannerHtml() {
 
       <div class="banner-sub-wrap">
         <p class="banner-sub">
-          Transforme tes guides PDF ennuyeux en un produit digital interactif.
+          Conçois avec Claude des produits digitaux interactifs et utiles, sans savoir coder.
         </p>
       </div>
     </section>

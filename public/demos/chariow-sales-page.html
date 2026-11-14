@@ -248,8 +248,8 @@
     .slice-01-title {
       font-family: var(--font-serif);
       font-weight: 400;
-      font-size: 52px;
-      line-height: 1.03;
+      font-size: 46px;
+      line-height: 1.04;
       color: var(--cream);
       letter-spacing: -0.01em;
     }
@@ -408,6 +408,7 @@
       letter-spacing: -0.02em;
       color: var(--ink);
       line-height: 1;
+      white-space: nowrap;
     }
 
     .studio-logo span {
@@ -769,7 +770,7 @@
     .slice-04-stat {
       font-family: var(--font-serif);
       font-weight: 400;
-      font-size: 48px;
+      font-size: 42px;
       line-height: 1.05;
       color: var(--cream);
       margin-top: 10px;
@@ -861,11 +862,12 @@
     .slice-05-hand {
       font-family: var(--font-hand);
       font-weight: 700;
-      font-size: 26px;
+      font-size: 23.5px;
       line-height: 1.2;
       color: var(--red);
       margin-top: 4px;
       margin-bottom: 20px;
+      white-space: nowrap;
     }
 
     .proof-card {
@@ -943,6 +945,54 @@
     .dm-bubble--right {
       align-self: flex-end;
       border-bottom-right-radius: 4px;
+    }
+
+    .transform-card-head {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding-bottom: 8px;
+      margin-bottom: 9px;
+      border-bottom: 1px solid rgba(182, 49, 49, 0.2);
+    }
+
+    .transform-card-num {
+      font-family: var(--font-serif);
+      font-size: 25px;
+      line-height: 1;
+      color: var(--red);
+      flex-shrink: 0;
+    }
+
+    .transform-card-domain {
+      font-family: var(--font-mono);
+      font-size: 10.2px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--red);
+      line-height: 1.3;
+    }
+
+    .transform-row-generic {
+      font-size: 12.8px;
+      line-height: 1.48;
+      color: rgba(23, 19, 19, 0.64);
+      margin-bottom: 8px;
+    }
+
+    .transform-row-generic-label {
+      font-weight: 700;
+      text-decoration: line-through;
+      text-decoration-color: rgba(182, 49, 49, 0.55);
+      color: rgba(23, 19, 19, 0.72);
+    }
+
+    .transform-row-interactive {
+      font-size: 13.6px;
+      line-height: 1.52;
+      color: var(--ink);
+      font-weight: 500;
     }
 
     /* ===================================================================== */
@@ -1535,31 +1585,17 @@
 
     .slice-09-cta-bar {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
       padding-top: 6px;
       gap: 14px;
     }
 
-    .cta-pill {
-      background: var(--cream);
-      color: var(--ink);
-      border: 2px solid var(--ink);
-      border-radius: 999px;
-      padding: 13px 26px;
-      font-family: var(--font-sans);
-      font-size: 15px;
-      font-weight: 800;
-      box-shadow: 4px 4px 0px var(--ink);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
     .brand-signature {
-      text-align: right;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 6px;
+      white-space: nowrap;
       color: var(--cream);
       flex-shrink: 0;
     }
@@ -1576,8 +1612,7 @@
       font-family: var(--font-serif);
       font-style: italic;
       font-size: 23px;
-      line-height: 0.9;
-      display: block;
+      line-height: 1;
     }
 
     .slice-09-bottom {
@@ -1612,37 +1647,26 @@
   <!-- Colonne de vente Chariow 600px CSS exacts (1200px physiques en Retina @2x) -->
   <main id="sales-column">
     <!-- =================================================================== -->
-    <!-- TRANCHE 01 : LE HERO ROUGE BRIQUE + DAMIER                          -->
+    <!-- TRANCHE 01 : LE HERO ROUGE BRIQUE                                   -->
     <!-- =================================================================== -->
     <section class="slice-01" data-slice="01-hero-transformation">
       <div class="slice-01-top">
         <div class="eyebrow">
-          <div>AI CREATOR STUDIO</div>
-          <div>LE MINI-COURS INTERACTIF</div>
+          <div style="white-space: nowrap;">AI CREATOR STUDIO</div>
+          <div>MINI-COURS INTERACTIF CLAUDE</div>
         </div>
-        <!-- Damier 4x2 (4 colonnes x 2 lignes de carres 9px x 9px) -->
-        <svg width="36" height="18" viewBox="0 0 36 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="0" y="0" width="9" height="9" fill="#FAF6F0" />
-          <rect x="9" y="0" width="9" height="9" fill="#B63131" />
-          <rect x="18" y="0" width="9" height="9" fill="#FAF6F0" />
-          <rect x="27" y="0" width="9" height="9" fill="#B63131" />
-          <rect x="0" y="9" width="9" height="9" fill="#B63131" />
-          <rect x="9" y="9" width="9" height="9" fill="#FAF6F0" />
-          <rect x="18" y="9" width="9" height="9" fill="#B63131" />
-          <rect x="27" y="9" width="9" height="9" fill="#FAF6F0" />
-        </svg>
       </div>
 
       <h1 class="slice-01-title">
-        Transforme tes PDF ennuyeux en un produit digital interactif que tes clients s'arrachent.
+        Arrête de créer des produits digitaux que tout le monde vend au même prix.
       </h1>
 
       <div class="slice-01-copy">
         <p>
-          Étape par étape, à ton rythme, je te montre comment transformer un simple document statique (ebook, guide, checklist ou tableau) en un produit interactif vivant, prêt à vendre.
+          Apprends à utiliser l'IA pour concevoir avec Claude des produits digitaux interactifs, personnalisés et utiles, que tu peux positionner à 10 000 FCFA et plus, sans savoir coder.
         </p>
         <p>
-          Pas un énième PDF de 40 pages que tes acheteurs téléchargent une fois... et n'ouvrent plus jamais.
+          Tu peux continuer à vendre des ebooks et des produits génériques à 2 000 FCFA. Ou apprendre à construire des offres qui résolvent un problème précis et ne se battent plus uniquement sur le prix.
         </p>
       </div>
 
@@ -1658,7 +1682,7 @@
           </svg>
         </span>
         que tes clients utilisent vraiment
-        <span class="slice-01-subclosing">(dont ils sont fiers, et qu'ils achètent tous les jours)</span>
+        <span class="slice-01-subclosing">(et dont la valeur concrète justifie un tarif supérieur)</span>
       </p>
     </section>
 
@@ -1668,11 +1692,11 @@
     <section class="slice-02" data-slice="02-mockup-studio-interieur">
       <div class="eyebrow">À L'INTÉRIEUR DU MINI-COURS INTERACTIF</div>
       <h2 class="slice-02-title">
-        Ouvre le studio et suis le guide étape par étape
+        Ouvre le studio et suis la méthode étape par étape
       </h2>
       <p class="slice-02-hand">
         <span class="hand-underline">
-          zéro technique, zéro prise de tête
+          zéro code, zéro compétence technique
           <svg class="hand-underline-svg" viewBox="0 0 260 8" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M2 4.5C75 1.8 182 1.8 258 4.8" stroke="#B63131" stroke-width="2.1" stroke-linecap="round" />
           </svg>
@@ -1752,18 +1776,6 @@
             <path d="M29 9L35 3.5L39.5 10" stroke="#B63131" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </div>
-
-        <!-- Petit damier 4x2 rose / rouge en bas a droite -->
-        <svg width="36" height="18" viewBox="0 0 36 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="0" y="0" width="9" height="9" fill="#B63131" />
-          <rect x="9" y="0" width="9" height="9" fill="#F7E0E2" />
-          <rect x="18" y="0" width="9" height="9" fill="#B63131" />
-          <rect x="27" y="0" width="9" height="9" fill="#F7E0E2" />
-          <rect x="0" y="9" width="9" height="9" fill="#F7E0E2" />
-          <rect x="9" y="9" width="9" height="9" fill="#B63131" />
-          <rect x="18" y="9" width="9" height="9" fill="#F7E0E2" />
-          <rect x="27" y="9" width="9" height="9" fill="#B63131" />
-        </svg>
       </div>
     </section>
 
@@ -1771,30 +1783,30 @@
     <!-- TRANCHE 03 : LE CONSTAT EDITORIAL AVEC LETTRINE                     -->
     <!-- =================================================================== -->
     <section class="slice-03" data-slice="03-storytelling-constat">
-      <div class="eyebrow">LA VÉRITÉ SUR LES PRODUITS DIGITAUX</div>
+      <div class="eyebrow">LE CONSTAT</div>
       <h2 class="slice-03-title">
         Pourquoi je crois autant aux
         <span class="double-underline">
-          produits interactifs
+          produits interactifs...
           <svg class="double-underline-svg" viewBox="0 0 240 10" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M2 3.5C74 1 162 1 238 4" stroke="#B63131" stroke-width="2.2" stroke-linecap="round" />
             <path d="M8 8C80 5.5 168 5.5 232 8.2" stroke="#B63131" stroke-width="2" stroke-linecap="round" />
           </svg>
-        </span>...
+        </span>
       </h2>
 
       <div class="slice-03-body">
         <p>
-          <span class="drop-cap">P</span>endant longtemps, vendre un produit digital voulait dire passer des jours sur Canva à mettre en page un long PDF, puis prier pour que les gens l'achètent.
+          <span class="drop-cap">P</span>endant longtemps, créer un produit digital voulait dire rédiger un long PDF sur Canva, l'exporter et espérer que les acheteurs aillent jusqu'au bout.
         </p>
         <p>
-          Tu l'as sans doute remarqué : aujourd'hui, tout le monde vend les mêmes ebooks générés en 2 minutes sur ChatGPT. Résultat ? Les acheteurs sont fatigués des longs textes théoriques qui leur demandent des heures d'effort.
+          Aujourd'hui, n'importe qui peut générer un ebook ou un pack de prompts en dix minutes avec ChatGPT. Résultat : le marché déborde de documents génériques vendus entre 1 000 et 3 000 FCFA, que les gens téléchargent et n'ouvrent plus jamais (oui, on l'a tous fait 🤭).
         </p>
         <p>
-          Tu te dis peut-être qu'il faut être un génie de la tech pour créer mieux qu'un PDF. Moi aussi, je le pensais. Jusqu'au jour où j'ai découvert comment utiliser Claude gratuitement pour transformer une simple fiche d'une page en <span class="pink-highlight">un produit interactif qui fait le travail à la place du client</span>.
+          Quand tout le monde propose le même format statique, la seule façon d'attirer l'attention est de baisser son prix. Pour sortir de cette guerre des prix, tu dois changer de catégorie de produit.
         </p>
         <p>
-          Tu n'as pas besoin d'une grande audience pour sortir du lot. Tu as juste besoin d'offrir le format qui donne un résultat à ton client <span class="pink-highlight">avec le moins d'effort possible</span>.
+          Avec Claude et une direction artistique claire, une simple méthode écrite devient <span class="pink-highlight">un outil interactif qui calcule, diagnostique ou organise</span> directement pour ton client, avec <span class="pink-highlight">le moins d'effort possible</span>.
         </p>
       </div>
     </section>
@@ -1804,24 +1816,24 @@
     <!-- =================================================================== -->
     <section data-slice="04-piliers-interactivite">
       <div class="slice-04-top">
-        <div class="eyebrow">CE QUE CETTE MÉTHODE CHANGE POUR TOI</div>
-        <h2 class="slice-04-stat">D'un simple PDF... à un produit vivant</h2>
+        <div class="eyebrow">LA LOGIQUE ÉCONOMIQUE</div>
+        <h2 class="slice-04-stat">1 vente à 15 000 F = 5 ventes à 3 000 F</h2>
         <p class="slice-04-hand">
           <span class="hand-underline">
-            en un week-end, sans aucune compétence technique
+            le même chiffre d'affaires brut, avec une seule commande
             <svg class="hand-underline-svg" viewBox="0 0 380 8" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M2 4.5C108 1.8 268 1.8 378 4.8" stroke="#FAF6F0" stroke-width="2.1" stroke-linecap="round" />
             </svg>
           </span>
         </p>
         <p class="slice-04-desc">
-          Ton client clique sur ton lien privé depuis son téléphone, entre son code d'accès réservé aux acheteurs, coche ses cases ou tape ses chiffres, et obtient sa réponse sous les yeux.
+          Vendre un produit à 10 000 ou 15 000 FCFA n'est évidemment pas automatique. Ce n'est pas le format seul qui fait la vente : c'est la pertinence du problème résolu, ton marché et la clarté de l'outil que nous allons construire ensemble.
         </p>
       </div>
 
       <div class="slice-04-bottom">
         <p class="slice-04-intro">
-          Plus important encore, cela répond exactement à ce que tes acheteurs veulent vraiment aujourd'hui :
+          Plus important encore, ce format répond exactement à ce que tes acheteurs recherchent aujourd'hui :
         </p>
         <div class="anaphora-list">
           <div class="anaphora-line">
@@ -1853,82 +1865,121 @@
           </div>
         </div>
         <p class="slice-04-closing">
-          Quand ton produit leur fait gagner du temps au lieu de leur donner des devoirs à lire, ils sont ravis de payer le juste prix.
+          Quand ton produit leur fait gagner du temps au lieu de leur donner 40 pages de devoirs à lire, sa valeur perçue change de catégorie.
         </p>
       </div>
     </section>
 
     <!-- =================================================================== -->
-    <!-- TRANCHE 05 : BANDEAU ROSE POUSSIEREUX + BULLES RETOURS              -->
+    <!-- TRANCHE 05 : LEVIER DE VALEUR + 4 TRANSFORMATIONS D'IDEES           -->
     <!-- =================================================================== -->
     <section data-slice="05-preuve-sociale-retours">
       <div class="slice-05-top">
-        <div class="eyebrow">CE QUI SE PASSE QUAND TU CHANGES DE FORMAT</div>
+        <div class="eyebrow">CE QUI JUSTIFIE UN POSITIONNEMENT SUPÉRIEUR</div>
         <p class="slice-05-intro">
-          Un ebook se compare à un petit livre. Un outil ou un guide interactif se perçoit immédiatement comme une création de haute valeur.
+          Un ebook se compare à un petit livre. Un outil ou un guide interactif se perçoit comme une solution pratique utilisable au quotidien.
         </p>
         <h2 class="slice-05-title">
-          Fini le syndrome du "juste un PDF"
+          Sortir du "juste un PDF"
         </h2>
         <p class="slice-05-hand">
-          place à un produit digital que personne ne peut copier 🤭
+          quatre leviers qui changent la valeur perçue ✨
         </p>
 
         <div class="proof-card">
           <div class="proof-item">
             <span class="proof-check" aria-hidden="true">✓</span>
-            <span><mark class="hl-yellow">Produit interactif</mark> clé en main</span>
+            <span><mark class="hl-yellow">Utilité immédiate</mark> (calcul, diagnostic ou plan)</span>
           </div>
           <div class="proof-item">
             <span class="proof-check" aria-hidden="true">✓</span>
-            <span>Écran de <mark class="hl-yellow">code d'accès</mark> acheteur intégré</span>
+            <span>Barrière de <mark class="hl-yellow">code d'accès</mark> dissuasive pour les acheteurs</span>
           </div>
           <div class="proof-item">
             <span class="proof-check" aria-hidden="true">✓</span>
-            <span>Design sur mesure (zéro look ChatGPT)</span>
+            <span>Direction artistique propre (zéro look IA par défaut)</span>
           </div>
           <div class="proof-item">
             <span class="proof-check" aria-hidden="true">✓</span>
-            <span>Parfait sur <mark class="hl-yellow">téléphone</mark> &amp; ordinateur</span>
+            <span>Confortable sur <mark class="hl-yellow">téléphone</mark> et ordinateur</span>
           </div>
           <div class="proof-item">
             <span class="proof-check" aria-hidden="true">✓</span>
-            <span>Mis en ligne gratuitement en 30 secondes</span>
+            <span>Une même expertise déclinable en plusieurs outils</span>
           </div>
           <div class="proof-item">
             <span class="proof-check" aria-hidden="true">✓</span>
-            <span>Prêt à encaisser sur Chariow (<mark class="hl-yellow">Mobile Money &amp; Carte</mark>)</span>
+            <span>Livraison Chariow (<mark class="hl-yellow">Mobile Money &amp; Carte</mark>)</span>
           </div>
         </div>
       </div>
 
       <div class="slice-05-bottom">
-        <div class="eyebrow">RETOURS SUR LA MÉTHODE</div>
+        <div class="eyebrow">DÉMONSTRATION PAR L'EXEMPLE</div>
         <h2 class="slice-05-reviews-title">
-          Recevoir des messages comme
+          Une même idée de départ peut donner
           <span class="double-underline" style="color: #B63131;">
-            CEUX-CI
-            <svg class="double-underline-svg" viewBox="0 0 110 10" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M2 3.5C34 1 74 1 108 4" stroke="#B63131" stroke-width="2.2" stroke-linecap="round" />
-              <path d="M6 8C38 5.5 76 5.5 104 8.2" stroke="#B63131" stroke-width="2" stroke-linecap="round" />
+            DEUX OFFRES
+            <svg class="double-underline-svg" viewBox="0 0 140 10" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M2 3.5C44 1 94 1 138 4" stroke="#B63131" stroke-width="2.2" stroke-linecap="round" />
+              <path d="M6 8C48 5.5 98 5.5 134 8.2" stroke="#B63131" stroke-width="2" stroke-linecap="round" />
             </svg>
           </span>
-          de ceux qui l'ont testé me rend tellement fier 🥰
+          très différentes
         </h2>
 
         <div class="dm-stack">
-          <div class="dm-bubble dm-bubble--left">
-            "10 minutes dans le cours et la mise en page est INCROYABLE 😭👏 J'ai transformé ma fiche de calcul de prix en un <mark class="hl-yellow">vrai calculateur interactif en FCFA et Euros</mark> sans toucher à une seule ligne de code !!"
-          </div>
-          <div class="dm-bubble dm-bubble--right">
-            "J'ai montré l'avant / après à mes abonnés en story... <mark class="hl-yellow">Tout le monde m'a demandé quel développeur j'avais payé</mark> alors que tout a été fait sur Claude gratuit avec ton Skill Design 🔥"
-          </div>
-          <div class="dm-bubble dm-bubble--left">
-            "Le système de <mark class="hl-yellow">code d'accès réservé aux acheteurs + le modèle de Guide PDF</mark> pour Chariow m'a fait gagner un temps fou. Mon produit a été mis en ligne en 30 secondes chrono !"
-          </div>
-          <div class="dm-bubble dm-bubble--right">
-            "Rien que le <mark class="hl-yellow">Bonus ManyChat et la Marketing Library avec les 9 Assistants IA</mark> valent largement le prix du mini-cours. C'est le cours le plus clair et actionnable que j'ai suivi ❤️"
-          </div>
+          <article class="dm-bubble dm-bubble--left">
+            <div class="transform-card-head">
+              <span class="transform-card-num">01</span>
+              <span class="transform-card-domain">• FIXATION DE PRIX &amp; RENTABILITÉ</span>
+            </div>
+            <p class="transform-row-generic">
+              <span class="transform-row-generic-label">Offre générique (1 500 à 3 000 F)</span> : Un ebook PDF expliquant comment calculer ses coûts et sa marge.
+            </p>
+            <p class="transform-row-interactive">
+              <mark class="hl-yellow">Produit interactif (10 000 à 15 000 F)</mark> : Un calculateur de prix en FCFA et Euros où le client saisit ses chiffres et obtient son tarif conseillé et son bénéfice net en direct.
+            </p>
+          </article>
+
+          <article class="dm-bubble dm-bubble--right">
+            <div class="transform-card-head">
+              <span class="transform-card-num">02</span>
+              <span class="transform-card-domain">• GESTION &amp; BUDGET PERSONNEL</span>
+            </div>
+            <p class="transform-row-generic">
+              <span class="transform-row-generic-label">Offre générique (2 000 à 3 000 F)</span> : Un guide écrit sur la gestion de son salaire mensuel.
+            </p>
+            <p class="transform-row-interactive">
+              <mark class="hl-yellow">Produit interactif (10 000 F et plus)</mark> : Un répartiteur de budget interactif sur téléphone qui ajuste automatiquement les enveloppes d'épargne et de dépenses selon le revenu saisi.
+            </p>
+          </article>
+
+          <article class="dm-bubble dm-bubble--left">
+            <div class="transform-card-head">
+              <span class="transform-card-num">03</span>
+              <span class="transform-card-domain">• COACHING, VENTE &amp; PROSPECTION</span>
+            </div>
+            <p class="transform-row-generic">
+              <span class="transform-row-generic-label">Offre générique (2 500 à 5 000 F)</span> : Un recueil PDF de conseils et de modèles de messages génériques.
+            </p>
+            <p class="transform-row-interactive">
+              <mark class="hl-yellow">Produit interactif (12 000 à 15 000 F)</mark> : Un diagnostic interactif avec plan d'action ciblé et scripts copiables en un clic selon la situation exacte du client.
+            </p>
+          </article>
+
+          <article class="dm-bubble dm-bubble--right">
+            <div class="transform-card-head">
+              <span class="transform-card-num">04</span>
+              <span class="transform-card-domain">• ORGANISATION, BIEN-ÊTRE &amp; REPAS</span>
+            </div>
+            <p class="transform-row-generic">
+              <span class="transform-row-generic-label">Offre générique (1 500 à 3 000 F)</span> : Un PDF statique listant 50 idées de menus ou d'habitudes.
+            </p>
+            <p class="transform-row-interactive">
+              <mark class="hl-yellow">Produit interactif (10 000 F et plus)</mark> : Un planificateur hebdomadaire interactif avec suivi de progression et liste de courses à cocher directement sur son téléphone.
+            </p>
+          </article>
         </div>
       </div>
     </section>
@@ -1954,7 +2005,7 @@
         <li class="included-row">
           <span class="included-num">01</span>
           <div class="included-copy">
-            <strong>Les 7 leçons pratiques étape par étape (3 Modules)</strong> : pour choisir ton idée, créer le style de ton produit interactif, le mettre en ligne gratuitement et le vendre à ton rythme.
+            <strong>Les 7 leçons pratiques étape par étape (3 Modules)</strong> : pour choisir ton concept, créer ton produit interactif avec Claude, le mettre en ligne gratuitement et le vendre à ton rythme.
           </div>
         </li>
         <li class="included-row">
@@ -1990,7 +2041,7 @@
         <li class="included-row">
           <span class="included-num">07</span>
           <div class="included-copy">
-            <strong>Bonus 02 : La Marketing Library (9 Assistants IA + Prompt d'Étude de Marché)</strong> : pour trouver le bon prix, écrire des textes de vente naturels, optimiser tes profils Instagram/LinkedIn et transformer tes stories en ventes.
+            <strong>Bonus 02 : La Marketing Library (9 Assistants IA + Prompt d'Étude de Marché)</strong> : exploitable dans Claude ou ChatGPT pour travailler ton positionnement, fixer ton prix, écrire tes textes de vente et optimiser tes profils.
           </div>
         </li>
       </ol>
@@ -2000,9 +2051,9 @@
     <!-- TRANCHE 07 : LA DEMONSTRATION VISUELLE AVANT / APRES                -->
     <!-- =================================================================== -->
     <section class="slice-07" data-slice="07-avant-apres-calculateur">
-      <div class="eyebrow">LA MÉTHODE AVANT / APRÈS EN ACTION</div>
+      <div class="eyebrow">INCLUS : L'EXEMPLE COMPLET CONSTRUIT DANS LE COURS</div>
       <h2 class="slice-07-title">
-        Transforme une simple fiche en
+        Crée ton propre
         <span class="double-underline" style="color: #B63131;">
           outil interactif
           <svg class="double-underline-svg" viewBox="0 0 180 10" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2012,7 +2063,7 @@
         </span>
       </h2>
       <p class="slice-07-intro">
-        Regarde comment une simple feuille de calcul de prix d'une page devient un produit interactif irrésistible que tes clients utilisent en 3 clics :
+        Regarde la différence concrète entre un simple contenu informatif et un outil interactif utilisable, construits à partir de la même fiche de départ 👀 :
       </p>
 
       <!-- BLOC AVANT -->
@@ -2064,7 +2115,7 @@
         </table>
       </div>
       <p class="ba-caption">
-        Avant : une fiche en noir et blanc où ton client doit tout calculer lui-même à la main...
+        Format document statique : une fiche pratique en noir et blanc où ton client doit lire la formule et tout calculer lui-même à la main.
       </p>
 
       <div class="ba-transition">et maintenant...</div>
@@ -2148,7 +2199,7 @@
       </div>
 
       <p class="ba-caption">
-        Après : un outil interactif en FCFA &amp; Euros qui calcule le prix idéal et le bénéfice net en direct, protégé par un code d'accès réservé aux acheteurs.
+        Format produit interactif : un calculateur en FCFA &amp; Euros qui calcule le prix conseillé et le bénéfice net en direct, doté d'un écran de code d'accès dissuasif réservé aux acheteurs.
       </p>
     </section>
 
@@ -2163,19 +2214,19 @@
         <ul class="fit-list">
           <li class="fit-item">
             <span class="fit-dash" aria-hidden="true">-</span>
-            <span>Tu vends déjà (ou tu veux vendre) des ebooks, guides PDF, templates ou méthodes et tu veux tripler leur valeur perçue.</span>
+            <span>Tu ne veux plus te battre pour vendre des ebooks génériques ou des packs de prompts entre 1 000 et 3 000 FCFA que des dizaines d'autres créateurs proposent déjà.</span>
           </li>
           <li class="fit-item">
             <span class="fit-dash" aria-hidden="true">-</span>
-            <span>Tu veux lancer un produit digital rentable sur Chariow sans montrer ton visage ni enregistrer des heures de vidéo.</span>
+            <span>Tu as une compétence, une méthode ou un document utile et tu veux le transformer en un produit digital interactif capable de justifier un positionnement à 10 000 FCFA et plus.</span>
           </li>
           <li class="fit-item">
             <span class="fit-dash" aria-hidden="true">-</span>
-            <span>Tu n'y connais rien en programmation et tu veux une méthode simple, guidée clic par clic sur Claude gratuit.</span>
+            <span>Tu veux commercialiser tes offres sur Chariow et encaisser par Mobile Money (MTN, Moov, Wave, Orange) ou Carte Bancaire sans devoir tourner des vidéos face caméra.</span>
           </li>
           <li class="fit-item">
             <span class="fit-dash" aria-hidden="true">-</span>
-            <span>Tu veux encaisser par Mobile Money (MTN, Moov, Wave, Orange) ou Carte Bancaire avec une livraison 100% automatique.</span>
+            <span>Tu ne sais pas coder et tu cherches un cadre simple sur Claude gratuit, avec les instructions et les prompts prêts à copier étape par étape.</span>
           </li>
         </ul>
       </div>
@@ -2206,7 +2257,7 @@
     </section>
 
     <!-- =================================================================== -->
-    <!-- TRANCHE 09 : CARTE D'INVESTISSEMENT ROUGE + APPEL A L'ACTION FINAL  -->
+    <!-- TRANCHE 09 : CARTE D'INVESTISSEMENT ROUGE + CONCLUSION              -->
     <!-- =================================================================== -->
     <section data-slice="09-investissement-14900-fcfa">
       <div class="slice-09-top">
@@ -2215,17 +2266,6 @@
             <div class="eyebrow">INVESTISSEMENT • OFFRE DE LANCEMENT</div>
             <p class="slice-09-sub">Ton accès complet aujourd'hui est à :</p>
           </div>
-          <!-- Damier 4x2 #FAF6F0 / #B63131 -->
-          <svg width="36" height="18" viewBox="0 0 36 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect x="0" y="0" width="9" height="9" fill="#FAF6F0" />
-            <rect x="9" y="0" width="9" height="9" fill="#B63131" />
-            <rect x="18" y="0" width="9" height="9" fill="#FAF6F0" />
-            <rect x="27" y="0" width="9" height="9" fill="#B63131" />
-            <rect x="0" y="9" width="9" height="9" fill="#B63131" />
-            <rect x="9" y="9" width="9" height="9" fill="#FAF6F0" />
-            <rect x="18" y="9" width="9" height="9" fill="#B63131" />
-            <rect x="27" y="9" width="9" height="9" fill="#FAF6F0" />
-          </svg>
         </div>
 
         <div class="price-old-row">
@@ -2239,7 +2279,7 @@
         </p>
 
         <div class="roi-box">
-          Ce qui veut dire que si tu vends ton premier outil interactif à seulement 5 000 FCFA, il te suffit de <strong>3 ventes</strong> pour rembourser intégralement ton investissement 🤭
+          Ce qui veut dire qu'en vendant ton premier outil interactif à 5 000 FCFA, <strong>3 ventes</strong> génèrent déjà 15 000 FCFA de chiffre d'affaires brut. Et avec une offre positionnée à 15 000 FCFA, <strong>une seule vente</strong> couvre le prix de ce mini-cours.
         </div>
 
         <p class="scarcity-note">
@@ -2247,9 +2287,6 @@
         </p>
 
         <div class="slice-09-cta-bar">
-          <a href="#chariow-checkout-anchor" class="cta-pill">
-            <span>Réserve ta place ci-dessous ↓</span>
-          </a>
           <div class="brand-signature">
             <span class="brand-signature-top">AI CREATOR</span>
             <span class="brand-signature-bottom">studio</span>
@@ -2259,7 +2296,7 @@
 
       <div id="chariow-checkout-anchor" class="slice-09-bottom">
         <h2 class="slice-09-closing-title">
-          Maintenant, créons ton prochain
+          Maintenant, construisons ton prochain
           <span class="double-underline" style="color: #B63131;">
             best-seller
             <svg class="double-underline-svg" viewBox="0 0 130 10" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2270,8 +2307,8 @@
           interactif
         </h2>
         <div class="slice-09-closing-copy">
-          <p>Tu as déjà les idées ou les documents qui méritent d'être transformés.</p>
-          <p><strong>Il est temps d'arrêter d'hésiter et de construire un produit digital que tes clients vont adorer utiliser.</strong></p>
+          <p>Tu as déjà les idées et les connaissances qui méritent mieux qu'un PDF oublié au fond d'un téléphone.</p>
+          <p><strong>Arrête de te battre uniquement sur le prix et apprends à construire des produits digitaux qui apportent davantage de valeur.</strong></p>
         </div>
       </div>
     </section>
