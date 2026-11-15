@@ -1,0 +1,26 @@
+{
+  "name": "ai-creator-video-studio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Isolated Remotion 9:16 video studio for AI CREATOR Studio",
+  "scripts": {
+    "dev": "remotion studio engine/index.ts",
+    "build": "remotion bundle engine/index.ts",
+    "typecheck": "tsc --noEmit",
+    "audit": "node scripts/audit_episode.mjs",
+    "new": "node scripts/new_episode.mjs",
+    "render:showcase": "remotion render engine/index.ts Showcase9x16 episodes/template-showcase/output.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/media": "^4.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.2"
+  }
+}

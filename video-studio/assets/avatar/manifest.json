@@ -1,0 +1,48 @@
+{
+  "character": "Kreesten Faceless 3D",
+  "outfit": "Cream overshirt over black tee",
+  "canvas": "900x1050 (padding 50px, stick_to_bottom=False)",
+  "outline": "14px white + 6px solid black (#171313)",
+  "poses": [
+    {
+      "id": "01_hook_lean_in",
+      "file": "avatar/01_hook_lean_in.png"
+    },
+    {
+      "id": "02_talking_confident",
+      "file": "avatar/02_talking_confident.png"
+    },
+    {
+      "id": "03_thinking_chin",
+      "file": "avatar/03_thinking_chin.png"
+    },
+    {
+      "id": "04_stop_warning",
+      "file": "avatar/04_stop_warning.png"
+    },
+    {
+      "id": "05_eureka_snap",
+      "file": "avatar/05_eureka_snap.png"
+    },
+    {
+      "id": "06_working_tablet",
+      "file": "avatar/06_working_tablet.png"
+    },
+    {
+      "id": "07_facepalm_oops",
+      "file": "avatar/07_facepalm_oops.png"
+    },
+    {
+      "id": "08_amazed_wow",
+      "file": "avatar/08_amazed_wow.png"
+    },
+    {
+      "id": "09_relaxed_arms_crossed",
+      "file": "avatar/09_relaxed_arms_crossed.png"
+    },
+    {
+      "id": "10_head_badge",
+      "file": "avatar/10_head_badge.png"
+    }
+  ]
+}

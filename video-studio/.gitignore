@@ -1,0 +1,12 @@
+node_modules/
+.venv/
+dist/
+out/
+episodes/**/renders/
+episodes/**/frames/
+episodes/**/raw_audio.*
+episodes/**/*.mp4
+episodes/**/*.mov
+assets/avatar/raw_*.png
+*.log
+.DS_Store
