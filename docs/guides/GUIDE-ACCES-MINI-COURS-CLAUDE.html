@@ -227,6 +227,25 @@
       color: var(--ink);
     }
 
+    .spam-alert {
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: rgba(182, 49, 49, 0.09);
+      border: 1.5px solid var(--red);
+      border-left: 4px solid var(--red);
+      border-radius: 6px;
+      color: var(--red);
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .spam-alert strong {
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
     /* Bouton d'acces majeur cliquable */
     .cta-container {
       margin-top: 28px;
@@ -354,9 +373,11 @@
             <div class="step-content">
               <h3>Vérifie ta boîte mail (et ton dossier Spams)</h3>
               <p class="step-text">
-                Un e-mail contenant ton <strong>code personnel à 6 chiffres à usage unique</strong> vient de t'être envoyé.<br />
-                <strong>Important : pense à bien vérifier ton dossier Spams / Courriers indésirables</strong> si tu ne le vois pas dans ta boîte de réception principale.
+                Un e-mail contenant ton <strong>code personnel à 6 chiffres à usage unique</strong> vient de t'être envoyé.
               </p>
+              <div class="spam-alert">
+                <strong>Important :</strong> pense à bien vérifier ton dossier Spams / Courriers indésirables si tu ne le vois pas dans ta boîte de réception principale.
+              </div>
             </div>
           </div>
 

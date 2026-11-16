@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { CourseHomePage } from '../components/home/CourseHomePage';
+import { CHARIOW_AFFILIATION_URL } from '../components/home/CourseAffiliateCard';
 import { ProgressProvider } from '../context/ProgressContext';
 import { STORAGE_KEY, createInitialProgress, loadProgressFromStorage } from '../utils/storage';
 
@@ -26,22 +27,24 @@ describe("Page d'accueil : Encart Affiliation Chariow", () => {
     expect(screen.getByRole('heading', { name: /Partage ce cours \+ gagne\s*15%/i })).toBeInTheDocument();
     expect(screen.getByText(/automatiquement affilié sur Chariow/i)).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: /Récupérer mon lien Chariow/i })
+      screen.getByRole('link', { name: /Récupérer mon lien Chariow/i })
     ).toBeInTheDocument();
   });
 
-  it("laisse le bouton d'affiliation sans action câblée ni changement de route au clic", () => {
+  it("pointe le CTA vers l'URL officielle Chariow en nouvel onglet sécurisé sans bouton de copie", () => {
     render(
       <ProgressProvider>
         <CourseHomePage />
       </ProgressProvider>
     );
 
-    const button = screen.getByRole('button', { name: /Récupérer mon lien Chariow/i });
-    expect(button).toHaveAttribute('type', 'button');
+    const affiliateLink = screen.getByRole('link', { name: /Récupérer mon lien Chariow/i });
+    expect(affiliateLink).toHaveAttribute('href', CHARIOW_AFFILIATION_URL);
+    expect(affiliateLink).toHaveAttribute('href', 'https://gqqyuklr.mychariow.store/affiliation');
+    expect(affiliateLink).toHaveAttribute('target', '_blank');
+    expect(affiliateLink).toHaveAttribute('rel', 'noopener noreferrer');
 
-    fireEvent.click(button);
-
+    expect(screen.queryByRole('button', { name: /Copier le lien/i })).not.toBeInTheDocument();
     expect(loadProgressFromStorage().activeRoute).toEqual({ kind: 'home' });
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });

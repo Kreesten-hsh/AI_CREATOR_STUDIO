@@ -188,4 +188,22 @@ describe('Mission 11 : BuyerAuthGate & Authentification Acheteur Chariow (E-mail
     expect(emailSource).not.toContain('Bonjour Patron Studio');
     expect(emailSource).toContain('smtp.gmail.com');
   });
+
+  it("restaure le design Studio de sendBuyerEmail.ts avec bouton d'accès et consigne Non spam", () => {
+    const sharedEmailPath = path.join(
+      process.cwd(),
+      'supabase',
+      'functions',
+      '_shared',
+      'sendBuyerEmail.ts'
+    );
+    const emailSource = fs.readFileSync(sharedEmailPath, 'utf-8');
+
+    expect(emailSource).toContain('Bonjour Boss,');
+    expect(emailSource).toContain('smtp.gmail.com');
+    expect(emailSource).toContain('Mini-Cours Interactif Claude');
+    expect(emailSource).toContain('Accéder à mon espace →');
+    expect(emailSource).toContain('#B63131');
+    expect(emailSource).toContain('Non spam');
+  });
 });

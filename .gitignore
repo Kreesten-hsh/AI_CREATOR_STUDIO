@@ -37,4 +37,7 @@ graphify-out/
 # Local media outputs
 output/
 
+# Generated context dumps
+repomix-output.xml
+
 

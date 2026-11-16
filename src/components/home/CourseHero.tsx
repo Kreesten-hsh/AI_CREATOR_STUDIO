@@ -53,10 +53,10 @@ export function CourseHero() {
             </div>
 
             {/* Titre officiel avec accentuation serif crème et filet ondulé organique */}
-            <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight tracking-tight text-surface">
+            <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-[1.38] tracking-tight text-surface">
               {titlePrefix}{' '}
               {hasHighlight && (
-                <span className="relative inline-block font-serif italic font-normal text-cream">
+                <span className="relative inline-block font-serif italic font-normal text-cream leading-[1.35]">
                   {highlightPhrase}
                   <svg
                     className="absolute -bottom-1.5 left-0 w-full h-2 text-pale-pink overflow-visible pointer-events-none"

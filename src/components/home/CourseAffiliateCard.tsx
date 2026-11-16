@@ -1,6 +1,12 @@
 import { ArrowRight } from 'lucide-react';
 
 /**
+ * URL officielle du programme d'affiliation Chariow de la boutique AI CREATOR STUDIO
+ * (offre active afp_w34936qbvl1k sur le produit prd_mnk5kr0q, commission 15 %).
+ */
+export const CHARIOW_AFFILIATION_URL = 'https://gqqyuklr.mychariow.store/affiliation';
+
+/**
  * Encart d'affiliation Chariow affiché sous le Hero sur la page d'accueil.
  * Transforme chaque élève en affilié dès son achat pendant la campagne de lancement.
  */
@@ -28,15 +34,16 @@ export function CourseAffiliateCard() {
           touche une commission sur chaque vente générée grâce à toi.
         </p>
 
-        {/* Aucune action câblée volontairement avant branchement du lien d'affiliation Chariow */}
         <div className="pt-1">
-          <button
-            type="button"
+          <a
+            href={CHARIOW_AFFILIATION_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="brutal-btn rounded-brutal-btn bg-primary-red hover:bg-dark-red text-surface px-5 py-2.5 min-h-[44px] font-mono text-xs font-bold uppercase inline-flex items-center gap-2 border-2 border-ink shadow-brutal-xs transition-all"
           >
             <span>Récupérer mon lien Chariow</span>
             <ArrowRight className="w-4 h-4 stroke-[2.5]" aria-hidden="true" />
-          </button>
+          </a>
         </div>
       </div>
     </section>

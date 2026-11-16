@@ -36,6 +36,8 @@ DEPRECATED_KERNELS=(
   "linux-modules-7.0.0-31-generic"
   "linux-image-7.0.0-38-generic"
   "linux-modules-7.0.0-38-generic"
+  "linux-image-7.0.0-42-generic"
+  "linux-modules-7.0.0-42-generic"
 )
 
 for pkg in "${DEPRECATED_KERNELS[@]}"; do
@@ -46,7 +48,7 @@ for pkg in "${DEPRECATED_KERNELS[@]}"; do
 done
 
 # Nettoyage des répertoires de modules orphelins
-rm -rf /usr/lib/modules/7.0.0-31-generic /usr/lib/modules/7.0.0-38-generic 2>/dev/null || true
+rm -rf /usr/lib/modules/7.0.0-31-generic /usr/lib/modules/7.0.0-38-generic /usr/lib/modules/7.0.0-42-generic 2>/dev/null || true
 
 # Mise à jour du menu de démarrage GRUB
 if command -v update-grub &>/dev/null; then
