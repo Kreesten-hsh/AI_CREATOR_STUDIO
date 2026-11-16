@@ -1,0 +1,114 @@
+{
+  "audio": "ep01/voix_ep01.wav",
+  "durationSec": 30.354286,
+  "fps": 30,
+  "durationInFrames": 926,
+  "segments": [
+    {
+      "id": "scene_1a",
+      "start": 0.0,
+      "end": 4.44,
+      "startFrame": 0,
+      "endFrame": 133,
+      "text": "Si tes produits digitaux générés avec l'IA ressemblent encore à ça en 2026…",
+      "keywords": [
+        { "word": "à ça", "start": 2.85, "end": 3.15, "frame": 88 },
+        { "word": "2026", "start": 3.35, "end": 4.30, "frame": 100 }
+      ]
+    },
+    {
+      "id": "scene_1b",
+      "start": 4.44,
+      "end": 5.55,
+      "startFrame": 133,
+      "endFrame": 166,
+      "text": "…ou à ça…",
+      "keywords": [
+        { "word": "ou à ça", "start": 4.55, "end": 5.25, "frame": 150 }
+      ]
+    },
+    {
+      "id": "scene_1c",
+      "start": 5.55,
+      "end": 7.50,
+      "startFrame": 166,
+      "endFrame": 225,
+      "text": "…alors qu'ils pourraient ressembler à ça,",
+      "keywords": [
+        { "word": "ressembler à ça", "start": 6.65, "end": 7.24, "frame": 204 }
+      ]
+    },
+    {
+      "id": "scene_2",
+      "start": 7.50,
+      "end": 9.48,
+      "startFrame": 225,
+      "endFrame": 284,
+      "text": "tu es exactement au bon endroit.",
+      "keywords": [
+        { "word": "bon endroit", "start": 8.40, "end": 9.31, "frame": 252 }
+      ]
+    },
+    {
+      "id": "scene_3",
+      "start": 9.48,
+      "end": 13.95,
+      "startFrame": 284,
+      "endFrame": 419,
+      "text": "Aujourd'hui, plus personne n'a envie d'acheter un PDF de 50 pages qui pue l'IA.",
+      "keywords": [
+        { "word": "50 pages", "start": 12.20, "end": 13.05, "frame": 370 },
+        { "word": "qui pue l'IA", "start": 13.20, "end": 13.66, "frame": 396 }
+      ]
+    },
+    {
+      "id": "scene_4",
+      "start": 13.95,
+      "end": 18.75,
+      "startFrame": 419,
+      "endFrame": 563,
+      "text": "Les gens veulent un outil original et interactif qu'ils peuvent toucher et utiliser tout de suite.",
+      "keywords": [
+        { "word": "toucher", "start": 16.92, "end": 17.35, "frame": 513 },
+        { "word": "utiliser tout de suite", "start": 17.42, "end": 18.55, "frame": 525 }
+      ]
+    },
+    {
+      "id": "scene_5a",
+      "start": 18.75,
+      "end": 24.20,
+      "startFrame": 563,
+      "endFrame": 726,
+      "text": "J'ai condensé toute ma méthode dans un mini-cours pour t'aider à transformer n'importe quelle idée en produit interactif avec Claude,",
+      "keywords": [
+        { "word": "mini-cours", "start": 20.10, "end": 20.80, "frame": 612 },
+        { "word": "n'importe quelle idée", "start": 21.60, "end": 22.80, "frame": 654 },
+        { "word": "avec Claude", "start": 23.10, "end": 24.18, "frame": 693 }
+      ]
+    },
+    {
+      "id": "scene_5b",
+      "start": 24.20,
+      "end": 27.20,
+      "startFrame": 726,
+      "endFrame": 816,
+      "text": "sans abonnement et même sans savoir coder.",
+      "keywords": [
+        { "word": "sans abonnement", "start": 24.30, "end": 25.35, "frame": 730 },
+        { "word": "sans savoir coder", "start": 25.60, "end": 26.97, "frame": 770 }
+      ]
+    },
+    {
+      "id": "scene_6",
+      "start": 27.20,
+      "end": 30.87,
+      "startFrame": 816,
+      "endFrame": 926,
+      "text": "Abonne-toi et commente Claude pour que je t'envoie le lien en privé.",
+      "keywords": [
+        { "word": "CLAUDE", "start": 28.55, "end": 28.95, "frame": 866 },
+        { "word": "en privé", "start": 29.30, "end": 30.15, "frame": 876 }
+      ]
+    }
+  ]
+}

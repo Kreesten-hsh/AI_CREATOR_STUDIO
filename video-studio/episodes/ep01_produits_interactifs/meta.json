@@ -1,0 +1,18 @@
+{
+  "id": "ep01_produits_interactifs",
+  "title": "EP01 - Produits digitaux IA generiques vs Outil interactif avec Claude",
+  "funnelStage": "TOFU",
+  "intention": "Contraster",
+  "format": "01_ledevultime_massive_media_vs_pdf_plus_chariow_cta",
+  "style": "ledevultime_minimal_grid",
+  "openingPose": "hookLeanIn",
+  "durationSec": 30.87,
+  "ctaKeyword": "CLAUDE",
+  "customScenesCount": 15,
+  "hookInFirstFrame": true,
+  "hasContrarianSnapback": true,
+  "openLoopsAtSec": [7.73, 14.07, 18.8, 25.6],
+  "maxStaticStretchSec": 1.8,
+  "mentionsForbiddenChallengeWord": false,
+  "usesSafeZones": true
+}

@@ -43,6 +43,10 @@
     {
       "id": "10_head_badge",
       "file": "avatar/10_head_badge.png"
+    },
+    {
+      "id": "11_working_laptop",
+      "file": "avatar/11_working_laptop.png"
     }
   ]
 }

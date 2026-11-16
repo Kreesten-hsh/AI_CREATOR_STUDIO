@@ -59,6 +59,7 @@ export const EditorialCanvas: React.FC<{
         right: 0,
         height: 20,
         backgroundColor: COLORS.burgundy,
+        zIndex: 30,
       }}
     />
     <div
@@ -69,19 +70,7 @@ export const EditorialCanvas: React.FC<{
         right: 0,
         height: 20,
         backgroundColor: COLORS.burgundy,
-      }}
-    />
-    <div
-      style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        width: 940,
-        height: 940,
-        transform: 'translate(-50%, -48%)',
-        borderRadius: '50%',
-        backgroundImage:
-          'radial-gradient(circle, rgba(255, 253, 252, 0.96) 0%, rgba(255, 253, 252, 0.62) 46%, rgba(234, 227, 213, 0) 76%)',
+        zIndex: 30,
       }}
     />
 

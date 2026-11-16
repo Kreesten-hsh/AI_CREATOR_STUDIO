@@ -54,6 +54,7 @@ export const AVATAR_POSES = {
   amazedWow: 'avatar/08_amazed_wow.png',
   armsCrossed: 'avatar/09_relaxed_arms_crossed.png',
   headBadge: 'avatar/10_head_badge.png',
+  workingLaptop: 'avatar/11_working_laptop.png',
 } as const;
 
 export type AvatarPoseKey = keyof typeof AVATAR_POSES;

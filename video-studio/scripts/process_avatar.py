@@ -32,6 +32,7 @@ POSE_ORDER = [
     ("08_amazed_wow", "raw_08_amazed_wow.jpg"),
     ("09_relaxed_arms_crossed", "raw_09_relaxed_arms_crossed.jpg"),
     ("10_head_badge", "raw_10_head_badge.jpg"),
+    ("11_working_laptop", "raw_11_working_laptop.jpg"),
 ]
 
 WHITE_BORDER_PX = 14
@@ -160,7 +161,7 @@ def remove_flat_bg_advanced(
         y, x = divmod(p, w)
         if face_x0 <= x <= face_x1 and face_y0 <= y <= face_y1:
             continue
-        if y < int(h * 0.62) and d2 <= pocket_tol2 and edge_wall[p] == 0:
+        if y < int(h * 0.85) and d2 <= pocket_tol2 and edge_wall[p] == 0:
             if abs(r - g) < 12 and abs(g - b) < 12 and abs(r - b) < 18 and 195 <= r <= 238:
                 pocket_ok[p] = 1
 
@@ -234,7 +235,7 @@ def remove_flat_bg_advanced(
     while gq:
         idx = gq.popleft()
         y, x = divmod(idx, w)
-        if y >= int(h * 0.65):
+        if y >= int(h * 0.87):
             continue
         for nidx in (
             idx - 1 if x > 0 else -1,
