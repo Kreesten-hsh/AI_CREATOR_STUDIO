@@ -10,3 +10,4 @@ episodes/**/*.mov
 assets/avatar/raw_*.png
 *.log
 .DS_Store
+repomix-output.xml

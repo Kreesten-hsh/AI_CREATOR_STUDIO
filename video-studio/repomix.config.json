@@ -1,0 +1,20 @@
+{
+  "output": {
+    "filePath": "repomix-output.xml",
+    "style": "xml",
+    "removeEmptyLines": true,
+    "showLineNumbers": false
+  },
+  "ignore": {
+    "useGitignore": true,
+    "useDefaultPatterns": true,
+    "customPatterns": [
+      "repomix-output.xml",
+      "episodes/template-showcase/**",
+      "episodes/*/transcript.json",
+      "skill/**",
+      "scripts/process_avatar.py",
+      "scripts/generate_sfx.py"
+    ]
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "audio": "ep02/voix_ep02.wav",
+  "durationSec": 26.514286,
+  "fps": 30,
+  "durationInFrames": 810,
+  "segments": [
+    {
+      "id": "phrase_1",
+      "start": 0.0,
+      "end": 3.58,
+      "startFrame": 0,
+      "endFrame": 107,
+      "text": "Voici ce qui se passe quand tu demande à Claude de te généré un produit digital.",
+      "keywords": [
+        { "word": "produit digital", "start": 2.76, "end": 3.54, "frame": 83 }
+      ]
+    },
+    {
+      "id": "phrase_2",
+      "start": 4.16,
+      "end": 7.62,
+      "startFrame": 125,
+      "endFrame": 229,
+      "text": "Il te donne un document générique et ennuyeux que personne ne prend le temps de lire.",
+      "keywords": [
+        { "word": "ennuyeux", "start": 5.70, "end": 6.34, "frame": 171 },
+        { "word": "temps de lire", "start": 7.03, "end": 7.62, "frame": 211 }
+      ]
+    },
+    {
+      "id": "phrase_3",
+      "start": 8.16,
+      "end": 12.24,
+      "startFrame": 245,
+      "endFrame": 367,
+      "text": "Alors qu'avec les bonnes instructions , la même idée devient un vrai produit interactif.",
+      "keywords": [
+        { "word": "bonnes instructions", "start": 8.76, "end": 9.68, "frame": 263 },
+        { "word": "même idée", "start": 9.96, "end": 10.90, "frame": 299 },
+        { "word": "produit interactif", "start": 11.23, "end": 12.24, "frame": 337 }
+      ]
+    },
+    {
+      "id": "phrase_4",
+      "start": 12.74,
+      "end": 16.28,
+      "startFrame": 382,
+      "endFrame": 488,
+      "text": "Ce que les gens veulent, c'est tester, cliquer et avoir un résultat immédiat.",
+      "keywords": [
+        { "word": "tester", "start": 13.84, "end": 14.30, "frame": 415 },
+        { "word": "cliquer", "start": 14.42, "end": 14.88, "frame": 433 },
+        { "word": "résultat immédiat", "start": 15.20, "end": 16.28, "frame": 456 }
+      ]
+    },
+    {
+      "id": "phrase_5",
+      "start": 16.68,
+      "end": 19.80,
+      "startFrame": 500,
+      "endFrame": 594,
+      "text": "Un outil qu'on utilise a beaucoup plus de valeur qu'un simple fichier texte.",
+      "keywords": [
+        { "word": "beaucoup plus de valeur", "start": 17.60, "end": 18.74, "frame": 528 },
+        { "word": "simple fichier texte", "start": 18.80, "end": 19.80, "frame": 564 }
+      ]
+    },
+    {
+      "id": "phrase_6",
+      "start": 20.24,
+      "end": 23.00,
+      "startFrame": 607,
+      "endFrame": 690,
+      "text": "Tu peux créer ça avec Claude même sans abonnement et sans coder.",
+      "keywords": [
+        { "word": "sans abonnement", "start": 21.50, "end": 22.32, "frame": 645 },
+        { "word": "sans coder", "start": 22.57, "end": 23.00, "frame": 677 }
+      ]
+    },
+    {
+      "id": "phrase_7",
+      "start": 23.38,
+      "end": 26.30,
+      "startFrame": 701,
+      "endFrame": 789,
+      "text": "Commente CLAUDE, et je t'envoie mon mini-cours en privé pour créer le tien.",
+      "keywords": [
+        { "word": "CLAUDE", "start": 23.77, "end": 24.12, "frame": 713 },
+        { "word": "en privé", "start": 24.77, "end": 25.55, "frame": 743 }
+      ]
+    }
+  ]
+}

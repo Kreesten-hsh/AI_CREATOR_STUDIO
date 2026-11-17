@@ -1,0 +1,20 @@
+{
+  "id": "ep02_bonnes_instructions",
+  "title": "EP02 - Prompt naif vs Bonnes Instructions sur Claude",
+  "planId": "N07",
+  "funnelStage": "BOFU",
+  "intention": "Demontrer",
+  "format": "5_act_continuous_motion",
+  "style": "studio_lin_ep02_claude_blueprint",
+  "openingPose": "none_claude_ui",
+  "audioStatus": "ready_raw_elevenlabs",
+  "durationSec": 27,
+  "ctaKeyword": "CLAUDE",
+  "customScenesCount": 5,
+  "hookInFirstFrame": true,
+  "hasContrarianSnapback": true,
+  "openLoopsAtSec": [8.2, 16.7, 23.4],
+  "maxStaticStretchSec": 1.6,
+  "mentionsForbiddenChallengeWord": false,
+  "usesSafeZones": true
+}

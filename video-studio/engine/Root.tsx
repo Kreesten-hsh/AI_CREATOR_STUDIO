@@ -3,6 +3,7 @@ import { Composition } from 'remotion';
 import { VIDEO_FPS, VIDEO_HEIGHT, VIDEO_WIDTH, ensureStudioFontsLoaded } from './theme';
 import { ShowcaseComposition } from '../episodes/template-showcase/ShowcaseComposition';
 import { Ep01Composition } from '../episodes/ep01_produits_interactifs/Ep01Composition';
+import { EP02_DURATION_FRAMES, Ep02Composition } from '../episodes/ep02_bonnes_instructions/Ep02Composition';
 
 export const RemotionRoot: React.FC = () => {
   ensureStudioFontsLoaded();
@@ -21,6 +22,14 @@ export const RemotionRoot: React.FC = () => {
         id="Ep01ProduitsInteractifs"
         component={Ep01Composition}
         durationInFrames={926}
+        fps={VIDEO_FPS}
+        width={VIDEO_WIDTH}
+        height={VIDEO_HEIGHT}
+      />
+      <Composition
+        id="Ep02BonnesInstructions"
+        component={Ep02Composition}
+        durationInFrames={EP02_DURATION_FRAMES}
         fps={VIDEO_FPS}
         width={VIDEO_WIDTH}
         height={VIDEO_HEIGHT}

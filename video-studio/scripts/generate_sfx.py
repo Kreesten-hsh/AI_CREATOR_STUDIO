@@ -99,6 +99,23 @@ def make_chime_success(dur: float = 0.48) -> list[float]:
     return out
 
 
+def make_key_tick(dur: float = 0.035) -> list[float]:
+    n = int(SAMPLE_RATE * dur)
+    out = []
+    seed = 9876543
+    lp = 0.0
+    for i in range(n):
+        t = i / SAMPLE_RATE
+        seed = (1103515245 * seed + 12345) & 0x7FFFFFFF
+        noise = (seed / 0x7FFFFFFF) * 2.0 - 1.0
+        lp = lp + 0.32 * (noise - lp)
+        attack = min(1.0, t / 0.0015)
+        body = math.sin(2 * math.pi * 290 * t) * math.exp(-t * 155.0) * 0.55
+        switch_tap = lp * math.exp(-t * 210.0) * 0.45
+        out.append(0.72 * attack * (body + switch_tap))
+    return out
+
+
 if __name__ == "__main__":
     write_wav("pop", make_pop())
     write_wav("click", make_click())
@@ -106,3 +123,4 @@ if __name__ == "__main__":
     write_wav("whoosh", make_whoosh())
     write_wav("error_buzz", make_error_buzz())
     write_wav("chime_success", make_chime_success())
+    write_wav("key_tick", make_key_tick())

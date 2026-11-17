@@ -25,7 +25,7 @@ export const OfficialClaudeLogoSvg: React.FC<{ size?: number; color?: string }> 
   </svg>
 );
 
-const IdeaBulbIcon: React.FC<{ size?: number }> = ({ size = 64 }) => (
+export const IdeaBulbIcon: React.FC<{ size?: number }> = ({ size = 64 }) => (
   <svg width={size} height={size} viewBox="0 0 44 44" fill="none" style={{ flexShrink: 0 }}>
     <circle cx="22" cy="18" r="11" fill={COLORS.sand} stroke={COLORS.ink} strokeWidth="3" />
     <rect x="17" y="29" width="10" height="7" rx="2" fill={COLORS.surface} stroke={COLORS.ink} strokeWidth="2.8" />
@@ -36,7 +36,7 @@ const IdeaBulbIcon: React.FC<{ size?: number }> = ({ size = 64 }) => (
   </svg>
 );
 
-const InteractiveCursorIcon: React.FC<{ size?: number }> = ({ size = 64 }) => (
+export const InteractiveCursorIcon: React.FC<{ size?: number }> = ({ size = 64 }) => (
   <svg width={size} height={size} viewBox="0 0 36 36" fill="none" style={{ flexShrink: 0 }}>
     <rect
       x="4"
@@ -54,7 +54,7 @@ const InteractiveCursorIcon: React.FC<{ size?: number }> = ({ size = 64 }) => (
   </svg>
 );
 
-const ProfileIcon: React.FC<{ size?: number }> = ({ size = 62 }) => (
+export const ProfileIcon: React.FC<{ size?: number }> = ({ size = 62 }) => (
   <svg width={size} height={size} viewBox="0 0 48 48" fill="none" style={{ flexShrink: 0 }}>
     <rect x="2" y="2" width="44" height="44" rx="11" fill={COLORS.ink} />
     <circle cx="24" cy="18" r="8" fill={COLORS.surface} />
@@ -62,7 +62,7 @@ const ProfileIcon: React.FC<{ size?: number }> = ({ size = 62 }) => (
   </svg>
 );
 
-const MouseCursorSvg: React.FC<{ size?: number }> = ({ size = 72 }) => (
+export const MouseCursorSvg: React.FC<{ size?: number }> = ({ size = 72 }) => (
   <svg width={size} height={Math.round(size * 1.08)} viewBox="0 0 40 44" fill="none">
     <path
       d="M4 3 L4 35 L13 26 L20 40 L26 37 L19 23 L32 23 Z"
@@ -74,7 +74,7 @@ const MouseCursorSvg: React.FC<{ size?: number }> = ({ size = 72 }) => (
   </svg>
 );
 
-const GiantBanner: React.FC<{
+export const GiantBanner: React.FC<{
   text: string;
   enterFrame?: number;
   fontSize?: number;
@@ -114,7 +114,7 @@ const GiantBanner: React.FC<{
 };
 
 /* Style @ledevultime: crisp single-line horizontal subtitle with non-breaking spaces */
-const SingleLineSubtitle: React.FC<{
+export const SingleLineSubtitle: React.FC<{
   before?: string;
   highlight?: string;
   after?: string;
@@ -143,7 +143,7 @@ const SingleLineSubtitle: React.FC<{
   );
 };
 
-const FramedMediaCard: React.FC<{
+export const FramedMediaCard: React.FC<{
   width: number;
   height?: number;
   children: React.ReactNode;
@@ -215,7 +215,7 @@ const FramedMediaCard: React.FC<{
   </div>
 );
 
-const AvatarBustStage: React.FC<{
+export const AvatarBustStage: React.FC<{
   pose: keyof typeof AVATAR_POSES;
   caption: React.ReactNode;
   captionTop?: number;
@@ -309,7 +309,7 @@ const AvatarHeadCenter: React.FC<{
   );
 };
 
-const BrutalStackBar: React.FC<{
+export const BrutalStackBar: React.FC<{
   icon: React.ReactNode;
   titleText: string;
   inverted?: boolean;

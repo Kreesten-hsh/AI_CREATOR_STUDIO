@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 /**
- * Clean silences from a raw voice recording using FFmpeg and normalize to -14 LUFS.
+ * ATTENTION (RÈGLE STUDIO NON NÉGOCIABLE) :
+ * NE JAMAIS exécuter ce script (ni le filtre FFmpeg silenceremove) sur les pistes
+ * voix off ElevenLabs (`voix_epXX.wav`). Les pistes ElevenLabs doivent être utilisées
+ * brutes pour préserver les pauses dramatiques naturelles : la voix commande le montage.
+ *
+ * Clean silences from a raw human microphone recording using FFmpeg and normalize to -14 LUFS.
  * Outputs `voix_clean.wav` next to the input file (no Whisper model required).
  */
 import { execFileSync } from 'node:child_process';
