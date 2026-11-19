@@ -29,7 +29,7 @@ fs.writeFileSync(
       funnelStage: 'TOFU',
       intention: 'Eduquer',
       format: '05_illustrated_grid',
-      style: 'ledevultime_minimal_grid',
+      style: 'studio_lin_minimal_grid',
       openingPose: 'none_illustrated',
       durationSec: 30,
       ctaKeyword: 'CLAUDE',

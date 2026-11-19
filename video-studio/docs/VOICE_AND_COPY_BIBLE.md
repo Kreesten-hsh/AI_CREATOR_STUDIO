@@ -1,14 +1,14 @@
 # VOICE & COPY BIBLE • AI CREATOR STUDIO (KREESTEN AGBOTON)
 
-> Bible unifiée de voix parlée, de copywriting humain et de psychologie marketing pour **AI CREATOR Studio** (`@ledevultime`).
+> Bible unifiée de voix parlée, de copywriting humain et de psychologie marketing pour **AI CREATOR Studio**.
 > Fusionne le manuel de ghostwriting d'Abigail Peugh, le filtre Anti-AI Writing (`Novitckii content-skills`), le protocole `Voice DNA`, et les **15 règles marketing d'Antoine BM**.
-> Cette bible s'applique à tous les **nouveaux** contenus (scripts TOFU/MOFU, carrousels 4:5, légendes). Les 6 scripts BOFU (`EP01` à `EP06` dans [CONTENT_PLAN_14_DAYS.md](./CONTENT_PLAN_14_DAYS.md)) restent verrouillés **mot pour mot**.
+> Cette bible s'applique à tous les **nouveaux** contenus (scripts TOFU/MOFU, restructuration `EP03` à `EP06`, carrousels 4:5, légendes, pages de vente). Seuls les **2 scripts déjà produits (`EP01` et `EP02` dans [CONTENT_PLAN_14_DAYS.md](./CONTENT_PLAN_14_DAYS.md)) restent verrouillés mot pour mot**. Les scripts `EP03` à `EP06` ne sont pas verrouillés : ils seront restructurés autour des 5 nouveaux piliers éditoriaux.
 
 ---
 
 ## Table des Matières
 
-1. [Section 1 : Positionnement Éditorial & Voix d'Abigail Peugh](#section-1--positionnement-éditorial--voix-dabigail-peugh)
+1. [Section 1 : Positionnement Officiel, 2 Cibles, 5 Piliers & Voix d'Abigail Peugh](#section-1--positionnement-officiel-2-cibles-5-piliers--voix-dabigail-peugh)
 2. [Section 2 : Liste Noire du Jargon & Zéro Prix en Public](#section-2--liste-noire-du-jargon--zéro-prix-en-public)
 3. [Section 3 : Expressions Fétiches & Cadence Parlée Naturelle](#section-3--expressions-fétiches--cadence-parlée-naturelle)
 4. [Section 4 : Retranscription Visuelle Studio Lin (Fond Plat & SingleLineSubtitle)](#section-4--retranscription-visuelle-studio-lin-fond-plat--singlelinesubtitle)
@@ -17,14 +17,52 @@
 
 ---
 
-## Section 1 : Positionnement Éditorial & Voix d'Abigail Peugh
+## Section 1 : Positionnement Officiel, 2 Cibles, 5 Piliers & Voix d'Abigail Peugh
 
-Tu n'es pas un ingénieur logiciel, un développeur ni une agence technique.
-Tu es un créateur de produits digitaux qui en a eu marre des formats passifs, ennuyeux et bâclés.
+### 1.1 Promesse Officielle & Thèse Centrale (Lire vs Utiliser)
 
-- **Le problème universel de l'audience** : les créateurs, coachs et formateurs ont passé des semaines à condenser leur savoir dans des PDF statiques de 30 pages. Leurs clients les achètent, les ouvrent une fois, se noient dans des pavés de texte et les oublient aussitôt dans le dossier Téléchargements. Les créateurs n'osent même plus parler de leurs propres guides parce qu'ils en ont un peu honte.
-- **La solution transformatrice** : dans le Mini-Cours Guidé en 3 jours, on apprend à utiliser Claude gratuit pour transformer ces vieux PDF poussiéreux en véritables guides interactifs vivants où l'utilisateur clique, teste et progresse, sans que ça ressemble jamais à du slop IA générique.
-- **L'angle de vente** : *« Claude a fait le gros du travail pour moi en quelques minutes. Zéro prise de tête technique. »*
+- **Promesse officielle (page de vente validée)** : « Crée le produit digital interactif que ton audience a hâte d'acheter. Étape par étape, à ton rythme, je t'aide à créer, tester et préparer la livraison de ton produit digital interactif avec Claude gratuit, sans savoir coder. Pas un énième produit digital qu'on télécharge et qu'on oublie : un outil que tes clients utilisent vraiment. »
+- **Les 3 attentes clients (Anaphore officielle)** : Les clients recherchent trois choses concrètes dans un produit interactif : **simplicité**, **interactivité** et **résultat immédiat**.
+- **Thèse centrale (Lire vs Utiliser)** : Un produit digital classique transmet de l'information que le client **lit** (un bon PDF reste utile pour informer). Un produit digital interactif permet au client d'**agir immédiatement** (calculer, diagnostiquer, cocher, suivre sa progression) depuis son téléphone.
+
+### 1.2 Les 2 Cibles Hiérarchisées
+
+| Priorité | Profil cible | Situation de départ et besoin |
+|---|---|---|
+| **Cible 1 (Prioritaire)** | Créateurs, coachs, formateurs, consultants, indépendants | Possèdent déjà une expertise, un document ou une méthode à transformer en produit interactif différencié. |
+| **Cible 2 (Secondaire)** | Débutants avec une compétence ou une idée | Veulent lancer leur premier produit digital de manière différenciée, sans savoir coder ni payer d'abonnement Claude. |
+
+### 1.3 Les 5 Piliers Éditoriaux Officiels
+
+Tous les contenus (Reels, carrousels, restructuration `EP03` à `EP06`, page de vente) s'articulent autour de ces 5 piliers :
+
+1. **Pilier 1 : Faire découvrir l'opportunité (`Lire vs Utiliser`)** : montrer l'écart concret entre un document informatif qu'on lit et un outil interactif qu'on utilise sur téléphone.
+2. **Pilier 2 : Donner des idées concrètes par métier** : présenter des déclinaisons par secteur (budget, diagnostic, checklist métier) explicitement présentées comme des **possibilités de création**, jamais comme des produits déjà livrés dans le programme.
+3. **Pilier 3 : Montrer comment cela fonctionne** : démonstration pas à pas avec Claude.ai gratuit, sans abonnement payant et sans savoir coder.
+4. **Pilier 4 : Apporter des preuves réelles** : s'appuyer sur la plateforme réelle AI CREATOR Studio (captures brutes en ligne et Chariow), le seul exemple fini livré (`Calculateur de Prix & Rentabilité` avec conversion `FCFA` / `€` et écran de verrouillage par mot de passe), le storytelling personnel et la preuve terrain validée du fondateur (**`+ de 10 millions de FCFA`**, toujours accompagnée de son disclaimer éthique explicite sans garantie de résultats), ainsi que les 5 retours bêta-testeurs authentiques.
+5. **Pilier 5 : Présenter l'offre et lever les objections** : détailler fidèlement les 3 modules (`01 CHOISIR`, `02 CRÉER`, `03 PUBLIER ET LIVRER`), les 7 leçons pratiques, le Skill inclus (`ai-creator-design-intelligence`), le modèle de Guide d'Accès client PDF, les 2 bonus exacts, les prérequis et la section Pour qui / Pas pour qui.
+
+### 1.4 Vérité Factuelle du Programme & Garde-Fous Éditoriaux
+
+- **Plateforme** : AI CREATOR Studio, plateforme web interactive protégée par code à 6 chiffres envoyé par e-mail (`BuyerAuthGate`).
+- **Seul exemple fini livré** : le `Calculateur de Prix & Rentabilité` (issu d'une fiche d'une page, avec conversion `FCFA` / `€` et écran de verrouillage par mot de passe). Tout autre exemple (budget, diagnostic, checklist métier) est présenté uniquement comme une **idée de création possible**.
+- **Bonus 01 (périmètre exact)** : tutoriel d'automatisation ManyChat pour les **commentaires Facebook vers Messenger uniquement** (jamais Instagram ni TikTok).
+- **Bonus 02 (périmètre exact)** : **Marketing Library** contenant **9 ressources marketing** (dont 2 packs prêts à installer dans Claude et 7 fiches avec prompts prêts à copier), **1 prompt universel d'analyse concurrentielle** et **1 lien de veille externe** (`novitckii.com/resources/`).
+- **Tarif et livraison Chariow** : **14 900 FCFA** (tarif de référence barré : **24 900 FCFA**), paiement local (Mobile Money & cartes bancaires). Le repère pédagogique autorisé sur la page de vente est : *« si tu proposes ton outil interactif à 7 500 FCFA, il ne te faut que 2 ventes pour rentabiliser ton investissement »* (suivi de la mention *« Simple repère mathématique, pas une garantie de ventes. »*). Après paiement, l'acheteur télécharge le **Guide d'Accès d'une page** (`Guide-Acces-AI-CREATOR-Studio.pdf`) qui explique comment ouvrir la plateforme complète.
+- **Storytelling personnel & preuve terrain validée** : le créateur partage son parcours honnête (pourquoi il a arrêté de vendre de simples PDF ennuyeux et lancé ce mini-cours) et son expérience personnelle (`+ de 10 millions de FCFA`), obligatoirement assortie du disclaimer éthique : *« C'est mon expérience personnelle et ce n'est pas une garantie de résultats. Chaque audience, offre et lancement est différent. La seule raison pour laquelle je partage ce chiffre est de te montrer depuis quelle expérience terrain je t'enseigne ! »*
+- **Interdictions absolues** : zéro promesse de chiffre d'affaires, de ventes garanties ou de revenus automatiques ; zéro faux témoignage ou fausse statistique ; zéro fausse rareté (`Limité aux 30 premiers` banni) ; ne jamais présenter le programme comme une formation complète de publicité/acquisition ; ne jamais laisser croire que le cours entier ne fait qu'une page.
+
+**Règle de réécriture Avant / Après** :
+- *À proscrire* : « Les PDF sont morts. Achète mon cours pour vendre plus et exploser tes revenus. »
+- *À appliquer* : « Un bon PDF reste utile pour informer. Un produit interactif va plus loin : il permet à ton client d'utiliser ton expertise directement sur son téléphone. Apprends à créer un produit différencié avec Claude gratuit, sans coder. »
+
+### 1.5 Posture & Voix d'Abigail Peugh
+
+Tu n'es pas une agence technique ni une promesse de gains faciles. Tu aides les créateurs, coachs et porteurs d'idées à passer d'un savoir statique à un produit interactif dont ils sont fiers.
+
+- **Le constat vécu de l'audience** : beaucoup de créateurs ont condensé leur savoir dans un PDF utile pour informer, mais leurs clients le parcourent une fois et ne passent pas à l'action sur téléphone.
+- **La solution concrète** : dans AI CREATOR Studio (3 modules, 7 leçons pratiques), on utilise Claude gratuit et notre pack d'instructions design pour transformer une méthode, une idée ou un guide existant en produit interactif testé, publié et prêt à livrer.
+- **L'angle simple** : *« Un bon PDF informe. Un produit interactif met ta méthode en action sur le téléphone de ton client, créé avec Claude gratuit. »*
 
 ---
 
@@ -121,14 +159,14 @@ Avant toute publication de script, de carrousel ou de légende, passer le brouil
    - Mots bannis : *plonger dans, explorer, révolutionnaire, game-changer, incontournable, crucial, booster, propulser, sublimer, levier, optimiser (sans chiffre), en outre, par ailleurs, ainsi, en somme, vous l'aurez compris, n'hésitez pas à, dans un monde où, que vous soyez débutant ou expert, sans plus attendre*.
    - Signes bannis à l'écran : zéro tiret cadratin dans les scripts/légendes, zéro double barre oblique, zéro crochets (`[` `]`), zéro mur de hashtags (3 à 5 hashtags ciblés maximum en fin de légende).
 
-### 5.3 Protocole `Voice DNA` d'AI CREATOR Studio (`@ledevultime`)
+### 5.3 Protocole `Voice DNA` d'AI CREATOR Studio
 
-Synthèse de la voix observée dans nos 6 scripts BOFU validés (`EP01` à `EP06`) pour garantir une cohérence absolue sur tous les nouveaux scripts TOFU/MOFU :
+Synthèse de la voix observée dans nos 2 scripts déjà produits (`EP01` et `EP02`) pour garantir une cohérence absolue sur tous les nouveaux scripts (TOFU, MOFU et restructuration de `EP03` à `EP06` autour des 5 piliers) :
 
-- **Posture** : directe, cash, complice, lucide sur la médiocrité des contenus IA génériques sans jamais mépriser le spectateur qui débute.
+- **Posture** : directe, cash, complice, lucide sur l'écart entre un document qu'on lit et un produit qu'on utilise, sans jamais mépriser les PDF ni le spectateur qui débute.
 - **Adresse** : tutoiement systématique, parler à une seule personne (« tu », jamais « chers abonnés »).
-- **Expressions signatures réelles** : *« tu es exactement au bon endroit »*, *« tranquille ce soir »*, *« qui pue l'IA »*, *« tu vas prendre une vraie claque »*, *« un outil qu'on utilise »*. La formule historique « sans savoir coder » reste réservée aux 6 scripts BOFU déjà enregistrés ; les nouveaux contenus disent *« zéro prise de tête technique »* (Section 2).
-- **Interdiction de fabulation** : zéro fausse statistique inventée (« des études montrent », faux chiffres de revenus personnels). S'appuyer uniquement sur des comportements observables du quotidien sur mobile et sur les vrais livrables du dépôt (`ep01` à `ep06`, `platform-home-real.png`, `demo-interactive-clean.mp4`).
+- **Expressions signatures réelles** : *« tu es exactement au bon endroit »*, *« tranquille ce soir »*, *« qui pue l'IA »*, *« tu vas prendre une vraie claque »*, *« un outil qu'on utilise »*. La formule « sans savoir coder » reste autorisée dans la promesse officielle, les pages de vente et les 2 scripts déjà produits (`EP01` et `EP02`) ; dans les nouveaux scripts vidéo oraux, privilégier les formulations simples de la Section 2 (*« zéro prise de tête technique »*).
+- **Interdiction de fabulation** : zéro fausse statistique inventée (« des études montrent », revenus garantis). S'appuyer uniquement sur des comportements observables du quotidien sur mobile, le storytelling réel (`+ de 10 millions de FCFA` accompagné du disclaimer éthique explicite) et les vrais livrables du dépôt (`ep01`, `ep02`, `platform-home-real.png`, `demo-interactive-clean.mp4`, `Calculateur de Prix & Rentabilité`).
 
 ---
 
@@ -175,10 +213,10 @@ Les posts TOFU et MOFU préparent les 6 vidéos BOFU en installant, dans cet ord
 | **03 • Le marketing avant le produit** | Les questions récurrentes en commentaires et DM nourrissent les prochains crash-tests (`video_8`, étape un). |
 | **04 • Le sujet favori des gens : eux-mêmes** | Le spectateur est le héros, Claude et le studio sont les personnages secondaires. Il doit se dire : *« Il comprend ma situation. Il sait pourquoi mes essais précédents n'ont pas marché. »* |
 | **06 • La nouveauté** | Faire du neuf avec ce qui existait déjà : le guide écrit devient un parcours interactif. |
-| **07 • L'urgence** | Réservée aux vidéos BOFU et à Chariow (ouverture du mini-cours, rappels du dernier jour). Jamais de fausse urgence dans les posts TOFU. |
+| **07 • L'urgence** | Réservée à une échéance réelle et vérifiable sur Chariow. Jamais de fausse urgence ni de fausse rareté (type « limité aux 30 premiers » sans compteur réel). |
 | **08 • Une vie meilleure fait plus envie qu'une douleur** | Relier chaque douleur (PDF qui dort) à un avenir désirable : un produit qu'on montre fièrement, des clients qui reviennent. |
 | **10 • Les gens désirent ce que les autres désirent** | Montrer de vraies preuves sociales (commentaires, questions reçues). Jamais de compteur vide ni de chiffre inventé. |
-| **11 • La valeur se juge par comparaison** | Sans jamais citer de prix : comparer les **formats** (PDF à lire, parcours interactif à utiliser, accompagnement guidé). Le changement de format change la valeur perçue. |
-| **12 • Le témoignage proche** | Privilégier des profils ordinaires (coiffeuse, étudiant, commerçant) qui obtiennent un résultat sans rien d'impossible. Uniquement de vrais retours. |
-| **14 • La liste de contacts** | Le mot-clé commenté (`CLAUDE`, `PRODUIT`) ouvre une conversation privée via ManyChat : c'est notre équivalent de la liste email. |
+| **11 • La valeur se juge par comparaison** | Sans jamais citer de prix : comparer les **formats** (PDF à lire vs produit interactif à utiliser). Le changement de format change la valeur perçue. |
+| **12 • Le témoignage proche** | Privilégier des profils ordinaires (coiffeuse, étudiant, commerçant) qui obtiennent un résultat sans rien d'impossible. Uniquement de vrais retours authentiques sur l'expérience pédagogique. |
+| **14 • La liste de contacts** | Le mot-clé commenté sous un post Facebook (`CLAUDE`, `PRODUIT`) ouvre une conversation privée Facebook vers Messenger via ManyChat : c'est notre équivalent de la liste email. |
 | **15 • Les promotions** | Gérées uniquement sur Chariow, jamais annoncées avec un montant dans une vidéo ou un carrousel. |

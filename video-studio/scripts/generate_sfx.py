@@ -116,11 +116,75 @@ def make_key_tick(dur: float = 0.035) -> list[float]:
     return out
 
 
+def make_check(dur: float = 0.14) -> list[float]:
+    """Double blip sinusoidal ascendant court et cristallin (520->880 Hz puis 780->1320 Hz)."""
+    n = int(SAMPLE_RATE * dur)
+    out = [0.0] * n
+    pulses = [
+        (0.0, 0.07, 520.0, 880.0, 0.45),
+        (0.055, 0.14, 780.0, 1320.0, 0.65),
+    ]
+    for t_start, t_end, f0, f1, amp in pulses:
+        i_start = int(t_start * SAMPLE_RATE)
+        i_end = min(n, int(t_end * SAMPLE_RATE))
+        span = max(1e-6, t_end - t_start)
+        phase = 0.0
+        for i in range(i_start, i_end):
+            lt = (i - i_start) / SAMPLE_RATE
+            k = min(1.0, lt / span)
+            freq = f0 + (f1 - f0) * (1.0 - math.exp(-5.0 * k))
+            phase += 2.0 * math.pi * freq / SAMPLE_RATE
+            env = math.sin(min(1.0, lt / 0.005) * math.pi * 0.5) * math.exp(-lt * 26.0)
+            out[i] += amp * env * math.sin(phase)
+    return out
+
+
+def make_select(dur: float = 0.045) -> list[float]:
+    """Impulsion feutree douce (900->420 Hz, 0.045s) pour activation d'un onglet ou module."""
+    n = int(SAMPLE_RATE * dur)
+    out = []
+    phase = 0.0
+    for i in range(n):
+        t = i / SAMPLE_RATE
+        k = t / dur
+        freq = 900.0 - 480.0 * (1.0 - math.exp(-4.5 * k))
+        phase += 2.0 * math.pi * freq / SAMPLE_RATE
+        env = math.sin(min(1.0, t / 0.004) * math.pi * 0.5) * math.exp(-t * 68.0)
+        out.append(0.62 * env * math.sin(phase))
+    return out
+
+
+def make_whoosh_soft(dur: float = 0.22) -> list[float]:
+    """Souffle filtre doux (0.22s) pour accompagner WhipStageTransition."""
+    n = int(SAMPLE_RATE * dur)
+    out = []
+    seed = 2468135
+    lp = 0.0
+    for i in range(n):
+        seed = (1103515245 * seed + 12345) & 0x7FFFFFFF
+        noise = (seed / 0x7FFFFFFF) * 2.0 - 1.0
+        u = i / max(1, n - 1)
+        env = math.sin(u * math.pi) ** 2.0
+        alpha = 0.04 + 0.16 * math.sin(u * math.pi)
+        lp = lp + alpha * (noise - lp)
+        out.append(0.36 * env * lp)
+    return out
+
+
 if __name__ == "__main__":
-    write_wav("pop", make_pop())
-    write_wav("click", make_click())
-    write_wav("stamp", make_stamp())
-    write_wav("whoosh", make_whoosh())
-    write_wav("error_buzz", make_error_buzz())
-    write_wav("chime_success", make_chime_success())
-    write_wav("key_tick", make_key_tick())
+    existing_generators = [
+        ("pop", make_pop),
+        ("click", make_click),
+        ("stamp", make_stamp),
+        ("whoosh", make_whoosh),
+        ("error_buzz", make_error_buzz),
+        ("chime_success", make_chime_success),
+        ("key_tick", make_key_tick),
+    ]
+    for name, fn in existing_generators:
+        if not (OUT_DIR / f"{name}.wav").exists():
+            write_wav(name, fn())
+
+    write_wav("check", make_check())
+    write_wav("select", make_select())
+    write_wav("whoosh_soft", make_whoosh_soft())

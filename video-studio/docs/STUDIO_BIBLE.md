@@ -1,7 +1,7 @@
 # STUDIO BIBLE • AI CREATOR STUDIO (DA, MOTEUR VIDÉO 9:16, CARROUSEL 4:5 & CONNECTEURS VISUELS)
 
-> Bible technique et artistique unifiée d'**AI CREATOR Studio** (`@ledevultime × Studio Lin`).
-> Fusionne l'identité visuelle verrouillée, le moteur vidéo Remotion (`Ep01Composition.tsx` & `engine/`), l'audit viral `/100`, le système Carrousel `4:5` (`420×525 → 1080×1350`), les 10 blueprints `Sketch`, l'autopsie des références de `/home/hasashi/Vidéos/inspi` et la **Loi des 5 Connecteurs Visuels Obligatoires (« Zéro élément isolé »)**.
+> Bible technique et artistique unifiée d'**AI CREATOR Studio** (`Studio Lin`).
+> Fusionne l'identité visuelle verrouillée, le moteur vidéo Remotion (`Ep01Composition.tsx` & `engine/`), l'audit viral `/100`, le système Carrousel `4:5` (`1080×1350` via `video-studio/carousels/`), les 10 blueprints `Sketch`, l'autopsie des références de `/home/hasashi/Vidéos/inspi` et la **Loi des 5 Connecteurs Visuels Obligatoires (« Zéro élément isolé »)**.
 > Complète la bible éditoriale [VOICE_AND_COPY_BIBLE.md](./VOICE_AND_COPY_BIBLE.md) et le planning [CONTENT_PLAN_14_DAYS.md](./CONTENT_PLAN_14_DAYS.md).
 
 ---
@@ -20,7 +20,7 @@
 
 ## Section 1 : Direction Artistique Verrouillée (« Studio Lin » 100 % Plat)
 
-Standard visuel minimaliste, géométrique et symétrique de `@ledevultime` transposé à **AI CREATOR Studio** pour le format vertical **1080×1920 px @ 30fps** (Reels, TikTok, Shorts) et le format Carrousel **1080×1350 px (4:5)**.
+Standard visuel minimaliste, géométrique et symétrique **Studio Lin** d'**AI CREATOR Studio** pour le format vertical **1080×1920 px @ 30fps** (Reels, TikTok, Shorts) et le format Carrousel **1080×1350 px (4:5)**.
 
 ### 1.1 Les 8 Lois Visuelles Absolues
 
@@ -99,7 +99,7 @@ Les primitives historiques de `engine/components/Primitives.tsx` (`RetroWindow`,
   - `voix_ep01.wav` : piste voix off ElevenLabs brute.
 - **11 Poses Avatar 3D Double Contour (`AVATAR_POSES` dans `engine/theme.ts`)** :
   - `hookLeanIn` (`01_hook_lean_in.png`), `talkingConfident` (`02_talking_confident.png`), `thinkingChin` (`03_thinking_chin.png`), `stopWarning` (`04_stop_warning.png`), `eurekaSnap` (`05_eureka_snap.png`), `workingTablet` (`06_working_tablet.png`), `facepalmOops` (`07_facepalm_oops.png`), `amazedWow` (`08_amazed_wow.png`), `armsCrossed` (`09_relaxed_arms_crossed.png`), `headBadge` (`10_head_badge.png`), `workingLaptop` (`11_working_laptop.png`).
-- **Kit SFX (`assets/sfx/`)** : `pop.wav`, `click.wav`, `stamp.wav`, `whoosh.wav`, `error_buzz.wav`, `chime_success.wav`.
+- **Kit SFX (`assets/sfx/`)** : `pop.wav`, `click.wav`, `stamp.wav`, `whoosh.wav`, `error_buzz.wav`, `chime_success.wav`, `key_tick.wav`, `check.wav`, `select.wav`, `whoosh_soft.wav`.
 
 ---
 
@@ -107,14 +107,19 @@ Les primitives historiques de `engine/components/Primitives.tsx` (`RetroWindow`,
 
 ### 3.1 Cible, Vérité Produit & Promesses Autorisées
 
-- **Cible prioritaire** : formateurs, coachs, créateurs et experts ayant déjà un savoir existant (guide PDF, méthodologie, notes, fiche pratique) qui dort ou paraît daté.
-- **Douleur racine (« Le Document Mort »)** : un PDF statique de 30 à 50 pages n'est presque jamais lu jusqu'au bout sur téléphone, donne l'air du copier-coller IA générique et bloque la fierté du créateur. Un guide interactif fait passer le client de la lecture passive à l'action immédiate.
+- **Cible 1 (Prioritaire)** : créateurs, coachs, formateurs, consultants, indépendants qui possèdent déjà une expertise, un document ou une méthode à transformer.
+- **Cible 2 (Secondaire)** : débutants qui possèdent une compétence ou une idée et veulent lancer leur premier produit digital de manière différenciée.
+- **Thèse centrale (Lire vs Utiliser)** : un bon PDF reste utile pour informer (ce que le client **lit**). Un produit digital interactif va plus loin : il permet au client d'**agir immédiatement** (calculer, diagnostiquer, cocher, suivre sa progression) depuis son téléphone.
 - **Transformation réelle promise** :
-  `Notes ou PDF existant` → `Claude gratuit (zéro prise de tête technique)` → `Guide interactif dans un seul fichier magique` → `En ligne en un seul glisser-déposer` → `Livraison Chariow + automatisation DM ManyChat`.
+  `Expertise, idée ou guide existant` → `Claude.ai gratuit (sans abonnement payant, sans savoir coder)` → `Produit digital interactif testé` → `Publié et prêt à livrer sur Chariow`.
+- **Faits vérifiés du dépôt** :
+  - Seul exemple d'application finie livré dans le cours : `Calculateur de Prix & Rentabilité` (conversion `FCFA` / `€` et écran de verrouillage par mot de passe). Tout autre exemple (budget, diagnostic, checklist métier) est présenté uniquement comme une **idée de création possible**.
+  - Bonus 01 : automatisation ManyChat pour les **commentaires Facebook vers Messenger uniquement** (jamais Instagram ni TikTok).
+  - Bonus 02 : **Marketing Library** (9 ressources de Skills marketing utilisables dans Claude ou ChatGPT + 1 prompt universel de recherche concurrentielle + 1 lien de veille externe `novitckii.com/resources/`).
 - **Interdictions strictes** :
-  - Jamais promettre « devenir riche en 1 clic sans réfléchir ».
-  - Jamais appeler le cursus un « challenge » (toujours **Mini-Cours** ou **Mini-Cours Guidé en 3 jours**).
-  - **Zéro prix, tarif ou devise en public** (hors anecdote historique Dollar Shave Club dans `N°01`).
+  - Jamais promettre de chiffre d'affaires, de ventes garanties ou de revenus automatiques.
+  - Jamais appeler le cursus un « challenge » (toujours **Mini-Cours** ou **AI CREATOR Studio**).
+  - **Zéro prix, tarif ou devise en public** dans les vidéos et carrousels (le tarif vit uniquement sur Chariow).
 
 ### 3.2 Les 3 Lois Physiques de la Rétention Verticale
 
@@ -122,9 +127,14 @@ Les primitives historiques de `engine/components/Primitives.tsx` (`RetroWindow`,
 2. **Loi du Contrarian Snapback (`1–3 s`)** : exposer immédiatement pourquoi les PDF génériques ou textes IA échouent avant de révéler l'alternative interactive.
 3. **Loi des Open Loops Récurrentes (`~8–12 s` et `~18–25 s`)** : relancer la curiosité avec un changement de scène connecté (`FramedMediaCard` → `BrutalStackBar` → `AvatarBustStage` → `demo-interactive-clean.mp4` → Carton `CLAUDE` / `PRODUIT`).
 
-### 3.3 Grille d'Audit Viral Obligatoire (Score `/100` • Seuil `>= 90`)
+### 3.3 Grille d'Audit Viral Obligatoire (Score `/100` • Seuil `>= 90`) & Contrôle Visuel DOM
 
-Chaque épisode doit être contrôlé avant rendu final via `node scripts/audit_episode.mjs <episode>` :
+Chaque épisode doit être contrôlé avant rendu final via `node scripts/audit_episode.mjs <episode>` (et avec `--visual` pour l'inspection DOM + planche contact) :
+
+- **Audit Visuel DOM & Planche Contact obligatoire avant livraison** :
+  - Exécuter `node scripts/audit_episode.mjs episodes/<slug> --visual` (ou directement `node scripts/visual_audit.mjs <CompositionId> <slug>`).
+  - Le contrôleur inspecte 12 frames clés via Remotion/Chromium headless pour vérifier : **zéro texte coupé** (`scrollWidth <= clientWidth + 2`), **zéro sortie du cadre `1080×1920`**, et **zéro violation des Safe Zones** (`top >= 174` et `bottom <= 1566`, hors bandeaux `20px` `#B63131` et avatar bas).
+  - Inspecter obligatoirement `/tmp/remotion-audit/<slug>_planche.jpg` (toujours stocké dans `/tmp/remotion-audit/` pour zéro pollution Git) avant le rendu MP4 final.
 
 | Critère | Exigence bloquante | Points |
 |---|---|---:|
@@ -149,20 +159,20 @@ Chaque épisode doit être contrôlé avant rendu final via `node scripts/audit_
 
 ---
 
-## Section 4 : Système Complet Carrousel 4:5 (`420×525 → 1080×1350`) & Blueprints `Sketch`
+## Section 4 : Système Complet Carrousel 4:5 (`1080×1350` Plein Format) & Blueprints `Sketch`
 
 ### 4.1 Les 10 Lois Algorithmiques (Data 10 743 carrousels)
 
-1. **Chiffre dès la Slide 1** (`24,6 %` vs `21,4 %`) : années (`2026`), durées (`5 minutes`), quantités (`7 guides`), jamais de prix ni de devise.
-2. **Longueur cible `8 à 15 slides`** (`11–15 slides` : `28,0 %`, `10 slides` : `26,8 %`).
-3. **Format *Cheat sheet / Fiche mémo* roi** : `37,5 %` de sur-performance.
-4. **Demander explicitement l'enregistrement en légende** (`32,8 %` vs `24,9 %`).
+1. **Chiffre dès la Slide 1** (`24,6 %` vs `21,4 %`) : quantités (`7 types`, `5 signes`, `5 erreurs`), jamais de prix ni de devise.
+2. **Longueur standard `10 à 12 slides`** (plage `10–15 slides` : `26,8 %` à `28,0 %` doublent).
+3. **Format *Cheat sheet / Checklist* roi** : `37,5 %` de sur-performance (`Liste` `26,1 %`, `Pas-à-pas` `25,1 %`, `Hot take` `24,5 %`, `Storytelling` `23,3 %`).
+4. **CTA unique** : sur les posts Découverte (TOFU), demander explicitement **l'enregistrement** (`32,8 %` vs `24,9 %`) ou le partage ; sur les posts Confiance/Vente (MOFU/BOFU), demander de commenter **`CLAUDE`** (ou d'envoyer un message privé).
 5. **Couverture ultra-courte (`6 à 10 mots`)** (`25,6 %` vs `20,2 %`).
-6. **Mot « GRATUIT » sur Slide 1** quand une ressource gratuite est partagée (`40,0 %` vs `25,8 %`).
-7. **Zéro vidéo dans un carrousel** (`26,7 %` 100 % images vs `21,3 %` avec vidéo).
-8. **Légende de `120 à 250 mots`** (`30,3 %` vs `25,3 %`).
-9. **Bannir « lien en bio »** (`26,5 %` sans lien vs `19,4 %` avec) : commenter un mot-clé ManyChat (`CLAUDE`, `PRODUIT`).
-10. **Composition `Studio Lin`** : fond `#EAE3D5` plat, cartes `#FFFDFC`, bordures `#171313` (`3.5px`), ombre dure `6px 6px 0px #171313`, bandes haut/bas Bordeaux `#B63131`, une seule idée par slide, connexion visuelle continue entre les slides.
+6. **Mot « GRATUIT » sur Slide 1** uniquement quand il est factuel (*Claude gratuit*, *Checklist gratuite*) (`40,0 %` vs `25,8 %`).
+7. **100 % images (zéro vidéo dans un carrousel)** (`26,7 %` images seules vs `21,3 %` avec vidéo).
+8. **Légende de `120 à 250 mots`** (`30,3 %` vs `25,3 %`) : apporte du contexte sans répéter les slides.
+9. **Bannir « lien en bio » en légende** (`26,5 %` sans lien vs `19,4 %` avec).
+10. **Composition `Studio Lin`** : fond `#EAE3D5` plat, cartes `#FFFDFC`, bordures `#171313` (`4px`), ombre dure `7px 7px 0px #171313`, bandes haut/bas Bordeaux `#B63131` (`20px`), une seule idée par slide, connexion visuelle continue entre les slides.
 
 ### 4.2 Le Catalogue des 10 Types de Carrousels
 
@@ -184,95 +194,27 @@ Chaque épisode doit être contrôlé avant rendu final via `node scripts/audit_
 - **7 Verrous `/carousel-copy`** : (1) Slide 1 = `6–10 mots` sans intro ; (2) jamais de Slide Sommaire, la Slide 2 livre le premier gain ; (3) 1 seule idée par slide ; (4) `<= 25 mots` par slide ; (5) métaphore visuelle connectée sur chaque slide ; (6) au moins 1 phrase *screenshotable* ; (7) dernière slide = 1 seul CTA sans flèche de swipe.
 - **Protocole `3 Variantes → Anchor Slide`** : générer 3 variantes structurelles de Slide 1 et de Slide 2 ; la gagnante de Slide 2 devient l'**Anchor Slide** dont les Slides `3..N-1` reproduisent exactement marges, typo et palette en ne changeant que le texte et le schéma central connecté.
 
-### 4.4 Gabarit HTML 4:5 (`420×525 → 1080×1350`) & Export Playwright
+### 4.4 Moteur Interne Carrousel 4:5 (`video-studio/carousels/`) & Audit Planche Contact
 
-- Toujours écrire le HTML via Python (`Path.write_text`), encoder les images en base64 avec MIME exact, garder le viewport à `420×525` et exporter avec `device_scale_factor = 1080 / 420`.
+Le workflow complet est piloté par le skill interne [carousel-studio](file:///home/hasashi/Bureau/AI_CREATOR_STUDIO/.agents/skills/carousel-studio/SKILL.md) et l'architecture par calques de `video-studio/carousels/` :
 
-```css
-:root {
-  --studio-lin: #EAE3D5;
-  --studio-ivory: #FFFDFC;
-  --studio-ink: #171313;
-  --studio-burgundy: #B63131;
-  --studio-dead-pdf: #E3DDD1;
-}
-.slide {
-  position: relative; width: 420px; height: 525px;
-  background: var(--studio-lin); color: var(--studio-ink);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  overflow: hidden; padding: 28px 28px 54px 28px; box-sizing: border-box;
-  display: flex; flex-direction: column; justify-content: center;
-}
-.slide::before, .slide::after {
-  content: ""; position: absolute; left: 0; right: 0; height: 8px;
-  background: var(--studio-burgundy); z-index: 20;
-}
-.slide::before { top: 0; }
-.slide::after { bottom: 0; }
-.studio-card {
-  background: var(--studio-ivory); border: 2px solid var(--studio-ink);
-  border-radius: 10px; box-shadow: 3px 3px 0px var(--studio-ink); overflow: hidden;
-}
+- **Fichiers du moteur** :
+  - `video-studio/carousels/carousel.css` : toile `1080×1350` (ou `1080×1440` via `--size`), thème Studio Lin (`#EAE3D5`, `#FFFDFC`, `#171313`, `#B63131`, `#E3DDD1`), polices locales embarquées (`video-studio/assets/fonts/`).
+  - `video-studio/carousels/slide.html` : gabarit par calques `.L` positionnés (`left`, `top`, `width` inline).
+  - `video-studio/carousels/check.js` : script d'audit `#check` qui détecte débordements, chevauchements, sorties de marge Studio Lin et textes `< 28px`.
+  - `video-studio/carousels/render_carousel.mjs` : rendu PNG haute définition (`<dossier>/png/slide-XX.png`, ignoré par Git via `video-studio/.gitignore`) + planche contact d'audit `/tmp/carousel-audit/<slug>/sheet.png`.
+- **Règle Typographique Non Négociable (Zéro texte `< 28px`)** :
+  - **Titres principaux** : `Archivo Black` **`64px–74px`** (`line-height: 1.04–1.06`).
+  - **Corps & cartes** : `Plus Jakarta Sans 700/800` **`34px–48px`**.
+  - **Accents éditoriaux** : `Instrument Serif Italic` (`em.hl`).
+  - **Badges, kickers, compteurs** : `JetBrains Mono 700` **`>= 28px`**.
+- **Commande standard** :
+
+```bash
+node video-studio/carousels/render_carousel.mjs video-studio/carousels/<slug>
 ```
 
-```javascript
-function studioProgressBar(index, total) {
-  const pct = ((index + 1) / total) * 100;
-  return `
-  <div style="position:absolute;bottom:10px;left:0;right:0;padding:8px 24px 12px;z-index:15;display:flex;align-items:center;gap:10px;">
-    <div style="flex:1;height:4px;background:rgba(23,19,19,0.12);border-radius:999px;overflow:hidden;">
-      <div style="height:100%;width:${pct}%;background:#B63131;border-radius:999px;"></div>
-    </div>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:#171313;">${index + 1} sur ${total}</span>
-  </div>`;
-}
-
-function studioSwipeArrow(isLastSlide) {
-  if (isLastSlide) return '';
-  return `
-  <div style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:999px;background:#FFFDFC;border:1.5px solid #171313;display:flex;align-items:center;justify-content:center;z-index:15;">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-      <path d="M9 6l6 6-6 6" stroke="#B63131" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </div>`;
-}
-```
-
-```python
-import asyncio
-from pathlib import Path
-from playwright.async_api import async_playwright
-
-INPUT_HTML = Path("carousel.html")
-OUTPUT_DIR = Path("slides_png")
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-TOTAL_SLIDES = 9
-VIEW_W, VIEW_H = 420, 525
-SCALE = 1080 / 420
-
-async def export_slides():
-    async with async_playwright() as p:
-        browser = await p.chromium.launch()
-        page = await browser.new_page(viewport={"width": VIEW_W, "height": VIEW_H}, device_scale_factor=SCALE)
-        await page.set_content(INPUT_HTML.read_text(encoding="utf-8"), wait_until="networkidle")
-        await page.wait_for_timeout(3000)
-        await page.evaluate("""() => {
-            document.querySelectorAll('.ig-header,.ig-dots,.ig-actions,.ig-caption').forEach(el => el.style.display = 'none');
-            const frame = document.querySelector('.ig-frame');
-            if (frame) frame.style.cssText = 'width:420px;height:525px;max-width:none;border-radius:0;box-shadow:none;overflow:hidden;margin:0;';
-            const viewport = document.querySelector('.carousel-viewport');
-            if (viewport) viewport.style.cssText = 'width:420px;height:525px;aspect-ratio:unset;overflow:hidden;cursor:default;';
-            document.body.style.cssText = 'padding:0;margin:0;display:block;overflow:hidden;';
-        }""")
-        await page.wait_for_timeout(500)
-        for i in range(TOTAL_SLIDES):
-            await page.evaluate("(idx) => { const t = document.querySelector('.carousel-track'); t.style.transition='none'; t.style.transform='translateX('+(-idx*420)+'px)'; }", i)
-            await page.wait_for_timeout(400)
-            await page.screenshot(path=str(OUTPUT_DIR / f"slide_{i+1:02d}.png"), clip={"x": 0, "y": 0, "width": VIEW_W, "height": VIEW_H})
-        await browser.close()
-
-asyncio.run(export_slides())
-```
+Inspecter systématiquement `/tmp/carousel-audit/<slug>/sheet.png` pour vérifier l'absence de tout contour rouge `#FF2D2D` avant publication.
 
 ### 4.5 Les 10 Blueprints `Sketch` & Réalisme UGC
 
@@ -300,7 +242,7 @@ Verrouiller systématiquement les prompts `Sketch` sur **`#EAE3D5` (lin plat) �
 | 1 | `carousel-types/#storytelling` | Catalogue des 10 formats de carrousels (`#storytelling`, `#this-versus-that`) |
 | 2 | `sketch/` | 10 blueprints de croquis convertis aux tokens `Studio Lin` |
 | 3 | `editing-skills/` | 6 archétypes de plans (`trial-reels`, `behind-the-person`, `explainer`, `split-screen`, `ranking-list`, `storytelling`) |
-| 4 | `claude-instagram-carousel-generator-project-inst/` | Moteur HTML 4:5 (`420×525`) + export Playwright `1080×1350` |
+| 4 | `claude-carousel-skill` | Moteur HTML par calques `.L` (`1080×1350` / `1080×1440`) + audit DOM `#check` + planche contact (`video-studio/carousels/`) |
 | 5 | `how-to-generate-hyper-realistic-ai-images/` | Protocole réalisme UGC (`26mm`, ISO `500–900`, lumière mixte) |
 | 6 | `how-to-make-instagram-carousels-with-chatgpt-image/` | Workflow `Reference-First` + `3 Variantes → Anchor Slide` |
 | 7 | `ad-lab/#guide` | Benchmarks pub 7 dimensions (`Ad Lab`) |
@@ -377,10 +319,11 @@ Synthèse opérationnelle extraite des ressources `novitckii.com/resources/anima
 | **`/minimalistic-graphics`** | Tracés vectoriels progressifs par `strokeDasharray` / `strokeDashoffset`, masques SVG `<mask>` sur tracés pointillés, impulsions concentriques (`ripple` / `pulse`), anticipation & atterrissage amorti, bascule mécanique (toggle switch), morphing continu de cartes et bascule de caméra sans cut sec. | Conduire chaque valeur via `interpolate` + `settledProgress` (zéro timer CSS). Relier les étapes par flèches et rails SVG auto-tracés en `#171313` / `#B63131`, et déclencher un `ripple` concentrique à l'instant exact du clic. |
 | **`/breakdown`** | Un objet ou écran plat démarre assemblé, pivote en perspective 3D isométrique, puis se détache en calques échelonnés (`ORDER`) reliés chacun par une ligne de rappel coudée (`leader line` dot → elbow → label numéroté `01..06`) avant réassemblage ou mise en lumière. | Conteneur `perspective: 1200px` + `transformStyle: 'preserve-3d'` combinant `rotateX`, `rotateY` et `translateZ` progressifs par calque, couplés aux connecteurs vectoriels coudés et pastilles numérotées `01 • 02 • 03`. |
 | **`animation-styles`** (`low-poly`, `minecraft`, `zach-3d-films`, `kurzgesagt`, `dan-koe`) | Chaque style impose une grammaire spatiale unique : construction bloc par bloc avec flash de finalisation (`minecraft`), ramification progressive à partir d'un nœud (`dan-koe`), comparaison à l'échelle par tags contrastés (`kurzgesagt`), impact ralenti + onde de choc rouge (`zach-3d-films`). | Traduire l'énergie du concept en géométrie 2D/2.5D Studio Lin : onde de choc `#B63131`, construction modulaire aimantée, arborescence SVG ou balance de valeur en perspective plutôt qu'un empilement générique de barres. |
-| **`editing-skills`** (`trial-reels`, `behind-the-person`, `explainer`, `split-screen`, `ranking-list`, `storytelling`) | Ancrage temporel strict au mot parlé (`word-timestamp anchoring`), flèche de comparaison auto-tracée entre Avant et Après (`/explainer`), fenêtre d'interaction guidée par curseur + checklist cochée en direct (`/split-screen`), persistance de l'arrière-plan en plan-séquence (`/storytelling`). | Caler chaque événement (`typing`, `click`, `stamp`, `toggle`, `ripple`) sur la frame exacte de `transcript.json`. Relier les actes par glissement/profondeur (`translateY` / `scale` amorti) pour supprimer les coupes sèches. |
+| **`editing-skills`** (`trial-reels`, `behind-the-person`, `explainer`, `split-screen`, `ranking-list`, `storytelling`) | Ancrage temporel strict au mot parlé (`word-timestamp anchoring`), flèche de comparaison auto-tracée entre Avant et Après (`/explainer`), fenêtre d'interaction guidée par curseur + checklist cochée en direct (`/split-screen`), persistance de l'arrière-plan en plan-séquence (`/storytelling`). | Caler chaque événement (`typing`, `click`, `stamp`, `toggle`, `ripple`, `check`, `select`, `whoosh_soft`) sur la frame exacte de `transcript.json`. Relier les actes par glissement/profondeur (`translateY` / `scale` amorti) ou via `WhipStageTransition` pour supprimer les coupes sèches. |
+| **Physique Motion Design (`Primitives.tsx`)** | Courbes différenciées (entrée rapide `expoOut`, évacuation accélérée `inQuart`, glissement nerveux `whipProgress`, ressort sous-amorti `snapProgress`, enveloppe `bellCurve`, impact vocal `punchScale`), flou directionnel SVG actif uniquement en mouvement et révélation mot-à-mot par masque vertical. | Utiliser `WhipStageTransition` (avec `whoosh_soft.wav`) pour enchaîner deux actes sans cut sec tout en gardant `filter: 'none'` et `transform: 'none'` au repos, et `KineticWordLine` en variante cinétique sur une ligne du sous-titre haut éditorial (`Plus Jakarta Sans 800`, `58px`, casse normale). |
 
 ### 7.2 Verrouillage Anti-Clonage des Épisodes (`EP01` vs `EP02`+)
 
 - **`EP01` (`ep01_produits_interactifs`)** : ouverture avatar `AvatarBustStage` (`hookLeanIn`), portraits PDF plein écran, `BrutalStackBar` empilées et carton ManyChat standard.
 - **`EP02` (`ep02_bonnes_instructions`)** : **zéro `AvatarBustStage`, zéro `BrutalStackBar`, zéro texte ou jauge superflu**. Univers en **5 Actes Continus** : ouverture directe sur l'interface Claude (frappe `key_tick.wav` + clic envoi) → cascade verticale des **4 vraies pages PDF** (`pdf1/pdf2` pages 1 & 2) assombries + tracé vectoriel en `X` bordeaux épuré → carte `INSTRUCTIONS CLAUDE` à 3 modules aimantés + clic sur `TRANSFORMER L'IDÉE` + **Scanner Laser Pur Avant → Après** (`900×960px`, ligne laser `8px` `#B63131` sans texte révélant `platform-home-real.png`) → démo live `<OffthreadVideo>` (`920×680px` + `RipplePulse`) + comparatif épuré à 2 cartes (`FICHIER TEXTE` barrée/affaissée vs `OUTIL INTERACTIF ✓`) → 2 interrupteurs mécaniques (`SANS ABONNEMENT`, `SANS CODER`) + saisie `CLAUDE` remontant vers la carte DM ouverte (`chariow-cover-square-1200x1200.png` `280×280px` + phrase unique).
-- **Règle pour `EP03`–`EP06`** : tout nouvel épisode choisit une mécanique d'ouverture et une structure spatiale absentes des 3 lignes précédentes de [HISTORY.md](../episodes/HISTORY.md).
+- **Règle pour `EP03`–`EP06`** : ces 4 nouveaux épisodes couvrent chacun un angle inédit (5 types de produits interactifs, signes qu'une fiche mérite de devenir un outil, démo réelle depuis 1 fiche d'une page, visite guidée transparente d'AI CREATOR Studio), sans répéter « PDF générique vs produit interactif » et avec une mécanique d'ouverture et une structure spatiale absentes des 3 lignes précédentes de [HISTORY.md](../episodes/HISTORY.md).

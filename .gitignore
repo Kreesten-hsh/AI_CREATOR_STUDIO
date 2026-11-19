@@ -24,9 +24,11 @@ pnpm-debug.log*
 .vscode/
 *.local
 
-# Python environments
+# Python environments & cache
 .venv/
 venv/
+__pycache__/
+*.pyc
 
 # Agent configurations & work contexts
 .agents/

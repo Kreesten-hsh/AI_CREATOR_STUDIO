@@ -10,7 +10,7 @@
  * Sortie : public/downloads/chariow-sales-page/
  */
 
-import { execSync } from 'node:child_process';
+import { execFileSync, execSync } from 'node:child_process';
 import fs from 'node:fs';
 import http from 'node:http';
 import os from 'node:os';
@@ -29,7 +29,7 @@ const outputDir = path.join(publicDir, 'downloads', 'chariow-sales-page');
 
 export const COVER_PNG_NAME = 'chariow-cover-square-1200x1200.png';
 export const BANNER_PNG_NAME = 'chariow-banner-1404x520.png';
-export const ACCESS_PDF_NAME = 'GUIDE-ACCES-MINI-COURS-INTERACTIF-CLAUDE.pdf';
+export const ACCESS_PDF_NAME = 'Guide-Acces-AI-CREATOR-Studio.pdf';
 
 export const EXPECTED_SLICES = [
   '01-hero-transformation',
@@ -683,16 +683,16 @@ function buildCoverHtml() {
 
     .cover-subtitle {
       font-family: var(--font-sans);
-      font-size: 13.5px;
+      font-size: 15px;
       line-height: 1.45;
       letter-spacing: 0.01em;
-      word-spacing: 0.05em;
-      color: rgba(23, 19, 19, 0.78);
+      word-spacing: 0.04em;
+      color: rgba(23, 19, 19, 0.84);
       margin-top: 12px;
     }
 
     .cover-stage {
-      margin-top: 42px;
+      margin-top: 38px;
       width: 446px;
       height: 266px;
       position: relative;
@@ -734,7 +734,7 @@ function buildCoverHtml() {
         Claude
       </h1>
       <p class="cover-subtitle">
-        Transformer une méthode ou un document en produit digital interactif avec Claude.
+        Transforme ton expertise, ton idée ou un guide existant en produit digital interactif avec Claude gratuit, sans savoir coder.
       </p>
     </header>
 
@@ -778,7 +778,7 @@ function buildBannerHtml() {
     .banner-left {
       background: var(--red);
       color: var(--cream);
-      padding: 34px 36px;
+      padding: 26px 32px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -822,11 +822,11 @@ function buildBannerHtml() {
 
     .banner-sub {
       font-family: var(--font-sans);
-      font-size: 12px;
-      line-height: 1.45;
+      font-size: 13px;
+      line-height: 1.42;
       letter-spacing: 0.01em;
-      word-spacing: 0.05em;
-      color: rgba(250, 246, 240, 0.92);
+      word-spacing: 0.04em;
+      color: rgba(250, 246, 240, 0.94);
     }
 
     .banner-right {
@@ -881,7 +881,7 @@ function buildBannerHtml() {
 
       <div class="banner-sub-wrap">
         <p class="banner-sub">
-          Conçois avec Claude des produits digitaux interactifs et utiles, sans savoir coder.
+          Transforme ton expertise ou un guide en produit digital interactif avec Claude gratuit, sans savoir coder.
         </p>
       </div>
     </section>
@@ -1168,6 +1168,40 @@ async function generateAccessGuidePdf(browser, port) {
   }
 }
 
+const MAX_CHARIOW_PNG_BYTES = 1_850_000;
+
+function optimizePngsForChariow(filePaths, maxBytes = MAX_CHARIOW_PNG_BYTES) {
+  const pythonScript = [
+    'import os, sys',
+    'from PIL import Image',
+    'max_bytes = int(sys.argv[1])',
+    'for path in sys.argv[2:]:',
+    '    with Image.open(path) as img:',
+    '        img.save(path, format="PNG", optimize=True)',
+    '    if os.path.getsize(path) <= max_bytes:',
+    '        continue',
+    '    for colors in (256, 128, 64):',
+    '        with Image.open(path) as img:',
+    '            rgb = img.convert("RGB")',
+    '            pal = rgb.quantize(colors=colors, method=Image.Quantize.FASTOCTREE, dither=Image.Dither.NONE)',
+    '            pal.save(path, format="PNG", optimize=True)',
+    '        if os.path.getsize(path) <= max_bytes:',
+    '            break',
+  ].join('\n');
+
+  execFileSync('python3', ['-', String(maxBytes), ...filePaths], {
+    input: pythonScript,
+    stdio: ['pipe', 'pipe', 'inherit'],
+  });
+
+  for (const filePath of filePaths) {
+    const size = fs.statSync(filePath).size;
+    if (size >= 2_000_000) {
+      throw new Error(`PNG trop lourd pour Chariow (< 2 MB requis) : ${path.basename(filePath)} (${size} octets).`);
+    }
+  }
+}
+
 export async function generateSalesPagePngs() {
   if (!fs.existsSync(sourceHtmlPath)) {
     throw new Error(`Page HTML source introuvable : ${sourceHtmlPath}`);
@@ -1264,6 +1298,9 @@ export async function generateSalesPagePngs() {
 
     await context.close();
 
+    // Optimisation PNG (sans perte d'abord, puis palette 256 couleurs adaptative si > 1.85 MB pour respecter la limite Chariow < 2 MB)
+    optimizePngsForChariow(generated.map((item) => item.filePath));
+
     const report = generated.map(({ file, filePath }) => {
       const buffer = fs.readFileSync(filePath);
       const { width, height } = readPngDimensions(buffer);
@@ -1280,7 +1317,15 @@ export async function generateSalesPagePngs() {
     });
 
     // 3. Vignette (1200x1200) et Banniere (1404x520) Chariow
-    const coverAndBanner = await captureCoverAndBanner(browser, port);
+    const rawCoverAndBanner = await captureCoverAndBanner(browser, port);
+    optimizePngsForChariow(rawCoverAndBanner.map((item) => path.join(outputDir, item.file)));
+    const coverAndBanner = rawCoverAndBanner.map((item) => {
+      const buffer = fs.readFileSync(path.join(outputDir, item.file));
+      return {
+        ...item,
+        kb: Number((buffer.length / 1024).toFixed(1)),
+      };
+    });
 
     // 4. Guide d'Acces Client PDF (1 page A4 exacte)
     const pdfReport = await generateAccessGuidePdf(browser, port);

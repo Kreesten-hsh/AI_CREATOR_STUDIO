@@ -8,6 +8,7 @@ episodes/**/raw_audio.*
 episodes/**/*.mp4
 episodes/**/*.mov
 assets/avatar/raw_*.png
+carousels/*/png/
 *.log
 .DS_Store
 repomix-output.xml

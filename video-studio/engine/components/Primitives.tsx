@@ -39,6 +39,293 @@ export const settledProgress = (frame: number, fps: number, enterFrame: number):
   return s >= 0.995 ? 1 : s;
 };
 
+const clamp01 = (x: number): number => Math.min(1, Math.max(0, x));
+const EXP10_NORM = 1 - Math.pow(2, -10);
+const SNAP_WD = 10 * Math.sqrt(1 - 0.49);
+
+export const expoOut = (x: number): number => {
+  const c = clamp01(x);
+  if (c <= 0) return 0;
+  if (c >= 1) return 1;
+  return (1 - Math.pow(2, -10 * c)) / EXP10_NORM;
+};
+
+export const inQuart = (x: number): number => Math.pow(clamp01(x), 4);
+
+export const whipProgress = (
+  frame: number,
+  startFrame: number,
+  durationFrames = 10
+): number => {
+  if (frame <= startFrame) return 0;
+  if (durationFrames <= 0 || frame >= startFrame + durationFrames) return 1;
+  const x = clamp01((frame - startFrame) / durationFrames);
+  return x < 0.5
+    ? Math.pow(2, 16 * x - 8) / 2
+    : (2 - Math.pow(2, -16 * x + 8)) / 2;
+};
+
+export const snapProgress = (
+  frame: number,
+  startFrame: number,
+  durationFrames = 12
+): number => {
+  if (frame <= startFrame) return 0;
+  if (durationFrames <= 0 || frame >= startFrame + durationFrames) return 1;
+  const x = clamp01((frame - startFrame) / durationFrames);
+  return (
+    1 -
+    Math.exp(-7 * x) *
+      (Math.cos(SNAP_WD * x) + (7 / SNAP_WD) * Math.sin(SNAP_WD * x))
+  );
+};
+
+export const bellCurve = (x: number): number => Math.sin(Math.PI * clamp01(x));
+
+export const punchScale = (
+  frame: number,
+  triggerFrame: number,
+  amount = 0.07,
+  durationFrames = 9
+): number => {
+  if (
+    durationFrames <= 0 ||
+    frame < triggerFrame ||
+    frame >= triggerFrame + durationFrames
+  ) {
+    return 1;
+  }
+  return 1 + amount * (1 - expoOut((frame - triggerFrame) / durationFrames));
+};
+
+export type WhipDirection = 'left' | 'up' | 'right' | 'down';
+
+const WHIP_VECTORS: Record<WhipDirection, readonly [number, number]> = {
+  left: [-1, 0],
+  right: [1, 0],
+  up: [0, -1],
+  down: [0, 1],
+};
+
+/* Directional whip-pan stage transition with SVG motion blur active only while moving */
+export const WhipStageTransition: React.FC<{
+  children: React.ReactNode;
+  enterFrame?: number;
+  exitFrame?: number;
+  direction?: WhipDirection;
+  durationFrames?: number;
+  style?: React.CSSProperties;
+}> = ({
+  children,
+  enterFrame = 0,
+  exitFrame,
+  direction = 'left',
+  durationFrames = 9,
+  style,
+}) => {
+  const frame = useCurrentFrame();
+  const rawId = React.useId().replace(/[^a-zA-Z0-9_-]/g, '');
+  const filterId = `whip-blur-${rawId}`;
+  const [vx, vy] = WHIP_VECTORS[direction];
+
+  const isBeforeEnter = enterFrame > 0 && frame < enterFrame;
+  const isAfterExit = exitFrame !== undefined && frame >= exitFrame + durationFrames;
+  const hidden = isBeforeEnter || isAfterExit;
+
+  let ki = 1;
+  let blurIn = 0;
+  if (enterFrame > 0) {
+    if (frame < enterFrame) {
+      ki = 0;
+    } else if (durationFrames > 0 && frame < enterFrame + durationFrames) {
+      ki = whipProgress(frame, enterFrame, durationFrames);
+      blurIn = Math.round(bellCurve((frame - enterFrame) / durationFrames) * 28);
+    }
+  }
+
+  let ko = 0;
+  let blurOut = 0;
+  if (exitFrame !== undefined) {
+    if (frame >= exitFrame + durationFrames) {
+      ko = 1;
+    } else if (durationFrames > 0 && frame >= exitFrame) {
+      const rawOut = clamp01((frame - exitFrame) / durationFrames);
+      ko = inQuart(rawOut);
+      blurOut = Math.round(bellCurve(rawOut) * 28);
+    }
+  }
+
+  const tx = hidden ? 0 : Math.round((1 - ki) * -vx * 1080 + ko * vx * 1080);
+  const ty = hidden ? 0 : Math.round((1 - ki) * -vy * 1920 + ko * vy * 1920);
+  const blur = hidden ? 0 : Math.max(blurIn, blurOut);
+  const bx = Math.abs(vx) * blur;
+  const by = Math.abs(vy) * blur;
+  const hasBlur = bx > 0 || by > 0;
+  const isSettled = tx === 0 && ty === 0 && !hasBlur;
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        visibility: hidden ? 'hidden' : 'visible',
+        transform: isSettled ? 'none' : `translate3d(${tx}px, ${ty}px, 0)`,
+        filter: hasBlur ? `url(#${filterId})` : 'none',
+        ...style,
+      }}
+    >
+      {hasBlur && (
+        <svg
+          width={0}
+          height={0}
+          aria-hidden="true"
+          style={{ position: 'absolute', pointerEvents: 'none' }}
+        >
+          <defs>
+            <filter id={filterId} x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation={`${bx} ${by}`} />
+            </filter>
+          </defs>
+        </svg>
+      )}
+      {children}
+    </div>
+  );
+};
+
+export interface KineticWordItem {
+  text: string;
+  enterFrame?: number;
+  highlight?: boolean;
+}
+
+/* Word-by-word masked reveal on a single horizontal line in Studio Lin editorial typography */
+export const KineticWordLine: React.FC<{
+  before?: string;
+  highlight?: string;
+  after?: string;
+  words?: KineticWordItem[];
+  enterFrame?: number;
+  staggerFrames?: number;
+  revealFrames?: number;
+  fontSize?: number;
+}> = ({
+  before = '',
+  highlight = '',
+  after = '',
+  words,
+  enterFrame = 0,
+  staggerFrames = 2,
+  revealFrames = 7,
+  fontSize = 58,
+}) => {
+  const frame = useCurrentFrame();
+
+  const resolvedWords: Array<{ text: string; enterFrame: number; highlight: boolean }> =
+    React.useMemo(() => {
+      if (words && words.length > 0) {
+        return words.map((item, idx) => ({
+          text: item.text,
+          enterFrame: item.enterFrame ?? enterFrame + idx * staggerFrames,
+          highlight: Boolean(item.highlight),
+        }));
+      }
+
+      const rawSegments: Array<{ text: string; highlight: boolean }> = [];
+      for (const token of before.trim().split(/\s+/).filter(Boolean)) {
+        rawSegments.push({ text: token, highlight: false });
+      }
+      for (const token of highlight.trim().split(/\s+/).filter(Boolean)) {
+        rawSegments.push({ text: token, highlight: true });
+      }
+      for (const token of after.trim().split(/\s+/).filter(Boolean)) {
+        rawSegments.push({ text: token, highlight: false });
+      }
+
+      return rawSegments.map((seg, idx) => ({
+        text: seg.text,
+        enterFrame: enterFrame + idx * staggerFrames,
+        highlight: seg.highlight,
+      }));
+    }, [words, before, highlight, after, enterFrame, staggerFrames]);
+
+  return (
+    <div
+      style={{
+        fontFamily: FONTS.sans,
+        fontWeight: 800,
+        fontSize,
+        lineHeight: 1.15,
+        letterSpacing: '-0.01em',
+        color: COLORS.ink,
+        textAlign: 'center',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      {resolvedWords.map((item, idx) => {
+        const wEnter = item.enterFrame;
+        const progress =
+          revealFrames <= 0
+            ? frame >= wEnter
+              ? 1
+              : 0
+            : frame <= wEnter
+              ? 0
+              : frame >= wEnter + revealFrames
+                ? 1
+                : expoOut((frame - wEnter) / revealFrames);
+        const translateY = Number(((1 - progress) * 110).toFixed(2));
+
+        let scale = 1;
+        if (item.highlight) {
+          const snap = snapProgress(frame, wEnter, 10);
+          const punch = punchScale(frame, wEnter, 0.07, 9);
+          scale =
+            frame < wEnter
+              ? 0.88
+              : snap === 1 && punch === 1
+                ? 1
+                : Number(((0.88 + 0.12 * snap) * punch).toFixed(4));
+        }
+
+        const isSettled = translateY === 0 && scale === 1;
+        const transform = isSettled
+          ? 'none'
+          : scale === 1
+            ? `translateY(${translateY}%)`
+            : `translateY(${translateY}%) scale(${scale})`;
+
+        return (
+          <React.Fragment key={`${idx}-${item.text}`}>
+            {idx > 0 ? '\u00A0' : null}
+            <span
+              className="kinetic-word-mask"
+              style={{
+                display: 'inline-block',
+                overflow: 'hidden',
+                verticalAlign: 'bottom',
+                padding: '0.04em 0.04em 0.12em',
+                margin: '-0.04em -0.04em -0.12em',
+              }}
+            >
+              <span
+                style={{
+                  display: 'inline-block',
+                  color: item.highlight ? COLORS.burgundy : COLORS.ink,
+                  transform,
+                  visibility: frame >= wEnter || progress > 0 ? 'visible' : 'hidden',
+                }}
+              >
+                {item.text}
+              </span>
+            </span>
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+};
+
 /* Law 1: Fixed Studio Lin & Spotlight backdrop from frame 0 to final frame */
 export const EditorialCanvas: React.FC<{
   children: React.ReactNode;
@@ -564,7 +851,10 @@ export type SfxName =
   | 'whoosh'
   | 'error_buzz'
   | 'chime_success'
-  | 'key_tick';
+  | 'key_tick'
+  | 'check'
+  | 'select'
+  | 'whoosh_soft';
 
 export const SfxCue: React.FC<{
   name: SfxName;

@@ -28,7 +28,7 @@ Le cursus est structuré en **3 modules thématiques**, totalisant **3 journées
 
 ### Les 2 Bonus Pratiques
 - **Bonus 01** : LE SYSTÈME MANYCHAT AUTOMATISÉ AVEC CLAUDE (5 leçons pratiques, 5 prompts Claude Free, qualification sans Tags obligatoires, conformité ManyChat Free 4 automatisations & WhatsApp par message livré).
-- **Bonus 02** : MARKETING LIBRARY (Bibliothèque de 9 ressources de Skills marketing, avec 2 archives ZIP téléchargeables, 1 prompt universel de recherche concurrentielle et boîte à outils opérationnelle).
+- **Bonus 02** : MARKETING LIBRARY (Bibliothèque de 9 ressources marketing, avec 2 archives ZIP téléchargeables, 1 prompt universel de recherche concurrentielle et 1 lien de veille externe).
 
 ---
 
@@ -52,7 +52,7 @@ Le projet établit une dichotomie stricte entre la plateforme et les application
   - Envoi automatisé du code par e-mail via Gmail SMTP (`smtp.gmail.com:465`, TLS) avec salutation personnalisée **« Bonjour Boss, »**.
   - Session élève persistée localement et définitivement (aucun bouton de déconnexion pour l'apprenant).
 - **Applications générées pour les acheteurs finaux** : Fichier unique `index.html`, Zero-Build, HTML5 sémantique, CSS moderne inline (`<style>`), JavaScript Vanilla pur inline (`<script>`). Interdiction totale de React, Vue ou de bibliothèques tierces chargées via CDN.
-- **Suite de tests automatisés** : Vitest + Testing Library (**20 fichiers de tests, 270 tests passants**, typage TypeScript strict vérifié).
+- **Suite de tests automatisés** : Vitest + Testing Library (**20 fichiers de tests**, typage TypeScript strict vérifié).
 
 ---
 
@@ -93,7 +93,7 @@ npm run preview
 # Vérifier le typage strict TypeScript
 npm run typecheck
 
-# Exécuter l'intégralité des 270 tests unitaires et d'intégration
+# Exécuter la suite de tests unitaires et d'intégration
 npm test
 
 # Packager le Skill ai-creator-design-intelligence et synchroniser l'archive ZIP
@@ -118,7 +118,9 @@ npm run generate:sales-page
 - [`docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html`](docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html) : Source HTML officielle du Guide d'Accès acheteur (1 page A4 épurée).
 - [`public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf`](public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf) : Spécimen PDF modèle téléchargeable pour les acheteurs finaux.
 - [`docs/examples/pricing-calculator/`](docs/examples/pricing-calculator/) : Prototype de référence validé (calculateur de prix interactif `index.html`, `SOURCE-FICHE-PRIX.md` et `VALIDATION.md`).
-- [`public/downloads/chariow-sales-page/`](public/downloads/chariow-sales-page/) : Kit complet de mise en ligne sur Chariow pour **`Mini-Cours Interactif Claude`** (10 tranches PNG Retina issues de [`public/demos/chariow-sales-page.html`](public/demos/chariow-sales-page.html), vignette carrée `1200×1200`, bannière `1404×520`, Guide d'Accès PDF acheteur [`GUIDE-ACCES-MINI-COURS-INTERACTIF-CLAUDE.pdf`](public/downloads/chariow-sales-page/GUIDE-ACCES-MINI-COURS-INTERACTIF-CLAUDE.pdf) et fiche d'instructions [`GUIDE-PUBLICATION-CHARIOW.md`](public/downloads/chariow-sales-page/GUIDE-PUBLICATION-CHARIOW.md)).
+- [`public/downloads/chariow-sales-page/`](public/downloads/chariow-sales-page/) : Kit complet de mise en ligne sur Chariow pour **`Mini-Cours Interactif Claude`** (10 exports PNG Retina `1200 px` optimisés `< 2 MB` issus de [`public/demos/chariow-sales-page.html`](public/demos/chariow-sales-page.html), vignette carrée `1200×1200`, bannière `1404×520`, Guide d'Accès PDF acheteur [`Guide-Acces-AI-CREATOR-Studio.pdf`](public/downloads/chariow-sales-page/Guide-Acces-AI-CREATOR-Studio.pdf) et fiche d'instructions [`GUIDE-PUBLICATION-CHARIOW.md`](public/downloads/chariow-sales-page/GUIDE-PUBLICATION-CHARIOW.md)).
+- [`docs/commercial/`](docs/commercial/) : Playbooks commerciaux et affiliation Chariow (`KIT_PARTENAIRE_AFFILIE.md`, `PROSPECTION_DM_PLAYBOOK.md`, `TRACKER_VENTES_DECEMBRE.csv`).
+- [`video-studio/`](video-studio/docs/STUDIO_BIBLE.md) : Studio Remotion 9:16 Studio Lin, carrousels 4:5 et bible éditoriale ([`VOICE_AND_COPY_BIBLE.md`](video-studio/docs/VOICE_AND_COPY_BIBLE.md), [`CONTENT_PLAN_14_DAYS.md`](video-studio/docs/CONTENT_PLAN_14_DAYS.md)).
 - [`DESIGN.md`](DESIGN.md) : Spécification complète du design system néo-brutaliste et des règles visuelles de la plateforme.
 
 ---

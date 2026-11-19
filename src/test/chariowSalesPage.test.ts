@@ -28,7 +28,7 @@ const FORBIDDEN_TECH_TERMS = [
   /\blocalhost\b/i,
 ] as const;
 
-describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () => {
+describe('Page de Vente Officielle Chariow AI CREATOR Studio', () => {
   const rootDir = process.cwd();
   const htmlPath = path.join(rootDir, 'public', 'demos', 'chariow-sales-page.html');
   const assetsDir = path.join(rootDir, 'public', 'demos', 'assets');
@@ -44,15 +44,16 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () =
     expect(html).toContain('id="sales-column"');
     expect(html).toContain('width: 600px;');
 
-    // Palette stricte
-    for (const hex of ['#B63131', '#FAF6F0', '#F7E0E2', '#E6A0A8', '#FFFDFC', '#FFD65C', '#171313']) {
+    // Palette stricte V2 : encadrement #F7E0E2 + rupture #F478B8 + rouge brique #B63131
+    for (const hex of ['#B63131', '#FAF6F0', '#F7E0E2', '#F478B8', '#E6A0A8', '#FFFDFC', '#FFD65C', '#171313']) {
       expect(html).toContain(hex);
     }
 
-    // Typographies Google Fonts + chargement local
-    for (const font of ['Instrument Serif', 'Gaegu', 'JetBrains Mono', 'Plus Jakarta Sans']) {
+    // Typographies locales dont Caveat en cursive principale
+    for (const font of ['Instrument Serif', 'Caveat', 'Gaegu', 'JetBrains Mono', 'Plus Jakarta Sans']) {
       expect(html).toContain(font);
     }
+    expect(html).toContain("--font-hand: 'Caveat', 'Gaegu', cursive;");
 
     // Suppression totale du bloc Chariow Sales Kit / #preview-toolbar
     expect(html).not.toContain('id="preview-toolbar"');
@@ -106,7 +107,7 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () =
     expect(slice07!.querySelector('.calc-iphone')).toBeNull();
   });
 
-  it('affiche exactement le tarif de lancement 14 900 FCFA, le prix barre 24 900 FCFA et les 30 premiers', () => {
+  it('affiche exactement le tarif de lancement honnete 14 900 FCFA et le prix barre 24 900 FCFA sans fausse rarete', () => {
     const html = fs.readFileSync(htmlPath, 'utf-8');
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
@@ -115,15 +116,20 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () =
 
     expect(text).toContain('14 900 FCFA');
     expect(text).toContain('24 900 FCFA');
-    expect(text).toContain('30 premiers');
-    expect(text).toContain('3 ventes');
-    expect(text).toContain('5 000 FCFA');
-    expect(text).toContain('env. 23 €');
+    expect(text).toContain('Tarif de lancement');
+    expect(text).toContain('Mobile Money ou carte bancaire');
+    expect(text).toContain('7 500 FCFA');
+    expect(text).toContain('2 ventes');
+    expect(text).toContain('pour rentabiliser ton investissement');
+    expect(text).not.toContain('pour rentrer dans tes frais');
+    expect(text).toContain('(Simple repère mathématique, pas une garantie de ventes.)');
+    expect(text).not.toMatch(/30\s+premiers/i);
+    expect(text).not.toMatch(/30\s+places/i);
     expect(text).not.toContain('Réserve ta place ci-dessous');
     expect(doc.querySelector('.cta-pill')).toBeNull();
   });
 
-  it('applique le positionnement economique Mission 12, les 4 transformations d idees et la maitrise des emojis', () => {
+  it('applique le design system valide, le positionnement officiel, les 5 temoignages, 3 FAQ et zero grille 3x2', () => {
     const html = fs.readFileSync(htmlPath, 'utf-8');
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
@@ -131,39 +137,72 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () =
     expect(column).not.toBeNull();
     const text = column!.textContent ?? '';
 
-    // Positionnement economique & honnetete editoriale
-    expect(text).toContain('Arrête de créer des produits digitaux que tout le monde vend au même prix');
-    expect(text).toContain('10 000 FCFA');
-    expect(text).toContain('1 vente à 15 000 F = 5 ventes à 3 000 F');
-    expect(text).toContain("chiffre d'affaires brut");
-    expect(text).toContain("code d'accès");
-    expect(text).toContain('dissuasif');
+    // Positionnement officiel validé (Tranche 01, 03, 04)
+    expect(text).toContain("Crée le produit digital interactif que ton audience a hâte d'acheter.");
+    expect(text).toContain("Pas un énième produit digital qu'on télécharge et qu'on oublie.");
+    expect(text).toContain('+ de 10 millions de FCFA');
+    expect(text).not.toContain('10 000 000 FCFA');
+    expect(text).toContain("C'est mon expérience personnelle et ce n'est pas une garantie de résultats.");
+    expect(text).toContain('simplicité.');
+    expect(text).toContain('interactivité.');
+    expect(text).toContain('résultat immédiat.');
+    expect(text).toContain("n'est PAS fait pour toi");
 
-    // Remplacement des faux temoignages par les 4 Transformations d'Idees
-    for (const domain of ['FIXATION DE PRIX', 'GESTION & BUDGET', 'COACHING, VENTE', 'ORGANISATION, BIEN-ÊTRE']) {
-      expect(text).toContain(domain);
-    }
-    expect(text).not.toContain('10 minutes dans le cours et la mise en page est INCROYABLE');
+    // Preuves brutes + 5 retours bêta-testeurs en Tranche 05
+    const slice05 = doc.querySelector('section[data-slice="05-preuve-sociale-retours"]');
+    expect(slice05).not.toBeNull();
+    expect(slice05!.querySelector('img[src="../screenshots/module-03/l6-netlify-visibility-subdomain.png"]')).not.toBeNull();
+    expect(slice05!.querySelector('img[src="../screenshots/module-03/l7-chariow-post-purchase.png"]')).not.toBeNull();
+    expect(slice05!.querySelectorAll('.dm-bubble')).toHaveLength(5);
 
-    // Suppression des damiers 4x2 autonomes & signature logo sur une seule ligne
+    // Bonus 01 & Bonus 02 ("9 ressources marketing" exact)
+    expect(text).toContain('commentaires Facebook vers Messenger uniquement');
+    expect(text).toContain('9 ressources marketing');
+    expect(text).not.toContain('9 ressources de Skills marketing');
+    expect(text).toContain("1 prompt universel d'analyse concurrentielle");
+    expect(text).toContain('novitckii.com/resources/');
+    expect(text).not.toMatch(/9\s+Assistants\s+IA/i);
+    expect(text).not.toMatch(/chiffre d'affaires/i);
+    expect(text).not.toMatch(/best-seller/i);
+
+    // Exactement 3 questions FAQ en Tranche 08 (FAQ 1 supprimee)
+    const slice08 = doc.querySelector('section[data-slice="08-pour-qui-et-faq"]');
+    expect(slice08).not.toBeNull();
+    expect(slice08!.querySelectorAll('.faq-item')).toHaveLength(3);
+    expect(text).not.toContain("Pourquoi le fichier téléchargé sur Chariow ne fait-il qu'une page ?");
+
+    // Zéro SVG double soulignement ni grille 3x2 (viewBox="0 0 34 22")
+    expect(html).not.toContain('viewBox="0 0 34 22"');
+    expect(html).not.toContain('.grid-badge');
+    expect(html).not.toContain('double-underline-svg');
+    expect(html).not.toContain('hand-underline-svg');
     expect(doc.querySelector('.slice-01-top svg')).toBeNull();
-    expect(doc.querySelector('.slice-02-bottom svg[width="36"]')).toBeNull();
+    expect(doc.querySelector('.studio-hero-card svg')).toBeNull();
+    expect(doc.querySelector('.slice-02-bottom svg')).toBeNull();
     expect(doc.querySelector('.slice-09-head svg')).toBeNull();
-    expect(html).toContain('.brand-signature {\n      display: inline-flex;');
 
-    // Maitrise stricte des emojis : uniquement 🤭, ✨ et 👀 (aucun emoji excessif)
-    for (const allowedEmoji of ['🤭', '✨', '👀']) {
-      expect(text).toContain(allowedEmoji);
-    }
-    for (const forbiddenEmoji of ['🫣', '🥰', '😭', '👏', '🔥', '❤️', '❤']) {
-      expect(text).not.toContain(forbiddenEmoji);
+    // Planchers typographiques mobile rehausses (colonne 600px -> ~340px mobile)
+    const minSizes: Array<[RegExp, number]> = [
+      [/\.eyebrow\s*\{[^}]*font-size:\s*([\d.]+)px/, 16],
+      [/\.slice-04-disclaimer\s*\{[^}]*font-size:\s*([\d.]+)px/, 17.5],
+      [/\.proof-item\s*\{[^}]*font-size:\s*([\d.]+)px/, 19],
+      [/\.dm-bubble\s*\{[^}]*font-size:\s*([\d.]+)px/, 19],
+      [/\.included-desc\s*\{[^}]*font-size:\s*([\d.]+)px/, 18.5],
+      [/\.before-doc-lines\s*\{[^}]*font-size:\s*([\d.]+)px/, 17.5],
+      [/\.ba-caption\s*\{[^}]*font-size:\s*([\d.]+)px/, 19],
+      [/\.faq-a\s*\{[^}]*font-size:\s*([\d.]+)px/, 19.5],
+      [/\.slice-09-roi-note\s*\{[^}]*font-size:\s*([\d.]+)px/, 16.5],
+      [/\.slice-09-pay\s*\{[^}]*font-size:\s*([\d.]+)px/, 19],
+    ];
+    for (const [pattern, minPx] of minSizes) {
+      const match = html.match(pattern);
+      expect(match, `Regle CSS manquante : ${pattern}`).not.toBeNull();
+      expect(Number.parseFloat(match![1])).toBeGreaterThanOrEqual(minPx);
     }
 
+    // Zéro excès d'emojis ni mention d'Excel
     const foundEmojis = text.match(/[\u{1F300}-\u{1FAFF}]/gu) ?? [];
-    expect(foundEmojis).toEqual(['🤭', '👀']);
-    expect((text.match(/✨/gu) ?? []).length).toBe(1);
-
-    // Zero mention du mot Excel
+    expect(foundEmojis).toHaveLength(0);
     expect(html).not.toMatch(/\bexcel\b/i);
   });
 
@@ -196,6 +235,7 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () =
 
       const buffer = fs.readFileSync(filePath);
       expect(buffer.length).toBeGreaterThan(1024);
+      expect(buffer.length, `Fichier >= 2 MB (limite Chariow depassee) pour ${fileName}`).toBeLessThan(2 * 1000 * 1000);
 
       // En-tete PNG valide : 89 50 4E 47 0D 0A 1A 0A
       const signature = buffer.subarray(0, 8).toString('hex');
@@ -223,6 +263,7 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () =
       expect(fs.existsSync(filePath), `Visuel Chariow manquant : ${cover.file}`).toBe(true);
 
       const buffer = fs.readFileSync(filePath);
+      expect(buffer.length, `Visuel >= 2 MB (limite Chariow depassee) pour ${cover.file}`).toBeLessThan(2 * 1000 * 1000);
       expect(buffer.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a');
       expect(buffer.subarray(12, 16).toString('ascii')).toBe('IHDR');
       expect(buffer.readUInt32BE(16), `Largeur IHDR inattendue pour ${cover.file}`).toBe(cover.width);
@@ -231,9 +272,11 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () =
   });
 
   it('genere le Guide d Acces PDF valide sur exactement 1 page A4 et synchronise avec la source HTML', () => {
-    const pdfPath = path.join(downloadsDir, 'GUIDE-ACCES-MINI-COURS-INTERACTIF-CLAUDE.pdf');
+    const pdfPath = path.join(downloadsDir, 'Guide-Acces-AI-CREATOR-Studio.pdf');
+    const oldPdfPath = path.join(downloadsDir, 'GUIDE-ACCES-MINI-COURS-INTERACTIF-CLAUDE.pdf');
     const guideHtmlPath = path.join(rootDir, 'docs', 'guides', 'GUIDE-ACCES-MINI-COURS-CLAUDE.html');
     expect(fs.existsSync(pdfPath)).toBe(true);
+    expect(fs.existsSync(oldPdfPath)).toBe(false);
     expect(fs.existsSync(guideHtmlPath)).toBe(true);
 
     const pdfBuffer = fs.readFileSync(pdfPath);
@@ -268,7 +311,9 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio (Mission 10)', () =
 
     expect(publishMd).toContain('14 900 FCFA');
     expect(publishMd).toContain('24 900 FCFA');
-    expect(publishMd).toContain('GUIDE-ACCES-MINI-COURS-INTERACTIF-CLAUDE.pdf');
+    expect(publishMd).toContain('Guide-Acces-AI-CREATOR-Studio.pdf');
+    expect(publishMd).toContain("Guide d'Accès d'une page");
+    expect(publishMd).toContain('Texte Court à Coller en Haut de la Fiche Chariow');
     expect(publishMd).toContain('chariow-cover-square-1200x1200.png');
     expect(publishMd).toContain('chariow-banner-1404x520.png');
 

@@ -4,8 +4,12 @@
  * Reads episodes/<slug>/meta.json and validates blocking criteria (>= 90/100 required),
  * including zero forbidden double-slash ("//") in episode files.
  */
+import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const epPath = process.argv[2];
 if (!epPath) {
@@ -81,4 +85,11 @@ console.log(`SCORE TOTAL : ${score}/100 (Minimum requis : 90/100)\n`);
 
 if (score < 90 && !process.argv.includes('--allow-low')) {
   process.exit(1);
+}
+
+if (process.argv.includes('--visual')) {
+  const slug = path.basename(path.resolve(epPath));
+  const visualAuditScript = path.join(__dirname, 'visual_audit.mjs');
+  execFileSync(process.execPath, [visualAuditScript, epPath], { stdio: 'inherit' });
+  console.log(`Planche contact generee : /tmp/remotion-audit/${slug}_planche.jpg\n`);
 }

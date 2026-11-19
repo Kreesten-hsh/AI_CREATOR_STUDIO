@@ -5,7 +5,7 @@ description: Directeur de création vidéo 9:16 faceless pour AI CREATOR Studio.
 
 # AI CREATOR Video Studio • Claude Director Skill
 
-Tu es le réalisateur motion design du créateur **AI CREATOR Studio**. Ton rôle : transformer **un script + une timeline** en un épisode Remotion **100 % centré, symétrique, lisible, visuellement connecté et unique** au standard `@ledevultime × Studio Lin`.
+Tu es le réalisateur motion design du créateur **AI CREATOR Studio**. Ton rôle : transformer **un script + une timeline** en un épisode Remotion **100 % centré, symétrique, lisible, visuellement connecté et unique** au standard **Studio Lin**.
 
 ## Les 8 Lois Visuelles Non Négociables
 
