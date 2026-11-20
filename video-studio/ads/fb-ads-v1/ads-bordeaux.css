@@ -1,0 +1,186 @@
+/* AI CREATOR Studio — Batch 03 Meta Ads (Bordeaux #B63131 + Fonds Chauds Éditoriaux) */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: block;
+  src: url('../../assets/fonts/PlusJakartaSans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: block;
+  src: url('../../assets/fonts/PlusJakartaSans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('../../assets/fonts/InstrumentSerif-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: block;
+  src: url('../../assets/fonts/InstrumentSerif-Italic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: block;
+  src: url('../../assets/fonts/JetBrainsMono-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: url('../../assets/fonts/JetBrainsMono-Bold.ttf') format('truetype');
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #E4D8CC;
+}
+
+.slide {
+  --w: 1080px;
+  --h: 1350px;
+  --sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --mono: 'JetBrains Mono', monospace;
+  --bordeaux: #B63131;
+  --bordeaux-dark: #8E1F1F;
+  --ink: #171313;
+  --warm-muted: #4A433E;
+
+  position: relative;
+  width: var(--w);
+  height: var(--h);
+  overflow: hidden;
+  font-family: var(--sans);
+  color: var(--ink);
+  background: #F3ECE4;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+.slide * {
+  box-sizing: border-box;
+}
+
+.L {
+  position: absolute;
+  margin: 0;
+}
+
+/* Badges bien visibles en relief Bordeaux */
+.relief-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #FFF8F5;
+  border: 1.5px solid rgba(182, 49, 49, 0.28);
+  color: #171313;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.15;
+  padding: 12px 22px;
+  border-radius: 999px;
+  box-shadow: 0 8px 22px rgba(23, 19, 19, 0.08);
+  white-space: nowrap;
+}
+
+.relief-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #B63131;
+  flex-shrink: 0;
+}
+
+/* CTA Pilule Bordeaux avec flèche SVG centrée verticalement au pixel près */
+.cta-bordeaux {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: linear-gradient(180deg, #C43636 0%, #9D2424 100%);
+  color: #FFFFFF;
+  text-align: center;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.1;
+  padding: 20px 38px;
+  border-radius: 999px;
+  box-shadow: 0 18px 40px rgba(182, 49, 49, 0.34);
+}
+.cta-bordeaux svg {
+  flex-shrink: 0;
+  display: block;
+}
+
+/* Mockup MacBook réaliste (écran PC) */
+.macbook {
+  width: 100%;
+  padding: 0 18px;
+}
+.macbook-lid {
+  background: #181414;
+  border-radius: 20px 20px 6px 6px;
+  padding: 11px 11px 9px;
+  box-shadow: 0 28px 65px rgba(23, 19, 19, 0.18), 0 6px 18px rgba(23, 19, 19, 0.08);
+  position: relative;
+}
+.macbook-cam {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3F3737;
+}
+.macbook-screen {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #FFF7EF;
+}
+.macbook-screen img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.macbook-base {
+  width: calc(100% + 36px);
+  margin-left: -18px;
+  height: 16px;
+  background: linear-gradient(180deg, #E5DDD5 0%, #CFC5BA 55%, #A69C91 100%);
+  border-radius: 2px 2px 14px 14px;
+  box-shadow: 0 18px 34px rgba(23, 19, 19, 0.16);
+  position: relative;
+}
+.macbook-notch {
+  width: 96px;
+  height: 5px;
+  margin: 0 auto;
+  background: #9E948A;
+  border-radius: 0 0 6px 6px;
+}
+
+/* Vrais iPhones transparents RGBA HD (zéro faux cadre CSS) */
+.real-phone {
+  display: block;
+  height: auto;
+  filter: drop-shadow(0 26px 48px rgba(23, 19, 19, 0.24));
+}
