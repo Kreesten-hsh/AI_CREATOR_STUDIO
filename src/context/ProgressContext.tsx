@@ -83,6 +83,9 @@ export interface ProgressContextValue {
   saveQuizAttempt: (quizId: string, attempt: QuizAttemptState) => void;
   saveCustomPromptInput: (blockId: string, fieldKey: string, value: string) => void;
   resetPromptInputs: (blockId: string, fieldKeysToClear?: ProfileVariableKey[]) => void;
+  setManychatActiveLesson: (lessonId: string) => void;
+  toggleManychatLessonCompleted: (lessonId: string) => void;
+  markManychatLessonCompleted: (lessonId: string) => void;
   exportBackup: () => string;
   importBackup: (rawJson: string) => boolean;
   resetAllProgress: () => void;
@@ -501,6 +504,73 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     []
   );
 
+  const setManychatActiveLesson = useCallback((lessonId: string) => {
+    const trimmed = lessonId.trim();
+    if (!trimmed) return;
+    setState((prev) => {
+      const currentManychat = prev.bonusProgress?.manychat ?? { completedLessonIds: [] };
+      if (currentManychat.activeLessonId === trimmed) {
+        return prev;
+      }
+      return {
+        ...prev,
+        bonusProgress: {
+          ...prev.bonusProgress,
+          manychat: {
+            ...currentManychat,
+            activeLessonId: trimmed,
+          },
+        },
+        lastUpdated: new Date().toISOString(),
+      };
+    });
+  }, []);
+
+  const toggleManychatLessonCompleted = useCallback((lessonId: string) => {
+    const trimmed = lessonId.trim();
+    if (!trimmed) return;
+    setState((prev) => {
+      const currentManychat = prev.bonusProgress?.manychat ?? { completedLessonIds: [] };
+      const exists = currentManychat.completedLessonIds.includes(trimmed);
+      const nextCompleted = exists
+        ? currentManychat.completedLessonIds.filter((id) => id !== trimmed)
+        : [...currentManychat.completedLessonIds, trimmed];
+      return {
+        ...prev,
+        bonusProgress: {
+          ...prev.bonusProgress,
+          manychat: {
+            ...currentManychat,
+            completedLessonIds: nextCompleted,
+          },
+        },
+        lastUpdated: new Date().toISOString(),
+      };
+    });
+  }, []);
+
+  const markManychatLessonCompleted = useCallback((lessonId: string) => {
+    const trimmed = lessonId.trim();
+    if (!trimmed) return;
+    setState((prev) => {
+      const currentManychat = prev.bonusProgress?.manychat ?? { completedLessonIds: [] };
+      if (currentManychat.completedLessonIds.includes(trimmed)) {
+        return prev;
+      }
+      return {
+        ...prev,
+        bonusProgress: {
+          ...prev.bonusProgress,
+          manychat: {
+            ...currentManychat,
+            completedLessonIds: [...currentManychat.completedLessonIds, trimmed],
+          },
+        },
+        lastUpdated: new Date().toISOString(),
+      };
+    });
+  }, []);
+
   const exportBackup = useCallback(() => {
     return exportProgressJson(state);
   }, [state]);
@@ -548,6 +618,9 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       saveQuizAttempt,
       saveCustomPromptInput,
       resetPromptInputs,
+      setManychatActiveLesson,
+      toggleManychatLessonCompleted,
+      markManychatLessonCompleted,
       exportBackup,
       importBackup,
       resetAllProgress,
@@ -576,6 +649,9 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       saveQuizAttempt,
       saveCustomPromptInput,
       resetPromptInputs,
+      setManychatActiveLesson,
+      toggleManychatLessonCompleted,
+      markManychatLessonCompleted,
       exportBackup,
       importBackup,
       resetAllProgress,

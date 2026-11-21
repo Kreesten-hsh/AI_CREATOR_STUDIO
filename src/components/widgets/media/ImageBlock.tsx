@@ -32,7 +32,7 @@ export function ImageBlock({ block }: { block: ImageBlockConfig }) {
           src={block.src}
           alt={altText}
           loading="lazy"
-          className="w-full h-auto max-h-[500px] object-contain"
+          className="w-auto max-w-full h-auto max-h-[560px] object-contain"
         />
       </div>
 

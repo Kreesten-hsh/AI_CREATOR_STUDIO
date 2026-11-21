@@ -87,7 +87,7 @@ export function MarketingLibraryView() {
                   </span>
                 </h1>
 
-                <p className="font-serif text-sm sm:text-base text-surface mt-2.5 leading-relaxed max-w-2xl">
+                <p className="font-sans text-sm sm:text-base text-surface mt-2.5 leading-relaxed max-w-2xl">
                   9 compétences IA et un prompt de recherche et veille concurrentielle pour mieux vendre votre produit numérique.
                 </p>
               </div>
@@ -134,7 +134,7 @@ export function MarketingLibraryView() {
                   <h3 className="font-display text-lg uppercase text-ink">
                     Aucune ressource ne correspond à votre recherche
                   </h3>
-                  <p className="font-serif text-xs text-ink font-medium leading-relaxed">
+                  <p className="font-sans text-xs text-ink font-medium leading-relaxed">
                     Essayez un autre mot-clé ou réinitialisez les filtres pour afficher l'ensemble des 9 Skills.
                   </p>
                 </div>

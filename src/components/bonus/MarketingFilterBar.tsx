@@ -37,7 +37,7 @@ export function MarketingFilterBar({
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Rechercher une compétence ou un besoin..."
-          className="w-full pl-10 pr-10 py-2.5 bg-cream border-2 border-ink rounded-brutal-btn font-serif text-sm text-ink placeholder:text-ink/65 focus:outline-none focus:bg-surface focus:shadow-brutal-xs transition-all min-h-[44px]"
+          className="w-full pl-10 pr-10 py-2.5 bg-cream border-2 border-ink rounded-brutal-btn font-sans text-sm text-ink placeholder:text-ink/65 focus:outline-none focus:bg-surface focus:shadow-brutal-xs transition-all min-h-[44px]"
         />
         {searchQuery && (
           <button

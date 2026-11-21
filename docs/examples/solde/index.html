@@ -1,0 +1,3959 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SOLDE. · Planificateur de Budget &amp; Objectifs</title>
+
+  <!-- Verrou synchrone R9 avant premier rendu -->
+  <script>
+    (function () {
+      var KEY = 'solde_access';
+      var unlocked = false;
+      try {
+        unlocked = Boolean(window.localStorage && window.localStorage.getItem(KEY) === 'ok');
+      } catch (e) {
+        unlocked = false;
+      }
+      if (!unlocked) {
+        document.documentElement.classList.add('locked');
+      }
+    })();
+  </script>
+
+  <!-- Polices Plus Jakarta Sans & JetBrains Mono avec repli système calibré -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* =========================================================================
+       1. DESIGN TOKENS : FINTECH HAUT CONTRASTE (CHALEUR MINÉRALE & ÉMERAUDE)
+       ========================================================================= */
+    :root {
+      --bg-canvas: #E8E3D9;
+      --bg-surface: #FFFFFF;
+      --bg-soft: #F3EFE7;
+      --bg-soft-hover: #EAE4D8;
+
+      --forest-deep: #071D18;
+      --forest: #0C2A23;
+      --forest-card: #13382F;
+      --forest-elevated: #1A463B;
+      --forest-border: rgba(255, 255, 255, 0.12);
+
+      --ink: #11211C;
+      --ink-secondary: #42554E;
+      --ink-muted: #52655E;
+
+      --border-light: #DDD6C8;
+      --border-strong: #C5BCA9;
+
+      --mint: #34D399;
+      --mint-bright: #5EEAD4;
+      --mint-hover: #22C58B;
+      --sage: #0D7A55;
+      --sage-soft: #DCF5EB;
+      --gold: #E5A93B;
+      --gold-soft: #FBF0D9;
+      --gold-text: #8A5D08;
+      --coral: #DC6247;
+      --coral-soft: #FBE8E3;
+      --coral-text: #A83A22;
+
+      --r-sm: 10px;
+      --r-md: 14px;
+      --r-lg: 20px;
+      --r-xl: 26px;
+      --r-pill: 999px;
+
+      --shadow-card: 0 18px 40px -22px rgba(7, 29, 24, 0.18), 0 2px 6px rgba(7, 29, 24, 0.05);
+      --shadow-dark: 0 28px 60px -20px rgba(7, 29, 24, 0.52), 0 4px 12px rgba(7, 29, 24, 0.18);
+      --shadow-dock: 0 16px 40px -8px rgba(7, 29, 24, 0.45);
+
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+      scroll-padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    @media (min-width: 960px) {
+      html {
+        scroll-padding-bottom: 1.5rem;
+      }
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      background-image:
+        radial-gradient(circle at 12% 18%, rgba(13, 122, 85, 0.09) 0%, transparent 42%),
+        radial-gradient(circle at 88% 82%, rgba(229, 169, 59, 0.11) 0%, transparent 45%);
+      background-attachment: fixed;
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-size-adjust: from-font;
+      line-height: 1.5;
+      min-block-size: 100dvh;
+      overflow-wrap: break-word;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* =========================================================================
+       VERROU SYNCHRONE R9 (.gate) — MASQUAGE AVANT PREMIER RENDU
+       ========================================================================= */
+    .gate {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      min-block-size: 100dvh;
+      padding: 20px;
+      background:
+        radial-gradient(circle at 18% 15%, rgba(52, 211, 153, 0.16) 0%, transparent 46%),
+        radial-gradient(circle at 85% 85%, rgba(229, 169, 59, 0.12) 0%, transparent 45%),
+        linear-gradient(155deg, var(--forest-deep) 0%, var(--forest) 60%, #103329 100%);
+      align-items: center;
+      justify-content: center;
+    }
+
+    html.locked .gate {
+      display: flex;
+    }
+
+    html.locked .app-workspace,
+    html.locked .mobile-dock {
+      display: none !important;
+    }
+
+    .gate-card {
+      width: min(420px, 100%);
+      background: var(--forest);
+      color: #FFFFFF;
+      border-radius: var(--r-xl);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: var(--shadow-dark);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    @media (min-width: 480px) {
+      .gate-card {
+        padding: 32px;
+      }
+    }
+
+    .gate-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .gate-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      color: #FFFFFF;
+    }
+
+    .gate-desc {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .gate-hint {
+      font-size: 0.78125rem;
+      color: rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--r-md);
+      padding: 10px 12px;
+      line-height: 1.45;
+    }
+
+    .gate-hint strong {
+      color: var(--mint);
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    .gate-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .gate-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .gate-badge {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mint);
+      background: rgba(52, 211, 153, 0.14);
+      padding: 5px 11px;
+      border-radius: var(--r-pill);
+    }
+
+    .gate-input {
+      width: 100%;
+      min-height: 52px;
+      border-radius: var(--r-md);
+      background: var(--forest-card);
+      border: 1.5px solid rgba(255, 255, 255, 0.22);
+      color: #FFFFFF;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 0 14px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .gate-input:focus {
+      border-color: var(--mint);
+      box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.2);
+    }
+
+    .gate-input[aria-invalid='true'] {
+      border-color: #FFA28E;
+      box-shadow: 0 0 0 3px rgba(220, 98, 71, 0.25);
+    }
+
+    .gate-err {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #FFA28E;
+      text-align: center;
+      min-height: 1.25em;
+      display: none;
+    }
+
+    .gate-err.is-visible {
+      display: block;
+    }
+
+    ::selection {
+      background: var(--forest);
+      color: #FFFFFF;
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--sage);
+      outline-offset: 2px;
+    }
+
+    .hero-backdrop :focus-visible,
+    .dashboard-card :focus-visible,
+    .mobile-dock :focus-visible,
+    .gate :focus-visible {
+      outline-color: var(--mint);
+    }
+
+    h1, h2, h3 {
+      text-wrap: balance;
+    }
+
+    p {
+      text-wrap: pretty;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    input {
+      font-family: inherit;
+      color: inherit;
+    }
+
+    .tabular {
+      font-variant-numeric: tabular-nums;
+      font-size-adjust: from-font;
+    }
+
+    /* =========================================================================
+       2. BANDEAU SUPÉRIEUR ÉMERAUDE (ATMOSPHERE PREMIUM SUR MOBILE & DESKTOP)
+       ========================================================================= */
+    .hero-backdrop {
+      background: linear-gradient(155deg, var(--forest-deep) 0%, var(--forest) 58%, #12382E 100%);
+      color: #FFFFFF;
+      position: relative;
+      padding: 18px 14px 54px;
+      overflow: hidden;
+    }
+
+    .hero-backdrop::before {
+      content: '';
+      position: absolute;
+      top: -90px;
+      right: -60px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(52, 211, 153, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-backdrop::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -40px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(229, 169, 59, 0.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    @media (min-width: 640px) {
+      .hero-backdrop {
+        padding: 22px 24px 58px;
+      }
+    }
+
+    @media (min-width: 960px) {
+      .hero-backdrop {
+        padding: 28px 24px 66px;
+      }
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    @media (min-width: 350px) {
+      .topbar {
+        flex-wrap: nowrap;
+      }
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand-name {
+      font-size: 1.1875rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: #FFFFFF;
+      display: block;
+    }
+
+    .brand-name span {
+      color: var(--mint);
+    }
+
+    .brand-sub {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.74);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .topbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .segmented-dark {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 3px;
+      border-radius: var(--r-md);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      gap: 2px;
+    }
+
+    .segmented-btn {
+      min-height: 44px;
+      min-width: 44px;
+      padding: 0 11px;
+      border-radius: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.8);
+      transition: all 0.16s ease;
+    }
+
+    .segmented-btn:hover {
+      color: #FFFFFF;
+    }
+
+    .segmented-btn.is-active {
+      background: var(--mint);
+      color: var(--forest-deep);
+    }
+
+    .lock-btn-dark {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0 11px;
+      border-radius: var(--r-md);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.9);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 0.78125rem;
+      font-weight: 700;
+      transition: background 0.16s ease, color 0.16s ease;
+    }
+
+    .lock-btn-dark:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: #FFFFFF;
+    }
+
+    .lock-btn-label {
+      display: none;
+    }
+
+    @media (min-width: 540px) {
+      .lock-btn-label {
+        display: inline;
+      }
+
+      .lock-btn-dark {
+        padding: 0 14px;
+      }
+    }
+
+    /* Carte de synthèse rapide visible uniquement sur Mobile dans le Hero */
+    .mobile-hero-summary {
+      margin-top: 20px;
+      padding: 18px 20px;
+      border-radius: var(--r-lg);
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .mobile-hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mobile-hero-balance {
+      font-size: clamp(1.85rem, 8vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: #FFFFFF;
+    }
+
+    .mobile-hero-balance.is-negative {
+      color: #FFA28E;
+    }
+
+    .mobile-hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.78);
+      flex-wrap: wrap;
+    }
+
+    @media (min-width: 960px) {
+      .mobile-hero-summary {
+        display: none;
+      }
+    }
+
+    /* =========================================================================
+       3. CONTENEUR PRINCIPAL & BARRE PROFILS CENTRÉE SUR LA SÉPARATION
+       ========================================================================= */
+    .app-shell {
+      max-width: 1120px;
+      margin: -29px auto 0;
+      padding: 0 14px calc(98px + env(safe-area-inset-bottom, 0px));
+      position: relative;
+      z-index: 5;
+    }
+
+    @media (min-width: 640px) {
+      .app-shell {
+        padding: 0 24px calc(98px + env(safe-area-inset-bottom, 0px));
+      }
+    }
+
+    @media (min-width: 960px) {
+      .app-shell {
+        margin-top: -29px;
+        padding-bottom: 72px;
+      }
+    }
+
+    /* Barre de profils centrée horizontalement et à cheval sur la ligne de séparation */
+    .toolbar-card {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-light);
+      border-radius: var(--r-lg);
+      box-shadow: 0 14px 32px -12px rgba(7, 29, 24, 0.22), 0 2px 6px rgba(7, 29, 24, 0.06);
+      padding: 6px;
+      width: 100%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (min-width: 640px) {
+      .toolbar-card {
+        width: fit-content;
+        max-width: 100%;
+        margin: 0 auto 24px;
+      }
+    }
+
+    @media (min-width: 960px) {
+      .toolbar-card {
+        margin: 0 auto 28px;
+      }
+    }
+
+    .profile-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      max-width: 100%;
+      width: 100%;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0;
+    }
+
+    .profile-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .profile-tab {
+      min-height: 44px;
+      padding: 0 10px;
+      border-radius: 14px;
+      font-size: 0.78125rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      background: transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+      flex: 1 1 0;
+      transition: background-color 0.18s ease, color 0.18s ease, transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s ease;
+    }
+
+    .profile-ext {
+      display: none;
+    }
+
+    @media (min-width: 480px) {
+      .profile-ext {
+        display: inline;
+      }
+    }
+
+    @media (min-width: 640px) {
+      .profile-tab {
+        flex: 0 0 auto;
+        padding: 0 18px;
+        font-size: 0.8125rem;
+        gap: 7px;
+      }
+    }
+
+    .profile-tab:hover {
+      background: var(--bg-soft);
+      color: var(--ink);
+    }
+
+    .profile-tab:active {
+      transform: scale(0.975);
+    }
+
+    .profile-tab.is-active {
+      background: var(--forest);
+      color: #FFFFFF;
+      font-weight: 700;
+      box-shadow: 0 6px 16px -6px rgba(7, 29, 24, 0.45);
+    }
+
+    .profile-tab.is-active:hover {
+      background: var(--forest);
+      color: #FFFFFF;
+    }
+
+    /* Switcher Mobile (Mon Budget | Bilan & Objectifs) */
+    .mobile-view-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: #DDD7CB;
+      padding: 5px;
+      border-radius: var(--r-md);
+      margin: 0 auto 20px;
+      max-width: 460px;
+    }
+
+    .mobile-view-btn {
+      min-height: 44px;
+      border-radius: 10px;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--ink-secondary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.14s ease;
+    }
+
+    .mobile-view-btn:active {
+      transform: scale(0.98);
+    }
+
+    .mobile-view-btn.is-active {
+      background: var(--bg-surface);
+      color: var(--ink);
+      box-shadow: 0 4px 12px -4px rgba(7, 29, 24, 0.16);
+    }
+
+    @media (min-width: 960px) {
+      .mobile-view-switch {
+        display: none;
+      }
+    }
+
+    /* Grille principale */
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (min-width: 960px) {
+      .workspace-grid {
+        grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+        gap: 28px;
+      }
+    }
+
+    @media (max-width: 959px) {
+      .workspace-grid[data-mobile-tab='inputs'] .panel-dashboard {
+        display: none;
+      }
+      .workspace-grid[data-mobile-tab='summary'] .panel-inputs {
+        display: none;
+      }
+    }
+
+    /* =========================================================================
+       4. COLONNE GAUCHE : PANNEAU DE SAISIE ÉLÉGANT & ERREURS INLINE R6
+       ========================================================================= */
+    .editor-card {
+      container: editor / inline-size;
+      background: var(--bg-surface);
+      border-radius: var(--r-xl);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-card);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+      min-width: 0;
+    }
+
+    @media (min-width: 640px) {
+      .editor-card {
+        padding: 32px;
+        gap: 28px;
+      }
+    }
+
+    .section-block {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      min-width: 0;
+    }
+
+    .section-divider {
+      padding-top: 24px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .section-title-group {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dot-coral { background: var(--coral); }
+    .dot-gold { background: var(--gold); }
+    .dot-sage { background: var(--sage); }
+    .dot-mint { background: var(--mint); }
+
+    .section-title {
+      font-size: 0.9375rem;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+    }
+
+    .section-subtitle {
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      font-weight: 500;
+      margin-top: 1px;
+    }
+
+    .badge-amount {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: var(--r-pill);
+    }
+
+    .badge-coral { background: var(--coral-soft); color: var(--coral-text); }
+    .badge-gold { background: var(--gold-soft); color: var(--gold-text); }
+    .badge-sage { background: var(--sage-soft); color: var(--sage); }
+
+    /* Erreurs inline accessibles R6 */
+    .field-err {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--coral-text);
+      line-height: 1.35;
+      display: none;
+    }
+
+    .field-err.is-visible {
+      display: block;
+    }
+
+    .field-err-dark {
+      color: #FFA28E;
+    }
+
+    .is-invalid-box {
+      border-color: var(--coral) !important;
+      box-shadow: 0 0 0 3px rgba(220, 98, 71, 0.16) !important;
+    }
+
+    /* Revenu principal + presets rapides tactiles */
+    .income-input-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--bg-soft);
+      border: 1.5px solid var(--border-light);
+      border-radius: var(--r-md);
+      padding: 0 14px;
+      min-height: 48px;
+      transition: border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .income-input-wrap:focus-within {
+      background: var(--bg-surface);
+      border-color: var(--forest);
+      box-shadow: 0 0 0 3px rgba(13, 122, 85, 0.12);
+    }
+
+    .income-input {
+      width: 126px;
+      border: none;
+      background: transparent;
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      outline: none;
+      min-height: 44px;
+    }
+
+    .unit-suffix {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--ink-muted);
+      margin-left: 6px;
+      flex-shrink: 0;
+    }
+
+    .quick-chips {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .quick-chip {
+      min-height: 44px;
+      border-radius: var(--r-sm);
+      background: var(--bg-soft);
+      border: 1px solid transparent;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--ink-secondary);
+      transition: all 0.14s ease;
+    }
+
+    .quick-chip:hover {
+      background: var(--bg-soft-hover);
+      color: var(--ink);
+    }
+
+    .quick-chip.is-active {
+      background: var(--sage-soft);
+      color: var(--sage);
+      border-color: rgba(13, 122, 85, 0.25);
+    }
+
+    /* Curseurs avec accent-color et piste active */
+    .range-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      accent-color: var(--forest);
+      width: 100%;
+      height: 8px;
+      border-radius: var(--r-pill);
+      background: var(--border-light);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3px solid var(--forest);
+      box-shadow: 0 4px 12px rgba(7, 29, 24, 0.26);
+      cursor: pointer;
+      transition: transform 0.12s ease;
+    }
+
+    .range-slider::-webkit-slider-thumb:active {
+      transform: scale(1.15);
+    }
+
+    .range-slider::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3px solid var(--forest);
+      box-shadow: 0 4px 12px rgba(7, 29, 24, 0.26);
+      cursor: pointer;
+    }
+
+    /* Règles rapides */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      background: var(--bg-soft);
+      padding: 5px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border-light);
+    }
+
+    .rule-btn {
+      min-height: 46px;
+      padding: 6px 4px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      color: var(--ink-secondary);
+      transition: all 0.15s ease;
+    }
+
+    .rule-btn strong {
+      font-family: var(--font-mono);
+      font-size: clamp(0.6875rem, 0.6rem + 0.35cqi, 0.78rem);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .rule-btn span {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    .rule-btn.is-active {
+      background: var(--bg-surface);
+      color: var(--ink);
+      box-shadow: 0 4px 12px -4px rgba(7, 29, 24, 0.15);
+    }
+
+    /* Lignes de dépenses propres avec % live */
+    .expense-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .expense-item-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .expense-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-soft);
+      border: 1.5px solid transparent;
+      border-radius: var(--r-md);
+      padding: 7px 6px 7px 14px;
+      transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .expense-row:focus-within {
+      background: var(--bg-surface);
+      border-color: var(--forest);
+      box-shadow: 0 0 0 3px rgba(13, 122, 85, 0.1);
+    }
+
+    .expense-meta {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .expense-name-input {
+      width: 100%;
+      min-width: 0;
+      border: none;
+      background: transparent;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--ink);
+      outline: none;
+      min-height: 26px;
+    }
+
+    .expense-share {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--ink-muted);
+    }
+
+    .expense-amount-box {
+      display: flex;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-light);
+      border-radius: 10px;
+      padding: 0 8px;
+      min-height: 44px;
+    }
+
+    .expense-amount-input {
+      width: 78px;
+      border: none;
+      background: transparent;
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      outline: none;
+    }
+
+    @container editor (inline-size >= 24rem) {
+      .expense-amount-input {
+        width: 98px;
+      }
+    }
+
+    @container editor (inline-size < 20rem) {
+      .expense-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: auto auto;
+        padding: 8px 8px 8px 12px;
+      }
+
+      .expense-meta {
+        grid-column: 1 / -1;
+      }
+
+      .expense-amount-box {
+        justify-self: stretch;
+      }
+
+      .expense-amount-input {
+        flex: 1 1 auto;
+        width: 100%;
+      }
+    }
+
+    .remove-row-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      color: var(--ink-muted);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .remove-row-btn:hover {
+      background: var(--coral-soft);
+      color: var(--coral-text);
+    }
+
+    .add-line-btn {
+      align-self: flex-start;
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: var(--r-sm);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--sage);
+      background: var(--sage-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: filter 0.15s ease;
+    }
+
+    .add-line-btn:hover {
+      filter: brightness(0.95);
+    }
+
+    /* Épargne & Imprévus */
+    .savings-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mini-money-box {
+      display: flex;
+      align-items: center;
+      background: var(--bg-soft);
+      border: 1.5px solid var(--border-light);
+      border-radius: var(--r-sm);
+      padding: 0 10px;
+      min-height: 44px;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .mini-money-box:focus-within {
+      background: var(--bg-surface);
+      border-color: var(--forest);
+    }
+
+    .mini-money-input {
+      width: 92px;
+      border: none;
+      background: transparent;
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .shock-box {
+      background: var(--bg-soft);
+      border: 1px solid var(--border-light);
+      border-radius: var(--r-lg);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .shock-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .shock-btn {
+      min-height: 44px;
+      border-radius: var(--r-sm);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: var(--bg-surface);
+      color: var(--ink-secondary);
+      border: 1px solid var(--border-light);
+      transition: all 0.15s ease;
+    }
+
+    .shock-btn:hover {
+      color: var(--ink);
+      border-color: var(--border-strong);
+    }
+
+    .shock-btn.is-active {
+      background: var(--forest);
+      color: #FFFFFF;
+      border-color: var(--forest);
+      box-shadow: 0 4px 12px -4px rgba(7, 29, 24, 0.4);
+    }
+
+    .shock-custom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .shock-custom-label {
+      font-size: 0.78125rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+    }
+
+    /* =========================================================================
+       5. COLONNE DROITE : COCKPIT ÉMERAUDE PROFOND
+       ========================================================================= */
+    .dashboard-card {
+      background: linear-gradient(165deg, var(--forest) 0%, var(--forest-deep) 100%);
+      color: #FFFFFF;
+      border-radius: var(--r-xl);
+      border: 1px solid var(--forest-border);
+      box-shadow: var(--shadow-dark);
+      padding: 24px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      min-width: 0;
+    }
+
+    @media (min-width: 640px) {
+      .dashboard-card {
+        padding: 32px;
+        gap: 24px;
+      }
+    }
+
+    @media (min-width: 960px) {
+      .dashboard-card {
+        position: sticky;
+        top: 24px;
+      }
+    }
+
+    .dash-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--forest-border);
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 12px;
+      border-radius: var(--r-pill);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .status-pill.is-good { background: rgba(52, 211, 153, 0.16); color: var(--mint); }
+    .status-pill.is-warn { background: rgba(229, 169, 59, 0.2); color: var(--gold); }
+    .status-pill.is-danger { background: rgba(220, 98, 71, 0.24); color: #FFA28E; }
+    .status-pill.is-neutral { background: rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.85); }
+
+    .daily-badge {
+      padding: 6px 12px;
+      border-radius: var(--r-pill);
+      background: rgba(255, 255, 255, 0.09);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .daily-badge.is-danger {
+      background: rgba(220, 98, 71, 0.24);
+      color: #FFA28E;
+    }
+
+    /* Alerte de calcul suspendu si champ invalide */
+    .calc-paused-banner {
+      display: none;
+      background: rgba(220, 98, 71, 0.18);
+      border: 1px solid rgba(255, 162, 142, 0.4);
+      border-radius: var(--r-md);
+      padding: 10px 14px;
+      font-size: 0.78125rem;
+      font-weight: 600;
+      color: #FFA28E;
+    }
+
+    .calc-paused-banner.is-visible {
+      display: block;
+    }
+
+    /* Bloc Héro + Donut interactif côte à côte */
+    .hero-visual-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .eyebrow-dark {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.74);
+      display: block;
+    }
+
+    .hero-number {
+      font-size: clamp(1.85rem, 4.2vw, 2.9rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.06;
+      color: #FFFFFF;
+      margin-top: 6px;
+    }
+
+    .hero-number.is-negative {
+      color: #FFA28E;
+    }
+
+    .hero-sub-line {
+      font-size: 0.78125rem;
+      color: rgba(255, 255, 255, 0.76);
+      margin-top: 6px;
+    }
+
+    /* Donut SVG multi-segments */
+    .donut-wrap {
+      position: relative;
+      width: 92px;
+      height: 92px;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 480px) {
+      .donut-wrap {
+        width: 98px;
+        height: 98px;
+      }
+    }
+
+    .donut-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .donut-track {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.09);
+      stroke-width: 10;
+    }
+
+    .donut-seg {
+      fill: none;
+      stroke-width: 10;
+      stroke-linecap: butt;
+      transition: stroke-dasharray 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                  stroke-dashoffset 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .donut-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .donut-score {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1;
+      color: #FFFFFF;
+    }
+
+    .donut-label {
+      font-size: 0.625rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.74);
+      margin-top: 3px;
+    }
+
+    /* Trio de métriques */
+    .metrics-trio {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .metric-tile {
+      background: var(--forest-card);
+      border: 1px solid var(--forest-border);
+      border-radius: var(--r-md);
+      padding: 12px 10px;
+    }
+
+    .metric-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .metric-pct {
+      font-family: var(--font-mono);
+      font-size: 1.0625rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-top: 4px;
+    }
+
+    .metric-pct.is-mint { color: var(--mint); }
+
+    .metric-sub {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: rgba(255, 255, 255, 0.74);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Diagnostic + Bouton d'action intelligent */
+    .insight-banner {
+      background: rgba(52, 211, 153, 0.1);
+      border: 1px solid rgba(52, 211, 153, 0.24);
+      border-radius: var(--r-md);
+      padding: 14px 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .insight-banner.is-alert {
+      background: rgba(220, 98, 71, 0.16);
+      border-color: rgba(220, 98, 71, 0.35);
+    }
+
+    .insight-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.8125rem;
+      line-height: 1.48;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .insight-icon {
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--mint);
+    }
+
+    .insight-banner.is-alert .insight-icon {
+      color: #FFA28E;
+    }
+
+    .insight-action-btn {
+      align-self: flex-start;
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: var(--r-pill);
+      background: rgba(255, 255, 255, 0.16);
+      color: #FFFFFF;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s ease;
+    }
+
+    .insight-action-btn.is-visible {
+      display: inline-flex;
+    }
+
+    .insight-action-btn:hover {
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    /* Simulateur d'Objectif Concret */
+    .sub-dark-card {
+      background: var(--forest-card);
+      border: 1px solid var(--forest-border);
+      border-radius: var(--r-lg);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .row-between {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .goal-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .goal-chip {
+      min-height: 44px;
+      padding: 0 13px;
+      border-radius: var(--r-pill);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.15s ease;
+    }
+
+    .goal-chip:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: #FFFFFF;
+    }
+
+    .goal-chip.is-active {
+      background: var(--mint);
+      color: var(--forest-deep);
+      border-color: var(--mint);
+      font-weight: 700;
+    }
+
+    .goal-inputs {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 400px) {
+      .goal-inputs {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .dark-field {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--r-sm);
+      padding: 7px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .dark-field:focus-within {
+      border-color: var(--mint);
+    }
+
+    .dark-field label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.76);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .dark-field input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: #FFFFFF;
+      font-size: 1rem;
+      font-weight: 700;
+      outline: none;
+      min-height: 28px;
+    }
+
+    .dark-field-money {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dark-field-money input {
+      font-family: var(--font-mono);
+    }
+
+    .dark-field-unit {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.74);
+      flex-shrink: 0;
+    }
+
+    .goal-eta-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--forest-border);
+    }
+
+    .goal-eta-main {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .goal-eta-sub {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.76);
+      margin-top: 2px;
+    }
+
+    .goal-eta-pill {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      font-weight: 800;
+      color: var(--forest-deep);
+      background: var(--mint);
+      padding: 7px 13px;
+      border-radius: var(--r-pill);
+      white-space: nowrap;
+    }
+
+    .goal-eta-pill.is-muted {
+      background: rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    /* Projection Cagnotte 3/6/12 mois */
+    .projection-bars {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      align-items: end;
+      height: 108px;
+    }
+
+    .proj-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      height: 100%;
+    }
+
+    .proj-val {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .proj-val.is-mint { color: var(--mint); }
+
+    .proj-track {
+      width: 100%;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 4px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .proj-fill {
+      width: 100%;
+      border-radius: 7px;
+      transition: height 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .proj-lbl {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.74);
+    }
+
+    .proj-lbl.is-mint { color: var(--mint); }
+
+    /* Boutons d'action dashboard + Export / Import JSON R7 */
+    .dash-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dash-backup-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .btn-primary-mint {
+      flex: 1;
+      min-height: 48px;
+      border-radius: var(--r-md);
+      background: var(--mint);
+      color: var(--forest-deep);
+      font-size: 0.875rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-primary-mint:hover {
+      background: var(--mint-hover);
+    }
+
+    .btn-primary-mint:active {
+      transform: scale(0.985);
+    }
+
+    .btn-dark-square {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--r-md);
+      background: var(--forest-card);
+      border: 1px solid var(--forest-border);
+      color: rgba(255, 255, 255, 0.88);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-dark-square:hover {
+      background: var(--forest-elevated);
+      color: #FFFFFF;
+    }
+
+    .btn-dark-action {
+      min-height: 44px;
+      padding: 0 12px;
+      border-radius: var(--r-md);
+      background: var(--forest-card);
+      border: 1px solid var(--forest-border);
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.78125rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-dark-action:hover {
+      background: var(--forest-elevated);
+      border-color: rgba(52, 211, 153, 0.35);
+      color: #FFFFFF;
+    }
+
+    /* =========================================================================
+       6. DOCK FLOTTANT MOBILE EN DIRECT (STICKY BOTTOM BAR < 960px)
+       ========================================================================= */
+    .mobile-dock {
+      position: fixed;
+      left: max(12px, env(safe-area-inset-left, 12px));
+      right: max(12px, env(safe-area-inset-right, 12px));
+      bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      z-index: 40;
+      background: rgba(7, 29, 24, 0.94);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      padding: 8px 10px 8px 14px;
+      box-shadow: var(--shadow-dock);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: #FFFFFF;
+    }
+
+    .mobile-dock-info {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-dock-lbl {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.74);
+    }
+
+    .mobile-dock-val {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mobile-dock-val.is-negative {
+      color: #FFA28E;
+    }
+
+    .mobile-dock-cta {
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 13px;
+      background: var(--mint);
+      color: var(--forest-deep);
+      font-size: 0.8125rem;
+      font-weight: 800;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 960px) {
+      .mobile-dock {
+        display: none;
+      }
+    }
+
+    /* =========================================================================
+       7. TOAST & ANIMATIONS SOBRES
+       ========================================================================= */
+    .toast {
+      position: fixed;
+      bottom: calc(86px + env(safe-area-inset-bottom, 0px));
+      left: 50%;
+      transform: translate(-50%, 14px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 120;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    @media (min-width: 960px) {
+      .toast {
+        bottom: 24px;
+      }
+    }
+
+    .toast.is-visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .toast-inner {
+      background: var(--forest-deep);
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--r-pill);
+      padding: 10px 18px;
+      font-size: 0.78125rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-dark);
+      max-width: calc(100vw - 24px);
+    }
+
+    .toast.is-error .toast-inner {
+      background: #4E1810;
+      border-color: rgba(255, 162, 142, 0.45);
+    }
+
+    .toast.is-error .toast-dot {
+      background: #FFA28E;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .animate-shake {
+      animation: shake 0.28s ease-in-out;
+    }
+
+    @keyframes panelReveal {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes rowEnter {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .toolbar-card {
+        animation: panelReveal 0.3s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+      }
+
+      .panel-inputs {
+        animation: panelReveal 0.34s 0.04s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+      }
+
+      .panel-dashboard {
+        animation: panelReveal 0.34s 0.08s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+      }
+
+      .is-swapping {
+        animation: panelReveal 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .expense-row.is-new {
+        animation: rowEnter 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .donut-seg {
+        transition: stroke-dasharray 0.48s cubic-bezier(0.22, 1, 0.36, 1),
+                    stroke-dashoffset 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .proj-fill {
+        transition: height 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .quick-chip:active,
+      .rule-btn:active,
+      .shock-btn:active,
+      .goal-chip:active,
+      .add-line-btn:active,
+      .mobile-dock-cta:active {
+        transform: scale(0.975);
+      }
+    }
+
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+      .quick-chip:hover,
+      .shock-btn:hover,
+      .goal-chip:hover,
+      .btn-primary-mint:hover,
+      .mobile-dock-cta:hover {
+        transform: translateY(-1px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Toast de retour discret -->
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <div class="toast-inner">
+      <span class="dot dot-mint toast-dot" aria-hidden="true"></span>
+      <span id="toastText">Enregistré</span>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       ÉCRAN VERROU PLEIN ÉCRAN (.gate — R9)
+       ========================================================================= -->
+  <section id="gateScreen" class="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <div id="gateCard" class="gate-card">
+      <div class="gate-header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 17l6-6 4 4 6-8"></path>
+              <circle cx="20" cy="7" r="2.2" fill="#34D399" stroke="none"></circle>
+            </svg>
+          </div>
+          <div>
+            <span class="brand-name">SOLDE<span>.</span></span>
+            <span class="brand-sub">Espace privé acheteur</span>
+          </div>
+        </div>
+        <span class="gate-badge">Accès Privé</span>
+      </div>
+
+      <div>
+        <h1 id="gateTitle" class="gate-title">Déverrouiller SOLDE.</h1>
+        <p class="gate-desc">
+          Entre le code d'accès figurant dans ton Guide d'Accès pour ouvrir ton planificateur de budget et d'objectifs.
+        </p>
+      </div>
+
+      <p class="gate-hint">
+        Code d'accès fourni dans le Guide (exemple de démonstration : <strong>SOLDE2026</strong>).
+      </p>
+
+      <form id="gateForm" class="gate-form" autocomplete="off" novalidate>
+        <label for="gateInput" class="gate-label">Code d'accès personnel</label>
+        <input
+          id="gateInput"
+          type="password"
+          inputmode="text"
+          autocapitalize="characters"
+          spellcheck="false"
+          autocomplete="off"
+          placeholder="•••••••••"
+          aria-describedby="gateErr"
+          class="gate-input"
+        />
+        <p id="gateErr" class="gate-err" role="alert" aria-live="assertive"></p>
+        <button type="submit" id="gateSubmitBtn" class="btn-primary-mint">Accéder à mon espace</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       ESPACE APPLICATION PRINCIPAL (MASQUÉ TANT QUE html.locked)
+       ========================================================================= -->
+  <div class="app-workspace">
+    <!-- EN-TÊTE ÉMERAUDE PROFOND (HERO MOBILE + BARRE SUPÉRIEURE) -->
+    <header class="hero-backdrop">
+      <div class="hero-inner">
+        <div class="topbar">
+          <div class="brand">
+            <div class="brand-mark" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 17l6-6 4 4 6-8"></path>
+                <circle cx="20" cy="7" r="2.2" fill="#34D399" stroke="none"></circle>
+              </svg>
+            </div>
+            <div>
+              <span class="brand-name">SOLDE<span>.</span></span>
+              <span class="brand-sub">Budget mensuel &amp; objectifs</span>
+            </div>
+          </div>
+
+          <div class="topbar-controls">
+            <div class="segmented-dark" role="group" aria-label="Devise">
+              <button type="button" id="btnFCFA" class="segmented-btn is-active" aria-pressed="true">FCFA</button>
+              <button type="button" id="btnEUR" class="segmented-btn" aria-pressed="false">€ EUR</button>
+            </div>
+
+            <button type="button" id="lockBtn" class="lock-btn-dark" title="Verrouiller" aria-label="Verrouiller l'application">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span class="lock-btn-label">Verrouiller</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Résumé en direct intégré au Hero sur Mobile (< 960px) -->
+        <div class="mobile-hero-summary" aria-live="polite">
+          <div class="mobile-hero-top">
+            <span id="mobileHealthPill" class="status-pill is-good">Mois maîtrisé</span>
+            <span id="mobileDailyPill" class="daily-badge tabular">0 FCFA / jour</span>
+          </div>
+
+          <div>
+            <span class="eyebrow-dark">Reste libre ce mois</span>
+            <div id="mobileBalanceHero" class="mobile-hero-balance tabular">0 FCFA</div>
+          </div>
+
+          <div class="mobile-hero-meta tabular">
+            <span>Épargne : <strong id="mobileSavText" style="color: var(--mint);">50 000 FCFA</strong></span>
+            <span>Score : <strong id="mobileScoreText" style="color: #FFFFFF;">100/100</strong></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENEUR PRINCIPAL CHEVAUCHANT LE HERO -->
+    <div class="app-shell">
+
+      <!-- Barre flottante de profils -->
+      <div class="toolbar-card">
+        <div class="profile-tabs" role="group" aria-label="Modèle de budget">
+          <button type="button" data-profile="standard" class="profile-tab is-active" aria-pressed="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+            <span>Particulier</span>
+          </button>
+          <button type="button" data-profile="creator" class="profile-tab" aria-pressed="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2"></rect></svg>
+            <span>Créateur<span class="profile-ext"> / Freelance</span></span>
+          </button>
+          <button type="button" data-profile="student" class="profile-tab" aria-pressed="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+            <span>Étudiant</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Switcher d'onglets sur Mobile uniquement (< 960px) -->
+      <div class="mobile-view-switch" role="tablist" aria-label="Navigation mobile">
+        <button type="button" id="tabInputs" role="tab" aria-selected="true" class="mobile-view-btn is-active">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line></svg>
+          <span>Mon Budget</span>
+        </button>
+        <button type="button" id="tabSummary" role="tab" aria-selected="false" class="mobile-view-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+          <span>Bilan &amp; Objectifs</span>
+        </button>
+      </div>
+
+      <!-- Grille 2 colonnes (Desktop) / 2 onglets (Mobile) -->
+      <main id="workspaceGrid" class="workspace-grid" data-mobile-tab="inputs">
+
+        <!-- =================================================================
+             PANNEAU GAUCHE : PARAMÈTRES INTERACTIFS
+             ================================================================= -->
+        <section class="editor-card panel-inputs" aria-label="Composer mon budget">
+
+          <!-- 1. Revenu mensuel + Quick chips + Slider actif -->
+          <div class="section-block">
+            <div class="section-header">
+              <div>
+                <label for="inputIncome" class="section-title" id="incomeTitleLabel">Revenu net du mois</label>
+                <div class="section-subtitle" id="incomeSubLabel">Salaire ou entrées régulières</div>
+              </div>
+              <div id="wrap-inputIncome" class="income-input-wrap">
+                <input
+                  id="inputIncome"
+                  type="text"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  spellcheck="false"
+                  aria-describedby="err-inputIncome"
+                  class="income-input tabular"
+                />
+                <span class="unit-suffix unit-label">FCFA</span>
+              </div>
+            </div>
+            <p id="err-inputIncome" class="field-err" role="alert"></p>
+
+            <input id="sliderIncome" type="range" min="30000" max="2000000" step="10000" class="range-slider" aria-label="Ajuster le revenu mensuel" />
+
+            <!-- Boutons rapides de revenu pour tester en 1 tap sur mobile -->
+            <div class="quick-chips" role="group" aria-label="Revenus rapides">
+              <button type="button" data-income="150000" class="quick-chip">150k</button>
+              <button type="button" data-income="250000" class="quick-chip is-active">250k</button>
+              <button type="button" data-income="500000" class="quick-chip">500k</button>
+              <button type="button" data-income="1000000" class="quick-chip">1M</button>
+            </div>
+
+            <!-- Règles de répartition automatique -->
+            <div class="rules-grid" role="group" aria-label="Répartition rapide">
+              <button type="button" data-rule="balanced" class="rule-btn is-active">
+                <strong>50 / 30 / 20</strong>
+                <span>Équilibré</span>
+              </button>
+              <button type="button" data-rule="prudent" class="rule-btn">
+                <strong>60 / 20 / 20</strong>
+                <span>Prudent</span>
+              </button>
+              <button type="button" data-rule="turbo" class="rule-btn">
+                <strong>45 / 20 / 35</strong>
+                <span>Épargne max</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. Charges Fixes dynamiques -->
+          <div class="section-block section-divider">
+            <div class="section-header">
+              <div class="section-title-group">
+                <span class="dot dot-coral" aria-hidden="true"></span>
+                <span class="section-title" id="fixedSectionTitle">Charges fixes</span>
+              </div>
+              <span id="fixedTotalBadge" class="badge-amount badge-coral tabular">0 FCFA</span>
+            </div>
+
+            <div id="fixedList" class="expense-list"></div>
+
+            <button type="button" id="btnAddFixed" class="add-line-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Ajouter une charge fixe</span>
+            </button>
+          </div>
+
+          <!-- 3. Vie & Plaisirs dynamiques -->
+          <div class="section-block section-divider">
+            <div class="section-header">
+              <div class="section-title-group">
+                <span class="dot dot-gold" aria-hidden="true"></span>
+                <span class="section-title" id="lifeSectionTitle">Vie &amp; Plaisirs</span>
+              </div>
+              <span id="lifeTotalBadge" class="badge-amount badge-gold tabular">0 FCFA</span>
+            </div>
+
+            <div id="lifeList" class="expense-list"></div>
+
+            <button type="button" id="btnAddLife" class="add-line-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Ajouter une dépense courante</span>
+            </button>
+          </div>
+
+          <!-- 4. Épargne & Réserve -->
+          <div class="section-block section-divider">
+            <div class="section-header">
+              <div class="section-title-group">
+                <span class="dot dot-sage" aria-hidden="true"></span>
+                <label for="inputSavings" class="section-title" id="savingsSectionTitle">Épargne &amp; Tontine</label>
+              </div>
+              <div class="savings-controls">
+                <span id="savingsPctBadge" class="badge-amount badge-sage tabular">20%</span>
+                <div id="wrap-inputSavings" class="mini-money-box">
+                  <input
+                    id="inputSavings"
+                    type="text"
+                    inputmode="decimal"
+                    autocomplete="off"
+                    spellcheck="false"
+                    aria-describedby="err-inputSavings"
+                    class="mini-money-input tabular"
+                  />
+                  <span class="unit-suffix unit-label">FCFA</span>
+                </div>
+              </div>
+            </div>
+            <p id="err-inputSavings" class="field-err" role="alert"></p>
+            <input id="sliderSavings" type="range" min="0" max="600000" step="5000" class="range-slider" aria-label="Ajuster l'épargne mensuelle" />
+          </div>
+
+          <!-- 5. Crash-test d'un achat ou imprévu -->
+          <div class="shock-box">
+            <div class="section-header">
+              <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-secondary);">
+                Crash-test achat / imprévu
+              </span>
+              <span id="shockLabel" class="tabular" style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--ink);">
+                Aucun
+              </span>
+            </div>
+
+            <div class="shock-grid" role="group" aria-label="Montant d'imprévu rapide">
+              <button type="button" data-shock="0" class="shock-btn is-active">0</button>
+              <button type="button" data-shock="15000" class="shock-btn">+15k</button>
+              <button type="button" data-shock="40000" class="shock-btn">+40k</button>
+              <button type="button" data-shock="80000" class="shock-btn">+80k</button>
+            </div>
+
+            <div class="shock-custom-row">
+              <label for="inputShockCustom" class="shock-custom-label">Montant libre :</label>
+              <div id="wrap-inputShockCustom" class="mini-money-box" style="background: var(--bg-surface);">
+                <input
+                  id="inputShockCustom"
+                  type="text"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  spellcheck="false"
+                  placeholder="0"
+                  aria-describedby="err-inputShockCustom"
+                  class="mini-money-input tabular"
+                />
+                <span class="unit-suffix unit-label">FCFA</span>
+              </div>
+            </div>
+            <p id="err-inputShockCustom" class="field-err" role="alert"></p>
+          </div>
+        </section>
+
+        <!-- =================================================================
+             PANNEAU DROIT : COCKPIT ÉMERAUDE & OBJECTIFS
+             ================================================================= -->
+        <section class="dashboard-card panel-dashboard" aria-label="Bilan financier et objectifs" aria-live="polite">
+
+          <!-- Statut & Budget par jour -->
+          <div class="dash-top">
+            <span id="healthPill" class="status-pill is-good">Mois maîtrisé</span>
+            <span id="dailyPill" class="daily-badge tabular">0 FCFA / jour</span>
+          </div>
+
+          <div id="calcPausedBanner" class="calc-paused-banner" role="alert">
+            Saisie invalide détectée : le calcul reste sur la dernière valeur valide en attendant ta correction.
+          </div>
+
+          <!-- Reste à vivre + Donut SVG multi-segments -->
+          <div class="hero-visual-row">
+            <div style="min-width: 0;">
+              <span class="eyebrow-dark">Reste libre ce mois</span>
+              <div id="freeBalanceHero" class="hero-number tabular">0 FCFA</div>
+              <div id="allocatedSub" class="hero-sub-line tabular">Alloué : 96% de ton revenu</div>
+            </div>
+
+            <div class="donut-wrap" title="Répartition du budget et score de sérénité sur 100">
+              <svg class="donut-svg" viewBox="0 0 100 100" role="img" aria-label="Répartition visuelle du budget">
+                <circle class="donut-track" cx="50" cy="50" r="40"></circle>
+                <circle id="donutFixed" class="donut-seg" cx="50" cy="50" r="40" stroke="#DC6247" stroke-dasharray="0 251.33" stroke-dashoffset="0"></circle>
+                <circle id="donutLife" class="donut-seg" cx="50" cy="50" r="40" stroke="#E5A93B" stroke-dasharray="0 251.33" stroke-dashoffset="0"></circle>
+                <circle id="donutSave" class="donut-seg" cx="50" cy="50" r="40" stroke="#34D399" stroke-dasharray="0 251.33" stroke-dashoffset="0"></circle>
+              </svg>
+              <div class="donut-center">
+                <span id="scoreNumber" class="donut-score tabular">100</span>
+                <span class="donut-label">Score</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 tuiles de répartition détaillées -->
+          <div class="metrics-trio">
+            <div class="metric-tile">
+              <div class="metric-label"><span class="dot dot-coral"></span>Fixes</div>
+              <div id="pctFixed" class="metric-pct tabular">50%</div>
+              <div id="valFixedTile" class="metric-sub tabular">125k F</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-label"><span class="dot dot-gold"></span>Vie</div>
+              <div id="pctLife" class="metric-pct tabular">26%</div>
+              <div id="valLifeTile" class="metric-sub tabular">65k F</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-label"><span class="dot dot-mint"></span>Épargne</div>
+              <div id="pctSavings" class="metric-pct is-mint tabular">20%</div>
+              <div id="valSavTile" class="metric-sub tabular">50k F</div>
+            </div>
+          </div>
+
+          <!-- Diagnostic chiffré + Action 1-clic -->
+          <div id="insightBanner" class="insight-banner">
+            <div class="insight-row">
+              <svg class="insight-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <span id="insightText">Ton budget est équilibré.</span>
+            </div>
+            <button type="button" id="btnInsightAction" class="insight-action-btn"></button>
+          </div>
+
+          <!-- Simulateur d'Objectif avec date réelle -->
+          <div class="sub-dark-card">
+            <div class="row-between">
+              <span class="eyebrow-dark">Simulateur d'objectif</span>
+              <span id="goalMonthlyNote" class="tabular" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--mint); font-weight: 700;">
+                +50 000 FCFA / mois
+              </span>
+            </div>
+
+            <div class="goal-presets" role="group" aria-label="Objectifs rapides">
+              <button type="button" data-goal="Fonds de sécurité" data-amount="300000" class="goal-chip is-active">Fonds sécurité</button>
+              <button type="button" data-goal="Setup Vidéo & Micro" data-amount="250000" class="goal-chip">Setup Vidéo</button>
+              <button type="button" data-goal="Nouveau Téléphone" data-amount="400000" class="goal-chip">Téléphone</button>
+              <button type="button" data-goal="Lancer un Projet" data-amount="500000" class="goal-chip">Projet</button>
+            </div>
+
+            <div class="goal-inputs">
+              <div class="dark-field">
+                <label for="inputGoalName">Ton objectif</label>
+                <input id="inputGoalName" type="text" maxlength="32" value="Fonds de sécurité" />
+              </div>
+              <div id="wrap-inputGoalTarget" class="dark-field">
+                <label for="inputGoalTarget">Montant cible</label>
+                <div class="dark-field-money">
+                  <input
+                    id="inputGoalTarget"
+                    type="text"
+                    inputmode="decimal"
+                    autocomplete="off"
+                    spellcheck="false"
+                    aria-describedby="err-inputGoalTarget"
+                    class="tabular"
+                  />
+                  <span class="dark-field-unit unit-label">FCFA</span>
+                </div>
+              </div>
+            </div>
+            <p id="err-inputGoalTarget" class="field-err field-err-dark" role="alert"></p>
+
+            <div class="goal-eta-box">
+              <div>
+                <div id="goalEtaHeadline" class="goal-eta-main">Fonds de sécurité atteint</div>
+                <div id="goalEtaSub" class="goal-eta-sub">Estimation : Mai 2027</div>
+              </div>
+              <span id="goalEtaPill" class="goal-eta-pill tabular">6 mois</span>
+            </div>
+          </div>
+
+          <!-- Projection Cagnotte (3 / 6 / 12 mois) -->
+          <div class="sub-dark-card">
+            <div class="row-between">
+              <span class="eyebrow-dark">Cagnotte cumulée</span>
+              <span id="save12Badge" class="tabular" style="font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 700; color: var(--mint);">
+                600 000 FCFA / an
+              </span>
+            </div>
+
+            <div class="projection-bars">
+              <div class="proj-col">
+                <span id="proj3Val" class="proj-val tabular">150k</span>
+                <div class="proj-track">
+                  <div id="proj3Bar" class="proj-fill" style="height: 28%; background: rgba(52, 211, 153, 0.42);"></div>
+                </div>
+                <span class="proj-lbl">3 mois</span>
+              </div>
+              <div class="proj-col">
+                <span id="proj6Val" class="proj-val tabular">300k</span>
+                <div class="proj-track">
+                  <div id="proj6Bar" class="proj-fill" style="height: 56%; background: rgba(52, 211, 153, 0.72);"></div>
+                </div>
+                <span class="proj-lbl">6 mois</span>
+              </div>
+              <div class="proj-col">
+                <span id="proj12Val" class="proj-val is-mint tabular">600k</span>
+                <div class="proj-track">
+                  <div id="proj12Bar" class="proj-fill" style="height: 100%; background: var(--mint);"></div>
+                </div>
+                <span class="proj-lbl is-mint">12 mois</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions principales -->
+          <div class="dash-actions">
+            <button type="button" id="btnCopy" class="btn-primary-mint">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copier mon plan</span>
+            </button>
+
+            <button type="button" id="btnReset" class="btn-dark-square" title="Réinitialiser ce profil" aria-label="Réinitialiser ce profil">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <path d="M3 3v5h5"></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Sauvegarde portable Export / Import JSON (R7 b/c) -->
+          <div class="dash-backup-actions" role="group" aria-label="Sauvegarde JSON">
+            <button type="button" id="btnExportJson" class="btn-dark-action">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Exporter (.json)</span>
+            </button>
+            <button type="button" id="btnImportJson" class="btn-dark-action">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <span>Importer (.json)</span>
+            </button>
+            <input type="file" accept="application/json,.json" id="inputImportJson" hidden />
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Dock flottant en direct sur Mobile (< 960px) -->
+    <div class="mobile-dock" aria-label="Résumé rapide mobile">
+      <div class="mobile-dock-info">
+        <span class="mobile-dock-lbl">Reste libre</span>
+        <span id="dockBalanceVal" class="mobile-dock-val tabular">0 FCFA</span>
+      </div>
+      <button type="button" id="btnDockSwitch" class="mobile-dock-cta">
+        <span id="dockCtaLabel">Voir le bilan</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* =======================================================================
+         CONSTANTES R9 (ACCÈS) & R6 (PARITÉ MICRO-FCFA EXACTE)
+         ======================================================================= */
+      const ACCESS_CODE = 'SOLDE2026';
+      const KEY = 'solde_access';
+      const STORAGE_KEY = 'solde_budget_app_v3';
+
+      const MICRO_PER_FCFA = 1000000;
+      const EUR_RATE = 655.957;
+      const MICRO_PER_EUR = 655957000;
+      const MAX_FCFA_AMOUNT = 5000000000; // 5e9 * 1e6 = 5e15 < Number.MAX_SAFE_INTEGER
+
+      const DONUT_CIRCUMFERENCE = 2 * Math.PI * 40;
+      const MONTHS_FR = [
+        'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+        'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+      ];
+
+      const RULES = {
+        balanced: { fixed: 0.50, life: 0.30, savings: 0.20 },
+        prudent:  { fixed: 0.60, life: 0.20, savings: 0.20 },
+        turbo:    { fixed: 0.45, life: 0.20, savings: 0.35 },
+      };
+
+      const STRICT_FR_NUM_RE = /^(?:\d+|\d{1,3}(?:[ \u00A0\u202F]\d{3})+)(?:[.,]\d{1,6})?$/;
+
+      /* =======================================================================
+         STORAGE ADAPTER RÉSILIENT (localStorage + REPLI MÉMOIRE)
+         ======================================================================= */
+      const StorageAdapter = (function () {
+        const memoryStore = new Map();
+        return {
+          getItem(k) {
+            try {
+              if (window.localStorage) return window.localStorage.getItem(k);
+            } catch (err) {}
+            return memoryStore.has(k) ? memoryStore.get(k) : null;
+          },
+          setItem(k, v) {
+            try {
+              if (window.localStorage) {
+                window.localStorage.setItem(k, String(v));
+                return;
+              }
+            } catch (err) {}
+            memoryStore.set(k, String(v));
+          },
+          removeItem(k) {
+            try {
+              if (window.localStorage) {
+                window.localStorage.removeItem(k);
+                return;
+              }
+            } catch (err) {}
+            memoryStore.delete(k);
+          },
+        };
+      })();
+
+      /* =======================================================================
+         ARITHMÉTIQUE MICRO-FCFA & PARSEUR FINANCIER STRICT (R6)
+         ======================================================================= */
+      function fcfaToMicro(fcfa) {
+        return Math.round(fcfa * MICRO_PER_FCFA);
+      }
+
+      function microToFcfa(micro) {
+        return micro / MICRO_PER_FCFA;
+      }
+
+      function eurToMicro(eur) {
+        return Math.round(eur * MICRO_PER_EUR);
+      }
+
+      function microToEur(micro) {
+        return micro / MICRO_PER_EUR;
+      }
+
+      function displayNumberToMicro(value, currency) {
+        return currency === 'FCFA' ? fcfaToMicro(value) : eurToMicro(value);
+      }
+
+      function formatFrenchNumber(num, decimals) {
+        const fixed = num.toFixed(decimals);
+        const parts = fixed.split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        return decimals > 0 ? parts.join(',') : parts[0];
+      }
+
+      function parseFrenchFinancialInput(raw, options) {
+        const opts = options || {};
+        const allowEmpty = Boolean(opts.allowEmpty);
+        const str = String(raw == null ? '' : raw).trim();
+
+        if (str === '') {
+          if (allowEmpty) {
+            return { ok: true, value: 0, isEmpty: true };
+          }
+          return { ok: false, error: 'Saisis un montant valide (≥ 0).' };
+        }
+
+        if (/^-/.test(str)) {
+          return { ok: false, error: 'Le montant ne peut pas être négatif.' };
+        }
+
+        if (!STRICT_FR_NUM_RE.test(str)) {
+          return { ok: false, error: 'Format invalide : utilise des chiffres (ex. 25 000 ou 12,50).' };
+        }
+
+        const normalized = str.replace(/[ \u00A0\u202F]+/g, '').replace(',', '.');
+        const num = Number(normalized);
+
+        if (!Number.isFinite(num) || num < 0) {
+          return { ok: false, error: 'Saisis un montant numérique positif.' };
+        }
+
+        const maxAllowed = opts.currency === 'EUR' ? MAX_FCFA_AMOUNT / EUR_RATE : MAX_FCFA_AMOUNT;
+        if (num > maxAllowed) {
+          return { ok: false, error: 'Montant trop élevé.' };
+        }
+
+        return { ok: true, value: num, isEmpty: false };
+      }
+
+      function toDisplayInput(micro, currency) {
+        const cur = currency || state.currency;
+        if (micro === 0) return '0';
+        if (cur === 'FCFA') {
+          return formatFrenchNumber(Math.round(microToFcfa(micro)), 0);
+        }
+        return formatFrenchNumber(microToEur(micro), 2);
+      }
+
+      function formatMoneyFromMicro(micro, compact) {
+        const fcfa = microToFcfa(micro);
+        const isNeg = fcfa < -0.0001;
+        const absFcfa = Number.isFinite(fcfa) ? Math.abs(fcfa) : 0;
+        let out = '';
+
+        if (state.currency === 'FCFA') {
+          if (compact && absFcfa >= 1000000) {
+            out = (absFcfa / 1000000).toFixed(1).replace('.', ',') + 'M F';
+          } else if (compact && absFcfa >= 1000) {
+            out = Math.round(absFcfa / 1000) + 'k F';
+          } else {
+            out = formatFrenchNumber(Math.round(absFcfa), 0) + ' FCFA';
+          }
+        } else {
+          const absEur = Math.abs(microToEur(micro));
+          if (compact && absEur >= 1000) {
+            out = (absEur / 1000).toFixed(1).replace('.', ',') + 'k €';
+          } else if (compact) {
+            out = formatFrenchNumber(Math.round(absEur), 0) + ' €';
+          } else {
+            out = formatFrenchNumber(absEur, 2) + ' €';
+          }
+        }
+
+        return isNeg ? '-' + out : out;
+      }
+
+      /* =======================================================================
+         PROFILS PRÉDÉFINIS (STOCKÉS EN MICRO-FCFA)
+         ======================================================================= */
+      function getProfilePreset(profileKey) {
+        if (profileKey === 'creator') {
+          return {
+            schemaVersion: 2,
+            profile: 'creator',
+            activeRule: 'balanced',
+            incomeMicro: fcfaToMicro(450000),
+            fixedItems: [
+              { id: 'f1', label: 'Loyer & Électricité', amountMicro: fcfaToMicro(110000) },
+              { id: 'f2', label: 'Internet Fibre & Data', amountMicro: fcfaToMicro(35000) },
+              { id: 'f3', label: 'Outils & Abonnements pro', amountMicro: fcfaToMicro(35000) },
+              { id: 'f4', label: 'Réserve impôts / frais', amountMicro: fcfaToMicro(45000) },
+            ],
+            lifeItems: [
+              { id: 'l1', label: 'Courses & Repas', amountMicro: fcfaToMicro(75000) },
+              { id: 'l2', label: 'Déplacements & Sorties', amountMicro: fcfaToMicro(45000) },
+            ],
+            savingsMicro: fcfaToMicro(90000),
+            shockMicro: 0,
+            goalName: 'Setup Vidéo & Micro',
+            goalTargetMicro: fcfaToMicro(250000),
+          };
+        }
+
+        if (profileKey === 'student') {
+          return {
+            schemaVersion: 2,
+            profile: 'student',
+            activeRule: 'balanced',
+            incomeMicro: fcfaToMicro(100000),
+            fixedItems: [
+              { id: 'f1', label: 'Chambre / Loyer', amountMicro: fcfaToMicro(30000) },
+              { id: 'f2', label: 'Forfait Internet', amountMicro: fcfaToMicro(10000) },
+              { id: 'f3', label: 'Transport campus', amountMicro: fcfaToMicro(10000) },
+            ],
+            lifeItems: [
+              { id: 'l1', label: 'Repas & Courses', amountMicro: fcfaToMicro(25000) },
+              { id: 'l2', label: 'Sorties & Extras', amountMicro: fcfaToMicro(5000) },
+            ],
+            savingsMicro: fcfaToMicro(20000),
+            shockMicro: 0,
+            goalName: 'Nouveau Téléphone',
+            goalTargetMicro: fcfaToMicro(150000),
+          };
+        }
+
+        return {
+          schemaVersion: 2,
+          profile: 'standard',
+          activeRule: 'balanced',
+          incomeMicro: fcfaToMicro(250000),
+          fixedItems: [
+            { id: 'f1', label: 'Loyer', amountMicro: fcfaToMicro(75000) },
+            { id: 'f2', label: 'Eau, Élec & Internet', amountMicro: fcfaToMicro(25000) },
+            { id: 'f3', label: 'Transport', amountMicro: fcfaToMicro(25000) },
+          ],
+          lifeItems: [
+            { id: 'l1', label: 'Courses & Repas', amountMicro: fcfaToMicro(45000) },
+            { id: 'l2', label: 'Sorties & Famille', amountMicro: fcfaToMicro(20000) },
+          ],
+          savingsMicro: fcfaToMicro(50000),
+          shockMicro: 0,
+          goalName: 'Fonds de sécurité',
+          goalTargetMicro: fcfaToMicro(300000),
+        };
+      }
+
+      let state = {
+        currency: 'FCFA',
+        ...getProfilePreset('standard'),
+      };
+
+      let mobileTab = 'inputs';
+      let currentInsightHandler = null;
+      const invalidFields = new Set();
+      const $ = (id) => document.getElementById(id);
+
+      /* =======================================================================
+         GESTION DES ERREURS DE SAISIE INLINE (R6)
+         ======================================================================= */
+      function setFieldValidationError(inputEl, errEl, wrapEl, errorMsg) {
+        if (!inputEl) return;
+        const fieldId = inputEl.id || 'unknown';
+        if (errorMsg) {
+          invalidFields.add(fieldId);
+          inputEl.setAttribute('aria-invalid', 'true');
+          if (wrapEl) wrapEl.classList.add('is-invalid-box');
+          if (errEl) {
+            errEl.textContent = errorMsg;
+            errEl.classList.add('is-visible');
+          }
+        } else {
+          invalidFields.delete(fieldId);
+          inputEl.removeAttribute('aria-invalid');
+          if (wrapEl) wrapEl.classList.remove('is-invalid-box');
+          if (errEl) {
+            errEl.textContent = '';
+            errEl.classList.remove('is-visible');
+          }
+        }
+        updateCalcPausedBanner();
+      }
+
+      function clearAllFieldErrors() {
+        invalidFields.clear();
+        document.querySelectorAll('[aria-invalid="true"]').forEach((el) => {
+          if (el.id !== 'gateInput') el.removeAttribute('aria-invalid');
+        });
+        document.querySelectorAll('.is-invalid-box').forEach((el) => el.classList.remove('is-invalid-box'));
+        document.querySelectorAll('.field-err').forEach((el) => {
+          el.textContent = '';
+          el.classList.remove('is-visible');
+        });
+        updateCalcPausedBanner();
+      }
+
+      function updateCalcPausedBanner() {
+        const banner = $('calcPausedBanner');
+        if (banner) {
+          banner.classList.toggle('is-visible', invalidFields.size > 0);
+        }
+      }
+
+      /* =======================================================================
+         VALIDATION SCHÉMA JSON, PERSISTANCE & EXPORT / IMPORT (R7 b/c)
+         ======================================================================= */
+      function readMicroField(obj, microKey, fcfaKey, defaultValue) {
+        if (obj[microKey] !== undefined) {
+          if (typeof obj[microKey] !== 'number' || !Number.isFinite(obj[microKey]) || obj[microKey] < 0) {
+            return null;
+          }
+          if (obj[microKey] > MAX_FCFA_AMOUNT * MICRO_PER_FCFA) return null;
+          return Math.round(obj[microKey]);
+        }
+        if (obj[fcfaKey] !== undefined) {
+          if (typeof obj[fcfaKey] !== 'number' || !Number.isFinite(obj[fcfaKey]) || obj[fcfaKey] < 0) {
+            return null;
+          }
+          if (obj[fcfaKey] > MAX_FCFA_AMOUNT) return null;
+          return fcfaToMicro(obj[fcfaKey]);
+        }
+        return defaultValue !== undefined ? defaultValue : null;
+      }
+
+      function normalizeItemList(list, prefix) {
+        if (!Array.isArray(list) || list.length === 0 || list.length > 50) {
+          return null;
+        }
+        const normalized = [];
+        for (let i = 0; i < list.length; i++) {
+          const item = list[i];
+          if (!item || typeof item !== 'object' || Array.isArray(item)) return null;
+          const amountMicro = readMicroField(item, 'amountMicro', 'amountFcfa');
+          if (amountMicro === null) return null;
+          const label = typeof item.label === 'string' ? item.label.slice(0, 60) : '';
+          const id = typeof item.id === 'string' && item.id.trim()
+            ? item.id.trim().slice(0, 32)
+            : `${prefix}_${i + 1}`;
+          normalized.push({ id, label, amountMicro });
+        }
+        return normalized;
+      }
+
+      function validateAndNormalizeBudgetPayload(raw) {
+        if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+          return { ok: false, error: 'Format JSON invalide : objet budget attendu.' };
+        }
+
+        const incomeMicro = readMicroField(raw, 'incomeMicro', 'incomeFcfa');
+        if (incomeMicro === null) {
+          return { ok: false, error: 'Champ revenu manquant ou invalide (incomeMicro / incomeFcfa).' };
+        }
+
+        const fixedItems = normalizeItemList(raw.fixedItems, 'f');
+        if (!fixedItems) {
+          return { ok: false, error: 'Liste fixedItems manquante ou invalide.' };
+        }
+
+        const lifeItems = normalizeItemList(raw.lifeItems, 'l');
+        if (!lifeItems) {
+          return { ok: false, error: 'Liste lifeItems manquante ou invalide.' };
+        }
+
+        const savingsMicro = readMicroField(raw, 'savingsMicro', 'savingsFcfa', 0);
+        if (savingsMicro === null) {
+          return { ok: false, error: 'Champ épargne invalide.' };
+        }
+
+        const shockMicro = readMicroField(raw, 'shockMicro', 'shockFcfa', 0);
+        if (shockMicro === null) {
+          return { ok: false, error: 'Champ imprévu invalide.' };
+        }
+
+        const goalTargetMicro = readMicroField(raw, 'goalTargetMicro', 'goalTargetFcfa', 0);
+        if (goalTargetMicro === null) {
+          return { ok: false, error: 'Montant cible objectif invalide.' };
+        }
+
+        const currency = raw.currency === 'EUR' ? 'EUR' : raw.currency === 'FCFA' || raw.currency === undefined ? 'FCFA' : null;
+        if (!currency) {
+          return { ok: false, error: 'Devise non reconnue (FCFA ou EUR uniquement).' };
+        }
+
+        const validProfiles = ['standard', 'creator', 'student'];
+        const profile = raw.profile === undefined
+          ? 'standard'
+          : validProfiles.includes(raw.profile)
+          ? raw.profile
+          : null;
+        if (!profile) {
+          return { ok: false, error: 'Profil non reconnu.' };
+        }
+
+        const validRules = ['balanced', 'prudent', 'turbo', 'custom'];
+        const activeRule = validRules.includes(raw.activeRule) ? raw.activeRule : 'custom';
+        const goalName = typeof raw.goalName === 'string' ? raw.goalName.slice(0, 32) : 'Mon objectif';
+
+        return {
+          ok: true,
+          state: {
+            schemaVersion: 2,
+            currency,
+            profile,
+            activeRule,
+            incomeMicro,
+            fixedItems,
+            lifeItems,
+            savingsMicro,
+            shockMicro,
+            goalName,
+            goalTargetMicro,
+          },
+        };
+      }
+
+      function buildExportPayload() {
+        return {
+          app: 'SOLDE',
+          schemaVersion: 2,
+          exportedAt: new Date().toISOString(),
+          currency: state.currency,
+          profile: state.profile,
+          activeRule: state.activeRule,
+          incomeMicro: state.incomeMicro,
+          incomeFcfa: microToFcfa(state.incomeMicro),
+          fixedItems: state.fixedItems.map((it) => ({
+            id: it.id,
+            label: it.label,
+            amountMicro: it.amountMicro,
+            amountFcfa: microToFcfa(it.amountMicro),
+          })),
+          lifeItems: state.lifeItems.map((it) => ({
+            id: it.id,
+            label: it.label,
+            amountMicro: it.amountMicro,
+            amountFcfa: microToFcfa(it.amountMicro),
+          })),
+          savingsMicro: state.savingsMicro,
+          savingsFcfa: microToFcfa(state.savingsMicro),
+          shockMicro: state.shockMicro,
+          shockFcfa: microToFcfa(state.shockMicro),
+          goalName: state.goalName,
+          goalTargetMicro: state.goalTargetMicro,
+          goalTargetFcfa: microToFcfa(state.goalTargetMicro),
+        };
+      }
+
+      function exportStateJson() {
+        const jsonString = JSON.stringify(buildExportPayload(), null, 2);
+        try {
+          if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const stamp = new Date().toISOString().slice(0, 10);
+            a.href = url;
+            a.download = `solde-budget-${stamp}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => {
+              try { URL.revokeObjectURL(url); } catch (e) {}
+            }, 100);
+          }
+        } catch (err) {}
+        showToast('Sauvegarde JSON exportée');
+        return jsonString;
+      }
+
+      function importStateJson(rawText) {
+        let parsed;
+        try {
+          parsed = JSON.parse(String(rawText || ''));
+        } catch (err) {
+          showToast('Import refusé : fichier JSON malformé.', true);
+          return { ok: false, error: 'Fichier JSON malformé.' };
+        }
+
+        const check = validateAndNormalizeBudgetPayload(parsed);
+        if (!check.ok) {
+          showToast('Import refusé : ' + check.error, true);
+          return check;
+        }
+
+        state = check.state;
+        clearAllFieldErrors();
+        syncStaticInputs();
+        renderExpenseList('fixedList', 'fixedItems');
+        renderExpenseList('lifeList', 'lifeItems');
+        renderDashboard();
+        saveStateNow();
+        showToast('Budget importé avec succès');
+        return { ok: true, state };
+      }
+
+      /* =======================================================================
+         UTILITAIRES SLIDERS, TOAST, CLIPBOARD & PERSISTANCE LOCALE
+         ======================================================================= */
+      function paintSliderTrack(sliderEl, fillHex) {
+        if (!sliderEl) return;
+        const min = Number(sliderEl.min) || 0;
+        const max = Number(sliderEl.max) || 100;
+        const val = Number(sliderEl.value) || 0;
+        const pct = max > min ? Math.max(0, Math.min(100, ((val - min) / (max - min)) * 100)) : 0;
+        sliderEl.style.background = `linear-gradient(to right, ${fillHex} 0%, ${fillHex} ${pct.toFixed(1)}%, #DDD6C8 ${pct.toFixed(1)}%, #DDD6C8 100%)`;
+      }
+
+      let toastTimer = null;
+      function showToast(msg, isError) {
+        const el = $('toast');
+        $('toastText').textContent = msg;
+        el.classList.toggle('is-error', Boolean(isError));
+        el.classList.add('is-visible');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('is-visible'), isError ? 3200 : 2200);
+      }
+
+      async function copyReliable(text) {
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+            showToast('Plan copié dans le presse-papier');
+            return;
+          }
+        } catch (err) {}
+
+        let ok = false;
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+        } catch (err) {
+          ok = false;
+        }
+        showToast(ok ? 'Plan copié dans le presse-papier' : 'Copie automatique indisponible', !ok);
+      }
+
+      let saveTimer = null;
+      function saveStateNow() {
+        StorageAdapter.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+
+      function scheduleSave() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(saveStateNow, 250);
+      }
+
+      function loadState() {
+        try {
+          const raw = StorageAdapter.getItem(STORAGE_KEY);
+          if (!raw) return;
+          const parsed = JSON.parse(raw);
+          const check = validateAndNormalizeBudgetPayload(parsed);
+          if (check.ok) {
+            state = check.state;
+          }
+        } catch (err) {}
+      }
+
+      /* =======================================================================
+         LISTES DE DÉPENSES DYNAMIQUES (AVEC % LIVE & VALIDATION STRICTE R6)
+         ======================================================================= */
+      function computeItemShareText(amountMicro) {
+        if (state.incomeMicro <= 0) return '0% du revenu';
+        const pct = Math.round((Math.max(0, amountMicro) / state.incomeMicro) * 100);
+        return pct + '% du revenu';
+      }
+
+      function updateAllItemShares() {
+        const allItems = [...state.fixedItems, ...state.lifeItems];
+        allItems.forEach((it) => {
+          const el = document.querySelector(`[data-share-id="${it.id}"]`);
+          if (el) el.textContent = computeItemShareText(it.amountMicro);
+        });
+      }
+
+      function renderExpenseList(containerId, itemsKey, highlightLastId) {
+        const container = $(containerId);
+        const items = state[itemsKey];
+        const unit = state.currency === 'FCFA' ? 'FCFA' : '€';
+        container.innerHTML = '';
+
+        items.forEach((item) => {
+          const itemWrap = document.createElement('div');
+          itemWrap.className = 'expense-item-wrap';
+
+          const row = document.createElement('div');
+          row.className = item.id === highlightLastId ? 'expense-row is-new' : 'expense-row';
+
+          const meta = document.createElement('div');
+          meta.className = 'expense-meta';
+
+          const nameInput = document.createElement('input');
+          nameInput.type = 'text';
+          nameInput.className = 'expense-name-input';
+          nameInput.value = item.label;
+          nameInput.placeholder = 'Nom du poste';
+          nameInput.setAttribute('aria-label', 'Nom de la dépense');
+          nameInput.addEventListener('input', (e) => {
+            item.label = e.target.value;
+            scheduleSave();
+          });
+
+          const shareSpan = document.createElement('span');
+          shareSpan.className = 'expense-share tabular';
+          shareSpan.dataset.shareId = item.id;
+          shareSpan.textContent = computeItemShareText(item.amountMicro);
+
+          meta.appendChild(nameInput);
+          meta.appendChild(shareSpan);
+
+          const amountBox = document.createElement('div');
+          amountBox.className = 'expense-amount-box';
+
+          const inputId = 'amt-' + item.id;
+          const errId = 'err-' + inputId;
+
+          const amtInput = document.createElement('input');
+          amtInput.id = inputId;
+          amtInput.type = 'text';
+          amtInput.inputMode = 'decimal';
+          amtInput.autocomplete = 'off';
+          amtInput.spellcheck = false;
+          amtInput.className = 'expense-amount-input tabular';
+          amtInput.value = toDisplayInput(item.amountMicro);
+          amtInput.setAttribute('aria-label', 'Montant pour ' + (item.label || 'ce poste'));
+          amtInput.setAttribute('aria-describedby', errId);
+
+          const errP = document.createElement('p');
+          errP.id = errId;
+          errP.className = 'field-err';
+          errP.setAttribute('role', 'alert');
+
+          amtInput.addEventListener('input', (e) => {
+            const res = parseFrenchFinancialInput(e.target.value, { currency: state.currency });
+            if (!res.ok) {
+              setFieldValidationError(amtInput, errP, amountBox, res.error);
+              return;
+            }
+            setFieldValidationError(amtInput, errP, amountBox, null);
+            item.amountMicro = displayNumberToMicro(res.value, state.currency);
+            state.activeRule = 'custom';
+            renderDashboard();
+          });
+
+          const unitSpan = document.createElement('span');
+          unitSpan.className = 'unit-suffix unit-label';
+          unitSpan.textContent = unit;
+
+          amountBox.appendChild(amtInput);
+          amountBox.appendChild(unitSpan);
+
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.className = 'remove-row-btn';
+          delBtn.title = 'Supprimer ce poste';
+          delBtn.setAttribute('aria-label', 'Supprimer ' + (item.label || 'ce poste'));
+          delBtn.innerHTML =
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+          delBtn.addEventListener('click', () => {
+            invalidFields.delete(inputId);
+            updateCalcPausedBanner();
+            if (state[itemsKey].length <= 1) {
+              item.amountMicro = 0;
+              amtInput.value = '0';
+              setFieldValidationError(amtInput, errP, amountBox, null);
+              renderDashboard();
+              return;
+            }
+            state[itemsKey] = state[itemsKey].filter((x) => x.id !== item.id);
+            state.activeRule = 'custom';
+            renderExpenseList(containerId, itemsKey);
+            renderDashboard();
+          });
+
+          row.appendChild(meta);
+          row.appendChild(amountBox);
+          row.appendChild(delBtn);
+
+          itemWrap.appendChild(row);
+          itemWrap.appendChild(errP);
+          container.appendChild(itemWrap);
+        });
+      }
+
+      /* =======================================================================
+         CALCULS FINANCIERS, SCORE (/100) & DIAGNOSTIC ACTIONNABLE
+         ======================================================================= */
+      function computeMetrics() {
+        const incomeMicro = Math.max(0, state.incomeMicro);
+        const fixedMicro = state.fixedItems.reduce((sum, it) => sum + Math.max(0, it.amountMicro || 0), 0);
+        const baseLifeMicro = state.lifeItems.reduce((sum, it) => sum + Math.max(0, it.amountMicro || 0), 0);
+        const shockMicro = Math.max(0, state.shockMicro || 0);
+        const lifeMicro = baseLifeMicro + shockMicro;
+        const savingsMicro = Math.max(0, state.savingsMicro || 0);
+
+        const totalAllocatedMicro = fixedMicro + lifeMicro + savingsMicro;
+        const freeBalanceMicro = incomeMicro - totalAllocatedMicro;
+        const dailyFreeMicro = freeBalanceMicro > 0 ? Math.round(freeBalanceMicro / 30) : 0;
+
+        const fixedPct = incomeMicro > 0 ? Math.round((fixedMicro / incomeMicro) * 100) : 0;
+        const lifePct = incomeMicro > 0 ? Math.round((lifeMicro / incomeMicro) * 100) : 0;
+        const savingsPct = incomeMicro > 0 ? Math.round((savingsMicro / incomeMicro) * 100) : 0;
+        const allocatedPct = incomeMicro > 0 ? Math.round((totalAllocatedMicro / incomeMicro) * 100) : 0;
+
+        let score = 0;
+        if (incomeMicro > 0) {
+          if (freeBalanceMicro >= 0) {
+            score += 35;
+          } else {
+            const deficitRatio = Math.min(1, Math.abs(freeBalanceMicro) / incomeMicro);
+            score += Math.max(0, Math.round(35 * (1 - deficitRatio * 2.5)));
+          }
+          if (fixedPct <= 50) {
+            score += 30;
+          } else {
+            score += Math.max(0, Math.round(30 - (fixedPct - 50) * 1.2));
+          }
+          const effSavPct = freeBalanceMicro < 0
+            ? Math.max(0, ((savingsMicro + freeBalanceMicro) / incomeMicro) * 100)
+            : (savingsMicro / incomeMicro) * 100;
+          score += Math.min(35, Math.round((effSavPct / 20) * 35));
+        }
+
+        const effectiveMonthlySaveMicro = freeBalanceMicro < 0
+          ? Math.max(0, savingsMicro + freeBalanceMicro)
+          : savingsMicro;
+
+        return {
+          incomeMicro,
+          fixedMicro,
+          lifeMicro,
+          shockMicro,
+          savingsMicro,
+          totalAllocatedMicro,
+          freeBalanceMicro,
+          dailyFreeMicro,
+          fixedPct,
+          lifePct,
+          savingsPct,
+          allocatedPct,
+          score: Math.max(0, Math.min(100, score)),
+          effectiveMonthlySaveMicro,
+        };
+      }
+
+      function computeEtaDate(monthsToAdd) {
+        const now = new Date();
+        const target = new Date(now.getFullYear(), now.getMonth() + monthsToAdd, 1);
+        return MONTHS_FR[target.getMonth()] + ' ' + target.getFullYear();
+      }
+
+      function buildInsight(m) {
+        if (m.incomeMicro <= 0) {
+          return {
+            isAlert: false,
+            text: 'Renseigne ton revenu mensuel pour lancer le diagnostic.',
+            ctaLabel: null,
+            ctaAction: null,
+          };
+        }
+        if (m.freeBalanceMicro < 0) {
+          return {
+            isAlert: true,
+            text: `Budget dépassé de ${formatMoneyFromMicro(Math.abs(m.freeBalanceMicro))}. Rééquilibre tes postes ou clique ci-dessous pour appliquer une répartition saine.`,
+            ctaLabel: 'Rééquilibrer en 50 / 30 / 20',
+            ctaAction: () => {
+              applyRule('balanced');
+              showToast('Budget rééquilibré en 50/30/20');
+            },
+          };
+        }
+        if (m.effectiveMonthlySaveMicro > 0 && state.goalTargetMicro > 0) {
+          const boostMicro = state.currency === 'FCFA' ? fcfaToMicro(10000) : eurToMicro(15);
+          const curMonths = Math.ceil(state.goalTargetMicro / m.effectiveMonthlySaveMicro);
+          const fasterMonths = Math.ceil(state.goalTargetMicro / (m.effectiveMonthlySaveMicro + boostMicro));
+          const savedMonths = curMonths - fasterMonths;
+          if (savedMonths >= 1 && m.freeBalanceMicro >= boostMicro) {
+            return {
+              isAlert: false,
+              text: `Tu as encore ${formatMoneyFromMicro(m.freeBalanceMicro)} de libre. En ajoutant ${formatMoneyFromMicro(boostMicro)}/mois à ton épargne, tu atteins « ${state.goalName || 'ton objectif'} » ${savedMonths} mois plus tôt.`,
+              ctaLabel: `Ajouter +${formatMoneyFromMicro(boostMicro)} en épargne`,
+              ctaAction: () => {
+                state.savingsMicro += boostMicro;
+                state.activeRule = 'custom';
+                clearAllFieldErrors();
+                syncStaticInputs();
+                renderDashboard();
+                showToast('Épargne augmentée');
+              },
+            };
+          }
+        }
+        if (m.fixedPct > 60) {
+          return {
+            isAlert: true,
+            text: `Tes charges fixes représentent ${m.fixedPct}% de ton revenu (repère sain : sous 55%). Alléger un poste fixe te donnera plus d'air chaque mois.`,
+            ctaLabel: null,
+            ctaAction: null,
+          };
+        }
+        if (m.savingsPct >= 25) {
+          return {
+            isAlert: false,
+            text: `Excellent rythme : ${m.savingsPct}% épargnés chaque mois, soit ${formatMoneyFromMicro(m.effectiveMonthlySaveMicro * 6)} cumulés en 6 mois.`,
+            ctaLabel: null,
+            ctaAction: null,
+          };
+        }
+        return {
+          isAlert: false,
+          text: `Mois bien cadré : tu gardes ${formatMoneyFromMicro(m.dailyFreeMicro)} libres par jour sans toucher à ton épargne de ${formatMoneyFromMicro(m.savingsMicro)}.`,
+          ctaLabel: null,
+          ctaAction: null,
+        };
+      }
+
+      /* =======================================================================
+         RÈGLES, SYNCHRONISATION & RENDU COMPLET
+         ======================================================================= */
+      function applyRule(ruleKey) {
+        const rule = RULES[ruleKey];
+        if (!rule) return;
+        state.activeRule = ruleKey;
+        const incFcfa = Math.max(0, microToFcfa(state.incomeMicro));
+
+        const targetFixed = incFcfa * rule.fixed;
+        const targetLife = incFcfa * rule.life;
+
+        const sumFixed = state.fixedItems.reduce((s, x) => s + x.amountMicro, 0);
+        state.fixedItems.forEach((it) => {
+          const weight = sumFixed > 0 ? it.amountMicro / sumFixed : 1 / state.fixedItems.length;
+          it.amountMicro = fcfaToMicro(Math.round((targetFixed * weight) / 500) * 500);
+        });
+
+        const sumLife = state.lifeItems.reduce((s, x) => s + x.amountMicro, 0);
+        state.lifeItems.forEach((it) => {
+          const weight = sumLife > 0 ? it.amountMicro / sumLife : 1 / state.lifeItems.length;
+          it.amountMicro = fcfaToMicro(Math.round((targetLife * weight) / 500) * 500);
+        });
+
+        state.savingsMicro = fcfaToMicro(Math.round((incFcfa * rule.savings) / 500) * 500);
+        state.shockMicro = 0;
+
+        clearAllFieldErrors();
+        syncStaticInputs();
+        renderExpenseList('fixedList', 'fixedItems');
+        renderExpenseList('lifeList', 'lifeItems');
+        renderDashboard();
+      }
+
+      function syncStaticInputs() {
+        const incFcfa = microToFcfa(state.incomeMicro);
+        const savFcfa = microToFcfa(state.savingsMicro);
+
+        $('inputIncome').value = toDisplayInput(state.incomeMicro);
+        $('sliderIncome').value = String(Math.min(2000000, Math.max(30000, Math.round(incFcfa))));
+
+        const maxSav = Math.max(100000, Math.round(incFcfa * 0.75));
+        $('sliderSavings').max = String(maxSav);
+        $('sliderSavings').value = String(Math.min(maxSav, Math.round(savFcfa)));
+        $('inputSavings').value = toDisplayInput(state.savingsMicro);
+
+        $('inputShockCustom').value = state.shockMicro > 0 ? toDisplayInput(state.shockMicro) : '';
+        $('inputGoalName').value = state.goalName;
+        $('inputGoalTarget').value = toDisplayInput(state.goalTargetMicro);
+
+        if (state.profile === 'creator') {
+          $('incomeTitleLabel').textContent = 'Revenu mensuel estimé';
+          $('incomeSubLabel').textContent = 'Ventes digitales, prestations & collabs';
+          $('fixedSectionTitle').textContent = 'Charges fixes & Outils pro';
+          $('savingsSectionTitle').textContent = 'Épargne & Trésorerie';
+        } else if (state.profile === 'student') {
+          $('incomeTitleLabel').textContent = 'Budget mensuel disponible';
+          $('incomeSubLabel').textContent = 'Bourse, aide familiale ou job';
+          $('fixedSectionTitle').textContent = 'Charges essentielles';
+          $('savingsSectionTitle').textContent = 'Épargne de secours';
+        } else {
+          $('incomeTitleLabel').textContent = 'Revenu net du mois';
+          $('incomeSubLabel').textContent = 'Salaire ou entrées régulières';
+          $('fixedSectionTitle').textContent = 'Charges fixes';
+          $('savingsSectionTitle').textContent = 'Épargne & Tontine';
+        }
+      }
+
+      function pulsePanels() {
+        document.querySelectorAll('.panel-inputs, .panel-dashboard').forEach((panel) => {
+          panel.classList.remove('is-swapping');
+          void panel.offsetWidth;
+          panel.classList.add('is-swapping');
+        });
+      }
+
+      function setMobileTab(tab) {
+        mobileTab = tab;
+        $('workspaceGrid').dataset.mobileTab = tab;
+        $('tabInputs').classList.toggle('is-active', tab === 'inputs');
+        $('tabInputs').setAttribute('aria-selected', String(tab === 'inputs'));
+        $('tabSummary').classList.toggle('is-active', tab === 'summary');
+        $('tabSummary').setAttribute('aria-selected', String(tab === 'summary'));
+        $('dockCtaLabel').textContent = tab === 'inputs' ? 'Voir le bilan' : 'Modifier';
+        const activePanel = document.querySelector(tab === 'inputs' ? '.panel-inputs' : '.panel-dashboard');
+        if (activePanel) {
+          activePanel.classList.remove('is-swapping');
+          void activePanel.offsetWidth;
+          activePanel.classList.add('is-swapping');
+        }
+      }
+
+      function renderDonut(m) {
+        const base = Math.max(m.incomeMicro, m.totalAllocatedMicro, 1);
+        const fLen = (m.fixedMicro / base) * DONUT_CIRCUMFERENCE;
+        const lLen = (m.lifeMicro / base) * DONUT_CIRCUMFERENCE;
+        const sLen = (m.savingsMicro / base) * DONUT_CIRCUMFERENCE;
+
+        const dFixed = $('donutFixed');
+        const dLife = $('donutLife');
+        const dSave = $('donutSave');
+
+        dFixed.setAttribute('stroke-dasharray', `${fLen.toFixed(2)} ${DONUT_CIRCUMFERENCE.toFixed(2)}`);
+        dFixed.setAttribute('stroke-dashoffset', '0');
+
+        dLife.setAttribute('stroke-dasharray', `${lLen.toFixed(2)} ${DONUT_CIRCUMFERENCE.toFixed(2)}`);
+        dLife.setAttribute('stroke-dashoffset', (-fLen).toFixed(2));
+
+        dSave.setAttribute('stroke-dasharray', `${sLen.toFixed(2)} ${DONUT_CIRCUMFERENCE.toFixed(2)}`);
+        dSave.setAttribute('stroke-dashoffset', (-(fLen + lLen)).toFixed(2));
+      }
+
+      function renderDashboard() {
+        const m = computeMetrics();
+        const unit = state.currency === 'FCFA' ? 'FCFA' : '€';
+
+        paintSliderTrack($('sliderIncome'), '#0C2A23');
+        paintSliderTrack($('sliderSavings'), '#0D7A55');
+
+        $('btnFCFA').classList.toggle('is-active', state.currency === 'FCFA');
+        $('btnFCFA').setAttribute('aria-pressed', String(state.currency === 'FCFA'));
+        $('btnEUR').classList.toggle('is-active', state.currency === 'EUR');
+        $('btnEUR').setAttribute('aria-pressed', String(state.currency === 'EUR'));
+        document.querySelectorAll('.unit-label').forEach((el) => (el.textContent = unit));
+
+        const incomeFcfa = microToFcfa(state.incomeMicro);
+        document.querySelectorAll('.quick-chip').forEach((chip) => {
+          const valFcfa = Number(chip.dataset.income) || 0;
+          if (state.currency === 'FCFA') {
+            chip.textContent = valFcfa >= 1000000 ? (valFcfa / 1000000) + 'M' : (valFcfa / 1000) + 'k';
+          } else {
+            chip.textContent = Math.round(valFcfa / EUR_RATE) + '€';
+          }
+          chip.classList.toggle('is-active', Math.abs(incomeFcfa - valFcfa) < 5000);
+        });
+
+        document.querySelectorAll('.profile-tab').forEach((btn) => {
+          const active = btn.dataset.profile === state.profile;
+          btn.classList.toggle('is-active', active);
+          btn.setAttribute('aria-pressed', String(active));
+        });
+
+        document.querySelectorAll('.rule-btn').forEach((btn) => {
+          btn.classList.toggle('is-active', btn.dataset.rule === state.activeRule);
+        });
+
+        document.querySelectorAll('.shock-btn').forEach((btn) => {
+          const valFcfa = Number(btn.dataset.shock) || 0;
+          const valMicro = fcfaToMicro(valFcfa);
+          btn.textContent =
+            valFcfa === 0
+              ? '0'
+              : state.currency === 'FCFA'
+              ? '+' + valFcfa / 1000 + 'k'
+              : '+' + Math.round(valFcfa / EUR_RATE) + '€';
+          btn.classList.toggle('is-active', valMicro === state.shockMicro);
+        });
+        $('shockLabel').textContent = state.shockMicro > 0 ? '+' + formatMoneyFromMicro(state.shockMicro) : 'Aucun';
+
+        $('fixedTotalBadge').textContent = formatMoneyFromMicro(m.fixedMicro);
+        $('lifeTotalBadge').textContent = formatMoneyFromMicro(m.lifeMicro);
+        $('savingsPctBadge').textContent = m.savingsPct + '%';
+        updateAllItemShares();
+
+        let statusText = 'Mois maîtrisé';
+        let statusClass = 'status-pill is-good';
+        if (m.incomeMicro <= 0) {
+          statusText = 'Saisis ton revenu';
+          statusClass = 'status-pill is-neutral';
+        } else if (m.freeBalanceMicro < 0) {
+          statusText = 'Budget dépassé';
+          statusClass = 'status-pill is-danger';
+        } else if (m.savingsPct >= 25) {
+          statusText = 'Épargne optimisée';
+          statusClass = 'status-pill is-good';
+        } else if (m.savingsPct < 15) {
+          statusText = 'Épargne à renforcer';
+          statusClass = 'status-pill is-warn';
+        }
+
+        $('healthPill').textContent = statusText;
+        $('healthPill').className = statusClass;
+        $('mobileHealthPill').textContent = statusText;
+        $('mobileHealthPill').className = statusClass;
+
+        const formattedFree = formatMoneyFromMicro(m.freeBalanceMicro);
+        const dailyText = m.freeBalanceMicro < 0 ? 'Déficit ce mois' : formatMoneyFromMicro(m.dailyFreeMicro) + ' / jour';
+
+        $('freeBalanceHero').textContent = formattedFree;
+        $('freeBalanceHero').classList.toggle('is-negative', m.freeBalanceMicro < 0);
+        $('allocatedSub').textContent = `Alloué : ${m.allocatedPct}% de ton revenu`;
+
+        $('dailyPill').textContent = dailyText;
+        $('dailyPill').classList.toggle('is-danger', m.freeBalanceMicro < 0);
+
+        $('mobileBalanceHero').textContent = formattedFree;
+        $('mobileBalanceHero').classList.toggle('is-negative', m.freeBalanceMicro < 0);
+        $('mobileDailyPill').textContent = dailyText;
+        $('mobileDailyPill').classList.toggle('is-danger', m.freeBalanceMicro < 0);
+        $('mobileSavText').textContent = formatMoneyFromMicro(m.savingsMicro);
+        $('mobileScoreText').textContent = m.score + '/100';
+
+        $('dockBalanceVal').textContent = formattedFree;
+        $('dockBalanceVal').classList.toggle('is-negative', m.freeBalanceMicro < 0);
+
+        renderDonut(m);
+        $('scoreNumber').textContent = String(m.score);
+        $('scoreNumber').style.color = m.score >= 70 ? '#34D399' : m.score >= 45 ? '#E5A93B' : '#FFA28E';
+
+        $('pctFixed').textContent = m.fixedPct + '%';
+        $('pctLife').textContent = m.lifePct + '%';
+        $('pctSavings').textContent = m.savingsPct + '%';
+        $('valFixedTile').textContent = formatMoneyFromMicro(m.fixedMicro, true);
+        $('valLifeTile').textContent = formatMoneyFromMicro(m.lifeMicro, true);
+        $('valSavTile').textContent = formatMoneyFromMicro(m.savingsMicro, true);
+
+        const insight = buildInsight(m);
+        $('insightText').textContent = insight.text;
+        $('insightBanner').classList.toggle('is-alert', insight.isAlert);
+
+        const actBtn = $('btnInsightAction');
+        currentInsightHandler = insight.ctaAction;
+        if (insight.ctaLabel && insight.ctaAction) {
+          actBtn.textContent = insight.ctaLabel;
+          actBtn.classList.add('is-visible');
+        } else {
+          actBtn.classList.remove('is-visible');
+        }
+
+        $('goalMonthlyNote').textContent = '+' + formatMoneyFromMicro(m.effectiveMonthlySaveMicro) + ' / mois';
+        document.querySelectorAll('.goal-chip').forEach((chip) => {
+          chip.classList.toggle('is-active', chip.dataset.goal === state.goalName);
+        });
+
+        const etaPill = $('goalEtaPill');
+        if (state.goalTargetMicro <= 0) {
+          $('goalEtaHeadline').textContent = 'Définis un montant cible';
+          $('goalEtaSub').textContent = 'Pour calculer ta date exacte';
+          etaPill.textContent = 'Non défini';
+          etaPill.classList.add('is-muted');
+        } else if (m.effectiveMonthlySaveMicro <= 0) {
+          $('goalEtaHeadline').textContent = 'Épargne mensuelle à 0';
+          $('goalEtaSub').textContent = 'Augmente le curseur épargne pour estimer la date';
+          etaPill.textContent = 'En pause';
+          etaPill.classList.add('is-muted');
+        } else {
+          const months = Math.ceil(state.goalTargetMicro / m.effectiveMonthlySaveMicro);
+          $('goalEtaHeadline').textContent = (state.goalName || 'Objectif') + ' atteint';
+          $('goalEtaSub').textContent =
+            months > 120
+              ? 'Augmente ton épargne pour accélérer'
+              : 'Estimation : ' + computeEtaDate(months);
+          etaPill.textContent = months > 120 ? '+10 ans' : months + ' mois';
+          etaPill.classList.remove('is-muted');
+        }
+
+        const p3 = m.effectiveMonthlySaveMicro * 3;
+        const p6 = m.effectiveMonthlySaveMicro * 6;
+        const p12 = m.effectiveMonthlySaveMicro * 12;
+
+        $('save12Badge').textContent = formatMoneyFromMicro(p12) + ' / an';
+        $('proj3Val').textContent = formatMoneyFromMicro(p3, true);
+        $('proj6Val').textContent = formatMoneyFromMicro(p6, true);
+        $('proj12Val').textContent = formatMoneyFromMicro(p12, true);
+
+        const hasSave = m.effectiveMonthlySaveMicro > 0;
+        $('proj3Bar').style.height = hasSave ? '28%' : '5%';
+        $('proj6Bar').style.height = hasSave ? '56%' : '5%';
+        $('proj12Bar').style.height = hasSave ? '100%' : '5%';
+
+        scheduleSave();
+      }
+
+      /* =======================================================================
+         VERROU R9 (.gate) — DÉVERROUILLAGE & REVERROUILLAGE
+         ======================================================================= */
+      function lockApp() {
+        StorageAdapter.removeItem(KEY);
+        document.documentElement.classList.add('locked');
+        const gateInput = $('gateInput');
+        const gateErr = $('gateErr');
+        gateInput.value = '';
+        gateInput.removeAttribute('aria-invalid');
+        gateErr.textContent = '';
+        gateErr.classList.remove('is-visible');
+        try { gateInput.focus(); } catch (err) {}
+      }
+
+      function unlockApp() {
+        StorageAdapter.setItem(KEY, 'ok');
+        document.documentElement.classList.remove('locked');
+        const gateInput = $('gateInput');
+        const gateErr = $('gateErr');
+        gateInput.value = '';
+        gateInput.removeAttribute('aria-invalid');
+        gateErr.textContent = '';
+        gateErr.classList.remove('is-visible');
+        showToast('Accès privé déverrouillé');
+      }
+
+      function switchCurrency(nextCurrency) {
+        if (state.currency === nextCurrency) return;
+        if (invalidFields.size > 0) {
+          showToast('Corrige le montant invalide avant de changer de devise.', true);
+          return;
+        }
+        state.currency = nextCurrency;
+        syncStaticInputs();
+        renderExpenseList('fixedList', 'fixedItems');
+        renderExpenseList('lifeList', 'lifeItems');
+        renderDashboard();
+      }
+
+      /* =======================================================================
+         BRANCHEMENT DES ÉVÉNEMENTS
+         ======================================================================= */
+      function bindEvents() {
+        /* Verrou .gate R9 */
+        $('gateForm').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const gateInput = $('gateInput');
+          const gateErr = $('gateErr');
+          const gateCard = $('gateCard');
+          const entered = (gateInput.value || '').trim().toUpperCase();
+
+          if (entered === ACCESS_CODE.toUpperCase()) {
+            unlockApp();
+            return;
+          }
+
+          gateInput.setAttribute('aria-invalid', 'true');
+          gateErr.textContent = "Ce code n'est pas valide. Vérifie-le dans ton Guide d'Accès et réessaie.";
+          gateErr.classList.add('is-visible');
+          gateCard.classList.remove('animate-shake');
+          void gateCard.offsetWidth;
+          gateCard.classList.add('animate-shake');
+          try { gateInput.focus(); } catch (err) {}
+        });
+
+        $('lockBtn').addEventListener('click', lockApp);
+
+        /* Navigation mobile */
+        $('tabInputs').addEventListener('click', () => setMobileTab('inputs'));
+        $('tabSummary').addEventListener('click', () => setMobileTab('summary'));
+        $('btnDockSwitch').addEventListener('click', () => {
+          const next = mobileTab === 'inputs' ? 'summary' : 'inputs';
+          setMobileTab(next);
+          try {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } catch (err) {}
+        });
+
+        /* Bascule devise sans perte (micro-FCFA) */
+        $('btnFCFA').addEventListener('click', () => switchCurrency('FCFA'));
+        $('btnEUR').addEventListener('click', () => switchCurrency('EUR'));
+
+        /* Profils */
+        document.querySelectorAll('.profile-tab').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const preset = getProfilePreset(btn.dataset.profile);
+            state = { currency: state.currency, ...preset };
+            clearAllFieldErrors();
+            syncStaticInputs();
+            renderExpenseList('fixedList', 'fixedItems');
+            renderExpenseList('lifeList', 'lifeItems');
+            renderDashboard();
+            pulsePanels();
+            showToast('Modèle ' + btn.textContent.trim() + ' activé');
+          });
+        });
+
+        /* Revenu */
+        $('inputIncome').addEventListener('input', (e) => {
+          const inputEl = e.target;
+          const res = parseFrenchFinancialInput(inputEl.value, { currency: state.currency });
+          if (!res.ok) {
+            setFieldValidationError(inputEl, $('err-inputIncome'), $('wrap-inputIncome'), res.error);
+            return;
+          }
+          setFieldValidationError(inputEl, $('err-inputIncome'), $('wrap-inputIncome'), null);
+          state.incomeMicro = displayNumberToMicro(res.value, state.currency);
+          const incFcfa = microToFcfa(state.incomeMicro);
+          $('sliderIncome').value = String(Math.min(2000000, Math.max(30000, Math.round(incFcfa))));
+          $('sliderSavings').max = String(Math.max(100000, Math.round(incFcfa * 0.75)));
+          renderDashboard();
+        });
+
+        $('sliderIncome').addEventListener('input', (e) => {
+          const incFcfa = Number(e.target.value) || 0;
+          state.incomeMicro = fcfaToMicro(incFcfa);
+          setFieldValidationError($('inputIncome'), $('err-inputIncome'), $('wrap-inputIncome'), null);
+          $('inputIncome').value = toDisplayInput(state.incomeMicro);
+          $('sliderSavings').max = String(Math.max(100000, Math.round(incFcfa * 0.75)));
+          renderDashboard();
+        });
+
+        document.querySelectorAll('.quick-chip').forEach((chip) => {
+          chip.addEventListener('click', () => {
+            const incFcfa = Number(chip.dataset.income) || 0;
+            state.incomeMicro = fcfaToMicro(incFcfa);
+            clearAllFieldErrors();
+            syncStaticInputs();
+            if (state.activeRule && RULES[state.activeRule]) {
+              applyRule(state.activeRule);
+            } else {
+              renderDashboard();
+            }
+          });
+        });
+
+        document.querySelectorAll('.rule-btn').forEach((btn) => {
+          btn.addEventListener('click', () => applyRule(btn.dataset.rule));
+        });
+
+        /* Ajout de lignes dynamiques */
+        $('btnAddFixed').addEventListener('click', () => {
+          const newId = 'f_' + Date.now();
+          state.fixedItems.push({ id: newId, label: 'Nouvelle charge', amountMicro: 0 });
+          state.activeRule = 'custom';
+          renderExpenseList('fixedList', 'fixedItems', newId);
+          const inputs = $('fixedList').querySelectorAll('.expense-name-input');
+          if (inputs.length) {
+            try {
+              inputs[inputs.length - 1].focus();
+              inputs[inputs.length - 1].select();
+            } catch (err) {}
+          }
+          renderDashboard();
+        });
+
+        $('btnAddLife').addEventListener('click', () => {
+          const newId = 'l_' + Date.now();
+          state.lifeItems.push({ id: newId, label: 'Nouvelle dépense', amountMicro: 0 });
+          state.activeRule = 'custom';
+          renderExpenseList('lifeList', 'lifeItems', newId);
+          const inputs = $('lifeList').querySelectorAll('.expense-name-input');
+          if (inputs.length) {
+            try {
+              inputs[inputs.length - 1].focus();
+              inputs[inputs.length - 1].select();
+            } catch (err) {}
+          }
+          renderDashboard();
+        });
+
+        /* Épargne */
+        $('sliderSavings').addEventListener('input', (e) => {
+          const savFcfa = Number(e.target.value) || 0;
+          state.savingsMicro = fcfaToMicro(savFcfa);
+          setFieldValidationError($('inputSavings'), $('err-inputSavings'), $('wrap-inputSavings'), null);
+          $('inputSavings').value = toDisplayInput(state.savingsMicro);
+          state.activeRule = 'custom';
+          renderDashboard();
+        });
+
+        $('inputSavings').addEventListener('input', (e) => {
+          const inputEl = e.target;
+          const res = parseFrenchFinancialInput(inputEl.value, { currency: state.currency });
+          if (!res.ok) {
+            setFieldValidationError(inputEl, $('err-inputSavings'), $('wrap-inputSavings'), res.error);
+            return;
+          }
+          setFieldValidationError(inputEl, $('err-inputSavings'), $('wrap-inputSavings'), null);
+          state.savingsMicro = displayNumberToMicro(res.value, state.currency);
+          const maxSav = Number($('sliderSavings').max) || 600000;
+          $('sliderSavings').value = String(Math.min(maxSav, Math.round(microToFcfa(state.savingsMicro))));
+          state.activeRule = 'custom';
+          renderDashboard();
+        });
+
+        /* Crash-test imprévu */
+        document.querySelectorAll('.shock-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const valFcfa = Number(btn.dataset.shock) || 0;
+            state.shockMicro = fcfaToMicro(valFcfa);
+            setFieldValidationError($('inputShockCustom'), $('err-inputShockCustom'), $('wrap-inputShockCustom'), null);
+            $('inputShockCustom').value = state.shockMicro > 0 ? toDisplayInput(state.shockMicro) : '';
+            renderDashboard();
+          });
+        });
+
+        $('inputShockCustom').addEventListener('input', (e) => {
+          const inputEl = e.target;
+          const res = parseFrenchFinancialInput(inputEl.value, { allowEmpty: true, currency: state.currency });
+          if (!res.ok) {
+            setFieldValidationError(inputEl, $('err-inputShockCustom'), $('wrap-inputShockCustom'), res.error);
+            return;
+          }
+          setFieldValidationError(inputEl, $('err-inputShockCustom'), $('wrap-inputShockCustom'), null);
+          state.shockMicro = displayNumberToMicro(res.value, state.currency);
+          renderDashboard();
+        });
+
+        /* Diagnostic 1-clic */
+        $('btnInsightAction').addEventListener('click', () => {
+          if (typeof currentInsightHandler === 'function') {
+            currentInsightHandler();
+          }
+        });
+
+        /* Simulateur d'objectif */
+        document.querySelectorAll('.goal-chip').forEach((chip) => {
+          chip.addEventListener('click', () => {
+            state.goalName = chip.dataset.goal || 'Mon objectif';
+            state.goalTargetMicro = fcfaToMicro(Number(chip.dataset.amount) || 250000);
+            setFieldValidationError($('inputGoalTarget'), $('err-inputGoalTarget'), $('wrap-inputGoalTarget'), null);
+            $('inputGoalName').value = state.goalName;
+            $('inputGoalTarget').value = toDisplayInput(state.goalTargetMicro);
+            renderDashboard();
+          });
+        });
+
+        $('inputGoalName').addEventListener('input', (e) => {
+          state.goalName = e.target.value;
+          renderDashboard();
+        });
+
+        $('inputGoalTarget').addEventListener('input', (e) => {
+          const inputEl = e.target;
+          const res = parseFrenchFinancialInput(inputEl.value, { currency: state.currency });
+          if (!res.ok) {
+            setFieldValidationError(inputEl, $('err-inputGoalTarget'), $('wrap-inputGoalTarget'), res.error);
+            return;
+          }
+          setFieldValidationError(inputEl, $('err-inputGoalTarget'), $('wrap-inputGoalTarget'), null);
+          state.goalTargetMicro = displayNumberToMicro(res.value, state.currency);
+          renderDashboard();
+        });
+
+        /* Copier mon plan */
+        $('btnCopy').addEventListener('click', () => {
+          const m = computeMetrics();
+          const etaText =
+            state.goalTargetMicro > 0 && m.effectiveMonthlySaveMicro > 0
+              ? `${Math.ceil(state.goalTargetMicro / m.effectiveMonthlySaveMicro)} mois (${computeEtaDate(Math.ceil(state.goalTargetMicro / m.effectiveMonthlySaveMicro))})`
+              : 'Non défini';
+
+          const lines = [
+            `MON PLAN BUDGET · SOLDE.`,
+            `• Revenu du mois : ${formatMoneyFromMicro(m.incomeMicro)}`,
+            `• Charges fixes (${m.fixedPct}%) : ${formatMoneyFromMicro(m.fixedMicro)}`,
+            `• Vie & Plaisirs (${m.lifePct}%) : ${formatMoneyFromMicro(m.lifeMicro)}`,
+            `• Épargne mensuelle (${m.savingsPct}%) : ${formatMoneyFromMicro(m.savingsMicro)}`,
+            `• Reste libre : ${formatMoneyFromMicro(m.freeBalanceMicro)} (${formatMoneyFromMicro(m.dailyFreeMicro)} / jour)`,
+            `• Score de sérénité : ${m.score}/100`,
+            `• Objectif « ${state.goalName || 'Projet'} » (${formatMoneyFromMicro(state.goalTargetMicro)}) : ${etaText}`,
+            `• Cagnotte projetée sur 12 mois : ${formatMoneyFromMicro(m.effectiveMonthlySaveMicro * 12)}`,
+          ];
+          copyReliable(lines.join('\n'));
+        });
+
+        /* Réinitialiser le profil */
+        $('btnReset').addEventListener('click', () => {
+          const preset = getProfilePreset(state.profile);
+          state = { currency: state.currency, ...preset };
+          clearAllFieldErrors();
+          syncStaticInputs();
+          renderExpenseList('fixedList', 'fixedItems');
+          renderExpenseList('lifeList', 'lifeItems');
+          renderDashboard();
+          showToast('Profil réinitialisé');
+        });
+
+        /* Export / Import JSON (R7 b/c) */
+        $('btnExportJson').addEventListener('click', () => {
+          exportStateJson();
+        });
+
+        $('btnImportJson').addEventListener('click', () => {
+          $('inputImportJson').click();
+        });
+
+        $('inputImportJson').addEventListener('change', (e) => {
+          const input = e.target;
+          const file = input.files && input.files[0];
+          if (!file) return;
+
+          const finish = (text) => {
+            importStateJson(text);
+            input.value = '';
+          };
+
+          if (typeof file.text === 'function') {
+            file.text().then(finish).catch(() => {
+              showToast('Impossible de lire le fichier sélectionné.', true);
+              input.value = '';
+            });
+          } else if (typeof FileReader !== 'undefined') {
+            const reader = new FileReader();
+            reader.onload = () => finish(String(reader.result || ''));
+            reader.onerror = () => {
+              showToast('Impossible de lire le fichier sélectionné.', true);
+              input.value = '';
+            };
+            reader.readAsText(file);
+          }
+        });
+
+        window.addEventListener('pagehide', saveStateNow);
+      }
+
+      /* Exposition contrôlée pour vérification & audit automatisé */
+      window.SOLDE_API = {
+        ACCESS_CODE,
+        KEY,
+        STORAGE_KEY,
+        MICRO_PER_FCFA,
+        EUR_RATE,
+        MICRO_PER_EUR,
+        parseFrenchFinancialInput,
+        validateAndNormalizeBudgetPayload,
+        buildExportPayload,
+        exportStateJson,
+        importStateJson,
+        computeMetrics,
+        getState: () => JSON.parse(JSON.stringify(state)),
+      };
+
+      /* Initialisation */
+      loadState();
+      syncStaticInputs();
+      renderExpenseList('fixedList', 'fixedItems');
+      renderExpenseList('lifeList', 'lifeItems');
+      bindEvents();
+      setMobileTab('inputs');
+      renderDashboard();
+    })();
+  </script>
+</body>
+</html>

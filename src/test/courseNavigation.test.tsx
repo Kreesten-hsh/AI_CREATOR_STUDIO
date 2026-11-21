@@ -355,6 +355,24 @@ describe('V4 : Course Navigation and Routing Verification (3 Modules / 3 Days / 
       expect(screen.getByText('Leçon 6')).toBeInTheDocument();
       expect(screen.getByText('Leçon 7')).toBeInTheDocument();
     });
+
+    it('garde CourseSidebar compact et épuré (ProgressGrid 7 cellules + leçons du module actif uniquement)', () => {
+      render(
+        <ProgressProvider>
+          <CourseSidebar course={COURSE_DATA} />
+        </ProgressProvider>
+      );
+
+      for (let num = 1; num <= 7; num++) {
+        expect(
+          screen.getByRole('button', {
+            name: new RegExp(`^Leçon ${num}(\\s*\\(En cours\\))?$`, 'i'),
+          })
+        ).toBeInTheDocument();
+      }
+      expect(screen.getByText(/LEÇONS 1 À 2/i)).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /AUTOMATISATION MANYCHAT/i })).not.toBeInTheDocument();
+    });
   });
 
   // =========================================================================
@@ -531,7 +549,7 @@ describe('V4 : Course Navigation and Routing Verification (3 Modules / 3 Days / 
       );
 
       const homeDialog = screen.getByRole('dialog');
-      const homeLogoHeading = within(homeDialog).getByRole('heading', { level: 1 });
+      const homeLogoHeading = within(homeDialog).getByTestId('sidebar-brand-logo');
       const homeLogoRow = homeLogoHeading.closest('div');
       expect(homeLogoRow).not.toBeNull();
       expect(
@@ -556,7 +574,7 @@ describe('V4 : Course Navigation and Routing Verification (3 Modules / 3 Days / 
       );
 
       const courseDialog = screen.getByRole('dialog');
-      const courseLogoHeading = within(courseDialog).getByRole('heading', { level: 1 });
+      const courseLogoHeading = within(courseDialog).getByTestId('sidebar-brand-logo');
       const courseLogoRow = courseLogoHeading.parentElement;
       expect(courseLogoRow).not.toBeNull();
       expect(
@@ -581,7 +599,14 @@ describe('V4 : Course Navigation and Routing Verification (3 Modules / 3 Days / 
       );
 
       // Étape 1 -> Étape 2
-      fireEvent.click(screen.getByRole('button', { name: /J'ai mon document/i }));
+      fireEvent.click(
+        screen.getByRole('button', {
+          name: new RegExp(COURSE_DATA.lessons[0].steps[0].completionLabel, 'i'),
+        })
+      );
+      // Retour arrière via le bouton Précédent -> Étape 1, puis re-validation -> Étape 2
+      fireEvent.click(screen.getByRole('button', { name: /^Précédent$/i }));
+      fireEvent.click(screen.getByRole('button', { name: /Étape validée \(Continuer\)/i }));
       // Étape 2 -> Étape 3
       fireEvent.click(screen.getByRole('button', { name: /Le Skill est activé/i }));
       // Étape 3 -> Leçon 02 · Étape 1
@@ -676,7 +701,11 @@ describe('V4 : Course Navigation and Routing Verification (3 Modules / 3 Days / 
         </ProgressProvider>
       );
 
-      fireEvent.click(screen.getByRole('button', { name: /Terminer le Jour 1/i }));
+      fireEvent.click(
+        screen.getByRole('button', {
+          name: new RegExp(COURSE_DATA.lessons[1].steps[2].completionLabel, 'i'),
+        })
+      );
 
       // La modale s'ouvre mais la route reste sur lesson-02 en arrière-plan
       expect(screen.getByRole('dialog')).toBeInTheDocument();

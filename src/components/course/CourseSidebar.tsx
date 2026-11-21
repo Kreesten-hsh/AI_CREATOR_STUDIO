@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Check, ChevronLeft } from 'lucide-react';
+import { Check, ChevronLeft, LogOut } from 'lucide-react';
 import type { Course } from '../../types/course';
 import { useAuth } from '../../context/AuthContext';
 import { useProgress } from '../../hooks/useProgress';
@@ -23,7 +23,7 @@ export function CourseSidebar({
   onAfterNavigate,
   mobileCloseButton,
 }: CourseSidebarProps) {
-  const { buyerEmail } = useAuth();
+  const { buyerEmail, signOut } = useAuth();
   const {
     state,
     globalProgress,
@@ -61,14 +61,15 @@ export function CourseSidebar({
         <button
           type="button"
           onClick={handleGoHome}
-          className="group inline-flex items-center gap-1.5 font-mono text-xs font-bold text-ink hover:text-primary-red transition-colors"
+          className="group inline-flex items-center gap-1.5 min-h-[36px] font-mono text-xs font-bold text-ink hover:text-primary-red transition-colors"
         >
           <ChevronLeft className="w-3.5 h-3.5 stroke-[2.5]" aria-hidden="true" />
           <span>RETOUR À L&apos;ACCUEIL</span>
         </button>
 
         <div className="flex items-center justify-between gap-2">
-          <h1
+          <p
+            data-testid="sidebar-brand-logo"
             className={`font-display uppercase tracking-tight leading-none text-ink min-w-0 ${
               mobileCloseButton ? 'text-xl min-[360px]:text-2xl' : 'text-2xl'
             }`}
@@ -81,7 +82,7 @@ export function CourseSidebar({
             >
               studio
             </span>
-          </h1>
+          </p>
           {mobileCloseButton}
         </div>
       </div>
@@ -179,15 +180,29 @@ export function CourseSidebar({
       {buyerEmail && (
         <div
           data-testid="sidebar-buyer-session"
-          className="p-3 bg-pale-pink border-t-2 border-ink flex items-center gap-2"
+          className="p-3 bg-pale-pink border-t-2 border-ink flex items-center justify-between gap-2"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-600 shrink-0" aria-hidden="true" />
-          <span
-            className="font-mono text-[11px] font-medium text-ink truncate min-w-0"
-            title={buyerEmail}
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <span className="w-2 h-2 rounded-full bg-emerald-600 shrink-0" aria-hidden="true" />
+            <span
+              className="font-mono text-[11px] font-medium text-ink truncate min-w-0"
+              title={buyerEmail}
+            >
+              {buyerEmail}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              void signOut();
+              onAfterNavigate?.();
+            }}
+            title="Changer de compte / Déconnexion"
+            aria-label="Changer de compte / Déconnexion"
+            className="p-1.5 text-ink hover:text-primary-red transition-colors shrink-0 rounded-brutal-tag"
           >
-            {buyerEmail}
-          </span>
+            <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
+          </button>
         </div>
       )}
     </aside>

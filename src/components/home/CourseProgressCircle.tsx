@@ -25,7 +25,7 @@ export function CourseProgressCircle({ percentage }: CourseProgressCircleProps) 
           cy="60"
           r={radius}
           fill="#FFFDFC"
-          stroke="#1F1916"
+          stroke="#171313"
           strokeWidth="3"
         />
 
@@ -35,7 +35,7 @@ export function CourseProgressCircle({ percentage }: CourseProgressCircleProps) 
             cx="60"
             cy="60"
             r={radius}
-            stroke="#C94A4A"
+            stroke="#B63131"
             strokeWidth="3.5"
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}

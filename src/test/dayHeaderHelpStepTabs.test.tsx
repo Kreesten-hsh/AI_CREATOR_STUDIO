@@ -42,7 +42,55 @@ describe('Suivi, Aide et Résilience : DayHeader, HelpPanel, StepTabs & ErrorBou
       expect(screen.getAllByText(/LEÇON/i).length).toBeGreaterThanOrEqual(1);
       expect(screen.getByText('03')).toBeInTheDocument();
       expect(screen.getAllByText(/SUR 07/i).length).toBeGreaterThanOrEqual(1);
-      expect(screen.getByText(/artistique/i)).toBeInTheDocument();
+      expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(/artistique/i);
+      expect(screen.queryByTestId('day-header-deliverable')).not.toBeInTheDocument();
+    });
+
+    it('affiche un en-tête sobre sans bloc livrable ni caractère invisible \\u200b dans l objectif', () => {
+      const mockLesson: Lesson = {
+        id: 'lesson-03',
+        lessonNumber: 3,
+        moduleId: 'module-02',
+        dayId: 'day-02',
+        dayNumber: 2,
+        title: 'Définir sa direction artistique',
+        objective: 'Choisir un style contrasté adapté au produit.',
+        deliverableSummary: 'Un style validé.',
+        duration: '~20 min',
+        isSkeletonPlaceholder: false,
+        steps: [],
+      };
+
+      render(
+        <ProgressProvider>
+          <DayHeader
+            lesson={mockLesson}
+            sprint={{
+              id: 'module-02',
+              moduleNumber: 2,
+              orderNumber: '02',
+              badge: 'MODULE 02',
+              title: 'CRÉER',
+              subtitle: 'Créer son application',
+              description: '',
+              dayId: 'day-02',
+              dayNumber: 2,
+              lessonIds: ['lesson-03', 'lesson-04', 'lesson-05'],
+              lessonRange: [3, 5],
+              deliverable: '',
+              available: true,
+            }}
+          />
+        </ProgressProvider>
+      );
+
+      expect(screen.queryByTestId('day-header-module-badge')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('day-header-duration')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('day-header-deliverable')).not.toBeInTheDocument();
+      const objectiveEl = screen.getByText(
+        'Choisir un style contrasté adapté au produit.'
+      );
+      expect(objectiveEl.textContent).not.toContain('\u200b');
     });
 
     it('gère gracieusement les données partielles ou manquantes sans erreur', () => {
@@ -161,7 +209,7 @@ describe('Suivi, Aide et Résilience : DayHeader, HelpPanel, StepTabs & ErrorBou
       );
 
       const tablist = screen.getByRole('tablist');
-      expect(tablist).toHaveClass('grid-cols-1 sm:grid-cols-3');
+      expect(tablist).toHaveClass('grid-cols-3');
       expect(screen.getAllByRole('tab')).toHaveLength(3);
     });
 

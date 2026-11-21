@@ -1,6 +1,6 @@
-# Architecture Visuelle & Stratégie d'État par Famille d'Applications
+# Architecture Visuelle, Cockpit Mobile & Stratégie d'État par Famille d'Applications
 
-Une application interactive n'est pas une page d'accueil marketing : l'utilisateur vient y **accomplir un travail précis**. Ce guide adapte la mise en scène visuelle et la gestion de l'état aux 4 grandes familles d'applications créées dans AI CREATOR Studio.
+Une application interactive n'est pas une page d'accueil marketing : l'utilisateur vient y **accomplir un travail précis**. Ce guide adapte la mise en scène visuelle, l'architecture mobile (`< 960 px`) et la sauvegarde des données aux grandes familles d'applications créées dans AI CREATOR Studio.
 
 ---
 
@@ -10,82 +10,87 @@ Avant d'agencer l'écran, identifie le mode dominant du produit :
 
 | Mode de surface | Objectif principal | Où placer l'audace visuelle ? | Où garder de la retenue ? |
 | :--- | :--- | :--- | :--- |
-| **`Operate`** *(Calculateur, Simulateur, Planificateur)* | Saisir, simuler, arbitrer rapidement sans erreur de lecture. | Dans l'**en-tête éditorial** et surtout dans la **Pièce Maîtresse de Verdict** (ticket de résultat, jauge de synthèse, bandeau d'alerte). | Dans les **champs de saisie et listes de données** : alignements nets, labels explicites, contrastes élevés, zéro distraction. |
-| **`Experience`** *(Hub de parcours, Défi interactif, Guide vivant)* | Engager, motiver, matérialiser une progression étape par étape. | Dans la **carte héroïque de statut**, l'anneau ou la barre de progression, les **badges/stickers** d'étapes et les transitions d'état. | Dans la navigation secondaire et les textes de consigne qui doivent rester immédiatement scannables. |
-| **`Hybride`** *(Générateur de contenu, Diagnostic expert, Audit)* | Configurer un cas concret puis lire/exploiter un livrable sur mesure. | Dans le **contraste physique entre l'Atelier de Paramétrage** (boutons tactiles, sélecteurs) et la **Feuille de Restitution** (mise en page de document précieux). | Dans la structure du texte généré : hiérarchie typographique irréprochable, copie en 1 clic. |
+| **`Operate`** *(Planificateur SOLDE, Simulateur, Calculateur)* | Saisir, simuler, arbitrer rapidement sans erreur de lecture. | Dans l'**en-tête éditorial** et surtout dans la **Pièce Maîtresse de Verdict** (bilan mensuel, anneau de répartition, score `/100`, bandeau d'alerte). | Dans les **champs de saisie et listes de postes** : alignements nets, labels explicites, contrastes élevés, zéro distraction. |
+| **`Experience`** *(Hub de parcours, Défi interactif, Programme coaching)* | Engager, motiver, matérialiser une progression étape par étape. | Dans la **carte héroïque de statut**, l'anneau ou la barre de progression, les **badges** d'étapes et les transitions d'état. | Dans la navigation secondaire et les consignes qui doivent rester immédiatement scannables. |
+| **`Hybride`** *(Diagnostic expert, Générateur de plan, Audit)* | Configurer un cas concret puis exploiter un livrable sur mesure. | Dans le **contraste physique entre l'Atelier de Paramétrage** (profils pré-remplis, sélecteurs tactiles) et la **Feuille de Restitution** (document précieux copiable en 1 clic). | Dans la structure du texte ou bilan généré : hiérarchie typographique irréprochable. |
 
 ---
 
-## 2. Décision d'État & Persistance Conditionnelle (*Storage Strategy*)
+## 2. Pattern « Cockpit Dual-Mode Mobile (`< 960 px`) » (Modèle SOLDE)
+
+Sur smartphone (`375 px`), l'erreur la plus fréquente des applications riches (> 5 champs) est de placer tout le formulaire en haut et de reléguer le résultat 1 500 px plus bas.
+
+Pour garantir que le **verdict reste visible au-dessus de la ligne de flottaison dès l'ouverture**, choisis l'une des deux architectures mobiles dans **« Mon plan d'application »** :
+
+1. **Flux linéaire simple (`<= 5` champs courts)** :
+   - Saisie compacte et carte de verdict directement empilées dans le flux vertical.
+2. **Cockpit Dual-Mode Mobile (`< 960 px`, recommandé pour SOLDE et tout outil > 5 paramètres)** :
+   - **Zone 1 — Résumé Héroïque Compact (Hero Summary)** : Affiché tout en haut de l'écran mobile, il présente immédiatement le chiffre/verdict roi (ex. Reste libre mensuel + Score `/100` ou diagnostic global) sans scroller.
+   - **Zone 2 — Barre d'Onglets Accessible (`role="tablist"`)** : Permet de basculer d'un pouce entre deux vues focalisées (`Saisie` et `Bilan` / `Résultat`), chacune dotée de boutons `role="tab"` (`min-height: 44px`, `aria-selected`, `aria-controls`) contrôlant deux panneaux `role="tabpanel"`. Sur desktop (`>= 960 px`), les deux panneaux s'affichent côte à côte en grille asymétrique (`minmax(0, 7fr) minmax(340px, 5fr)`).
+   - **Zone 3 — Barre Collante Inférieure (Sticky Bottom Dock)** : Fixée en bas sur mobile uniquement (`position: fixed; bottom: calc(12px + env(safe-area-inset-bottom, 0px));`), elle rappelle le verdict en temps réel et propose l'action rapide de bascule (`Voir le bilan` / `Modifier` ou `Copier mon résumé`) avec une cible tactile `>= 44×44 px`. Prévoir un `padding-bottom` suffisant sur le conteneur principal pour ne jamais masquer le dernier élément.
+
+---
+
+## 3. Matrice de Sauvegarde des Données à 3 Modes (*Storage Strategy*)
 
 > [!IMPORTANT]
-> **Interdiction du stockage forcé ou dogmatique** :  
-> Ne jamais imposer mécaniquement un `localStorage` ou un `StorageAdapter` à toutes les applications. L'architecture de données doit découler rigoureusement de la nature du document et du besoin réel de l'utilisateur.
+> **Interdiction du stockage forcé ou dogmatique** :
+> L'architecture de données doit découler rigoureusement de la nature du document et du besoin réel de l'utilisateur.
 
-### Matrice de Décision d'État (3 Niveaux Explicites) :
-1. **(a) Outil Éphémère / Calculateur Temps Réel (ex. Calculateur de Prix & Rentabilité `pricing-calculator`)** :
-   - **Besoin** : Tester des hypothèses de prix à la volée, basculer entre `FCFA` et `€ (EUR)`, comparer des marges sans trace persistante des données métier.
-   - **Stratégie** : **Mémoire vive volatile pure (`in-memory`)** pour les saisies métier (seul le jeton de déverrouillage `pricing_access` de l'écran `.gate` utilise `localStorage` sous `try/catch`). Aucun bouton d'export/import JSON n'est requis pour un calculateur éphémère.
-   - **Avantage** : Zéro risque de blocage `localStorage` sous `file://` (mode privé, restrictions iframe), confidentialité absolue.
-2. **(b) Plateforme Pédagogique / Checklist de Progression / Défi sur plusieurs jours** :
-   - **Besoin** : Reprendre son avancement là où on s'était arrêté sur un même appareil.
-   - **Stratégie** : **Persistance locale ciblée avec fallback mémoire transparent** (`StorageAdapter`).
-   - **Transparence produit** : Expliquer clairement ce qui est sauvegardé (ex. *« Vos cases cochées sont enregistrées localement dans votre navigateur sur cet appareil (ordinateur ou téléphone). »*).
-   - **Avertissement de sécurité** : Ne jamais présenter le `localStorage` comme un coffre-fort sécurisé, une synchronisation cloud inter-appareils ou un système d'authentification serveur.
-3. **(c) Boutons d'Export / Import JSON Manuel (Obligatoires dès que `localStorage` est utilisé pour les données métier)** :
-   - **Besoin** : Permettre à l'acheteur de sauvegarder sa progression ou de la transférer manuellement entre son ordinateur et son smartphone (puisque `localStorage` est isolé par navigateur et par appareil).
-   - **Stratégie** : Ajouter deux contrôles explicites : **« Exporter ma sauvegarde (.json) »** (téléchargement d'un fichier `.json` horodaté) et **« Importer une sauvegarde (.json) »** (chargement via `<input type="file" accept=".json">` avec validation `try/catch`).
-4. **Atelier de Rédaction / Générateur Éditorial (ex. Claire)** :
-   - **Besoin** : Produire une trame d'entretien ou un document finalisé.
-   - **Stratégie** : Mémoire vive + action d'exportation externe (bouton *« Copier dans le presse-papier »* ou téléchargement d'un fichier `.txt` / `.md`).
+1. **(a) Éphémère / Outil ponctuel** :
+   - **Cas d'usage** : Convertisseur express, mini-calculateur ponctuel ou test rapide sans besoin de conserver l'historique.
+   - **Stratégie** : **Mémoire vive volatile pure (`in-memory`)** pour les saisies métier (seul le jeton de déverrouillage `<slug_produit>_access` de l'écran `.gate` utilise `localStorage` sous `try/catch`). Aucun bouton d'export/import JSON inutile.
+2. **(b) Planificateur / Simulateur sauvegardé (Modèle SOLDE)** :
+   - **Cas d'usage** : Planificateur budgétaire mensuel (SOLDE), programme de coaching personnalisé, simulateur stratégique sur lequel l'acheteur revient ajuster ses paramètres.
+   - **Stratégie** : **`StorageAdapter`** (`localStorage` avec repli RAM transparent sous `file:///`) **+ boutons « Exporter ma sauvegarde (.json) » et « Importer une sauvegarde (.json) » + bouton « Copier mon résumé »** en 1 clic (`copyReliable()`).
+   - **Transparence produit** : Indiquer sobrement que la sauvegarde reste locale au navigateur de cet appareil (jamais de promesse de synchronisation cloud).
+3. **(c) Journal / Suivi multi-jours** :
+   - **Cas d'usage** : Checklist de progression sur 30 jours, carnet de suivi d'habitudes, journal de coaching ou défi quotidien.
+   - **Stratégie** : **`StorageAdapter`** + **Export / Import `.json` obligatoire** (téléchargement horodaté et import `<input type="file" accept=".json">` validé sous `try/catch`) pour permettre à l'acheteur de transférer manuellement son suivi entre ordinateur et smartphone.
 
 ---
 
-## 3. Les 4 Blueprints d'Interfaces AI CREATOR Studio
+## 4. Les 4 Blueprints d'Interfaces AI CREATOR Studio
 
-### Famille A — Le Calculateur de Prix, de Marge ou Simulateur Technique (ex. `pricing-calculator`)
-- **En-tête d'Atelier & Sélecteur de Devise** : Titre éditorial fort, promesse métier, sélecteur de devise en pilule (`FCFA` | `€ (EUR)`), et bouton `Verrouiller` (`#lockBtn`).
-- **Disposition asymétrique en 2 zones sur Desktop (`1280 px` / `860 px`)** :
-  - *Gauche — L'Atelier de Saisie Structurée* : Champs groupés par logique métier (Coût matière, Emballage, Temps passé, Taux horaire, Accordéon des frais de plateforme et marge souhaitée) avec unités dynamiques (`FCFA` ou `€`).
-  - *Droite — Le Panneau de Résultat & Encadré de Bénéfice (*Pièce Maîtresse*)* : Carte de résultat indiquant le **Prix de vente conseillé**, la décomposition ligne à ligne (Coût de revient, Frais de plateforme, Total des coûts) et l'encadré jaune de **Bénéfice net par vente** (`#profitBox`), complété par des conseils repliables.
+### Famille A — Le Planificateur / Simulateur Stratégique (Modèle SOLDE)
+- **En-tête éditorial & Contrôles rapides** : Titre éditorial fort, sélecteur de devise en pilule (`FCFA` | `€ EUR` avec parité exacte `1 € = 655,957 FCFA`), 2–3 **profils pré-remplis en 1 clic**, et bouton `Verrouiller` (`#lockBtn`).
+- **Desktop (`>= 960 px`) en duo asymétrique / Mobile (`< 960 px`) en Cockpit Dual-Mode** :
+  - *Panneau Saisie* : Revenus, enveloppes ou postes groupés logiquement, curseurs tactiles peints et simulateur **« Et si… » / crash-test**.
+  - *Panneau Bilan (*Pièce Maîtresse*)* : Reste libre mensuel, **Donut SVG animé** des 3 enveloppes, **Score de santé `/100`** avec bouton correctif en 1 clic, **projections temporelles** (3 / 6 / 12 mois) et bouton **« Copier mon résumé »**.
 
-### Famille B — Le Générateur / Assistant Éditorial Structuré (ex. Claire)
-- **L'Atelier de Contexte Tactile** : Cartes de sélection cliquables plutôt que menus déroulants tristes, badges de statut contextuels.
-- **La Feuille de Conduite Générée (*Pièce Maîtresse*)** : Traitée comme un véritable document éditorial encadré (fond papier, étapes numérotées, encadré d'avertissements, critères de conformité).
-- **Barre d'exploitation** : Copie intégrale ou copie étape par étape en 1 clic avec toast de confirmation.
+### Famille B — Le Générateur / Assistant Éditorial Structuré (Coaching / RH / Conseil)
+- **Atelier de Contexte Tactile** : Cartes de sélection cliquables, profils types et badges de statut contextuels.
+- **Feuille de Restitution (*Pièce Maîtresse*)** : Traitée comme un véritable document éditorial encadré (étapes numérotées, alertes, critères de conformité).
+- **Barre d'exploitation** : Copie intégrale en 1 clic (`copyReliable()`) avec confirmation visuelle.
 
-### Famille C — Le Plateau d'Organisation / Matrice à Cadrans (ex. Sophie)
-- **Le Baromètre de Charge en En-Tête (*Pièce Maîtresse*)** : Jauge haute visibilité avec seuil d'alerte critique tiré du document.
-- **Le Plateau Tactique à 4 Cadrans (`Q1` à `Q4`)** : Grille `2×2` desktop / accordéons mobiles avec code couleur de bordure, règle d'action explicite et compteurs.
+### Famille C — Le Plateau d'Organisation / Matrice à Cadrans (Productivité / Énergie)
+- **Baromètre de Charge en En-Tête (*Pièce Maîtresse*)** : Jauge haute visibilité avec seuil d'alerte critique issu de la source.
+- **Plateau Tactique à Cadrans** : Grille `2×2` desktop / onglets ou accordéons mobiles avec code couleur de bordure, règle d'action explicite et compteurs.
 
 ### Famille D — Le Diagnostic / Parcours d'Évaluation par Étapes
 - **Barre de progression éditoriale** (`Étape 02 / 05` + jauge de complétion).
-- **Cartes de réponse tactiles** (retour visuel franc à la sélection, bordures affirmées).
-- **Panneau de synthèse final** : Diagnostic typé, profil et recommandations fidèles au document source.
+- **Cartes de réponse tactiles** (`>= 44 px`, retour visuel franc à la sélection).
+- **Panneau de synthèse final** : Score global, profil diagnostiqué, plan d'action prioritaire et copie en 1 clic.
 
 ---
 
-## 4. Degrés d'Autonomie Réseau & Transparence
+## 5. Degrés d'Autonomie Réseau & Transparence
 
 Une application produite doit déclarer son niveau d'indépendance réseau :
 1. **Niveau 1 — 100 % Hors-Ligne & Zéro Build (Standard Recommandé par Défaut)** :
-   - Fichier unique `index.html`.
-   - Polices système sculptées (zéro requête Google Fonts).
-   - SVG vectoriels inline (zéro image externe).
-   - Fonctionne parfaitement en mode avion et sous protocole local `file:///`.
+   - Fichier unique `index.html`, polices système sculptées (zéro requête Google Fonts), SVG vectoriels inline. Fonctionne en mode avion et sous `file:///`.
 2. **Niveau 2 — Hybride avec Dépendance Réseau Déclarée (Optionnel)** :
-   - Fichier unique `index.html`.
-   - Utilisation optionnelle d'une police Google Fonts pour renforcer le caractère éditorial.
-   - **Exigence impérative** : Déclarer explicitement la dépendance dans l'en-tête ou le pied de page, et prévoir une pile de polices système de repli (*fallback*) qui préserve intégralement la hiérarchie visuelle hors-ligne.
+   - Fichier unique `index.html` avec police Google Fonts optionnelle explicitement signalée, toujours accompagnée d'une pile de polices système de repli préservant intégralement la hiérarchie hors-ligne.
 
 ---
 
-## 5. Écran de Verrouillage Acheteur Obligatoire (`.gate` & `ACCESS_CODE`)
+## 6. Écran de Code d'Accès Acheteur Obligatoire (`.gate` & `ACCESS_CODE`)
 
 Toutes les applications générées dans le cursus AI CREATOR Studio sont des produits réservés aux acheteurs. Elles intègrent systématiquement une barrière d'accès côté client en JavaScript :
-1. **Rôle produit** : Offrir une expérience d'accès VIP aux clients qui reçoivent le lien public Netlify et le code d'accès dans leur **Guide d'Accès PDF** et dans les **Instructions après achat Chariow**.
-2. **Transparence pédagogique** : Cette barrière JavaScript côté client est **dissuasive** (un utilisateur curieux pourrait inspecter le code source HTML) et ne remplace pas une authentification serveur cryptographique.
+1. **Rôle produit** : Offrir une expérience d'accès réservé aux clients qui reçoivent le lien public Netlify et le code d'accès dans leur **Guide d'Accès PDF** et dans les **Instructions après achat Chariow**.
+2. **Transparence pédagogique** : Cette barrière côté navigateur est **dissuasive** et ne remplace pas une authentification serveur cryptographique.
 3. **Architecture technique** :
-   - Script de pré-rendu dans `<head>` définissant clairement `var ACCESS_CODE = "CREATOR2026", KEY = "pricing_access";` et ajoutant la classe `locked` sur `<html>` si le code n'a pas encore été validé dans `localStorage`.
-   - Superposition `.gate` dessinée avec le même soin que l'application (cadre assorti, badge `.tag` *« Accès réservé aux acheteurs »*, champ mot de passe, bouton *« Déverrouiller l'outil »*, message d'erreur avec animation `shake`).
-   - Bouton discret `Verrouiller` (`#lockBtn`) dans l'en-tête de l'application permettant de tester à nouveau l'écran d'accueil en un clic.
+   - Script synchrone de pré-rendu dans `<head>` déclarant un identifiant dynamique dérivé du produit : `var ACCESS_CODE = "SOLDE2026", KEY = "solde_access";` (patron général : `KEY = "<slug_produit>_access"`).
+   - Validation tolérante aux espaces et à la casse mobile : `val.trim().toUpperCase() === ACCESS_CODE.toUpperCase()`.
+   - Superposition `.gate` assortie à la direction artistique (badge *« Accès réservé »*, champ `>= 16px` et `>= 44px`, bouton *« Déverrouiller l'outil »*, erreur accessible `role="alert"`).
+   - Bouton discret `Verrouiller` (`#lockBtn`) dans l'en-tête pour tester le verrouillage en 1 clic.

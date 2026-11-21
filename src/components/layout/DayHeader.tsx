@@ -13,6 +13,7 @@ export interface DayHeaderProps {
     title?: string;
     italicTitleWord?: string;
     objective?: string;
+    deliverableSummary?: string;
     steps?: Step[];
   };
   sprint?: CourseModule;
@@ -54,11 +55,7 @@ export function DayHeader({
         ? (currentProgress as LessonProgressResult).completedStepIds.length
         : 0;
 
-  const rawObjective = lesson?.objective ?? day?.objective;
-  // Insère un séparateur de mot invisible de tolérance pour éviter les collisions de sous-chaîne accidentelles dans les tests d'intégration DOM stricts
-  const objective = rawObjective
-    ? rawObjective.replace(/sauvegarder ta/gi, 'sauvegar\u200bder ta')
-    : undefined;
+  const objective = lesson?.objective ?? day?.objective;
 
   const titleSource: string = lesson?.title || day?.title || `Leçon ${paddedLesson}`;
   const italicWord: string | undefined = lesson?.italicTitleWord ?? day?.italicTitleWord;
@@ -95,7 +92,6 @@ export function DayHeader({
 
   return (
     <header className="space-y-4">
-      {/* Panneau Principal Éditorial Néo-Brutaliste style Abigail */}
       <div className="brutal-card rounded-brutal-card overflow-hidden border-2 border-ink shadow-brutal select-none">
         <div className="grid grid-cols-1 md:grid-cols-12">
           {/* Panneau gauche : Numéro de leçon sur damier rose */}
@@ -121,22 +117,21 @@ export function DayHeader({
             </div>
           </div>
 
-          {/* Panneau droit : Titre éditorial sur fond rouge brique épuré style Abigail */}
+          {/* Panneau droit : Titre éditorial épuré */}
           <div className="md:col-span-8 lg:col-span-9 bg-primary-red text-surface p-6 sm:p-7 md:p-8 flex flex-col justify-between gap-6">
             <div>
-              {/* Titre structurant ultra-lisible */}
               <h2 className="font-display text-xl sm:text-2xl lg:text-3xl uppercase tracking-tight text-surface leading-tight">
                 {renderEditorialTitle()}
               </h2>
 
               {objective && (
-                <p className="mt-2.5 text-sm sm:text-base text-surface font-serif max-w-2xl leading-relaxed">
+                <p className="mt-2.5 text-sm sm:text-base text-surface font-sans max-w-2xl leading-relaxed">
                   {objective}
                 </p>
               )}
             </div>
 
-            {/* Barre de progression fine style Abigail SANS trait séparateur gris */}
+            {/* Barre de progression fine */}
             <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
               <div className="flex items-center gap-2.5 flex-1 min-w-[140px]">
                 <span className="text-surface font-bold uppercase text-[11px] shrink-0">

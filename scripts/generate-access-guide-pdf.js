@@ -1,525 +1,416 @@
 #!/usr/bin/env node
 /**
  * scripts/generate-access-guide-pdf.js
- * Génération reproductible du modèle de Guide d'Accès PDF client
- * à partir de la source Markdown `docs/guides/GUIDE-ACCES-CLIENT-SOURCE.md`.
+ * Génération reproductible du modèle de Guide d'Accès Client PDF (1 page A4 exacte)
+ * via Playwright Chromium à partir de `docs/guides/GUIDE-ACCES-CLIENT-MODELE.html`.
  *
  * Produit : `public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf`
+ * Optionnel : `--input <chemin-html>` et `--preview <chemin-png>` pour inspection visuelle.
  */
 
-import { execFileSync, execSync } from 'node:child_process';
+import { execSync } from 'node:child_process';
 import fs from 'node:fs';
+import http from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
-const sourceMdPath = path.join(rootDir, 'docs', 'guides', 'GUIDE-ACCES-CLIENT-SOURCE.md');
-const outputPdfPath = path.join(rootDir, 'public', 'downloads', 'GUIDE-ACCES-CLIENT-MODELE.pdf');
+const publicDir = path.join(rootDir, 'public');
+const docsDir = path.join(rootDir, 'docs');
+const defaultSourceHtmlPath = path.join(docsDir, 'guides', 'GUIDE-ACCES-CLIENT-MODELE.html');
+const defaultOutputPdfPath = path.join(publicDir, 'downloads', 'GUIDE-ACCES-CLIENT-MODELE.pdf');
 
 const REQUIRED_PLACEHOLDERS = [
-  '[NOM DE VOTRE APPLICATION]',
-  '[DESCRIPTION DE VOTRE APPLICATION]',
-  '[VOTRE LIEN NETLIFY]',
+  '[NOM DE TON APPLICATION]',
+  '[PROMESSE EN UNE PHRASE]',
   "[VOTRE CODE D'ACCÈS]",
-  '[VOTRE EMAIL]',
+  '[VOTRE LIEN NETLIFY]',
+  '[VOTRE EMAIL SUPPORT]',
   '[VOTRE DÉLAI DE RÉPONSE]',
+  '[VOTRE NOM / MARQUE]',
 ];
 
-const REQUIRED_SECTIONS = [
-  '## 1. Présentation du produit',
-  '## 2. Lien direct',
-  "## 3. Code d'accès",
-  '## 4. Utilisation sur ordinateur',
-  '## 5. Utilisation sur smartphone et tablette',
-  '## 6. Sauvegarde des données',
-  '## 7. Export et import JSON',
-  '## 8. Dépannage',
-  '## 9. Contact',
-  '## 10. Mises à jour',
+const FORBIDDEN_STRINGS = [
+  { token: 'CREATOR2026', reason: 'Ne jamais imposer CREATOR2026 comme code client.' },
+  { token: '#B63131', reason: 'Indépendance graphique : #B63131 (Burgundy AI CREATOR Studio) interdit dans le modèle client.' },
+  { token: '#FAF6F0', reason: 'Indépendance graphique : #FAF6F0 (Cream AI CREATOR Studio) interdit dans le modèle client.' },
+  { token: '#F7E0E2', reason: 'Indépendance graphique : #F7E0E2 (Pale Pink AI CREATOR Studio) interdit dans le modèle client.' },
 ];
 
-function escapeHtml(raw) {
-  return String(raw)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+const MIME_TYPES = {
+  '.html': 'text/html; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.js': 'application/javascript; charset=utf-8',
+  '.svg': 'image/svg+xml',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
+  '.ttf': 'font/ttf',
+  '.otf': 'font/otf',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2',
+  '.json': 'application/json; charset=utf-8',
+};
+
+function walkFiles(dirPath, predicate) {
+  if (!fs.existsSync(dirPath)) return [];
+  const results = [];
+  const stack = [dirPath];
+  while (stack.length > 0) {
+    const current = stack.pop();
+    let entries = [];
+    try {
+      entries = fs.readdirSync(current, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+    for (const entry of entries) {
+      const fullPath = path.join(current, entry.name);
+      if (entry.isDirectory()) {
+        stack.push(fullPath);
+      } else if (predicate(fullPath, entry.name)) {
+        results.push(fullPath);
+      }
+    }
+  }
+  return results;
 }
 
-function formatInlineMarkdown(rawText) {
-  const escaped = escapeHtml(rawText);
-
-  // Extract inline code spans first to protect their contents
-  const codeSpans = [];
-  let processed = escaped.replace(/`([^`]+)`/g, (_match, codeContent) => {
-    const index = codeSpans.length;
-    const isPlaceholder = /^\[.+\]$/.test(codeContent.trim());
-    codeSpans.push(
-      isPlaceholder
-        ? `<code class="placeholder-code" style="font-family: monospace; font-weight: bold; background-color: #fef3c7; color: #92400e;">${codeContent}</code>`
-        : `<code style="font-family: monospace; background-color: #f1f5f9; color: #0f172a;">${codeContent}</code>`
-    );
-    return `@@CODESPAN_${index}@@`;
-  });
-
-  // Markdown links [label](https://...)
-  processed = processed.replace(
-    /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
-    '<a href="$2" style="color: #1d4ed8; text-decoration: underline;">$1</a>'
-  );
-
-  // Bold **...**
-  processed = processed.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-
-  // Italic *...*
-  processed = processed.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-
-  // Highlight customizable bracketed fields [VOTRE ...] / [NOM ...] / [DESCRIPTION ...]
-  processed = processed.replace(
-    /\[([A-ZÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ0-9\s'’_-]{4,})\]/g,
-    '<span class="placeholder-tag" style="font-family: monospace; font-weight: bold; background-color: #fef3c7; color: #92400e;">[$1]</span>'
-  );
-
-  // Restore code spans
-  processed = processed.replace(/@@CODESPAN_(\d+)@@/g, (_match, idx) => codeSpans[Number(idx)]);
-
-  return processed;
-}
-
-/**
- * Convertit le Markdown structuré du Guide d'Accès en HTML sémantique propre
- * sans dépendance externe. Supporte : titres (#, ##, ###), paragraphes,
- * citations (>), listes ordonnées et non ordonnées (avec sous-listes),
- * séparateurs (---) et tableaux Markdown (| ... |).
- */
-export function convertMarkdownToHtmlBody(markdown) {
-  const lines = markdown.replace(/\r\n/g, '\n').split('\n');
-  const htmlParts = [];
-  let inSection = false;
-  let i = 0;
-
-  const closeOpenSection = () => {
-    if (inSection) {
-      htmlParts.push('</section>');
-      inSection = false;
+async function loadPlaywright() {
+  for (const pkg of ['playwright', 'playwright-core']) {
+    try {
+      return await import(pkg);
+    } catch {
+      // Continue searching
     }
-  };
-
-  while (i < lines.length) {
-    const rawLine = lines[i];
-    const trimmed = rawLine.trim();
-
-    if (!trimmed) {
-      i += 1;
-      continue;
-    }
-
-    // Horizontal rule
-    if (/^---+$/.test(trimmed)) {
-      i += 1;
-      continue;
-    }
-
-    // H1
-    if (trimmed.startsWith('# ')) {
-      closeOpenSection();
-      const titleText = formatInlineMarkdown(trimmed.slice(2).trim());
-      htmlParts.push(
-        `<header class="doc-header"><p style="font-size: 8pt; font-weight: bold; letter-spacing: 0.06em; text-transform: uppercase; color: #475569; margin: 0 0 2px 0;">MODÈLE À PERSONNALISER • AI CREATOR STUDIO</p><h1 style="font-size: 14.5pt; font-weight: bold; color: #0f172a; margin: 0 0 5px 0;">${titleText}</h1></header>`
-      );
-      i += 1;
-      continue;
-    }
-
-    // H2 (opens a cohesive section)
-    if (trimmed.startsWith('## ')) {
-      closeOpenSection();
-      inSection = true;
-      const headingRaw = trimmed.slice(3).trim();
-      const headingText = formatInlineMarkdown(headingRaw);
-      const isPage2Start = headingRaw.startsWith('6.');
-      const pageBreakStyle = isPage2Start ? 'page-break-before: always; break-before: page;' : '';
-      htmlParts.push(
-        `<section class="guide-section" style="break-inside: avoid; page-break-inside: avoid; ${pageBreakStyle}"><h2 style="font-size: 10.5pt; font-weight: bold; color: #0f172a; margin: 6px 0 2px 0; page-break-after: avoid; ${pageBreakStyle}">${headingText}</h2>`
-      );
-      i += 1;
-      continue;
-    }
-
-    // H3
-    if (trimmed.startsWith('### ')) {
-      const headingText = formatInlineMarkdown(trimmed.slice(4).trim());
-      htmlParts.push(`<h3 style="font-size: 9.5pt; font-weight: bold; color: #1e293b; margin: 4px 0 2px 0;">${headingText}</h3>`);
-      i += 1;
-      continue;
-    }
-
-    // Blockquote (rendered as a clean bordered callout table so both Chrome and LibreOffice render the box)
-    if (trimmed.startsWith('>')) {
-      const quoteLines = [];
-      while (i < lines.length && lines[i].trim().startsWith('>')) {
-        quoteLines.push(lines[i].trim().replace(/^>\s?/, ''));
-        i += 1;
-      }
-      const quoteHtml = quoteLines.map((q) => formatInlineMarkdown(q)).join('<br />');
-      htmlParts.push(
-        `<table class="creator-notice" width="100%" border="1" cellspacing="0" cellpadding="6" style="border-collapse: collapse; width: 100%; border: 1px solid #d97706; background-color: #fffbeb; margin: 4px 0 6px 0;"><tr><td bgcolor="#fffbeb" style="background-color: #fffbeb; color: #78350f; font-size: 8.5pt; line-height: 1.25; border: 1px solid #d97706;">${quoteHtml}</td></tr></table>`
-      );
-      continue;
-    }
-
-    // Markdown Table
-    if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
-      const tableLines = [];
-      while (
-        i < lines.length &&
-        lines[i].trim().startsWith('|') &&
-        lines[i].trim().endsWith('|')
-      ) {
-        tableLines.push(lines[i].trim());
-        i += 1;
-      }
-
-      if (tableLines.length >= 2) {
-        const parseRow = (rowStr) =>
-          rowStr
-            .slice(1, -1)
-            .split('|')
-            .map((cell) => cell.trim());
-
-        const headerCells = parseRow(tableLines[0]);
-        const bodyRows = tableLines
-          .slice(1)
-          .filter((row) => !/^\|[\s:|-]+\|$/.test(row))
-          .map(parseRow);
-
-        const thead = `<thead><tr>${headerCells
-          .map(
-            (c) =>
-              `<th bgcolor="#f1f5f9" style="background-color: #f1f5f9; font-weight: bold; color: #0f172a; border: 1px solid #94a3b8; padding: 3px 6px; text-align: left;">${formatInlineMarkdown(c)}</th>`
-          )
-          .join('')}</tr></thead>`;
-        const tbody = `<tbody>${bodyRows
-          .map(
-            (row) =>
-              `<tr>${row
-                .map(
-                  (c) =>
-                    `<td style="border: 1px solid #94a3b8; padding: 3px 6px; text-align: left; vertical-align: top;">${formatInlineMarkdown(c)}</td>`
-                )
-                .join('')}</tr>`
-          )
-          .join('')}</tbody>`;
-
-        htmlParts.push(
-          `<table class="guide-table" width="100%" border="1" cellspacing="0" cellpadding="3" style="border-collapse: collapse; width: 100%; font-size: 8.5pt; margin: 3px 0 4px 0;">${thead}${tbody}</table>`
-        );
-      }
-      continue;
-    }
-
-    // Unordered or Ordered Lists (supporting indented sub-bullets and continuation lines)
-    if (/^(-|\d+\.)\s+/.test(trimmed)) {
-      const isOrdered = /^\d+\.\s+/.test(trimmed);
-      const listTag = isOrdered ? 'ol' : 'ul';
-      const items = [];
-
-      while (i < lines.length) {
-        const currentRaw = lines[i];
-        const currentTrim = currentRaw.trim();
-        if (!currentTrim) break;
-
-        const isTopBullet = isOrdered
-          ? /^\d+\.\s+/.test(currentTrim) && !/^\s{2,}/.test(currentRaw)
-          : /^-\s+/.test(currentTrim) && !/^\s{2,}/.test(currentRaw);
-
-        if (isTopBullet) {
-          const itemText = currentTrim.replace(/^(-|\d+\.)\s+/, '');
-          items.push({ text: [formatInlineMarkdown(itemText)], subItems: [] });
-          i += 1;
-          continue;
-        }
-
-        // Indented sub-bullet
-        if (/^\s{2,}-\s+/.test(currentRaw) && items.length > 0) {
-          const subText = currentTrim.replace(/^-\s+/, '');
-          items[items.length - 1].subItems.push(formatInlineMarkdown(subText));
-          i += 1;
-          continue;
-        }
-
-        // Indented continuation line of current list item
-        if (/^\s{2,}\S/.test(currentRaw) && items.length > 0) {
-          items[items.length - 1].text.push(formatInlineMarkdown(currentTrim));
-          i += 1;
-          continue;
-        }
-
-        break;
-      }
-
-      const listHtml = items
-        .map((item) => {
-          const mainContent = item.text.join(' ');
-          const subHtml =
-            item.subItems.length > 0
-              ? `<ul class="sub-list" style="margin: 1px 0 1px 14px;">${item.subItems
-                  .map((sub) => `<li style="margin-bottom: 1px;">${sub}</li>`)
-                  .join('')}</ul>`
-              : '';
-          return `<li style="margin-bottom: 1px;">${mainContent}${subHtml}</li>`;
-        })
-        .join('');
-
-      htmlParts.push(`<${listTag} style="margin: 2px 0 3px 16px; padding: 0;">${listHtml}</${listTag}>`);
-      continue;
-    }
-
-    // Standard Paragraph
-    const paragraphLines = [];
-    while (
-      i < lines.length &&
-      lines[i].trim() !== '' &&
-      !lines[i].trim().startsWith('#') &&
-      !lines[i].trim().startsWith('>') &&
-      !lines[i].trim().startsWith('|') &&
-      !/^---+$/.test(lines[i].trim()) &&
-      !/^(-|\d+\.)\s+/.test(lines[i].trim())
-    ) {
-      paragraphLines.push(formatInlineMarkdown(lines[i].trim()));
-      i += 1;
-    }
-    htmlParts.push(`<p style="margin: 2px 0 3px 0;">${paragraphLines.join(' ')}</p>`);
   }
 
-  closeOpenSection();
-  return htmlParts.join('\n');
+  const npxCacheRoot = path.join(os.homedir(), '.npm', '_npx');
+  const candidates = walkFiles(
+    npxCacheRoot,
+    (fullPath, name) =>
+      name === 'index.mjs' && fullPath.endsWith(path.join('playwright-core', 'index.mjs'))
+  );
+
+  for (const entryPath of candidates) {
+    try {
+      return await import(pathToFileURL(entryPath).href);
+    } catch {
+      // Continue searching
+    }
+  }
+
+  throw new Error(
+    'Impossible de localiser playwright ou playwright-core. Installez playwright-core ou exécutez npx playwright.'
+  );
 }
 
-function buildHtmlDocument(bodyHtml) {
-  return `<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <title>Guide d'Accès Client : Modèle Personnalisable</title>
-  <style>
-    @page {
-      size: A4;
-      margin: 10mm 14mm 10mm 14mm;
-    }
-    * {
-      box-sizing: border-box;
-    }
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: "Liberation Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      font-size: 9pt;
-      line-height: 1.26;
-      color: #1e293b;
-      background: #ffffff;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-    .doc-header {
-      border-bottom: 2px solid #0f172a;
-      padding-bottom: 4px;
-      margin-bottom: 6px;
-    }
-    .guide-section {
-      margin-bottom: 4px;
-      break-inside: avoid;
-      page-break-inside: avoid;
-    }
-    h2 {
-      border-bottom: 1px solid #cbd5e1;
-      padding-bottom: 2px;
-      break-after: avoid;
-      page-break-after: avoid;
-    }
-    .guide-table {
-      width: 100%;
-      border-collapse: collapse;
-      break-inside: avoid;
-      page-break-inside: avoid;
-    }
-  </style>
-</head>
-<body style="font-family: 'Liberation Sans', Arial, sans-serif; font-size: 9pt; line-height: 1.26; color: #1e293b;">
-${bodyHtml}
-</body>
-</html>`;
-}
+function findChromiumExecutable() {
+  if (process.env.CHROME_BIN && fs.existsSync(process.env.CHROME_BIN)) {
+    return process.env.CHROME_BIN;
+  }
 
-function findPdfEngine() {
-  const chromeCandidates = [
-    process.env.CHROME_BIN,
-    'google-chrome',
-    'google-chrome-stable',
-    'chromium',
-    'chromium-browser',
-  ].filter(Boolean);
+  const msPlaywrightCache = path.join(os.homedir(), '.cache', 'ms-playwright');
+  const cachedHeadless = walkFiles(
+    msPlaywrightCache,
+    (_fullPath, name) => name === 'chrome-headless-shell' || name === 'chrome'
+  ).sort(
+    (a, b) =>
+      (a.includes('chrome-headless-shell') ? -1 : 1) -
+      (b.includes('chrome-headless-shell') ? -1 : 1)
+  );
 
-  for (const bin of chromeCandidates) {
+  if (cachedHeadless.length > 0) {
+    return cachedHeadless[0];
+  }
+
+  for (const bin of ['google-chrome', 'google-chrome-stable', 'chromium', 'chromium-browser']) {
     try {
       const resolved = execSync(`command -v "${bin}"`, {
         encoding: 'utf-8',
         stdio: ['ignore', 'pipe', 'ignore'],
       }).trim();
       if (resolved && fs.existsSync(resolved)) {
-        return { kind: 'chrome', bin: resolved };
+        return resolved;
       }
     } catch {
       // Continue searching
     }
   }
 
-  try {
-    const libreOfficeBin = execSync('command -v libreoffice', {
-      encoding: 'utf-8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-    }).trim();
-    if (libreOfficeBin && fs.existsSync(libreOfficeBin)) {
-      return { kind: 'libreoffice', bin: libreOfficeBin };
-    }
-  } catch {
-    // Continue
-  }
-
-  return null;
+  return undefined;
 }
 
-function validateMarkdownSource(content) {
-  for (const section of REQUIRED_SECTIONS) {
-    if (!content.includes(section)) {
-      throw new Error(`Section obligatoire manquante dans GUIDE-ACCES-CLIENT-SOURCE.md : "${section}"`);
+function startStaticServer(publicBaseDir, docsBaseDir) {
+  const server = http.createServer((req, res) => {
+    const reqUrl = new URL(req.url || '/', 'http://127.0.0.1');
+    const urlPath = decodeURIComponent(reqUrl.pathname);
+
+    let safePath;
+    if (urlPath.startsWith('/docs/')) {
+      const relPath = urlPath.slice('/docs/'.length);
+      safePath = path.resolve(docsBaseDir, relPath);
+      if (!safePath.startsWith(docsBaseDir)) {
+        res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('Forbidden');
+        return;
+      }
+    } else if (urlPath.startsWith('/public/')) {
+      const relPath = urlPath.slice('/public/'.length);
+      safePath = path.resolve(publicBaseDir, relPath);
+      if (!safePath.startsWith(publicBaseDir)) {
+        res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('Forbidden');
+        return;
+      }
+    } else {
+      const relPath = urlPath.replace(/^\/+/, '');
+      safePath = path.resolve(publicBaseDir, relPath);
+      if (!safePath.startsWith(publicBaseDir)) {
+        res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('Forbidden');
+        return;
+      }
+    }
+
+    if (!fs.existsSync(safePath) || fs.statSync(safePath).isDirectory()) {
+      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end('Not found');
+      return;
+    }
+
+    const ext = path.extname(safePath).toLowerCase();
+    res.writeHead(200, { 'Content-Type': MIME_TYPES[ext] || 'application/octet-stream' });
+    fs.createReadStream(safePath).pipe(res);
+  });
+
+  return new Promise((resolve, reject) => {
+    server.on('error', reject);
+    server.listen(0, '127.0.0.1', () => {
+      const addr = server.address();
+      resolve({ server, port: addr.port });
+    });
+  });
+}
+
+export function countPdfPages(pdfBuffer) {
+  const ascii = pdfBuffer.toString('latin1');
+  if (!ascii.startsWith('%PDF-')) {
+    throw new Error('En-tête PDF invalide (%PDF- manquant).');
+  }
+  const countMatches = Array.from(ascii.matchAll(/\/Type\s*\/Pages\b[\s\S]{0,120}?\/Count\s+(\d+)/g));
+  if (countMatches.length > 0) {
+    return Math.max(...countMatches.map((m) => Number.parseInt(m[1], 10)));
+  }
+  const leafPages = ascii.match(/\/Type\s*\/Page\b(?!s)/g);
+  return leafPages ? leafPages.length : 0;
+}
+
+export function validateGuideHtml(htmlContent, { requirePlaceholders = true } = {}) {
+  if (requirePlaceholders) {
+    for (const placeholder of REQUIRED_PLACEHOLDERS) {
+      if (!htmlContent.includes(placeholder)) {
+        throw new Error(
+          `Placeholder obligatoire manquant dans GUIDE-ACCES-CLIENT-MODELE.html : "${placeholder}"`
+        );
+      }
     }
   }
 
-  for (const placeholder of REQUIRED_PLACEHOLDERS) {
-    if (!content.includes(placeholder)) {
-      throw new Error(
-        `Champ personnalisable manquant dans GUIDE-ACCES-CLIENT-SOURCE.md : "${placeholder}"`
-      );
+  const upperHtml = htmlContent.toUpperCase();
+  for (const { token, reason } of FORBIDDEN_STRINGS) {
+    if (upperHtml.includes(token.toUpperCase())) {
+      throw new Error(`Contenu interdit détecté ("${token}") : ${reason}`);
     }
-  }
-
-  if (content.includes('CREATOR2026')) {
-    throw new Error(
-      'Le modèle GUIDE-ACCES-CLIENT-SOURCE.md ne doit pas imposer CREATOR2026 comme code universel.'
-    );
   }
 }
 
-function generateAccessGuidePdf() {
-  console.log("📄 Génération reproductible du modèle de Guide d'Accès PDF...");
+function parseCliArgs(argv) {
+  const options = {
+    input: defaultSourceHtmlPath,
+    output: defaultOutputPdfPath,
+    preview: null,
+    skipPlaceholderCheck: false,
+  };
 
-  if (!fs.existsSync(sourceMdPath)) {
-    throw new Error(`Fichier source introuvable : ${sourceMdPath}`);
+  for (let i = 0; i < argv.length; i += 1) {
+    const arg = argv[i];
+    if (arg === '--input' && argv[i + 1]) {
+      options.input = path.resolve(rootDir, argv[i + 1]);
+      options.skipPlaceholderCheck = options.input !== defaultSourceHtmlPath;
+      i += 1;
+    } else if (arg === '--output' && argv[i + 1]) {
+      options.output = path.resolve(rootDir, argv[i + 1]);
+      i += 1;
+    } else if (arg === '--preview' && argv[i + 1]) {
+      options.preview = path.resolve(argv[i + 1]);
+      i += 1;
+    }
   }
 
-  const markdownContent = fs.readFileSync(sourceMdPath, 'utf-8');
-  validateMarkdownSource(markdownContent);
+  return options;
+}
 
-  const engine = findPdfEngine();
-  if (!engine) {
-    throw new Error(
-      'Prérequis manquant : aucun moteur PDF (Chromium / Google Chrome ou LibreOffice) disponible dans lenvironnement.'
-    );
+export async function generateAccessGuidePdf(options = {}) {
+  const sourceHtmlPath = options.input || defaultSourceHtmlPath;
+  const outputPdfPath = options.output || defaultOutputPdfPath;
+  const previewPngPath = options.preview || null;
+  const requirePlaceholders = options.requirePlaceholders ?? !options.skipPlaceholderCheck;
+
+  console.log("📄 Génération du Guide d'Accès Client PDF (1 page A4 via Playwright Chromium)...");
+
+  if (!fs.existsSync(sourceHtmlPath)) {
+    throw new Error(`Fichier source HTML introuvable : ${sourceHtmlPath}`);
+  }
+
+  const htmlContent = fs.readFileSync(sourceHtmlPath, 'utf-8');
+  validateGuideHtml(htmlContent, { requirePlaceholders });
+
+  const relFromDocs = path.relative(docsDir, sourceHtmlPath);
+  const relFromPublic = path.relative(publicDir, sourceHtmlPath);
+  let routePath;
+  if (!relFromDocs.startsWith('..')) {
+    routePath = `/docs/${relFromDocs.split(path.sep).join('/')}`;
+  } else if (!relFromPublic.startsWith('..')) {
+    routePath = `/public/${relFromPublic.split(path.sep).join('/')}`;
+  } else {
+    throw new Error(`Le fichier HTML doit se trouver dans docs/ ou public/ : ${sourceHtmlPath}`);
   }
 
   const outputDir = path.dirname(outputPdfPath);
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
+  fs.mkdirSync(outputDir, { recursive: true });
 
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-creator-guide-pdf-'));
-  const tempHtmlPath = path.join(tempDir, 'GUIDE-ACCES-CLIENT-MODELE.html');
+  const { chromium } = await loadPlaywright();
+  const executablePath = findChromiumExecutable();
+  const { server, port } = await startStaticServer(publicDir, docsDir);
 
+  let browser;
   try {
-    const htmlBody = convertMarkdownToHtmlBody(markdownContent);
-    const fullHtml = buildHtmlDocument(htmlBody);
-    fs.writeFileSync(tempHtmlPath, fullHtml, 'utf-8');
+    browser = await chromium.launch({
+      executablePath,
+      headless: true,
+      args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
+    });
+
+    const context = await browser.newContext({
+      viewport: { width: 794, height: 1123 },
+      deviceScaleFactor: 2,
+      locale: 'fr-FR',
+    });
+
+    const page = await context.newPage();
+
+    // Rendu 100 % déterministe sur les polices locales sans dépendance réseau externe
+    await page.route('**/*', (route) => {
+      const url = route.request().url();
+      if (url.startsWith(`http://127.0.0.1:${port}`) || url.startsWith('data:') || url.startsWith('blob:')) {
+        return route.continue();
+      }
+      return route.abort();
+    });
+
+    await page.goto(`http://127.0.0.1:${port}${routePath}`, { waitUntil: 'domcontentloaded' });
+
+    const metrics = await page.evaluate(async () => {
+      await document.fonts.ready;
+      const sheet = document.querySelector('.a4-sheet');
+      if (!sheet) {
+        throw new Error('Conteneur .a4-sheet introuvable dans le HTML source.');
+      }
+      const loadedFamilies = Array.from(
+        new Set(
+          Array.from(document.fonts)
+            .filter((f) => f.status === 'loaded')
+            .map((f) => f.family.replace(/['"]/g, ''))
+        )
+      );
+      return {
+        loadedFamilies,
+        scrollHeight: sheet.scrollHeight,
+        clientHeight: sheet.clientHeight,
+        overflowPx: Math.max(0, sheet.scrollHeight - sheet.clientHeight),
+      };
+    });
+
+    if (metrics.overflowPx > 2) {
+      throw new Error(
+        `Débordement détecté sur .a4-sheet (+${metrics.overflowPx}px : scrollHeight=${metrics.scrollHeight}, clientHeight=${metrics.clientHeight}).`
+      );
+    }
+
+    if (previewPngPath) {
+      fs.mkdirSync(path.dirname(previewPngPath), { recursive: true });
+      await page.locator('.a4-sheet').screenshot({
+        path: previewPngPath,
+        animations: 'disabled',
+      });
+    }
 
     if (fs.existsSync(outputPdfPath)) {
       fs.unlinkSync(outputPdfPath);
     }
 
-    if (engine.kind === 'chrome') {
-      execFileSync(
-        engine.bin,
-        [
-          '--headless',
-          '--disable-gpu',
-          '--no-sandbox',
-          '--disable-dev-shm-usage',
-          '--no-pdf-header-footer',
-          `--print-to-pdf=${outputPdfPath}`,
-          `file://${tempHtmlPath}`,
-        ],
-        { stdio: ['ignore', 'pipe', 'pipe'] }
-      );
-    } else {
-      const loProfileDir = path.join(tempDir, 'lo-profile');
-      execFileSync(
-        engine.bin,
-        [
-          '--headless',
-          `-env:UserInstallation=file://${loProfileDir}`,
-          '--convert-to',
-          'pdf',
-          '--outdir',
-          tempDir,
-          tempHtmlPath,
-        ],
-        {
-          env: { ...process.env, HOME: tempDir },
-          stdio: ['ignore', 'pipe', 'pipe'],
-        }
-      );
-      const generatedTempPdf = path.join(tempDir, 'GUIDE-ACCES-CLIENT-MODELE.pdf');
-      if (!fs.existsSync(generatedTempPdf)) {
-        throw new Error('LibreOffice na pas produit le fichier PDF attendu.');
-      }
-      fs.copyFileSync(generatedTempPdf, outputPdfPath);
-    }
+    await page.pdf({
+      path: outputPdfPath,
+      format: 'A4',
+      printBackground: true,
+      preferCSSPageSize: true,
+      margin: { top: '0px', right: '0px', bottom: '0px', left: '0px' },
+    });
+
+    await context.close();
 
     if (!fs.existsSync(outputPdfPath)) {
-      throw new Error('Le fichier PDF na pas été créé.');
+      throw new Error("Le fichier PDF n'a pas été créé.");
     }
 
-    const stat = fs.statSync(outputPdfPath);
-    if (stat.size <= 0) {
-      throw new Error('Le fichier PDF généré est vide (0 octet).');
+    const pdfBuffer = fs.readFileSync(outputPdfPath);
+    if (pdfBuffer.length <= 5120) {
+      throw new Error(`Le fichier PDF généré est trop petit (${pdfBuffer.length} octets, attendu > 5120).`);
     }
 
-    const buffer = fs.readFileSync(outputPdfPath);
-    const header = buffer.subarray(0, 5).toString('ascii');
+    const header = pdfBuffer.subarray(0, 5).toString('ascii');
     if (header !== '%PDF-') {
       throw new Error(`En-tête PDF invalide : reçu "${header}", attendu "%PDF-".`);
     }
 
-    console.log('✅ Modèle de Guide d’Accès PDF généré avec succès !');
-    console.log(`   - Moteur : ${engine.kind} (${engine.bin})`);
-    console.log(`   - Source : ${path.relative(rootDir, sourceMdPath)}`);
-    console.log(`   - Sortie : ${path.relative(rootDir, outputPdfPath)}`);
-    console.log(`   - Taille : ${stat.size} octets`);
-    console.log(`   - En-tête : ${header}`);
+    const pageCount = countPdfPages(pdfBuffer);
+    if (pageCount !== 1) {
+      throw new Error(`Le PDF fait ${pageCount} page(s) au lieu d'exactement 1 page A4.`);
+    }
+
+    console.log("✅ Modèle de Guide d'Accès Client PDF généré avec succès !");
+    console.log(`   - Source   : ${path.relative(rootDir, sourceHtmlPath)}`);
+    console.log(`   - Sortie   : ${path.relative(rootDir, outputPdfPath)}`);
+    console.log(`   - Pages    : ${pageCount} page A4 exacte (débordement : ${metrics.overflowPx}px)`);
+    console.log(`   - Taille   : ${pdfBuffer.length} octets (${(pdfBuffer.length / 1024).toFixed(1)} Ko)`);
+    console.log(`   - Polices  : ${metrics.loadedFamilies.join(', ')}`);
+    if (previewPngPath) {
+      console.log(`   - Aperçu   : ${previewPngPath}`);
+    }
+
+    return {
+      source: sourceHtmlPath,
+      output: outputPdfPath,
+      pages: pageCount,
+      bytes: pdfBuffer.length,
+      loadedFamilies: metrics.loadedFamilies,
+    };
   } finally {
-    fs.rmSync(tempDir, { recursive: true, force: true });
+    if (browser) await browser.close();
+    await new Promise((resolve) => server.close(resolve));
   }
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
-  try {
-    generateAccessGuidePdf();
-  } catch (err) {
+  const cliOptions = parseCliArgs(process.argv.slice(2));
+  generateAccessGuidePdf(cliOptions).catch((err) => {
     console.error(`❌ Échec de la génération du Guide d'Accès PDF : ${err.message}`);
     process.exit(1);
-  }
+  });
 }

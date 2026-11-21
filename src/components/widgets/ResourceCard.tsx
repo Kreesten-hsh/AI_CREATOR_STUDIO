@@ -27,7 +27,7 @@ export function ResourceCard({ block }: { block: ResourceBlock }) {
           {block.title}
         </h3>
         {block.description && (
-          <p className="text-xs text-ink font-medium break-words">{block.description}</p>
+          <p className="font-sans text-xs text-ink font-medium break-words">{block.description}</p>
         )}
       </div>
 
@@ -46,7 +46,7 @@ export function ResourceCard({ block }: { block: ResourceBlock }) {
                   {res.title}
                 </h4>
               </div>
-              <p className="text-xs text-ink leading-relaxed">{res.description}</p>
+              <p className="font-sans text-xs text-ink leading-relaxed">{res.description}</p>
             </div>
 
             <div className="shrink-0">

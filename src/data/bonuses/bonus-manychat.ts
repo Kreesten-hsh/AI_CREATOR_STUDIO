@@ -204,6 +204,14 @@ export const BONUS_MANYCHAT_LESSONS: BonusLesson[] = [
             content:
               'Ne cherchez pas à construire une intelligence artificielle conversationnelle ouverte capable de répondre à tout. Plus vous proposez de choix fermés (boutons, réponses rapides), plus le prospect avance vite vers votre offre commerciale.',
           },
+          {
+            id: 'bm-l01-p01-callout-solde',
+            type: 'callout',
+            variant: 'important',
+            title: 'Passerelle directe avec ton produit créé dans les Modules 01 à 03',
+            content:
+              'Tu peux appliquer ce système dès aujourd’hui pour vendre l’application interactive que tu viens de publier sur Chariow. Par exemple, avec notre fil rouge SOLDE : publie une courte démo vidéo de l’app sur ta Page Facebook en invitant à commenter « SOLDE » ou « BUDGET », puis envoie le lien de ta fiche produit Chariow dans Messenger après le premier clic.',
+          },
         ],
         help: {
           tips: [

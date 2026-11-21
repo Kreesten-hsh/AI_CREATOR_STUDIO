@@ -40,10 +40,13 @@ describe('Intégrité Binaire et Pédagogique du Skill AI-CREATOR-DESIGN-INTELLI
     const output = execSync(`unzip -l "${zipPublic}"`, { encoding: 'utf-8' });
 
     expect(output).toContain('ai-creator-design-intelligence/SKILL.md');
+    expect(output).toContain('ai-creator-design-intelligence/INSTALLATION-CLAUDE-FREE.md');
     expect(output).toContain('ai-creator-design-intelligence/references/art-direction.md');
     expect(output).toContain('ai-creator-design-intelligence/references/app-interface-design.md');
     expect(output).toContain('ai-creator-design-intelligence/references/design-system.md');
     expect(output).toContain('ai-creator-design-intelligence/references/anti-slop-and-copywriting.md');
+    expect(output).toContain('ai-creator-design-intelligence/references/frontend-craft.md');
+    expect(output).toContain('ai-creator-design-intelligence/references/visual-quality-checklist.md');
   });
 
   it('le fichier art-direction.md extrait du ZIP applique la scission : 6 points avant choix et fiche technique complète après choix', () => {
@@ -65,20 +68,50 @@ describe('Intégrité Binaire et Pédagogique du Skill AI-CREATOR-DESIGN-INTELLI
     expect(artDirectionContent).toContain('Après le Choix : La Fiche de Style Technique Complète');
     expect(artDirectionContent).toContain('--bg-canvas');
     expect(artDirectionContent).toContain('375 px');
+    expect(artDirectionContent).toContain('SOLDE');
   });
 
-  it('l’archive ZIP contient ACCESS_CODE dans frontend-craft.md et ne contient aucune mention de FRNG, BFR ou marc-v2', () => {
+  it('l’archive ZIP embarque les patrons SOLDE (Cockpit Dual-Mode Mobile, micro-FCFA, solde_access) et bannit pricing_access et les anciens noms', () => {
     const frontendCraft = execSync(
       `unzip -p "${zipPublic}" ai-creator-design-intelligence/references/frontend-craft.md`,
       { encoding: 'utf-8' }
     );
     expect(frontendCraft).toContain('ACCESS_CODE');
-    expect(frontendCraft).not.toContain('FRNG');
-    expect(frontendCraft).not.toContain('BFR');
-    expect(frontendCraft).not.toContain('marc-v2');
+    expect(frontendCraft).toContain('solde_access');
+    expect(frontendCraft).toContain('val.trim().toUpperCase() === ACCESS_CODE.toUpperCase()');
+    expect(frontendCraft).toContain('655.957');
+    expect(frontendCraft).toContain('parseFrenchFinancialInput');
+    expect(frontendCraft).toContain('@container');
+    expect(frontendCraft).toContain('copyReliable');
+    expect(frontendCraft).toContain('requestAnimationFrame');
+
+    const appInterface = execSync(
+      `unzip -p "${zipPublic}" ai-creator-design-intelligence/references/app-interface-design.md`,
+      { encoding: 'utf-8' }
+    );
+    expect(appInterface).toContain('Cockpit Dual-Mode Mobile');
+    expect(appInterface).toContain('role="tablist"');
+    expect(appInterface).toContain('env(safe-area-inset-bottom');
+
+    const checklist = execSync(
+      `unzip -p "${zipPublic}" ai-creator-design-intelligence/references/visual-quality-checklist.md`,
+      { encoding: 'utf-8' }
+    );
+    expect(checklist).toContain('Verdict visible au-dessus de la ligne de flottaison');
+    expect(checklist).toContain('375 px');
+
+    const installGuide = execSync(
+      `unzip -p "${zipPublic}" ai-creator-design-intelligence/INSTALLATION-CLAUDE-FREE.md`,
+      { encoding: 'utf-8' }
+    );
+    expect(installGuide).toContain('Safari');
+    expect(installGuide).toContain('Paramètres > Capacités');
+    expect(installGuide).toContain('Personnalisation > Compétences');
 
     // Vérification sur l'intégralité du contenu textuel de l'archive ZIP
     const allZipContent = execSync(`unzip -p "${zipPublic}"`, { encoding: 'utf-8' });
+    expect(allZipContent).not.toContain('pricing_access');
+    expect(allZipContent).not.toContain('pricing-calculator');
     expect(allZipContent).not.toContain('FRNG');
     expect(allZipContent).not.toContain('BFR');
     expect(allZipContent).not.toContain('marc-v2');

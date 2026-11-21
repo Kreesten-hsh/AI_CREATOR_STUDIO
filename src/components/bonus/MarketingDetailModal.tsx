@@ -14,6 +14,23 @@ interface MarketingDetailModalProps {
   onClose: () => void;
 }
 
+function getFocusableElements(container: HTMLElement | null): HTMLElement[] {
+  if (!container) return [];
+  const candidates = container.querySelectorAll<HTMLElement>(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+  return Array.from(candidates).filter((el) => {
+    if (el.hasAttribute('disabled') || el.getAttribute('aria-hidden') === 'true') {
+      return false;
+    }
+    if (el.closest('[aria-hidden="true"]')) {
+      return false;
+    }
+    const style = window.getComputedStyle(el);
+    return style.display !== 'none' && style.visibility !== 'hidden';
+  });
+}
+
 export function MarketingDetailModal({ resource, onClose }: MarketingDetailModalProps) {
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
@@ -36,7 +53,7 @@ export function MarketingDetailModal({ resource, onClose }: MarketingDetailModal
     }
   }, [resource]);
 
-  // Focus trap, touche Escape et verrouillage du scroll arrière-plan
+  // Focus trap via getComputedStyle (sans offsetParent), touche Escape et verrouillage du scroll
   useEffect(() => {
     if (!resource) return;
 
@@ -47,13 +64,7 @@ export function MarketingDetailModal({ resource, onClose }: MarketingDetailModal
       }
 
       if (event.key === 'Tab' && modalRef.current) {
-        const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        const focusable = Array.from(focusableElements).filter(
-          (el) => !el.hasAttribute('disabled') && el.offsetParent !== null
-        );
-
+        const focusable = getFocusableElements(modalRef.current);
         if (focusable.length === 0) return;
 
         const firstElement = focusable[0];
@@ -146,6 +157,11 @@ export function MarketingDetailModal({ resource, onClose }: MarketingDetailModal
               <span className="px-2.5 py-0.5 bg-primary-red text-surface font-mono text-[11px] font-bold uppercase rounded-full border border-ink shadow-brutal-xs">
                 {resource.categoryLabel}
               </span>
+              {!resource.download.isAvailable && (
+                <span className="px-2.5 py-0.5 bg-pale-pink text-ink font-mono text-[10px] font-bold uppercase rounded-full border border-ink">
+                  Prompt prêt à copier (aucun ZIP requis)
+                </span>
+              )}
             </div>
 
             <h2
@@ -155,7 +171,7 @@ export function MarketingDetailModal({ resource, onClose }: MarketingDetailModal
               {resource.title}
             </h2>
 
-            <p className="font-serif text-sm text-ink leading-relaxed">
+            <p className="font-sans text-sm text-ink leading-relaxed">
               {resource.shortDescription}
             </p>
           </div>
@@ -171,8 +187,8 @@ export function MarketingDetailModal({ resource, onClose }: MarketingDetailModal
           </button>
         </header>
 
-        {/* Corps scrollable autonome de la fiche */}
-        <div className="flex-1 min-h-0 p-5 sm:p-6 md:p-8 overflow-y-auto space-y-7 font-serif text-ink">
+        {/* Corps scrollable autonome de la fiche en Plus Jakarta Sans */}
+        <div className="flex-1 min-h-0 p-5 sm:p-6 md:p-8 overflow-y-auto space-y-7 font-sans text-ink">
           {/* Note spécifique d'accompagnement si applicable */}
           {resource.specificNotice && (
             <div className="p-4 bg-pale-pink/50 border-2 border-ink rounded-brutal-card flex items-start gap-3">
@@ -201,7 +217,7 @@ export function MarketingDetailModal({ resource, onClose }: MarketingDetailModal
 
             <section className="p-4 bg-cream border border-ink/40 rounded-brutal-card space-y-2">
               <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-ink">
-                Quand l'utiliser
+                Quand l&apos;utiliser
               </h3>
               <ul className="space-y-1.5 text-xs sm:text-sm text-ink font-sans">
                 {resource.whenToUse.map((item, idx) => (
@@ -220,7 +236,7 @@ export function MarketingDetailModal({ resource, onClose }: MarketingDetailModal
               <span className="inline-block px-2 py-0.5 bg-pale-pink text-ink border border-ink rounded-full font-mono text-[10px] font-bold uppercase">
                 Exemple fictif
               </span>
-              <span className="font-serif text-xs text-ink font-medium italic">
+              <span className="font-serif text-sm text-ink font-medium italic">
                 {resource.digitalProductScenario.productName}
               </span>
             </div>
@@ -284,7 +300,7 @@ export function MarketingDetailModal({ resource, onClose }: MarketingDetailModal
                 {resource.readyPrompt.fullPrompt}
               </pre>
             </div>
-            <p className="font-serif text-xs text-ink font-medium italic">
+            <p className="font-sans text-xs text-ink/85 font-medium italic">
               {resource.readyPrompt.explanation}
             </p>
           </section>
@@ -333,10 +349,13 @@ export function MarketingDetailModal({ resource, onClose }: MarketingDetailModal
                   </>
                 ) : (
                   <div className="space-y-1.5 pt-1">
+                    <span className="inline-block px-2 py-0.5 bg-pale-pink border border-ink rounded-brutal-tag font-mono text-[10px] font-bold text-ink">
+                      Prompt prêt à copier (aucun ZIP requis)
+                    </span>
                     <span className="font-mono text-[11px] font-bold text-ink block">
                       Prompt direct · Archive non distribuée.
                     </span>
-                    <p className="text-[11px] font-serif text-ink leading-relaxed">
+                    <p className="text-xs font-sans text-ink leading-relaxed">
                       {resource.download.statusNote ||
                         'Téléchargement de l’archive ZIP indisponible (en attente de clarification des droits de redistribution).'}
                     </p>
@@ -356,7 +375,7 @@ export function MarketingDetailModal({ resource, onClose }: MarketingDetailModal
                   className="brutal-btn rounded-brutal-btn px-4 py-2.5 min-h-[44px] font-mono text-xs font-bold uppercase inline-flex items-center justify-center gap-2 bg-surface text-ink border-2 border-ink hover:bg-pale-pink shadow-brutal-xs"
                 >
                   <Download className="w-4 h-4 text-primary-red stroke-[2.5]" aria-hidden="true" />
-                  <span>Télécharger l'archive</span>
+                  <span>Télécharger l&apos;archive</span>
                 </a>
               )}
             </section>
@@ -364,7 +383,7 @@ export function MarketingDetailModal({ resource, onClose }: MarketingDetailModal
             {/* Guide d'utilisation */}
             <section className="md:col-span-7 p-4 bg-surface border border-ink/40 rounded-brutal-card space-y-2">
               <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink block">
-                Guide d'utilisation & compatibilité
+                Guide d&apos;utilisation &amp; compatibilité
               </span>
               <ol className="space-y-1 text-xs text-ink font-sans">
                 {resource.usageInstructions.quickStart.map((step, idx) => (

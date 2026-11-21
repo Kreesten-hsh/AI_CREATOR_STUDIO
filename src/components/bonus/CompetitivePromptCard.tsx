@@ -88,14 +88,14 @@ export function CompetitivePromptCard({ promptConfig }: CompetitivePromptCardPro
               {promptConfig.title}
             </h3>
 
-            <p className="font-serif text-sm text-ink leading-relaxed max-w-3xl">
+            <p className="font-sans text-sm text-ink leading-relaxed max-w-3xl">
               {promptConfig.description}
             </p>
           </div>
 
           {/* Règle méthodologique condensée & boutons d'action */}
           <div className="space-y-3 pt-1">
-            <div className="p-3 bg-cream border border-ink/40 rounded-brutal-card text-xs font-serif text-ink font-medium flex items-center gap-2">
+            <div className="p-3 bg-cream border border-ink/40 rounded-brutal-card text-xs font-sans text-ink font-medium flex items-center gap-2">
               <span className="font-mono font-bold text-primary-red">✓</span>
               <span>Sources vérifiables. Faits et hypothèses clairement séparés.</span>
             </div>

@@ -124,16 +124,24 @@ describe('Mission 11 : BuyerAuthGate & Authentification Acheteur Chariow (E-mail
     expect(storedSession?.accessToken).toBe('sb-jwt-token-valid');
     expect(window.localStorage.getItem(BUYER_AUTH_SESSION_STORAGE_KEY)).toBeTruthy();
 
-    // Vérifie l'indicateur discret de l'e-mail connecté et l'absence totale de bouton Se déconnecter (session permanente pour l'élève)
+    // Vérifie l'indicateur de session acheteur et le bouton discret « Changer de compte »
     expect(screen.getByTestId('sidebar-buyer-session')).toHaveTextContent('eleve@gmail.com');
-    expect(screen.queryByRole('button', { name: /Se déconnecter/i })).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Changer de compte \/ Déconnexion/i })
+    ).toBeInTheDocument();
 
     // Vérifie que la session reste ouverte au rechargement de l'application
     unmount();
     render(<App forceAuthRequired={true} />);
     expect(screen.queryByTestId('buyer-auth-gate')).not.toBeInTheDocument();
     expect(screen.getByTestId('sidebar-buyer-session')).toHaveTextContent('eleve@gmail.com');
-    expect(screen.queryByRole('button', { name: /Se déconnecter/i })).not.toBeInTheDocument();
+
+    // Vérifie que le bouton « Changer de compte » déconnecte proprement l'appareil
+    fireEvent.click(screen.getByRole('button', { name: /Changer de compte \/ Déconnexion/i }));
+    await waitFor(() => {
+      expect(screen.getByTestId('buyer-auth-gate')).toBeInTheDocument();
+    });
+    expect(loadBuyerSessionFromStorage()).toBeNull();
   });
 
   it('fournit la migration SQL Supabase avec RLS et les Edge Functions requises', () => {

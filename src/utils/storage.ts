@@ -1,5 +1,6 @@
 import {
   ALL_LESSON_IDS,
+  type BonusProgressState,
   type ContentBlock,
   type LessonId,
   type QuizAttemptState,
@@ -94,6 +95,59 @@ export function buildCurrentCurriculumBlockRegistry(): BlockIdRegistry {
   }
 
   return registry;
+}
+
+function getValidManychatLessonIds(): Set<string> {
+  const manychatBonus = BONUSES.find((b) => b.id === 'bonus-manychat');
+  const ids = new Set<string>();
+  for (const lesson of manychatBonus?.lessons ?? []) {
+    ids.add(lesson.id);
+  }
+  return ids;
+}
+
+function sanitizeBonusProgress(rawInput: unknown): BonusProgressState | undefined {
+  if (!rawInput || typeof rawInput !== 'object' || Array.isArray(rawInput)) {
+    return undefined;
+  }
+
+  const rawBonus = rawInput as Record<string, unknown>;
+  const rawManychat = rawBonus.manychat;
+  if (!rawManychat || typeof rawManychat !== 'object' || Array.isArray(rawManychat)) {
+    return undefined;
+  }
+
+  const manychatObj = rawManychat as Record<string, unknown>;
+  const validManychatIds = getValidManychatLessonIds();
+
+  const rawActiveId =
+    typeof manychatObj.activeLessonId === 'string' ? manychatObj.activeLessonId.trim() : '';
+  const activeLessonId =
+    rawActiveId && validManychatIds.has(rawActiveId) ? rawActiveId : undefined;
+
+  const completedSet = new Set<string>();
+  if (Array.isArray(manychatObj.completedLessonIds)) {
+    for (const item of manychatObj.completedLessonIds) {
+      if (typeof item === 'string') {
+        const cleaned = item.trim();
+        if (cleaned && validManychatIds.has(cleaned)) {
+          completedSet.add(cleaned);
+        }
+      }
+    }
+  }
+  const completedLessonIds = Array.from(completedSet);
+
+  if (!activeLessonId && completedLessonIds.length === 0) {
+    return undefined;
+  }
+
+  return {
+    manychat: {
+      ...(activeLessonId ? { activeLessonId } : {}),
+      completedLessonIds,
+    },
+  };
 }
 
 export function createInitialProgress(): StudentProgress {
@@ -589,6 +643,7 @@ export function sanitizeProgressState(
   }
 
   const { profile } = sanitizeProfile(data.profile, false);
+  const bonusProgress = sanitizeBonusProgress(data.bonusProgress);
 
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
@@ -616,6 +671,7 @@ export function sanitizeProgressState(
       data.customPromptInputs && typeof data.customPromptInputs === 'object'
         ? (data.customPromptInputs as Record<string, Record<string, string>>)
         : {},
+    ...(bonusProgress ? { bonusProgress } : {}),
     profile,
     persistenceDisabled: false,
     ...(data.legacyArchive && typeof data.legacyArchive === 'object'

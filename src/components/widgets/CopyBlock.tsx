@@ -1,16 +1,39 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Check, Copy, ChevronDown, ChevronUp } from 'lucide-react';
 import type { CopyBlockConfig } from '../../types/course';
 
+/**
+ * Met uniquement en évidence les champs [...] à personnaliser dans le prompt.
+ */
+function renderHighlightedCode(text: string): React.ReactNode {
+  const parts = text.split(/(\[[^\]\n]{1,120}\])/g);
+  return parts.map((part, idx) => {
+    if (part.startsWith('[') && part.endsWith(']') && part.length > 2) {
+      return (
+        <mark
+          key={idx}
+          className="bg-pale-pink text-primary-red font-bold px-1 py-0.5 rounded-[3px] border border-primary-red/45"
+        >
+          {part}
+        </mark>
+      );
+    }
+    return <React.Fragment key={idx}>{part}</React.Fragment>;
+  });
+}
+
 export function CopyBlock({ block }: { block: CopyBlockConfig }) {
   const [copied, setCopied] = useState(false);
-  const isCollapsible = block.defaultExpanded !== undefined || block.content.split('\n').length > 15;
+  const lineCount = block.content.split('\n').length;
+  const isCollapsible = block.defaultExpanded !== undefined || lineCount > 15;
   const [isExpanded, setIsExpanded] = useState(block.defaultExpanded ?? !isCollapsible);
+  const isPrompt = block.label.toLowerCase().includes('prompt');
 
   const buttonText =
-    block.buttonText ??
-    (block.label.toLowerCase().includes('prompt') ? 'Copier le prompt' : "Copier l'extrait");
-  const copiedText = buttonText.toLowerCase().includes('prompt') ? 'Prompt copié' : 'Extrait copié';
+    block.buttonText ?? (isPrompt ? 'Copier le prompt' : "Copier l'extrait");
+  const copiedText = buttonText.toLowerCase().includes('prompt')
+    ? 'Prompt copié'
+    : 'Extrait copié';
 
   const handleCopy = async () => {
     try {
@@ -61,11 +84,7 @@ export function CopyBlock({ block }: { block: CopyBlockConfig }) {
               ) : (
                 <>
                   <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>
-                    {block.label.toLowerCase().includes('prompt')
-                      ? 'Voir le prompt'
-                      : 'Voir le contenu'}
-                  </span>
+                  <span>{isPrompt ? 'Voir le prompt' : 'Voir le contenu'}</span>
                 </>
               )}
             </button>
@@ -75,10 +94,11 @@ export function CopyBlock({ block }: { block: CopyBlockConfig }) {
             type="button"
             onClick={handleCopy}
             aria-label={copied ? `${copiedText} dans le presse-papier` : buttonText}
-            className={`inline-flex items-center justify-center gap-1.5 px-3.5 py-2 min-h-[44px] border-2 border-ink rounded-brutal-btn font-mono text-xs font-bold uppercase transition-colors shadow-brutal-xs ${copied
+            className={`inline-flex items-center justify-center gap-1.5 px-3.5 py-2 min-h-[44px] border-2 border-ink rounded-brutal-btn font-mono text-xs font-bold uppercase transition-colors shadow-brutal-xs ${
+              copied
                 ? 'bg-ink text-surface'
                 : 'bg-primary-red text-surface hover:bg-dark-red'
-              }`}
+            }`}
           >
             {copied ? (
               <>
@@ -97,17 +117,8 @@ export function CopyBlock({ block }: { block: CopyBlockConfig }) {
 
       {isExpanded && (
         <pre className="p-4 md:p-5 bg-cream/70 font-mono text-xs md:text-sm text-ink overflow-x-auto max-h-72 sm:max-h-80 overflow-y-auto leading-relaxed whitespace-pre-wrap break-words">
-          <code>{block.content}</code>
+          <code>{renderHighlightedCode(block.content)}</code>
         </pre>
-      )}
-
-      {block.notes && (
-        <div className="px-4 py-2.5 bg-surface border-t-2 border-ink text-xs font-medium text-ink flex items-center gap-2">
-          <span className="font-mono text-[10px] font-bold uppercase px-1.5 py-0.5 bg-cream border border-ink/40 rounded-brutal-tag text-ink">
-            Note
-          </span>
-          <span>{block.notes}</span>
-        </div>
       )}
     </section>
   );

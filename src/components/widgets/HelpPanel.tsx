@@ -55,7 +55,7 @@ export function HelpPanel({ help, stepTitle, defaultOpen = false }: HelpPanelPro
             <span className="sr-only"> (Besoin d’aide pour cette étape)</span>
           </h3>
           {stepTitle && (
-            <span className="text-xs font-serif text-ink font-medium hidden sm:inline">
+            <span className="text-xs font-sans text-ink font-medium hidden sm:inline">
               · {stepTitle}
             </span>
           )}

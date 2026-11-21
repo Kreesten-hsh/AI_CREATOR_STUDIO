@@ -6,7 +6,7 @@ export const BONUS_MARKETING_DATA: MarketingLibraryData = {
     title: 'MARKETING LIBRARY',
     subtitle: 'La boîte à outils opérationnelle pour positionner, promouvoir et vendre votre produit numérique.',
     description:
-      'Une sélection rigoureuse de 9 Skills IA autonomes, complétée par un prompt universel de recherche concurrentielle et une veille externe. Aucun script complexe requis : chaque ressource est directement exploitable dans Claude ou ChatGPT pour votre propre produit digital.',
+      'Une sélection rigoureuse de 9 Skills IA autonomes, complétée par un prompt universel de recherche concurrentielle et une veille externe. Aucun script complexe requis : chaque ressource est directement exploitable dans Claude ou ChatGPT pour positionner et vendre l’application interactive que tu viens de créer.',
     totalResourcesCount: 10,
   },
 

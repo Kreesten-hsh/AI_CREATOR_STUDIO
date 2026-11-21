@@ -1,96 +1,81 @@
 import type { Day } from '../../types/course';
 
-export const MASTER_PROMPT_2_XML = `<prompt id="PROMPT-GENERATION-PRODUIT-HTML" version="2.1">
+export const MASTER_PROMPT_2_XML = `<prompt id="PROMPT-GENERATION-PRODUIT-HTML" version="2.3">
   <role>
     Tu es un Principal Frontend Engineer et Directeur Artistique pour AI CREATOR Studio.
-    Ta mission est d'écrire l'intégralité du code d'une application web interactive autonome dans un fichier unique \`index.html\`, en combinant une direction artistique remarquable et une fidélité fonctionnelle absolue au document source.
+    Ta mission est d'écrire l'intégralité d'une application web interactive autonome dans un fichier unique \`index.html\`, fidèle à 100 % au plan, aux règles et au style validés juste au-dessus dans cette conversation, impeccable sur smartphone comme sur ordinateur.
   </role>
 
   <skill_activation_check>
     INSTRUCTION PRIORITAIRE :
-    1. Charge et applique le skill \`ai-creator-design-intelligence\` (notamment \`references/frontend-craft.md\`, \`references/design-system.md\`, \`references/app-interface-design.md\` et \`references/visual-quality-checklist.md\`).
-    2. Commence obligatoirement ta réponse par l'une de ces deux mentions exactes :
-       - \`[STATUT SKILL : ACTIF - ai-creator-design-intelligence chargé]\` si les fichiers du skill sont accessibles dans cette session.
-       - \`[STATUT SKILL : NON DÉTECTÉ - Application des règles directrices embarquées]\` si le skill n'est pas détecté.
+    1. Charge et applique le skill \`ai-creator-design-intelligence\` (\`references/frontend-craft.md\`, \`references/design-system.md\`, \`references/app-interface-design.md\`, \`references/visual-quality-checklist.md\`).
+    2. Commence ta réponse par l'une de ces deux mentions exactes :
+       - \`[STATUT SKILL : ACTIF - ai-creator-design-intelligence chargé]\`
+       - \`[STATUT SKILL : NON DÉTECTÉ - Application des règles directrices embarquées]\`
   </skill_activation_check>
 
   <context>
-    Tu t'appuies sur l'ensemble de la conversation courante :
-    - Le document source original joint au départ.
-    - Ton analyse documentaire initiale.
-    - Le Product Blueprint formalisé à l'étape précédente (incluant le code d'accès acheteur choisi).
-    - La matrice Source Fidelity Mapping (SFM).
-    - Le Visual Direction Brief (VDB) approuvé par l'apprenant.
+    Appuie-toi directement sur toute la discussion précédente :
+    - Le document ou les réponses fournies au départ.
+    - Le plan et les règles validés en Phase 1.
+    - Le style visuel validé en Phase 2.
   </context>
 
+  <anti_truncation_protocol>
+    Pour que tout le fichier \`index.html\` tienne sans coupure dans la réponse :
+    - Code HTML/CSS/JS Vanilla propre, factorisé et concis (zéro commentaire décoratif ni remplissage).
+    - Émets le code complet de \`<!DOCTYPE html>\` jusqu'à \`</html>\` sans blabla inutile autour.
+  </anti_truncation_protocol>
+
   <strict_rules>
-    <rule id="R1">FICHIER UNIQUE EXCLUSIF : Tout le code réside dans un unique fichier \`index.html\` intégrant le HTML sémantique, tout le CSS dans une balise \`<style>\` unique dans \`<head>\`, et tout le JavaScript Vanilla dans une balise \`<script>\` unique avant \`</body>\` (ainsi que le script synchrone de verrouillage initial dans \`<head>\`).</rule>
-    <rule id="R2">ZÉRO OUTIL DE COMPILATION NI FRAMEWORK : Aucun Node.js, npm, Vite, React, Vue ou bibliothèque externe. Interdiction formelle du script Tailwind Play CDN (\`cdn.tailwindcss.com\`). Le fichier doit s'ouvrir et fonctionner au double-clic local sous protocole \`file:///\`.</rule>
-    <rule id="R3">ZÉRO PLACEHOLDER NI TRONCATURE : Aucun commentaire de type \`// reste du code ici\`, \`/* TODO */\` ou \`...\` n'est toléré. Émets le code intégral de \`<!DOCTYPE html>\` à \`</html>\`.</rule>
-    <rule id="R4">FIDÉLITÉ SOURCE ABSOLUE (100 %) : Conserve l'intégralité des formules mathématiques, règles de calcul, seuils, conditions d'affichage, avertissements, étapes et exercices. Chaque composant doit avoir une correspondance identifiable dans le SFM. N'invente aucune règle métier et ne supprime aucune nuance par commodité.</rule>
-    <rule id="R5">APPLICATION INTÉGRALE DE LA DIRECTION ARTISTIQUE : Le Visual Direction Brief n'est pas une suggestion. Il s'applique à l'intégralité du produit : écran de verrouillage (\`.gate\`), en-tête, formulaires, visualisations, tickets de résultat, états d'alerte, boutons et adaptation mobile. Interdiction formelle de retomber dans un tableau de bord générique à cartes blanches après l'en-tête.</rule>
-    <rule id="R6">PRÉCISION ARITHMÉTIQUE & INTÉGRITÉ DES SAISIES :
-      - Pour les applications financières ou de calcul de prix, garantir une arithmétique exacte (support de la virgule et du point décimal, gestion propre des devises comme FCFA et EUR).
-      - Ne JAMAIS convertir silencieusement une saisie invalide en 0 lorsqu'un contrôle de validité explicite est requis.
-      - Conserver le texte saisi dans le champ en cas d'erreur pour que l'utilisateur comprenne son erreur (\`aria-invalid="true"\`).
-      - Vérifier systématiquement la finitude des calculs (protection contre division par zéro ou taux de frais >= 100 %).
-    </rule>
-    <rule id="R7">DÉCISION D'ÉTAT CONDITIONNELLE & EXPORT/IMPORT MANUEL :
-      - (a) Si l'outil est un calculateur ou simulateur éphémère (ex. calculateur de prix et de rentabilité), maintenir l'état métier 100 % en mémoire vive volatile (confidentialité totale, 0 persistance locale des chiffres saisis, aucun bouton d'export/import JSON inutile).
-      - (b) Si l'outil nécessite un suivi dans le temps sur un même appareil (ex. planificateur, checklist de progression, journal), utiliser un \`StorageAdapter\` sécurisé (\`localStorage\` avec fallback mémoire transparent sous \`file:///\`) et indiquer clairement que les données restent sur l'appareil courant.
-      - (c) Uniquement lorsque \`localStorage\` est utilisé pour le suivi métier (cas b), intégrer deux contrôles discrets et accessibles (« Exporter ma sauvegarde (.json) » et « Importer une sauvegarde (.json) ») permettant à l'acheteur de transférer manuellement sa progression entre son ordinateur et son smartphone, sans jamais promettre de synchronisation cloud automatique.
-    </rule>
-    <rule id="R8">ACCESSIBILITÉ & ERGONOMIE PHYSIQUE :
-      - Contrôles tactiles et champs \`<input>\` accessibles au doigt ($\\ge 44\\text{ px}$).
-      - Anneau \`:focus-visible\` contrasté et visible (ratio $\\ge 3:1$).
-      - Ratios de contraste WCAG AA respectés ($\\ge 4.5:1$ sur texte courant, $\\ge 3:1$ sur grands textes et composants).
-      - Zéro scroll horizontal à \`375 px\` (\`overflow-x: hidden\` proscrit sur \`body/html\`).
-      - Respect strict de \`prefers-reduced-motion\`.
-      - Déclaration transparente du statut d'autonomie réseau (100 % hors-ligne ou dépendances Google Fonts signalées avec fallbacks système).
-    </rule>
-    <rule id="R9">BARRIÈRE D'ACCÈS PAR MOT DE PASSE JAVASCRIPT OBLIGATOIRE (PRODUIT RÉSERVÉ AUX ACHETEURS) :
-      - Toutes les applications générées sont des produits réservés aux acheteurs et doivent obligatoirement intégrer un écran de verrouillage par code d'accès (\`.gate\`) au lancement.
-      - Exécuter un script synchrone dans \`<head>\` avant le premier rendu qui vérifie \`localStorage.getItem(KEY) === "granted"\` (sous \`try/catch\`) et applique \`document.documentElement.classList.add("locked")\` tant que l'accès n'est pas validé (\`html.locked .frame { display: none }\` / \`html:not(.locked) .gate { display: none }\`).
-      - Déclarer clairement en tête de la logique de verrouillage la constante modifiable : \`var ACCESS_CODE = "CREATOR2026", KEY = "pricing_access";\` initialisée avec le code d'accès défini par l'apprenant dans son plan d'application (ou \`CREATOR2026\` par défaut).
-      - Styliser l'écran \`.gate\` avec exactement la même Direction Artistique que l'application (badge \`.tag\` « Accès réservé », titre « Entre ton code d'accès », champ mot de passe, bouton « Déverrouiller l'outil », animation \`.bad\` et message d'erreur accessible \`role="alert"\` si le code est erroné).
-      - Intégrer dans l'en-tête de l'application un bouton discret « Verrouiller » permettant de réinitialiser \`localStorage.removeItem(KEY)\` et de réafficher immédiatement l'écran \`.gate\` pour faciliter le test par l'apprenant.
-      - Rappel d'architecture : cette barrière JavaScript côté client est un filtre d'usage dissuasif et non une authentification cryptographique serveur ; n'inclure aucun secret sensible ni clé d'API privée dans le code.
-    </rule>
+    <rule id="R1">FICHIER UNIQUE AUTONOME : HTML sémantique, tout le CSS dans \`<style>\`, tout le JavaScript Vanilla dans \`<script>\` (plus le script synchrone de verrouillage dans \`<head>\`). Aucun Node.js, npm, Vite, React ni CDN Tailwind. Doit fonctionner directement au double-clic (\`file:///\`) et sur Netlify.</rule>
+    <rule id="R2">ZÉRO PLACEHOLDER NI TRONCATURE : aucun \`// ... reste inchangé\`, \`/* TODO */\` ou ellipse. Le fichier doit être 100 % complet jusqu'à \`</html>\`.</rule>
+    <rule id="R3">FIDÉLITÉ AUX RÈGLES VALIDÉES : toutes les formules, seuils, étapes, exemples pré-remplis, simulations et conseils validés doivent fonctionner réellement à l'écran, sans rien inventer ni supprimer.</rule>
+    <rule id="R4">STYLE COHÉRENT DE BOUT EN BOUT : applique exactement le style validé à l'écran d'accueil/code d'accès, aux formulaires, aux graphiques/jauges SVG, aux résultats et aux boutons, sans retomber dans un modèle générique à cartes blanches.</rule>
+    <rule id="R5">PRÉCISION & ROBUSTESSE : valide les saisies proprement (support virgule et point pour les nombres, protection contre division par zéro, message clair en français en cas d'erreur sans effacer la saisie de l'utilisateur).</rule>
+    <rule id="R6">SAUVEGARDE ADAPTÉE À L'OUTIL :
+      - Outil ponctuel : pas d'enregistrement superflu.
+      - Planificateur / simulateur / suivi : sauvegarde automatique sur l'appareil (\`localStorage\` avec repli mémoire sécurisé) + boutons simples pour sauvegarder/restaurer un fichier de secours et copier le résumé en 1 clic si pertinent.</rule>
+    <rule id="R7">MOBILE & ACCESSIBILITÉ :
+      - Aucun débordement horizontal sur téléphone (\`375 px\` et plus), sans \`overflow-x: hidden\` sur \`html\`/\`body\`.
+      - Champs \`>= 16px\` (pas de zoom forcé sur iPhone), boutons et onglets \`>= 44×44 px\`, résultat principal visible rapidement dès l'ouverture, contrastes lisibles, prise en compte de \`prefers-reduced-motion\`.</rule>
+    <rule id="R8">ÉCRAN DE CODE D'ACCÈS ACHETEUR :
+      - Script synchrone dans \`<head>\` vérifiant l'accès avant d'afficher l'application (\`html.locked .app-shell { display: none }\`, \`html:not(.locked) .gate { display: none }\`), avec clé unique dérivée du nom du produit (\`<slug_produit>_access\`) et le code d'accès validé (tolérant majuscules/minuscules et espaces autour).
+      - Même style visuel que l'application, champ clair, bouton pour entrer, message d'erreur lisible si mauvais code, et bouton discret « Verrouiller » dans l'outil.</rule>
   </strict_rules>
 
-  <mission>
-    1. Indique la ligne \`[STATUT SKILL : ...]\`.
-    2. Effectue intérieurement l'**Auto-Critique Visuelle Pré-Livraison en 5 Questions** :
-       - *Test d'identité métier* : l'outil ressemble-t-il immédiatement à un objet réel et désirable du domaine (carnet d'atelier, calculateur de créateur, cadran) ?
-       - *Test de la pièce maîtresse* : le verdict principal (ex. Prix de vente conseillé et Bénéfice Net) se détache-t-il au premier regard par sa surface et son échelle ?
-       - *Test de composition & rythme* : les masses sont-elles asymétriques et aérées sans monotonie de cartes blanches répétées ?
-       - *Test de contrastes & surfaces* : les surfaces secondaires sont-elles teintées et les textes lisibles ?
-       - *Test d'équilibre mobile \`375 px\`* : la hiérarchie pour le pouce est-elle naturelle avec accès rapide au verdict et à l'écran de déverrouillage ?
-    3. Émets le fichier \`index.html\` complet et directement exécutable dans un bloc de code unique.
-  </mission>
-
   <output_format>
-    1. Ligne \`[STATUT SKILL : ...]\`
-    2. Court résumé d'auto-critique pré-livraison (3-4 puces soulignant les choix clés d'artisanat appliqués).
-    3. Bloc de code HTML unique :
-       - Le fichier débute obligatoirement par \`<!DOCTYPE html>\`.
-       - Il contient le document intégralement (HTML sémantique avec écran \`.gate\` et application principale, CSS complet dans \`<style>\` et JavaScript Vanilla complet dans \`<script>\`).
-       - Il s'achève obligatoirement par \`</html>\`.
-       - Aucun texte de substitution, commentaire d'omission, ellipse ou fragment fictif ne doit remplacer une partie du code.
-    4. Brève consigne d'utilisation pour l'apprenant (rappel du code d'accès configuré dans \`ACCESS_CODE\`, test au double-clic local et préparation au déploiement Netlify).
+    1. Mention \`[STATUT SKILL : ...]\`
+    2. Un bloc de code unique complet commençant par \`<!DOCTYPE html>\` et finissant par \`</html>\`.
+    3. En dessous, 3 lignes simples en français pour rappeler à l'apprenant comment ouvrir/télécharger son fichier \`index.html\` et quel code d'accès tester.
   </output_format>
 </prompt>`;
 
 export const PROMPT_SIGNAL_STYLE = 'Plan et règles validés, passons au style.';
 
-export const PROMPT_RETOUCHE_CIBLEE = `Voici une retouche précise à apporter à mon application :
-1. Comportement actuel : [décris ce qui se passe ou ce qui ne s'affiche pas correctement]
-2. Comportement attendu : [décris le résultat souhaité d'après le document ou la fiche de style]
-3. Zone concernée : [ex. le champ de saisie, le résultat final, l'affichage sur mobile]
+export const PROMPT_REPRISE_SESSION = `On reprend la création de mon application ici. Active le skill ai-creator-design-intelligence et indique ton statut dès la première ligne.
 
-Règles à respecter :
-- Conserve toutes les règles de calcul, le code d'accès et le design existant sans rien simplifier.
-- Renvoie le code complet et corrigé dans le fichier unique index.html, de <!DOCTYPE html> à </html>.`;
+Voici mon document de départ [joint si besoin] et ce que nous avons déjà validé ensemble :
+[Colle ici le plan, les règles ou le style validés dans l'autre conversation]
+
+Confirme en 2 lignes que tu as tout repris, puis attends mon prochain message.`;
+
+export const PROMPT_AJUSTEMENT_STYLE = `J'aime bien la piste n° [1 / 2 / 3], mais j'aimerais ces petits changements :
+- Couleurs / ambiance : [Ex : un fond plus clair et chaleureux, moins sombre]
+- Lisibilité : [Ex : un résultat bien visible tout de suite sur téléphone]
+
+Propose-moi la version ajustée ou valide le style si tout est bon.`;
+
+export const PROMPT_RETOUCHE_CIBLEE = `Voici mon fichier \`index.html\` actuel [joint en pièce jointe] (et une capture d'écran si besoin).
+
+Applique UNIQUEMENT les modifications suivantes :
+1. [Décris simplement ce que tu veux changer, ex. agrandir la taille du résultat principal sur téléphone]
+2. [Décris un deuxième ajustement si besoin, ex. changer la couleur du bouton principal en vert sapin]
+
+Consignes importantes :
+- Garde intact tout le reste de l'application (calculs, règles, boutons, sauvegarde et écran de code d'accès).
+- Vérifie que tout reste parfaitement lisible sur téléphone comme sur ordinateur.
+- Renvoie le fichier \`index.html\` complet du début (\`<!DOCTYPE html>\`) à la fin (\`</html>\`), sans aucun raccourci.`;
 
 export const day02: Day = {
   id: 'day-02',
@@ -98,9 +83,8 @@ export const day02: Day = {
   moduleId: 'module-02',
   title: 'Journée 2 : Créer',
   objective:
-    'Créer le style de ton application, générer son fichier index.html et vérifier son écran de code d’accès, ses calculs et son affichage mobile.',
-  deliverableSummary:
-    'Ma fiche de style sauvegardée et un fichier index.html testé au double-clic, prêt pour la mise en ligne.',
+    'Choisir un style visuel adapté à ton sujet, générer ton application en un seul fichier et ajuster les derniers détails.',
+  deliverableSummary: 'Ton application complète enregistrée sous le nom index.html.',
   lessons: [
     {
       id: 'lesson-03',
@@ -110,157 +94,146 @@ export const day02: Day = {
       dayNumber: 2,
       navigationTitle: 'Créer ton style',
       title: 'Définir sa direction artistique indépendante',
-      italicTitleWord: 'direction',
+      italicTitleWord: 'artistique',
       duration: '~20 min',
       objective:
-        'Reprendre la même conversation Claude, choisir parmi 3 styles contrastés et sauvegarder ta fiche de style.',
-      deliverableSummary:
-        'Ma fiche de style sauvegardée sur ton ordinateur, à côté de Mon plan d’application et Les règles de mon document.',
+        'Discuter rapidement avec Claude pour obtenir 3 styles adaptés à ton produit et choisir celui qui donne envie à tes acheteurs.',
+      deliverableSummary: 'Un style visuel validé prêt pour la création.',
       isSkeletonPlaceholder: false,
       steps: [
         {
           id: 'lesson-03-step-01',
           number: 1,
-          title: 'Le signal',
-          subtitle: 'Même discussion',
+          title: 'Le style',
+          subtitle: 'Lancer la discussion',
           completionLabel: 'Signal envoyé',
           blocks: [
             {
               id: 'l3-s1-prose-signal',
               type: 'prose',
-              title: 'ENVOYER LE',
-              italicAccent: 'signal',
+              title: 'PASSER AU',
+              italicAccent: 'style visuel',
               highlightPill:
-                'Reste dans la même conversation Claude : ton document et ton plan y sont déjà.',
+                'Reste dans la même discussion Claude : il connaît déjà ton document et ton plan.',
               paragraphs: [
-                'Retrouve ta conversation de la Leçon 2 dans l’historique Claude et envoie ce signal.',
-              ],
-              bullets: [
-                'Ouvre la discussion où tu as validé ton plan d’application et tes règles.',
-                'Copie le message ci-dessous et envoie-le tel quel, sans ouvrir de nouvelle discussion.',
-                'Claude passe au style et te pose une ou deux questions simples.',
+                'Envoie simplement la petite phrase ci-dessous pour que Claude te pose 1 ou 2 questions d’ambiance avant de te proposer 3 styles visuels.',
               ],
             },
             {
               id: 'l3-s1-copy-signal',
               type: 'copy',
-              title: 'Message à envoyer à Claude',
-              label: 'SIGNAL VISUEL',
-              notes: 'Envoie cette phrase exacte dans ta discussion existante.',
-              content: PROMPT_SIGNAL_STYLE,
-              buttonText: 'Copier le message',
+              title: 'Phrase à envoyer pour passer au style',
+              label: 'MESSAGE TRANSITION',
+              buttonText: 'Copier la phrase',
               defaultExpanded: true,
+              content: PROMPT_SIGNAL_STYLE,
+            },
+            {
+              id: 'l3-s1-copy-reprise',
+              type: 'copy',
+              title: 'Message de secours (uniquement si Claude coupe pour limite de longueur)',
+              label: 'REPRISE SESSION',
+              buttonText: 'Copier le message',
+              defaultExpanded: false,
+              content: PROMPT_REPRISE_SESSION,
             },
           ],
           help: {
             frequentMistakes: [
               {
-                mistake: 'Ouvrir une nouvelle discussion pour choisir son style.',
+                mistake: 'Ouvrir un nouveau chat sans raison entre la Leçon 2 et la Leçon 3.',
                 correction:
-                  'Reviens dans la conversation de la Leçon 2 : Claude y garde ton document et tes règles.',
-              },
-              {
-                mistake: 'Modifier ses règles ou ses formules pendant cette étape.',
-                correction:
-                  'Concentre-toi sur l’apparence : tes règles sont déjà validées.',
+                  'Continue dans la même discussion : c’est plus rapide et tu n’as rien à recoller.',
               },
             ],
             tips: [
-              'Si tu as fermé ton navigateur, retrouve ta conversation dans la colonne de gauche de Claude.',
+              'Si Claude te demande « Que veux-tu comme couleurs ? » dès le départ, précise-lui simplement ton public et l’ambiance souhaitée (calme, sérieuse, énergique…).',
             ],
           },
         },
         {
           id: 'lesson-03-step-02',
           number: 2,
-          title: '3 styles',
-          subtitle: "Choisir l'univers",
-          completionLabel: 'Univers choisi',
+          title: '3 univers',
+          subtitle: 'Choisir le style',
+          completionLabel: 'Style choisi',
           blocks: [
             {
-              id: 'l3-s2-prose-styles',
+              id: 'l3-s2-prose-3styles',
               type: 'prose',
-              title: 'CHOISIR TON',
-              italicAccent: 'univers',
+              title: 'COMPARER',
+              italicAccent: '3 ambiances',
               highlightPill:
-                'Choisis le style qui convient à ton public et au sujet de ton document.',
+                'Ton produit aura sa propre personnalité, sans copier les couleurs de ce cours.',
               paragraphs: [
-                'Réponds avec tes propres mots aux questions de Claude sur l’ambiance et ton public.',
+                'Réponds aux questions de Claude : il te présente alors **3 styles bien différents** (couleurs, ambiance, mise en page sur téléphone et ordinateur).',
               ],
               bullets: [
-                'Claude propose ensuite trois styles contrastés : ambiance, couleurs, polices et mise en page.',
-                'Chaque style est justifié par rapport à ton document et à ton public.',
-                'Indique le style retenu ou demande un ajustement précis, par exemple une autre couleur.',
+                'Choisis celui qui met le mieux en confiance ton public.',
+                'Si tu veux modifier une couleur ou rendre l’affichage plus aéré, utilise le message ci-dessous.',
               ],
+            },
+            {
+              id: 'l3-s2-copy-ajustement',
+              type: 'copy',
+              title: 'Message pour choisir ou ajuster une couleur / ambiance',
+              label: 'CHOIX DU STYLE',
+              buttonText: 'Copier le message',
+              defaultExpanded: true,
+              content: PROMPT_AJUSTEMENT_STYLE,
             },
           ],
           help: {
             frequentMistakes: [
               {
-                mistake: 'Choisir un style passe-partout sans personnalité.',
+                mistake: 'Accepter un style sombre ou illisible par peur de contredire Claude.',
                 correction:
-                  'Un style marqué rend ton outil reconnaissable et plus facile à vendre.',
-              },
-              {
-                mistake: 'Demander du code dès cette étape.',
-                correction:
-                  'Fixe d’abord le style : le code arrive en Leçon 4.',
+                  'Demande sans hésiter un fond plus clair ou plus contrasté : c’est ton produit.',
               },
             ],
             tips: [
-              'Tu peux combiner deux propositions, par exemple les couleurs du style 1 avec les polices du style 2.',
+              'Un fond clair et doux (crème, sable, gris très léger) rend presque toujours la lecture plus agréable sur téléphone.',
             ],
           },
         },
         {
           id: 'lesson-03-step-03',
           number: 3,
-          title: 'Ta fiche',
-          subtitle: 'Garder le style',
-          completionLabel: 'Fiche validée',
+          title: 'Valider',
+          subtitle: 'Confirmer le design',
+          completionLabel: 'Style validé',
           blocks: [
             {
               id: 'l3-s3-prose-fiche',
               type: 'prose',
-              title: 'GARDER TA',
-              italicAccent: 'fiche',
+              title: 'VALIDER',
+              italicAccent: 'ton design',
               highlightPill:
-                'Tu as maintenant tes trois textes : plan, règles et fiche de style.',
+                'Dès que Claude te dit « Ton style est validé ! », tu es prêt à générer l’application.',
               paragraphs: [
-                'Claude rédige Ma fiche de style : relis-la, puis sauvegarde-la avec tes deux autres textes.',
+                'Vérifie juste ces 3 détails rapides dans le résumé que Claude vient d’afficher :',
               ],
               bullets: [
-                'Vérifie les couleurs, l’ambiance et la mise en page retenues.',
-                'Vérifie que l’écran de code d’accès est prévu dans le même style.',
-                'Enregistre Ma fiche de style à côté de Mon plan d’application et Les règles de mon document.',
+                'Les couleurs et l’ambiance te plaisent et correspondent bien à ton sujet.',
+                'Le résultat principal de ton outil est annoncé comme bien visible dès l’ouverture.',
+                'L’écran de code d’accès reprend bien le même style.',
               ],
             },
             {
               id: 'l3-s3-checklist',
               type: 'checklist',
-              title: 'Contrôle de ta fiche de style',
-              description: 'Coche ces 4 points avant de générer ton application.',
+              title: 'Validation avant création',
+              description: 'Confirme ces 3 points avant de générer l’application.',
               items: [
                 {
                   id: 'l3-c1',
-                  label: 'J’ai choisi l’un des 3 styles proposés par Claude.',
-                  detail: 'Il convient à ton sujet et à tes futurs acheteurs.',
+                  label: 'J’ai choisi un des 3 styles proposés (avec mes ajustements si besoin).',
+                  detail: 'L’ambiance correspond à mes clients.',
                 },
                 {
                   id: 'l3-c2',
-                  label: 'Les couleurs et l’ambiance de ma fiche de style sont validées.',
-                  detail: 'Fond, boutons, textes et résultat principal sont décrits clairement.',
-                },
-                {
-                  id: 'l3-c3',
-                  label: 'L’écran de code d’accès est prévu dans ma fiche de style.',
-                  detail: 'Il reprend les couleurs et les polices de l’application.',
-                },
-                {
-                  id: 'l3-c4',
-                  label: 'Ma fiche de style est sauvegardée sur mon ordinateur.',
-                  detail:
-                    'Elle rejoint Mon plan d’application et Les règles de mon document.',
+                  label: 'Claude m’a confirmé que le style est validé, sans générer de code avant l’heure.',
+                  detail: 'La suite se fait toujours dans la même conversation.',
                 },
               ],
             },
@@ -268,13 +241,13 @@ export const day02: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake: 'Garder sa fiche de style uniquement dans Claude.',
+                mistake: 'Passer à la Leçon 4 avant que Claude ait validé tes changements de couleur.',
                 correction:
-                  'Copie-la dans un fichier sur ton ordinateur avec tes deux autres textes.',
+                  'Attends qu’il te confirme le style final avant d’envoyer le Prompt 2.',
               },
             ],
             tips: [
-              'Si la conversation devient trop longue, ces trois textes te permettront de reprendre ailleurs.',
+              'Aucune inquiétude si tu veux encore changer un détail plus tard : tu pourras ajuster facilement en Leçon 5.',
             ],
           },
         },
@@ -288,136 +261,116 @@ export const day02: Day = {
       dayNumber: 2,
       navigationTitle: 'Générer ton app',
       title: 'Générer la première version (V1) de son application',
-      italicTitleWord: 'première',
+      italicTitleWord: 'première version',
       duration: '~40 min',
       objective:
-        'Générer le code complet de ton application avec le Prompt 2, enregistrer ton fichier index.html et tester son écran de code.',
-      deliverableSummary:
-        'Mon fichier index.html enregistré sur ton ordinateur, avec un écran de code d’accès testé au double-clic.',
+        'Donner vie à ton application avec le Prompt 2, télécharger ton fichier index.html et tester l’écran de code d’accès.',
+      deliverableSummary: 'Ton fichier index.html téléchargé et fonctionnel.',
       isSkeletonPlaceholder: false,
       steps: [
         {
           id: 'lesson-04-step-01',
           number: 1,
-          title: 'Le prompt',
-          subtitle: 'Génération HTML',
-          completionLabel: 'Prompt envoyé',
+          title: 'Générer',
+          subtitle: 'Envoyer Prompt 2',
+          completionLabel: 'Application générée',
           blocks: [
             {
-              id: 'l4-s1-prose-prompt',
+              id: 'l4-s1-prose-gen',
               type: 'prose',
-              title: 'LANCER LA',
-              italicAccent: 'génération',
+              title: 'CRÉER',
+              italicAccent: 'ton application',
               highlightPill:
-                'Claude a besoin de ton document et de tes trois textes : reste dans la même conversation.',
+                'Colle le Prompt 2 dans la même conversation : Claude fabrique toute ton application en une seule fois.',
               paragraphs: [
-                'Colle le Prompt 2 dans la même discussion pour que Claude écrive toute ton application.',
+                'Laisse Claude écrire jusqu’au bout. Selon la taille de ton outil, la génération prend entre 30 secondes et 2 minutes.',
               ],
               bullets: [
-                'Claude s’appuie sur ton document, ton plan, tes règles et ta fiche de style.',
-                'Si tu dois changer de conversation, joins ton document et colle tes trois textes avant le prompt.',
-                'Laisse Claude écrire jusqu’à la dernière ligne du code.',
+                'Copie le **Prompt 2** ci-dessous et envoie-le.',
+                'Attends que l’aperçu visuel s’affiche ou que le code soit entièrement terminé.',
               ],
+            },
+            {
+              id: 'l4-s1-callout-continuer',
+              type: 'callout',
+              variant: 'warning',
+              title: 'Si Claude s’arrête en plein milieu',
+              content:
+                'Sur un compte gratuit, il arrive que Claude mette la réponse en pause avant la fin. Écris-lui simplement : « Continuer » et appuie sur Entrée pour qu’il termine proprement.',
             },
             {
               id: 'l4-s1-copy-prompt2',
               type: 'copy',
-              title: 'Génération du code HTML complet',
+              title: 'Prompt 2 : Créer mon application complète',
               label: 'PROMPT 2',
               buttonText: 'Copier le prompt',
               defaultExpanded: false,
               content: MASTER_PROMPT_2_XML,
-              notes: 'Colle ce message dans ta conversation pour obtenir tout le code de ton application.',
             },
           ],
           help: {
             frequentMistakes: [
               {
-                mistake: 'Coller le prompt dans une conversation vide, sans contexte.',
+                mistake: 'Copier un morceau incomplet si Claude s’est arrêté avant la fin.',
                 correction:
-                  'Reste dans la même discussion, ou joins ton document et tes trois textes avant le prompt.',
-              },
-              {
-                mistake: 'Interrompre Claude avant la fin du code.',
-                correction:
-                  'Attends la dernière ligne, qui se termine par </html>.',
+                  'Envoie « Continuer » dès qu’il s’arrête pour obtenir l’application complète.',
               },
             ],
             tips: [
-              'Si la réponse s’arrête en cours de route, clique sur Continuer pour obtenir la fin du code.',
+              'Sur téléphone comme sur ordinateur, tu peux souvent tester l’application directement dans la fenêtre d’aperçu de Claude.',
             ],
           },
         },
         {
           id: 'lesson-04-step-02',
           number: 2,
-          title: 'Ton fichier',
-          subtitle: 'Créer index.html',
-          completionLabel: 'Fichier créé',
+          title: 'Télécharger',
+          subtitle: 'Garder index.html',
+          completionLabel: 'Fichier téléchargé',
           blocks: [
             {
-              id: 'l4-s2-prose-fichier',
+              id: 'l4-s2-prose-save',
               type: 'prose',
-              title: 'CRÉER TON',
-              italicAccent: 'fichier',
+              title: 'TÉLÉCHARGER',
+              italicAccent: 'ton fichier',
               highlightPill:
-                'Ton fichier doit s’appeler exactement index.html, en minuscules, sans espace.',
+                'Utilise toujours le bouton Télécharger de Claude plutôt que de copier-coller le code à la main.',
               paragraphs: [
-                'Récupère le code complet de Claude et enregistre-le sur ton ordinateur sous le nom index.html.',
+                'Une fois l’application générée, récupère le fichier prêt à publier sur ton téléphone ou ton ordinateur :',
               ],
               bullets: [
-                'Si Claude affiche un bouton Télécharger, utilise-le : c’est la méthode la plus sûre.',
-                'Sinon, copie tout le code et colle-le dans le Bloc-notes ou TextEdit en texte brut.',
-                'Enregistre sous index.html en évitant l’extension cachée index.html.txt.',
+                '1. En haut à droite de l’aperçu Claude, clique sur la petite flèche **`⌄`** à côté de **`Copier`**, puis sur **`Télécharger au format HTML`**.',
+                '2. Renomme ce fichier exactement **`index.html`** (en tout petit, sans majuscule).',
+                '3. Ouvre-le dans ton navigateur (Chrome, Safari…) pour vérifier qu’il s’affiche bien.',
               ],
+            },
+            {
+              id: 'l4-s2-callout-extension',
+              type: 'callout',
+              variant: 'tip',
+              title: 'Vérifie bien le nom du fichier',
+              content:
+                'Pour que Netlify affiche ton site sans erreur tout à l’heure, le fichier doit s’appeler exactement `index.html` (et pas `index.html.txt` ni `mon-app.html`).',
             },
             {
               id: 'l4-s2-screen-download',
               type: 'screenshot',
               src: '/screenshots/module-02/l4-claude-code-download.png',
-              alt: 'Interface de Claude présentant le code HTML autonome généré et la prévisualisation de l écran d accès réservé avec mot de passe',
-              caption: 'Code autonome généré dans Claude avec prévisualisation de l écran de verrouillage',
-              capturedAt: '10 novembre 2026',
-            },
-            {
-              id: 'l4-s2-checklist',
-              type: 'checklist',
-              title: 'Vérification de ton fichier',
-              description: 'Contrôle ces 3 points pour t’assurer que ton fichier est prêt.',
-              items: [
-                {
-                  id: 'l4-c1',
-                  label: 'Le code commence bien par <!DOCTYPE html> et se termine par </html>.',
-                  detail: 'Le code est complet, du premier au dernier caractère.',
-                },
-                {
-                  id: 'l4-c2',
-                  label: 'Le fichier s’appelle bien index.html (sans .txt à la fin).',
-                  detail: 'Vérifie que ton ordinateur n’a pas ajouté une extension texte cachée.',
-                },
-                {
-                  id: 'l4-c3',
-                  label: 'Le fichier est enregistré dans un dossier mon-application.',
-                  detail: 'Tu retrouveras facilement ton travail pour la mise en ligne.',
-                },
-              ],
+              alt: 'Menu déroulant à côté de Copier en haut à droite de Claude montrant Télécharger au format HTML',
+              caption: 'Clique sur la flèche à côté de Copier puis « Télécharger au format HTML »',
+              capturedAt: '21 novembre 2026',
             },
           ],
           help: {
             frequentMistakes: [
               {
-                mistake: 'Avoir un fichier nommé index.html.txt sous Windows.',
+                mistake: 'Sauvegarder la page avec une extension .txt cachée ou avec une majuscule (Index.html).',
                 correction:
-                  'Dans le Bloc-notes, choisis Tous les fichiers dans Type, puis enregistre sous index.html.',
-              },
-              {
-                mistake: 'Coller du texte enrichi avec TextEdit sur Mac.',
-                correction:
-                  'Utilise Maj+Cmd+T pour passer en texte brut avant de coller.',
+                  'Renomme toujours le fichier téléchargé depuis Claude en `index.html` tout en minuscules.',
               },
             ],
             tips: [
-              'Garde une copie de cette première version dans un autre dossier avant toute retouche.',
+              'Sur iPhone ou Android, appuie sur « Enregistrer dans Fichiers » ou « Téléchargements » pour retrouver facilement ton `index.html` lors de la Leçon 6.',
             ],
           },
         },
@@ -425,45 +378,53 @@ export const day02: Day = {
           id: 'lesson-04-step-03',
           number: 3,
           title: 'Le code',
-          subtitle: 'Tester le verrou',
-          completionLabel: 'Application ouverte',
+          subtitle: 'Tester l’ouverture',
+          completionLabel: 'Accès validé',
           blocks: [
             {
-              id: 'l4-s3-prose-test',
+              id: 'l4-s3-prose-gate',
               type: 'prose',
-              title: 'TESTER TON',
-              italicAccent: 'code',
+              title: 'TESTER',
+              italicAccent: 'l’écran d’accès',
               highlightPill:
-                'Ce code d’accès est une barrière dissuasive dans la page, pas une sécurité de serveur.',
+                'Au premier lancement, seul l’écran de code d’accès doit être visible.',
               paragraphs: [
-                'Double-clique sur index.html : ton application s’ouvre dans ton navigateur, sans installer de serveur.',
+                'Ouvre ton application dans ton navigateur (ou dans l’aperçu Claude) et fais ces 3 tests rapides en 30 secondes :',
               ],
               bullets: [
-                'L’écran de code apparaît avant tout contenu ; certaines polices peuvent nécessiter une connexion Internet.',
-                'Tape un mauvais code : il doit être refusé avec un message clair.',
-                'Tape ton code (ex. CREATOR2026), puis vérifie que Verrouiller réaffiche l’écran de code.',
+                '**Mauvais code** : tape un code au hasard et vérifie qu’un message clair refuse l’accès.',
+                '**Bon code** : tape ton vrai code et vérifie que l’application s’ouvre immédiatement.',
+                '**Actions principales** : teste les boutons, exemples ou calculs clés pour voir si tout répond normalement.',
               ],
+            },
+            {
+              id: 'l4-s3-screen-gate',
+              type: 'screenshot',
+              src: '/screenshots/module-02/l4-solde-gate-screen.png',
+              alt: 'Exemple d écran de code d accès stylisé avant l ouverture de l application',
+              caption: 'Exemple (SOLDE) : écran de code d’accès propre qui accueille ton client',
+              capturedAt: '21 novembre 2026',
             },
             {
               id: 'l4-s3-checklist',
               type: 'checklist',
-              title: 'Contrôles au double-clic',
-              description: 'Vérifie ces 3 points lors de ta première ouverture.',
+              title: 'Contrôles de premier test',
+              description: 'Valide ces points avant d’ajuster les détails.',
               items: [
                 {
-                  id: 'l4-t1',
-                  label: 'Le fichier s’ouvre au double-clic et affiche d’abord l’écran de code d’accès.',
-                  detail: 'Le contenu de l’application reste masqué tant que le code n’est pas saisi.',
+                  id: 'l4-g1',
+                  label: 'Un faux code est bien refusé à l’ouverture.',
+                  detail: 'L’application reste bloquée tant que le bon code n’est pas saisi.',
                 },
                 {
-                  id: 'l4-t2',
-                  label: 'Un mauvais code est refusé et le bon code déverrouille l’application.',
-                  detail: 'C’est le code choisi en Leçon 2, inscrit dans ACCESS_CODE au début du fichier.',
+                  id: 'l4-g2',
+                  label: 'Mon vrai code débloque tout l’outil correctement.',
+                  detail: 'Même après avoir rechargé la page, je reste connecté.',
                 },
                 {
-                  id: 'l4-t3',
-                  label: 'Le bouton Verrouiller réaffiche immédiatement l’écran de code.',
-                  detail: 'Sans ce bouton, le navigateur garde le déverrouillage en mémoire.',
+                  id: 'l4-g3',
+                  label: 'Les actions principales de mon application fonctionnent.',
+                  detail: 'Aucun bouton ne reste sans réaction.',
                 },
               ],
             },
@@ -471,18 +432,13 @@ export const day02: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake: 'Voir le code brut au lieu de la page interactive.',
+                mistake: 'Voir l’application s’ouvrir directement sans demander le code.',
                 correction:
-                  'Renomme ton fichier pour retirer l’extension .txt et garder uniquement .html.',
-              },
-              {
-                mistake: 'L’application s’affiche directement, sans écran de code.',
-                correction:
-                  'Clique sur Verrouiller, ou demande à Claude d’ajouter l’écran de code prévu dans ta fiche de style.',
+                  'Demande simplement à Claude d’ajouter ou réactiver l’écran de code d’accès au lancement avec le message de retouche de la Leçon 5.',
               },
             ],
             tips: [
-              'Pour changer ton code plus tard, demande à Claude de modifier la valeur ACCESS_CODE dans ton fichier.',
+              'Si tu ouvres le fichier localement depuis l’app Fichiers sur iPhone, certains navigateurs limitent les boutons : tu pourras faire le test final sur le vrai lien Netlify en Leçon 6.',
             ],
           },
         },
@@ -499,62 +455,56 @@ export const day02: Day = {
       italicTitleWord: 'retouches',
       duration: '~30 min',
       objective:
-        'Tester ton application avec des valeurs fictives, demander une retouche ciblée si besoin et valider ta version finale.',
-      deliverableSummary:
-        'Mon application finale vérifiée : calculs, code d’accès, affichage mobile et sauvegarde adaptée, prête pour la mise en ligne.',
+        'Vérifier que ton application est agréable sur téléphone comme sur ordinateur et demander tes retouches sans rien casser.',
+      deliverableSummary: 'Ton application finalisée prête pour la mise en ligne.',
       isSkeletonPlaceholder: false,
       steps: [
         {
           id: 'lesson-05-step-01',
           number: 1,
-          title: 'Tout tester',
-          subtitle: 'Calculs et mobile',
-          completionLabel: 'Tests effectués',
+          title: 'Vérifier',
+          subtitle: 'Téléphone et écran',
+          completionLabel: 'Affichage vérifié',
           blocks: [
             {
               id: 'l5-s1-prose-qa',
               type: 'prose',
-              title: 'TESTER TON',
-              italicAccent: 'application',
+              title: 'TESTER SUR',
+              italicAccent: 'téléphone',
               highlightPill:
-                'Ne transmets jamais de données confidentielles : teste avec des valeurs fictives ou d’exemple.',
+                'La majorité de tes clients ouvriront ton application sur leur smartphone : vérifie toujours l’écran en format vertical.',
               paragraphs: [
-                'Compare chaque résultat de ton application avec les exemples et les règles de ton document.',
+                'Parcours ton application comme un vrai acheteur et note uniquement ce qui te gêne ou ce qui semble coupé :',
               ],
               bullets: [
-                'Essaie des valeurs habituelles, un champ vide et un cas extrême.',
-                'Vérifie à nouveau le code d’accès : mauvais code refusé, bon code accepté.',
-                'Avec F12, teste l’affichage à 375 px et vérifie que chaque bouton se touche facilement au doigt.',
+                '**Lisibilité mobile** : sur ton téléphone (ou en réduisant la fenêtre sur ordinateur), rien ne doit dépasser sur le côté ni se chevaucher.',
+                '**Résultat bien visible** : on doit comprendre et voir l’essentiel sans chercher partout.',
+                '**Simplicité d’usage** : tous les champs se remplissent facilement au doigt et les boutons réagissent tout de suite.',
               ],
             },
             {
-              id: 'l5-s1-screen-responsive',
+              id: 'l5-s1-screen-mobile',
               type: 'screenshot',
-              src: '/screenshots/module-02/l5-devtools-mobile-375px.png',
-              alt: 'Rendu du calculateur de prix sur écran mobile sans débordement horizontal avec formulaire déverrouillé',
-              caption: 'Contrôle du rendu mobile du calculateur de prix sans débordement horizontal',
-              capturedAt: '10 novembre 2026',
+              src: '/screenshots/module-02/l5-solde-devtools-375px.png',
+              alt: 'Exemple d affichage clair et lisible sur écran de téléphone',
+              caption: 'Exemple (SOLDE) : interface nette sur téléphone, zéro texte coupé',
+              capturedAt: '21 novembre 2026',
             },
             {
               id: 'l5-s1-checklist',
               type: 'checklist',
-              title: 'Grille de contrôle en 3 dimensions',
-              description: 'Valide ces 3 vérifications avant de finaliser.',
+              title: 'Vérification rapide',
+              description: 'Coche ce qui est déjà bon avant de demander tes éventuelles retouches.',
               items: [
                 {
                   id: 'l5-q1',
-                  label: 'Les résultats correspondent aux exemples de mon document ou à mes calculs de référence.',
-                  detail: 'Formules, seuils et barèmes sont fidèles à tes règles.',
+                  label: 'Tout est propre et lisible sur téléphone, sans glisser horizontalement.',
+                  detail: 'Les textes, cartes et boutons rentrent bien dans l’écran.',
                 },
                 {
                   id: 'l5-q2',
-                  label: 'Une saisie vide ou incomplète affiche une alerte claire sans casser la page.',
-                  detail: 'L’outil guide l’utilisateur en cas de valeur inattendue.',
-                },
-                {
-                  id: 'l5-q3',
-                  label: 'L’affichage est vérifié à 375 px (mobile), 768 px (tablette) et 1280 px (ordinateur).',
-                  detail: 'Les textes restent lisibles et aucun bouton ne déborde.',
+                  label: 'Tous les calculs, boutons ou étapes de mon document marchent bien.',
+                  detail: 'Le résultat change bien quand je modifie mes choix.',
                 },
               ],
             },
@@ -562,117 +512,98 @@ export const day02: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake: 'Saisir des données personnelles sensibles pour tester.',
+                mistake: 'Valider l’application sans jamais l’avoir regardée sur un petit écran.',
                 correction:
-                  'Utilise des chiffres fictifs ou les exemples de ton document.',
-              },
-              {
-                mistake: 'Tester le mobile en rétrécissant la fenêtre à la main.',
-                correction:
-                  'Utilise les outils de développement (F12) pour mesurer précisément 375 px.',
+                  'Prends 1 minute pour regarder sur ton téléphone : c’est là que tes clients passeront le plus de temps.',
               },
             ],
             tips: [
-              'Dans Chrome ou Edge, appuie sur F12 puis clique sur l’icône d’écran pour choisir une largeur.',
+              'Si tout te semble déjà propre et fonctionnel, tu peux passer directement à la Leçon 6 !',
             ],
           },
         },
         {
           id: 'lesson-05-step-02',
           number: 2,
-          title: 'Une retouche',
-          subtitle: 'Message ciblé',
-          completionLabel: 'Contrôle terminé',
+          title: 'Retouches',
+          subtitle: 'Corriger sans casser',
+          completionLabel: 'Retouches terminées',
           blocks: [
             {
-              id: 'l5-s2-prose-retouche',
+              id: 'l5-s2-prose-fix',
               type: 'prose',
-              title: 'DEMANDER UNE',
-              italicAccent: 'retouche',
+              title: 'AJUSTER SANS',
+              italicAccent: 'tout casser',
               highlightPill:
-                'Une seule correction par message, sur la dernière version de ton fichier.',
+                'Ne dis jamais « Refais tout » : demande uniquement la modification précise sur le fichier existant.',
               paragraphs: [
-                'Si un détail ne fonctionne pas, décris-le à Claude avec la trame ci-dessous.',
-              ],
-              bullets: [
-                'Joins la dernière version de ton fichier index.html dans la même discussion.',
-                'Demande le fichier complet : formules, écran de code, code d’accès et sauvegarde doivent rester intacts.',
-                'Reteste après chaque correction ; si tout fonctionne déjà, passe à la suite.',
+                'Si tu veux agrandir un texte, changer une couleur ou corriger un bug, envoie ton fichier `index.html` à Claude (ou reste dans la même discussion) avec ce court message :',
               ],
             },
             {
               id: 'l5-s2-copy-retouche',
               type: 'copy',
-              title: 'Trame pour corriger un point précis',
-              label: 'MESSAGE DE RETOUCHE',
-              buttonText: 'Copier la trame',
+              title: 'Message pour demander une retouche précise',
+              label: 'RETOUCHE CIBLÉE',
+              buttonText: 'Copier le message',
               defaultExpanded: true,
               content: PROMPT_RETOUCHE_CIBLEE,
-              notes: 'Complète les crochets avec tes observations et envoie ce message dans ta conversation.',
             },
           ],
           help: {
             frequentMistakes: [
               {
-                mistake: 'Demander dix corrections dans un seul message.',
+                mistake: 'Envoyer juste « le bouton ne marche pas » sans capture ni précision.',
                 correction:
-                  'Traite un problème après l’autre pour garder le contrôle sur chaque modification.',
-              },
-              {
-                mistake: 'Accepter une version où l’écran de code ou une formule a disparu.',
-                correction:
-                  'Reviens à ta version précédente et redemande la correction en rappelant ce qui doit rester intact.',
+                  'Joins une capture d’écran ou dis exactement sur quel bouton tu as cliqué : Claude corrige du premier coup.',
               },
             ],
             tips: [
-              'Ajoute une capture d’écran à ton message si le défaut est visuel.',
+              'Garde ton ancien fichier `index.html` dans tes téléchargements avant d’enregistrer le nouveau, au cas où tu préférerais revenir en arrière.',
             ],
           },
         },
         {
           id: 'lesson-05-step-03',
           number: 3,
-          title: 'Fichier prêt',
-          subtitle: 'Prêt à publier',
+          title: 'Finaliser',
+          subtitle: 'Version finale',
           completionLabel: 'Module 02 terminé',
           blocks: [
             {
-              id: 'l5-s3-prose-valider',
+              id: 'l5-s3-prose-final',
               type: 'prose',
-              title: 'VALIDER TON',
-              italicAccent: 'application',
+              title: 'VERSION',
+              italicAccent: 'finale prête',
               highlightPill:
-                'Le déverrouillage du code d’accès est mémorisé à part de tes données.',
+                'Ton fichier index.html est maintenant complet, testé et prêt à être mis en ligne.',
               paragraphs: [
-                'Quand tes contrôles sont terminés, vérifie la sauvegarde prévue puis range ton fichier final.',
+                'Télécharge ta version corrigée et vérifie qu’elle porte bien le nom **`index.html`**. Tu es prêt pour le dernier module : mettre l’outil en ligne gratuitement et le livrer sur Chariow.',
               ],
-              bullets: [
-                'Calculateur éphémère : les chiffres disparaissent à la fermeture, sans boutons d’export.',
-                'Outil de suivi : les données restent dans le même navigateur, sur le même appareil.',
-                'Données de suivi sauvegardées : des boutons d’export et d’import JSON permettent de changer d’appareil.',
-              ],
+            },
+            {
+              id: 'l5-s3-screen-desktop',
+              type: 'screenshot',
+              src: '/screenshots/module-02/l5-solde-desktop-final.png',
+              alt: 'Exemple final d application interactive propre et aboutie sur ordinateur',
+              caption: 'Exemple (SOLDE) : résultat final prêt pour la mise en ligne',
+              capturedAt: '21 novembre 2026',
             },
             {
               id: 'l5-s3-checklist',
               type: 'checklist',
-              title: 'Validation du produit fini',
-              description: 'Vérifie ces 3 derniers points pour clore le Module 02.',
+              title: 'Validation finale',
+              description: 'Confirme ces 2 derniers points avant la Leçon 6.',
               items: [
                 {
                   id: 'l5-f1',
-                  label: 'Les résultats, les interactions et l’affichage mobile sont validés.',
-                  detail: 'Les calculs restent justes à 375 px comme sur ordinateur.',
+                  label: 'J’ai testé ma version finale et tout fonctionne correctement.',
+                  detail: 'Écran de code d’accès, affichage mobile et actions principales.',
                 },
                 {
                   id: 'l5-f2',
-                  label: 'Le code d’accès fonctionne et la sauvegarde correspond à mon type d’outil.',
-                  detail:
-                    'Aucun bouton JSON pour un calculateur éphémère ; export et import seulement si les données sont sauvegardées.',
-                },
-                {
-                  id: 'l5-f3',
-                  label: 'Mon index.html final est dans le dossier mon-application, avec une copie de secours ailleurs.',
-                  detail: 'Ce dossier sera déposé sur Netlify en Leçon 6.',
+                  label: 'Mon fichier s’appelle bien `index.html`.',
+                  detail: 'Prêt à être publié sur Netlify.',
                 },
               ],
             },
@@ -680,18 +611,13 @@ export const day02: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake: 'Demander des boutons d’export et d’import JSON pour un simple calculateur.',
+                mistake: 'Déployer une ancienne version par erreur (ex. index (1).html).',
                 correction:
-                  'Un calculateur éphémère ne garde aucune donnée : ces boutons seraient inutiles.',
-              },
-              {
-                mistake: 'Laisser plusieurs versions mélangées dans le dossier mon-application.',
-                correction:
-                  'Garde uniquement le fichier final index.html dans ce dossier.',
+                  'Supprime les anciens brouillons inutiles pour garder uniquement ton bon `index.html`.',
               },
             ],
             tips: [
-              'En Leçon 6, tu glisseras simplement ce dossier sur Netlify pour le mettre en ligne.',
+              'Passons maintenant à la mise en ligne gratuite en 3 minutes dans le Module 03.',
             ],
           },
         },

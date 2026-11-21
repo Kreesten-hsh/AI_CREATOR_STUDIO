@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Check, Gift, Home } from 'lucide-react';
+import { Check, Gift, Home, LogOut } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useProgress } from '../../hooks/useProgress';
 import { MAIN_COURSES } from '../../data/navigation/mainCourses';
@@ -15,7 +15,7 @@ export function MainSidebar({
   onAfterNavigate,
   mobileCloseButton,
 }: MainSidebarProps) {
-  const { buyerEmail } = useAuth();
+  const { buyerEmail, signOut } = useAuth();
   const {
     state,
     navigateToHome,
@@ -57,7 +57,8 @@ export function MainSidebar({
           onClick={handleGoHome}
           className="text-left min-w-0 flex-1 group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-red"
         >
-          <h1
+          <p
+            data-testid="sidebar-brand-logo"
             className={`font-display uppercase tracking-tight leading-none text-ink group-hover:text-primary-red transition-colors ${
               mobileCloseButton ? 'text-xl min-[360px]:text-2xl' : 'text-2xl'
             }`}
@@ -70,7 +71,7 @@ export function MainSidebar({
             >
               studio
             </span>
-          </h1>
+          </p>
         </button>
         {mobileCloseButton}
       </div>
@@ -83,7 +84,7 @@ export function MainSidebar({
             type="button"
             onClick={handleGoHome}
             aria-current={isHomeActive ? 'page' : undefined}
-            className={`w-full text-left px-3 py-2 border-2 border-ink rounded-brutal-btn transition-all flex items-center gap-2.5 min-h-[40px] ${
+            className={`w-full text-left px-3 py-2 border-2 border-ink rounded-brutal-btn transition-all flex items-center gap-2.5 min-h-[44px] ${
               isHomeActive
                 ? 'bg-primary-red text-surface font-bold shadow-brutal-xs'
                 : 'bg-surface text-ink hover:bg-pale-pink/50'
@@ -96,7 +97,7 @@ export function MainSidebar({
           </button>
         </div>
 
-        {/* 3. Section LA FORMATION (3 modules épurés style Abigail) */}
+        {/* 3. Section LA FORMATION (3 modules épurés) */}
         <div className="space-y-1.5">
           <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink block px-1">
             LA FORMATION
@@ -114,7 +115,7 @@ export function MainSidebar({
                   type="button"
                   onClick={() => handleSelectCourse(course.id)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`w-full text-left px-3 py-2 border-2 border-ink rounded-brutal-btn transition-all flex items-center justify-between gap-2.5 min-h-[40px] ${
+                  className={`w-full text-left px-3 py-2 border-2 border-ink rounded-brutal-btn transition-all flex items-center justify-between gap-2.5 min-h-[44px] ${
                     isActive
                       ? 'bg-primary-red text-surface font-bold shadow-brutal-xs'
                       : 'bg-surface text-ink hover:bg-pale-pink/40'
@@ -153,7 +154,7 @@ export function MainSidebar({
           </div>
         </div>
 
-        {/* 4. Section BONUS (2 bonus épurés sans préfixe B01/B02) */}
+        {/* 4. Section BONUS (2 bonus épurés) */}
         <div className="space-y-1.5">
           <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink block px-1">
             BONUS
@@ -173,7 +174,7 @@ export function MainSidebar({
                   type="button"
                   onClick={() => handleSelectBonus(bonus.id)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`w-full text-left px-3 py-2 border-2 border-ink rounded-brutal-btn transition-all flex items-center justify-between gap-2.5 min-h-[40px] ${
+                  className={`w-full text-left px-3 py-2 border-2 border-ink rounded-brutal-btn transition-all flex items-center justify-between gap-2.5 min-h-[44px] ${
                     isActive
                       ? 'bg-primary-red text-surface font-bold shadow-brutal-xs'
                       : 'bg-surface text-ink hover:bg-pale-pink/40'
@@ -213,15 +214,29 @@ export function MainSidebar({
       {buyerEmail && (
         <div
           data-testid="sidebar-buyer-session"
-          className="p-3 bg-pale-pink border-t-2 border-ink flex items-center gap-2"
+          className="p-3 bg-pale-pink border-t-2 border-ink space-y-2"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-600 shrink-0" aria-hidden="true" />
-          <span
-            className="font-mono text-[11px] font-medium text-ink truncate min-w-0"
-            title={buyerEmail}
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="w-2 h-2 rounded-full bg-emerald-600 shrink-0" aria-hidden="true" />
+            <span
+              className="font-mono text-[11px] font-medium text-ink truncate min-w-0 flex-1"
+              title={buyerEmail}
+            >
+              {buyerEmail}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              void signOut();
+              onAfterNavigate?.();
+            }}
+            aria-label="Changer de compte / Déconnexion"
+            className="w-full min-h-[44px] px-2.5 py-1.5 bg-surface hover:bg-cream text-ink border border-ink rounded-brutal-tag font-mono text-[10px] font-bold uppercase inline-flex items-center justify-center gap-1.5 transition-colors"
           >
-            {buyerEmail}
-          </span>
+            <LogOut className="w-3.5 h-3.5 text-primary-red shrink-0" aria-hidden="true" />
+            <span>Changer de compte</span>
+          </button>
         </div>
       )}
     </aside>

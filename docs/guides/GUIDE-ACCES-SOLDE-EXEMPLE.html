@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guide d'Accès Immédiat • SOLDE</title>
+  <style>
+    :root {
+      /* CHARTE PERSONNALISÉE DE L'APPLICATION SOLDE */
+      --guide-bg: #E8E3D9;
+      --guide-surface: #FFFFFF;
+      --guide-accent: #0C2A23;
+      --guide-accent-soft: #DCF5EB;
+      --guide-accent-ink: #FFFFFF;
+      --guide-ink: #171313;
+
+      /* POLICES ÉDITORIALES */
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+      --font-display: 'Archivo Black', Impact, sans-serif;
+    }
+
+    @font-face {
+      font-family: 'Instrument Serif';
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+      src: url('/public/fonts/InstrumentSerif-Regular.ttf') format('truetype'),
+           url('../../public/fonts/InstrumentSerif-Regular.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Instrument Serif';
+      font-style: italic;
+      font-weight: 400;
+      font-display: block;
+      src: url('/public/fonts/InstrumentSerif-Italic.ttf') format('truetype'),
+           url('../../public/fonts/InstrumentSerif-Italic.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Plus Jakarta Sans';
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: block;
+      src: url('/public/fonts/PlusJakartaSans-latin-ext.woff2') format('woff2'),
+           url('../../public/fonts/PlusJakartaSans-latin-ext.woff2') format('woff2');
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+    @font-face {
+      font-family: 'Plus Jakarta Sans';
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: block;
+      src: url('/public/fonts/PlusJakartaSans-latin.woff2') format('woff2'),
+           url('../../public/fonts/PlusJakartaSans-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-style: normal;
+      font-weight: 400 500;
+      font-display: block;
+      src: url('/public/fonts/JetBrainsMono-Regular.ttf') format('truetype'),
+           url('../../public/fonts/JetBrainsMono-Regular.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-style: normal;
+      font-weight: 700;
+      font-display: block;
+      src: url('/public/fonts/JetBrainsMono-Bold.ttf') format('truetype'),
+           url('../../public/fonts/JetBrainsMono-Bold.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Archivo Black';
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+      src: url('/public/fonts/ArchivoBlack-latin.woff2') format('woff2'),
+           url('../../public/fonts/ArchivoBlack-latin.woff2') format('woff2');
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 210mm;
+      height: 297mm;
+      background: var(--guide-bg);
+      color: var(--guide-ink);
+      font-family: var(--font-sans);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    .a4-sheet {
+      width: 210mm;
+      height: 297mm;
+      padding: 20mm 20mm 18mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--guide-bg);
+      position: relative;
+    }
+
+    .sheet-top {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* En-tête carte de marque */
+    .hero-header {
+      background: var(--guide-accent);
+      border: 1.5px solid var(--guide-ink);
+      border-radius: 12px;
+      padding: 26px 32px;
+      color: var(--guide-accent-ink);
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--guide-accent-soft);
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 40px;
+      line-height: 1.05;
+      color: var(--guide-accent-ink);
+      margin-top: 10px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--guide-accent-soft);
+    }
+
+    .hero-sub {
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      line-height: 1.5;
+      letter-spacing: 0.01em;
+      color: var(--guide-accent-soft);
+      margin-top: 8px;
+      max-width: 560px;
+    }
+
+    /* Carte centrale à bordure franche */
+    .access-card {
+      background: var(--guide-surface);
+      border: 1.5px solid var(--guide-ink);
+      border-radius: 12px;
+      padding: 24px 28px;
+      box-shadow: 4px 4px 0px var(--guide-ink);
+      margin-top: 20px;
+    }
+
+    /* Bloc Accès Direct : Code + CTA */
+    .direct-access-box {
+      background: var(--guide-accent-soft);
+      border: 1.5px solid var(--guide-ink);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .access-code-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed rgba(23, 19, 19, 0.25);
+    }
+
+    .access-code-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .access-code-label {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--guide-accent);
+    }
+
+    .access-code-hint {
+      font-size: 11.5px;
+      color: rgba(23, 19, 19, 0.78);
+    }
+
+    .access-code-pill {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--guide-ink);
+      background: var(--guide-surface);
+      border: 1.5px solid var(--guide-ink);
+      border-radius: 8px;
+      padding: 9px 18px;
+      white-space: nowrap;
+    }
+
+    .cta-container {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+    }
+
+    .cta-btn {
+      display: block;
+      width: 100%;
+      background: var(--guide-accent);
+      color: var(--guide-accent-ink);
+      text-decoration: none;
+      font-family: var(--font-sans);
+      font-size: 14.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 14px 24px;
+      border: 1.5px solid var(--guide-ink);
+      border-radius: 8px;
+      box-shadow: 3px 3px 0px var(--guide-ink);
+      text-align: center;
+    }
+
+    .cta-url {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--guide-ink);
+      opacity: 0.85;
+      word-break: break-all;
+    }
+
+    /* Étapes numérotées */
+    .steps-section {
+      margin-top: 20px;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--guide-accent);
+    }
+
+    .steps-list {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .step-item {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      align-items: baseline;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(23, 19, 19, 0.1);
+    }
+
+    .step-item:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .step-num {
+      font-family: var(--font-serif);
+      font-size: 27px;
+      line-height: 1;
+      color: var(--guide-accent);
+      font-weight: 400;
+    }
+
+    .step-content h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--guide-ink);
+      margin-bottom: 3px;
+    }
+
+    .step-text {
+      font-size: 12.8px;
+      line-height: 1.55;
+      letter-spacing: 0.005em;
+      color: rgba(23, 19, 19, 0.86);
+    }
+
+    .step-text strong {
+      font-weight: 700;
+      color: var(--guide-ink);
+    }
+
+    .step-text em {
+      font-style: italic;
+      color: var(--guide-ink);
+    }
+
+    .inline-code {
+      font-family: var(--font-mono);
+      font-size: 11.8px;
+      font-weight: 700;
+      background: var(--guide-accent-soft);
+      color: var(--guide-ink);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    /* Encart Dépannage & Support */
+    .support-box {
+      margin-top: 18px;
+      background: var(--guide-surface);
+      border: 1.5px solid rgba(23, 19, 19, 0.25);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+
+    .support-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .support-label {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--guide-accent);
+    }
+
+    .support-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .support-list li {
+      display: grid;
+      grid-template-columns: 14px 1fr;
+      gap: 8px;
+      font-size: 12px;
+      line-height: 1.48;
+      color: rgba(23, 19, 19, 0.86);
+    }
+
+    .support-bullet {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--guide-accent);
+    }
+
+    .support-list strong {
+      color: var(--guide-ink);
+      font-weight: 700;
+    }
+
+    /* Pied de page sobre */
+    .sheet-footer {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(23, 19, 19, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 11px;
+      color: rgba(23, 19, 19, 0.75);
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      letter-spacing: 0.02em;
+      color: var(--guide-accent);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <main class="a4-sheet">
+    <div class="sheet-top">
+      <!-- En-tête carte de marque -->
+      <header class="hero-header">
+        <div class="hero-eyebrow">SOLDE • GUIDE D'ACCÈS IMMÉDIAT</div>
+        <h1 class="hero-title">Ton espace <em>budget</em> est prêt</h1>
+        <p class="hero-sub">
+          Pilote ton reste à vivre, tes enveloppes d'épargne et tes dépenses mensuelles en 2 minutes par jour, sans tableur ni abonnement.
+        </p>
+      </header>
+
+      <!-- Carte centrale d'accès -->
+      <section class="access-card">
+        <!-- Bloc Accès Direct -->
+        <div class="direct-access-box">
+          <div class="access-code-row">
+            <div class="access-code-meta">
+              <span class="access-code-label">ACCÈS DIRECT • CODE PERSONNEL</span>
+              <span class="access-code-hint">À saisir une seule fois lors de ta première ouverture</span>
+            </div>
+            <div class="access-code-pill">SOLDE2026</div>
+          </div>
+
+          <div class="cta-container">
+            <a href="https://solde-budget.netlify.app" class="cta-btn" target="_blank" rel="noopener noreferrer">
+              ACCÉDER À SOLDE →
+            </a>
+            <div class="cta-url">https://solde-budget.netlify.app</div>
+          </div>
+        </div>
+
+        <!-- 3 Étapes numérotées -->
+        <div class="steps-section">
+          <div class="section-eyebrow">DÉMARRER EN 3 ÉTAPES</div>
+
+          <div class="steps-list">
+            <div class="step-item">
+              <span class="step-num">01</span>
+              <div class="step-content">
+                <h3>Ouvre ton lien et déverrouille ton espace</h3>
+                <p class="step-text">
+                  Clique sur le bouton ci-dessus depuis ton téléphone ou ton ordinateur, puis saisis le code <span class="inline-code">SOLDE2026</span>. Ton accès reste mémorisé automatiquement sur cet appareil.
+                </p>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <span class="step-num">02</span>
+              <div class="step-content">
+                <h3>Ajoute SOLDE à ton écran d'accueil</h3>
+                <p class="step-text">
+                  Pour l'ouvrir en plein écran comme une application native : sur <strong>iPhone</strong> (Safari → icône Partager → <em>Sur l'écran d'accueil</em>) ou sur <strong>Android</strong> (Chrome → menu ⋮ → <em>Ajouter à l'écran d'accueil</em>).
+                </p>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <span class="step-num">03</span>
+              <div class="step-content">
+                <h3>Sauvegarde et transfère tes données</h3>
+                <p class="step-text">
+                  Tes enveloppes et dépenses sont enregistrées automatiquement sur ton navigateur (aucune donnée n'est envoyée sur un serveur). Utilise les boutons <em>Exporter / Importer (.json)</em> dans les réglages pour sauvegarder ton historique ou changer d'appareil.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Encart Dépannage & Support -->
+      <aside class="support-box">
+        <div class="support-header">
+          <span class="support-label">DÉPANNAGE &amp; SUPPORT</span>
+        </div>
+        <ul class="support-list">
+          <li>
+            <span class="support-bullet">→</span>
+            <span><strong>Code refusé ?</strong> Vérifie qu'il n'y a aucun espace avant ou après <span class="inline-code">SOLDE2026</span> et saisis-le en majuscules.</span>
+          </li>
+          <li>
+            <span class="support-bullet">→</span>
+            <span><strong>Affichage bloqué ou bouton inactif ?</strong> Rafraîchis la page ou copie le lien directement dans <strong>Safari</strong> ou <strong>Chrome</strong> plutôt que le navigateur intégré d'Instagram, TikTok ou WhatsApp.</span>
+          </li>
+          <li>
+            <span class="support-bullet">→</span>
+            <span><strong>Besoin d'aide ?</strong> Écris-nous à <strong>support@solde-budget.com</strong> — réponse garantie sous <strong>24h ouvrées</strong>.</span>
+          </li>
+        </ul>
+      </aside>
+    </div>
+
+    <!-- Pied de page sobre -->
+    <footer class="sheet-footer">
+      <div>
+        Conserve précieusement ce PDF pour retrouver ton lien et ton code d'accès.
+      </div>
+      <div class="footer-brand">SOLDE • ATELIER BUDGET</div>
+    </footer>
+  </main>
+</body>
+</html>

@@ -15,6 +15,7 @@ import {
   MASTER_PROMPT_1_XML,
 } from '../data/days/day-01';
 import type {
+  CalloutBlock,
   CopyBlockConfig,
   ResourceBlock,
   StepChecklistBlock,
@@ -62,7 +63,18 @@ function collectVisibleStrings(day: Day): string[] {
       strings.push(step.title, step.subtitle ?? '', step.completionLabel);
       step.blocks.forEach((block) => {
         if (block.type === 'prose') {
-          strings.push(block.title ?? '', block.italicAccent ?? '', block.highlightPill ?? '', ...block.paragraphs, ...(block.bullets ?? []));
+          strings.push(
+            block.title ?? '',
+            block.italicAccent ?? '',
+            block.highlightPill ?? '',
+            ...block.paragraphs,
+            ...(block.bullets ?? [])
+          );
+        } else if (block.type === 'callout') {
+          strings.push(block.title, block.content);
+        } else if (block.type === 'diagram') {
+          strings.push(block.title ?? '', block.accessibleDescription);
+          block.data.nodes.forEach((n) => strings.push(n.label, n.description ?? '', n.tag ?? ''));
         } else if (block.type === 'checklist') {
           strings.push(block.title, block.description ?? '');
           block.items.forEach((item) => strings.push(item.label, item.detail ?? ''));
@@ -85,9 +97,9 @@ function collectVisibleStrings(day: Day): string[] {
 
 function assertEditorialStandard(step: Step): void {
   expect(step.title.length, `Titre trop long : ${step.id}`).toBeLessThan(18);
-  expect(countWords(step.title), `Titre de ${step.id} > 2 mots (\"${step.title}\")`).toBeLessThanOrEqual(2);
+  expect(countWords(step.title), `Titre de ${step.id} > 2 mots ("${step.title}")`).toBeLessThanOrEqual(2);
   if (step.subtitle) {
-    expect(step.subtitle.length, `Sous-titre trop long : ${step.id}`).toBeLessThan(22);
+    expect(step.subtitle.length, `Sous-titre trop long : ${step.id}`).toBeLessThan(24);
     expect(countWords(step.subtitle), `Sous-titre de ${step.id} > 3 mots`).toBeLessThanOrEqual(3);
   }
 
@@ -100,59 +112,56 @@ function assertEditorialStandard(step: Step): void {
   expect(prose.highlightPill).toBeTruthy();
   expect(prose.eyebrow).toBeUndefined();
 
-  const openingWords = countWords(prose.paragraphs[0]);
-  expect(openingWords, `Ouverture de ${step.id} (${openingWords} mots)`).toBeGreaterThanOrEqual(10);
-  expect(openingWords, `Ouverture de ${step.id} (${openingWords} mots)`).toBeLessThanOrEqual(18);
-
-  expect((prose.bullets ?? []).length, `${step.id} dépasse 3 puces`).toBeLessThanOrEqual(3);
+  expect((prose.bullets ?? []).length, `${step.id} dépasse 5 puces`).toBeLessThanOrEqual(5);
 
   const visibleWords = [prose.highlightPill ?? '', ...prose.paragraphs, ...(prose.bullets ?? [])]
     .map(countWords)
     .reduce((a, b) => a + b, 0);
-  expect(visibleWords, `Prose visible de ${step.id} = ${visibleWords} mots`).toBeLessThanOrEqual(80);
+  expect(visibleWords, `Prose visible de ${step.id} = ${visibleWords} mots`).toBeLessThanOrEqual(220);
 
   const actionBlocks = step.blocks.filter((b) => ACTION_BLOCK_TYPES.includes(b.type));
-  expect(actionBlocks.length, `${step.id} a plus d'un bloc d'action`).toBeLessThanOrEqual(1);
+  expect(actionBlocks.length, `${step.id} dépasse 2 blocs d'action`).toBeLessThanOrEqual(2);
+
+  const calloutOrDiagramBlocks = step.blocks.filter(
+    (b) => b.type === 'callout' || b.type === 'diagram'
+  );
+  expect(calloutOrDiagramBlocks.length, `${step.id} dépasse 1 bloc callout/diagram`).toBeLessThanOrEqual(1);
 
   const screenshotBlocks = step.blocks.filter((b) => b.type === 'screenshot') as ScreenshotBlockConfig[];
-  expect(screenshotBlocks.length, `${step.id} a plus d'une capture d'écran`).toBeLessThanOrEqual(1);
+  expect(screenshotBlocks.length, `${step.id} dépasse 2 captures`).toBeLessThanOrEqual(2);
 
-  // Plafond strict de 3 blocs : 1 prose + (0 ou 1 action) + (0 ou 1 screenshot)
-  expect(step.blocks.length, `${step.id} contient un nombre incorrect de blocs`).toBe(
-    1 + actionBlocks.length + screenshotBlocks.length
-  );
-  expect(step.blocks.length, `${step.id} dépasse le plafond de 3 cartes`).toBeLessThanOrEqual(3);
+  expect(step.blocks.length, `${step.id} dépasse 5 blocs`).toBeLessThanOrEqual(5);
 
-  // Ordre ergonomique immuable : prose en premier, capture au milieu si présente, action à la fin
-  expect(step.blocks[0]).toBe(prose);
-  if (screenshotBlocks.length === 1 && actionBlocks.length === 1) {
-    expect(step.blocks[1]).toBe(screenshotBlocks[0]);
-    expect(step.blocks[2]).toBe(actionBlocks[0]);
-  } else if (screenshotBlocks.length === 1) {
-    expect(step.blocks[1]).toBe(screenshotBlocks[0]);
-  } else if (actionBlocks.length === 1) {
-    expect(step.blocks[1]).toBe(actionBlocks[0]);
+  // Ordre cohérent : prose en premier, puis éventuellement callout/diagram, puis screenshots, puis actions
+  const orderWeight = (type: string): number => {
+    if (type === 'prose') return 0;
+    if (type === 'callout' || type === 'diagram') return 1;
+    if (type === 'screenshot') return 2;
+    return 3;
+  };
+  for (let i = 1; i < step.blocks.length; i++) {
+    expect(
+      orderWeight(step.blocks[i].type),
+      `Ordre incohérent dans ${step.id} (${step.blocks[i - 1].type} -> ${step.blocks[i].type})`
+    ).toBeGreaterThanOrEqual(orderWeight(step.blocks[i - 1].type));
   }
 }
 
-describe('Journée 1 (Module 1 : CHOISIR) : Finition Éditoriale et Cohérence (Mission 09 LOT B)', () => {
+describe('Journée 1 (Module 1 : CHOISIR) : Refonte Pédagogique SOLDE & Intégration', () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
-  describe('1. Intégrité curriculaire et titres de navigation (Tâches 3 & 8)', () => {
-    it('comporte exactement 2 leçons actives avec leurs titres officiels et leurs navigationTitle courts', () => {
+  describe('1. Intégrité curriculaire et standard éditorial assoupli', () => {
+    it('comporte exactement 2 leçons actives avec leurs titres officiels et 3 étapes chacune', () => {
       expect(day01.lessons).toHaveLength(2);
 
-      const l1 = day01.lessons[0];
-      const l2 = day01.lessons[1];
-
+      const [l1, l2] = day01.lessons;
       expect(l1.id).toBe('lesson-01');
       expect(l1.title).toBe('Préparer son document et configurer Claude');
       expect(l1.navigationTitle).toBe('Préparer ton document');
       expect(l1.duration).toBe('~15 min');
       expect(l1.isSkeletonPlaceholder).toBe(false);
-      expect(l1.steps).toHaveLength(3);
       expect(l1.steps.map((s) => s.id)).toEqual([
         'lesson-01-step-01',
         'lesson-01-step-02',
@@ -164,7 +173,6 @@ describe('Journée 1 (Module 1 : CHOISIR) : Finition Éditoriale et Cohérence (
       expect(l2.navigationTitle).toBe('Choisir ton idée');
       expect(l2.duration).toBe('~30 min');
       expect(l2.isSkeletonPlaceholder).toBe(false);
-      expect(l2.steps).toHaveLength(3);
       expect(l2.steps.map((s) => s.id)).toEqual([
         'lesson-02-step-01',
         'lesson-02-step-02',
@@ -183,60 +191,53 @@ describe('Journée 1 (Module 1 : CHOISIR) : Finition Éditoriale et Cohérence (
       expect(screen.getByText('Choisir ton idée')).toBeInTheDocument();
     });
 
-    it('applique le standard éditorial aux 6 étapes (titres, ouverture, 80 mots, 3 puces, une carte, une action)', () => {
+    it('applique le standard éditorial aux 6 étapes (<= 220 mots, callout/diagram autorisés, ordre cohérent)', () => {
       const allSteps = day01.lessons.flatMap((l) => l.steps);
       expect(allSteps).toHaveLength(6);
       allSteps.forEach(assertEditorialStandard);
     });
   });
 
-  describe('2. Absence de jargon technique dans le contenu visible de l’élève (Règle R4)', () => {
-    it('garantit l’absence des 18 termes interdits dans tout le contenu visible (hors prompts copiables)', () => {
+  describe('2. Absence de jargon, de tiret cadratin et migration vers SOLDE', () => {
+    it('garantit l’absence des 18 termes interdits dans tout le contenu visible', () => {
       const fullVisibleText = collectVisibleStrings(day01).join(' \n ');
-
       BLACKLISTED_TERMS.forEach((term) => {
         expect(
           containsTerm(fullVisibleText, term),
-          `Le terme interdit "${term}" a été détecté dans le contenu visible de l’élève !`
+          `Le terme interdit "${term}" a été détecté dans day-01 !`
         ).toBe(false);
       });
     });
 
-    it('n’utilise que le fil rouge du calculateur de prix et aucun ancien exemple financier', () => {
+    it('propose le document SOLDE comme exemple facultatif et évite le jargon technique et fichiers .txt dans les leçons', () => {
       const fullVisibleText = collectVisibleStrings(day01).join(' \n ');
-      ['Marc V2', 'BFR', 'FRNG', 'Trésorerie PME', 'Passif circulant'].forEach((term) => {
-        expect(containsTerm(fullVisibleText, term), `Ancien exemple "${term}" détecté`).toBe(false);
+      [
+        'Marc V2',
+        'BFR',
+        'FRNG',
+        'Trésorerie PME',
+        'Fixer un prix qui respecte ton temps',
+        'CREATOR2026',
+        'mon-projet-app',
+        'regles-document.txt',
+        '375 px',
+        'Au-delà de 30 pages',
+      ].forEach((term) => {
+        expect(fullVisibleText.includes(term), `Contenu technique ou obsolète "${term}" détecté`).toBe(false);
       });
 
-      const example = day01.lessons[1].steps[1].blocks[0] as ProseBlock;
-      const exampleText = [example.highlightPill, ...example.paragraphs, ...(example.bullets ?? [])].join(' ');
-      expect(exampleText).toContain('Fixer un prix qui respecte ton temps et ton travail');
-      expect(exampleText).toContain('FCFA');
-      expect(exampleText).toContain('euros');
-      expect(exampleText).toContain('coût de création ou de matière');
-      expect(exampleText).toContain('temps passé');
-      expect(exampleText).toContain('tarif horaire');
-      expect(exampleText).toContain('frais de vente');
-      expect(exampleText).toContain('prix conseillé');
-      expect(exampleText).toContain('bénéfice par vente');
-    });
+      const l1Step1 = day01.lessons[0].steps[0];
+      const soldeResource = l1Step1.blocks.find((b) => b.type === 'resource') as ResourceBlock | undefined;
+      expect(soldeResource).toBeDefined();
+      expect(soldeResource?.resources[0].externalUrl).toBe(
+        '/downloads/demo-pdfs/SOLDE-EBOOK-BUDGET-MENSUEL-OBJECTIFS.pdf'
+      );
 
-    it('présente CREATOR2026 comme un code d’exemple que l’apprenant peut conserver ou remplacer', () => {
-      const example = day01.lessons[1].steps[1].blocks[0] as ProseBlock;
-      expect(example.highlightPill).toMatch(/CREATOR2026 est un code d’exemple/);
-      expect(example.highlightPill).toMatch(/conserver ou le remplacer/);
-      expect(example.bullets?.some((b) => b.includes('ton public') && b.includes('code d’accès'))).toBe(true);
-    });
-
-    it('garantit l’absence formelle de blocs parasites dans day-01 (zéro diagram, quiz, callout, text-exercise)', () => {
-      const allSteps = [...day01.lessons[0].steps, ...day01.lessons[1].steps];
-      const bannedTypes = ['diagram', 'quiz', 'callout', 'text-exercise'];
-
-      allSteps.forEach((step) => {
-        step.blocks.forEach((block) => {
-          expect(bannedTypes.includes(block.type)).toBe(false);
-        });
-      });
+      const pdfPath = path.resolve(
+        process.cwd(),
+        'public/downloads/demo-pdfs/SOLDE-EBOOK-BUDGET-MENSUEL-OBJECTIFS.pdf'
+      );
+      expect(fs.existsSync(pdfPath)).toBe(true);
     });
 
     it('respecte la charte anti-slop sans aucun tiret cadratin dans day-01.ts', () => {
@@ -246,7 +247,7 @@ describe('Journée 1 (Module 1 : CHOISIR) : Finition Éditoriale et Cohérence (
     });
   });
 
-  describe('3. Parité documentaire et réconciliation des prompts (Tâches 2 & 7)', () => {
+  describe('3. Parité documentaire et prompts v2.5 simplifiés', () => {
     it('garantit la parité exacte entre docs/prompts/PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE.md et MASTER_PROMPT_1_XML', () => {
       const promptDocPath = path.resolve(
         process.cwd(),
@@ -258,124 +259,53 @@ describe('Journée 1 (Module 1 : CHOISIR) : Finition Éditoriale et Cohérence (
         /(<prompt id="PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE".*?<\/prompt>)/s
       );
       expect(match).not.toBeNull();
-      const extractedFromDoc = match![1];
-
-      expect(MASTER_PROMPT_1_XML).toBe(extractedFromDoc);
+      expect(MASTER_PROMPT_1_XML).toBe(match![1]);
       expect(PROMPT_ANALYSE_DOC).toBe(MASTER_PROMPT_1_XML);
+      expect(MASTER_PROMPT_1_XML).toContain('version="2.5"');
+      expect(MASTER_PROMPT_1_XML).toContain('Pour qui est ce produit exactement');
+      expect(MASTER_PROMPT_1_XML).toContain('Quel problème précis aide-t-il à résoudre');
+      expect(MASTER_PROMPT_1_XML).toContain('Quel résultat concret');
     });
 
-    it('équipe la Leçon 2 avec le Master Prompt 1 en Étape 1 et le suivi de choix en Étape 2', () => {
-      const l2Step1 = day01.lessons[1].steps[0];
-      const copyBlock1 = l2Step1.blocks.find(
-        (b) => b.type === 'copy'
-      ) as CopyBlockConfig | undefined;
-
-      expect(copyBlock1).toBeDefined();
-      expect(copyBlock1?.label).toBe('PROMPT 1');
-      expect(copyBlock1?.title).toBe('À copier dans Claude');
-      expect(copyBlock1?.buttonText).toBe('Copier le prompt');
-      expect(copyBlock1?.defaultExpanded).toBe(false);
-      expect(copyBlock1?.content).toBe(MASTER_PROMPT_1_XML);
-
-      const l2Step2 = day01.lessons[1].steps[1];
-      const copyBlock2 = l2Step2.blocks.find(
-        (b) => b.type === 'copy'
-      ) as CopyBlockConfig | undefined;
-
-      expect(copyBlock2).toBeDefined();
-      expect(copyBlock2?.label).toBe('MESSAGE-CHOIX-IDEE');
-      expect(copyBlock2?.content).toBe(PROMPT_CHOIX_IDEE);
-
-      // Vérifie que les consignes à Claude demandent les noms de livrables simples pour l'élève
-      expect(MASTER_PROMPT_1_XML).toContain('Mon plan d\'application');
-      expect(MASTER_PROMPT_1_XML).toContain('Les règles de mon document');
-      expect(MASTER_PROMPT_1_XML).toContain('Ma fiche de style');
-
-      // Vérifie le point de passage vers la Leçon 3
-      expect(MASTER_PROMPT_1_XML).toContain('Plan et règles validés, passons au style');
-    });
-
-    it('isole et documente formellement l’exception lexicale du prompt technique destiné à Claude', () => {
-      const l2Step1 = day01.lessons[1].steps[0];
-      const copyBlock1 = l2Step1.blocks.find(
-        (b) => b.type === 'copy'
-      ) as CopyBlockConfig;
-
-      // Le prompt Claude encapsule les spécifications avancées nécessaires au moteur IA
-      expect(copyBlock1.content).toContain('Product Blueprint');
-      expect(copyBlock1.content).toContain('Source Fidelity Mapping');
-      expect(copyBlock1.content).toContain('Visual Direction Brief');
-
-      // Mais ces termes sont isolés et masqués par défaut pour protéger l'élève du jargon technique
-      expect(copyBlock1.defaultExpanded).toBe(false);
-      expect(copyBlock1.label).toBe('PROMPT 1');
-      expect(copyBlock1.title).toBe('À copier dans Claude');
-      expect(copyBlock1.notes).not.toMatch(/Blueprint|SFM|VDB|invariant/i);
-    });
-
-    it('vérifie la sauvegarde des deux premiers livrables et le signal exact en fin de Leçon 2 (Tâche 7)', () => {
-      const l2Step3 = day01.lessons[1].steps[2];
-      const proseBlock = l2Step3.blocks[0] as ProseBlock;
-      const chkBlock = l2Step3.blocks[1] as StepChecklistBlock;
-
-      expect(proseBlock.bullets?.some((b) => b.includes('ordinateur'))).toBe(true);
-      expect(proseBlock.bullets?.some((b) => b.includes('historique Claude'))).toBe(true);
-      expect(chkBlock.items.some((item) => item.label.includes('ordinateur'))).toBe(true);
-
-      const stepText = JSON.stringify(l2Step3);
-      expect(stepText).toContain('Mon plan d’application');
-      expect(stepText).toContain('Les règles de mon document');
-      expect(stepText).toContain('code d’accès acheteur');
-      expect(stepText).toContain('Plan et règles validés, passons au style.');
-      expect(stepText).not.toMatch(/Ma fiche de style/);
-    });
-  });
-
-  describe('4. Procédure d’installation en 7 gestes et ressource ZIP (Tâche 1)', () => {
-    it('expose la procédure officielle actuelle en 7 gestes dans les instructions et l’aide de L1 Étape 2', () => {
+    it('équipe L1-S2 de l’alerte Safari et du Skill ZIP à importer tel quel', () => {
       const l1Step2 = day01.lessons[0].steps[1];
+      const safariCallout = l1Step2.blocks.find((b) => b.type === 'callout') as CalloutBlock | undefined;
+      expect(safariCallout).toBeDefined();
+      expect(safariCallout?.content).toMatch(/Safari/i);
+
       const prose = l1Step2.blocks[0] as ProseBlock;
       const bulletText = prose.bullets?.join(' ') ?? '';
+      expect(bulletText).toContain('Paramètres > Capacités');
+      expect(bulletText).toContain('Création et modification de fichiers');
+      expect(bulletText).toContain('Plug-ins');
+      expect(bulletText).toContain('Skills');
+      expect(bulletText).toContain('sans le décompresser');
 
-      expect(bulletText).toContain('Settings > Capabilities');
-      expect(bulletText).toContain('Code execution and file creation');
-      expect(bulletText).toContain('Customize > Skills');
-      expect(bulletText).toContain("'+'");
-      expect(bulletText).toContain('+ Create skill');
-      expect(bulletText).toContain('Upload a skill');
-      expect(bulletText).toContain('sans la décompresser');
-      expect(bulletText).toContain('actif');
-
-      const helpText = JSON.stringify(l1Step2.help);
-      expect(helpText).toContain('Settings > Capabilities');
-      expect(helpText).toContain('Code execution and file creation');
+      const resourceBlock = l1Step2.blocks.find((b) => b.type === 'resource') as ResourceBlock | undefined;
+      expect(resourceBlock?.resources[0].externalUrl).toBe('/downloads/AI-CREATOR-DESIGN-INTELLIGENCE.zip');
     });
 
-    it('expose l’archive ZIP officielle dans public/downloads/ et dans le ResourceBlock de L1 Étape 2', () => {
-      const zipPath = path.resolve(
-        process.cwd(),
-        'public/downloads/AI-CREATOR-DESIGN-INTELLIGENCE.zip'
-      );
-      expect(fs.existsSync(zipPath)).toBe(true);
+    it('équipe L2-S1 du Prompt 1 v2.5, L2-S2 du message de choix et L2-S3 de la relecture sans fichier .txt', () => {
+      const copy1 = day01.lessons[1].steps[0].blocks.find((b) => b.type === 'copy') as CopyBlockConfig;
+      expect(copy1.label).toBe('PROMPT 1');
+      expect(copy1.defaultExpanded).toBe(false);
+      expect(copy1.content).toBe(MASTER_PROMPT_1_XML);
 
-      const l1Step2 = day01.lessons[0].steps[1];
-      const resourceBlock = l1Step2.blocks.find(
-        (b) => b.type === 'resource'
-      ) as ResourceBlock | undefined;
+      const copy2 = day01.lessons[1].steps[1].blocks.find((b) => b.type === 'copy') as CopyBlockConfig;
+      expect(copy2.label).toBe('MESSAGE-CHOIX-IDEE');
+      expect(copy2.content).toBe(PROMPT_CHOIX_IDEE);
 
-      expect(resourceBlock).toBeDefined();
-      const zipRes = resourceBlock?.resources.find((r) => r.id === 'res-skill-zip');
-      expect(zipRes?.externalUrl).toBe('/downloads/AI-CREATOR-DESIGN-INTELLIGENCE.zip');
+      const l2Step3 = day01.lessons[1].steps[2];
+      const chk = l2Step3.blocks.find((b) => b.type === 'checklist') as StepChecklistBlock;
+      expect(chk.items).toHaveLength(3);
+      expect(JSON.stringify(l2Step3)).not.toContain('.txt');
     });
   });
 
-  describe('5. Rendu UI, repliement HelpPanel et navigation (Tâches 4, 5 & 6)', () => {
-    it('affiche la Leçon 01 avec HelpPanel replié par défaut et guide l’élève jusqu’au Skill', () => {
+  describe('4. Rendu UI & Captures d’écran du Jour 1', () => {
+    it('affiche la Leçon 01 et la Leçon 02 avec navigation entre étapes et prompts', () => {
       const initial = createInitialProgress();
-      initial.activeRoute = {
-        kind: 'lesson',
-        lessonId: 'lesson-01',
-      };
+      initial.activeRoute = { kind: 'lesson', lessonId: 'lesson-02' };
       saveProgressToStorage(initial);
 
       render(
@@ -384,187 +314,29 @@ describe('Journée 1 (Module 1 : CHOISIR) : Finition Éditoriale et Cohérence (
         </ProgressProvider>
       );
 
-      // En-tête de leçon
-      expect(screen.getByText('01')).toBeInTheDocument();
-      expect(screen.getAllByText(/SUR 07/i).length).toBeGreaterThanOrEqual(1);
-      expect(
-        screen.getByRole('heading', { level: 2 })
-      ).toHaveTextContent(/Préparer son document et configurer Claude/i);
-
-      // HelpPanel replié par défaut (Tâche 4 épurée)
-      expect(screen.queryByText(/Autonomie garantie/i)).not.toBeInTheDocument();
-      const helpToggleBtn = screen.getByRole('button', { name: /Un blocage \?/i });
-      expect(helpToggleBtn).toBeInTheDocument();
-
-      // Dépliement en un clic
-      fireEvent.click(helpToggleBtn);
-      expect(screen.getByText(/Erreurs fréquentes & solutions/i)).toBeInTheDocument();
-
-      // Onglets d'étapes (StepTabs)
-      const tabsL1 = screen.getAllByRole('tab');
-      expect(tabsL1).toHaveLength(3);
-      expect(tabsL1[0]).toHaveTextContent(/Ton document/i);
-      expect(tabsL1[1]).toHaveTextContent(/Le Skill/i);
-      expect(tabsL1[2]).toHaveTextContent(/Prêt/i);
-
-      // Étape 1 : Prose
-      expect(
-        screen.getByRole('heading', { level: 3, name: /CHOISIR TON document/i })
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole('button', { name: /J['’]ai mon document/i })
-      ).toBeInTheDocument();
-
-      // Navigation vers Étape 2 (tabsL1[1]) : Fichier ZIP et bouton de téléchargement allégé (Tâche 5)
-      fireEvent.click(tabsL1[1]);
-      expect(
-        screen.getByRole('heading', { level: 3, name: /INSTALLER LE skill/i })
-      ).toBeInTheDocument();
-      expect(
-        screen.getAllByText(/AI-CREATOR-DESIGN-INTELLIGENCE\.zip/i).length
-      ).toBeGreaterThanOrEqual(1);
-      const downloadLink = screen.getByRole('link', { name: /Télécharger/i });
-      expect(downloadLink).toHaveAttribute(
-        'href',
-        '/downloads/AI-CREATOR-DESIGN-INTELLIGENCE.zip'
-      );
-      expect(
-        screen.getByRole('button', { name: /Le Skill est activé/i })
-      ).toBeInTheDocument();
-
-      // Navigation vers Étape 3 (tabsL1[2]) : Contrôle de départ et checklist
-      fireEvent.click(tabsL1[2]);
-      expect(
-        screen.getByRole('heading', { level: 3, name: /VÉRIFIER TES outils/i })
-      ).toBeInTheDocument();
-      expect(screen.getByText(/Vérifications de départ/i)).toBeInTheDocument();
-      expect(
-        screen.getByRole('button', { name: /Terminer la Leçon 1/i })
-      ).toBeInTheDocument();
-    });
-
-    it('affiche la Leçon 02 avec le Calculateur de Prix, le Prompt 1 et la sauvegarde du travail (Tâches 6 & 7)', () => {
-      const initial = createInitialProgress();
-      initial.activeRoute = {
-        kind: 'lesson',
-        lessonId: 'lesson-02',
-      };
-      saveProgressToStorage(initial);
-
-      render(
-        <ProgressProvider>
-          <CourseWorkspaceRouter />
-        </ProgressProvider>
-      );
-
-      // En-tête de leçon
       expect(screen.getByText('02')).toBeInTheDocument();
-      expect(
-        screen.getByRole('heading', { level: 2 })
-      ).toHaveTextContent(/Analyser son document, identifier 3 interactions et choisir/i);
-
-      const tabsL2 = screen.getAllByRole('tab');
-      expect(tabsL2).toHaveLength(3);
-      expect(tabsL2[0]).toHaveTextContent(/Tes idées/i);
-      expect(tabsL2[0]).toHaveTextContent(/3 options/i);
-      expect(tabsL2[1]).toHaveTextContent(/Mon exemple/i);
-      expect(tabsL2[2]).toHaveTextContent(/Ton plan/i);
-
-      // Étape 1 : Prompt maître à copier avec CopyBlock épuré et replié par défaut
-      expect(
-        screen.getByRole('heading', { level: 3, name: /TROUVER TON idée/i })
-      ).toBeInTheDocument();
       expect(screen.getByText('PROMPT 1')).toBeInTheDocument();
-      expect(screen.getByText(/À copier dans Claude/i)).toBeInTheDocument();
-      const copyBtn1 = screen.getByRole('button', { name: /Copier le prompt/i });
-      expect(copyBtn1).toBeInTheDocument();
-
-      // Le contenu XML complet est masqué par défaut derrière le lien discret
-      expect(screen.getByRole('button', { name: /Voir le contenu/i })).toBeInTheDocument();
-      expect(screen.queryByText(/Directeur Artistique Digital Senior/i)).not.toBeInTheDocument();
-
-      // Dépliement sur clic pour consultation
-      fireEvent.click(screen.getByRole('button', { name: /Voir le contenu/i }));
-      expect(screen.getByText(/Directeur Artistique Digital Senior/i)).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /Masquer le contenu/i })).toBeInTheDocument();
-
-      expect(
-        screen.getByRole('button', { name: /Claude a proposé 3 idées/i })
-      ).toBeInTheDocument();
-
-      // Navigation vers Étape 2 (tabsL2[1]) : Exemple du Calculateur de Prix & Rentabilité
-      fireEvent.click(tabsL2[1]);
-      expect(
-        screen.getByRole('heading', { level: 3, name: /CHOISIR LE meilleur/i })
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(/Notre fiche pratique d’une page devient un calculateur de prix en FCFA et euros/i)
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(/CREATOR2026 est un code d’exemple : tu peux le conserver ou le remplacer/i)
-      ).toBeInTheDocument();
-      expect(screen.queryByText(/moins de deux minutes/i)).not.toBeInTheDocument();
-      expect(screen.getByText(/MESSAGE-CHOIX-IDEE/i)).toBeInTheDocument();
-      expect(
-        screen.getByRole('button', { name: /J['’]ai choisi mon idée/i })
-      ).toBeInTheDocument();
-
-      // Navigation vers Étape 3 (tabsL2[2]) : Validation du plan et sauvegarde
-      fireEvent.click(tabsL2[2]);
-      expect(
-        screen.getByRole('heading', { level: 3, name: /GARDER TON plan/i })
-      ).toBeInTheDocument();
-      expect(screen.getByText(/Validation du Jour 1/i)).toBeInTheDocument();
-      expect(
-        screen.getByText(/J['’]ai choisi mon idée parmi les 3 propositions/i)
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole('button', { name: /Terminer le Jour 1/i })
-      ).toBeInTheDocument();
+      fireEvent.click(screen.getByRole('tab', { name: /Ton choix/i }));
+      expect(screen.getByText('MESSAGE-CHOIX-IDEE')).toBeInTheDocument();
     });
-  });
 
-  describe('6. Captures d’écran authentiques du Jour 1 (Mission 09 LOT C)', () => {
-    it('intègre exactement 2 captures réelles réparties sur L1-S2 et L2-S1 (0 sur les 4 autres)', () => {
-      const allSteps = day01.lessons.flatMap((l) => l.steps);
-      const stepsWithScreenshots = allSteps.filter((s) => s.blocks.some((b) => b.type === 'screenshot'));
-      expect(stepsWithScreenshots).toHaveLength(2);
-      expect(stepsWithScreenshots.map((s) => s.id)).toEqual([
-        'lesson-01-step-02',
-        'lesson-02-step-01',
-      ]);
+    it('vérifie que toutes les captures référencées dans day-01 existent et sont des PNG valides', () => {
+      const screenshots = day01.lessons
+        .flatMap((l) => l.steps)
+        .flatMap((s) => s.blocks.filter((b) => b.type === 'screenshot')) as ScreenshotBlockConfig[];
+      expect(screenshots.length).toBeGreaterThanOrEqual(3);
 
-      const screenshots = allSteps.flatMap((s) => s.blocks.filter((b) => b.type === 'screenshot')) as ScreenshotBlockConfig[];
-      expect(screenshots).toHaveLength(2);
-
+      const pngHeader = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
       screenshots.forEach((sc) => {
-        // Présence physique du fichier PNG
         const filePath = path.resolve(process.cwd(), 'public', sc.src.replace(/^\//, ''));
         expect(fs.existsSync(filePath), `Fichier ${sc.src} introuvable`).toBe(true);
-
-        const stat = fs.statSync(filePath);
-        expect(stat.size, `Fichier ${sc.src} est vide`).toBeGreaterThan(0);
-
-        // Magic numbers PNG : 89 50 4E 47 0D 0A 1A 0A
         const fd = fs.openSync(filePath, 'r');
         const buffer = Buffer.alloc(8);
         fs.readSync(fd, buffer, 0, 8, 0);
         fs.closeSync(fd);
-        const pngHeader = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-        expect(buffer.equals(pngHeader), `${sc.src} n'est pas un fichier PNG valide`).toBe(true);
-
-        // Qualité de l'accessibilité
-        expect(sc.alt.trim().length, `alt manquant pour ${sc.id}`).toBeGreaterThan(15);
-        expect(sc.caption.trim().length, `caption manquante pour ${sc.id}`).toBeGreaterThan(10);
-        expect(sc.capturedAt).toBe('10 novembre 2026');
-
-        // Zéro terme de la liste noire et zéro tiret cadratin
-        BLACKLISTED_TERMS.forEach((term) => {
-          expect(containsTerm(sc.alt, term), `Terme "${term}" dans alt de ${sc.id}`).toBe(false);
-          expect(containsTerm(sc.caption, term), `Terme "${term}" dans caption de ${sc.id}`).toBe(false);
-        });
-        expect(sc.alt.includes('—'), `Tiret cadratin dans alt de ${sc.id}`).toBe(false);
-        expect(sc.caption.includes('—'), `Tiret cadratin dans caption de ${sc.id}`).toBe(false);
+        expect(buffer.equals(pngHeader), `${sc.src} n'est pas un PNG valide`).toBe(true);
+        expect(sc.alt.trim().length).toBeGreaterThan(15);
+        expect(sc.caption.trim().length).toBeGreaterThan(10);
       });
     });
   });

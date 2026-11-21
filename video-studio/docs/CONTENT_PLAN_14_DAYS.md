@@ -100,7 +100,7 @@ Commente simplement le mot CLAUDE ci-dessous pour recevoir le lien en message pr
 
 - **Pilier** : Pilier 4 (Preuves réelles) • **Intention** : Confiance • **Format** : Breakdown (`10 slides`, `1080×1350`, `100 % images`)
 - **Hook Slide 1 (8 mots)** : `1 FICHE D'UNE PAGE → 1 CALCULATEUR DE PRIX`
-- **Base réelle vérifiée** : `docs/examples/pricing-calculator/` (`SOURCE-FICHE-PRIX.md` → `Calculateur de Prix & Rentabilité` avec conversion FCFA / Euros et écran de verrouillage par mot de passe).
+- **Base réelle vérifiée** : `docs/examples/solde/` (`SOLDE-EBOOK-BUDGET-MENSUEL-OBJECTIFS.pdf` → `SOLDE. · Planificateur de Budget & Objectifs` avec 3 profils, conversion FCFA / Euros, score `/100`, crash-test imprévu, Export/Import JSON et écran de verrouillage par mot de passe `SOLDE2026`).
 - **Connexion visuelle** : la fiche statique à 5 postes reste en miniature `#E3DDD1` en haut à gauche sur les Slides `2` à `8`, reliée par une flèche `#B63131` au bloc interactif correspondant.
 
 #### Contenu Slide par Slide (`<= 25 mots/slide`)

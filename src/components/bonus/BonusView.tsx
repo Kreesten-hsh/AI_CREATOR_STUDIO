@@ -1,6 +1,7 @@
-import { useState } from 'react';
 import {
   ArrowLeft,
+  Check,
+  CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Clock,
@@ -28,17 +29,33 @@ export function BonusView({ bonusId }: BonusViewProps) {
 }
 
 function ManyChatBonusView({ bonusId }: { bonusId: string }) {
-  const { navigateToHome } = useProgress();
+  const {
+    state,
+    navigateToHome,
+    setManychatActiveLesson,
+    toggleManychatLessonCompleted,
+    markManychatLessonCompleted,
+  } = useProgress();
   const bonus = BONUSES.find((b) => b.id === bonusId) ?? BONUSES[0];
-
-  const [activeLessonIndex, setActiveLessonIndex] = useState(0);
 
   const lessons: BonusLesson[] = bonus.lessons ?? [];
   const hasLessons = lessons.length > 0;
+
+  const manychatProgress = state.bonusProgress?.manychat;
+  const completedIds = manychatProgress?.completedLessonIds ?? [];
+  const completedSet = new Set(completedIds);
+
+  const persistedIndex = manychatProgress?.activeLessonId
+    ? lessons.findIndex((l) => l.id === manychatProgress.activeLessonId)
+    : -1;
+  const activeLessonIndex = persistedIndex >= 0 ? persistedIndex : 0;
   const currentLesson: BonusLesson | undefined = lessons[activeLessonIndex] ?? lessons[0];
+  const isCurrentLessonCompleted = currentLesson ? completedSet.has(currentLesson.id) : false;
 
   const handleSelectLesson = (index: number) => {
-    setActiveLessonIndex(index);
+    const target = lessons[index];
+    if (!target) return;
+    setManychatActiveLesson(target.id);
     if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
       try {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -55,9 +72,19 @@ function ManyChatBonusView({ bonusId }: { bonusId: string }) {
   };
 
   const handleNextLesson = () => {
+    if (currentLesson) {
+      markManychatLessonCompleted(currentLesson.id);
+    }
     if (activeLessonIndex < lessons.length - 1) {
       handleSelectLesson(activeLessonIndex + 1);
     }
+  };
+
+  const handleFinishBonus = () => {
+    if (currentLesson) {
+      markManychatLessonCompleted(currentLesson.id);
+    }
+    navigateToHome();
   };
 
   // Fallback si bonus en reconstruction
@@ -95,7 +122,7 @@ function ManyChatBonusView({ bonusId }: { bonusId: string }) {
             <h3 className="font-display text-xl uppercase tracking-tight text-ink">
               Contenu en cours de reconstruction.
             </h3>
-            <p className="font-serif text-sm text-ink leading-relaxed">
+            <p className="font-sans text-sm text-ink leading-relaxed">
               Ce bonus pratique fait partie du cursus et son contenu sera intégré dans la prochaine phase.
             </p>
           </div>
@@ -184,7 +211,7 @@ function ManyChatBonusView({ bonusId }: { bonusId: string }) {
               </h2>
 
               {bonus.subtitle && (
-                <p className="font-serif text-sm sm:text-base text-surface mt-2.5 leading-relaxed max-w-2xl">
+                <p className="font-sans text-sm sm:text-base text-surface mt-2.5 leading-relaxed max-w-2xl">
                   {bonus.subtitle}
                 </p>
               )}
@@ -193,23 +220,32 @@ function ManyChatBonusView({ bonusId }: { bonusId: string }) {
         </div>
       </header>
 
-      {/* 2. Navigation compacte des 5 leçons sans conteneur englobant */}
+      {/* 2. Navigation compacte des 5 leçons avec suivi persistant */}
       <nav
         aria-label="Navigation des 5 leçons"
         className="w-full space-y-2.5"
       >
-        <div className="flex items-center justify-between px-1">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-1">
           <span className="font-mono text-[11px] font-bold uppercase text-ink tracking-wider">
             PARCOURS CONVERSATIONNEL
           </span>
-          <span className="font-mono text-[11px] font-bold px-2.5 py-0.5 bg-surface border-2 border-ink rounded-full text-ink shadow-brutal-xs">
-            Leçon 0{activeLessonIndex + 1} / 05
-          </span>
+          <div className="flex items-center gap-2">
+            <span
+              data-testid="manychat-completed-counter"
+              className="font-mono text-[11px] font-bold px-2.5 py-0.5 bg-pale-pink border border-ink rounded-full text-ink"
+            >
+              {completedIds.length}/{lessons.length} vues
+            </span>
+            <span className="font-mono text-[11px] font-bold px-2.5 py-0.5 bg-surface border-2 border-ink rounded-full text-ink shadow-brutal-xs">
+              Leçon 0{activeLessonIndex + 1} / 05
+            </span>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2.5">
           {lessons.map((lesson, idx) => {
             const isActive = idx === activeLessonIndex;
+            const isCompleted = completedSet.has(lesson.id);
 
             return (
               <button
@@ -217,14 +253,22 @@ function ManyChatBonusView({ bonusId }: { bonusId: string }) {
                 type="button"
                 onClick={() => handleSelectLesson(idx)}
                 aria-current={isActive ? 'page' : undefined}
-                className={`px-3 py-2.5 text-left border-2 border-ink rounded-brutal-btn transition-all flex items-center gap-2.5 min-h-[52px] focus:outline-none focus:ring-2 focus:ring-primary-red ${isActive
+                className={`px-3 py-2.5 text-left border-2 border-ink rounded-brutal-btn transition-all flex items-center gap-2.5 min-h-[52px] focus:outline-none focus:ring-2 focus:ring-primary-red ${
+                  isActive
                     ? 'bg-primary-red text-surface shadow-brutal-xs font-bold -translate-y-0.5'
+                    : isCompleted
+                    ? 'bg-pale-pink/40 text-ink hover:bg-pale-pink/65 shadow-brutal-xs'
                     : 'bg-surface text-ink hover:bg-cream shadow-brutal-xs'
-                  }`}
+                }`}
               >
                 <span
-                  className={`w-7 h-7 shrink-0 border-2 border-ink rounded-brutal-tag font-mono text-[10px] font-bold flex items-center justify-center ${isActive ? 'bg-surface text-primary-red' : 'bg-cream text-ink'
-                    }`}
+                  className={`w-7 h-7 shrink-0 border-2 border-ink rounded-brutal-tag font-mono text-[10px] font-bold flex items-center justify-center ${
+                    isActive
+                      ? 'bg-surface text-primary-red'
+                      : isCompleted
+                      ? 'bg-ink text-surface'
+                      : 'bg-cream text-ink'
+                  }`}
                   aria-hidden="true"
                 >
                   L0{lesson.lessonNumber}
@@ -235,12 +279,26 @@ function ManyChatBonusView({ bonusId }: { bonusId: string }) {
                     {lesson.title}
                   </span>
                   <span
-                    className={`font-mono text-[10px] font-medium block ${isActive ? 'text-surface/95' : 'text-ink/80'
-                      }`}
+                    className={`font-mono text-[10px] font-medium block ${
+                      isActive ? 'text-surface/95' : 'text-ink/80'
+                    }`}
                   >
                     {lesson.duration}
                   </span>
                 </div>
+
+                {isCompleted && (
+                  <span
+                    className={`w-5 h-5 rounded-full border border-ink flex items-center justify-center shrink-0 ${
+                      isActive
+                        ? 'bg-surface text-primary-red'
+                        : 'bg-primary-red text-surface'
+                    }`}
+                    aria-label="Leçon vue"
+                  >
+                    <Check className="w-3 h-3 stroke-[3]" aria-hidden="true" />
+                  </span>
+                )}
               </button>
             );
           })}
@@ -270,7 +328,7 @@ function ManyChatBonusView({ bonusId }: { bonusId: string }) {
                 {currentLesson.title}
               </h3>
 
-              <p className="font-serif text-sm sm:text-base text-ink leading-relaxed">
+              <p className="font-sans text-sm sm:text-base text-ink leading-relaxed">
                 {currentLesson.objective}
               </p>
 
@@ -310,7 +368,7 @@ function ManyChatBonusView({ bonusId }: { bonusId: string }) {
                       {part.title}
                     </h4>
                     {part.subtitle && (
-                      <p className="font-serif text-xs sm:text-sm text-ink/90 font-medium">
+                      <p className="font-sans text-xs sm:text-sm text-ink/90 font-medium">
                         {part.subtitle}
                       </p>
                     )}
@@ -332,18 +390,41 @@ function ManyChatBonusView({ bonusId }: { bonusId: string }) {
             />
           )}
 
-          {/* 5. Navigation linéaire précédente / suivante sans carte englobante */}
-          <footer className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 pb-2 w-full">
-            <div>
-              <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink block">
-                NAVIGATION DANS LE BONUS
-              </span>
-              <p className="font-display text-sm sm:text-base uppercase text-ink mt-0.5">
-                Leçon 0{activeLessonIndex + 1} sur 05 : {currentLesson.title}
-              </p>
+          {/* 5. Validation & Navigation linéaire précédente / suivante */}
+          <footer className="flex flex-col gap-4 pt-4 pb-2 w-full border-t border-ink/20">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink block">
+                  NAVIGATION DANS LE BONUS
+                </span>
+                <p className="font-display text-sm sm:text-base uppercase text-ink mt-0.5">
+                  Leçon 0{activeLessonIndex + 1} sur 05 : {currentLesson.title}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => toggleManychatLessonCompleted(currentLesson.id)}
+                aria-pressed={isCurrentLessonCompleted}
+                className={`brutal-btn rounded-brutal-btn px-4 py-2.5 min-h-[44px] font-mono text-xs font-bold uppercase inline-flex items-center justify-center gap-2 border-2 border-ink shadow-brutal-xs shrink-0 ${
+                  isCurrentLessonCompleted
+                    ? 'bg-pale-pink text-ink hover:bg-cream'
+                    : 'bg-surface text-ink hover:bg-cream'
+                }`}
+              >
+                <CheckCircle2
+                  className={`w-4 h-4 stroke-[2.5] ${
+                    isCurrentLessonCompleted ? 'text-primary-red' : 'text-ink/70'
+                  }`}
+                  aria-hidden="true"
+                />
+                <span>
+                  {isCurrentLessonCompleted ? 'Leçon marquée vue' : 'Marquer comme vue'}
+                </span>
+              </button>
             </div>
 
-            <div className="flex items-center gap-3 w-full sm:w-auto">
+            <div className="flex flex-wrap items-center justify-end gap-3 w-full">
               {activeLessonIndex > 0 && (
                 <button
                   type="button"
@@ -367,7 +448,7 @@ function ManyChatBonusView({ bonusId }: { bonusId: string }) {
               ) : (
                 <button
                   type="button"
-                  onClick={navigateToHome}
+                  onClick={handleFinishBonus}
                   className="brutal-btn rounded-brutal-btn px-5 py-2.5 min-h-[44px] font-mono text-xs font-bold uppercase inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial bg-primary-red text-surface border-2 border-ink hover:bg-dark-red shadow-brutal-xs"
                 >
                   <span>Terminer le bonus & retour au sommaire</span>

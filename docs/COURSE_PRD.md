@@ -646,7 +646,7 @@ La conception des applications créées par les apprenants accorde une priorité
 |---|---|---|
 | **Viewport Meta** | `<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">` | Présence dans le `<head>` |
 | **Cibles Tactiles** | Dimensions minimales de tous les boutons et inputs : **44x44 pixels**. Espacement minimal entre 2 éléments cliquables : **8 pixels**. | Contrôle au doigt sans risque de clic erroné |
-| **Zéro Débordement** | `overflow-x: hidden` sur les conteneurs racines, `max-width: 100%`, `box-sizing: border-box` universel. Aucun scroll horizontal. | Test de défilement latéral à 375px |
+| **Zéro Débordement** | Prévention structurelle sans `overflow-x: hidden` sur `html`/`body` : `min-width: 0`, `max-width: 100%`, grilles fluides `minmax(0, 1fr)`, `@container` et `box-sizing: border-box` universel. Aucun scroll horizontal. | Test de défilement latéral à 375px |
 | **Typographie Tactile** | Taille minimale du corps de texte : **16 pixels** (évite le zoom forcé automatique d'iOS sur les champs de saisie). | Saisie fluide sans redimensionnement de l'écran |
 | **Absence de Dépendance au Survol** | Aucune information critique ou action masquée derrière un état `:hover`. Toute information secondaire est accessible par clic/tap accordéon. | Fonctionnalité complète sur écran tactile |
 | **Formulaires Adaptés** | Attributs `inputmode` adaptés : `inputmode="numeric"` pour les chiffres, `type="email"` pour les courriels, `type="tel"` pour les téléphones. | Déploiement automatique du pavé tactile adapté |
@@ -837,21 +837,18 @@ L'application web **AI CREATOR Studio** sert de véhicule d'apprentissage. Ses f
 - **Lecteur de Contenu Structuré (`ProseSection`)** :
   Mise en page éditoriale soignée avec typographie contrastée, listes d'actions et encadrés d'accentuation.
 - **Composants Médias & Schémas (`ImageBlock`, `ScreenshotBlock`, `DiagramBlock`)** :
-  L'infrastructure technique des composants de rendu visuel dans `src/components/widgets/media/` intègre l'inventaire strict des 7 captures d'écran réelles validées lors du Lot C :
-  - **Module 01 (2 captures)** : `l1-claude-skill-install.png` (installation du Skill dans Claude) et `l2-claude-three-concepts.png` (sélection des 3 concepts d'interaction).
-  - **Module 02 (2 captures)** : `l4-claude-code-download.png` (téléchargement du fichier HTML depuis Claude) et `l5-devtools-mobile-375px.png` (contrôle DevTools en vue mobile 375 px).
-  - **Module 03 (3 captures)** : `l6-netlify-drop-upload.png` (glisser-déposer sur Netlify Drop), `l6-netlify-visibility-subdomain.png` (visibilité publique et personnalisation de sous-domaine) et `l7-chariow-post-purchase.png` (expérience de livraison et page post-achat Chariow).
-  *Choix d'ordonnancement et design* : Retrait volontaire de L7-Files pour alléger L7-S1 et maintien de L6-Public. Ordonnancement canonique `Prose → Screenshot → Action`. Les dates sont masquées dans l'interface visuelle mais préservées dans les métadonnées. L'ensemble est documenté dans le storyboard de référence [`docs/storyboard/VISUAL-STORYBOARD-L1-L7.md`](storyboard/VISUAL-STORYBOARD-L1-L7.md).
+  L'infrastructure de rendu visuel intègre une Lightbox plein écran accessible au clic sur chaque `ScreenshotBlock` (fermeture `Esc`, bouton `X`), tout en maintenant `capturedAt` masqué dans l'interface visuelle et préservé dans les métadonnées.
+  L'inventaire des captures couvre les 3 modules autour du produit fil rouge **SOLDE** (`docs/examples/solde/index.html`, remplaçant l'ancien calculateur de prix) : captures locales générées via `scripts/capture-local-screenshots.mjs` (`l4-solde-gate-screen.png`, `l5-solde-devtools-375px.png`, `l5-solde-desktop-final.png`, `l7-guide-acces-preview.png`) et fiches externes documentées dans [`docs/guides/FICHES-CAPTURES-EXTERNES.md`](guides/FICHES-CAPTURES-EXTERNES.md).
 
 ### 15.2. Persistance Locale & Respect de la Vie Privée
 
 - **Persistance LocalStorage Pure (Plateforme AI CREATOR Studio)** :
-  L'état d'avancement de l'apprenant (leçons complétées, étapes actives, cases cochées, réponses aux exercices, profil) est sauvegardé automatiquement dans le `localStorage` de son navigateur sous la clé canonique `ai_creator_studio_progress_v1`.
+  L'état d'avancement de l'apprenant (leçons complétées, étapes actives, cases cochées, réponses aux exercices, progression Bonus 01 `bonusProgress`, profil) est sauvegardé automatiquement dans le `localStorage` de son navigateur sous la clé canonique `ai_creator_studio_progress_v1`.
   *Note d'architecture sur le versionnement* : Cette clé de stockage (`ai_creator_studio_progress_v1`) est pérenne et distincte de la version du schéma interne des données, actuellement en **Schéma V4** gouverné par le modèle canonique `3m-3d-7l`. Le moteur de persistance intègre une chaîne de migration résiliente pour les anciens schémas (V1, V2, V3) et un mécanisme de sauvegardes brutes non destructives (`_raw_backup_v1`, `_v2`, `_v3`, `_v4_incompatible`, `_unrecognized`) empêchant tout écrasement accidentel.
-- **Fonctions Internes de Sauvegarde (Non Exposées dans l'UI)** :
-  Le socle technique intègre les fonctions utilitaires internes `exportBackup` et `importBackup` au sein de `src/utils/storage.ts` et `src/context/ProgressContext.tsx`, permettant de manipuler des exports JSON de l'état complet. **Toutefois, aucun composant de l'interface utilisateur actuelle n'expose ces fonctions à l'apprenant**. L'export/import JSON de progression n'est donc pas disponible dans l'UI de la V1.
+- **Sauvegarde & Restauration JSON exposées dans l'UI** :
+  Les fonctions `exportBackup` et `importBackup` (`src/utils/storage.ts`, `src/context/ProgressContext.tsx`) sont exposées dans le pied de page de `CourseLayout.tsx` pour permettre à l'apprenant d'exporter ou restaurer sa progression entre appareils.
 - **Persistance du Produit HTML Généré vs Plateforme** :
-  Il convient de distinguer formellement la persistance de l'apprentissage dans le studio de la persistance des données au sein de l'application créée par l'apprenant. Le Master Prompt R7 impose l'exécution 100 % en mémoire vive volatile pour les simulateurs éphémères et autorise un adaptateur local sécurisé (`StorageAdapter`) avec repli mémoire transparent si une persistance est requise. Aucun mécanisme de synchronisation automatique entre appareils ni export/import JSON prouvé n'est garanti dans le livrable HTML généré.
+  Il convient de distinguer formellement la persistance de l'apprentissage dans le studio de la persistance des données au sein de l'application créée par l'apprenant. Le Master Prompt R7 applique une matrice à 3 niveaux : (a) mémoire vive volatile pour un outil ponctuel, (b) `StorageAdapter` + Export/Import `.json` + bouton « Copier mon résumé » pour un planificateur/simulateur sauvegardé (modèle **SOLDE**), (c) `StorageAdapter` + Export/Import `.json` obligatoire pour un suivi multi-jours. Aucune synchronisation cloud automatique n'est promise.
 - **Zéro Inscription Obligatoire pour la V1** :
   L'apprenant démarre immédiatement son apprentissage sans barrière d'authentification préalable.
 

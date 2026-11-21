@@ -53,7 +53,7 @@ export function CourseHero() {
             </div>
 
             {/* Titre officiel avec accentuation serif crème et filet ondulé organique */}
-            <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-[1.38] tracking-tight text-surface">
+            <h1 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-[1.38] tracking-tight text-surface">
               {titlePrefix}{' '}
               {hasHighlight && (
                 <span className="relative inline-block font-serif italic font-normal text-cream leading-[1.35]">
@@ -75,10 +75,10 @@ export function CourseHero() {
                   </svg>
                 </span>
               )}
-            </h2>
+            </h1>
 
             {/* Sous-titre officiel */}
-            <p className="text-sm sm:text-base text-surface font-serif leading-relaxed max-w-2xl">
+            <p className="text-sm sm:text-base text-surface font-sans leading-relaxed max-w-2xl">
               {COURSE_SUBTITLE}
             </p>
 

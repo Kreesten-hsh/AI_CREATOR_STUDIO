@@ -218,6 +218,35 @@ describe('Persistance V4 (3m-3d-7l) & Chaîne de migration résiliente V1/V2/V3 
       expect(imported?.completedStepIdsByLesson['lesson-01']).toEqual(['lesson-01-step-1']);
     });
 
+    it('persiste, normalise et exporte/importe fidèlement la progression du Bonus 01 (ManyChat)', () => {
+      const original = createInitialProgress();
+      original.bonusProgress = {
+        manychat: {
+          activeLessonId: 'bonus-manychat-l03',
+          completedLessonIds: [
+            'bonus-manychat-l01',
+            'bonus-manychat-l02',
+            'bonus-manychat-l01',
+            'id-inconnu',
+          ],
+        },
+      };
+
+      saveProgressToStorage(original);
+      const reloaded = loadProgressFromStorage();
+      expect(reloaded.bonusProgress?.manychat).toEqual({
+        activeLessonId: 'bonus-manychat-l03',
+        completedLessonIds: ['bonus-manychat-l01', 'bonus-manychat-l02'],
+      });
+
+      const exported = exportProgressJson(reloaded);
+      const imported = importProgressJson(exported);
+      expect(imported?.bonusProgress?.manychat).toEqual({
+        activeLessonId: 'bonus-manychat-l03',
+        completedLessonIds: ['bonus-manychat-l01', 'bonus-manychat-l02'],
+      });
+    });
+
     it('applique les mêmes règles de migration V4 lors de l import JSON d une ancienne progression V3', () => {
       const oldV3Json = JSON.stringify({
         schemaVersion: 3,

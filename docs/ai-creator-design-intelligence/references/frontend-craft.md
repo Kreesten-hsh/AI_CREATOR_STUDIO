@@ -1,18 +1,18 @@
 # Artisanat Frontend : Fichier Unique `index.html`, CSS Natif & Vanilla JS
 
-Ce guide établit les standards techniques, visuels et arithmétiques d'implémentation pour que le fichier unique `index.html` généré fonctionne immédiatement par simple double-clic local (`file://`), sans outil de compilation et avec une finition irréprochable.
+Ce guide établit les standards techniques, visuels et arithmétiques d'implémentation pour que le fichier unique `index.html` généré fonctionne immédiatement par simple double-clic local (`file:///`), sans outil de compilation et avec une finition irréprochable sur mobile (`375 px`) comme sur desktop.
 
 ---
 
 ## 1. Architecture Stricte du Fichier Unique (`REQ-GEN-01` à `REQ-GEN-04`)
 
-1. **Un seul fichier autonome** : tout le HTML, tout le CSS (`<style>` dans `<head>`) et tout le JavaScript (`<script>` en fin de `<body>`) résident dans `index.html`.
+1. **Un seul fichier autonome** : tout le HTML, tout le CSS (`<style>` dans `<head>`) et tout le JavaScript (`<script>` en fin de `<body>`, plus le script anti-FOUC dans `<head>`) résident dans `index.html`.
 2. **Interdiction formelle de Tailwind Play CDN** (`https://cdn.tailwindcss.com`) et de tout framework JS externe (React, Vue, Alpine, jQuery, Chart.js CDN).
 3. **Balise Viewport mobile obligatoire** :
    ```html
-   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
    ```
-4. **Zéro troncature et zéro placeholder** : aucun commentaire de type `/* TODO */`, `// reste du code ici` ou `...` n'est toléré.
+4. **Zéro troncature et zéro placeholder** : aucun commentaire de type `/* TODO */`, `// reste du code ici`, `// ... reste inchangé` ou `...` n'est toléré.
 
 ---
 
@@ -35,7 +35,18 @@ body {
   font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.55;
-  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Prévention structurelle du débordement horizontal (JAMAIS overflow-x: hidden sur html/body) */
+img, svg, canvas, video {
+  max-width: 100%;
+  display: block;
+}
+
+main, section, article, .panel, .grid > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* Harmonisation de la sélection de texte */
@@ -61,27 +72,36 @@ input[type="number"],
 ```
 
 ### Contrôles de Formulaire Tactiles & Accessibilité Physique
-- **Hauteur effective $\ge 44\text{ px}$** : L'élément `<input>` ou `<button>` lui-même (et pas uniquement son conteneur parent) doit avoir une hauteur rendue d'au moins `44px` (`min-height: 44px; height: 44px;`).
-- **Taille de police $\ge 1\text{rem}$ ($16\text{ px}$)** sur tous les inputs pour empêcher le zoom intempestif imposé par Safari iOS.
-- Pour les champs monétaires avec unité (`€`, `%`), utiliser un conteneur d'input avec unité stylisée intégrée (`.iwu`) et préserver le focus visible sur le conteneur (`:focus-within`).
-- Chaque champ possède son `<label for="...">` explicite et un texte d'aide ou d'erreur associé (`<p class="help" id="h_...">`).
+- **Hauteur effective $\ge 44\text{ px}$** : Chaque `<input>`, `<select>`, `<button>`, onglet `role="tab"` et curseur `<input type="range">` doit offrir une cible tactile d'au moins `44×44 px` (`min-height: 44px; min-width: 44px;`).
+- **Taille de police $\ge 1\text{rem}$ ($16\text{ px}$)** sur tous les champs (`input`, `select`, `textarea`) pour empêcher le zoom automatique imposé par Safari iOS.
+- Pour les champs monétaires avec unité (`FCFA`, `€`, `%`), utiliser un conteneur avec unité intégrée et `:focus-within` contrasté.
+- Chaque champ possède son `<label for="...">` explicite et un message d'aide ou d'erreur lié par `aria-describedby`.
 
 ---
 
 ## 3. Précision Numérique & Arithmétique Financière Sécurisée
 
 > [!IMPORTANT]
-> **Règles d'or arithmétiques** :  
-> 1. Ne **JAMAIS** convertir silencieusement une saisie invalide en 0.  
-> 2. Ne **JAMAIS** tronquer silencieusement les décimales saisies par l'utilisateur.  
-> 3. Conserver le texte brut saisi dans le champ en cas d'erreur pour permettre à l'utilisateur de se corriger.  
+> **Règles d'or arithmétiques** :
+> 1. Ne **JAMAIS** convertir silencieusement une saisie invalide en `0`.
+> 2. Ne **JAMAIS** tronquer silencieusement les décimales saisies par l'utilisateur.
+> 3. Conserver le texte brut saisi dans le champ en cas d'erreur (`aria-invalid="true"`) pour permettre à l'utilisateur de se corriger.
 > 4. Ne **PAS** exécuter les calculs dépendants tant qu'un champ requis est invalide.
 
-### A. Représentation Monétaire en Centimes Entiers
-Pour éliminer les erreurs de virgule flottante (`0.1 + 0.2 !== 0.3`), toutes les additions et soustractions financières doivent être calculées en **centimes entiers** :
-- `12 500,50 €` $\rightarrow$ `1 250 050` centimes.
-- La limite sécurisée est `Math.floor(Number.MAX_SAFE_INTEGER / 100)` (soit plus de 90 000 milliards d'euros).
-- Chaque calcul intermédiaire est vérifié avec `Number.isSafeInteger(valeurCentimes)`.
+### A. Arithmétique Exacte `micro-FCFA` (`1 EUR = 655.957 FCFA`) & Centimes Entiers
+Pour éliminer les erreurs de virgule flottante (`0.1 + 0.2 !== 0.3`) et les dérives lors des allers-retours `FCFA ↔ €` (modèle **SOLDE**) :
+- Utiliser une unité interne entière en **micro-FCFA** (`1 FCFA = 1 000 micro-FCFA`, `1 EUR = 655 957 micro-FCFA` exactement, puisque la parité fixe CFA/EUR est `1 EUR = 655.957 FCFA`) :
+  ```javascript
+  var FCFA_PER_EUR = 655.957;
+  var MICRO_PER_FCFA = 1000;
+  var MICRO_PER_EUR = 655957; // Exactement 655.957 * 1000
+
+  function fcfaToMicro(fcfa) { return Math.round(fcfa * MICRO_PER_FCFA); }
+  function eurToMicro(eur) { return Math.round(eur * MICRO_PER_EUR); }
+  function microToFcfa(micro) { return Math.round(micro / MICRO_PER_FCFA); }
+  function microToEur(micro) { return Math.round((micro * 100) / MICRO_PER_EUR) / 100; }
+  ```
+- Pour les applications mono-devise en euros, calculer en **centimes entiers** (`Math.floor(Number.MAX_SAFE_INTEGER / 100)`), en vérifiant chaque résultat avec `Number.isSafeInteger()`.
 
 ### B. Parseur Financier Robuste (`parseFrenchFinancialInput`)
 Ce parseur accepte la virgule française `,` et le point `.`, tolère les séparateurs de milliers standards (espaces, insécables `\u00A0`, fines `\u202F`), et rejette rigoureusement les formats ambigus :
@@ -94,17 +114,13 @@ function parseFrenchFinancialInput(raw, allowNegative) {
   var str = String(raw).trim();
   if (str === '') return { valid: false, empty: true, cents: 0, text: '' };
 
-  // Normalisation des espaces (espaces simples, insécables standard \u00A0 et fines \u202F)
   var norm = str.replace(/[\u00A0\u202F]/g, ' ');
 
-  // Rejet des groupements de milliers suspects ou mal formés (ex: '12 50 0' ou '12 5')
   if (/\d+\s+\d{1,2}\s+\d+/.test(norm) || /\d+\s+\d{4,}/.test(norm)) {
     return { valid: false, empty: false, text: str, error: 'Format de milliers invalide (ex: 12 500).' };
   }
 
   var clean = norm.replace(/\s/g, '');
-
-  // Vérification de la présence d'au plus un séparateur décimal
   var sepCount = (clean.match(/[,.]/g) || []).length;
   if (sepCount > 1) {
     return { valid: false, empty: false, text: str, error: 'Format invalide : plusieurs séparateurs décimaux.' };
@@ -126,7 +142,6 @@ function parseFrenchFinancialInput(raw, allowNegative) {
   var decimalPart = parts[1] || '';
 
   if (decimalPart.length > 2) {
-    // Conservation de 2 décimales pour les centimes
     decimalPart = decimalPart.substring(0, 2);
   } else while (decimalPart.length < 2) {
     decimalPart += '0';
@@ -145,39 +160,50 @@ function parseFrenchFinancialInput(raw, allowNegative) {
 
 ## 4. Graphiques & Jauges SVG Inline Accessibles
 
-Pour les jauges et comparatifs (ex. Coût de revient vs Marge nette) :
-1. **Séparation géométrique stricte** : Ne jamais superposer le calque de texte et le calque de barres. Disposer les libellés sur une bande dédiée au-dessus de chaque barre pour garantir une lisibilité absolue.
-2. **Gestion de l'axe zéro** :
-   - Échelle dynamique calculée sur `min(0, coutRevient, margeNette)` et `max(0, coutRevient, margeNette)`.
-   - Si toutes les valeurs sont nulles (`0 €` ou `0 FCFA`), centrer l'axe zéro (`X = W / 2`) avec un repère `0` parfaitement lisible.
+Pour les jauges, anneaux de répartition et comparatifs :
+1. **Séparation géométrique stricte** : Ne jamais superposer un texte de légende sur une barre graphique. Disposer les libellés sur une bande ou légende dédiée.
+2. **Gestion de l'état nul ou déséquilibré** : Si le revenu ou le total est `0`, afficher un anneau ou axe neutre lisible sans division par zéro (`NaN`).
 3. **Accessibilité SVG** :
-   - `<svg role="img" aria-labelledby="gaugeTitle gaugeDesc" viewBox="...">`
-   - Balise `<title id="gaugeTitle">` et résumé textuel dynamique dans `<desc id="gaugeDesc">`.
+   - `<svg role="img" aria-labelledby="chartTitle chartDesc" viewBox="...">`
+   - Balise `<title id="chartTitle">` et résumé textuel dynamique mis à jour dans `<desc id="chartDesc">`.
 
 ---
 
-## 5. Responsive `375 px` Intrinsèque & Prévention du Débordement
+## 5. Responsive `375 px` Intrinsèque, Cockpit Mobile & Safe Areas
 
-- **Interdiction de `overflow-x: hidden` sur `html` ou `body`** (`REQ-MOB-01`).
-- Grille fluide de repli automatique :
+- **Interdiction absolue de `overflow-x: hidden` sur `html` ou `body`** (`REQ-MOB-01`).
+- **Grille asymétrique desktop + barre collante safe-area sur mobile** :
   ```css
-  .grid {
+  .layout-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
   }
+
+  .mobile-dock {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 40;
+  }
+
   @media (min-width: 960px) {
-    .grid {
+    .layout-grid {
       grid-template-columns: minmax(0, 7fr) minmax(340px, 5fr);
       align-items: start;
     }
-    .ticket {
+    .bilan-panel {
       position: sticky;
       top: 1.5rem;
     }
+    .mobile-dock,
+    .mobile-tabs {
+      display: none;
+    }
   }
   ```
-- Sur mobile `375 px`, afficher la Pièce Maîtresse de Verdict en priorité ou juste après les scénarios de référence pour un accès instantané au résultat.
+- Sur mobile `375 px`, s'assurer que le verdict principal est visible au-dessus de la ligne de flottaison (directement pour un petit outil `<= 5` champs, ou via Résumé mobile + Onglets `Saisie`/`Bilan` + Barre collante pour un Cockpit Dual-Mode type SOLDE).
 
 ---
 
@@ -196,14 +222,15 @@ Pour les jauges et comparatifs (ex. Coût de revient vs Marge nette) :
 
 ---
 
-## 7. Patron d'Écran de Verrouillage Acheteur (`.gate` & `ACCESS_CODE`)
+## 7. Patron d'Écran de Code d'Accès Acheteur (`.gate` & `ACCESS_CODE`)
 
 Chaque application générée intègre obligatoirement la barrière d'accès dissuasive par code d'accès JavaScript sans clignotement ni dépendance serveur (`DEC-ARB-08`, `DEC-ARB-13`).
+**Règle critique** : `KEY` doit toujours être dérivé du slug du produit (`"<slug_produit>_access"`, ex. `"solde_access"`), afin que deux applications hébergées ou testées localement n'entrent jamais en collision.
 
 ### Script synchrone de pré-rendu dans `<head>` (Zéro Flash FOUC)
 ```html
 <script>
-  var ACCESS_CODE = "CREATOR2026", KEY = "pricing_access";
+  var ACCESS_CODE = "SOLDE2026", KEY = "solde_access";
   try {
     if (localStorage.getItem(KEY) !== "granted") {
       document.documentElement.classList.add("locked");
@@ -214,50 +241,43 @@ Chaque application générée intègre obligatoirement la barrière d'accès dis
 </script>
 ```
 
-### Formulaire `.gate`, validation `.trim()`, accessibilité `aria-invalid` et reverrouillage `#lockBtn`
+### Formulaire `.gate`, validation tolérante `.trim().toUpperCase()`, accessibilité `aria-invalid` et `#lockBtn`
 ```javascript
-// Sélection des nœuds DOM du verrou
-var gate = document.getElementById("gate");
 var gateForm = document.getElementById("gateForm");
 var gateCode = document.getElementById("gateCode");
 var gateErr = document.getElementById("gateErr");
 var gateCard = document.getElementById("gateCard");
 var lockBtn = document.getElementById("lockBtn");
 
-// Validation à la soumission
-if (gateForm) {
+if (gateForm && gateCode) {
   gateForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    var val = (gateCode.value || "").trim();
-    if (val.toUpperCase() === ACCESS_CODE.toUpperCase()) {
+    var val = gateCode.value || "";
+    if (val.trim().toUpperCase() === ACCESS_CODE.toUpperCase()) {
       gateCode.removeAttribute("aria-invalid");
       if (gateErr) gateErr.textContent = "";
       try { localStorage.setItem(KEY, "granted"); } catch (err) {}
       document.documentElement.classList.remove("locked");
-      var firstInput = document.querySelector("main input, .form input");
+      var firstInput = document.querySelector("main input, main button");
       if (firstInput) firstInput.focus();
     } else {
       gateCode.setAttribute("aria-invalid", "true");
-      if (gateErr) gateErr.textContent = "Code d'accès incorrect. Vérifie les majuscules et réessaie.";
+      if (gateErr) gateErr.textContent = "Code d'accès incorrect. Vérifie ton guide d'accès et réessaie.";
       if (gateCard) {
         gateCard.classList.remove("shake");
-        void gateCard.offsetWidth; // Forcer le reflow CSS
+        void gateCard.offsetWidth;
         gateCard.classList.add("shake");
       }
       gateCode.focus();
     }
   });
-}
 
-// Réinitialisation de l'état d'erreur à la saisie
-if (gateCode) {
   gateCode.addEventListener("input", function () {
     gateCode.removeAttribute("aria-invalid");
     if (gateErr) gateErr.textContent = "";
   });
 }
 
-// Bouton de reverrouillage explicite dans l'en-tête
 if (lockBtn) {
   lockBtn.addEventListener("click", function () {
     try { localStorage.removeItem(KEY); } catch (err) {}
@@ -277,7 +297,7 @@ if (lockBtn) {
 ## 8. Patron `StorageAdapter` & Export/Import JSON Manuel Conditionnel
 
 > [!IMPORTANT]
-> **Condition d'activation stricte** : Ce patron ne doit être activé **que lorsque l'application persiste des données métier en `localStorage`** (par exemple un historique d'estimations, un suivi multi-jours ou une checklist de progression). Si l'application est un pur calculateur instantané sans persistance métier, seul le verrou `.gate` utilise `localStorage` et les boutons d'export/import JSON ne doivent pas être affichés.
+> **Condition d'activation** : Activer ce patron pour les **Simulateurs / Planificateurs sauvegardés** (modèle SOLDE, niveau b) et les **Journaux / Suivis multi-jours** (niveau c). Pour un outil ponctuel éphémère (niveau a), seul `.gate` utilise `localStorage` et les boutons d'export/import JSON restent absents.
 
 ### Wrapper sécurisé `StorageAdapter` sous `try/catch`
 ```javascript
@@ -309,21 +329,19 @@ var StorageAdapter = {
 
 ### Fonctions d'export (`Blob` JSON) et d'import (`FileReader` + `JSON.parse` sécurisé)
 ```javascript
-// Export manuel au format JSON
 function exportStateAsJson(stateObj, filename) {
   var dataStr = JSON.stringify(stateObj, null, 2);
   var blob = new Blob([dataStr], { type: "application/json;charset=utf-8" });
   var url = URL.createObjectURL(blob);
   var a = document.createElement("a");
   a.href = url;
-  a.download = filename || "sauvegarde-donnees.json";
+  a.download = filename || "sauvegarde-solde.json";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
 
-// Import manuel avec validation sécurisée
 function importStateFromJson(onSuccess, onError) {
   var fileInput = document.createElement("input");
   fileInput.type = "file";
@@ -361,15 +379,159 @@ function importStateFromJson(onSuccess, onError) {
 
 ---
 
-## 9. Sélecteur Multi-Devises (`FCFA` / `€`) & Sécurité Arithmétique de Tarification
+## 9. Patrons Craft Modernes Extraits de SOLDE
 
-Pour les calculateurs de prix et de rentabilité (comme `docs/examples/pricing-calculator/index.html`) :
-1. **Formatage par devise** :
-   - En **`FCFA`** : arrondir à l'entier (`Math.round(n)`) avec séparateur de milliers espace (`15 000 FCFA`), `step="100"` sur les champs monétaires.
-   - En **`€`** : afficher deux décimales avec virgule française (`24,50 €`), `step="0.5"` sur les champs monétaires.
-2. **Formule de prix de vente conseillé avec couverture des frais** :
-   - `coutRevientUnitaire = materiel + emballage + (minutes / 60) * tauxHoraire`
-   - `margeCible = coutRevientUnitaire * (margePct / 100)`
-   - `tauxFrais = fraisPct / 100`
-   - Si `coutRevientUnitaire <= 0 || tauxFrais >= 1`, retourner `0` pour éviter toute division par zéro ou prix négatif absurde.
-   - Sinon : `prixConseille = (coutRevientUnitaire + margeCible + fraisFixe) / (1 - tauxFrais)`.
+Ces 6 patrons natifs (zéro dépendance, compatibles `file:///`) élèvent immédiatement la qualité perçue et la fluidité tactile :
+
+### A. Requêtes de Conteneur CSS (`@container`)
+Permet aux cartes de métriques et panneaux de s'adapter à leur propre largeur plutôt qu'à celle du viewport :
+```css
+.metric-shell {
+  container-type: inline-size;
+  container-name: metric;
+}
+
+.metric-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@container metric (min-width: 420px) {
+  .metric-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+```
+
+### B. Range Slider Tactile Accessible avec Piste Peinte Dynamiquement
+Cible tactile `>= 44 px` de haut et progression visuelle synchronisée via variable CSS `--pct` :
+```css
+input[type="range"].craft-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  min-height: 44px;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"].craft-slider::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--accent-primary) 0%,
+    var(--accent-primary) var(--pct, 50%),
+    var(--border-subtle) var(--pct, 50%),
+    var(--border-subtle) 100%
+  );
+}
+
+input[type="range"].craft-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  margin-top: -8px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 2px solid var(--border-strong);
+}
+```
+```javascript
+function paintRangeSlider(el) {
+  var min = Number(el.min || 0), max = Number(el.max || 100), val = Number(el.value || 0);
+  var pct = max > min ? ((val - min) / (max - min)) * 100 : 0;
+  el.style.setProperty("--pct", Math.max(0, Math.min(100, pct)) + "%");
+}
+```
+
+### C. Donut SVG `stroke-dasharray` avec Transitions `cubic-bezier`
+Idéal pour visualiser une répartition budgétaire (ex. 3 enveloppes SOLDE : Besoins, Envies, Épargne) sans bibliothèque graphique :
+```css
+.donut-seg {
+  fill: none;
+  stroke-width: 18;
+  transition: stroke-dasharray 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              stroke-dashoffset 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+```
+```javascript
+function updateDonutSegments(segments, radius) {
+  var C = 2 * Math.PI * radius;
+  var offset = 0;
+  segments.forEach(function (seg) {
+    var len = (Math.max(0, seg.pct) / 100) * C;
+    seg.el.setAttribute("stroke-dasharray", len.toFixed(2) + " " + C.toFixed(2));
+    seg.el.setAttribute("stroke-dashoffset", (-offset).toFixed(2));
+    offset += len;
+  });
+}
+```
+
+### D. Batching des Rendus via `requestAnimationFrame`
+Évite les recalculs saccadés lors du glissement continu d'un curseur ou d'une saisie rapide :
+```javascript
+var rafPending = false;
+function scheduleRender(renderFn) {
+  if (rafPending) return;
+  rafPending = true;
+  requestAnimationFrame(function () {
+    rafPending = false;
+    renderFn();
+  });
+}
+```
+
+### E. `<dialog>` Natif Accessible + Repli Safari / Navigateurs Anciens
+Pour une modale de confirmation, d'import ou d'explication de méthode sans dépendance :
+```javascript
+function openModal(dialogEl) {
+  if (!dialogEl) return;
+  if (typeof dialogEl.showModal === "function") {
+    if (!dialogEl.open) dialogEl.showModal();
+  } else {
+    dialogEl.setAttribute("open", "");
+    dialogEl.classList.add("dialog-fallback-open");
+  }
+}
+
+function closeModal(dialogEl) {
+  if (!dialogEl) return;
+  if (typeof dialogEl.close === "function" && dialogEl.open) {
+    dialogEl.close();
+  } else {
+    dialogEl.removeAttribute("open");
+    dialogEl.classList.remove("dialog-fallback-open");
+  }
+}
+```
+
+### F. Copie Fiable `copyReliable()` Compatible `file:///`
+Sous protocole local `file:///`, `navigator.clipboard.writeText` peut être bloqué selon le navigateur ; ce helper assure une copie fiable dans 100 % des contextes :
+```javascript
+function copyReliable(text, onDone) {
+  function fallbackCopy() {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    if (typeof onDone === "function") onDone(ok);
+  }
+
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === "function" && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(function () {
+      if (typeof onDone === "function") onDone(true);
+    }).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
+  }
+}
+```

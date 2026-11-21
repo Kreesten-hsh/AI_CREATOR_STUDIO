@@ -15,13 +15,13 @@ export function ExternalNovitckiiCard({ resource }: ExternalNovitckiiCardProps) 
         <h3 className="font-display text-xl sm:text-2xl uppercase tracking-tight text-ink">
           {resource.title}
         </h3>
-        <p className="font-serif text-sm text-ink leading-relaxed max-w-3xl">
+        <p className="font-sans text-sm text-ink leading-relaxed max-w-3xl">
           {resource.description}
         </p>
       </div>
 
       <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-ink/20">
-        <span className="font-serif text-xs text-ink font-medium italic">
+        <span className="font-sans text-xs text-ink font-medium italic">
           Ressource externe indépendante, non auditée par AI CREATOR Studio.
         </span>
 

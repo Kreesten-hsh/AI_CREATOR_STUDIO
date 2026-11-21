@@ -366,6 +366,15 @@ export interface QuizAttemptState {
   total: number;
 }
 
+export interface BonusManychatProgress {
+  activeLessonId?: string;
+  completedLessonIds: string[];
+}
+
+export interface BonusProgressState {
+  manychat?: BonusManychatProgress;
+}
+
 export interface StudentProgress {
   schemaVersion: 4;
   curriculumModel: '3m-3d-7l';
@@ -377,6 +386,7 @@ export interface StudentProgress {
   quizStates: Record<string, QuizAttemptState>;
   savedPrompts: Record<string, string>;
   customPromptInputs: Record<string, Record<string, string>>;
+  bonusProgress?: BonusProgressState;
   profile: StudentProfile;
   persistenceDisabled?: boolean;
   legacyArchive?: Record<string, unknown>;

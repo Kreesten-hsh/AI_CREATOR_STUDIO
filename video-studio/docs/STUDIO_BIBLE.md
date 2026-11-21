@@ -113,7 +113,7 @@ Les primitives historiques de `engine/components/Primitives.tsx` (`RetroWindow`,
 - **Transformation réelle promise** :
   `Expertise, idée ou guide existant` → `Claude.ai gratuit (sans abonnement payant, sans savoir coder)` → `Produit digital interactif testé` → `Publié et prêt à livrer sur Chariow`.
 - **Faits vérifiés du dépôt** :
-  - Seul exemple d'application finie livré dans le cours : `Calculateur de Prix & Rentabilité` (conversion `FCFA` / `€` et écran de verrouillage par mot de passe). Tout autre exemple (budget, diagnostic, checklist métier) est présenté uniquement comme une **idée de création possible**.
+  - Exemple d'application finie livré dans le cours : **`SOLDE.` (Planificateur de Budget & Objectifs)**, issu de l'ebook de 20 pages `SOLDE-EBOOK-BUDGET-MENSUEL-OBJECTIFS.pdf` (3 profils pré-remplis, conversion exacte `FCFA` / `€`, score de sérénité `/100`, crash-test imprévu, simulateur d'objectif ETA, Export/Import `.json` et écran de verrouillage par mot de passe `SOLDE2026`). Tout autre exemple (diagnostic, checklist métier, quiz) est présenté comme une **idée de création possible**.
   - Bonus 01 : automatisation ManyChat pour les **commentaires Facebook vers Messenger uniquement** (jamais Instagram ni TikTok).
   - Bonus 02 : **Marketing Library** (9 ressources de Skills marketing utilisables dans Claude ou ChatGPT + 1 prompt universel de recherche concurrentielle + 1 lien de veille externe `novitckii.com/resources/`).
 - **Interdictions strictes** :

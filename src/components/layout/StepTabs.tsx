@@ -25,14 +25,14 @@ export function StepTabs({
     hasMountedRef.current = true;
   }, []);
 
-  // Mise en page responsive adaptée aux étapes
+  // Mise en page compacte dès 375 px pour éviter l'empilement vertical sur mobile
   const gridLayoutClass =
     steps.length === 1
       ? 'grid-cols-1'
       : steps.length === 2
-      ? 'grid-cols-1 sm:grid-cols-2'
+      ? 'grid-cols-2'
       : steps.length === 3
-      ? 'grid-cols-1 sm:grid-cols-3'
+      ? 'grid-cols-3'
       : 'grid-cols-2 sm:grid-cols-4';
 
   // Navigation clavier selon le motif W3C ARIA Tabs
@@ -70,7 +70,7 @@ export function StepTabs({
       <div
         role="tablist"
         aria-label="Étapes de la leçon"
-        className={`grid ${gridLayoutClass} gap-2.5 sm:gap-3`}
+        className={`grid ${gridLayoutClass} gap-1.5 sm:gap-3`}
       >
         {steps.map((step, idx) => {
           const isActive = step.id === activeStepId;
@@ -90,7 +90,7 @@ export function StepTabs({
               tabIndex={isActive ? 0 : -1}
               onClick={() => onSelectStep(step.id)}
               onKeyDown={(e) => handleKeyDown(e, idx)}
-              className={`text-left px-3.5 py-2.5 border-2 border-ink rounded-full transition-colors duration-200 flex items-center gap-2.5 min-h-[46px] focus:outline-none focus:ring-2 focus:ring-primary-red focus:ring-offset-2 ${
+              className={`px-2 py-2 sm:px-3.5 sm:py-2.5 border-2 border-ink rounded-brutal-btn sm:rounded-full transition-colors duration-200 flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-1 sm:gap-2.5 min-h-[48px] sm:min-h-[46px] focus:outline-none focus:ring-2 focus:ring-primary-red focus:ring-offset-2 ${
                 isActive
                   ? 'bg-primary-red text-surface shadow-brutal-xs font-bold -translate-y-0.5'
                   : isCompleted
@@ -130,9 +130,9 @@ export function StepTabs({
                 )}
               </span>
 
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center justify-between gap-1">
-                  <span className="font-display text-xs uppercase tracking-tight truncate">
+              <div className="min-w-0 w-full sm:flex-1">
+                <div className="flex items-center justify-center sm:justify-between gap-1">
+                  <span className="font-display text-[11px] sm:text-xs uppercase tracking-tight truncate block">
                     {step.title}
                   </span>
                   {isCompleted && (
@@ -143,8 +143,8 @@ export function StepTabs({
                 </div>
                 {step.subtitle && (
                   <p
-                    className={`text-[11px] font-medium truncate leading-tight ${
-                      isActive ? 'text-surface' : 'text-ink'
+                    className={`sr-only sm:not-sr-only sm:block text-[11px] font-sans font-medium truncate leading-tight ${
+                      isActive ? 'text-surface' : 'text-ink/85'
                     }`}
                   >
                     {step.subtitle}

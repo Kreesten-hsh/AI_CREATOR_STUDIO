@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/vitest';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { ImageBlock } from '../components/widgets/media/ImageBlock';
 import { ScreenshotBlock } from '../components/widgets/media/ScreenshotBlock';
@@ -92,6 +92,45 @@ describe('Blocs Média & Accessibilité (ImageBlock, ScreenshotBlock, DiagramBlo
 
       // Vérifie qu'aucune fausse URL (ex: "https://faux-site.com") n'est affichée
       expect(screen.queryByText(/http:\/\/|https:\/\//i)).not.toBeInTheDocument();
+    });
+
+    it('ouvre une Lightbox plein écran au clic sur la capture et se ferme avec Escape ou la croix X en restaurant le focus', () => {
+      render(
+        <ScreenshotBlock
+          block={{
+            id: 'screen-lightbox',
+            type: 'screenshot',
+            src: '/images/capture-test.png',
+            alt: 'Capture agrandissable de démonstration',
+            caption: 'Aperçu zoomable de la configuration',
+            capturedAt: '12 Novembre 2026',
+          }}
+        />
+      );
+
+      const trigger = screen.getByRole('button', {
+        name: /Agrandir la capture : Aperçu zoomable de la configuration/i,
+      });
+      trigger.focus();
+      fireEvent.click(trigger);
+
+      const dialog = screen.getByRole('dialog', {
+        name: 'Aperçu zoomable de la configuration',
+      });
+      expect(dialog).toBeInTheDocument();
+      expect(screen.queryByText(/12 Novembre 2026/i)).not.toBeInTheDocument();
+
+      // Fermeture via Escape
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      expect(document.activeElement).toBe(trigger);
+
+      // Réouverture puis fermeture via bouton X >= 44px
+      fireEvent.click(trigger);
+      const closeBtn = screen.getByRole('button', { name: /Fermer l'aperçu agrandi/i });
+      expect(closeBtn).toHaveClass('min-w-[44px]', 'min-h-[44px]');
+      fireEvent.click(closeBtn);
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
   });
 

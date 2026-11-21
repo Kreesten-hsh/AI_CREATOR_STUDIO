@@ -129,7 +129,7 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio', () => {
     expect(doc.querySelector('.cta-pill')).toBeNull();
   });
 
-  it('applique le design system valide, le positionnement officiel, les 5 temoignages, 3 FAQ et zero grille 3x2', () => {
+  it('applique le design system valide, le positionnement officiel, les 4 avis clients, 3 FAQ et zero grille 3x2', () => {
     const html = fs.readFileSync(htmlPath, 'utf-8');
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
@@ -140,20 +140,28 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio', () => {
     // Positionnement officiel validé (Tranche 01, 03, 04)
     expect(text).toContain("Crée le produit digital interactif que ton audience a hâte d'acheter.");
     expect(text).toContain("Pas un énième produit digital qu'on télécharge et qu'on oublie.");
-    expect(text).toContain('+ de 10 millions de FCFA');
+    expect(text).toContain('+ de 1 million de FCFA');
+    expect(html).not.toMatch(/10\s*millions/i);
     expect(text).not.toContain('10 000 000 FCFA');
+    expect(html).not.toMatch(/b[eê]ta/i);
     expect(text).toContain("C'est mon expérience personnelle et ce n'est pas une garantie de résultats.");
     expect(text).toContain('simplicité.');
     expect(text).toContain('interactivité.');
     expect(text).toContain('résultat immédiat.');
     expect(text).toContain("n'est PAS fait pour toi");
 
-    // Preuves brutes + 5 retours bêta-testeurs en Tranche 05
+    // Preuves brutes + 4 avis clients en Tranche 05
     const slice05 = doc.querySelector('section[data-slice="05-preuve-sociale-retours"]');
     expect(slice05).not.toBeNull();
     expect(slice05!.querySelector('img[src="../screenshots/module-03/l6-netlify-visibility-subdomain.png"]')).not.toBeNull();
     expect(slice05!.querySelector('img[src="../screenshots/module-03/l7-chariow-post-purchase.png"]')).not.toBeNull();
-    expect(slice05!.querySelectorAll('.dm-bubble')).toHaveLength(5);
+    expect(slice05!.textContent).toContain('RETOURS CLIENTS');
+    const bubbles = slice05!.querySelectorAll('.dm-bubble');
+    expect(bubbles).toHaveLength(4);
+    expect(bubbles[0].textContent).toContain("Ce cours est le meilleur investissement que j'aie jamais fait.");
+    expect(bubbles[1].textContent).toContain("Sérieusement, ce mini-cours est probablement l'une des meilleures formations en ligne que j'aie jamais achetées.");
+    expect(bubbles[2].textContent).toContain("C'est tellement bien !!! J'en pleure de joie ! 🥹");
+    expect(bubbles[3].textContent).toContain('JE SUIS COMPLÈTEMENT FAN DE TON MINI-COURS !');
 
     // Bonus 01 & Bonus 02 ("9 ressources marketing" exact)
     expect(text).toContain('commentaires Facebook vers Messenger uniquement');
@@ -200,9 +208,9 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio', () => {
       expect(Number.parseFloat(match![1])).toBeGreaterThanOrEqual(minPx);
     }
 
-    // Zéro excès d'emojis ni mention d'Excel
+    // Zéro excès d'emojis (seul l'emoji 🥹 de l'Avis 3 est autorisé) ni mention d'Excel
     const foundEmojis = text.match(/[\u{1F300}-\u{1FAFF}]/gu) ?? [];
-    expect(foundEmojis).toHaveLength(0);
+    expect(foundEmojis).toEqual(['🥹']);
     expect(html).not.toMatch(/\bexcel\b/i);
   });
 

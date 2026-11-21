@@ -1,116 +1,118 @@
 import type { Day } from '../../types/course';
 
-export const MASTER_PROMPT_1_XML = `<prompt id="PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE" version="2.3">
+export const MASTER_PROMPT_1_XML = `<prompt id="PROMPT-ENTRETIEN-DIRECTION-ARTISTIQUE" version="2.5">
   <role>
-    Tu es un Directeur Artistique Digital Senior et Principal Frontend Designer pour AI CREATOR Studio.
-    Ta mission est d'analyser le document métier fourni par l'apprenant, de mener avec lui un parcours structuré en deux phases dans cette même conversation (Phase 1 : cadrage fonctionnel en Leçon 2 ; Phase 2 : direction artistique en Leçon 3), puis de formaliser ses documents de référence :
-    1. Mon plan d'application (Product Blueprint : structure, logique, formules, interactions, code d'accès acheteur).
-    2. Les règles de mon document (Source Fidelity Mapping : matrice des règles source préservées).
-    3. Ma fiche de style (Visual Direction Brief : spécification complète du design validé et de l'écran de verrouillage).
+    Tu es un Concepteur Produit et Directeur Artistique Digital Senior pour AI CREATOR Studio.
+    Ta mission est d'aider l'apprenant (souvent non technique, parfois sur téléphone) à transformer son document (PDF, ebook, guide, notes) ou son idée brute en un plan d'application clair puis en une direction visuelle sur mesure, dans cette même conversation et sans jamais lui demander de créer des fichiers texte ou d'écrire du code.
   </role>
 
   <skill_activation_check>
     INSTRUCTION PRIORITAIRE :
     1. Charge et applique le skill ai-creator-design-intelligence (notamment references/art-direction.md, references/app-interface-design.md et references/design-system.md).
     2. Commence obligatoirement ta première réponse par l'une de ces deux mentions exactes :
-       - [STATUT SKILL : ACTIF - ai-creator-design-intelligence charge] si les fichiers du skill sont accessibles dans cette session.
-       - [STATUT SKILL : NON DETECTE - Application des regles directrices embarquees] si le skill n'est pas détecté.
+       - [STATUT SKILL : ACTIF - ai-creator-design-intelligence chargé] si les fichiers du skill sont accessibles dans cette session.
+       - [STATUT SKILL : NON DETECTE - Application des règles directrices embarquées] si le skill n'est pas détecté.
   </skill_activation_check>
 
+  <fallback_design_rules>
+    MODE SECOURS COMPLET (à appliquer silencieusement si [STATUT SKILL : NON DETECTE]) :
+    1. Quadrilatère de dérivation (à déduire du sujet avant toute proposition visuelle) :
+       - Objet métier : quel objet réel incarne ce domaine ? (carnet, grille de suivi, planificateur, guide de séance…).
+       - Moment de vérité : quel résultat concret ou verdict fait la valeur immédiate pour l'acheteur ?
+       - Émotion / Registre : quelle ambiance rassure ou motive le public ?
+       - Repères visuels : quelles unités, devises, jauges ou étapes appartiennent au sujet ?
+    2. Phrase conceptuelle interne : « Dans cette application, [élément distinctif du métier] devient [élément central de l'expérience visuelle]. »
+    3. Hygiène visuelle de secours : zéro tableau de bord générique à cartes blanches identiques sur fond gris, zéro dégradé bleu-violet générique, surfaces teintées cohérentes, contrastes lisibles, et résultat principal visible dès l'ouverture sur téléphone comme sur ordinateur.
+  </fallback_design_rules>
+
   <context>
-    L'apprenant apporte son propre document métier (PDF, guide, tableur, méthode, checklist, fiche pratique d'une page, support de formation). Il ne possède pas de compétences en programmation ni en design d'interface. Tu dois le guider pas à pas avec clarté, pertinence et pédagogie, en nommant toujours ses documents avec des mots simples : « Mon plan d'application », « Les règles de mon document » et « Ma fiche de style ».
+    L'apprenant envoie simplement son fichier (PDF, ebook, document, tableur) ou explique son idée.
+    Il n'a pas besoin de compétences techniques ni en design ni en informatique.
+    Règle absolue de langage : parle-lui toujours en français simple, direct et chaleureux. N'utilise JAMAIS de jargon anglais ou technique dans tes réponses (jamais de « Product Blueprint », « Source Fidelity Mapping », « localStorage », « .gate », « JSON », « 375 px », ni de demande de créer des fichiers \`.txt\`).
   </context>
 
+  <domain_modeling_patterns>
+    MÉCANIQUES À ÉVALUER SILENCIEUSEMENT POUR RENDRE L'OUTIL VRAIMENT UTILE :
+    Selon le contenu du document, propose uniquement les mécaniques adaptées parmi :
+    1. Exemples ou profils prêts en 1 clic (2 à 3 cas concrets déjà remplis pour démarrer sans hésiter).
+    2. Simulateur « Et si… » (tester un changement de situation, un imprévu ou une nouvelle option en direct).
+    3. Score, diagnostic ou verdict clair (accompagné d'une piste d'action concrète fidèle à la méthode source).
+    4. Récapitulatif ou plan d'action copiable en 1 clic pour l'acheteur.
+  </domain_modeling_patterns>
+
   <strict_rules>
-    <rule id="R1">INTERDICTION ABSOLUE D'EMETTRE DU CODE HTML/JS DANS CE PROMPT : Tu ne dois sous aucun prétexte générer de code HTML, de balises CSS ou de scripts JavaScript à cette étape. L'objectif exclusif est l'analyse, la sélection fonctionnelle, l'échange visuel et la formalisation des spécifications.</rule>
-    <rule id="R2">INTERDICTION DE LA QUESTION GENERIQUE : Ne commence JAMAIS par demander platement « Quel design souhaitez-vous ? » ou « Quelles couleurs voulez-vous ? ». L'apprenant utilise ce système pour être guidé avec des propositions concrètes.</rule>
-    <rule id="R3">PROGRESSIVITE ET DEUX PHASES DISTINCTES : Exécute rigoureusement la Phase 1 (fonctionnelle) avant d'aborder la Phase 2 (visuelle). Pose au maximum 1 ou 2 questions courtes à la fois.</rule>
-    <rule id="R4">DIRECTIONS ARTISTIQUES ADAPTATIVES ET CONTRASTEES : Les 3 concepts visuels de la Phase 2 doivent découler organiquement du document analysé, du public cible et des réponses de l'apprenant. Ne propose JAMAIS mécaniquement les mêmes 3 styles d'un projet à l'autre.</rule>
-    <rule id="R5">SANCTUARISATION DE LA FIDELITE SOURCE : Aucune formule, règle, condition, étape ou nuance du document source ne doit être supprimée ou simplifiée au nom de l'esthétique. Toutes les règles doivent figurer dans le document « Les règles de mon document ».</rule>
+    <rule id="R1">INTERDICTION ABSOLUE D'ÉMETTRE DU CODE HTML/CSS/JS : aucun code informatique à cette étape.</rule>
+    <rule id="R2">INTERDICTION DE LA QUESTION GÉNÉRIQUE : ne demande jamais « Quelles couleurs voulez-vous ? » ou « Quel design préférez-vous ? ». Guide toujours avec des propositions concrètes adaptées au sujet.</rule>
+    <rule id="R3">ZÉRO DEMANDE DE FICHIER INTERMÉDIAIRE : ne demande jamais à l'apprenant de créer un dossier ou d'enregistrer des fichiers \`.txt\`. Tout reste clair et consultable ici dans la conversation.</rule>
+    <rule id="R4">FIDÉLITÉ AU CONTENU SOURCE : préserve toutes les règles, formules, étapes, seuils et conseils importants du document de départ sans rien inventer ni simplifier à tort.</rule>
+    <rule id="R5">LANGAGE NATUREL ET CONCIS : va droit au but, sans pavés inutiles ni explications techniques.</rule>
   </strict_rules>
 
   <process_flow>
-    <!-- ======================================================== -->
-    <!-- PHASE 1 : CADRAGE FONCTIONNEL & FIDELITE SOURCE (LECON 2) -->
-    <!-- ======================================================== -->
-
-    <step id="1" name="ANALYSE DOCUMENTAIRE SILENCIEUSE ET SYNTHESE">
-      Examine intégralement le document joint :
-      - Sujet, finalité et public visé.
-      - Sections et contenus essentiels.
-      - Données, tableaux, formules mathématiques, règles de calcul, seuils d'alerte et cas limites.
-      - Processus, étapes méthodologiques ou grilles d'évaluation.
-      Débute ta première réponse par le statut d'activation du Skill, suivi d'une synthèse visible en 3 ou 4 lignes confirmant ta compréhension de la matière source.
+    <step id="1" name="EXTRACTION SILENCIEUSE OU 3 QUESTIONS SIMPLES">
+      Analyse le document ou les informations envoyés par l'apprenant.
+      - Cas A (informations incomplètes, idée trop vague ou document illisible) :
+        Affiche [STATUT SKILL : ...], explique brièvement ce que tu as pu lire (ou non) et pose directement ces 3 questions courtes en français simple :
+        1. Pour qui est ce produit exactement ?
+        2. Quel problème précis aide-t-il à résoudre ?
+        3. Quel résultat concret ou outil pratique ton client doit-il obtenir à la fin ?
+        Attends sa réponse avant de proposer les 3 idées.
+      - Cas B (document ou description suffisamment clair) :
+        Affiche [STATUT SKILL : ...], résume en 3 phrases simples ce que tu as compris (public, promesse, règles principales) et passe tout de suite à l'étape 2.
     </step>
 
-    <step id="2" name="PROPOSITION DE 3 CONCEPTS D'INTERACTION FONCTIONNELS">
-      Dans cette même première réponse, présente 3 concepts d'interaction fonctionnels profondément différents pour exploiter le document :
-      Pour chaque concept, précise :
-      1. Nom évocateur du concept.
-      2. Problème résolu pour l'utilisateur final.
-      3. Mécanique d'interaction concrète (saisies, contrôles, mode de calcul ou d'exploration).
-      4. Règles du document directement exploitées.
-      5. Forces et limites de l'approche.
-      Formule une recommandation argumentée vers l'un des trois concepts et invite l'apprenant à choisir son concept d'interaction, à préciser son public et à indiquer le code d'accès (ex : CREATOR2026) que ses acheteurs utiliseront pour déverrouiller l'application.
+    <step id="2" name="PROPOSITION DE 3 IDÉES D'APPLICATIONS">
+      Présente 3 façons différentes de transformer ce contenu en application interactive utile :
+      Pour chaque idée, explique simplement :
+      1. Un nom clair pour l'application.
+      2. Ce que ton client y fait concrètement à l'écran.
+      3. Pourquoi c'est plus utile qu'un simple PDF.
+      Recommande une des 3 idées en 1 phrase, puis demande à l'apprenant de choisir (\`1\`, \`2\` ou \`3\`), de confirmer son public si besoin, et de donner le code d'accès court qu'il veut offrir à ses acheteurs (ex. \`MONCODE2026\`).
     </step>
 
-    <step id="3" name="VALIDATION DU CONCEPT ET DOCUMENTS FONCTIONNELS">
-      Dès que l'apprenant a confirmé son choix de concept fonctionnel, génère sans délai les deux documents fonctionnels :
-      - Livrable 1 : Mon plan d'application (Product Blueprint : Nom public, promesse utilisateur, public cible, typologie d'application, code d'accès acheteur retenu [ou proposition d'un code pertinent non trivial comme CREATOR2026 si l'apprenant ne l'a pas précisé], spécification des entrées utilisateur, moteur logique avec formules exactes et alertes, stratégie de sauvegarde [mémoire vive volatile ou localStorage avec export/import JSON manuel], restitution des sorties).
-      - Livrable 2 : Les règles de mon document (Source Fidelity Mapping : Tableau exhaustif reliant chaque élément clé du document original à sa règle de transcription et son mode de contrôle).
+    <step id="3" name="PLAN SIMPLE ET RÈGLES EXTRAITES (SANS CODE)">
+      Dès que l'apprenant valide son choix, présente directement dans le chat (en français simple, sans jargon) :
+      1. **Le plan de l'application** : nom, promesse, écrans/onglets prévus, fonctionnement sur téléphone et ordinateur, sauvegarde des choix de l'utilisateur sur son appareil (si utile), et écran de code d'accès avec le mot de passe choisi.
+      2. **Les règles retenues du document** : liste claire ou tableau simple de toutes les formules, étapes, seuils et conseils exacts du document qui seront intégrés.
 
-      Conclus impérativement cette Phase 1 par le point de passage vers la Leçon 3 :
-      « Vos deux documents fonctionnels (« Mon plan d'application » et « Les règles de mon document ») sont formalisés. Veuillez vérifier qu'aucune règle de votre document n'a été oubliée et sauvegarder ces textes sur votre ordinateur. Dès que vous êtes prêt pour la suite, répondez simplement dans cette conversation : "Plan et règles validés, passons au style." »
+      Termine exactement par :
+      « Le plan et les règles de ton application sont prêts. Vérifie que rien d'important de ton contenu ne manque. Dès que c'est bon pour toi, réponds simplement : "Plan et règles validés, passons au style." »
     </step>
 
-    <!-- ======================================================== -->
-    <!-- PHASE 2 : DIRECTION ARTISTIQUE INDEPENDANTE (LECON 3)    -->
-    <!-- ======================================================== -->
-
-    <step id="4" name="ENTRETIEN VISUEL CONVERSATIONNEL">
-      Dès que l'apprenant envoie le signal de passage à la direction artistique, engage le dialogue visuel :
-      - Pose 1 ou 2 questions ciblées sur l'esprit visuel recherché (personnalité, tonalité, univers sensoriel, posture du public).
-      - Propose des options contrastées et concrètes tirées du Quadrilatère de dérivation du Skill (Forme, Lumière, Typographie, Matériau).
-      - Attends la réponse de l'apprenant.
+    <step id="4" name="ENTRETIEN VISUEL RAPIDE (LEÇON 3)">
+      Dès que l'apprenant répond « Plan et règles validés, passons au style. », pose 1 ou 2 questions très simples pour sentir l'ambiance qui correspond le mieux à son public (ex. plutôt calme et sérieux comme un carnet soigné, chaleureux et motivant, ou énergique et direct), avec 2 ou 3 comparaisons concrètes adaptées à son domaine. Attends sa réponse.
     </step>
 
-    <step id="5" name="PROPOSITION DE 3 DIRECTIONS ARTISTIQUES CONTRASTEES">
-      Sur la base des réponses de l'apprenant, présente 3 directions artistiques radicalement différentes et adaptées au document.
-      Pour chaque direction, présente uniquement ces 6 points simples et visuels (sans tokens CSS ni jargon technique) :
-      1. Nom court et évocateur.
-      2. Phrase décrivant l'ambiance et la personnalité.
-      3. Palette visuelle (teintes concrètes de fond, surface, texte et accent).
-      4. Esprit typographique en termes simples (ex : ronde et moderne, élégante avec empattements, manuscrite chaleureuse).
-      5. Composition générale de l'écran et mise en scène du résultat principal.
-      6. Justification expliquant pourquoi ce style convient au document et à son public.
-      Termine en recommandant l'une des 3 pistes avec ton argumentation de Directeur Artistique, puis invite l'apprenant à choisir son style ou à demander un ajustement.
+    <step id="5" name="3 PROPOSITIONS DE STYLE CONTRASTÉES">
+      Propose 3 styles visuels vraiment différents adaptés à son sujet.
+      Pour chaque style, décris simplement (sans code ni jargon) :
+      1. Le nom de l'ambiance.
+      2. L'impression donnée dès l'ouverture.
+      3. Les couleurs principales (fond, zones importantes, boutons).
+      4. Le style d'écriture et la mise en page sur téléphone et ordinateur.
+      5. Pourquoi ce choix colle bien à ses clients.
+      Recommande un style et invite l'apprenant à choisir (\`1\`, \`2\` ou \`3\`) ou à demander un ajustement de couleur/ton.
     </step>
 
-    <step id="6" name="SELECTION, AFFINAGE ET LIVRABLE 3 (FICHE DE STYLE)">
-      Dès que l'apprenant a indiqué son choix et ses éventuels ajustements (couleurs, polices, densité), formalise le troisième livrable complet :
-      - Livrable 3 : Ma fiche de style (Visual Direction Brief : spécification complète du design validé, tokens CSS :root, typographies sculptées, mise en scène de l'écran de verrouillage par code d'accès (.gate), pièce maîtresse interactive, équilibre spatial, responsive 375 px et gestion d'état).
-      Cette fiche servira de référence technique au Prompt 2 pour générer le code.
+    <step id="6" name="VALIDATION DU STYLE AVANT CRÉATION">
+      Dès que l'apprenant confirme son style (avec d'éventuelles retouches), récapitule clairement son style validé en français simple, puis mémorise silencieusement tous les repères techniques nécessaires pour l'étape suivante (palette exacte avec contrastes lisibles, polices lisibles hors-ligne, organisation téléphone/ordinateur, style de l'écran de code d'accès).
 
-      Conclus impérativement en annonçant :
-      « Votre style visuel et votre plan d'application sont validés ! Vos documents fondateurs sont prêts. Vous pouvez maintenant copier et coller le deuxième prompt (PROMPT 2 : GENERATION DU PRODUIT HTML) dans cette même conversation pour générer votre application interactive complète. »
+      Termine exactement par :
+      « Ton style est validé ! Tu peux maintenant coller le Prompt 2 juste ici pour créer ton application complète. »
     </step>
   </process_flow>
 </prompt>`;
 
 export const PROMPT_ANALYSE_DOC = MASTER_PROMPT_1_XML;
 
-export const PROMPT_CHOIX_IDEE = `Je choisis l'idée numéro [1 / 2 / 3].
+export const PROMPT_CHOIX_IDEE = `Je choisis l'idée n° [1 / 2 / 3].
 
-Précisions souhaitées pour mon application :
-- Public visé : [Ex : créateurs, artisans, formateurs, indépendants]
-- Fonction principale : [Ex : calculer automatiquement son prix de vente et son bénéfice net en FCFA ou en euros]
-- Code d'accès choisi pour mes acheteurs : [Ex : CREATOR2026]
+Précisions pour mon application :
+- Pour qui : [Ex : des personnes qui veulent passer à l'action facilement sans tableau compliqué]
+- Code d'accès pour mes acheteurs : [Ex : MONCODE2026]
+- Détail à garder absolument : [Optionnel : supprime cette ligne si tout est déjà bon]
 
-Formalise maintenant mes deux documents fonctionnels :
-1. Mon plan d'application (ce que l'utilisateur saisit, le fonctionnement logique, le résultat affiché et le code d'accès réservé aux acheteurs).
-2. Les règles de mon document (le tableau de toutes les formules, seuils et règles à conserver à 100 %).
-
-N'émets aucun code informatique pour le moment et indique-moi quand tout est prêt pour passer au style.`;
+Prépare maintenant le plan de mon application et la liste de mes règles, sans code pour l'instant.`;
 
 export const day01: Day = {
   id: 'day-01',
@@ -118,9 +120,8 @@ export const day01: Day = {
   moduleId: 'module-01',
   title: 'Journée 1 : Choisir',
   objective:
-    'Choisir ton document, équiper Claude du Skill gratuit et sélectionner ton idée pour obtenir ton plan d’application et tes règles.',
-  deliverableSummary:
-    'Un document sélectionné, le Skill gratuit activé dans Claude et deux textes sauvegardés : Mon plan d’application et Les règles de mon document.',
+    'Préparer ton point de départ, activer l’aide design gratuite dans Claude et choisir l’idée de ton application.',
+  deliverableSummary: 'Ton document prêt et ton plan d’application validé.',
   lessons: [
     {
       id: 'lesson-01',
@@ -133,50 +134,63 @@ export const day01: Day = {
       italicTitleWord: 'configurer',
       duration: '~15 min',
       objective:
-        'Sélectionner ton document existant, importer le Skill gratuit dans Claude en 7 gestes et vérifier tes outils.',
-      deliverableSummary:
-        'Un document prêt sur ton ordinateur, un compte Claude gratuit ouvert et le Skill installé et actif.',
+        'Partir de ton propre document (ou idée) et ajouter le pack design gratuit dans Claude, sur téléphone comme sur ordinateur.',
+      deliverableSummary: 'Ton document prêt et le pack design activé dans Claude.',
       isSkeletonPlaceholder: false,
       steps: [
         {
           id: 'lesson-01-step-01',
           number: 1,
           title: 'Ton document',
-          subtitle: 'Quoi utiliser',
+          subtitle: 'Point de départ',
           completionLabel: "J'ai mon document",
           blocks: [
             {
               id: 'l1-s1-prose-doc',
               type: 'prose',
-              title: 'CHOISIR TON',
-              italicAccent: 'document',
+              title: 'PARTIR DE',
+              italicAccent: 'ton document',
               highlightPill:
-                "Une fiche pratique d'une page ou un tableau avec formules visibles suffit.",
+                'Un simple PDF, un ebook, quelques notes ou même une idée suffisent pour démarrer.',
               paragraphs: [
-                'Choisis un document existant sur ton ordinateur sans chercher à en rédiger un nouveau.',
+                'Tu pars avant tout de **ton propre contenu**. Tu n’as rien à préparer de compliqué : tu vas simplement l’envoyer à Claude, qui saura lire l’essentiel ou te poser quelques questions simples s’il manque des infos.',
               ],
               bullets: [
-                'Utilise un document texte, un PDF ou un tableau dont les formules restent visibles.',
-                'Si ton guide dépasse 30 pages, garde uniquement le chapitre le plus utile.',
-                "Si le texte d'un PDF ne se sélectionne pas, copie ou retranscris les passages utiles.",
+                '**PDF ou ebook existant** : garde-le sous la main sur ton téléphone ou ton ordinateur pour l’importer dans Claude.',
+                '**Notes ou simple idée** : si tu n’as pas encore de PDF, il te suffira d’expliquer ce que tu veux créer. Claude te demandera *pour qui*, *quel problème* et *quel résultat concret*.',
+                '**Besoin d’un exemple ?** Tu peux jeter un œil au PDF d’exemple SOLDE ci-dessous pour voir comment un simple guide devient une vraie application.',
+              ],
+            },
+            {
+              id: 'l1-s1-res-solde-pdf',
+              type: 'resource',
+              title: 'Exemple de document de départ (facultatif)',
+              description:
+                'Un ebook simple utilisé dans nos exemples si tu veux voir à quoi ressemble un PDF transformé en app.',
+              resources: [
+                {
+                  id: 'res-solde-ebook-pdf',
+                  title: 'SOLDE-EBOOK-BUDGET-MENSUEL-OBJECTIFS.pdf',
+                  category: 'guide',
+                  description:
+                    'Document exemple facultatif pour visualiser le passage d’un PDF à une application interactive.',
+                  format: 'PDF',
+                  externalUrl: '/downloads/demo-pdfs/SOLDE-EBOOK-BUDGET-MENSUEL-OBJECTIFS.pdf',
+                  downloadFilename: 'SOLDE-EBOOK-BUDGET-MENSUEL-OBJECTIFS.pdf',
+                },
               ],
             },
           ],
           help: {
             frequentMistakes: [
               {
-                mistake: 'Vouloir rédiger un nouveau document complet avant de commencer.',
+                mistake: 'Attendre d’avoir un ebook parfait de 50 pages avant de commencer.',
                 correction:
-                  "Prends un support existant contenant des règles claires, même s'il tient sur une seule page.",
-              },
-              {
-                mistake: 'Envoyer un PDF scanné dont le texte ne peut pas être sélectionné.',
-                correction:
-                  'Récupère une version texte exploitable ou recopie simplement les règles et passages utiles.',
+                  'Commence dès maintenant avec ce que tu as : le premier prompt aide justement à clarifier et structurer ton contenu.',
               },
             ],
             tips: [
-              'Une fiche pratique d’une page ou un tableau de calcul donne d’excellents outils interactifs.',
+              'Si tu as déjà un PDF prêt à vendre ou à transformer, garde-le simplement accessible dans tes Téléchargements ou Fichiers.',
             ],
           },
         },
@@ -190,38 +204,54 @@ export const day01: Day = {
             {
               id: 'l1-s2-prose-skill',
               type: 'prose',
-              title: 'INSTALLER LE',
-              italicAccent: 'skill',
+              title: 'ACTIVER LE',
+              italicAccent: 'pack design',
               highlightPill:
-                'Ce fichier gratuit apprend à Claude à concevoir des écrans modernes et soignés.',
+                'Ce petit fichier gratuit donne à Claude des règles visuelles propres pour éviter les interfaces fades générées par défaut.',
               paragraphs: [
-                'Importe ce pack dans Claude en sept gestes pour éviter les interfaces banales.',
+                'Même avec un compte Claude gratuit, tu peux ajouter ce fichier une seule fois dans tes réglages :',
               ],
               bullets: [
-                "1-2. Ouvre Settings > Capabilities et active 'Code execution and file creation'.",
-                "3-6. Ouvre Customize > Skills, clique sur '+', puis '+ Create skill' et 'Upload a skill'.",
-                "7. Sélectionne l'archive ZIP téléchargée sans la décompresser, puis vérifie que le Skill est actif.",
+                '1. Télécharge **`AI-CREATOR-DESIGN-INTELLIGENCE.zip`** ci-dessous **sans le décompresser**.',
+                '2. Dans Claude, ouvre **Paramètres > Capacités** et active **`Création et modification de fichiers`** (ainsi qu’**`Artéfacts`**).',
+                '3. Ouvre **Plug-ins** (ou *Personnalisation*) > onglet **`Skills`**, clique sur **`Ajouter`** en haut à droite pour importer le fichier `.zip`, puis vérifie que **`Ai creator design intelligence`** apparaît sous *Vos plug-ins*.',
               ],
+            },
+            {
+              id: 'l1-s2-callout-safari',
+              type: 'callout',
+              variant: 'warning',
+              title: 'Attention sur iPhone, iPad ou Mac (Safari)',
+              content:
+                'Safari décompresse parfois les fichiers `.zip` tout seul en un dossier. Dans ce cas, télécharge plutôt le fichier avec Chrome, ou fais un clic droit / appui long sur le dossier pour le recompresser en `.zip` avant de l’importer dans Claude.',
+            },
+            {
+              id: 'l1-s2-screen-capabilities',
+              type: 'screenshot',
+              src: '/screenshots/module-01/l1-claude-capabilities.png',
+              alt: 'Menu Paramètres puis Capacités dans Claude avec Création et modification de fichiers activé',
+              caption: 'Dans Paramètres > Capacités : active « Création et modification de fichiers » (requis pour les Skills)',
+              capturedAt: '21 novembre 2026',
             },
             {
               id: 'l1-s2-screen-skill',
               type: 'screenshot',
               src: '/screenshots/module-01/l1-claude-skill-install.png',
-              alt: 'Interface des paramètres de Claude montrant la compétence ai-creator-design-intelligence active sous la section Créé par vous',
-              caption: 'Activation de la compétence de design dans les paramètres de Claude',
-              capturedAt: '10 novembre 2026',
+              alt: 'Page Plug-ins onglet Skills dans Claude montrant le bouton Ajouter et le Skill Ai creator design intelligence actif',
+              caption: 'Dans Plug-ins > Skills : clique sur Ajouter pour importer le .zip (ton Skill apparaît dans Vos plug-ins)',
+              capturedAt: '21 novembre 2026',
             },
             {
-              id: 'l1-s2-resource-skill-zip',
+              id: 'l1-s2-resource-skill',
               type: 'resource',
-              title: 'Fichier du Skill',
-              description: 'Archive officielle à importer directement dans Claude.',
+              title: 'Fichier Design à importer dans Claude',
+              description: 'Télécharge ce fichier et importe-le tel quel dans Claude.',
               resources: [
                 {
-                  id: 'res-skill-zip',
+                  id: 'res-design-skill-zip',
                   title: 'AI-CREATOR-DESIGN-INTELLIGENCE.zip',
                   category: 'template',
-                  description: 'Archive officielle à importer sans la décompresser.',
+                  description: 'Pack de règles visuelles gratuit à activer une seule fois dans Claude.',
                   format: 'ZIP',
                   externalUrl: '/downloads/AI-CREATOR-DESIGN-INTELLIGENCE.zip',
                   downloadFilename: 'AI-CREATOR-DESIGN-INTELLIGENCE.zip',
@@ -232,63 +262,59 @@ export const day01: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake: "Importer le ZIP sans activer l'exécution de code.",
+                mistake: 'Importer un dossier décompressé au lieu du fichier .zip.',
                 correction:
-                  "1. Ouvre Settings > Capabilities et 2. active d'abord 'Code execution and file creation'.",
-              },
-              {
-                mistake: "Décompresser l'archive avant de l'importer dans Claude.",
-                correction:
-                  "Dans Customize > Skills > + > + Create skill > Upload a skill, sélectionne le fichier .zip sans le décompresser.",
+                  'Claude n’accepte que le fichier `.zip`. Si le navigateur l’a ouvert en dossier, utilise Chrome ou compresse-le en `.zip`.',
               },
             ],
             tips: [
-              'Une fois le fichier importé, vérifie que le bouton du Skill est bien activé dans la liste.',
+              'Si l’option Compétences n’apparaît pas sur ton compte gratuit, pas de blocage : le Prompt 1 contient déjà les consignes essentielles en secours.',
             ],
           },
         },
         {
           id: 'lesson-01-step-03',
           number: 3,
-          title: 'Prêt',
-          subtitle: 'Vérification',
+          title: 'Démarrer',
+          subtitle: 'Ouvrir Claude',
           completionLabel: 'Terminer la Leçon 1',
           blocks: [
             {
-              id: 'l1-s3-prose-check',
+              id: 'l1-s3-prose-claude',
               type: 'prose',
-              title: 'VÉRIFIER TES',
-              italicAccent: 'outils',
+              title: 'OUVRIR UNE',
+              italicAccent: 'nouvelle discussion',
               highlightPill:
-                'Tu peux suivre tout ce parcours avec un compte Claude gratuit.',
+                'Que tu sois sur ton téléphone ou ton ordinateur, tout se fait au même endroit dans une seule discussion Claude.',
               paragraphs: [
-                'Vérifie ces trois points rapides sur ton poste avant de passer à la Leçon 2.',
+                'Avant de lancer l’analyse de ton document dans la leçon suivante, vérifie simplement ces 3 points rapides :',
+              ],
+              bullets: [
+                '**Une discussion neuve** : ouvre un nouveau chat sur **claude.ai** (ou sur l’application mobile Claude) pour repartir proprement.',
+                '**Ton document à portée de main** : vérifie que tu peux joindre ton PDF, ton ebook ou tes notes avec le bouton **`+`**.',
+                '**Pack Design activé** : assure-toi d’avoir bien activé le fichier `.zip` à l’étape précédente.',
               ],
             },
             {
-              id: 'l1-s3-checklist-ready',
+              id: 'l1-s3-checklist',
               type: 'checklist',
-              title: 'Vérifications de départ',
-              description:
-                'Coche ces 3 points pour confirmer que tout est prêt.',
+              title: 'Prêt pour la Leçon 2',
+              description: 'Valide ces points rapides avant de passer à la suite.',
               items: [
                 {
-                  id: 'chk-doc-ready',
-                  label: 'Mon document est prêt sur mon ordinateur.',
-                  detail:
-                    'Fiche pratique d’une page, document texte/PDF ou tableau avec formules visibles.',
+                  id: 'l1-c1',
+                  label: 'J’ai mon document source (PDF, notes ou idée claire) prêt à envoyer.',
+                  detail: 'Accessible facilement depuis mon téléphone ou mon ordinateur.',
                 },
                 {
-                  id: 'chk-claude-ready',
-                  label: 'Mon compte Claude Free est accessible.',
-                  detail:
-                    'Tu es connecté et prêt à ouvrir une nouvelle conversation.',
+                  id: 'l1-c2',
+                  label: 'J’ai importé et activé le pack design dans Claude.',
+                  detail: 'Création de fichiers activée et fichier .zip importé.',
                 },
                 {
-                  id: 'chk-skill-imported',
-                  label: 'Le Skill est installé et actif.',
-                  detail:
-                    'Vérifié dans Settings > Capabilities et Customize > Skills.',
+                  id: 'l1-c3',
+                  label: 'J’ai ouvert une discussion Claude toute neuve.',
+                  detail: 'Prête à recevoir mon document et le Prompt 1.',
                 },
               ],
             },
@@ -296,13 +322,13 @@ export const day01: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake: 'Changer de conversation Claude en cours de route.',
+                mistake: 'Revenir dans une vieille discussion Claude déjà très longue.',
                 correction:
-                  'Dès la Leçon 2, garde la même discussion ouverte pour que Claude conserve ton document.',
+                  'Ouvre toujours une nouvelle discussion : la limite gratuite est plus confortable et Claude reste plus précis.',
               },
             ],
             tips: [
-              'Garde la fenêtre Claude ouverte à côté de ce cours pour copier les messages facilement.',
+              'Sur téléphone, l’application officielle Claude ou le navigateur Chrome fonctionnent tous les deux très bien.',
             ],
           },
         },
@@ -319,173 +345,152 @@ export const day01: Day = {
       italicTitleWord: 'choisir',
       duration: '~30 min',
       objective:
-        'Faire analyser ton document par Claude, choisir parmi 3 idées d’outils avec ton code d’accès acheteur et sauvegarder tes deux premiers textes.',
-      deliverableSummary:
-        'Une idée d’outil retenue avec son code d’accès et deux textes sauvegardés : Mon plan d’application et Les règles de mon document.',
+        'Envoyer ton contenu à Claude avec le Prompt 1, répondre si besoin à ses questions simples et choisir l’idée d’application à construire.',
+      deliverableSummary: 'Un concept d’application et des règles validées avec Claude.',
       isSkeletonPlaceholder: false,
       steps: [
         {
           id: 'lesson-02-step-01',
           number: 1,
           title: 'Tes idées',
-          subtitle: '3 options',
+          subtitle: 'Lancer Prompt 1',
           completionLabel: 'Claude a proposé 3 idées',
           blocks: [
             {
-              id: 'l2-s1-prose-analyse',
+              id: 'l2-s1-prose-prompt1',
               type: 'prose',
-              title: 'TROUVER TON',
-              italicAccent: 'idée',
+              title: 'LANCER',
+              italicAccent: 'l’analyse',
               highlightPill:
-                'Claude lit ton document et te propose 3 concepts d’outils interactifs distincts.',
+                'Joins ton document (ou explique ton idée) puis colle le Prompt 1 dans le même message.',
               paragraphs: [
-                'Ouvre une nouvelle conversation Claude, joins ton document et envoie ce premier message.',
+                'Claude lit ton contenu, repère ce qui a le plus de valeur pour tes acheteurs et te propose **3 idées d’applications concrètes** (sans aucun code pour l’instant).',
               ],
               bullets: [
-                'Confirme que le Skill est bien actif dans ton compte Claude.',
-                'Joins ton document existant et colle le Master Prompt 1 sans le modifier.',
-                'Claude propose 3 idées de produits interactifs distinctes sans générer de code.',
+                '**Joins ton document** : clique sur `+` dans Claude pour envoyer ton PDF (ou décris simplement ton sujet si tu pars d’une idée).',
+                '**Envoie le Prompt 1** : copie le prompt ci-dessous et envoie le tout.',
+                '**Réponds si besoin** : si ton contenu est trop court ou flou, Claude te pose **3 questions simples** (*pour qui, quel problème, quel résultat concret ?*). Réponds normalement pour voir tes 3 idées.',
               ],
             },
             {
               id: 'l2-s1-screen-concepts',
               type: 'screenshot',
               src: '/screenshots/module-01/l2-claude-three-concepts.png',
-              alt: 'Réponse de Claude détaillant trois concepts d interaction concrets rédigés en langage clair sans code informatique',
-              caption: 'Trois propositions d interactions concrètes obtenues avec le premier message',
-              capturedAt: '10 novembre 2026',
+              alt: 'Réponse de Claude Free proposant 3 idées d application à partir du document SOLDE',
+              caption: 'Exemple sur Claude Free : 3 idées d’applications claires proposées à partir du document',
+              capturedAt: '21 novembre 2026',
             },
             {
-              id: 'l2-s1-copy-prompt-analyse',
+              id: 'l2-s1-copy-prompt1',
               type: 'copy',
-              title: 'À copier dans Claude',
+              title: 'Prompt 1 : Analyser mon document et proposer 3 idées',
               label: 'PROMPT 1',
               buttonText: 'Copier le prompt',
               defaultExpanded: false,
               content: MASTER_PROMPT_1_XML,
-              notes:
-                'Joins ton document dans Claude en même temps que tu envoies ce message.',
             },
           ],
           help: {
             frequentMistakes: [
               {
-                mistake: 'Envoyer le message sans joindre son document.',
+                mistake: 'Envoyer le Prompt 1 tout seul sans joindre de PDF ni expliquer son sujet.',
                 correction:
-                  'Ajoute ton fichier dans la zone de message Claude avant d’envoyer le prompt.',
-              },
-              {
-                mistake: 'Demander du code HTML dès cette première étape.',
-                correction:
-                  'Choisis d’abord ton idée parmi les 3 propositions avant toute création de code.',
+                  'Si tu n’as pas encore joint ton document, clique sur `+` ou réponds aux 3 questions simples posées par Claude.',
               },
             ],
             tips: [
-              'Si aucune des 3 idées ne te convient, demande simplement à Claude 2 nouvelles pistes.',
+              'Regarde tout en haut de la réponse de Claude : la mention `[STATUT SKILL : ACTIF]` confirme que ton pack design est bien pris en compte.',
             ],
           },
         },
         {
           id: 'lesson-02-step-02',
           number: 2,
-          title: 'Mon exemple',
-          subtitle: 'Comment choisir',
+          title: 'Ton choix',
+          subtitle: 'Choisir une idée',
           completionLabel: "J'ai choisi mon idée",
           blocks: [
             {
-              id: 'l2-s2-prose-choose',
+              id: 'l2-s2-prose-choix',
               type: 'prose',
-              title: 'CHOISIR LE',
-              italicAccent: 'meilleur',
+              title: 'CHOISIR',
+              italicAccent: 'ton application',
               highlightPill:
-                'CREATOR2026 est un code d’exemple : tu peux le conserver ou le remplacer.',
+                'Choisis l’idée qui apporte un résultat rapide et concret à ton futur acheteur, et fixe ton code d’accès.',
               paragraphs: [
-                'Notre fiche pratique d’une page devient un calculateur de prix en FCFA et euros.',
+                'Tu as 3 pistes devant toi. Choisis celle que ton client comprend en 5 secondes, puis complète simplement le court message ci-dessous pour que Claude détaille le plan et les règles.',
               ],
               bullets: [
-                'La fiche « Fixer un prix qui respecte ton temps et ton travail » demande coût de création ou de matière, temps passé, tarif horaire et frais de vente.',
-                'L’outil affiche aussitôt le prix conseillé et le bénéfice par vente.',
-                'Indique l’idée retenue, ton public et le code d’accès acheteur (ex. CREATOR2026).',
+                '**Indique le numéro choisi** (`1`, `2` ou `3`) et précise ton public si besoin.',
+                '**Choisis un code d’accès court** (par exemple `MONCODE2026`) : tes clients l’entreront sur la page d’accueil pour débloquer l’application après l’achat.',
               ],
             },
             {
-              id: 'l2-s2-copy-prompt-choix',
+              id: 'l2-s2-copy-choix',
               type: 'copy',
-              title: 'Message pour valider ton choix',
+              title: 'Message pour valider ton idée et ton code d’accès',
               label: 'MESSAGE-CHOIX-IDEE',
+              buttonText: 'Copier le message',
+              defaultExpanded: true,
               content: PROMPT_CHOIX_IDEE,
-              notes:
-                'Précise le numéro de l’idée retenue, ton public et le code d’accès que tes acheteurs utiliseront (CREATOR2026 sert d’exemple si tu n’en proposes aucun).',
             },
           ],
           help: {
             frequentMistakes: [
               {
-                mistake:
-                  'Choisir l’idée la plus compliquée en pensant qu’elle aura plus de valeur.',
+                mistake: 'Choisir l’idée la plus complexe en pensant qu’elle aura plus de valeur.',
                 correction:
-                  'Privilégie l’outil qui donne un résultat clair et rapide à ton acheteur.',
-              },
-              {
-                mistake: 'Oublier de préciser le code d’accès destiné aux acheteurs.',
-                correction:
-                  'Indique ton propre code dans le message ou garde le code d’exemple CREATOR2026.',
+                  'Un outil simple qui donne un résultat immédiat plaît beaucoup plus à tes acheteurs qu’une usine à gaz.',
               },
             ],
             tips: [
-              'Tu peux demander à Claude de combiner des éléments de deux idées différentes.',
+              'Prends un code d’accès simple et facile à taper sur téléphone (lettres et chiffres, sans caractères spéciaux).',
             ],
           },
         },
         {
           id: 'lesson-02-step-03',
           number: 3,
-          title: 'Ton plan',
-          subtitle: 'Préparer la suite',
-          completionLabel: 'Terminer le Jour 1',
+          title: 'Valider',
+          subtitle: 'Relire le plan',
+          completionLabel: 'Terminer la Leçon 2',
           blocks: [
             {
-              id: 'l2-s3-prose-validate',
+              id: 'l2-s3-prose-audit',
               type: 'prose',
-              title: 'GARDER TON',
-              italicAccent: 'plan',
+              title: 'RELIRE',
+              italicAccent: 'le plan',
               highlightPill:
-                'Sauvegarde Mon plan d’application et Les règles de mon document sur ton ordinateur.',
+                'Prends 2 minutes pour vérifier que Claude n’a oublié aucune info clé de ton document.',
               paragraphs: [
-                'Relis les deux textes produits par Claude et vérifie qu’il n’a rien inventé.',
+                'Claude vient d’afficher le plan de ton application et les règles extraites de ton contenu. Tout reste ici dans ta conversation : **aucun fichier texte à créer**.',
               ],
               bullets: [
-                'Contrôle tes règles, tes formules et le code d’accès acheteur retenu.',
-                'Enregistre Mon plan d’application et Les règles de mon document sur ton ordinateur.',
-                'Garde cette discussion dans ton historique Claude pour envoyer : Plan et règles validés, passons au style.',
+                'Vérifie que l’outil correspond bien au problème de tes clients.',
+                'Vérifie que les calculs, étapes ou conseils importants de ton document sont bien listés.',
+                'Si quelque chose manque ou te semble flou, dis-le simplement à Claude dans le chat avant de passer à la Leçon 3.',
               ],
             },
             {
-              id: 'l2-s3-checklist-finish',
+              id: 'l2-s3-checklist',
               type: 'checklist',
-              title: 'Validation du Jour 1',
-              description:
-                'Coche ces 3 points avant de passer à la Leçon 3.',
+              title: 'Vérifications rapides',
+              description: 'Confirme ces 3 points avant de choisir le style visuel.',
               items: [
                 {
-                  id: 'chk-idea-chosen',
-                  label: 'J’ai choisi mon idée parmi les 3 propositions et défini mon code d’accès acheteur.',
-                  detail:
-                    'Le code choisi (ou CREATOR2026 par défaut) figure bien dans Mon plan d’application.',
+                  id: 'l2-c1',
+                  label: 'Le résultat principal de l’application est clair dès le premier regard.',
+                  detail: 'Je sais exactement ce que mon client obtiendra en l’utilisant.',
                 },
                 {
-                  id: 'chk-rules-verified',
-                  label:
-                    'J’ai relu les règles et formules extraites sans aucun ajout inventé par Claude.',
-                  detail:
-                    'Mon plan d’application et Les règles de mon document sont complets et fidèles.',
+                  id: 'l2-c2',
+                  label: 'Aucune règle ou formule importante de mon contenu n’a été oubliée.',
+                  detail: 'Tout ce qui fait la valeur de mon document est présent.',
                 },
                 {
-                  id: 'chk-work-saved',
-                  label:
-                    'J’ai sauvegardé ces deux textes sur mon ordinateur et je garde la même conversation Claude.',
-                  detail:
-                    'Le signal de passage à la Leçon 3 sera : Plan et règles validés, passons au style.',
+                  id: 'l2-c3',
+                  label: 'Mon code d’accès acheteur est bien noté.',
+                  detail: 'Je m’en servirai aussi lors de la mise en vente.',
                 },
               ],
             },
@@ -493,14 +498,13 @@ export const day01: Day = {
           help: {
             frequentMistakes: [
               {
-                mistake:
-                  'Quitter Claude sans enregistrer les deux textes sur son ordinateur.',
+                mistake: 'Passer trop vite sans vérifier un calcul ou une étape oubliée.',
                 correction:
-                  'Copie Mon plan d’application et Les règles de mon document dans deux fichiers locaux.',
+                  'Écris simplement à Claude « Ajoute aussi telle règle / étape » maintenant : c’est 10 fois plus rapide avant qu’il écrive le code.',
               },
             ],
             tips: [
-              'Au début de la Leçon 3, tu répondras simplement dans cette même discussion : Plan et règles validés, passons au style.',
+              'Tu peux déjà passer à la Leçon 3 en gardant exactement la même conversation Claude ouverte.',
             ],
           },
         },
