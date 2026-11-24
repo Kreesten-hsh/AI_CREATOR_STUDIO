@@ -10,7 +10,7 @@ const EXPECTED_PNG_FILES = [
   '04-piliers-interactivite.png',
   '05-preuve-sociale-retours.png',
   '06-tout-ce-qui-est-inclus.png',
-  '07-avant-apres-calculateur.png',
+  '07-avant-apres-solde.png',
   '08-pour-qui-et-faq.png',
   '09-investissement-14900-fcfa.png',
 ] as const;
@@ -76,35 +76,48 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio', () => {
     expect(actualSlices).toEqual(EXPECTED_SLICES);
   });
 
-  it('integre les 2 vraies captures iPhone avec taille > 0 octet dans les tranches 02 et 07', () => {
-    const requiredImages = ['iphone-studio-lesson.jpg', 'iphone-calculator-lock.jpg'] as const;
-    for (const imgName of requiredImages) {
+  it('integre les vraies captures PC et mobile du cours et de SOLDE (AVANT / APRES) dans les tranches 02 et 07', () => {
+    const requiredPngAssets = [
+      'platform-home-real.png',
+      'iphone-studio-lesson.png',
+      'solde-pdf-cover.png',
+      'solde-pdf-fiche.png',
+      'iphone-solde-dashboard.png',
+    ] as const;
+    for (const imgName of requiredPngAssets) {
       const imgPath = path.join(assetsDir, imgName);
       expect(fs.existsSync(imgPath), `Image manquante : ${imgName}`).toBe(true);
 
       const buf = fs.readFileSync(imgPath);
       expect(buf.length, `Image vide : ${imgName}`).toBeGreaterThan(0);
-      // Signature JPEG valide : FF D8 FF
-      expect(buf.subarray(0, 3).toString('hex')).toBe('ffd8ff');
+      // Signature PNG valide : 89 50 4E 47 0D 0A 1A 0A
+      expect(buf.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a');
     }
+
+    const soldeDesktopPath = path.join(rootDir, 'public', 'screenshots', 'module-02', 'l5-solde-desktop-final.png');
+    expect(fs.existsSync(soldeDesktopPath)).toBe(true);
 
     const html = fs.readFileSync(htmlPath, 'utf-8');
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
     const slice02 = doc.querySelector('section[data-slice="02-mockup-studio-interieur"]');
-    const slice07 = doc.querySelector('section[data-slice="07-avant-apres-calculateur"]');
+    const slice07 = doc.querySelector('section[data-slice="07-avant-apres-solde"]');
     expect(slice02).not.toBeNull();
     expect(slice07).not.toBeNull();
 
-    const img02 = slice02!.querySelector('img[src="assets/iphone-studio-lesson.jpg"]');
-    const img07 = slice07!.querySelector('img[src="assets/iphone-calculator-lock.jpg"]');
-    expect(img02).not.toBeNull();
-    expect(img07).not.toBeNull();
+    expect(slice02!.querySelector('img[src="assets/platform-home-real.png"]')).not.toBeNull();
+    expect(slice02!.querySelector('img[src="assets/iphone-studio-lesson.png"]')).not.toBeNull();
+    expect(slice07!.querySelector('img[src="assets/solde-pdf-fiche.png"]')).not.toBeNull();
+    expect(slice07!.querySelector('img[src="assets/solde-pdf-cover.png"]')).not.toBeNull();
+    expect(slice07!.querySelector('img[src="../screenshots/module-02/l5-solde-desktop-final.png"]')).not.toBeNull();
+    expect(slice07!.querySelector('img[src="assets/iphone-solde-dashboard.png"]')).not.toBeNull();
 
-    // Les anciens mockups iPhone CSS ont bien ete remplaces
-    expect(slice02!.querySelector('.iphone-wrap')).toBeNull();
+    // Les anciens visuels et mockups CSS obsoletes ont bien ete remplaces
+    expect(slice02!.querySelector('.studio-topbar')).toBeNull();
     expect(slice07!.querySelector('.calc-iphone')).toBeNull();
+    expect(html).not.toContain('iphone-calculator-lock.jpg');
+    expect(html).not.toContain('iphone-studio-lesson.jpg');
   });
 
   it('affiche exactement le tarif de lancement honnete 14 900 FCFA et le prix barre 24 900 FCFA sans fausse rarete', () => {
@@ -137,24 +150,27 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio', () => {
     expect(column).not.toBeNull();
     const text = column!.textContent ?? '';
 
-    // Positionnement officiel validé (Tranche 01, 03, 04)
+    // Positionnement officiel validé (Tranche 01, 03, 04, 06, 08)
     expect(text).toContain("Crée le produit digital interactif que ton audience a hâte d'acheter.");
-    expect(text).toContain("Pas un énième produit digital qu'on télécharge et qu'on oublie.");
-    expect(text).toContain('+ de 1 million de FCFA');
-    expect(html).not.toMatch(/10\s*millions/i);
-    expect(text).not.toContain('10 000 000 FCFA');
+    expect(text).toContain('De quoi sortir du lot face aux produits génériques qui se ressemblent tous.');
+    expect(text).not.toContain("Pas un énième produit digital qu'on télécharge et qu'on oublie.");
+    expect(text).toContain('+ de 10 millions de FCFA');
     expect(html).not.toMatch(/b[eê]ta/i);
     expect(text).toContain("C'est mon expérience personnelle et ce n'est pas une garantie de résultats.");
     expect(text).toContain('simplicité.');
     expect(text).toContain('interactivité.');
     expect(text).toContain('résultat immédiat.');
+    expect(text).toContain('SOLDE.');
+    expect(text).not.toContain('Calculateur de Prix');
+    expect(text).toContain('sortir de la guerre des prix pour vendre 3 à 5 fois plus cher');
+    expect(text).toContain('encaisser rapidement.');
     expect(text).toContain("n'est PAS fait pour toi");
 
-    // Preuves brutes + 4 avis clients en Tranche 05
+    // Suppression de la section LA PREUVE PAR LA METHODE + conservation des 4 avis clients en Tranche 05
     const slice05 = doc.querySelector('section[data-slice="05-preuve-sociale-retours"]');
     expect(slice05).not.toBeNull();
-    expect(slice05!.querySelector('img[src="../screenshots/module-03/l6-netlify-visibility-subdomain.png"]')).not.toBeNull();
-    expect(slice05!.querySelector('img[src="../screenshots/module-03/l7-chariow-post-purchase.png"]')).not.toBeNull();
+    expect(slice05!.querySelector('.slice-05-hot-card')).toBeNull();
+    expect(text).not.toContain('LA PREUVE PAR LA MÉTHODE');
     expect(slice05!.textContent).toContain('RETOURS CLIENTS');
     const bubbles = slice05!.querySelectorAll('.dm-bubble');
     expect(bubbles).toHaveLength(4);
@@ -193,10 +209,8 @@ describe('Page de Vente Officielle Chariow AI CREATOR Studio', () => {
     const minSizes: Array<[RegExp, number]> = [
       [/\.eyebrow\s*\{[^}]*font-size:\s*([\d.]+)px/, 16],
       [/\.slice-04-disclaimer\s*\{[^}]*font-size:\s*([\d.]+)px/, 17.5],
-      [/\.proof-item\s*\{[^}]*font-size:\s*([\d.]+)px/, 19],
       [/\.dm-bubble\s*\{[^}]*font-size:\s*([\d.]+)px/, 19],
       [/\.included-desc\s*\{[^}]*font-size:\s*([\d.]+)px/, 18.5],
-      [/\.before-doc-lines\s*\{[^}]*font-size:\s*([\d.]+)px/, 17.5],
       [/\.ba-caption\s*\{[^}]*font-size:\s*([\d.]+)px/, 19],
       [/\.faq-a\s*\{[^}]*font-size:\s*([\d.]+)px/, 19.5],
       [/\.slice-09-roi-note\s*\{[^}]*font-size:\s*([\d.]+)px/, 16.5],

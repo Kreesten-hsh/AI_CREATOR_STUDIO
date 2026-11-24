@@ -11,7 +11,10 @@
     "package:skill": "node scripts/package-skill.js",
     "generate:guide-pdf": "node scripts/generate-access-guide-pdf.js",
     "generate:sales-page": "node scripts/generate-chariow-sales-page.js",
-    "test": "vitest run"
+    "test": "vitest run",
+    "pack": "npx repomix --token-budget 230000",
+    "pack:mini": "npx repomix --compress --token-budget 65000",
+    "pack:tests": "npx repomix --no-dot-ignore --include \"src/types/**,src/test/**\" --token-budget 95000"
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.21.1",

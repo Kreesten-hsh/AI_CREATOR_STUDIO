@@ -41,5 +41,6 @@ output/
 
 # Generated context dumps
 repomix-output.xml
+repomix-*.xml
 
 

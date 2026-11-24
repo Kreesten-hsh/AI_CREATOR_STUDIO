@@ -1,0 +1,21 @@
+# Contextes & artefacts générés
+repomix-output.xml
+repomix-*.xml
+video-studio/repomix-output.xml
+
+# Exclusions demandées (docs racine, scripts ponctuels, tests, assets publics)
+docs/**
+scripts/**
+src/test/**
+public/**
+
+# Bruit interne du sous-projet video-studio (aligné sur video-studio/repomix.config.json)
+video-studio/episodes/template-showcase/**
+video-studio/episodes/*/transcript.json
+video-studio/skill/**
+video-studio/scripts/process_avatar.py
+video-studio/scripts/generate_sfx.py
+video-studio/ads/**
+
+# Divers hors application
+optimiser_systeme.sh

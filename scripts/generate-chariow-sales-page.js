@@ -38,7 +38,7 @@ export const EXPECTED_SLICES = [
   '04-piliers-interactivite',
   '05-preuve-sociale-retours',
   '06-tout-ce-qui-est-inclus',
-  '07-avant-apres-calculateur',
+  '07-avant-apres-solde',
   '08-pour-qui-et-faq',
   '09-investissement-14900-fcfa',
 ];
@@ -272,6 +272,12 @@ const STUDIO_MACBOOK_CSS = `
     border: 1px solid #312B2B;
   }
 
+  .macbook-screen-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   .macbook-base {
     width: 422px;
     margin-left: -12px;
@@ -290,277 +296,6 @@ const STUDIO_MACBOOK_CSS = `
     border-radius: 0 0 4px 4px;
     margin: 0 auto;
   }
-
-  .studio-topbar {
-    background: var(--pale-pink);
-    border-bottom: 1.5px solid var(--ink);
-    padding: 6px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .studio-logo {
-    font-family: var(--font-display);
-    font-size: 9px;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    line-height: 1;
-    white-space: nowrap;
-  }
-
-  .studio-logo span {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 400;
-    text-transform: lowercase;
-    color: var(--red);
-    font-size: 11.5px;
-  }
-
-  .studio-top-meta {
-    font-family: var(--font-mono);
-    font-size: 6.5px;
-    font-weight: 700;
-    color: var(--ink);
-    background: var(--surface);
-    border: 1px solid var(--ink);
-    border-radius: 999px;
-    padding: 1.5px 6px;
-  }
-
-  .studio-body {
-    display: grid;
-    grid-template-columns: 108px 1fr;
-    min-height: 200px;
-  }
-
-  .studio-sidebar {
-    background: var(--pale-pink);
-    border-right: 1.5px solid var(--ink);
-    padding: 8px 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 6.5px;
-  }
-
-  .studio-nav-home {
-    background: var(--red);
-    color: var(--surface);
-    border: 1.5px solid var(--ink);
-    border-radius: 4px;
-    padding: 4px 6px;
-    font-family: var(--font-mono);
-    font-size: 7px;
-    font-weight: 700;
-    text-transform: uppercase;
-    box-shadow: 1.5px 1.5px 0 var(--ink);
-  }
-
-  .studio-nav-group-title {
-    font-family: var(--font-mono);
-    font-size: 6px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    color: var(--ink);
-    padding: 2px 2px 0;
-  }
-
-  .studio-nav-item {
-    background: var(--surface);
-    border: 1px solid var(--ink);
-    border-radius: 4px;
-    padding: 3.5px 5px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 6.5px;
-    font-weight: 700;
-    letter-spacing: 0.015em;
-    word-spacing: 0.08em;
-    color: var(--ink);
-    line-height: 1.1;
-  }
-
-  .studio-nav-num {
-    background: rgba(230, 160, 168, 0.55);
-    border: 1px solid var(--ink);
-    border-radius: 2px;
-    padding: 1px 3px;
-    font-family: var(--font-mono);
-    font-size: 5.5px;
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-
-  .studio-nav-bonus {
-    background: var(--surface);
-    border: 1px solid var(--ink);
-    border-radius: 4px;
-    padding: 3px 5px;
-    font-size: 6.3px;
-    font-weight: 700;
-    color: var(--ink);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .studio-nav-bonus-tag {
-    font-family: var(--font-mono);
-    font-size: 5.5px;
-    color: var(--red);
-  }
-
-  .studio-main {
-    background: var(--cream);
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .studio-hero-card {
-    background: var(--red);
-    border: 1.5px solid var(--ink);
-    border-radius: 6px;
-    box-shadow: 2.5px 2.5px 0 var(--ink);
-    overflow: hidden;
-  }
-
-  .studio-hero-checker {
-    height: 7px;
-    border-bottom: 1.5px solid var(--ink);
-    background-color: var(--pale-pink);
-    background-image:
-      linear-gradient(45deg, rgba(230, 160, 168, 0.65) 25%, transparent 25%),
-      linear-gradient(-45deg, rgba(230, 160, 168, 0.65) 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, rgba(230, 160, 168, 0.65) 75%),
-      linear-gradient(-45deg, transparent 75%, rgba(230, 160, 168, 0.65) 75%);
-    background-size: 8px 8px;
-    background-position: 0 0, 0 4px, 4px -4px, -4px 0;
-  }
-
-  .studio-hero-inner {
-    padding: 8px 9px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .studio-hero-pill {
-    display: inline-block;
-    background: var(--surface);
-    color: var(--ink);
-    border: 1px solid var(--ink);
-    border-radius: 999px;
-    font-family: var(--font-mono);
-    font-size: 5.5px;
-    font-weight: 700;
-    padding: 1px 6px;
-    box-shadow: 1px 1px 0 var(--ink);
-  }
-
-  .studio-hero-h {
-    margin-top: 4px;
-    font-family: var(--font-display);
-    font-size: 7.6px;
-    line-height: 1.15;
-    color: var(--surface);
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-  }
-
-  .studio-hero-sub {
-    margin-top: 3.5px;
-    font-family: var(--font-sans);
-    font-size: 6.4px;
-    font-weight: 500;
-    line-height: 1.3;
-    letter-spacing: 0.01em;
-    color: rgba(255, 253, 252, 0.94);
-  }
-
-  .studio-hero-cta {
-    margin-top: 5px;
-    display: inline-block;
-    background: var(--surface);
-    color: var(--ink);
-    border: 1px solid var(--ink);
-    border-radius: 3px;
-    padding: 2px 5.5px;
-    font-family: var(--font-mono);
-    font-size: 5.6px;
-    font-weight: 700;
-    text-transform: uppercase;
-    box-shadow: 1px 1px 0 var(--ink);
-  }
-
-  .studio-circle {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--surface);
-    border: 1.5px solid var(--ink);
-    box-shadow: 2px 2px 0 var(--ink);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .studio-circle-pct {
-    font-family: var(--font-display);
-    font-size: 12px;
-    line-height: 1;
-    color: var(--ink);
-  }
-
-  .studio-circle-lbl {
-    font-family: var(--font-mono);
-    font-size: 5.2px;
-    font-weight: 700;
-    color: var(--ink);
-    margin-top: 2px;
-  }
-
-  .studio-affiliate-card {
-    background: var(--surface);
-    border: 1.5px solid var(--ink);
-    border-radius: 6px;
-    padding: 6.5px 8px;
-    box-shadow: 2px 2px 0 var(--ink);
-    width: 96%;
-  }
-
-  .studio-affiliate-tag {
-    font-family: var(--font-mono);
-    font-size: 5.5px;
-    font-weight: 700;
-    color: var(--red);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .studio-affiliate-title {
-    font-family: var(--font-serif);
-    font-size: 11.5px;
-    line-height: 1.1;
-    color: var(--ink);
-    margin-top: 1px;
-  }
-
-  .studio-affiliate-desc {
-    font-size: 6px;
-    line-height: 1.32;
-    letter-spacing: 0.01em;
-    word-spacing: 0.08em;
-    color: rgba(23, 19, 19, 0.78);
-    margin-top: 2px;
-  }
 `;
 
 function renderStudioMacbookMarkup() {
@@ -569,50 +304,13 @@ function renderStudioMacbookMarkup() {
       <div class="macbook-lid">
         <div class="macbook-notch" aria-hidden="true"><span class="macbook-cam"></span></div>
         <div class="macbook-screen">
-          <div class="studio-topbar">
-            <div class="studio-logo">AI CREATOR <span>studio</span></div>
-            <div class="studio-top-meta">0% COMPLÉTÉ</div>
-          </div>
-          <div class="studio-body">
-            <div class="studio-sidebar">
-              <div class="studio-nav-home">Accueil du cours</div>
-              <div class="studio-nav-group-title">LA FORMATION</div>
-              <div class="studio-nav-item"><span class="studio-nav-num">01</span><span>CHOISIR</span></div>
-              <div class="studio-nav-item"><span class="studio-nav-num">02</span><span>CRÉER</span></div>
-              <div class="studio-nav-item"><span class="studio-nav-num">03</span><span>PUBLIER ET LIVRER</span></div>
-              <div class="studio-nav-group-title">BONUS</div>
-              <div class="studio-nav-bonus"><span>Bonus 01</span><span class="studio-nav-bonus-tag">ManyChat</span></div>
-              <div class="studio-nav-bonus"><span>Bonus 02</span><span class="studio-nav-bonus-tag">Marketing</span></div>
-            </div>
-            <div class="studio-main">
-              <div class="studio-hero-card">
-                <div class="studio-hero-checker"></div>
-                <div class="studio-hero-inner">
-                  <div>
-                    <span class="studio-hero-pill">MINI-COURS</span>
-                    <div class="studio-hero-h">
-                      UTILISER CLAUDE POUR CRÉER DES PRODUITS DIGITAUX...
-                    </div>
-                    <div class="studio-hero-sub">
-                      Transforme ton document existant en expérience interactive.
-                    </div>
-                    <div class="studio-hero-cta">Commencer la Leçon 01</div>
-                  </div>
-                  <div class="studio-circle">
-                    <span class="studio-circle-pct">0%</span>
-                    <span class="studio-circle-lbl">FAIT</span>
-                  </div>
-                </div>
-              </div>
-              <div class="studio-affiliate-card">
-                <div class="studio-affiliate-tag">AFFILIATION</div>
-                <div class="studio-affiliate-title">Partage ce cours + gagne 15%</div>
-                <div class="studio-affiliate-desc">
-                  Recommande le mini-cours à ton audience et perçois ta commission automatiquement.
-                </div>
-              </div>
-            </div>
-          </div>
+          <img
+            class="macbook-screen-img"
+            src="/demos/assets/platform-home-real.png"
+            alt="Écran d'accueil réel de la plateforme AI CREATOR Studio"
+            width="2880"
+            height="1800"
+          />
         </div>
       </div>
       <div class="macbook-base"><div class="macbook-thumb"></div></div>
@@ -713,7 +411,7 @@ function buildCoverHtml() {
       display: block;
       width: 116px;
       height: auto;
-      aspect-ratio: 490 / 1024;
+      aspect-ratio: 497 / 1024;
       position: absolute;
       right: 0;
       bottom: 0;
@@ -745,10 +443,10 @@ function buildCoverHtml() {
 
       <img
         class="cover-iphone-img"
-        src="/demos/assets/iphone-studio-lesson.jpg"
+        src="/demos/assets/iphone-studio-lesson.png"
         alt="Aperçu mobile de la Leçon 01 d'AI CREATOR Studio sur iPhone"
         width="116"
-        height="242"
+        height="239"
       />
     </div>
   </main>
@@ -858,7 +556,7 @@ function buildBannerHtml() {
       display: block;
       width: 86px;
       height: auto;
-      aspect-ratio: 490 / 1024;
+      aspect-ratio: 497 / 1024;
       position: absolute;
       right: 0;
       bottom: 8px;
@@ -893,10 +591,10 @@ function buildBannerHtml() {
         </div>
         <img
           class="banner-iphone-img"
-          src="/demos/assets/iphone-studio-lesson.jpg"
+          src="/demos/assets/iphone-studio-lesson.png"
           alt="Aperçu mobile du Mini-Cours Interactif Claude sur iPhone"
           width="86"
-          height="180"
+          height="177"
         />
       </div>
     </section>

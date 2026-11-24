@@ -15,9 +15,12 @@ import {
   AvatarPoseKey,
   BORDER_WIDTH,
   COLORS,
+  DEFAULT_VISUAL_STYLE,
+  EDITORIAL,
   FONTS,
   SAFE_ZONES,
   SHADOWS,
+  VisualStyleVariant,
 } from '../theme';
 
 /* Damped no-overshoot spring so every element locks onto integer pixels cleanly */
@@ -402,12 +405,20 @@ export const BadgePill: React.FC<{
   bg?: string;
   color?: string;
   enterFrame?: number;
-}> = ({ label, bg = COLORS.sand, color = COLORS.ink, enterFrame = 0 }) => {
+  variant?: VisualStyleVariant;
+}> = ({
+  label,
+  bg = COLORS.surface,
+  color = COLORS.ink,
+  enterFrame = 0,
+  variant = DEFAULT_VISUAL_STYLE,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const p = enterFrame > 0 ? settledProgress(frame, fps, enterFrame) : 1;
   const scale = enterFrame > 0 && p < 1 ? interpolate(p, [0, 1], [0.92, 1]) : 1;
   const visible = enterFrame <= 0 || frame >= enterFrame;
+  const isBrutalist = variant === 'brutalist';
 
   return (
     <div
@@ -417,15 +428,17 @@ export const BadgePill: React.FC<{
         justifyContent: 'center',
         backgroundColor: bg,
         color,
-        border: `3px solid ${COLORS.ink}`,
-        boxShadow: SHADOWS.brutalSm,
+        border: isBrutalist
+          ? `3px solid ${COLORS.ink}`
+          : `${EDITORIAL.borderWidth}px solid ${EDITORIAL.borderStrong}`,
+        boxShadow: isBrutalist ? SHADOWS.brutalSm : EDITORIAL.shadow,
         borderRadius: 999,
         padding: '10px 26px',
         fontFamily: FONTS.sans,
-        fontWeight: 800,
+        fontWeight: isBrutalist ? 800 : 600,
         fontSize: 25,
-        letterSpacing: '0.06em',
-        textTransform: 'uppercase',
+        letterSpacing: isBrutalist ? '0.06em' : '-0.01em',
+        textTransform: isBrutalist ? 'uppercase' : 'none',
         transform: scale === 1 ? 'none' : `scale(${scale})`,
         visibility: visible ? 'visible' : 'hidden',
       }}
@@ -440,12 +453,20 @@ export const AccentBanner: React.FC<{
   enterFrame?: number;
   bg?: string;
   color?: string;
-}> = ({ text, enterFrame = 0, bg = COLORS.burgundy, color = COLORS.surface }) => {
+  variant?: VisualStyleVariant;
+}> = ({
+  text,
+  enterFrame = 0,
+  bg = COLORS.burgundy,
+  color = COLORS.surface,
+  variant = DEFAULT_VISUAL_STYLE,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const p = enterFrame > 0 ? settledProgress(frame, fps, enterFrame) : 1;
   const scale = enterFrame > 0 && frame >= enterFrame && p < 1 ? interpolate(p, [0, 1], [1.06, 1]) : 1;
   const visible = enterFrame <= 0 || frame >= enterFrame;
+  const isBrutalist = variant === 'brutalist';
 
   return (
     <div
@@ -455,14 +476,15 @@ export const AccentBanner: React.FC<{
         justifyContent: 'center',
         backgroundColor: bg,
         color,
-        border: `${BORDER_WIDTH}px solid ${COLORS.ink}`,
-        boxShadow: SHADOWS.brutalSm,
-        borderRadius: 12,
-        padding: '12px 32px',
-        fontFamily: FONTS.display,
-        fontSize: 40,
-        lineHeight: 1.05,
-        textTransform: 'uppercase',
+        border: isBrutalist ? `${BORDER_WIDTH}px solid ${COLORS.ink}` : 'none',
+        boxShadow: isBrutalist ? SHADOWS.brutalSm : EDITORIAL.shadow,
+        borderRadius: isBrutalist ? 12 : EDITORIAL.radius,
+        padding: '14px 34px',
+        fontFamily: isBrutalist ? FONTS.display : FONTS.sans,
+        fontWeight: 800,
+        fontSize: isBrutalist ? 40 : 36,
+        lineHeight: 1.1,
+        textTransform: isBrutalist ? 'uppercase' : 'none',
         letterSpacing: '-0.01em',
         transform: scale === 1 ? 'none' : `scale(${scale})`,
         visibility: visible ? 'visible' : 'hidden',
@@ -473,7 +495,46 @@ export const AccentBanner: React.FC<{
   );
 };
 
-/* Primitive 1: RetroWindow (Centered Illustration Window with reserved banner space) */
+/**
+ * Surface éditoriale sobre par défaut (zéro bordure épaisse, zéro ombre décalée, zéro chrome logiciel).
+ */
+export const EditorialSurface: React.FC<{
+  children: React.ReactNode;
+  width?: number;
+  padding?: string | number;
+  enterFrame?: number;
+  bordered?: boolean;
+}> = ({ children, width = 880, padding = '36px 40px', enterFrame = 0, bordered = true }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const p = enterFrame > 0 ? settledProgress(frame, fps, enterFrame) : 1;
+  const scale = enterFrame > 0 && p < 1 ? interpolate(p, [0, 1], [0.97, 1]) : 1;
+  const visible = enterFrame <= 0 || frame >= enterFrame;
+
+  return (
+    <div
+      style={{
+        width,
+        backgroundColor: COLORS.surface,
+        border: bordered ? `${EDITORIAL.borderWidth}px solid ${EDITORIAL.borderColor}` : 'none',
+        borderRadius: EDITORIAL.radius,
+        boxShadow: EDITORIAL.shadow,
+        padding,
+        boxSizing: 'border-box',
+        textAlign: 'left',
+        visibility: visible ? 'visible' : 'hidden',
+        transform: scale === 1 ? 'none' : `scale(${scale})`,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
+/**
+ * @deprecated Chrome fenêtre réservé aux archives historiques (`template-showcase`)
+ * ou à une variante `variant="brutalist"` explicitement demandée. Préférer `EditorialSurface`.
+ */
 export const RetroWindow: React.FC<{
   title: string;
   children: React.ReactNode;
@@ -482,6 +543,7 @@ export const RetroWindow: React.FC<{
   enterFrame?: number;
   bannerText?: string;
   bannerEnterFrame?: number;
+  variant?: VisualStyleVariant;
 }> = ({
   title,
   children,
@@ -490,12 +552,14 @@ export const RetroWindow: React.FC<{
   enterFrame = 0,
   bannerText,
   bannerEnterFrame = 12,
+  variant = DEFAULT_VISUAL_STYLE,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const p = enterFrame > 0 ? settledProgress(frame, fps, enterFrame) : 1;
   const scale = enterFrame > 0 && p < 1 ? interpolate(p, [0, 1], [0.95, 1]) : 1;
   const visible = enterFrame <= 0 || frame >= enterFrame;
+  const isBrutalist = variant === 'brutalist';
 
   return (
     <div
@@ -512,70 +576,76 @@ export const RetroWindow: React.FC<{
         style={{
           width: '100%',
           backgroundColor: COLORS.surface,
-          border: `${BORDER_WIDTH}px solid ${COLORS.ink}`,
-          borderRadius: 20,
-          boxShadow: SHADOWS.brutal,
+          border: isBrutalist
+            ? `${BORDER_WIDTH}px solid ${COLORS.ink}`
+            : `${EDITORIAL.borderWidth}px solid ${EDITORIAL.borderColor}`,
+          borderRadius: isBrutalist ? 20 : EDITORIAL.radius,
+          boxShadow: isBrutalist ? SHADOWS.brutal : EDITORIAL.shadow,
           overflow: 'hidden',
           boxSizing: 'border-box',
         }}
       >
-        <div
-          style={{
-            height: 56,
-            backgroundColor: COLORS.sand,
-            borderBottom: `${BORDER_WIDTH}px solid ${COLORS.ink}`,
-            padding: '0 22px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-          }}
-        >
-          <span
+        {isBrutalist && (
+          <div
             style={{
-              width: 7,
-              height: 24,
-              backgroundColor: COLORS.burgundy,
-              borderRadius: 4,
-              flexShrink: 0,
-            }}
-          />
-          <span
-            style={{
-              fontFamily: FONTS.sans,
-              fontSize: 24,
-              fontWeight: 800,
-              color: COLORS.ink,
-              textTransform: 'uppercase',
-              letterSpacing: '0.03em',
-              textAlign: 'left',
+              height: 56,
+              backgroundColor: COLORS.sand,
+              borderBottom: `${BORDER_WIDTH}px solid ${COLORS.ink}`,
+              padding: '0 22px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
             }}
           >
-            {title}
-          </span>
-        </div>
+            <span
+              style={{
+                width: 7,
+                height: 24,
+                backgroundColor: COLORS.burgundy,
+                borderRadius: 4,
+                flexShrink: 0,
+              }}
+            />
+            <span
+              style={{
+                fontFamily: FONTS.sans,
+                fontSize: 24,
+                fontWeight: 800,
+                color: COLORS.ink,
+                textTransform: 'uppercase',
+                letterSpacing: '0.03em',
+                textAlign: 'left',
+              }}
+            >
+              {title}
+            </span>
+          </div>
+        )}
         <div style={{ padding, textAlign: 'left' }}>{children}</div>
       </div>
 
       {bannerText && (
         <div style={{ marginTop: 28 }}>
-          <AccentBanner text={bannerText} enterFrame={bannerEnterFrame} />
+          <AccentBanner text={bannerText} enterFrame={bannerEnterFrame} variant={variant} />
         </div>
       )}
     </div>
   );
 };
 
-/* Primitive 2: SquareIconCard (260x260 Centered Vector Card with reserved banner space) */
+/* Primitive 2: SquareIconCard (Éditorial sobre par défaut, néo-brutaliste uniquement si demandé) */
 export const SquareIconCard: React.FC<{
   icon: React.ReactNode;
   title: string;
   bannerText?: string;
   enterFrame?: number;
-}> = ({ icon, title, bannerText, enterFrame = 0 }) => {
+  variant?: VisualStyleVariant;
+}> = ({ icon, title, bannerText, enterFrame = 0, variant = DEFAULT_VISUAL_STYLE }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const p = enterFrame > 0 ? settledProgress(frame, fps, enterFrame) : 1;
   const scale = enterFrame > 0 && p < 1 ? interpolate(p, [0, 1], [0.92, 1]) : 1;
+  const isBrutalist = variant === 'brutalist';
 
   return (
     <div
@@ -591,9 +661,11 @@ export const SquareIconCard: React.FC<{
           width: 260,
           height: 260,
           backgroundColor: COLORS.surface,
-          border: `${BORDER_WIDTH}px solid ${COLORS.ink}`,
-          borderRadius: 20,
-          boxShadow: SHADOWS.brutal,
+          border: isBrutalist
+            ? `${BORDER_WIDTH}px solid ${COLORS.ink}`
+            : `${EDITORIAL.borderWidth}px solid ${EDITORIAL.borderColor}`,
+          borderRadius: isBrutalist ? 20 : EDITORIAL.radius,
+          boxShadow: isBrutalist ? SHADOWS.brutal : EDITORIAL.shadow,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -604,18 +676,19 @@ export const SquareIconCard: React.FC<{
       <div
         style={{
           marginTop: 28,
-          fontFamily: FONTS.display,
-          fontSize: 54,
-          lineHeight: 1.05,
+          fontFamily: isBrutalist ? FONTS.display : FONTS.sans,
+          fontWeight: 800,
+          fontSize: isBrutalist ? 54 : 50,
+          lineHeight: 1.08,
           color: COLORS.ink,
-          textTransform: 'uppercase',
+          textTransform: isBrutalist ? 'uppercase' : 'none',
         }}
       >
         {title}
       </div>
       {bannerText && (
         <div style={{ marginTop: 22 }}>
-          <AccentBanner text={bannerText} enterFrame={enterFrame + 8} />
+          <AccentBanner text={bannerText} enterFrame={enterFrame + 8} variant={variant} />
         </div>
       )}
     </div>
@@ -630,13 +703,15 @@ export interface MathStackRow {
   enterFrame?: number;
 }
 
-/* Primitive 3: MathStackCards (3 Stacked Full-Width Equation Boxes) */
+/* Primitive 3: MathStackCards (Éditorial sobre par défaut, néo-brutaliste uniquement si demandé) */
 export const MathStackCards: React.FC<{
   rows: MathStackRow[];
   width?: number;
-}> = ({ rows, width = 800 }) => {
+  variant?: VisualStyleVariant;
+}> = ({ rows, width = 800, variant = DEFAULT_VISUAL_STYLE }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const isBrutalist = variant === 'brutalist';
 
   return (
     <div
@@ -663,9 +738,13 @@ export const MathStackCards: React.FC<{
               width: '100%',
               backgroundColor: bg,
               color: fg,
-              border: `${BORDER_WIDTH}px solid ${COLORS.ink}`,
-              borderRadius: 16,
-              boxShadow: SHADOWS.brutal,
+              border: isBrutalist
+                ? `${BORDER_WIDTH}px solid ${COLORS.ink}`
+                : isAccent
+                  ? 'none'
+                  : `${EDITORIAL.borderWidth}px solid ${EDITORIAL.borderColor}`,
+              borderRadius: EDITORIAL.radius,
+              boxShadow: isBrutalist ? SHADOWS.brutal : EDITORIAL.shadow,
               padding: '24px 32px',
               boxSizing: 'border-box',
               display: 'flex',

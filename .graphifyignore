@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.venv/
+public/
+docs/
+scripts/
+repomix-output.xml
+repomix-*.xml
+video-studio/repomix-output.xml
+video-studio/episodes/template-showcase/
+video-studio/ads/
+optimiser_systeme.sh

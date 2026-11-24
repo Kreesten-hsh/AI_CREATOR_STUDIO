@@ -1,0 +1,19 @@
+{
+  "output": {
+    "filePath": "repomix-output.xml",
+    "style": "xml",
+    "compress": false,
+    "removeComments": true,
+    "removeEmptyLines": true,
+    "truncateBase64": true,
+    "showLineNumbers": false,
+    "includeFullDirectoryStructure": false
+  },
+  "ignore": {
+    "useGitignore": true,
+    "useDefaultPatterns": true
+  },
+  "tokenCount": {
+    "encoding": "o200k_base"
+  }
+}

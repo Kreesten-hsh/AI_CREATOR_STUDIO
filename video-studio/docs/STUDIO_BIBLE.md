@@ -1,8 +1,8 @@
-# STUDIO BIBLE • AI CREATOR STUDIO (DA, MOTEUR VIDÉO 9:16, CARROUSEL 4:5 & CONNECTEURS VISUELS)
+# STUDIO BIBLE • AI CREATOR STUDIO (DA ÉDITORIALE SOBRE, MOTEUR VIDÉO 9:16 & CARROUSEL 3:4)
 
-> Bible technique et artistique unifiée d'**AI CREATOR Studio** (`Studio Lin`).
-> Fusionne l'identité visuelle verrouillée, le moteur vidéo Remotion (`Ep01Composition.tsx` & `engine/`), l'audit viral `/100`, le système Carrousel `4:5` (`1080×1350` via `video-studio/carousels/`), les 10 blueprints `Sketch`, l'autopsie des références de `/home/hasashi/Vidéos/inspi` et la **Loi des 5 Connecteurs Visuels Obligatoires (« Zéro élément isolé »)**.
-> Complète la bible éditoriale [VOICE_AND_COPY_BIBLE.md](./VOICE_AND_COPY_BIBLE.md) et le planning [CONTENT_PLAN_14_DAYS.md](./CONTENT_PLAN_14_DAYS.md).
+> Bible technique et artistique unifiée d'**AI CREATOR Studio** (`Studio Lin • Direction Éditoriale Sobre`).
+> **Révision majeure (2026-11-24)** : Le **style éditorial sobre, minimaliste, élégant et moderne** est désormais le standard par défaut de toutes les futures productions (carrousels `3:4`, vidéos faceless `9:16`, illustrations et publications organiques). Le néo-brutalisme (bordures épaisses `4px`, ombres dures décalées `6px–8px`, fausses fenêtres `RetroWindow`, `BrutalStackBar`) n'est **jamais** appliqué par défaut : il reste réservé aux archives historiques (`EP01`, `EP02`) ou à une variante explicitement demandée.
+> Complète la stratégie éditoriale ([CONTENT_OPERATING_SYSTEM.md](./CONTENT_OPERATING_SYSTEM.md)), la bible vocale ([VOICE_AND_COPY_BIBLE.md](./VOICE_AND_COPY_BIBLE.md)) et le planning actif ([CONTENT_PLAN_WEEK_01.md](./CONTENT_PLAN_WEEK_01.md)). Format Carrousel par défaut : `1080×1440` (`3:4`), ou `1080×1350` (`4:5`) via `--size 1080x1350`.
 
 ---
 
@@ -18,25 +18,26 @@
 
 ---
 
-## Section 1 : Direction Artistique Verrouillée (« Studio Lin » 100 % Plat)
+## Section 1 : Direction Artistique Verrouillée (« Studio Lin Éditorial Sobre » 100 % Plat)
 
-Standard visuel minimaliste, géométrique et symétrique **Studio Lin** d'**AI CREATOR Studio** pour le format vertical **1080×1920 px @ 30fps** (Reels, TikTok, Shorts) et le format Carrousel **1080×1350 px (4:5)**.
+Standard visuel **éditorial, minimaliste, élégant et moderne** d'**AI CREATOR Studio** pour le format vertical **1080×1920 px @ 30fps** (Reels, TikTok, Shorts) et le format Carrousel **1080×1440 px (3:4 par défaut)** / **1080×1350 px (4:5)**.
 
-### 1.1 Les 8 Lois Visuelles Absolues
+### 1.1 Les 8 Lois Visuelles Absolues (Zéro Néo-Brutalisme par Défaut)
 
-1. **Décor unique, plat et fixe (« Studio Lin »)** : du premier au dernier frame (`00:00` à la fin), la toile est **toujours et uniquement** le beige lin sable `#EAE3D5` **100 % plat et uni (zéro halo radial blanc)**, encadré uniquement en haut et en bas par deux bandeaux `20px` Bordeaux `#B63131`. Aucun quadrillage technique ni changement de couleur de fond entre les scènes.
-2. **Palette stricte Homme Chic (zéro rose)** :
-   - **Toile & Surfaces** : `#EAE3D5` (lin sable plat et en-têtes éditoriaux), `#FFFDFC` (cartes lumineuses), `#E3DDD1` (surfaces ternes désaturées pour les mauvais exemples PDF).
-   - **Structure & Encre** : Noir Encre `#171313` pour les titres, bordures nettes (`3.5px` à `4px solid #171313`) et ombres dures (`6px 6px 0px #171313` à `8px 8px 0px #171313`).
-   - **Accent Unique Bordeaux** : `#B63131` (bandeaux haut/bas `20px`, bannières `GiantBanner`, mots-clés forts, barres de progression, boîte finale, flèches de connexion). **Zéro rose, zéro violet, zéro orange, zéro bleu néon.**
-3. **Symétrie & Cartes Éditoriales Adoucies (zéro chrome logiciel)** : toutes les cartes (`FramedMediaCard`, `RetroWindow`, `BrutalStackBar`) sont centrées dans le canvas `1080×1920`, **sans les 3 petits carrés type fenêtre d'ordinateur** (et `FramedMediaCard` supprime même la barre de titre de fenêtre pour laisser respirer la preuve visuelle).
-4. **Typographie parlée `SingleLineSubtitle` (zéro karaoké multi-mots)** : pas de boîtes karaoké animées en bas d'écran. Au-dessus des cartes ou de l'avatar, la phrase clé s'affiche sur **une seule ligne horizontale** via `SingleLineSubtitle` (`Plus Jakarta Sans 800`, `58px`, casse normale, mot-clé `#B63131`, espaces insécables `\u00A0`).
-5. **Avatar 3D Ponctuel (`20 % à 30 %` des plans)** : utilisé sur les pivots émotionnels via `AvatarBustStage` (`width: 840px, bottom: -16px`) et `AvatarHeadCenter` (`width: 460px`), avec double contour circulaire franc (`14px` blanc `#FFFFFF` + `6px` noir `#171313`) intégré aux PNG de `assets/avatar/`.
-6. **Stabilité Pixel-Perfect (zéro flottement, zéro saut Flexbox)** : aucun `Math.sin` sur l'avatar ; ressorts sans rebond (`spring({ damping: 28, stiffness: 300, mass: 0.7, overshootClamping: true })`) verrouillés à `transform: 'none'` dès stabilisation (`frame - enterFrame >= 8` ou `s >= 0.995`) ; bannières réservées dès frame 0 via `visibility: 'hidden'`.
-7. **Zéro double barre oblique & zéro crochets `[` `]`** : bannis de tous les textes, titres, tags et badges affichés à l'écran. Utiliser uniquement `•` ou un espace.
+1. **Décor unique, plat et fixe (« Studio Lin »)** : du premier au dernier frame (`00:00` à la fin), la toile est **toujours et uniquement** le beige lin sable `#EAE3D5` **100 % plat et uni (zéro halo radial blanc)** (ou `#FFFDFC` en variante ivoire carrousel), souligné en haut et en bas par une fine signature Bordeaux `#B63131` (`12px–14px` par défaut en carrousel, `20px` dans le moteur vidéo). Aucun quadrillage technique ni changement de couleur artificiel entre les scènes.
+2. **Palette stricte Studio Lin (conservée à 100 %)** :
+   - **Toile & Surfaces** : Beige lin `#EAE3D5` (toile plate), Ivoire `#FFFDFC` (surfaces légères), Gris sable `#E3DDD1` (uniquement si comparaison de documents passifs).
+   - **Encre & Structure légère** : Noir encre `#171313` pour la typographie et les filets fins (`1px solid rgba(23, 19, 19, 0.14)` à `0.28`).
+   - **Accent Unique Bordeaux** : `#B63131` (mot-clé ciblé, soulignement éditorial, barre de progression, flèche vectorielle fine). **Zéro rose, zéro violet, zéro orange, zéro bleu néon.**
+   - **Interdictions par défaut** : aucune bordure noire épaisse (`3.5px–4px`), aucune ombre dure décalée (`5px–8px 0px #171313`), aucune carte imbriquée dans une carte, aucune fausse fenêtre de navigateur ou logiciel (`RetroWindow`), aucun badge/kicker décoratif en capitales espacées, aucune décoration pour remplir le vide. *(Le néo-brutalisme reste uniquement disponible en variante exceptionnelle sur demande explicite, ou dans les archives `EP01`/`EP02`.)*
+3. **Compositions ouvertes & Typographie dominante** : privilégier les grandes typographies aérées, les espaces blancs généreux, les filets fins `1px`, les illustrations SVG épurées (`2 à 3` max par carrousel) et les captures réelles cadrées proprement sans chrome de fenêtre ni ombre dure.
+4. **Typographie parlée `SingleLineSubtitle` (zéro karaoké multi-mots)** : pas de boîtes karaoké animées en bas d'écran. Sur les vidéos, la phrase clé s'affiche sur **une seule ligne horizontale** via `SingleLineSubtitle` (`Plus Jakarta Sans 800`, `58px`, casse normale, mot-clé `#B63131`, espaces insécables `\u00A0`). En carrousel, jamais de mot italique isolé dans un titre roman ni d'eyebrow décoratif en capitales espacées.
+5. **Avatar 3D Ponctuel (`20 % à 30 %` max des plans vidéo, facultatif)** : utilisé uniquement quand le propos émotionnel l'exige, jamais en remplissage décoratif.
+6. **Stabilité Pixel-Perfect (zéro flottement, zéro saut Flexbox)** : aucun `Math.sin` sur l'avatar ; ressorts sans rebond (`spring({ damping: 28, stiffness: 300, mass: 0.7, overshootClamping: true })`) verrouillés à `transform: 'none'` dès stabilisation (`frame - enterFrame >= 8` ou `s >= 0.995`) ; calques réservés dès frame 0 via `visibility: 'hidden'`.
+7. **Zéro double barre oblique & zéro crochets `[` `]`** : bannis de tous les textes, titres, tags et badges affichés à l'écran.
 8. **Loi d'Épure Visuelle Absolue (Zéro Texte ou Jauge Superflus)** :
-   - **Interdiction absolue** d'inventer des jauges de pourcentage (`LECTURE : 0 %`, `VALEUR : 100 %`, `VALEUR : FAIBLE`), des numéros de version (`v2.0`), des sous-bandeaux redondants (`FICHIER PASSIF VS OUTIL ACTIF`), des tampons bruyants qui répètent le sous-titre (`PERSONNE NE LIT ÇA`) ou des parenthèses explicatives (`(GRATUIT)`, `(0 LIGNE)`).
-   - Le seul texte directeur d'une scène est le sous-titre `Ep02Subtitle` en haut (synchronisé mot pour mot sur la voix) + le visuel pur au centre.
+   - **Interdiction absolue** d'inventer des jauges de pourcentage, des numéros de version, des sous-bandeaux redondants ou des badges inutiles.
+   - En vidéo, le texte directeur est le sous-titre synchronisé mot pour mot sur la voix + l'objet visuel épuré au centre. En carrousel, une seule idée par slide, lisible d'un coup d'œil.
 
 ### 1.2 Typographie & Polices Embarquées (`video-studio/assets/fonts/`)
 
@@ -71,7 +72,9 @@ Standard visuel minimaliste, géométrique et symétrique **Studio Lin** d'**AI 
 
 ## Section 2 : Architecture Réelle d'`Ep01Composition.tsx`, Primitives & Assets
 
-### 2.1 Composants Réels du Handoff Ep01 (`episodes/ep01_produits_interactifs/Ep01Composition.tsx`)
+### 2.1 Composants du Handoff Historique (`EP01`, `EP02`) & Nouvelle Règle Composants Éditoriaux
+
+> **Règle d'évolution technique (2026-11-24)** : `EP01` et `EP02` restent archivés et intacts avec leurs composants d'origine (`FramedMediaCard`, `BrutalStackBar`, `SHADOWS.brutal`). Pour toutes les **futures compositions vidéo** (`EP03+`), `video-studio/engine/theme.ts` expose désormais `DEFAULT_VISUAL_STYLE = 'editorial'` et les tokens `EDITORIAL` (`borderWidth: 1`, `shadow: 'none'`). Toute nouvelle scène Remotion adopte le style éditorial sobre sans bordure noire épaisse, sans ombre dure décalée et sans `RetroWindow`/`BrutalStackBar`, sauf demande explicite du créateur.
 
 Toute nouvelle composition Remotion (`ep02` à `ep06`, TOFU, MOFU) s'appuie sur ces briques éprouvées en production (`audit 100/100`) :
 
@@ -172,7 +175,7 @@ Chaque épisode doit être contrôlé avant rendu final via `node scripts/audit_
 7. **100 % images (zéro vidéo dans un carrousel)** (`26,7 %` images seules vs `21,3 %` avec vidéo).
 8. **Légende de `120 à 250 mots`** (`30,3 %` vs `25,3 %`) : apporte du contexte sans répéter les slides.
 9. **Bannir « lien en bio » en légende** (`26,5 %` sans lien vs `19,4 %` avec).
-10. **Composition `Studio Lin`** : fond `#EAE3D5` plat, cartes `#FFFDFC`, bordures `#171313` (`4px`), ombre dure `7px 7px 0px #171313`, bandes haut/bas Bordeaux `#B63131` (`20px`), une seule idée par slide, connexion visuelle continue entre les slides.
+10. **Composition `Studio Lin Éditoriale Sobre`** : fond `#EAE3D5` (ou `#FFFDFC` ivoire) plat, filets fins `1px`, zéro bordure noire épaisse, zéro ombre dure décalée, zéro carte imbriquée, zéro fausse fenêtre navigateur, une seule idée par slide, typographie dominante et illustrations vectorielles épurées. *(La variante néo-brutaliste `data-variant="brutalist"` reste strictement opt-in sur demande explicite.)*
 
 ### 4.2 Le Catalogue des 10 Types de Carrousels
 
@@ -194,20 +197,20 @@ Chaque épisode doit être contrôlé avant rendu final via `node scripts/audit_
 - **7 Verrous `/carousel-copy`** : (1) Slide 1 = `6–10 mots` sans intro ; (2) jamais de Slide Sommaire, la Slide 2 livre le premier gain ; (3) 1 seule idée par slide ; (4) `<= 25 mots` par slide ; (5) métaphore visuelle connectée sur chaque slide ; (6) au moins 1 phrase *screenshotable* ; (7) dernière slide = 1 seul CTA sans flèche de swipe.
 - **Protocole `3 Variantes → Anchor Slide`** : générer 3 variantes structurelles de Slide 1 et de Slide 2 ; la gagnante de Slide 2 devient l'**Anchor Slide** dont les Slides `3..N-1` reproduisent exactement marges, typo et palette en ne changeant que le texte et le schéma central connecté.
 
-### 4.4 Moteur Interne Carrousel 4:5 (`video-studio/carousels/`) & Audit Planche Contact
+### 4.4 Moteur Interne Carrousel `3:4` (`video-studio/carousels/`) & Audit Planche Contact
 
 Le workflow complet est piloté par le skill interne [carousel-studio](file:///home/hasashi/Bureau/AI_CREATOR_STUDIO/.agents/skills/carousel-studio/SKILL.md) et l'architecture par calques de `video-studio/carousels/` :
 
 - **Fichiers du moteur** :
-  - `video-studio/carousels/carousel.css` : toile `1080×1350` (ou `1080×1440` via `--size`), thème Studio Lin (`#EAE3D5`, `#FFFDFC`, `#171313`, `#B63131`, `#E3DDD1`), polices locales embarquées (`video-studio/assets/fonts/`).
-  - `video-studio/carousels/slide.html` : gabarit par calques `.L` positionnés (`left`, `top`, `width` inline).
+  - `video-studio/carousels/carousel.css` : toile `1080×1440` (`3:4` par défaut, ou `1080×1350` `4:5` via `--size`), direction **Éditoriale Sobre Studio Lin par défaut** (`#EAE3D5`, `#FFFDFC`, `#171313`, `#B63131`, filets fins `1px`, zéro ombre dure, zéro bordure épaisse ; variante `[data-variant="brutalist"]` uniquement sur demande explicite), polices locales embarquées (`video-studio/assets/fonts/`).
+  - `video-studio/carousels/slide.html` : gabarit éditorial par calques `.L` positionnés (`left`, `top`, `width` inline).
   - `video-studio/carousels/check.js` : script d'audit `#check` qui détecte débordements, chevauchements, sorties de marge Studio Lin et textes `< 28px`.
   - `video-studio/carousels/render_carousel.mjs` : rendu PNG haute définition (`<dossier>/png/slide-XX.png`, ignoré par Git via `video-studio/.gitignore`) + planche contact d'audit `/tmp/carousel-audit/<slug>/sheet.png`.
 - **Règle Typographique Non Négociable (Zéro texte `< 28px`)** :
-  - **Titres principaux** : `Archivo Black` **`64px–74px`** (`line-height: 1.04–1.06`).
-  - **Corps & cartes** : `Plus Jakarta Sans 700/800` **`34px–48px`**.
-  - **Accents éditoriaux** : `Instrument Serif Italic` (`em.hl`).
-  - **Badges, kickers, compteurs** : `JetBrains Mono 700` **`>= 28px`**.
+  - **Titres principaux** : `Plus Jakarta Sans 800` **`60px–68px`** (ou `Archivo Black` uniquement en variante impact explicite), `text-wrap: balance`, zéro mot italique isolé au milieu d'un titre roman.
+  - **Corps & comparatifs** : `Plus Jakarta Sans 500/700` **`34px–46px`**, line-height aéré `1.34–1.42`.
+  - **Accents sobres** : couleur `#B63131` ou soulignement fin `.underline-accent`.
+  - **Compteurs & labels discrets** : **`>= 28px`** en casse phrase (aucun eyebrow décoratif en capitales espacées).
 - **Commande standard** :
 
 ```bash

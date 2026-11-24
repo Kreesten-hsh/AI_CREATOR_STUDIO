@@ -4,7 +4,12 @@ export const VIDEO_WIDTH = 1080;
 export const VIDEO_HEIGHT = 1920;
 export const VIDEO_FPS = 30;
 
-/* Strictly locked Homme Chic palette: Warm Linen Sand + Luminous Ivory + Ink Black + Brand Burgundy */
+export type VisualStyleVariant = 'editorial' | 'brutalist';
+
+/** Direction artistique par défaut sur toutes les nouvelles productions organiques. */
+export const DEFAULT_VISUAL_STYLE: VisualStyleVariant = 'editorial';
+
+/* Palette verrouillée Studio Lin : Beige Lin + Ivoire + Noir Encre + Bordeaux */
 export const COLORS = {
   sand: '#EAE3D5',
   cream: '#FAF6F0',
@@ -15,10 +20,24 @@ export const COLORS = {
   dustyPink: '#E6A0A8',
   palePink: '#F7E0E2',
   ink: '#171313',
-  muted: '#7A716E',
+  muted: '#5C544D',
   staleGray: '#E3DDD1',
 } as const;
 
+/** Tokens éditoriaux sobres par défaut (zéro bordure épaisse, zéro ombre dure décalée). */
+export const EDITORIAL = {
+  borderWidth: 1,
+  borderColor: 'rgba(23, 19, 19, 0.14)',
+  borderStrong: 'rgba(23, 19, 19, 0.28)',
+  radius: 16,
+  shadow: 'none',
+  accentBandHeight: 14,
+} as const;
+
+/**
+ * @deprecated Tokens néo-brutalistes conservés uniquement pour compatibilité
+ * avec les épisodes archivés (EP01, EP02, template-showcase) ou demande explicite.
+ */
 export const BORDER_WIDTH = 3.5;
 
 /* Symmetrical canvas framing respecting vertical UI zones */
@@ -30,6 +49,10 @@ export const SAFE_ZONES = {
   height: 1380,
 } as const;
 
+/**
+ * @deprecated Ombres dures décalées réservées aux archives (EP01, EP02)
+ * ou à une variante explicitement demandée. Utiliser `EDITORIAL.shadow` par défaut.
+ */
 export const SHADOWS = {
   brutal: `6px 6px 0px ${COLORS.ink}`,
   brutalSm: `5px 5px 0px ${COLORS.ink}`,

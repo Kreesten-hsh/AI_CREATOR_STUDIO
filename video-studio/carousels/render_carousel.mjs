@@ -3,12 +3,12 @@
  * video-studio/carousels/render_carousel.mjs
  *
  * Rend toutes les slides `slide-*.html` d'un dossier carrousel en PNG haute définition
- * (1080x1350 par défaut, ou `--size 1080x1440`), exécute l'audit DOM anti-débordement
+ * (1080x1440 3:4 par défaut, ou `--size 1080x1350` pour 4:5), exécute l'audit DOM anti-débordement
  * (`check.js`) et génère une planche contact annotée dans `/tmp/carousel-audit/<slug>/sheet.png`.
  *
  * Usage :
- *   node video-studio/carousels/render_carousel.mjs video-studio/carousels/c1-7-types-produits
- *   node video-studio/carousels/render_carousel.mjs video-studio/carousels/c1-7-types-produits --size 1080x1440
+ *   node video-studio/carousels/render_carousel.mjs video-studio/carousels/<slug>
+ *   node video-studio/carousels/render_carousel.mjs video-studio/carousels/<slug> --size 1080x1350
  */
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -95,6 +95,20 @@ function findChromiumExecutable() {
     return process.env.CHROME_BIN;
   }
 
+  const remotionChromeDir = path.join(studioDir, 'node_modules', '.remotion');
+  const remotionHeadless = walkFiles(
+    remotionChromeDir,
+    (_fullPath, name) => name === 'chrome-headless-shell' || name === 'chrome'
+  ).sort(
+    (a, b) =>
+      (a.includes('chrome-headless-shell') ? -1 : 1) -
+      (b.includes('chrome-headless-shell') ? -1 : 1)
+  );
+
+  if (remotionHeadless.length > 0) {
+    return remotionHeadless[0];
+  }
+
   const msPlaywrightCache = path.join(os.homedir(), '.cache', 'ms-playwright');
   const cachedHeadless = walkFiles(
     msPlaywrightCache,
@@ -129,7 +143,7 @@ function findChromiumExecutable() {
 function parseArgs(argv) {
   const args = argv.slice(2);
   let folder = '';
-  let size = '1080x1350';
+  let size = '1080x1440';
   for (let i = 0; i < args.length; i += 1) {
     if (args[i] === '--size' && args[i + 1]) {
       size = args[i + 1];
@@ -139,14 +153,14 @@ function parseArgs(argv) {
     }
   }
   if (!folder) {
-    console.error('Usage: node video-studio/carousels/render_carousel.mjs <dossier-carrousel> [--size 1080x1350]');
+    console.error('Usage: node video-studio/carousels/render_carousel.mjs <dossier-carrousel> [--size 1080x1440]');
     process.exit(1);
   }
   const [wStr, hStr] = size.toLowerCase().split('x');
   const width = Number.parseInt(wStr, 10);
   const height = Number.parseInt(hStr, 10);
   if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
-    console.error(`Dimensions invalides : "${size}". Exemple : --size 1080x1350`);
+    console.error(`Dimensions invalides : "${size}". Exemple : --size 1080x1440`);
     process.exit(1);
   }
   return { folder: path.resolve(folder), width, height };
@@ -174,8 +188,8 @@ function startCarouselServer(deckDir, slides, width, height, contactHtml) {
         res.end('Forbidden');
         return;
       }
-    } else if (urlPath.startsWith('/__deck/')) {
-      const rel = urlPath.slice('/__deck/'.length).replace(/^\/+/, '');
+    } else if (urlPath.startsWith('/carousels/__ext/')) {
+      const rel = urlPath.slice('/carousels/__ext/'.length).replace(/^\/+/, '');
       safePath = path.resolve(deckDir, rel);
       if (!safePath.startsWith(deckDir)) {
         res.writeHead(403);
@@ -209,7 +223,7 @@ function startCarouselServer(deckDir, slides, width, height, contactHtml) {
       const addr = server.address();
       const urlPrefix = isInsideStudio
         ? '/' + path.relative(studioDir, deckDir).split(path.sep).join('/') + '/'
-        : '/__deck/';
+        : '/carousels/__ext/';
       resolve({ server, port: addr.port, urlPrefix });
     });
   });
@@ -321,7 +335,7 @@ export async function renderCarousel() {
   const isInsideStudio = folder.startsWith(studioDir + path.sep);
   const urlPrefix = isInsideStudio
     ? '/' + path.relative(studioDir, folder).split(path.sep).join('/') + '/'
-    : '/__deck/';
+    : '/carousels/__ext/';
   const slideUrls = slideFiles.map((name) => `${urlPrefix}${name}`);
   const { html: contactHtml, sheetWidth, sheetHeight } = buildContactSheetHtml(
     slideUrls,

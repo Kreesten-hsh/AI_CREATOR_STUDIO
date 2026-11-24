@@ -1,4 +1,4 @@
-/* AI CREATOR Studio — Système Carrousel 4:5 (Studio Lin 100 % Plat) */
+/* AI CREATOR Studio — Système Carrousel 3:4 & 4:5 (Studio Lin • Direction Éditoriale Sobre par Défaut) */
 @font-face {
   font-family: 'Archivo Black';
   font-style: normal;
@@ -59,16 +59,19 @@ html, body {
 
 .slide {
   --w: 1080px;
-  --h: 1350px;
-  --pad: 72px;
+  --h: 1440px;
+  --pad: 84px;
   --bg: #EAE3D5;
   --ink: #171313;
-  --muted: #4E4742;
+  --muted: #5C544D;
   --accent: #B63131;
   --card: #FFFDFC;
   --card-ink: #171313;
   --passive: #E3DDD1;
-  --display: 'Archivo Black', 'Plus Jakarta Sans', sans-serif;
+  --hairline: rgba(23, 19, 19, 0.14);
+  --hairline-strong: rgba(23, 19, 19, 0.28);
+  --display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --display-impact: 'Archivo Black', 'Plus Jakarta Sans', sans-serif;
   --sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --serif: 'Instrument Serif', Georgia, serif;
   --mono: 'JetBrains Mono', monospace;
@@ -88,21 +91,25 @@ html, body {
   box-sizing: border-box;
 }
 
-/* Bandes Studio Lin 20px haut & bas */
+/* Signature discrète Studio Lin haut & bas */
 .slide::before,
 .slide::after {
   content: '';
   position: absolute;
   left: 0;
   right: 0;
-  height: 20px;
+  height: 12px;
   background: var(--accent);
   z-index: 30;
 }
 .slide::before { top: 0; }
 .slide::after { bottom: 0; }
 
-/* Variantes thématiques strictement Studio Lin */
+/* Variantes thématiques Studio Lin (éditorial sobre) */
+.slide[data-theme="ivory"] {
+  --bg: #FFFDFC;
+  --card: #F5EFE4;
+}
 .slide[data-theme="passive"] {
   --bg: #E3DDD1;
   --card: #FAF6EE;
@@ -112,151 +119,204 @@ html, body {
   --ink: #FFFDFC;
   --muted: #F5E6E4;
   --accent: #FFFDFC;
-  --card: #FFFDFC;
-  --card-ink: #171313;
+  --card: rgba(255, 253, 252, 0.12);
+  --card-ink: #FFFDFC;
+  --hairline: rgba(255, 253, 252, 0.24);
+  --hairline-strong: rgba(255, 253, 252, 0.45);
 }
 .slide[data-theme="burgundy"]::before,
 .slide[data-theme="burgundy"]::after {
   background: #171313;
 }
+.slide[data-theme="ink"] {
+  --bg: #171313;
+  --ink: #EAE3D5;
+  --muted: #B8AFA3;
+  --accent: #B63131;
+  --card: #211C1C;
+  --card-ink: #FFFDFC;
+  --hairline: rgba(234, 227, 213, 0.16);
+  --hairline-strong: rgba(234, 227, 213, 0.32);
+}
 
-/* Chaque bloc visuel est son propre calque positionné */
+/* Chaque bloc visuel est un calque positionné */
 .L {
   position: absolute;
   margin: 0;
 }
 
-/* Échelle typographique Studio Lin (strictement >= 28px) */
+/* Échelle typographique éditoriale (strictement >= 28px pour #check) */
 .hook {
   font-family: var(--display);
-  font-size: 74px;
-  line-height: 1.04;
-  letter-spacing: -0.02em;
+  font-weight: 800;
+  font-size: 68px;
+  line-height: 1.08;
+  letter-spacing: -0.028em;
   color: var(--ink);
-  text-transform: uppercase;
+  text-wrap: balance;
 }
 .h1 {
   font-family: var(--display);
-  font-size: 64px;
-  line-height: 1.06;
-  letter-spacing: -0.02em;
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
   color: var(--ink);
-  text-transform: uppercase;
+  text-wrap: balance;
 }
 .h2 {
   font-family: var(--sans);
-  font-weight: 800;
-  font-size: 48px;
-  line-height: 1.12;
-  letter-spacing: -0.015em;
+  font-weight: 700;
+  font-size: 46px;
+  line-height: 1.16;
+  letter-spacing: -0.018em;
   color: var(--ink);
+  text-wrap: balance;
 }
 .body {
   font-family: var(--sans);
-  font-weight: 700;
-  font-size: 36px;
-  line-height: 1.34;
-  letter-spacing: -0.005em;
+  font-weight: 500;
+  font-size: 38px;
+  line-height: 1.42;
+  letter-spacing: -0.006em;
   color: var(--ink);
+}
+.body strong,
+.body b {
+  font-weight: 800;
 }
 .small {
   font-family: var(--sans);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 28px;
-  line-height: 1.32;
+  line-height: 1.38;
   color: var(--muted);
 }
-.kicker {
-  font-family: var(--mono);
-  font-weight: 700;
+.label {
+  font-family: var(--sans);
+  font-weight: 600;
   font-size: 28px;
-  line-height: 1.2;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
+  line-height: 1.25;
+  color: var(--muted);
 }
 .num {
   font-family: var(--mono);
-  font-weight: 700;
-  font-size: 112px;
-  line-height: 0.92;
+  font-weight: 500;
+  font-size: 88px;
+  line-height: 0.95;
   letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
   color: var(--accent);
 }
-.serif-accent,
-em.hl {
+.serif-lead {
   font-family: var(--serif);
-  font-style: italic;
+  font-style: normal;
   font-weight: 400;
-  color: var(--accent);
-  text-transform: none;
-  letter-spacing: 0;
+  color: var(--ink);
 }
-.hl-bg {
-  background: var(--accent);
-  color: #FFFDFC;
-  padding: 2px 12px;
-  border-radius: 8px;
-  display: inline-block;
+.accent {
+  color: var(--accent);
+}
+.underline-accent {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 8px;
 }
 
-/* Cartes & Blocs Studio Lin (bordures franches, ombres dures sans flou) */
+/* Surfaces & compositions ouvertes (zéro bordure épaisse, zéro ombre dure décalée) */
+.open-block {
+  background: transparent;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
 .card {
   background: var(--card);
   color: var(--card-ink);
-  border: 4px solid #171313;
-  border-radius: 22px;
-  padding: 34px 38px;
-  box-shadow: 7px 7px 0px #171313;
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  padding: 40px 44px;
+  box-shadow: none;
 }
 .card-passive {
   background: var(--passive);
-  color: #171313;
-  border: 4px solid #171313;
-  border-radius: 22px;
-  padding: 32px 36px;
-  box-shadow: 6px 6px 0px #171313;
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  padding: 36px 40px;
+  box-shadow: none;
 }
 .card-burgundy {
   background: #B63131;
   color: #FFFDFC;
-  border: 4px solid #171313;
-  border-radius: 22px;
-  padding: 34px 38px;
-  box-shadow: 7px 7px 0px #171313;
+  border: none;
+  border-radius: 16px;
+  padding: 40px 44px;
+  box-shadow: none;
 }
 
 .pill {
   display: inline-block;
-  padding: 14px 26px;
-  border-radius: 14px;
-  border: 4px solid #171313;
-  background: #FFFDFC;
-  color: #171313;
-  box-shadow: 5px 5px 0px #171313;
-  font-family: var(--mono);
-  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: 1px solid var(--hairline-strong);
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: none;
+  font-family: var(--sans);
+  font-weight: 600;
   font-size: 28px;
   line-height: 1.15;
-  text-transform: uppercase;
 }
 .pill-red {
   background: #B63131;
+  border-color: #B63131;
   color: #FFFDFC;
 }
 
 .shot {
   display: block;
-  border: 4px solid #171313;
-  border-radius: 20px;
-  box-shadow: 7px 7px 0px #171313;
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  box-shadow: none;
   object-fit: cover;
-  background: #FFFDFC;
+  background: var(--card);
 }
 
 .rule {
-  height: 4px;
-  background: #171313;
+  height: 1px;
+  background: var(--hairline-strong);
+}
+.rule-accent {
+  height: 3px;
+  width: 72px;
+  background: var(--accent);
+}
+
+/* Comparaison ouverte en 2 colonnes à filets fins */
+.compare-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  border-top: 1px solid var(--hairline-strong);
+  border-bottom: 1px solid var(--hairline-strong);
+}
+.compare-col {
+  padding: 40px 36px 40px 0;
+}
+.compare-col + .compare-col {
+  padding: 40px 0 40px 40px;
+  border-left: 1px solid var(--hairline-strong);
+}
+
+/* Stage d'illustration vectorielle épurée */
+.illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .list {
@@ -266,107 +326,134 @@ em.hl {
 }
 .list li {
   position: relative;
-  padding-left: 72px;
-  margin: 0 0 28px;
+  padding: 22px 0 22px 64px;
+  margin: 0;
+  border-bottom: 1px solid var(--hairline);
   font-family: var(--sans);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 34px;
-  line-height: 1.3;
-  color: var(--card-ink);
+  line-height: 1.34;
+  color: var(--ink);
 }
 .list li:last-child {
-  margin-bottom: 0;
+  border-bottom: none;
 }
 .list li::before {
-  content: counter(item);
+  content: "0" counter(item);
   counter-increment: item;
   position: absolute;
   left: 0;
-  top: 2px;
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  border: 3px solid #171313;
-  background: #B63131;
-  color: #FFFDFC;
+  top: 24px;
   font-family: var(--mono);
   font-weight: 700;
   font-size: 28px;
-  line-height: 42px;
-  text-align: center;
+  line-height: 1.2;
+  color: var(--accent);
 }
 
-/* Rail de connexion continu entre slides */
+/* Rail de connexion fin */
 .rail {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 .rail-step {
   flex: 1;
-  height: 14px;
+  height: 4px;
   border-radius: 999px;
-  border: 3px solid #171313;
-  background: #FFFDFC;
+  border: none;
+  background: var(--hairline);
 }
 .rail-step.done {
-  background: #B63131;
+  background: var(--accent);
 }
 
-/* Barre de progression & pied de page (>= 28px) */
+/* Barre de progression & pied de page discrets (>= 28px) */
 .foot-progress {
   left: var(--pad);
   right: var(--pad);
-  bottom: 42px;
+  bottom: 40px;
   display: flex;
   align-items: center;
   gap: 24px;
   z-index: 25;
 }
 .foot-handle {
-  font-family: var(--mono);
-  font-weight: 700;
+  font-family: var(--sans);
+  font-weight: 600;
   font-size: 28px;
   line-height: 1;
-  color: var(--ink);
+  color: var(--muted);
   flex-shrink: 0;
 }
 .foot-track {
   flex: 1;
-  height: 12px;
+  height: 4px;
   border-radius: 999px;
-  border: 3px solid #171313;
-  background: #FFFDFC;
+  border: none;
+  background: var(--hairline);
   overflow: hidden;
 }
 .foot-fill {
   height: 100%;
-  background: #B63131;
+  background: var(--accent);
 }
 .foot-count {
   font-family: var(--mono);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 28px;
   line-height: 1;
-  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
   flex-shrink: 0;
-}
-.slide[data-theme="burgundy"] .foot-fill {
-  background: #171313;
 }
 
 .swipe-btn {
-  right: 16px;
+  right: 28px;
   top: 50%;
   transform: translateY(-50%);
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
   border-radius: 999px;
-  background: #FFFDFC;
-  border: 4px solid #171313;
-  box-shadow: 4px 4px 0px #171313;
+  background: var(--card);
+  border: 1px solid var(--hairline-strong);
+  box-shadow: none;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 25;
+}
+
+/* ==========================================================================
+   VARIANTE EXCEPTIONNELLE UNIQUEMENT SUR DEMANDE EXPLICITE :
+   <div class="slide" data-variant="brutalist">
+   Interdite par défaut sur toutes les productions organiques.
+   ========================================================================== */
+.slide[data-variant="brutalist"] {
+  --pad: 72px;
+  --display: var(--display-impact);
+}
+.slide[data-variant="brutalist"]::before,
+.slide[data-variant="brutalist"]::after {
+  height: 20px;
+}
+.slide[data-variant="brutalist"] .hook,
+.slide[data-variant="brutalist"] .h1 {
+  text-transform: uppercase;
+}
+.slide[data-variant="brutalist"] .card {
+  border: 4px solid #171313;
+  border-radius: 22px;
+  box-shadow: 7px 7px 0px #171313;
+}
+.slide[data-variant="brutalist"] .card-passive {
+  border: 4px solid #171313;
+  border-radius: 22px;
+  box-shadow: 6px 6px 0px #171313;
+}
+.slide[data-variant="brutalist"] .pill,
+.slide[data-variant="brutalist"] .shot,
+.slide[data-variant="brutalist"] .swipe-btn {
+  border: 4px solid #171313;
+  box-shadow: 5px 5px 0px #171313;
 }

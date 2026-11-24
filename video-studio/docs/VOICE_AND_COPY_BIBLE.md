@@ -1,222 +1,133 @@
 # VOICE & COPY BIBLE • AI CREATOR STUDIO (KREESTEN AGBOTON)
 
-> Bible unifiée de voix parlée, de copywriting humain et de psychologie marketing pour **AI CREATOR Studio**.
-> Fusionne le manuel de ghostwriting d'Abigail Peugh, le filtre Anti-AI Writing (`Novitckii content-skills`), le protocole `Voice DNA`, et les **15 règles marketing d'Antoine BM**.
-> Cette bible s'applique à tous les **nouveaux** contenus (scripts TOFU/MOFU, restructuration `EP03` à `EP06`, carrousels 4:5, légendes, pages de vente). Seuls les **2 scripts déjà produits (`EP01` et `EP02` dans [CONTENT_PLAN_14_DAYS.md](./CONTENT_PLAN_14_DAYS.md)) restent verrouillés mot pour mot**. Les scripts `EP03` à `EP06` ne sont pas verrouillés : ils seront restructurés autour des 5 nouveaux piliers éditoriaux.
+> Bible unifiée de voix parlée, de copywriting humain et de psychologie éditoriale pour **AI CREATOR Studio**.
+> Aligne le naturel parlé d'Abigail Peugh, le filtre Anti-AI Writing (`Novitckii content-skills`), les méthodes hooks & rétention de nos mentors (`@evann.chatraix`, `@gbabusiness`, `@growithfanny`, `@hormozi` + études `@iamhoniakader`, `@romina.aminian`, `@rafaelm.ag`) et les règles marketing d'Antoine BM, sous l'architecture de [CONTENT_OPERATING_SYSTEM.md](./CONTENT_OPERATING_SYSTEM.md).
+> *Note de révision (2026-11-24) : la promesse généralisée « 3 à 5× plus cher », le centrage permanent sur `SOLDE.`, la cadence « 5 carrousels » et le style néo-brutaliste par défaut sont remplacés par la stratégie média multi-secteurs et la DA éditoriale sobre. Les épisodes archivés `EP01` et `EP02` restent intacts dans [HISTORY.md](../episodes/HISTORY.md).*
 
 ---
 
 ## Table des Matières
 
-1. [Section 1 : Positionnement Officiel, 2 Cibles, 5 Piliers & Voix d'Abigail Peugh](#section-1--positionnement-officiel-2-cibles-5-piliers--voix-dabigail-peugh)
+1. [Section 1 : Positionnement Média, Audiences A/B, Rigueur & Piliers](#section-1--positionnement-média-audiences-ab-rigueur--piliers)
 2. [Section 2 : Liste Noire du Jargon & Zéro Prix en Public](#section-2--liste-noire-du-jargon--zéro-prix-en-public)
-3. [Section 3 : Expressions Fétiches & Cadence Parlée Naturelle](#section-3--expressions-fétiches--cadence-parlée-naturelle)
-4. [Section 4 : Retranscription Visuelle Studio Lin (Fond Plat & SingleLineSubtitle)](#section-4--retranscription-visuelle-studio-lin-fond-plat--singlelinesubtitle)
-5. [Section 5 : Filtre Anti-AI Writing, Storytelling MAIS/DONC & Voice DNA](#section-5--filtre-anti-ai-writing-storytelling-maisdonc--voice-dna)
-6. [Section 6 : Les 15 Règles Marketing d'Antoine BM](#section-6--les-15-règles-marketing-dantoine-bm)
+3. [Section 3 : Standard Hooks v2, Cadence Parlée & Expressions Naturelles](#section-3--standard-hooks-v2-cadence-parlée--expressions-naturelles)
+4. [Section 4 : Retranscription Visuelle Éditoriale Sobre (Studio Lin v2)](#section-4--retranscription-visuelle-éditoriale-sobre-studio-lin-v2)
+5. [Section 5 : Filtre Anti-AI Writing, Storytelling Souple & Voice DNA](#section-5--filtre-anti-ai-writing-storytelling-souple--voice-dna)
+6. [Section 6 : CTAs par Pilier & Règles Marketing d'Antoine BM](#section-6--ctas-par-pilier--règles-marketing-dantoine-bm)
 
 ---
 
-## Section 1 : Positionnement Officiel, 2 Cibles, 5 Piliers & Voix d'Abigail Peugh
+## Section 1 : Positionnement Média, Audiences A/B, Rigueur & Piliers
 
-### 1.1 Promesse Officielle & Thèse Centrale (Lire vs Utiliser)
+### 1.1 Thèse éditoriale & rôle du contenu
+- **Thèse de marque** : **AI CREATOR Studio explore une nouvelle façon de concevoir les produits digitaux : des ressources interactives, utiles et concrètes, que leurs utilisateurs peuvent manipuler, personnaliser, tester ou suivre.**
+- **Rôle du compte** : construire un **média de contenu francophone** autour des produits digitaux interactifs (potentiel, catégories achetées, usages possibles, tests réels avec Claude gratuit, apprentissages), utile même pour quelqu'un qui ne souhaite pas acheter immédiatement.
+- **Rôle de l'offre** : **AI CREATOR Studio** est le mini-cours guidé qui enseigne la méthode étape par étape (`3 modules`, `7 leçons pratiques`, `~3 h 15` indicatif, `2 bonus`). Le contenu éclaire et prouve par l'expérience ; il ne répète pas une publicité à chaque post.
 
-- **Promesse officielle (page de vente validée)** : « Crée le produit digital interactif que ton audience a hâte d'acheter. Étape par étape, à ton rythme, je t'aide à créer, tester et préparer la livraison de ton produit digital interactif avec Claude gratuit, sans savoir coder. Pas un énième produit digital qu'on télécharge et qu'on oublie : un outil que tes clients utilisent vraiment. »
-- **Les 3 attentes clients (Anaphore officielle)** : Les clients recherchent trois choses concrètes dans un produit interactif : **simplicité**, **interactivité** et **résultat immédiat**.
-- **Thèse centrale (Lire vs Utiliser)** : Un produit digital classique transmet de l'information que le client **lit** (un bon PDF reste utile pour informer). Un produit digital interactif permet au client d'**agir immédiatement** (calculer, diagnostiquer, cocher, suivre sa progression) depuis son téléphone.
+### 1.2 Parler différemment à l'Audience A et à l'Audience B
 
-### 1.2 Les 2 Cibles Hiérarchisées
+| Audience | Qui c'est | Comment lui parler | Ce qu'il faut éviter |
+|---|---|---|---|
+| **Audience A : Veut se lancer** | Curieux du business en ligne, débutants sans produit ni compétence technique | Vocabulaire ultra-simple, exemples tangibles du quotidien, montrer qu'on peut tester sans coder ni jargon | Supposer qu'ils connaissent le marketing digital, parler d'entonnoirs complexes ou de guerre des prix |
+| **Audience B : Possède déjà une expertise ou vend** | Coachs, formateurs, consultants, indépendants, créateurs d'ebooks/guides | Montrer comment transformer une méthode ou un document existant en expérience interactive utile et différenciante | Dénigrer bêtement les PDF ou promettre qu'il suffit de « rendre interactif » pour tripler les ventes |
 
-| Priorité | Profil cible | Situation de départ et besoin |
-|---|---|---|
-| **Cible 1 (Prioritaire)** | Créateurs, coachs, formateurs, consultants, indépendants | Possèdent déjà une expertise, un document ou une méthode à transformer en produit interactif différencié. |
-| **Cible 2 (Secondaire)** | Débutants avec une compétence ou une idée | Veulent lancer leur premier produit digital de manière différenciée, sans savoir coder ni payer d'abonnement Claude. |
+Chaque publication précise son audience prioritaire (`A`, `B`, ou `A + B`) sans confondre leurs niveaux de départ.
 
-### 1.3 Les 5 Piliers Éditoriaux Officiels
+### 1.3 Les 4 Piliers × 8 Secteurs + Rigueur Factuelle
+Chaque semaine équilibre les 4 piliers (`Éduquer`, `Inspirer`, `Divertir`, `Vendre`) sur le **portefeuille des 8 secteurs** (`Cuisine & alimentation`, `Sport & fitness`, `Développement personnel`, `Business & entrepreneuriat`, `Éducation & apprentissage`, `Finances personnelles`, `Carrière & emploi`, `Organisation & productivité`).
 
-Tous les contenus (Reels, carrousels, restructuration `EP03` à `EP06`, page de vente) s'articulent autour de ces 5 piliers :
-
-1. **Pilier 1 : Faire découvrir l'opportunité (`Lire vs Utiliser`)** : montrer l'écart concret entre un document informatif qu'on lit et un outil interactif qu'on utilise sur téléphone.
-2. **Pilier 2 : Donner des idées concrètes par métier** : présenter des déclinaisons par secteur (budget, diagnostic, checklist métier) explicitement présentées comme des **possibilités de création**, jamais comme des produits déjà livrés dans le programme.
-3. **Pilier 3 : Montrer comment cela fonctionne** : démonstration pas à pas avec Claude.ai gratuit, sans abonnement payant et sans savoir coder.
-4. **Pilier 4 : Apporter des preuves réelles** : s'appuyer sur la plateforme réelle AI CREATOR Studio (captures brutes en ligne et Chariow), l'exemple fini livré dans le cours (**`SOLDE.` — Planificateur de Budget & Objectifs**, issu d'un ebook de 20 pages, avec conversion `FCFA` / `€`, score `/100`, crash-test imprévu, Export/Import JSON et écran de verrouillage par mot de passe), le storytelling personnel et la preuve terrain validée du fondateur, ainsi que les retours clients authentiques.
-5. **Pilier 5 : Présenter l'offre et lever les objections** : détailler fidèlement les 3 modules (`01 CHOISIR`, `02 CRÉER`, `03 PUBLIER ET LIVRER`), les 7 leçons pratiques, le Skill inclus (`ai-creator-design-intelligence`), le modèle de Guide d'Accès client PDF, les 2 bonus exacts, les prérequis et la section Pour qui / Pas pour qui.
-
-### 1.4 Vérité Factuelle du Programme & Garde-Fous Éditoriaux
-
-- **Plateforme** : AI CREATOR Studio, plateforme web interactive protégée par code à 6 chiffres envoyé par e-mail (`BuyerAuthGate`).
-- **Exemple fini livré** : **`SOLDE.` — Planificateur de Budget & Objectifs** (`docs/examples/solde/index.html`, issu de l'ebook 20 pages `SOLDE-EBOOK-BUDGET-MENSUEL-OBJECTIFS.pdf`, avec conversion `FCFA` / `€`, score `/100`, crash-test imprévu, Export/Import JSON et écran de verrouillage par mot de passe `SOLDE2026`). Tout autre exemple (diagnostic, checklist métier, calculateur) est présenté uniquement comme une **idée de création possible**.
-- **Bonus 01 (périmètre exact)** : tutoriel d'automatisation ManyChat pour les **commentaires Facebook vers Messenger uniquement** (jamais Instagram ni TikTok).
-- **Bonus 02 (périmètre exact)** : **Marketing Library** contenant **9 ressources marketing** (dont 2 packs prêts à installer dans Claude et 7 fiches avec prompts prêts à copier), **1 prompt universel d'analyse concurrentielle** et **1 lien de veille externe** (`novitckii.com/resources/`).
-- **Tarif et livraison Chariow** : **14 900 FCFA** (tarif de référence barré : **24 900 FCFA**), paiement local (Mobile Money & cartes bancaires). Le repère pédagogique autorisé sur la page de vente est : *« si tu proposes ton outil interactif à 7 500 FCFA, il ne te faut que 2 ventes pour rentabiliser ton investissement »* (suivi de la mention *« Simple repère mathématique, pas une garantie de ventes. »*). Après paiement, l'acheteur télécharge le **Guide d'Accès d'une page** (`Guide-Acces-AI-CREATOR-Studio.pdf`) qui explique comment ouvrir la plateforme complète.
-- **Storytelling personnel & preuve terrain validée** : le créateur partage son parcours honnête (pourquoi il a arrêté de vendre de simples PDF ennuyeux et lancé ce mini-cours) et son expérience personnelle (`+ de 10 millions de FCFA`), obligatoirement assortie du disclaimer éthique : *« C'est mon expérience personnelle et ce n'est pas une garantie de résultats. Chaque audience, offre et lancement est différent. La seule raison pour laquelle je partage ce chiffre est de te montrer depuis quelle expérience terrain je t'enseigne ! »*
-- **Interdictions absolues** : zéro promesse de chiffre d'affaires, de ventes garanties ou de revenus automatiques ; zéro faux témoignage ou fausse statistique ; zéro fausse rareté (`Limité aux 30 premiers` banni) ; ne jamais présenter le programme comme une formation complète de publicité/acquisition ; ne jamais laisser croire que le cours entier ne fait qu'une page.
-
-**Règle de réécriture Avant / Après** :
-- *À proscrire* : « Les PDF sont morts. Achète mon cours pour vendre plus et exploser tes revenus. »
-- *À appliquer* : « Un bon PDF reste utile pour informer. Un produit interactif va plus loin : il permet à ton client d'utiliser ton expertise directement sur son téléphone. Apprends à créer un produit différencié avec Claude gratuit, sans coder. »
-
-### 1.5 Posture & Voix d'Abigail Peugh
-
-Tu n'es pas une agence technique ni une promesse de gains faciles. Tu aides les créateurs, coachs et porteurs d'idées à passer d'un savoir statique à un produit interactif dont ils sont fiers.
-
-- **Le constat vécu de l'audience** : beaucoup de créateurs ont condensé leur savoir dans un PDF utile pour informer, mais leurs clients le parcourent une fois et ne passent pas à l'action sur téléphone.
-- **La solution concrète** : dans AI CREATOR Studio (3 modules, 7 leçons pratiques), on utilise Claude gratuit et notre pack d'instructions design pour transformer une méthode, une idée ou un guide existant en produit interactif testé, publié et prêt à livrer.
-- **L'angle simple** : *« Un bon PDF informe. Un produit interactif met ta méthode en action sur le téléphone de ton client, créé avec Claude gratuit. »*
+#### Garde-fous factuels non négociables
+- **Statut explicite de chaque exemple** : `IDÉE`, `EN RECHERCHE`, `PROTOTYPE`, `TESTÉ EN INTERNE`, `TESTÉ AVEC UTILISATEURS`, `VALIDÉ COMMERCIALEMENT`. Ne jamais présenter une idée comme un prototype construit ni un prototype comme un succès commercial.
+- **Place exacte de `SOLDE.`** : `SOLDE.` (`docs/examples/solde/index.html`, planificateur de budget et d'objectifs livré dans le cours) est un cas d'étude réel de la bibliothèque. Il ne doit **plus** être le héros par défaut de chaque publication.
+- **Rigueur sur la valeur et le prix** : la valeur perçue et la différenciation sont des angles valides, mais **ne jamais présenter « vendre 3 à 5 fois plus cher » comme un résultat général démontré**, ne jamais promettre de revenus garantis, ne jamais inventer de statistiques (`90 %`, etc.), de témoignages ou de classements « best-seller » non sourcés et datés.
+- **Honnêteté face au PDF** : un bon PDF informe très bien quand on a juste besoin de lire. On montre là où l'interaction change concrètement l'usage (cliquer, calculer, filtrer, personnaliser, suivre).
+- **Périmètre exact des bonus & livraison** : Bonus 01 ManyChat = **commentaires Facebook vers Messenger uniquement** (jamais Instagram ni TikTok). Bonus 02 = Marketing Library. Vente via **Chariow** (`14 900 FCFA`, réf. `24 900 FCFA` — **jamais affichés en organique**), livraison par Guide d'accès PDF + lien + code d'accès dissuasif côté navigateur (parcours acheteur réel à vérifier par commande test selon `COURSE_PRD.md` L7).
+- **Parcours fondateur (`+ de 10 millions de FCFA`)** : uniquement si le contexte s'y prête et obligatoirement accompagné du disclaimer : *« C'est mon expérience personnelle et ce n'est pas une garantie de résultats. Chaque audience, offre et lancement est différent. »*
 
 ---
 
 ## Section 2 : Liste Noire du Jargon & Zéro Prix en Public
 
-Ces termes ne doivent jamais apparaître dans un nouveau script, une vidéo, un carrousel ou une légende :
+Ces termes restent bannis de tout nouveau script, carrousel ou légende :
 
-| Terme banni | Remplacement obligatoire (Style Abigail) |
+| Terme banni | Remplacement naturel (voix humaine) |
 |---|---|
-| « Application web » | **« Guide interactif »**, **« Parcours interactif »**, **« Produit interactif »** |
-| « Ligne de code », « Coder », « Codeur » | **« Faire bâtir par Claude »**, **« Créer en 5 minutes »**, **« Zéro prise de tête technique »** |
-| « HTML », « CSS », « JavaScript » | **« Tout dans un seul fichier magique »** |
-| « LocalStorage », « Sauvegarde navigateur » | **« Tes clients retrouvent tout à leur retour »** |
-| « Calculs en temps réel », « Variables » | **« Tes clients testent leur résultat en direct »** |
-| « Netlify Drop », « Déploiement serveur » | **« En ligne en un seul glisser-déposer »** |
-| « Challenge » | **« Mini-Cours »** ou **« Mini-Cours Guidé en 3 jours »** |
-| Toute mention de prix, tarif, devise ou montant | **Zéro prix en public.** La découverte du tarif se fait exclusivement sur Chariow. Les comparaisons utilisent des paliers qualitatifs : `MAUVAIS • MIEUX • LE TOP`, `NIVEAU 1 • NIVEAU 2 • NIVEAU 3`, `PRODUIT QUI DORT • PRODUIT QU'ON UTILISE`. |
-| Tiret cadratin (tiret long) | **Zéro tiret cadratin** (règle anti-slop). Utiliser un point, une virgule ou deux-points. |
-
-**Exception historique unique validée** : l'anecdote historique Dollar Shave Club (rasoirs à un dollar, rachat pour un milliard) dans le Reel `N°01` de [CONTENT_PLAN_14_DAYS.md](./CONTENT_PLAN_14_DAYS.md).
-
----
-
-## Section 3 : Expressions Fétiches & Cadence Parlée Naturelle
-
-À glisser régulièrement (au tutoiement) pour cloner le naturel désarmant d'Abigail :
-
-- *« Lève la main si tu as déjà acheté un guide PDF, que tu l'as ouvert une fois et que tu l'as plus jamais regardé... (je te juge pas lol). »*
-- *« Maintenant lève la main si tu VENDS un de ces PDF et que t'en parles presque jamais parce que t'as un peu honte de voir à quel point il est ennuyeux... »*
-- *« Non mais sans rire, regarde-moi ça. »*
-- *« Vous m'avez littéralement harcelé pour que je crée ce mini-cours après avoir vu ce que Claude m'a pondu. »*
-- *« Ce qui est le moins excitant dans ce post, c'est que... »*
-- *« Seuls ceux qui créent avec Claude comprendront ce sentiment... »*
-- *« C'est super inconfortable pour moi de partager ça, mais... »*
-- *« Ce lancement n'a rien d'un coup de chance. J'ai juste écouté ma communauté et créé exactement ce qu'elle demandait. »*
-- *« Écoute, je suis pas là pour te faire peur. »*
-- *« Et si t'es un peu comme moi, tu cours sûrement vers ton ordi en te demandant : qu'est-ce que je pourrais créer ? »*
-
-**Mécanique de phrase observée dans ses vidéos** (`video_1`, `video_6`, `video_8`) :
-1. **Anaphore de contraste** : *« Et si au lieu de ressembler à ça, ton guide pouvait ressembler à ça ? »* répétée 2 ou 3 fois.
-2. **Désamorçage** : *« Si tu veux pas utiliser l'IA, l'utilise pas. Mais si t'es comme moi... »*
-3. **Projection concrète du soir même** : *« Tu te poses tranquillement ce soir, et tu t'amuses. »*
-4. **Étapes numérotées parlées** : *« Étape un... Étape deux... Numéro trois... »*
-5. **Chute rassurante** : *« T'as même pas besoin de savoir comment faire. Juste de savoir quoi dire. »*
+| « Application web » | **« Outil interactif »**, **« Parcours interactif »**, **« Produit digital interactif »** |
+| « Ligne de code », « Codeur », jargon technique | **« Faire bâtir par Claude »**, **« Sans savoir programmer »**, **« Zéro prise de tête technique »** |
+| « HTML », « CSS », « JavaScript » | **« Un seul fichier autonome »** ou **décrire le résultat visible** |
+| « LocalStorage », « Sauvegarde navigateur » | **« Tes données restent enregistrées sur ton appareil »** |
+| « Variables », « Algorithme de calcul » | **« L'outil ajuste le résultat en direct quand tu modifies tes choix »** |
+| « Netlify Drop », « Déploiement serveur » | **« Mise en ligne simple par glisser-déposer »** |
+| « Challenge » | **« Mini-cours »** ou **« Parcours en 3 jours »** |
+| Prix, tarifs, devises (`FCFA`, `€`, `$`) en organique | **Zéro prix en public organique.** Comparaisons qualitatives d'usage plutôt que promesses chiffrées arbitraires. |
+| Tiret cadratin (`—`), `//`, crochets `[` `]` à l'écran | **Zéro tiret cadratin** (utiliser point, virgule ou deux-points). **Zéro `//` ni `[ ]`** sur les visuels. |
+| Expressions passe-partout répétées | Bannir la répétition mécanique de « nouvelle opportunité », « révolutionnaire », « game-changer », « 3 à 5 fois plus cher ». |
 
 ---
 
-## Section 4 : Retranscription Visuelle Studio Lin (Fond Plat & SingleLineSubtitle)
+## Section 3 : Standard Hooks v2, Cadence Parlée & Expressions Naturelles
 
-Le studio ne tourne aucune image caméra. L'authenticité d'Abigail est retranscrite de façon 100 % programmatique sur la DA verrouillée de [STUDIO_BIBLE.md](./STUDIO_BIBLE.md) :
+### 3.1 Processus obligatoire avant toute rédaction de contenu
+1. Générer **au moins 10 hooks candidats réellement différents** (pas 10 variantes syntaxiques d'une même phrase).
+2. Appliquer le **Callout Condition (`@hormozi`)** : qualifier la bonne personne ou situation dès les premières secondes sans phrases génériques.
+3. Tester plusieurs mécanismes : croyance contredite (`@rafaelm.ag`), contraste d'usage concret, curiosité factuelle (`@romina.aminian` + `@growithfanny`), démonstration avant méthode, scène vécue.
+4. Choisir le **Top 3 argumenté** et recommander **1 hook principal**, en gardant les 2 alternatives.
 
-1. **Typographie parlée `SingleLineSubtitle`** : légende horizontale sur **une seule ligne** (`Plus Jakarta Sans 800`, `58px`, casse normale, espaces insécables `\u00A0`) avec mise en valeur Bordeaux `#B63131` sur le mot-clé émotionnel (*ennuyeux*, *honte*, *slop IA*, *interactif*, *CLAUDE*). Jamais de karaoké multi-mots en bas d'écran.
-2. **Toile Studio Lin 100 % plate et cartes `FramedMediaCard`** :
-   - Fond beige lin sable `#EAE3D5` **100 % plat et uni (zéro halo central blanc)**, encadré en haut et en bas par deux bandes `20px` Bordeaux `#B63131`.
-   - Cartes ivoire `#FFFDFC` sans barre de titre de fenêtre (`FramedMediaCard`), contour `4px solid #171313`, ombre nette `8px 8px 0px #171313`.
-   - Accent unique Bordeaux `#B63131` sur les éléments de rupture. Zéro rose, zéro orange, zéro néon.
-3. **Poses de l'avatar 3D double contour** (correspondance vers `video-studio/assets/avatar/`, via `AvatarBustStage` et `AvatarHeadCenter`) :
-
-| Intention | Pose réelle à utiliser (`AVATAR_POSES`) |
-|---|---|
-| Choc des PDF ennuyeux et du slop IA | `07_facepalm_oops.png` (`facepalmOops`) ou `08_amazed_wow.png` (`amazedWow`) |
-| Montrer le contraste avec le guide interactif | `02_talking_confident.png` (`talkingConfident`) ou `05_eureka_snap.png` (`eurekaSnap`) |
-| Carton final d'appel à l'action / miniature DM | `09_relaxed_arms_crossed.png` (`armsCrossed`) ou `10_head_badge.png` (`headBadge`) |
-
-4. **Loi des éléments connectés** : aucun élément ne flotte seul. Chaque scène ou slide utilise l'un des 5 connecteurs définis dans [STUDIO_BIBLE.md](./STUDIO_BIBLE.md) (Section 5.3).
+### 3.2 Expressions naturelles & cadence parlée
+- **Tutoiement direct, oral et précis** : parler comme dans une vraie discussion, phrases courtes alternées avec des phrases un peu plus posées, exemples concrets avant toute affirmation générale.
+- **Verbes d'action concrets** : expliquer l'interactivité par ce que la personne fait réellement (*cliquer, choisir, répondre, régler, calculer, adapter, suivre, comparer, obtenir un résultat*).
+- **Micro-relances de rétention (si vrai dans le contexte)** :
+  - Promesse de maintien (`@iamhoniakader`) : *« Et le plus intéressant arrive juste après… »* (seulement si la suite tient la promesse).
+  - Rétention logique (`@rafaelm.ag`) : *« X fonctionne bien, sauf quand tu veux faire Y. Regarde pourquoi. »*
+  - Désamorçage honnête : *« L'interactivité ne sauve pas une mauvaise idée. Par contre, sur un vrai besoin… »*
 
 ---
 
-## Section 5 : Filtre Anti-AI Writing, Storytelling MAIS/DONC & Voice DNA
+## Section 4 : Retranscription Visuelle Éditoriale Sobre (Studio Lin v2)
 
-### 5.1 Les 5 Maladies du Texte IA (`anti-ai-writing-rules` & `content-skills`)
+> **Changement majeur (2026-11-24)** : Le style **éditorial sobre, minimaliste, élégant et moderne** est désormais le défaut de tous les outils (`carousel-studio`, `ai-creator-video-studio`, illustrations). Le néo-brutalisme (bordures épaisses `4px`, ombres dures décalées `6px–8px`, `RetroWindow`) est désactivé par défaut et réservé uniquement aux demandes explicites ou aux archives historiques (`EP01`, `EP02`).
 
-Avant toute publication de script, de carrousel ou de légende, passer le brouillon au crible de ces 5 vérifications :
-
-1. **Compression vague** : *« Les créateurs ont du mal à vendre »* → Remplacer par l'instance précise : *« Ton PDF de 40 pages reste fermé dans le dossier Téléchargements de ton client »*.
-2. **Inflation d'importance** : bannir *« un tournant décisif, révolutionnaire, incontournable, game-changer »* → énoncer le fait simple.
-3. **Hésitation molle** : bannir *« il semblerait que, potentiellement, cela peut aider »* → prendre position franchement.
-4. **Métronome rythmique** : éviter que toutes les phrases fassent 12 mots. Alterner une phrase longue explicative avec une frappe de 4 mots.
-5. **Autorité empruntée** : si la phrase sonne comme un diaporama de cabinet conseil ou un post LinkedIn copié-collé, la réécrire comme on parle à un ami au téléphone.
-
-### 5.2 Règles strictes d'écriture (`dumbify` + `storytelling` + `anti-ai-writing`)
-
-1. **Niveau de lecture simple (`dumbify`)** : mots courants, phrases actives, zéro jargon technique (dire *« guide interactif sur téléphone »*, jamais *« écosystème SaaS réactif »*).
-2. **Danse `MAIS / DONC` (jamais « et ensuite »)** : entre deux plans d'un script ou deux slides d'un carrousel storytelling, la phrase suivante doit contredire la précédente (**MAIS**) ou en découler par conséquence (**DONC**).
-   - *Mauvais* : « Il a fait un PDF. Et ensuite il a ouvert Claude. Et ensuite il l'a livré. »
-   - *Bon* : « Il a passé trois soirs sur son PDF. **MAIS** personne ne l'a lu au-delà de la page quatre. **DONC** il a collé ses notes dans Claude gratuit pour sortir un guide cliquable. »
-3. **Interdiction du « pas X mais Y » (*Negative Parallelism Ban*)** : proscrire les refrains mécaniques de l'IA (*« Ce n'est pas un outil, c'est une révolution »*, *« Oublie X, concentre-toi sur Y »*, *« Le vrai problème n'est pas X, c'est Y »*). Supprimer la moitié rejetée et affirmer directement le fait concret.
-4. **Échelle de spécificité (Niveau 3 minimum, Niveau 4 visé)** :
-   - Niveau 1 (Vague) : « Vendre des ebooks devient difficile. »
-   - Niveau 2 (Spécifique) : « Les PDF générés par IA ne retiennent plus l'attention. »
-   - Niveau 3 (Concret) : « Un client ouvre un PDF de 40 pages et le referme au bout de deux minutes. »
-   - Niveau 4 (Vécu, *Effet Kevin à 6h12*) : « Il est 6h12 dans le transport à Abidjan, la personne ouvre ton fichier sur son téléphone, zoome trois fois sur le texte minuscule et ferme l'onglet avant l'arrêt suivant. »
-5. **Liste noire de mots et signes interdits (FR / EN)** :
-   - Mots bannis : *plonger dans, explorer, révolutionnaire, game-changer, incontournable, crucial, booster, propulser, sublimer, levier, optimiser (sans chiffre), en outre, par ailleurs, ainsi, en somme, vous l'aurez compris, n'hésitez pas à, dans un monde où, que vous soyez débutant ou expert, sans plus attendre*.
-   - Signes bannis à l'écran : zéro tiret cadratin dans les scripts/légendes, zéro double barre oblique, zéro crochets (`[` `]`), zéro mur de hashtags (3 à 5 hashtags ciblés maximum en fin de légende).
-
-### 5.3 Protocole `Voice DNA` d'AI CREATOR Studio
-
-Synthèse de la voix observée dans nos 2 scripts déjà produits (`EP01` et `EP02`) pour garantir une cohérence absolue sur tous les nouveaux scripts (TOFU, MOFU et restructuration de `EP03` à `EP06` autour des 5 piliers) :
-
-- **Posture** : directe, cash, complice, lucide sur l'écart entre un document qu'on lit et un produit qu'on utilise, sans jamais mépriser les PDF ni le spectateur qui débute.
-- **Adresse** : tutoiement systématique, parler à une seule personne (« tu », jamais « chers abonnés »).
-- **Expressions signatures réelles** : *« tu es exactement au bon endroit »*, *« tranquille ce soir »*, *« qui pue l'IA »*, *« tu vas prendre une vraie claque »*, *« un outil qu'on utilise »*. La formule « sans savoir coder » reste autorisée dans la promesse officielle, les pages de vente et les 2 scripts déjà produits (`EP01` et `EP02`) ; dans les nouveaux scripts vidéo oraux, privilégier les formulations simples de la Section 2 (*« zéro prise de tête technique »*).
-- **Interdiction de fabulation** : zéro fausse statistique inventée (« des études montrent », revenus garantis). S'appuyer uniquement sur des comportements observables du quotidien sur mobile, le storytelling réel (`+ de 10 millions de FCFA` accompagné du disclaimer éthique explicite) et les vrais livrables du dépôt (`ep01`, `ep02`, `platform-home-real.png`, `demo-interactive-clean.mp4`, `Calculateur de Prix & Rentabilité`).
+1. **Palette Studio Lin conservée** : beige lin `#EAE3D5` (toile 100 % plate), ivoire `#FFFDFC`, noir encre `#171313`, bordeaux `#B63131`.
+2. **Sobriété absolue** : grandes typographies, larges espaces blancs, illustrations vectorielles épurées (2 à 3 max sur un carrousel), filets fins `1px`, compositions ouvertes.
+3. **Zéro surcharge** : aucune carte imbriquée, aucune fausse fenêtre de logiciel, aucun badge/kicker décoratif en capitales espacées, aucune jauge ou étiquette redondante.
+4. **Sous-titres vidéo (`SingleLineSubtitle`)** : une seule ligne horizontale lisible (`Plus Jakarta Sans 800`, `58px`, casse normale, mot-clé `#B63131`, espaces insécables `\u00A0`), zéro karaoké multi-mots.
+5. **Avatar 3D ponctuel** (facultatif) : uniquement s'il sert le sens du plan (`20–30 %` max en vidéo), jamais posé en décoration systématique.
 
 ---
 
-## Section 6 : Les 15 Règles Marketing d'Antoine BM
+## Section 5 : Filtre Anti-AI Writing, Storytelling Souple & Voice DNA
 
-Source : *« 15 ans de conseils marketing en 15 règles »* (Antoine BM). Les règles `05`, `13` et `09` sont **structurantes** : chaque script et chaque carrousel du plan de 14 jours déclare la structure qu'il utilise et la croyance qu'il construit.
+### 5.1 Les 5 vérifications Anti-AI obligatoires
+1. **Compression vague** → remplacer les généralités (*« les créateurs galèrent »*) par des scènes observables précises.
+2. **Inflation d'importance** → couper *révolutionnaire, incontournable, game-changer, nouvelle ère*.
+3. **Hésitation molle** → couper *il semblerait que, potentiellement* ; assumer un constat clair ou nuancé honnêtement.
+4. **Métronome rythmique** → casser la monotonie ; varier phrases très courtes (3–6 mots) et phrases explicatives (14–20 mots).
+5. **Autorité empruntée** → bannir le ton conférence ou LinkedIn figé (*en outre, par ailleurs, ainsi, sans plus attendre, dans un monde où*).
 
-### 6.1 Règle 05 : Le dialogue à trois (structure de phrase humaine obligatoire)
+### 5.2 Garde-fous stylistiques
+- **Niveau de lecture simple (`dumbify`)** : compris immédiatement sur téléphone, sans relire la phrase.
+- **Opposition mécanique bannie (*Negative Parallelism Ban*)** : ne pas abuser du refrain « Ce n'est pas X, c'est Y ». Affirmer directement le fait ou comparer deux usages clairs.
+- **Outils narratifs souples** : utiliser `MAIS / DONC`, `C-C-M-A` (`Conflit → Contexte → Message → Action`) ou *Stacked Open Loops* **lorsque le sujet s'y prête**, jamais comme une formule mécanique répétée à chaque slide ou chaque vidéo.
+- **Échelle de spécificité (Niveau 3–4)** : privilégier la situation concrète datée, horodatée ou vécue (*Effet Kevin à 6h12*) plutôt que les grandes vérités abstraites.
 
-Chaque script ou carrousel fait dialoguer trois voix simples. Chaque objection devient une marche du raisonnement :
+---
 
-| Voix | Rôle | Amorce type |
+## Section 6 : CTAs par Pilier & Règles Marketing d'Antoine BM
+
+### 6.1 CTA différenciés par objectif (fin du CTA `CLAUDE` par défaut)
+
+| Objectif / Pilier | CTA adapté (1 seul par publication) | Exemple naturel |
 |---|---|---|
-| **Le prospect** | On exprime son doute à sa place | *« Tu te dis peut-être que... »* |
-| **Toi** | Tu racontes ton changement d'avis | *« Moi aussi, je pensais que... »* |
-| **Les faits** | Une démonstration visible à l'écran | *« Sauf que regarde ce qui se passe quand... »* |
+| **Découverte / Intro** | Abonnement | *« Abonne-toi pour suivre les prochains tests et démonstrations. »* |
+| **Éduquer (utile / modèle)** | Enregistrement ou proposition de test | *« Enregistre ce modèle »* ou *« Dis-moi en commentaire quel secteur tu veux voir testé ensuite. »* |
+| **Divertir (scène vécue)** | Partage ou identification | *« Dis-moi en commentaire combien d'idées dorment encore dans tes notes. »* |
+| **Inspirer (coulisse / prototype)** | Suivi ou vote / avis | *« Lequel veux-tu qu'on teste ensuite ? »* |
+| **Vendre (conversion dédiée)** | Découverte claire de l'offre | *« Le lien vers AI CREATOR Studio est sur le profil, ou pose ta question en commentaire. »* *(Sur Facebook uniquement : mention possible d'un mot-clé Messenger si activé.)* |
 
-Exemple studio : *« Tu te dis peut-être que t'es pas assez technique pour ça. Moi aussi je pensais qu'il fallait trois ans d'études. Sauf que regarde ce qui se passe quand je colle mes notes dans Claude. »* (démo `demo-interactive-clean.mp4`).
+**Anatomie d'un bon CTA (`@hormozi`)** : préciser *ce qu'il faut faire*, *pourquoi c'est utile*, *que c'est simple/immédiat*, et *ce qui se passe juste après* — sans jamais empiler 3 ordres dans la même slide.
 
-### 6.2 Règle 13 : La trame Avant / Après de Joe Karbo en 5 étapes
-
-1. **Avant** : la situation proche de ce que vit le spectateur (les essais qui n'ont pas marché, le PDF dont il a un peu honte).
-2. **Aujourd'hui** : le résultat désiré, visible (un guide interactif vivant et fluide).
-3. **Ce qu'il n'aura PAS besoin de faire** : zéro prise de tête technique, zéro abonnement payant, pas besoin de repartir de zéro.
-4. **Ce qu'il aura JUSTE besoin de faire** : reprendre ses notes ce soir et laisser Claude bâtir le guide interactif.
-5. **Appel à l'action** clair et unique.
-
-### 6.3 Règle 09 : Les 3 croyances à construire avant de vendre
-
-Les posts TOFU et MOFU préparent les 6 vidéos BOFU en installant, dans cet ordre :
-
-| Croyance | Phrase que le spectateur doit pouvoir se dire | Formats qui la construisent |
-|---|---|---|
-| **C1 • C'est désirable** | « Un guide interactif, c'est clairement mieux qu'un PDF. » | Océan Bleu, Carrousels Fondamentaux (`N°02`, `N°06`), Hot Take, POV |
-| **C2 • Ça marche vraiment** | « J'ai vu un vrai PDF devenir un vrai guide interactif. » | Audits visuels (`N°18`), Crash-tests (`N°05`), Comparatifs par thème (`N°11`) |
-| **C3 • J'en suis capable** | « Même en partant de zéro, sans technique, je peux le faire. » | 3 étapes (`N°08`), Inspirer (`N°16`), Cheat sheet (`N°12`), Liste d'idées (`N°09`) |
-
-### 6.4 Synthèse des autres règles d'Antoine BM appliquées au studio
-
-| Règle Antoine BM | Application concrète dans nos contenus |
-|---|---|
-| **01 • Canaliser un besoin existant** | Partir du désir déjà là : obtenir plus avec moins d'effort. Le spectateur veut un produit dont il est fier, sans y passer ses nuits. |
-| **02 • Les 5 besoins (Maslow)** | Viser surtout l'**Estime** (oser montrer et promouvoir son produit) et l'**Accomplissement** (créer, progresser, vivre son savoir). |
-| **03 • Le marketing avant le produit** | Les questions récurrentes en commentaires et DM nourrissent les prochains crash-tests (`video_8`, étape un). |
-| **04 • Le sujet favori des gens : eux-mêmes** | Le spectateur est le héros, Claude et le studio sont les personnages secondaires. Il doit se dire : *« Il comprend ma situation. Il sait pourquoi mes essais précédents n'ont pas marché. »* |
-| **06 • La nouveauté** | Faire du neuf avec ce qui existait déjà : le guide écrit devient un parcours interactif. |
-| **07 • L'urgence** | Réservée à une échéance réelle et vérifiable sur Chariow. Jamais de fausse urgence ni de fausse rareté (type « limité aux 30 premiers » sans compteur réel). |
-| **08 • Une vie meilleure fait plus envie qu'une douleur** | Relier chaque douleur (PDF qui dort) à un avenir désirable : un produit qu'on montre fièrement, des clients qui reviennent. |
-| **10 • Les gens désirent ce que les autres désirent** | Montrer de vraies preuves sociales (commentaires, questions reçues). Jamais de compteur vide ni de chiffre inventé. |
-| **11 • La valeur se juge par comparaison** | Sans jamais citer de prix : comparer les **formats** (PDF à lire vs produit interactif à utiliser). Le changement de format change la valeur perçue. |
-| **12 • Le témoignage proche** | Privilégier des profils ordinaires (coiffeuse, étudiant, commerçant) qui obtiennent un résultat sans rien d'impossible. Uniquement de vrais retours authentiques sur l'expérience pédagogique. |
-| **14 • La liste de contacts** | Le mot-clé commenté sous un post Facebook (`CLAUDE`, `PRODUIT`) ouvre une conversation privée Facebook vers Messenger via ManyChat : c'est notre équivalent de la liste email. |
-| **15 • Les promotions** | Gérées uniquement sur Chariow, jamais annoncées avec un montant dans une vidéo ou un carrousel. |
+### 6.2 Règles d'Antoine BM conservées
+- **Règle 05 (Dialogue à 3 voix)** : nommer l'objection réelle du lecteur (`Tu te dis peut-être…`), partager ton constat honnête (`Moi aussi je pensais…`), puis montrer le fait concret.
+- **Règle 09 (3 croyances dans la durée)** : construire progressivement `C1` (le format a un vrai intérêt d'usage), `C2` (des démonstrations concrètes existent dans plusieurs domaines), `C3` (c'est faisable sans savoir programmer avec la bonne méthode).
+- **Règle 04 (Le lecteur est le héros)** : le contenu parle des projets, blocages et usages concrets de l'audience ; AI CREATOR Studio reste l'outil pédagogique au service de son projet.
+- **Règle 07 & 15 (Vérité sur les promos et l'urgence)** : zéro fausse urgence, zéro montant affiché en organique.

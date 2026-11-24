@@ -38,7 +38,7 @@ Dans la section **Contenu du produit (Fichiers téléchargeables après achat)**
 Copie et colle ce bloc court tout en haut de la description de ta fiche produit Chariow, juste avant d'insérer les 9 images PNG :
 
 ```text
-Crée le produit digital interactif que ton audience a hâte d'acheter. Étape par étape, à ton rythme, AI CREATOR Studio t'aide à créer, tester et préparer la livraison de ton produit digital interactif avec Claude gratuit, sans savoir coder. Pas un énième produit qu'on télécharge et qu'on oublie : un outil simple, interactif et à résultat immédiat que tes clients utilisent vraiment.
+Crée le produit digital interactif que ton audience a hâte d'acheter. Étape par étape, à ton rythme, AI CREATOR Studio t'aide à créer, tester et préparer la livraison de ton produit digital interactif avec Claude gratuit, sans savoir coder. De quoi sortir du lot face aux produits génériques qui se ressemblent tous : un outil simple, interactif et à résultat immédiat que tes clients utilisent vraiment.
 
 Comment fonctionne l'accès après paiement :
 Le fichier PDF téléchargé sur Chariow (Guide-Acces-AI-CREATOR-Studio.pdf) est uniquement ton Guide d'Accès d'une page. Il t'explique en 3 étapes comment ouvrir la plateforme web interactive complète AI CREATOR Studio à l'aide de ton code personnel à 6 chiffres envoyé par e-mail.
@@ -46,7 +46,7 @@ Le fichier PDF téléchargé sur Chariow (Guide-Acces-AI-CREATOR-Studio.pdf) est
 Ce que contient la plateforme complète :
 - 3 modules (01 CHOISIR, 02 CRÉER, 03 PUBLIER ET LIVRER) et 7 leçons pratiques
 - Le pack d'instructions design inclus pour Claude gratuit (ai-creator-design-intelligence)
-- L'exemple complet livré : Calculateur de Prix & Rentabilité (FCFA / €) avec verrou par mot de passe
+- L'exemple complet livré : SOLDE. · Planificateur de Budget & Objectifs (FCFA / €) avec verrou par mot de passe
 - 1 modèle de Guide d'Accès client PDF prêt à adapter pour tes propres acheteurs
 - Bonus 01 : Tutoriel ManyChat pour automatiser les commentaires Facebook vers Messenger uniquement
 - Bonus 02 : Marketing Library (9 ressources marketing utilisables dans Claude ou ChatGPT, 1 prompt universel d'analyse concurrentielle et 1 lien de veille externe)
@@ -71,7 +71,7 @@ Dans l'éditeur de description du produit sur Chariow :
      4. `04-piliers-interactivite.png`
      5. `05-preuve-sociale-retours.png`
      6. `06-tout-ce-qui-est-inclus.png`
-     7. `07-avant-apres-calculateur.png`
+     7. `07-avant-apres-solde.png`
      8. `08-pour-qui-et-faq.png`
      9. `09-investissement-14900-fcfa.png`
    - **Option B (Import unique rapide)** : téléverser uniquement `00-full-sales-page.png` (optimisé sous `2 MB`) via le bouton Image de la barre d'outils.

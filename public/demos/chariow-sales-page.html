@@ -342,6 +342,12 @@
       border: 1px solid #312B2B;
     }
 
+    .macbook-screen-img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
     .macbook-base {
       width: 416px;
       margin-left: -12px;
@@ -360,215 +366,10 @@
       margin: 0 auto;
     }
 
-    /* Interface graphique simplifiee du Studio dans le MacBook */
-    .studio-topbar {
-      background: var(--pale-pink);
-      border-bottom: 1.5px solid var(--ink);
-      padding: 7px 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .studio-logo {
-      font-family: var(--font-display);
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      line-height: 1;
-    }
-
-    .studio-logo span {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-weight: 400;
-      text-transform: lowercase;
-      color: var(--red);
-      font-size: 11.5px;
-    }
-
-    .studio-pills {
-      display: flex;
-      gap: 4px;
-    }
-
-    .studio-mini-pill {
-      font-family: var(--font-mono);
-      font-size: 6.5px;
-      font-weight: 700;
-      color: var(--ink);
-      background: var(--surface);
-      border: 1px solid var(--ink);
-      border-radius: 999px;
-      padding: 1.5px 6px;
-    }
-
-    .studio-body {
-      display: grid;
-      grid-template-columns: 108px 1fr;
-      min-height: 204px;
-    }
-
-    .studio-sidebar {
-      background: var(--pale-pink);
-      border-right: 1.5px solid var(--ink);
-      padding: 9px 7px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .studio-progress-label {
-      font-family: var(--font-mono);
-      font-size: 6.5px;
-      font-weight: 700;
-      color: var(--ink);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .studio-progress-track {
-      height: 6px;
-      border-radius: 999px;
-      background: var(--surface);
-      border: 1px solid var(--ink);
-      overflow: hidden;
-    }
-
-    .studio-progress-fill {
-      width: 42%;
-      height: 100%;
-      background: var(--red);
-    }
-
-    .studio-nav-item {
-      background: var(--surface);
-      border: 1px solid var(--ink);
-      border-radius: 4px;
-      padding: 4.5px 5.5px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 4px;
-      font-size: 7px;
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .studio-nav-item.is-active {
-      background: var(--red);
-      color: var(--surface);
-    }
-
-    .studio-nav-check {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      border: 1px solid currentColor;
-      flex-shrink: 0;
-    }
-
-    .studio-nav-item.is-active .studio-nav-check {
-      background: var(--surface);
-      border-color: var(--surface);
-    }
-
-    .studio-main {
-      background: var(--cream);
-      padding: 9px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .studio-hero-card {
-      background: var(--red);
-      border: 1.5px solid var(--ink);
-      border-radius: 6px;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .studio-num-tile {
-      width: 34px;
-      height: 34px;
-      background: var(--surface);
-      border: 1.5px solid var(--ink);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-serif);
-      font-size: 19px;
-      color: var(--ink);
-      flex-shrink: 0;
-    }
-
-    .studio-hero-title {
-      font-family: var(--font-serif);
-      font-size: 16px;
-      line-height: 1.05;
-      color: var(--surface);
-      flex: 1;
-    }
-
-    .studio-checker-card {
-      background: var(--surface);
-      border: 1.5px solid var(--ink);
-      border-radius: 6px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 74px 1fr;
-      min-height: 84px;
-    }
-
-    .studio-checker-left {
-      background-color: var(--pale-pink);
-      background-image:
-        linear-gradient(45deg, var(--red) 25%, transparent 25%),
-        linear-gradient(-45deg, var(--red) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, var(--red) 75%),
-        linear-gradient(-45deg, transparent 75%, var(--red) 75%);
-      background-size: 24px 24px;
-      background-position: 0 0, 0 12px, 12px -12px, -12px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-right: 1.5px solid var(--ink);
-    }
-
-    .studio-checker-right {
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-    }
-
-    .studio-checker-k {
-      font-family: var(--font-mono);
-      font-size: 6.5px;
-      font-weight: 700;
-      color: var(--red);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .studio-checker-t {
-      font-family: var(--font-serif);
-      font-size: 13.5px;
-      line-height: 1.05;
-      color: var(--ink);
-    }
-
     .studio-iphone-img {
       width: 156px;
       height: auto;
-      aspect-ratio: 490 / 1024;
+      aspect-ratio: 497 / 1024;
       display: block;
       position: absolute;
       right: 0;
@@ -731,113 +532,8 @@
     }
 
     /* ===================================================================== */
-    /* TRANCHE 05 : RUPTURE ROSE VIF #F478B8 + 4 AVIS CLIENTS                */
+    /* TRANCHE 05 : RETOURS CLIENTS (4 AVIS)                                */
     /* ===================================================================== */
-    .slice-05-hot-card {
-      background: var(--hot-pink);
-      color: var(--ink);
-      padding: 36px 26px;
-      border-radius: 6px;
-    }
-
-    .slice-05-hot-card .eyebrow {
-      color: var(--ink);
-    }
-
-    .slice-05-hot-title {
-      font-family: var(--font-serif);
-      font-weight: 400;
-      font-size: 46px;
-      line-height: 0.98;
-      letter-spacing: -0.025em;
-      color: var(--ink);
-      margin-top: 8px;
-    }
-
-    .slice-05-hot-hand {
-      font-family: var(--font-hand);
-      font-weight: 700;
-      font-size: 36px;
-      line-height: 1.05;
-      color: var(--red);
-      margin-top: 4px;
-      margin-bottom: 18px;
-    }
-
-    .raw-proof-frame {
-      background: var(--surface);
-      border-radius: 8px;
-      padding: 12px;
-      box-shadow: 0 10px 24px rgba(23, 19, 19, 0.14);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .raw-proof-item {
-      background: #F9FAFB;
-      border: 1px solid #E5E7EB;
-      border-radius: 6px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .raw-proof-item img {
-      width: 100%;
-      height: 152px;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-    }
-
-    .raw-proof-item--contain img {
-      object-fit: contain;
-      background: #FFFFFF;
-      padding: 6px;
-    }
-
-    .raw-proof-cap {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--ink);
-      padding: 7px 6px;
-      background: var(--surface);
-      border-top: 1px solid #E5E7EB;
-      text-align: center;
-    }
-
-    .proof-card {
-      background: var(--surface);
-      border: 1.5px solid var(--ink);
-      border-radius: 8px;
-      padding: 18px 20px;
-      box-shadow: 3px 3px 0 var(--ink);
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 11px;
-    }
-
-    .proof-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 19px;
-      line-height: 1.4;
-      color: var(--ink);
-      font-weight: 600;
-    }
-
-    .proof-check {
-      color: var(--red);
-      font-weight: 800;
-      font-size: 19.5px;
-      line-height: 1.25;
-      flex-shrink: 0;
-    }
-
     .slice-05-reviews-card {
       background: var(--cream);
       color: var(--ink);
@@ -997,49 +693,6 @@
       margin-bottom: 8px;
     }
 
-    .before-doc {
-      background: #F4F4F5;
-      border: 1px solid #D4D4D8;
-      border-radius: 6px;
-      padding: 18px 18px 16px;
-      color: #52525B;
-    }
-
-    .before-doc-head {
-      font-family: var(--font-mono);
-      font-size: 14.5px;
-      font-weight: 700;
-      color: #52525B;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #E4E4E7;
-    }
-
-    .before-doc-title {
-      font-family: Georgia, serif;
-      font-size: 21px;
-      color: #3F3F46;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-
-    .before-doc-lines {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      font-size: 17.5px;
-      color: #52525B;
-    }
-
-    .before-doc-lines li {
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px dashed #D4D4D8;
-      padding-bottom: 4px;
-    }
-
     .ba-caption {
       font-size: 19px;
       line-height: 1.44;
@@ -1056,239 +709,170 @@
       margin: 18px 0 10px;
     }
 
-    .calc-stage {
+    .solde-stage {
       position: relative;
       margin-top: 6px;
-      padding: 46px 0 6px;
+      padding: 30px 0 8px;
     }
 
-    .calc-macbook {
-      width: 390px;
+    .solde-macbook {
+      width: 392px;
       margin: 0 0 22px 0;
+      position: relative;
+      z-index: 1;
     }
 
-    .calc-mac-lid {
+    .solde-mac-lid {
       background: #1B1717;
-      border-radius: 12px 12px 3px 3px;
-      padding: 7px 7px 5px;
-      box-shadow: 0 12px 26px rgba(23, 19, 19, 0.16);
+      border-radius: 13px 13px 3px 3px;
+      padding: 8px 8px 6px;
+      box-shadow: 0 14px 32px rgba(23, 19, 19, 0.16);
       position: relative;
     }
 
-    .calc-mac-screen {
-      background: #FFF7EF;
-      border-radius: 5px;
-      padding: 6px;
+    .solde-mac-screen {
+      background: #0C2A23;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #312B2B;
     }
 
-    .calc-mac-base {
-      width: 414px;
+    .solde-mac-screen > img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .pdf-pc-viewer {
+      background: #3F3F46;
+    }
+
+    .pdf-pc-bar {
+      background: #27272A;
+      color: #E4E4E7;
+      font-family: var(--font-mono);
+      font-size: 8px;
+      padding: 5px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #18181B;
+    }
+
+    .pdf-pc-sheet {
+      padding: 10px 36px 8px;
+      max-height: 230px;
+      overflow: hidden;
+      background: #52525B;
+    }
+
+    .pdf-pc-sheet img {
+      display: block;
+      width: 100%;
+      height: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .solde-mac-base {
+      width: 416px;
       margin-left: -12px;
-      height: 10px;
+      height: 11px;
       background: linear-gradient(180deg, #DBD5CE 0%, #B7B0A8 100%);
-      border-radius: 0 0 8px 8px;
+      border-radius: 0 0 9px 9px;
       border-top: 1px solid #8E867E;
     }
 
-    .calc-mac-thumb {
-      width: 60px;
-      height: 3.5px;
+    .solde-mac-thumb {
+      width: 64px;
+      height: 4px;
       background: #9B938B;
       border-radius: 0 0 4px 4px;
       margin: 0 auto;
     }
 
-    .calc-frame {
-      background: var(--calc-line);
-      border-radius: 9px;
-      padding: 2.5px;
-    }
-
-    .calc-outer {
-      background: #FFFFFF;
-      border-radius: 7px;
-      padding: 5px;
-      position: relative;
-    }
-
-    .calc-tag {
-      display: inline-block;
-      background: var(--calc-blue);
-      color: #FFFFFF;
-      font-family: var(--font-hand);
-      font-weight: 700;
-      font-size: 11px;
-      padding: 1px 8px;
-      border-radius: 99px;
-      margin: 0 0 -5px 6px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .calc-wrap {
-      background: var(--calc-cream);
-      border: 1.5px solid var(--calc-line);
-      border-radius: 8px;
-      padding: 9px 7px 7px;
-    }
-
-    .calc-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-
-    .calc-h1 {
-      font-family: var(--font-hand);
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--calc-blue);
-      line-height: 1.1;
-    }
-
-    .calc-toggle {
-      display: inline-flex;
-      background: #FFFFFF;
-      border-radius: 99px;
-      padding: 1.5px;
-      border: 1px solid #DBEAFE;
-      gap: 2px;
-      flex-shrink: 0;
-    }
-
-    .calc-toggle span {
-      font-size: 5.5px;
-      font-weight: 700;
-      padding: 1.5px 5px;
-      border-radius: 99px;
-      color: #1E293B;
-    }
-
-    .calc-toggle .on {
-      background: var(--calc-blue);
-      color: #FFFFFF;
-    }
-
-    .calc-grid {
-      display: grid;
-      grid-template-columns: 0.94fr 1.06fr;
-      gap: 6px;
-      align-items: start;
-    }
-
-    .calc-inputs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4px;
-    }
-
-    .calc-field-full {
-      grid-column: 1 / -1;
-    }
-
-    .calc-lbl {
-      font-size: 5.2px;
-      font-weight: 700;
-      color: #1E293B;
-      margin-bottom: 1.5px;
-    }
-
-    .calc-box {
-      background: #FFFFFF;
-      border: 1px solid #BFDBFE;
-      border-radius: 4px;
-      padding: 2.5px 4.5px;
-      font-size: 6px;
-      font-weight: 700;
-      color: #1E293B;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .calc-box-unit {
-      color: #64748B;
-      font-weight: 500;
-    }
-
-    .calc-result {
-      background: var(--calc-blue);
-      color: #FFFFFF;
-      border-radius: 7px;
-      padding: 7px 8px;
-    }
-
-    .calc-res-k {
-      font-size: 5.2px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      opacity: 0.85;
-    }
-
-    .calc-res-price {
-      font-family: var(--font-serif);
-      font-size: 16px;
-      line-height: 1.05;
-      margin-top: 2px;
-      color: #FFFFFF;
-    }
-
-    .calc-res-sub {
-      font-size: 5.4px;
-      opacity: 0.9;
-      margin-top: 2px;
-      padding-bottom: 4px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.22);
-    }
-
-    .calc-res-rows {
-      margin-top: 4px;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      font-size: 5.2px;
-    }
-
-    .calc-res-row {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .calc-profit {
-      margin-top: 5px;
-      background: var(--yellow);
-      color: #1E293B;
-      border-radius: 5px;
-      padding: 4.5px 7px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .calc-profit-lbl {
-      font-size: 5.3px;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .calc-profit-val {
-      font-family: var(--font-serif);
-      font-size: 11px;
-      font-weight: 700;
-      line-height: 1;
-    }
-
-    .calc-iphone-img {
+    /* Cadre iPhone pour les vrais ecrans mobile AVANT (PDF) et APRES (SOLDE) */
+    .phone-frame {
       width: 152px;
-      height: auto;
-      aspect-ratio: 490 / 1024;
-      display: block;
+      background: #1B1717;
+      border-radius: 26px;
+      padding: 6px;
       position: absolute;
       right: 0;
       bottom: 0;
       z-index: 4;
-      border-radius: 25px;
-      box-shadow: -10px 14px 30px rgba(23, 19, 19, 0.25);
+      box-shadow: -10px 14px 30px rgba(23, 19, 19, 0.28);
+      border: 1.5px solid #3A3434;
+    }
+
+    .phone-screen {
+      border-radius: 20px;
+      overflow: hidden;
+      background: #071D18;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-status {
+      height: 18px;
+      padding: 0 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-sans);
+      font-size: 7px;
+      font-weight: 700;
+      color: #FFFFFF;
+      position: relative;
+    }
+
+    .phone-island {
+      width: 40px;
+      height: 10px;
+      background: #000000;
+      border-radius: 999px;
+      position: absolute;
+      left: 50%;
+      top: 4px;
+      transform: translateX(-50%);
+    }
+
+    .phone-screen--pdf {
+      background: #52525B;
+    }
+
+    .phone-screen--pdf .phone-status {
+      background: #27272A;
+    }
+
+    .phone-pdf-meta {
+      background: #3F3F46;
+      color: #E4E4E7;
+      font-family: var(--font-mono);
+      font-size: 6.5px;
+      text-align: center;
+      padding: 3px 6px;
+      border-bottom: 1px solid #27272A;
+    }
+
+    .phone-pdf-page {
+      padding: 8px 8px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .phone-pdf-page img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 2px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .phone-app-img {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
     /* ===================================================================== */
@@ -1546,7 +1130,7 @@
             Étape par étape, à ton rythme, je t'aide à créer, tester et préparer la livraison de ton produit digital interactif avec Claude gratuit, sans savoir coder.
           </p>
           <p>
-            Pas un énième produit digital qu'on télécharge et qu'on oublie.
+            De quoi sortir du lot face aux produits génériques qui se ressemblent tous.
           </p>
         </div>
 
@@ -1575,55 +1159,13 @@
             <div class="macbook-lid">
               <div class="macbook-notch" aria-hidden="true"><span class="macbook-cam"></span></div>
               <div class="macbook-screen">
-                <div class="studio-topbar">
-                  <div class="studio-logo">AI CREATOR <span>studio</span></div>
-                  <div class="studio-pills">
-                    <span class="studio-mini-pill">Aujourd'hui</span>
-                    <span class="studio-mini-pill">Checklist</span>
-                    <span class="studio-mini-pill">Livraison</span>
-                  </div>
-                </div>
-                <div class="studio-body">
-                  <div class="studio-sidebar">
-                    <div class="studio-progress-label">Ta progression</div>
-                    <div class="studio-progress-track"><div class="studio-progress-fill"></div></div>
-                    <div class="studio-nav-item is-active">
-                      <span>01 CHOISIR</span>
-                      <span class="studio-nav-check"></span>
-                    </div>
-                    <div class="studio-nav-item">
-                      <span>02 CRÉER</span>
-                      <span class="studio-nav-check"></span>
-                    </div>
-                    <div class="studio-nav-item">
-                      <span>03 PUBLIER</span>
-                      <span class="studio-nav-check"></span>
-                    </div>
-                    <div class="studio-nav-item">
-                      <span>BONUS 01</span>
-                      <span class="studio-nav-check"></span>
-                    </div>
-                    <div class="studio-nav-item">
-                      <span>BONUS 02</span>
-                      <span class="studio-nav-check"></span>
-                    </div>
-                  </div>
-                  <div class="studio-main">
-                    <div class="studio-hero-card">
-                      <div class="studio-num-tile">01</div>
-                      <div class="studio-hero-title">Choisir ton concept et préparer Claude</div>
-                    </div>
-                    <div class="studio-checker-card">
-                      <div class="studio-checker-left">
-                        <div class="studio-num-tile">02</div>
-                      </div>
-                      <div class="studio-checker-right">
-                        <div class="studio-checker-k">PROMPT PRÊT À COPIER</div>
-                        <div class="studio-checker-t">Génère ton produit sur mobile</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <img
+                  class="macbook-screen-img"
+                  src="assets/platform-home-real.png"
+                  alt="Écran d'accueil réel de la plateforme AI CREATOR Studio sur ordinateur"
+                  width="2880"
+                  height="1800"
+                />
               </div>
             </div>
             <div class="macbook-base"><div class="macbook-thumb"></div></div>
@@ -1631,10 +1173,10 @@
 
           <img
             class="studio-iphone-img"
-            src="assets/iphone-studio-lesson.jpg"
-            alt="Aperçu mobile de la Leçon 01 d'AI CREATOR Studio sur iPhone"
+            src="assets/iphone-studio-lesson.png"
+            alt="Aperçu mobile réel de la Leçon 01 d'AI CREATOR Studio sur iPhone"
             width="156"
-            height="326"
+            height="321"
           />
         </div>
 
@@ -1668,20 +1210,20 @@
             Je n'avais pas de stratégie parfaite ni de plan de lancement sophistiqué. Je savais juste que je voulais construire quelque chose qui aide les gens à <strong>mettre en pratique</strong> ce qu'ils apprenaient, au lieu d'acheter une énième formation ou un guide qu'ils ne finiraient jamais.
           </p>
           <p>
-            J'ai fini par lancer ce mini-cours. En plus, j'en avais marre des mêmes PDF partout, ennuyeux et sans âme.
+            J'en avais marre de voir ces mêmes produits partout, ennuyeux et sans âme. Donc j'ai bâti un vrai produit interactif pour sortir du lot, puis j'ai lancé ce mini-cours pour te montrer la nouvelle opportunité.
           </p>
         </div>
       </div>
     </section>
 
     <!-- =================================================================== -->
-    <!-- TRANCHE 04 : CARTE ROUGE + DE 1 MILLION DE FCFA + ANAPHORE          -->
+    <!-- TRANCHE 04 : CARTE ROUGE + DE 10 MILLIONS DE FCFA + ANAPHORE        -->
     <!-- =================================================================== -->
     <section data-slice="04-piliers-interactivite">
       <div class="card-stack">
         <div class="slice-04-top-card">
           <p class="slice-04-kicker">Ce que cette approche m'a permis de générer</p>
-          <h2 class="slice-04-stat">+ de 1 million de FCFA</h2>
+          <h2 class="slice-04-stat">+ de 10 millions de FCFA</h2>
           <p class="slice-04-hand">ce qui m'a bluffé</p>
           <p class="slice-04-disclaimer">
             C'est mon expérience personnelle et ce n'est pas une garantie de résultats. Chaque audience, offre et lancement est différent. La seule raison pour laquelle je partage ce chiffre est de te montrer depuis quelle expérience terrain je t'enseigne !
@@ -1711,85 +1253,31 @@
     </section>
 
     <!-- =================================================================== -->
-    <!-- TRANCHE 05 : RUPTURE ROSE VIF #F478B8 + 4 AVIS CLIENTS                -->
+    <!-- TRANCHE 05 : RETOURS CLIENTS (4 AVIS)                               -->
     <!-- =================================================================== -->
     <section data-slice="05-preuve-sociale-retours">
-      <div class="card-stack">
-        <div class="slice-05-hot-card">
-          <div class="eyebrow">LA PREUVE PAR LA MÉTHODE</div>
-          <h2 class="slice-05-hot-title">
-            De ton idée à un produit prêt à livrer
-          </h2>
-          <p class="slice-05-hot-hand">sans toucher une ligne de code</p>
+      <div class="slice-05-reviews-card">
+        <div class="eyebrow">RETOURS CLIENTS</div>
+        <h2 class="slice-05-reviews-title">
+          Recevoir des retours comme <span class="text-red" style="white-space: nowrap;">CEUX-LÀ</span> donne tellement de force
+        </h2>
 
-          <div class="raw-proof-frame">
-            <div class="raw-proof-item">
-              <img
-                src="../screenshots/module-03/l6-netlify-visibility-subdomain.png"
-                alt="Publication du produit interactif en ligne en quelques clics"
-              />
-              <div class="raw-proof-cap">1. Publié en ligne en direct</div>
-            </div>
-            <div class="raw-proof-item raw-proof-item--contain">
-              <img
-                src="../screenshots/module-03/l7-chariow-post-purchase.png"
-                alt="Livraison prête sur Chariow avec le Guide d'Accès client"
-              />
-              <div class="raw-proof-cap">2. Prêt à livrer sur Chariow</div>
-            </div>
-          </div>
-
-          <div class="proof-card">
-            <div class="proof-item">
-              <span class="proof-check" aria-hidden="true">✓</span>
-              <span>Action immédiate : calculer, diagnostiquer, cocher ou suivre sa progression</span>
-            </div>
-            <div class="proof-item">
-              <span class="proof-check" aria-hidden="true">✓</span>
-              <span>Écran d'accès par mot de passe réservé à tes acheteurs</span>
-            </div>
-            <div class="proof-item">
-              <span class="proof-check" aria-hidden="true">✓</span>
-              <span>Interface soignée grâce au pack d'instructions pour Claude gratuit</span>
-            </div>
-            <div class="proof-item">
-              <span class="proof-check" aria-hidden="true">✓</span>
-              <span>Conçu dès le départ pour une utilisation fluide sur téléphone</span>
-            </div>
-            <div class="proof-item">
-              <span class="proof-check" aria-hidden="true">✓</span>
-              <span>Parcours complet : concevoir, tester, publier et préparer la livraison</span>
-            </div>
-            <div class="proof-item">
-              <span class="proof-check" aria-hidden="true">✓</span>
-              <span>Adapté à la vente sur Chariow (Mobile Money &amp; cartes bancaires)</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="slice-05-reviews-card">
-          <div class="eyebrow">RETOURS CLIENTS</div>
-          <h2 class="slice-05-reviews-title">
-            Recevoir des retours comme <span class="text-red" style="white-space: nowrap;">CEUX-LÀ</span> donne tellement de force
-          </h2>
-
-          <div class="dm-stack">
-            <article class="dm-bubble dm-bubble--left">
-              Ce cours est le meilleur investissement que j'aie jamais fait.<br />
-              Je viens littéralement de créer mon premier produit interactif, et la façon dont tout est interactif et visuellement magnifique est incroyable !
-            </article>
-            <article class="dm-bubble dm-bubble--right">
-              Sérieusement, ce mini-cours est probablement l'une des meilleures formations en ligne que j'aie jamais achetées.
-            </article>
-            <article class="dm-bubble dm-bubble--left">
-              C'est tellement bien !!! J'en pleure de joie ! 🥹<br />
-              Tu vas littéralement changer le game !
-            </article>
-            <article class="dm-bubble dm-bubble--right">
-              JE SUIS COMPLÈTEMENT FAN DE TON MINI-COURS !<br />
-              Attends, tu veux dire que mon simple PDF basique est maintenant devenu un mini-cours digital totalement interactif et amusant, que les gens peuvent suivre et parcourir eux-mêmes ?!
-            </article>
-          </div>
+        <div class="dm-stack">
+          <article class="dm-bubble dm-bubble--left">
+            Ce cours est le meilleur investissement que j'aie jamais fait.<br />
+            Je viens littéralement de créer mon premier produit interactif, et la façon dont tout est interactif et visuellement magnifique est incroyable !
+          </article>
+          <article class="dm-bubble dm-bubble--right">
+            Sérieusement, ce mini-cours est probablement l'une des meilleures formations en ligne que j'aie jamais achetées.
+          </article>
+          <article class="dm-bubble dm-bubble--left">
+            C'est tellement bien !!! J'en pleure de joie ! 🥹<br />
+            Tu vas littéralement changer le game !
+          </article>
+          <article class="dm-bubble dm-bubble--right">
+            JE SUIS COMPLÈTEMENT FAN DE TON MINI-COURS !<br />
+            Attends, tu veux dire que mon simple PDF basique est maintenant devenu un mini-cours digital totalement interactif et amusant, que les gens peuvent suivre et parcourir eux-mêmes ?!
+          </article>
         </div>
       </div>
     </section>
@@ -1836,8 +1324,8 @@
           <li class="included-row">
             <span class="included-num">05</span>
             <div>
-              <strong class="included-title">L'exemple complet du Calculateur de Prix (FCFA / €)</strong>
-              <span class="included-desc">Voir concrètement comment une fiche d'une page devient un vrai outil verrouillé par mot de passe.</span>
+              <strong class="included-title">L'exemple complet livré : SOLDE. (FCFA / €)</strong>
+              <span class="included-desc">Voir concrètement comment un ebook PDF de 20 pages devient un vrai planificateur de budget et d'objectifs (score /100, imprévus et mot de passe).</span>
             </div>
           </li>
           <li class="included-row">
@@ -1859,109 +1347,98 @@
     </section>
 
     <!-- =================================================================== -->
-    <!-- TRANCHE 07 : DEMONSTRATION AVANT / APRES                            -->
+    <!-- TRANCHE 07 : DEMONSTRATION AVANT / APRES SOLDE                      -->
     <!-- =================================================================== -->
-    <section data-slice="07-avant-apres-calculateur">
+    <section data-slice="07-avant-apres-solde">
       <div class="slice-07-wrap">
         <div class="eyebrow">AVANT / APRÈS RÉEL</div>
         <h2 class="slice-07-title">
-          Un exemple complet livré : le <span class="text-red">Calculateur de Prix</span>
+          Un exemple complet livré : le planificateur <span class="text-red">SOLDE.</span>
         </h2>
         <p class="slice-07-intro">
-          Regarde la différence immédiate entre une fiche statique et le vrai outil interactif livré dans le cours :
+          Regarde la différence immédiate entre l'ebook PDF de 20 pages et le vrai produit interactif livré dans le cours :
         </p>
 
         <div class="ba-label">AVANT</div>
-        <div class="before-doc">
-          <div class="before-doc-head">DOCUMENT PDF STATIQUE · 1 PAGE</div>
-          <div class="before-doc-title">Fiche de calcul de prix à remplir à la main</div>
-          <ul class="before-doc-lines">
-            <li><span>1. Matière première et emballage</span><span>________ FCFA</span></li>
-            <li><span>2. Valeur de ton temps passé</span><span>________ FCFA</span></li>
-            <li><span>3. Frais plateforme et marge visée</span><span>________ %</span></li>
-            <li><span>PRIX CONSEILLÉ À CALCULER SEUL</span><span>________ FCFA</span></li>
-          </ul>
+        <div class="solde-stage">
+          <div class="solde-macbook">
+            <div class="solde-mac-lid">
+              <div class="macbook-notch" aria-hidden="true"><span class="macbook-cam"></span></div>
+              <div class="solde-mac-screen pdf-pc-viewer">
+                <div class="pdf-pc-bar">
+                  <span>SOLDE-EBOOK-BUDGET.pdf</span>
+                  <span>Page 17 / 20</span>
+                </div>
+                <div class="pdf-pc-sheet">
+                  <img
+                    src="assets/solde-pdf-fiche.png"
+                    alt="Page 17 réelle de l'ebook PDF SOLDE : fiche budget statique à remplir à la main"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="solde-mac-base"><div class="solde-mac-thumb"></div></div>
+          </div>
+
+          <div class="phone-frame">
+            <div class="phone-screen phone-screen--pdf">
+              <div class="phone-status">
+                <span>15:27</span>
+                <span class="phone-island" aria-hidden="true"></span>
+                <span>5G</span>
+              </div>
+              <div class="phone-pdf-meta">PDF · 20 pages</div>
+              <div class="phone-pdf-page">
+                <img
+                  src="assets/solde-pdf-cover.png"
+                  alt="Couverture réelle de l'ebook PDF SOLDE sur mobile"
+                />
+              </div>
+            </div>
+          </div>
         </div>
         <p class="ba-caption">
-          Un simple tableau figé où ton client doit lire la formule et tout calculer à la main.
+          Un ebook PDF statique de 20 pages où ton client doit tout lire, sortir une calculatrice et remplir ses tableaux à la main.
         </p>
 
         <div class="ba-transition">et maintenant...</div>
 
         <div class="ba-label">APRÈS</div>
-        <div class="calc-stage">
-          <div class="calc-macbook">
-            <div class="calc-mac-lid">
-              <div class="calc-mac-screen">
-                <div class="calc-frame">
-                  <div class="calc-outer">
-                    <div class="calc-tag">À ton tour</div>
-                    <div class="calc-wrap">
-                      <div class="calc-head">
-                        <div class="calc-h1">Calculateur de Prix &amp; Rentabilité</div>
-                        <div class="calc-toggle">
-                          <span class="on">FCFA</span>
-                          <span>€ (EUR)</span>
-                        </div>
-                      </div>
-                      <div class="calc-grid">
-                        <div class="calc-inputs">
-                          <div class="calc-field-full">
-                            <div class="calc-lbl">Nom de ton produit</div>
-                            <div class="calc-box"><span>Coffret Soin Naturel</span></div>
-                          </div>
-                          <div>
-                            <div class="calc-lbl">Coût matière</div>
-                            <div class="calc-box"><span>3 500</span><span class="calc-box-unit">FCFA</span></div>
-                          </div>
-                          <div>
-                            <div class="calc-lbl">Temps passé</div>
-                            <div class="calc-box"><span>40</span><span class="calc-box-unit">min</span></div>
-                          </div>
-                          <div>
-                            <div class="calc-lbl">Tarif horaire</div>
-                            <div class="calc-box"><span>3 000</span><span class="calc-box-unit">FCFA</span></div>
-                          </div>
-                          <div>
-                            <div class="calc-lbl">Marge visée</div>
-                            <div class="calc-box"><span>50</span><span class="calc-box-unit">%</span></div>
-                          </div>
-                        </div>
-                        <div>
-                          <div class="calc-result">
-                            <div class="calc-res-k">Prix de vente conseillé</div>
-                            <div class="calc-res-price">10 368 FCFA</div>
-                            <div class="calc-res-sub">Coût de revient total : 6 500 FCFA</div>
-                            <div class="calc-res-rows">
-                              <div class="calc-res-row"><span>Matière &amp; emballage</span><b>4 500 FCFA</b></div>
-                              <div class="calc-res-row"><span>Valeur de ton temps</span><b>2 000 FCFA</b></div>
-                              <div class="calc-res-row"><span>Frais plateforme</span><b>618 FCFA</b></div>
-                            </div>
-                          </div>
-                          <div class="calc-profit">
-                            <span class="calc-profit-lbl">Ton Bénéfice Net</span>
-                            <span class="calc-profit-val">3 250 FCFA</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <div class="solde-stage">
+          <div class="solde-macbook">
+            <div class="solde-mac-lid">
+              <div class="macbook-notch" aria-hidden="true"><span class="macbook-cam"></span></div>
+              <div class="solde-mac-screen">
+                <img
+                  src="../screenshots/module-02/l5-solde-desktop-final.png"
+                  alt="Écran réel sur ordinateur du planificateur de budget et d'objectifs SOLDE"
+                  width="2560"
+                  height="1760"
+                />
               </div>
             </div>
-            <div class="calc-mac-base"><div class="calc-mac-thumb"></div></div>
+            <div class="solde-mac-base"><div class="solde-mac-thumb"></div></div>
           </div>
 
-          <img
-            class="calc-iphone-img"
-            src="assets/iphone-calculator-lock.jpg"
-            alt="Écran de code d'accès réservé aux acheteurs du Calculateur de Prix sur iPhone"
-            width="152"
-            height="318"
-          />
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="phone-status">
+                <span>15:27</span>
+                <span class="phone-island" aria-hidden="true"></span>
+                <span>5G</span>
+              </div>
+              <img
+                class="phone-app-img"
+                src="assets/iphone-solde-dashboard.png"
+                alt="Écran réel sur téléphone du planificateur SOLDE en FCFA"
+                width="750"
+                height="1624"
+              />
+            </div>
+          </div>
         </div>
         <p class="ba-caption">
-          Le vrai Calculateur de Prix &amp; Rentabilité en FCFA / € livré dans le cours, avec écran d'accès par mot de passe sur téléphone.
+          Le vrai planificateur SOLDE. (FCFA / €) livré dans le cours sur ordinateur et téléphone : score /100 en direct, simulation d'imprévu, sauvegarde et accès réservé par mot de passe.
         </p>
       </div>
     </section>
@@ -1978,19 +1455,19 @@
           <ul class="fit-list">
             <li class="fit-item">
               <span class="fit-dash" aria-hidden="true">-</span>
-              <span>Tu es créateur, coach, formateur ou indépendant et tu veux transformer ton expertise en produit interactif.</span>
+              <span>Tu vends déjà des PDF, guides ou formations (ou tu es coach, formateur) et tu veux sortir de la guerre des prix pour vendre 3 à 5 fois plus cher.</span>
             </li>
             <li class="fit-item">
               <span class="fit-dash" aria-hidden="true">-</span>
-              <span>Tu démarres avec une compétence ou une idée précise et tu veux te démarquer dès ton premier produit digital.</span>
+              <span>Tu veux saisir la nouvelle opportunité des produits digitaux sans arriver trop tard sur le marché saturé des ebooks classiques.</span>
             </li>
             <li class="fit-item">
               <span class="fit-dash" aria-hidden="true">-</span>
-              <span>Tu veux créer avec Claude gratuit, sans abonnement payant et sans savoir coder.</span>
+              <span>Tu veux faire bâtir ton produit avec Claude gratuit, sans abonnement payant et sans savoir coder.</span>
             </li>
             <li class="fit-item">
               <span class="fit-dash" aria-hidden="true">-</span>
-              <span>Tu veux publier ton outil en ligne, préparer sa livraison sur Chariow et encaisser par Mobile Money ou carte.</span>
+              <span>Tu veux publier ton outil en ligne, préparer sa livraison sur Chariow et encaisser rapidement.</span>
             </li>
           </ul>
 

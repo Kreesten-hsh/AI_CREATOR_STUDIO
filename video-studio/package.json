@@ -9,7 +9,9 @@
     "typecheck": "tsc --noEmit",
     "audit": "node scripts/audit_episode.mjs",
     "new": "node scripts/new_episode.mjs",
-    "render:showcase": "remotion render engine/index.ts Showcase9x16 episodes/template-showcase/output.mp4"
+    "render:showcase": "remotion render engine/index.ts Showcase9x16 episodes/template-showcase/output.mp4",
+    "render:demo-cours-16x9": "remotion render engine/index.ts DemoMiniCours16x9 ../output/videos/demo-mini-cours-16x9.mp4 --muted",
+    "render:demo-solde-16x9": "remotion render engine/index.ts DemoSolde16x9 ../output/videos/demo-solde-16x9.mp4 --muted"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",
