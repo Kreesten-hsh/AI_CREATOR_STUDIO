@@ -17,7 +17,8 @@ Ce dossier regroupe l'ensemble des applications de démonstration autonomes (`in
   ```bash
   node demos/iphone-assets/render_iphones.mjs
   ```
-- [`demos/tiktok-carousel-v1/`](tiktok-carousel-v1/render_carousel.mjs) : Assemble les 5 slides finales TikTok `9:16` (`1080×1920 px`) dans `png/slide-02-mijote.png` à `slide-06-cta.png`.
+- [`demos/tiktok-carousel-v1/`](tiktok-carousel-v1/render_carousel.mjs) : Assemble les 6 slides finales TikTok `9:16` (`1080×1920 px`) dans `png/slide-01-hook.png` à `slide-06-cta.png`, calibrées dans la *safe zone* TikTok Photo Mode (`y = 215..1645 px`, fond `#F2F2F5` sur les Slides 2–6 pour préserver les icônes blanches et éviter tout rognage haut/bas).
+  - Assets Slide 1 dans `assets/` : [`slide-01-pov-source.jpg`](tiktok-carousel-v1/assets/slide-01-pov-source.jpg) (portrait source) et [`slide-01-pov-9x16.png`](tiktok-carousel-v1/assets/slide-01-pov-9x16.png) (`1080×1920 px` sans texte pour édition native dans TikTok).
   ```bash
   node demos/tiktok-carousel-v1/render_carousel.mjs
   ```

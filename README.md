@@ -119,6 +119,7 @@ node demos/tiktok-carousel-v1/render_carousel.mjs
 - [`public/downloads/AI-CREATOR-DESIGN-INTELLIGENCE.zip`](public/downloads/AI-CREATOR-DESIGN-INTELLIGENCE.zip) : Archive ZIP téléchargeable du Skill Claude autonome.
 - [`docs/prompts/`](docs/prompts/) : Les deux prompts maîtres du parcours standard (Entretien de direction artistique v2.3 et Génération du produit HTML v2.1).
 - [`docs/guides/GUIDE-PARCOURS-APPRENANT.md`](docs/guides/GUIDE-PARCOURS-APPRENANT.md) : Guide d'utilisation pas-à-pas du parcours apprenant.
+- [`docs/guides/PROFILS-SOCIAUX-OPTIMISES.md`](docs/guides/PROFILS-SOCIAUX-OPTIMISES.md) : Kit prêt à copier-coller pour optimiser les profils Instagram, TikTok, Facebook et le tunnel Chariow (`prd_mnk5kr0q`).
 - [`docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html`](docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html) : Source HTML officielle du Guide d'Accès acheteur (1 page A4 épurée).
 - [`public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf`](public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf) : Spécimen PDF modèle téléchargeable pour les acheteurs finaux.
 - [`demos/`](demos/README.md) : Espace unifié des démos interactives (`SOLDE.`, `Mijote`, `Kinetik`, `Onda`) et de leurs assets marketing (`iphone-assets`, `tiktok-carousel-v1`).

@@ -2,8 +2,9 @@
 /**
  * demos/tiktok-carousel-v1/render_carousel.mjs
  *
- * Génère les 5 slides finales (Slides 2 à 6) du carrousel TikTok 9:16 (1080×1920 px)
- * « AI CREATOR Studio Épuré » (passe de finition v2) dans `png/`, intègre le vrai
+ * Génère les 6 slides finales (Slides 1 à 6) du carrousel TikTok 9:16 (1080×1920 px)
+ * « AI CREATOR Studio Épuré » (Slide 1 POV + Slides 2–6 showcase fond #F2F2F5
+ * calibrées en safe-zone mobile y = 215..1645 px) dans `png/`, intègre le vrai
  * `public/logo.svg` ainsi que l'icône officielle Claude, contrôle le rendu DOM/alpha
  * et génère la planche contact `/tmp/tiktok-carousel-audit/sheet-v2.png`.
  */
@@ -20,6 +21,7 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '../..');
 const OUT_PNG_DIR = path.join(__dirname, 'png');
 const IPHONE_PNG_DIR = path.join(ROOT, 'demos/iphone-assets/png');
+const SLIDE_ASSETS_DIR = path.join(__dirname, 'assets');
 const LOGO_SVG_PATH = path.join(ROOT, 'public/logo.svg');
 const AUDIT_DIR = '/tmp/tiktok-carousel-audit';
 const SHEET_FILENAME = 'sheet-v2.png';
@@ -30,8 +32,8 @@ const SLIDE_H = 1920;
 // Calibrage physique exact mesuré sur les PNG transparents 2094×3702 px :
 // - marge transparente haute au-dessus du châssis = 330 / 3702 (8.9141 %)
 // - hauteur opaque du châssis métal = 2970 / 3702 (80.2269 %)
-const PHONE_BODY_HEIGHT = 1135;
-const PHONE_BODY_TOP = 685;
+const PHONE_BODY_HEIGHT = 925;
+const PHONE_BODY_TOP = 720;
 const PHONE_TOP_PAD_RATIO = 330 / 3702;
 const PHONE_BODY_RATIO = 2970 / 3702;
 const PHONE_IMG_HEIGHT = Math.round(PHONE_BODY_HEIGHT / PHONE_BODY_RATIO);
@@ -51,6 +53,18 @@ const MIME = {
   '.woff2': 'font/woff2',
   '.ttf': 'font/ttf',
   '.svg': 'image/svg+xml',
+};
+
+const HOOK_SLIDE = {
+  file: 'slide-01-hook.png',
+  photo: 'slide-01-pov-source.jpg',
+  bgHex: '#F5D34E',
+  lines: [
+    'POV : Tu apprends aux gens',
+    'à créer des fckg produits',
+    'digitaux interactifs avec',
+    'Claude et personne ne sait',
+  ],
 };
 
 const PRODUCT_SLIDES = [
@@ -368,7 +382,7 @@ function buildSharedStyles() {
   --font-serif-italic: 'Instrument Serif', Georgia, serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --color-ground: #FFFFFF;
+  --color-ground: #F2F2F5;
   --color-ink: #0D0D0F;
   --color-kicker: #B4382A;
   --color-kicker-bg: #FDF1ED;
@@ -381,10 +395,10 @@ function buildSharedStyles() {
   --color-cta-ink: #FFFFFF;
   --color-logo-white: rgba(255, 255, 255, 0.96);
 
-  --color-squircle-bg: #FAF7F2;
-  --color-squircle-border: rgba(17, 17, 17, 0.07);
+  --color-squircle-bg: #FFFFFF;
+  --color-squircle-border: rgba(17, 17, 17, 0.08);
 
-  --shadow-squircle: 0 18px 40px -12px rgba(17, 17, 17, 0.14), 0 4px 12px rgba(17, 17, 17, 0.05);
+  --shadow-squircle: 0 18px 40px -12px rgba(17, 17, 17, 0.12), 0 4px 12px rgba(17, 17, 17, 0.05);
   --shadow-pill: 0 12px 28px rgba(13, 13, 15, 0.18);
 
   --halo-coral: #D9533F;
@@ -393,48 +407,48 @@ function buildSharedStyles() {
   --halo-transparent: transparent;
 
   --mask-solid: #000000;
-  --mask-step-1: rgba(0, 0, 0, 0.90);
-  --mask-step-2: rgba(0, 0, 0, 0.56);
-  --mask-step-3: rgba(0, 0, 0, 0.22);
-  --mask-step-4: rgba(0, 0, 0, 0.05);
+  --mask-step-1: rgba(0, 0, 0, 0.94);
+  --mask-step-2: rgba(0, 0, 0, 0.72);
+  --mask-step-3: rgba(0, 0, 0, 0.28);
+  --mask-step-4: rgba(0, 0, 0, 0.06);
   --mask-clear: transparent;
 
   --canvas-w: ${SLIDE_W}px;
   --canvas-h: ${SLIDE_H}px;
-  --halo-h: 306px;
+  --halo-h: 415px;
   --margin-x: 76px;
   --margin-x-cta: 84px;
   --text-max-w: 928px;
   --desc-max-w: 890px;
   --cta-max-w: 912px;
-  --sig-top: 84px;
-  --sig-h: 58px;
-  --copy-top: 318px;
-  --cta-top: 390px;
+  --sig-top: 215px;
+  --sig-h: 52px;
+  --copy-top: 425px;
+  --cta-top: 455px;
 
   --phone-img-top: ${PHONE_IMG_TOP}px;
   --phone-img-h: ${PHONE_IMG_HEIGHT}px;
 
-  --size-kicker: 26px;
-  --size-title: 106px;
-  --size-desc: 33px;
-  --size-cta-h1-top: 96px;
-  --size-cta-h1-accent: 104px;
-  --size-cta-sub: 40px;
-  --size-cta-li: 36px;
-  --size-cta-brand: 56px;
-  --size-cta-pill: 31px;
+  --size-kicker: 24px;
+  --size-title: 94px;
+  --size-desc: 30px;
+  --size-cta-h1-top: 88px;
+  --size-cta-h1-accent: 96px;
+  --size-cta-sub: 36px;
+  --size-cta-li: 33px;
+  --size-cta-brand: 52px;
+  --size-cta-pill: 30px;
 
-  --space-kicker-mb: 18px;
-  --space-desc-mt: 18px;
-  --space-cta-title-mt: 38px;
-  --space-sub-mt: 14px;
-  --space-list-mt: 56px;
-  --space-list-gap: 28px;
-  --space-brand-mt: 76px;
-  --space-pill-mt: 26px;
-  --pill-pad-y: 22px;
-  --pill-pad-x: 48px;
+  --space-kicker-mb: 14px;
+  --space-desc-mt: 14px;
+  --space-cta-title-mt: 32px;
+  --space-sub-mt: 12px;
+  --space-list-mt: 44px;
+  --space-list-gap: 22px;
+  --space-brand-mt: 58px;
+  --space-pill-mt: 22px;
+  --pill-pad-y: 20px;
+  --pill-pad-x: 44px;
   --pill-radius: 999px;
 }
 
@@ -476,19 +490,19 @@ html, body {
   -webkit-mask-image: linear-gradient(
     to bottom,
     var(--mask-solid) 0%,
-    var(--mask-step-1) 30%,
-    var(--mask-step-2) 56%,
-    var(--mask-step-3) 78%,
-    var(--mask-step-4) 91%,
+    var(--mask-step-1) 55%,
+    var(--mask-step-2) 68%,
+    var(--mask-step-3) 82%,
+    var(--mask-step-4) 92%,
     var(--mask-clear) 100%
   );
   mask-image: linear-gradient(
     to bottom,
     var(--mask-solid) 0%,
-    var(--mask-step-1) 30%,
-    var(--mask-step-2) 56%,
-    var(--mask-step-3) 78%,
-    var(--mask-step-4) 91%,
+    var(--mask-step-1) 55%,
+    var(--mask-step-2) 68%,
+    var(--mask-step-3) 82%,
+    var(--mask-step-4) 92%,
     var(--mask-clear) 100%
   );
 }
@@ -740,7 +754,88 @@ html, body {
   flex-shrink: 0;
   transform: translateY(2.5px);
 }
+
+/* Slide 1 TikTok POV */
+.slide-hook {
+  background: ${HOOK_SLIDE.bgHex};
+}
+
+.hook-portrait {
+  position: absolute;
+  left: -120px;
+  bottom: 0;
+  width: 1320px;
+  height: 1320px;
+  display: block;
+  object-fit: cover;
+  z-index: 1;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000000 10%, #000000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000000 10%, #000000 100%);
+}
+
+.hook-caption-wrap {
+  position: absolute;
+  left: 90px;
+  right: 110px;
+  top: 1355px;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.hook-svg {
+  display: block;
+  width: 880px;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.34));
+}
+
+.hook-line {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 51px;
+  letter-spacing: -0.018em;
+  fill: #FFFFFF;
+  stroke: #000000;
+  stroke-width: 12px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke fill;
+}
 `;
+}
+
+function buildHookSlideHtml(slide) {
+  const lineHeight = 68;
+  const startY = 58;
+  const svgHeight = startY + (slide.lines.length - 1) * lineHeight + 24;
+  const linesSvg = slide.lines
+    .map(
+      (line, idx) =>
+        `<text class="hook-line" x="440" y="${startY + idx * lineHeight}" text-anchor="middle">${escapeHtml(line)}</text>`
+    )
+    .join('\n        ');
+
+  return `<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Slide 1 Hook — Carrousel AI CREATOR Studio</title>
+  <style>${buildSharedStyles()}</style>
+</head>
+<body>
+  <main class="slide slide-hook" data-slide-kind="hook">
+    <img class="hook-portrait" src="/demos/tiktok-carousel-v1/assets/${escapeHtml(slide.photo)}" alt="Créateur AI CREATOR Studio" />
+    <div class="hook-caption-wrap">
+      <svg class="hook-svg" viewBox="0 0 880 ${svgHeight}" aria-label="${escapeHtml(slide.lines.join(' '))}">
+        ${linesSvg}
+      </svg>
+    </div>
+  </main>
+</body>
+</html>`;
 }
 
 function buildProductSlideHtml(slide, logoWhiteSvg) {
@@ -827,8 +922,9 @@ function buildCtaSlideHtml(slide, logoWhiteSvg) {
 }
 
 function buildContactSheetHtml(slidesMeta) {
-  const thumbW = 360;
+  const thumbW = 320;
   const thumbH = Math.round((thumbW * SLIDE_H) / SLIDE_W);
+  const cols = slidesMeta.length;
   const cards = slidesMeta
     .map(
       (s, idx) => `
@@ -836,7 +932,7 @@ function buildContactSheetHtml(slidesMeta) {
         <div class="frame">
           <img src="/__out/${encodeURIComponent(s.file)}" alt="${escapeHtml(s.file)}" />
         </div>
-        <div class="meta">${idx + 2}. ${escapeHtml(s.file)} (${s.width}×${s.height})</div>
+        <div class="meta">${idx + 1}. ${escapeHtml(s.file)} (${s.width}×${s.height})</div>
       </div>`
     )
     .join('');
@@ -860,8 +956,8 @@ function buildContactSheetHtml(slidesMeta) {
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(5, ${thumbW}px);
-      gap: 28px;
+      grid-template-columns: repeat(${cols}, ${thumbW}px);
+      gap: 24px;
       width: max-content;
     }
     .frame {
@@ -880,14 +976,14 @@ function buildContactSheetHtml(slidesMeta) {
     }
     .meta {
       margin-top: 12px;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       color: #171313;
     }
   </style>
 </head>
 <body>
-  <h1>Planche de contrôle 5-up v2 · Carrousel TikTok 9:16 (1080×1920 px)</h1>
+  <h1>Planche de contrôle ${cols}-up v2 · Carrousel TikTok 9:16 (1080×1920 px)</h1>
   <div class="grid">${cards}</div>
 </body>
 </html>`;
@@ -938,9 +1034,15 @@ async function main() {
   fs.mkdirSync(OUT_PNG_DIR, { recursive: true });
   fs.mkdirSync(AUDIT_DIR, { recursive: true });
 
-  console.log('1. Chargement logo.svg & vérification des 4 assets iPhone...');
+  console.log('1. Chargement logo.svg & vérification des assets Slide 1 + 4 mockups iPhone...');
   const logoWhiteSvg = loadBrandLogoWhiteSvg();
   console.log(`   ✓ Logo lu depuis ${path.relative(ROOT, LOGO_SVG_PATH)}`);
+
+  const hookPhotoPath = path.join(SLIDE_ASSETS_DIR, HOOK_SLIDE.photo);
+  if (!fs.existsSync(hookPhotoPath)) {
+    throw new Error(`Photo Slide 1 manquante : ${hookPhotoPath}`);
+  }
+  console.log(`   ✓ Photo Slide 1 présente : ${path.relative(ROOT, hookPhotoPath)}`);
 
   for (const slide of PRODUCT_SLIDES) {
     const assetPath = path.join(IPHONE_PNG_DIR, slide.asset);
@@ -961,6 +1063,11 @@ async function main() {
 
   const routesMap = new Map();
   const slidesToRender = [
+    {
+      file: HOOK_SLIDE.file,
+      route: `/__slide/${HOOK_SLIDE.file}.html`,
+      html: buildHookSlideHtml(HOOK_SLIDE),
+    },
     ...PRODUCT_SLIDES.map((s) => ({
       file: s.file,
       route: `/__slide/${s.file}.html`,
@@ -1006,7 +1113,7 @@ async function main() {
       return route.abort();
     });
 
-    console.log('2. Rendu & audit DOM des 5 slides 1080×1920 px (v2)...');
+    console.log('2. Rendu & audit DOM des 6 slides 1080×1920 px (v2)...');
     for (const item of slidesToRender) {
       const url = `http://127.0.0.1:${port}${item.route}`;
       await page.goto(url, { waitUntil: 'domcontentloaded' });
@@ -1042,6 +1149,7 @@ async function main() {
           )
         );
 
+        const slideKind = slideEl.getAttribute('data-slide-kind');
         const haloEl = document.querySelector('.halo');
         const logoWrapEl = document.querySelector('.brand-logo-wrap');
         const haloBottom = haloEl ? Math.round(haloEl.getBoundingClientRect().bottom) : 0;
@@ -1051,13 +1159,30 @@ async function main() {
         const phoneStageEl = document.querySelector('.phone-stage');
         const ctaStageEl = document.querySelector('.cta-stage');
         const pillEl = document.querySelector('.cta-pill');
+        const hookSvgEl = document.querySelector('.hook-svg');
 
         let metrics = {
           haloBottom,
           logoSize: logoBox ? `${Math.round(logoBox.width)}×${Math.round(logoBox.height)}` : null,
         };
 
-        if (headerEl && phoneStageEl) {
+        if (slideKind === 'hook' && hookSvgEl) {
+          const hr = hookSvgEl.getBoundingClientRect();
+          if (hr.left < 70 || hr.right > 980) {
+            issues.push(`hook-horizontal-safe-zone (left=${Math.round(hr.left)}, right=${Math.round(hr.right)})`);
+          }
+          if (hr.top < 1240 || hr.bottom > 1680) {
+            issues.push(`hook-vertical-safe-zone (top=${Math.round(hr.top)}, bottom=${Math.round(hr.bottom)})`);
+          }
+          metrics = {
+            slideKind: 'hook',
+            captionTop: Math.round(hr.top),
+            captionBottom: Math.round(hr.bottom),
+            captionLeft: Math.round(hr.left),
+            captionRight: Math.round(hr.right),
+            bottomClearance: Math.round(S.height - hr.bottom),
+          };
+        } else if (headerEl && phoneStageEl) {
           const kickerEl = headerEl.querySelector('.kicker');
           const titleEl = headerEl.querySelector('.product-title');
           const descEl = headerEl.querySelector('.product-desc');
@@ -1076,18 +1201,22 @@ async function main() {
           const kickerLines = Math.round(kickerInnerH / parseFloat(kickerStyle.lineHeight));
           const descLines = Math.round(descEl.getBoundingClientRect().height / parseFloat(getComputedStyle(descEl).lineHeight));
 
+          if (logoBox && logoBox.top < 200) {
+            issues.push(`tiktok-top-crop-logo (logoTop=${Math.round(logoBox.top)})`);
+          }
           if (hr.top < haloBottom) {
             issues.push(`halo-overlaps-kicker (haloBottom=${haloBottom}, textTop=${Math.round(hr.top)})`);
           }
           if (hr.bottom >= visiblePhoneTop - 24) {
             issues.push(`text-too-close-to-phone (${Math.round(visiblePhoneTop - hr.bottom)}px)`);
           }
-          if (1920 - visiblePhoneBottom < 90) {
-            issues.push(`bottom-safe-zone-violation (${1920 - visiblePhoneBottom}px)`);
+          if (visiblePhoneBottom > 1655) {
+            issues.push(`tiktok-bottom-crop-phone (visiblePhoneBottom=${visiblePhoneBottom})`);
           }
 
           metrics = {
             ...metrics,
+            logoTop: logoBox ? Math.round(logoBox.top) : null,
             kickerLines,
             titleHeight: Math.round(titleEl.getBoundingClientRect().height),
             descLines,
@@ -1100,14 +1229,18 @@ async function main() {
         } else if (ctaStageEl && pillEl) {
           const cr = ctaStageEl.getBoundingClientRect();
           const pr = pillEl.getBoundingClientRect();
+          if (logoBox && logoBox.top < 200) {
+            issues.push(`tiktok-top-crop-logo (logoTop=${Math.round(logoBox.top)})`);
+          }
           if (cr.top < haloBottom) {
             issues.push(`halo-overlaps-squircle (haloBottom=${haloBottom}, ctaTop=${Math.round(cr.top)})`);
           }
-          if (pr.bottom > S.height - 120) {
-            issues.push(`cta-bottom-safe-violation (${Math.round(S.height - pr.bottom)}px)`);
+          if (pr.bottom > 1655) {
+            issues.push(`cta-bottom-safe-violation (pillBottom=${Math.round(pr.bottom)})`);
           }
           metrics = {
             ...metrics,
+            logoTop: logoBox ? Math.round(logoBox.top) : null,
             ctaTop: Math.round(cr.top),
             pillBottom: Math.round(pr.bottom),
             bottomClearance: Math.round(S.height - pr.bottom),
@@ -1121,7 +1254,11 @@ async function main() {
         };
       });
 
-      const missingFonts = ['Plus Jakarta Sans', 'Instrument Serif', 'JetBrains Mono'].filter(
+      const requiredFonts =
+        item.file === HOOK_SLIDE.file
+          ? ['Plus Jakarta Sans']
+          : ['Plus Jakarta Sans', 'Instrument Serif', 'JetBrains Mono'];
+      const missingFonts = requiredFonts.filter(
         (fam) => !audit.loadedFamilies.includes(fam)
       );
       if (missingFonts.length > 0) {
@@ -1142,10 +1279,10 @@ async function main() {
     }
 
     const sheetPath = path.join(AUDIT_DIR, SHEET_FILENAME);
-    console.log(`3. Génération de la planche contact 5-up dans ${sheetPath}...`);
+    console.log(`3. Génération de la planche contact ${outputMeta.length}-up dans ${sheetPath}...`);
     routesMap.set('/__sheet.html', buildContactSheetHtml(outputMeta));
-    const sheetWidth = 36 * 2 + 5 * 360 + 4 * 28;
-    const sheetHeight = 36 * 2 + 46 + Math.round((360 * SLIDE_H) / SLIDE_W) + 32;
+    const sheetWidth = 36 * 2 + outputMeta.length * 320 + (outputMeta.length - 1) * 24;
+    const sheetHeight = 36 * 2 + 46 + Math.round((320 * SLIDE_H) / SLIDE_W) + 32;
     await page.setViewportSize({ width: sheetWidth, height: sheetHeight });
     await page.goto(`http://127.0.0.1:${port}/__sheet.html`, { waitUntil: 'domcontentloaded' });
     await page.evaluate(async () => {
