@@ -597,7 +597,7 @@ def record_solde(browser: Any, root_url: str, tmp_dir: Path) -> dict[str, Any]:
     page_errors: list[str] = []
     page.on("pageerror", lambda err: page_errors.append(str(err)))
 
-    page.goto(f"{root_url}/docs/examples/solde/index.html", wait_until="load")
+    page.goto(f"{root_url}/demos/apps/solde/index.html", wait_until="load")
     page.evaluate("() => document.fonts.ready")
     page.wait_for_timeout(300)
 

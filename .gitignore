@@ -29,9 +29,11 @@ pnpm-debug.log*
 venv/
 __pycache__/
 *.pyc
+.pytest_cache/
 
-# Agent configurations & work contexts
-.agents/
+# Third-party skills managed via skills-lock.json (project .agents/ files are tracked in Git)
+.agents/skills/hallmark/
+.agents/skills/modern-web-guidance/
 
 # Graphify knowledge graph outputs
 graphify-out/

@@ -1,0 +1,12 @@
+{
+  "name": "community-manager",
+  "displayName": "AI CREATOR Community Manager",
+  "description": "Stratège éditorial d'AI CREATOR Studio : pilote le Pont Attraction → Confiance → Conversion dans CONTENT_IDEAS_BANK.md, génère angles, hooks et briefs courts pour créateurs et futurs créateurs de produits digitaux interactifs.",
+  "version": "3.1.0",
+  "suggestedPrompts": [
+    "Propose des idées ciblées pour combler un étage du Pont (Attraction, Confiance ou Conversion) dans CONTENT_IDEAS_BANK.md",
+    "Travaille 3 à 5 hooks forts et un brief court (7 lignes) pour une idée de CONTENT_IDEAS_BANK.md",
+    "Mets à jour mentors-playbook.md avec les mécanismes utiles observés chez nos mentors",
+    "Analyse mes retours KPI et indique quels angles du Pont renforcer pour convertir vers AI CREATOR Studio"
+  ]
+}

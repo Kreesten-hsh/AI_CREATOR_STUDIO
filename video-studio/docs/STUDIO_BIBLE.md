@@ -2,7 +2,7 @@
 
 > Bible technique et artistique unifiée d'**AI CREATOR Studio** (`Studio Lin • Direction Éditoriale Sobre`).
 > **Révision majeure (2026-11-24)** : Le **style éditorial sobre, minimaliste, élégant et moderne** est désormais le standard par défaut de toutes les futures productions (carrousels `3:4`, vidéos faceless `9:16`, illustrations et publications organiques). Le néo-brutalisme (bordures épaisses `4px`, ombres dures décalées `6px–8px`, fausses fenêtres `RetroWindow`, `BrutalStackBar`) n'est **jamais** appliqué par défaut : il reste réservé aux archives historiques (`EP01`, `EP02`) ou à une variante explicitement demandée.
-> Complète la stratégie éditoriale ([CONTENT_OPERATING_SYSTEM.md](./CONTENT_OPERATING_SYSTEM.md)), la bible vocale ([VOICE_AND_COPY_BIBLE.md](./VOICE_AND_COPY_BIBLE.md)) et le planning actif ([CONTENT_PLAN_WEEK_01.md](./CONTENT_PLAN_WEEK_01.md)). Format Carrousel par défaut : `1080×1440` (`3:4`), ou `1080×1350` (`4:5`) via `--size 1080x1350`.
+> Complète la stratégie éditoriale et le Pont `Attraction → Confiance → Conversion` ([CONTENT_OPERATING_SYSTEM.md](./CONTENT_OPERATING_SYSTEM.md)), la bible vocale ([VOICE_AND_COPY_BIBLE.md](./VOICE_AND_COPY_BIBLE.md)) et la banque d'idées ([CONTENT_IDEAS_BANK.md](./CONTENT_IDEAS_BANK.md)). La sobriété et la désirabilité visuelle servent directement la crédibilité auprès des créateurs de produits digitaux. Format Carrousel par défaut : `1080×1440` (`3:4`), ou `1080×1350` (`4:5`) via `--size 1080x1350`.
 
 ---
 
@@ -11,7 +11,7 @@
 1. [Section 1 : Direction Artistique Verrouillée (« Studio Lin » 100 % Plat)](#section-1--direction-artistique-verrouillée-studio-lin-100--plat)
 2. [Section 2 : Architecture Réelle d'`Ep01Composition.tsx`, Primitives & Assets](#section-2--architecture-réelle-dep01compositiontsx-primitives--assets)
 3. [Section 3 : Ingénierie Virale 9:16, Grille d'Audit `/100` & Protocole `TRIBE v2`](#section-3--ingénierie-virale-916-grille-daudit-100--protocole-tribe-v2)
-4. [Section 4 : Système Complet Carrousel 4:5 (`420×525 → 1080×1350`) & Blueprints `Sketch`](#section-4--système-complet-carrousel-45-420525--10801350--blueprints-sketch)
+4. [Section 4 : Système Complet Carrousel `3:4` (`1080×1440` par Défaut) & DA Éditoriale Sobre](#section-4--système-complet-carrousel-34-10801440-par-défaut--da-éditoriale-sobre)
 5. [Section 5 : Cartographie des 16 Ressources Novitckii Auditées](#section-5--cartographie-des-16-ressources-novitckii-auditées)
 6. [Section 6 : Autopsie des Vidéos de Référence (`/home/hasashi/Vidéos/inspi`) & Loi des Éléments Connectés](#section-6--autopsie-des-vidéos-de-référence-homehasashividéosinspi--loi-des-éléments-connectés)
 7. [Section 7 : Bibliothèque de Mise en Scène Motion Design : 1 Épisode = 1 Univers Narratif Unique](#section-7--bibliothèque-de-mise-en-scène-motion-design--1-épisode--1-univers-narratif-unique)
@@ -162,44 +162,37 @@ Chaque épisode doit être contrôlé avant rendu final via `node scripts/audit_
 
 ---
 
-## Section 4 : Système Complet Carrousel 4:5 (`1080×1350` Plein Format) & Blueprints `Sketch`
+## Section 4 : Système Complet Carrousel `3:4` (`1080×1440` par Défaut) & DA Éditoriale Sobre
 
-### 4.1 Les 10 Lois Algorithmiques (Data 10 743 carrousels)
+### 4.1 Repères Carrousel AI CREATOR Studio (Alignés sur `carousel-studio`)
 
-1. **Chiffre dès la Slide 1** (`24,6 %` vs `21,4 %`) : quantités (`7 types`, `5 signes`, `5 erreurs`), jamais de prix ni de devise.
-2. **Longueur standard `10 à 12 slides`** (plage `10–15 slides` : `26,8 %` à `28,0 %` doublent).
-3. **Format *Cheat sheet / Checklist* roi** : `37,5 %` de sur-performance (`Liste` `26,1 %`, `Pas-à-pas` `25,1 %`, `Hot take` `24,5 %`, `Storytelling` `23,3 %`).
-4. **CTA unique** : sur les posts Découverte (TOFU), demander explicitement **l'enregistrement** (`32,8 %` vs `24,9 %`) ou le partage ; sur les posts Confiance/Vente (MOFU/BOFU), demander de commenter **`CLAUDE`** (ou d'envoyer un message privé).
-5. **Couverture ultra-courte (`6 à 10 mots`)** (`25,6 %` vs `20,2 %`).
-6. **Mot « GRATUIT » sur Slide 1** uniquement quand il est factuel (*Claude gratuit*, *Checklist gratuite*) (`40,0 %` vs `25,8 %`).
-7. **100 % images (zéro vidéo dans un carrousel)** (`26,7 %` images seules vs `21,3 %` avec vidéo).
-8. **Légende de `120 à 250 mots`** (`30,3 %` vs `25,3 %`) : apporte du contexte sans répéter les slides.
-9. **Bannir « lien en bio » en légende** (`26,5 %` sans lien vs `19,4 %` avec).
-10. **Composition `Studio Lin Éditoriale Sobre`** : fond `#EAE3D5` (ou `#FFFDFC` ivoire) plat, filets fins `1px`, zéro bordure noire épaisse, zéro ombre dure décalée, zéro carte imbriquée, zéro fausse fenêtre navigateur, une seule idée par slide, typographie dominante et illustrations vectorielles épurées. *(La variante néo-brutaliste `data-variant="brutalist"` reste strictement opt-in sur demande explicite.)*
+1. **Couverture courte et directe (`6 à 12 mots`)** : arrête le scroll par une croyance questionnée, un contraste concret ou un bénéfice net (un chiffre n'est pas obligatoire si le hook est plus fort sans). Jamais de prix ni de devise.
+2. **Nombre de slides adapté au sujet** : `6 à 8 slides` pour un carrousel introductif, une comparaison ou une prise de position ; `8 à 12 slides` pour une décomposition produit ou un tutoriel. Ne jamais allonger artificiellement.
+3. **Zéro slide sommaire** : la Slide 2 livre immédiatement la première idée ou le premier gain.
+4. **CTA unique adapté à l'objectif** : abonnement (découverte), enregistrement (utile), partage/commentaire (identification), ou découverte de l'offre (post vente dédié). Jamais `CLAUDE` collé par défaut sur chaque post.
+5. **100 % images (zéro vidéo dans un carrousel)**.
+6. **Légende `120 à 250 mots`** : prolonge la Slide 1 sans répéter les slides mot pour mot ; **bannir « lien en bio »**.
+7. **Composition `Studio Lin Éditoriale Sobre` par défaut** : fond `#EAE3D5` (ou `#FFFDFC` ivoire) plat, filets fins `1px`, zéro bordure noire épaisse, zéro ombre dure décalée, zéro carte imbriquée, zéro fausse fenêtre navigateur, une seule idée par slide (`<= 25 mots`), typographie dominante (les slides 100 % typo sont encouragées) et `2 à 3` illustrations épurées maximum sur un carrousel conceptuel. *(La variante néo-brutaliste `data-variant="brutalist"` reste strictement opt-in sur demande explicite.)*
 
-### 4.2 Le Catalogue des 10 Types de Carrousels
+### 4.2 Formats de Carrousels Utiles (Sans Quota Imposé)
 
-| Type Novitckii | Sur-performance | Structure narrative (Slide 1 → Fin) | Usage `AI CREATOR Studio` |
-|---|---|---|---|
-| **1. Storytelling** | `26×` à `201×` | Scène vécue → blocage (*MAIS*) → pivot (*DONC*) → morale + CTA | Récits de transformation (« Effet Kevin à 6h12 », « Zéro technique »). |
-| **2. Cheat Sheet** | **`37,5 %`** | Promesse chiffrée + « GRATUIT » → 1 règle actionnable/carte → checklist | Checklist 7 étapes (`N°12`), flux `Notes → Claude → Glisser-déposer → Chariow`. |
-| **3. This-versus-That** | `17×` à `110×` | Opposition frontale → 1 critère comparé par slide (`#E3DDD1` vs `#FFFDFC`) → verdict | Carrousel Fondamental 2 (`N°06`), Océan Rouge vs Océan Bleu (`N°19`). |
-| **4. Breakdown** | `14×` à `108×` | Résultat concret → démontage étape par étape → leçon clé | Carrousel Fondamental 1 (`N°02`), Crash-test Note WhatsApp (`N°05`). |
-| **5. Step-by-Step** | `50×` à `435×` | Objectif + contrainte levée (« zéro technique ») → `01`, `02`, `03`… → récap | Workflow création sur Claude gratuit. |
-| **6. List** | `104×` à `663×` | Nombre exact → 1 cas concret/slide → demande d'enregistrement | 7 Guides Interactifs (`N°09`). |
-| **7. Hot Take** | `37×` à `130×` | Affirmation tranchée sur une méthode → preuves → quoi faire ce soir | Fin des ebooks IA génériques (`N°15`). |
-| **8. Which-One-Are-You** | `4,7×` à `20×` | `POV : ...` → archétypes hebdomadaires → sortie par le haut | Satire des PDF génériques & tics ChatGPT. |
-| **9. Breaking News** | `8,5×` à `48×` | Fait nouveau daté → impact concret → comment en profiter | Nouveautés Claude gratuit. |
-| **10. Eye Candy** | `42×` à `131×` | Captures haute netteté avant/après couplées à un Breakdown | Preuves `platform-home-real.png` sur `#EAE3D5`. |
+Choisir le format selon ce que l'idée autour des **produits digitaux interactifs** demande réellement :
+- **Introduction / Déclic** (poser le concept ou casser une croyance sur le PDF)
+- **Comparaison (`Classique vs Interactif` / `Avant → Après`)**
+- **Décomposition (`Breakdown`)** d'un format interactif (calculateur, planificateur, diagnostic, programme guidé…)
+- **Expérience Claude & Verdict** (ce qu'on a demandé, ce qui a marché, les limites réelles)
+- **Transformation pas à pas (`Step-by-Step`)** d'un document/méthode en produit interactif
+- **Scène vécue (`POV`)** autour de la création de produits digitaux
+- **Présentation claire de l'offre AI CREATOR Studio** (structure exacte, pour qui / pas pour qui).
 
-### 4.3 Règles `/carousel-copy`, `/design-taste` & `Anchor Slide`
+### 4.3 Règles `/carousel-copy` & `Anchor Slide`
 
-- **7 Verrous `/carousel-copy`** : (1) Slide 1 = `6–10 mots` sans intro ; (2) jamais de Slide Sommaire, la Slide 2 livre le premier gain ; (3) 1 seule idée par slide ; (4) `<= 25 mots` par slide ; (5) métaphore visuelle connectée sur chaque slide ; (6) au moins 1 phrase *screenshotable* ; (7) dernière slide = 1 seul CTA sans flèche de swipe.
-- **Protocole `3 Variantes → Anchor Slide`** : générer 3 variantes structurelles de Slide 1 et de Slide 2 ; la gagnante de Slide 2 devient l'**Anchor Slide** dont les Slides `3..N-1` reproduisent exactement marges, typo et palette en ne changeant que le texte et le schéma central connecté.
+- **7 Verrous `/carousel-copy`** : (1) Slide 1 claire sans intro ; (2) zéro slide sommaire (Slide 2 = premier gain) ; (3) 1 seule idée par slide et zéro répétition ; (4) `<= 25 mots/slide` ; (5) sobriété visuelle (100 % typo ou illustration utile, zéro surcharge) ; (6) au moins 1 phrase mémorable/partageable ; (7) dernière slide = 1 seul CTA adapté sans flèche de swipe.
+- **Cohérence `Anchor Slide`** : une fois les marges (`84px`), la typographie et la palette posées sur la Slide 2, les Slides `3..N-1` conservent exactement la même grille pour un swipe fluide.
 
 ### 4.4 Moteur Interne Carrousel `3:4` (`video-studio/carousels/`) & Audit Planche Contact
 
-Le workflow complet est piloté par le skill interne [carousel-studio](file:///home/hasashi/Bureau/AI_CREATOR_STUDIO/.agents/skills/carousel-studio/SKILL.md) et l'architecture par calques de `video-studio/carousels/` :
+Le workflow complet est piloté par le skill interne [carousel-studio](../../.agents/skills/carousel-studio/SKILL.md) et l'architecture par calques de `video-studio/carousels/` :
 
 - **Fichiers du moteur** :
   - `video-studio/carousels/carousel.css` : toile `1080×1440` (`3:4` par défaut, ou `1080×1350` `4:5` via `--size`), direction **Éditoriale Sobre Studio Lin par défaut** (`#EAE3D5`, `#FFFDFC`, `#171313`, `#B63131`, filets fins `1px`, zéro ombre dure, zéro bordure épaisse ; variante `[data-variant="brutalist"]` uniquement sur demande explicite), polices locales embarquées (`video-studio/assets/fonts/`).

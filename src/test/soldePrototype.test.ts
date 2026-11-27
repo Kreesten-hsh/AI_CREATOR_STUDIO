@@ -34,8 +34,8 @@ declare global {
   }
 }
 
-describe('Produit Fil Rouge SOLDE (docs/examples/solde/index.html)', () => {
-  const htmlPath = path.resolve(process.cwd(), 'docs/examples/solde/index.html');
+describe('Produit Fil Rouge SOLDE (demos/apps/solde/index.html)', () => {
+  const htmlPath = path.resolve(process.cwd(), 'demos/apps/solde/index.html');
   let htmlContent: string;
 
   function bootSolde() {

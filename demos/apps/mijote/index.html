@@ -1,0 +1,3881 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Mijote — Recettes express &amp; menus de la semaine</title>
+  <style>
+    @font-face {
+      font-family: 'Plus Jakarta Sans';
+      src: url('../../../public/fonts/PlusJakartaSans-latin.woff2') format('woff2');
+      font-weight: 400 800;
+      font-style: normal;
+      font-display: swap;
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122;
+    }
+    @font-face {
+      font-family: 'Plus Jakarta Sans';
+      src: url('../../../public/fonts/PlusJakartaSans-latin-ext.woff2') format('woff2');
+      font-weight: 400 800;
+      font-style: normal;
+      font-display: swap;
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0;
+    }
+    @font-face {
+      font-family: 'Instrument Serif';
+      src: url('../../../public/fonts/InstrumentSerif-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #FFFFFF;
+      --surface: #F5F5F7;
+      --surface-hover: #EBEBF0;
+      --ink: #111111;
+      --ink-muted: #6E6E73;
+      --ink-subtle: #9A9AA0;
+      --accent: #FF5A1F;
+      --accent-hover: #E04812;
+      --accent-soft: #FFF0EA;
+      --success: #16A34A;
+      --success-soft: #ECFDF3;
+      --border: rgba(17, 17, 17, 0.07);
+      --border-strong: rgba(17, 17, 17, 0.12);
+      --shadow-card: 0 6px 24px rgba(17, 17, 17, 0.06);
+      --shadow-hero: 0 14px 36px rgba(17, 17, 17, 0.12);
+      --shadow-float: 0 12px 32px rgba(17, 17, 17, 0.12);
+      --radius-sm: 12px;
+      --radius-md: 18px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+      --radius-sheet: 28px;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --tab-height: 64px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      font-size: 16px;
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.45;
+      overflow-x: hidden;
+      min-height: 100dvh;
+    }
+
+    body.overlay-open {
+      overflow: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button, input {
+      font-family: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .tabular {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* App Shell */
+    .app-shell {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      min-height: 100dvh;
+      padding-bottom: calc(var(--tab-height) + var(--safe-bottom) + 46px);
+      background: var(--bg);
+    }
+
+    .screen {
+      display: none;
+      animation: fadeScreen 0.22s ease;
+    }
+
+    .screen.is-active {
+      display: block;
+    }
+
+    @keyframes fadeScreen {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header — Minimal App Store */
+    .top-header {
+      padding: 14px 16px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--bg);
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    .brand-mark .brand-dot {
+      color: var(--accent);
+    }
+
+    .brand-greeting {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-muted);
+    }
+
+    .search-pill {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: var(--surface);
+      border-radius: 999px;
+      padding: 0 14px;
+      height: 46px;
+      transition: background 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .search-pill:focus-within {
+      background: #EFEFF4;
+      box-shadow: 0 0 0 2px rgba(17, 17, 17, 0.08);
+    }
+
+    .search-pill svg {
+      width: 18px;
+      height: 18px;
+      color: var(--ink-muted);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      background: transparent;
+      padding: 0 10px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink);
+      height: 100%;
+    }
+
+    .search-input::placeholder {
+      color: var(--ink-muted);
+      font-weight: 400;
+    }
+
+    .search-input:focus {
+      outline: none;
+    }
+
+    .search-clear {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(17, 17, 17, 0.12);
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+    }
+
+    .search-clear.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Category Pills */
+    .pills-scroller {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 6px 16px 12px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .pills-scroller::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-pill {
+      flex: 0 0 auto;
+      min-height: 38px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      transition: background 0.16s ease, color 0.16s ease, transform 0.12s ease;
+      white-space: nowrap;
+    }
+
+    .cat-pill:active {
+      transform: scale(0.96);
+    }
+
+    .cat-pill.is-active {
+      background: var(--ink);
+      color: #FFFFFF;
+    }
+
+    /* Section Headers */
+    .section-block {
+      margin-top: 22px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0 16px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .section-count {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-muted);
+    }
+
+    /* Hero Card — Stop-scroll full-bleed photo */
+    .hero-wrap {
+      padding: 2px 16px 0;
+    }
+
+    .hero-card {
+      position: relative;
+      height: 300px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background: #1C1C1E;
+      box-shadow: var(--shadow-hero);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .hero-card:hover .hero-img {
+      transform: scale(1.03);
+    }
+
+    .hero-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.14) 0%,
+        rgba(0, 0, 0, 0.04) 38%,
+        rgba(0, 0, 0, 0.52) 72%,
+        rgba(0, 0, 0, 0.84) 100%
+      );
+      pointer-events: none;
+    }
+
+    .hero-top {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 2;
+    }
+
+    .glass-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .glass-pill svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .glass-icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.42);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.14s ease, background 0.16s ease;
+    }
+
+    .glass-icon-btn:active {
+      transform: scale(0.92);
+    }
+
+    .glass-icon-btn.is-fav {
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--accent);
+    }
+
+    .glass-icon-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .hero-bottom {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      z-index: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .hero-copy {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .hero-kicker {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 5px;
+    }
+
+    .hero-title {
+      margin: 0;
+      color: #FFFFFF;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    .hero-meta {
+      margin: 6px 0 0;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .btn-tangerine {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      box-shadow: 0 6px 18px rgba(255, 90, 31, 0.35);
+      transition: background 0.16s ease, transform 0.12s ease;
+    }
+
+    .btn-tangerine:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-tangerine:active {
+      transform: scale(0.96);
+    }
+
+    /* Horizontal Carousel — 15 min */
+    .quick-carousel {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 2px 16px 6px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .quick-carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .quick-card {
+      flex: 0 0 210px;
+      scroll-snap-align: start;
+      cursor: pointer;
+    }
+
+    .quick-media {
+      position: relative;
+      width: 100%;
+      height: 164px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .quick-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .quick-card:hover .quick-media img {
+      transform: scale(1.04);
+    }
+
+    .quick-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.48);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #FFFFFF;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+
+    .quick-add-btn {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+      transition: transform 0.12s ease, background 0.15s ease, color 0.15s ease;
+    }
+
+    .quick-add-btn:active {
+      transform: scale(0.9);
+    }
+
+    .quick-add-btn.is-in-menu {
+      background: var(--accent);
+      color: #FFFFFF;
+    }
+
+    .quick-add-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .quick-title {
+      margin: 9px 0 3px;
+      font-size: 14.5px;
+      font-weight: 700;
+      line-height: 1.24;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .quick-sub {
+      margin: 0;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--ink-muted);
+    }
+
+    /* 2-Column Recipe Grid */
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px 12px;
+      padding: 0 16px;
+    }
+
+    .recipe-card {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .recipe-thumb-wrap {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .recipe-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .recipe-card:hover .recipe-thumb {
+      transform: scale(1.04);
+    }
+
+    .card-fav-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.38);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.12s ease, background 0.15s ease;
+    }
+
+    .card-fav-btn:active {
+      transform: scale(0.9);
+    }
+
+    .card-fav-btn.is-fav {
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--accent);
+    }
+
+    .card-fav-btn svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .recipe-card-title {
+      margin: 9px 0 6px;
+      font-size: 14.5px;
+      font-weight: 700;
+      line-height: 1.24;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 36px;
+    }
+
+    .recipe-card-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-top: auto;
+    }
+
+    .recipe-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink-muted);
+    }
+
+    .recipe-time svg {
+      width: 13px;
+      height: 13px;
+      color: var(--ink-subtle);
+    }
+
+    .mini-menu-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .mini-menu-btn.is-in-menu {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    /* Page Titles for Menu / Courses / Favoris */
+    .page-header {
+      padding: 18px 16px 12px;
+    }
+
+    .page-title {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+    }
+
+    .page-sub {
+      margin: 5px 0 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-muted);
+    }
+
+    /* Screen 2: Menu */
+    .day-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 16px 16px;
+      scrollbar-width: none;
+    }
+
+    .day-strip::-webkit-scrollbar {
+      display: none;
+    }
+
+    .day-pill {
+      flex: 1 0 54px;
+      min-height: 62px;
+      border-radius: 16px;
+      background: var(--surface);
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: background 0.16s ease, color 0.16s ease, transform 0.12s ease;
+    }
+
+    .day-pill:active {
+      transform: scale(0.95);
+    }
+
+    .day-pill .day-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .day-pill .day-num {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .day-pill.is-active {
+      background: var(--ink);
+      color: #FFFFFF;
+    }
+
+    .day-pill.is-active .day-name {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .meal-cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0 16px;
+    }
+
+    .meal-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px;
+      border-radius: var(--radius-lg);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
+    }
+
+    .meal-card-photo {
+      width: 86px;
+      height: 86px;
+      border-radius: 14px;
+      object-fit: cover;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .meal-card-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .meal-slot-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+
+    .meal-card-title {
+      margin: 0;
+      font-size: 15.5px;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .meal-card-meta {
+      margin: 4px 0 10px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--ink-muted);
+    }
+
+    .meal-card-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill-btn-dark {
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-btn-soft {
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .compose-bar {
+      padding: 18px 16px 8px;
+    }
+
+    .compose-btn {
+      width: 100%;
+      min-height: 50px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #FFFFFF;
+      font-size: 15px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: transform 0.12s ease, opacity 0.16s ease;
+    }
+
+    .compose-btn:active {
+      transform: scale(0.98);
+    }
+
+    .compose-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .week-overview {
+      margin-top: 20px;
+      padding: 0 16px;
+    }
+
+    .week-overview-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .week-row {
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: var(--surface);
+      transition: background 0.15s ease;
+    }
+
+    .week-row.is-current {
+      background: var(--accent-soft);
+      box-shadow: inset 0 0 0 1px rgba(255, 90, 31, 0.2);
+    }
+
+    .week-row-day {
+      width: 38px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .week-row.is-current .week-row-day {
+      color: var(--accent);
+    }
+
+    .week-row-meals {
+      flex: 1;
+      min-width: 0;
+      font-size: 13px;
+      color: var(--ink-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .week-row-thumbs {
+      display: flex;
+      flex-shrink: 0;
+    }
+
+    .week-row-thumbs img {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      object-fit: cover;
+      border: 2px solid #FFFFFF;
+      margin-left: -8px;
+    }
+
+    .week-row-thumbs img:first-child {
+      margin-left: 0;
+    }
+
+    /* Screen 3: Courses */
+    .courses-controls {
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .portions-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: var(--surface);
+    }
+
+    .portions-label {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .portions-sub {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-muted);
+    }
+
+    .stepper {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #FFFFFF;
+      padding: 4px;
+      border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .stepper-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.14s ease, transform 0.1s ease;
+    }
+
+    .stepper-btn:active {
+      transform: scale(0.92);
+    }
+
+    .stepper-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .stepper-val {
+      min-width: 28px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .custom-add-form {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border-radius: 999px;
+      padding: 4px 6px 4px 16px;
+    }
+
+    .custom-add-input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      background: transparent;
+      font-size: 16px;
+      height: 40px;
+    }
+
+    .custom-add-input:focus {
+      outline: none;
+    }
+
+    .custom-add-submit {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .aisles-wrap {
+      padding: 14px 16px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .aisle-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .aisle-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .aisle-count {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-muted);
+    }
+
+    .grocery-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .grocery-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      min-height: 50px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.14s ease;
+    }
+
+    .grocery-row:last-child {
+      border-bottom: none;
+    }
+
+    .grocery-row:active {
+      background: var(--surface);
+    }
+
+    .ios-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 2px solid #D1D1D6;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+      background: #FFFFFF;
+    }
+
+    .ios-check svg {
+      width: 13px;
+      height: 13px;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: all 0.16s ease;
+      color: #FFFFFF;
+    }
+
+    .grocery-row.is-checked .ios-check {
+      background: var(--success);
+      border-color: var(--success);
+    }
+
+    .grocery-row.is-checked .ios-check svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .grocery-name {
+      flex: 1;
+      min-width: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      transition: color 0.18s ease;
+    }
+
+    .grocery-row.is-checked .grocery-name {
+      color: var(--ink-subtle);
+      text-decoration: line-through;
+    }
+
+    .grocery-qty {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .grocery-row.is-checked .grocery-qty {
+      color: var(--ink-subtle);
+    }
+
+    .custom-del-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      color: var(--ink-subtle);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .courses-footer {
+      padding: 12px 16px 8px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .copy-list-btn {
+      flex: 1;
+      min-height: 52px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 15px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 22px rgba(255, 90, 31, 0.25);
+    }
+
+    .reset-checks-btn {
+      min-height: 52px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* Empty States */
+    .empty-state {
+      margin: 24px 16px;
+      padding: 42px 24px;
+      border-radius: var(--radius-xl);
+      background: var(--surface);
+      text-align: center;
+    }
+
+    .empty-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      margin: 0 auto 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .empty-title {
+      margin: 0 0 6px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .empty-text {
+      margin: 0 0 18px;
+      font-size: 14px;
+      color: var(--ink-muted);
+      max-width: 280px;
+      margin-inline: auto;
+    }
+
+    /* Floating Liquid Glass Navbar (Mobile & Desktop) */
+    .tab-bar {
+      position: fixed;
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      bottom: calc(14px + var(--safe-bottom));
+      width: min(358px, calc(100vw - 24px));
+      height: 60px;
+      padding: 4px;
+      gap: 3px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.84) 0%, rgba(250, 249, 247, 0.80) 100%);
+      backdrop-filter: blur(36px) saturate(210%);
+      -webkit-backdrop-filter: blur(36px) saturate(210%);
+      border: 1px solid rgba(255, 255, 255, 0.92);
+      box-shadow:
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.98),
+        inset 0 -1px 2px rgba(17, 17, 17, 0.05),
+        0 12px 32px rgba(17, 17, 17, 0.12),
+        0 2px 8px rgba(17, 17, 17, 0.06);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      align-items: center;
+      z-index: 40;
+    }
+
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      color: rgba(17, 17, 17, 0.78);
+      position: relative;
+      height: 100%;
+      min-height: 50px;
+      border-radius: 999px;
+      transition: background-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .tab-item:hover {
+      color: #111111;
+    }
+
+    .tab-item.is-active {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 242, 235, 0.92) 100%);
+      color: #D9410B;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        0 2px 8px rgba(17, 17, 17, 0.08);
+    }
+
+    .tab-icon-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 21px;
+    }
+
+    .tab-item svg {
+      width: 20px;
+      height: 20px;
+      transition: stroke-width 0.15s ease;
+    }
+
+    .tab-item.is-active svg {
+      stroke-width: 2.2;
+    }
+
+    .tab-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .tab-item.is-active .tab-label {
+      font-weight: 700;
+    }
+
+    .tab-badge {
+      position: absolute;
+      top: -3px;
+      right: -9px;
+      min-width: 17px;
+      height: 17px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid rgba(255, 255, 255, 0.96);
+    }
+
+    .tab-badge.is-hidden {
+      display: none;
+    }
+
+    /* Recipe Detail Sheet */
+    .sheet-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 17, 17, 0.48);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 60;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .sheet-backdrop.is-open {
+      display: flex;
+    }
+
+    .recipe-sheet {
+      width: 100%;
+      height: 100%;
+      max-height: 100dvh;
+      background: var(--bg);
+      overflow-y: auto;
+      position: relative;
+      -webkit-overflow-scrolling: touch;
+      animation: slideUp 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(36px); opacity: 0.7; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .sheet-hero {
+      position: relative;
+      height: 320px;
+      background: #1C1C1E;
+      overflow: hidden;
+    }
+
+    .sheet-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .sheet-hero-bar {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      justify-content: space-between;
+      z-index: 3;
+    }
+
+    .sheet-body {
+      position: relative;
+      margin-top: -28px;
+      background: var(--bg);
+      border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+      padding: 24px 20px 116px;
+      min-height: calc(100dvh - 292px);
+    }
+
+    .sheet-title {
+      margin: 0;
+      font-size: 25px;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .sheet-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .metric-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--surface);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .metric-chip svg {
+      width: 15px;
+      height: 15px;
+      color: var(--accent);
+    }
+
+    .sheet-action-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 18px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      background: var(--surface);
+      flex-wrap: wrap;
+    }
+
+    .sheet-menu-add {
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #FFFFFF;
+      font-size: 13.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sheet-section-title {
+      margin: 26px 0 12px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+    }
+
+    .sheet-ingredients {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .sheet-steps-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .step-preview-item {
+      display: flex;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .step-num-pill {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-preview-text {
+      margin: 0;
+      font-size: 14.5px;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+
+    .step-timer-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 6px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .sheet-cta-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 12px 16px calc(14px + var(--safe-bottom));
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-top: 1px solid var(--border);
+      z-index: 65;
+      display: flex;
+      justify-content: center;
+    }
+
+    .sheet-cta-btn {
+      width: 100%;
+      max-width: 640px;
+      min-height: 54px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 10px 26px rgba(255, 90, 31, 0.30);
+      transition: background 0.15s ease, transform 0.12s ease;
+    }
+
+    .sheet-cta-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Quick Picker Modal (Assign to Menu / Swap Meal) */
+    .picker-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 17, 17, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 75;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .picker-backdrop.is-open {
+      display: flex;
+    }
+
+    .picker-sheet {
+      width: 100%;
+      max-width: 520px;
+      max-height: 80dvh;
+      background: var(--bg);
+      border-radius: 26px 26px 0 0;
+      padding: 18px 18px calc(22px + var(--safe-bottom));
+      overflow-y: auto;
+      animation: slideUp 0.22s ease;
+    }
+
+    .picker-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .picker-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .picker-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: var(--surface);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .picker-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .picker-option {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      border-radius: 16px;
+      background: var(--surface);
+      text-align: left;
+      transition: background 0.15s ease;
+    }
+
+    .picker-option:hover {
+      background: var(--surface-hover);
+    }
+
+    .picker-option img {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .picker-option-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .picker-option-meta {
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      margin-top: 2px;
+    }
+
+    .slot-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .slot-choice {
+      min-height: 44px;
+      border-radius: 14px;
+      background: var(--surface);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .slot-choice.is-active {
+      background: var(--ink);
+      color: #FFFFFF;
+    }
+
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .day-choice {
+      min-height: 44px;
+      border-radius: 14px;
+      background: var(--surface);
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+
+    .day-choice.is-active {
+      background: var(--accent);
+      color: #FFFFFF;
+    }
+
+    /* Full-Screen Guided Cooking Mode */
+    .cook-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 80;
+      display: none;
+      flex-direction: column;
+    }
+
+    .cook-overlay.is-open {
+      display: flex;
+    }
+
+    .cook-top {
+      padding: 14px 16px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      max-width: 720px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .cook-close-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cook-step-indicator {
+      text-align: center;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cook-step-count {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .cook-dish-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cook-progress-track {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .cook-progress-bg {
+      height: 5px;
+      border-radius: 999px;
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .cook-progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 999px;
+      transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .cook-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 24px 22px;
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto;
+      overflow-y: auto;
+    }
+
+    .cook-kicker {
+      display: inline-flex;
+      align-self: flex-start;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .cook-instruction {
+      margin: 0;
+      font-size: 25px;
+      font-weight: 800;
+      line-height: 1.3;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .cook-tip {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--surface);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-muted);
+    }
+
+    /* Circular Interactive Timer */
+    .timer-card {
+      margin-top: 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      border-radius: var(--radius-xl);
+      background: var(--surface);
+    }
+
+    .timer-ring-box {
+      position: relative;
+      width: 168px;
+      height: 168px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timer-svg {
+      width: 168px;
+      height: 168px;
+      transform: rotate(-90deg);
+    }
+
+    .timer-track {
+      fill: none;
+      stroke: rgba(17, 17, 17, 0.08);
+      stroke-width: 8;
+    }
+
+    .timer-arc {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 8;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.35s linear, stroke 0.2s ease;
+    }
+
+    .timer-arc.is-done {
+      stroke: var(--success);
+    }
+
+    .timer-readout {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timer-digits {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .timer-state {
+      margin-top: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-muted);
+    }
+
+    .timer-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .timer-btn-main {
+      min-height: 44px;
+      padding: 0 22px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .timer-btn-main.is-running {
+      background: var(--accent);
+    }
+
+    .timer-btn-reset {
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: #FFFFFF;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .cook-done-box {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cook-done-photo {
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      object-fit: cover;
+      box-shadow: var(--shadow-hero);
+      margin-bottom: 20px;
+    }
+
+    .cook-done-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--success-soft);
+      color: var(--success);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .cook-done-title {
+      margin: 0 0 8px;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+    }
+
+    .cook-done-sub {
+      margin: 0 0 24px;
+      font-size: 15px;
+      color: var(--ink-muted);
+      max-width: 300px;
+    }
+
+    .cook-footer {
+      padding: 12px 16px calc(16px + var(--safe-bottom));
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .cook-nav-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    .cook-prev-btn {
+      flex: 1;
+      min-height: 52px;
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .cook-prev-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .cook-next-btn {
+      flex: 1.5;
+      min-height: 52px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 15px;
+      font-weight: 800;
+      box-shadow: 0 8px 22px rgba(255, 90, 31, 0.28);
+    }
+
+    /* Subtle iOS Toast */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(var(--tab-height) + var(--safe-bottom) + 28px);
+      transform: translateX(-50%) translateY(16px);
+      background: rgba(17, 17, 17, 0.92);
+      color: #FFFFFF;
+      padding: 11px 18px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      max-width: calc(100vw - 32px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      z-index: 95;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: var(--shadow-float);
+    }
+
+    .toast.is-visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Desktop / Tablet Polish (> 520px) */
+    @media (min-width: 560px) {
+      .app-shell {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .top-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 16px 14px;
+      }
+
+      .brand-row {
+        gap: 16px;
+      }
+
+      .search-pill {
+        width: 360px;
+      }
+
+      .hero-card {
+        height: 410px;
+      }
+
+      .hero-title {
+        font-size: 34px;
+      }
+
+      .recipe-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px 18px;
+      }
+
+      .meal-cards-stack {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .aisles-wrap {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+      }
+
+      .sheet-backdrop {
+        align-items: center;
+        padding: 28px;
+      }
+
+      .recipe-sheet {
+        max-width: 680px;
+        height: auto;
+        max-height: 90dvh;
+        border-radius: 28px;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.24);
+      }
+
+      .sheet-hero {
+        height: 340px;
+      }
+
+      .sheet-body {
+        min-height: auto;
+        padding-bottom: 100px;
+      }
+
+      .sheet-cta-bar {
+        position: sticky;
+        bottom: 0;
+        border-radius: 0 0 28px 28px;
+      }
+
+      .picker-backdrop {
+        align-items: center;
+      }
+
+      .picker-sheet {
+        border-radius: 26px;
+      }
+
+      .tab-bar {
+        bottom: 18px;
+        width: 424px;
+      }
+
+      .toast {
+        bottom: 96px;
+      }
+    }
+
+    @media (min-width: 920px) {
+      .recipe-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- ÉCRAN 1 : DÉCOUVRIR -->
+    <section id="screen-decouvrir" class="screen is-active" aria-label="Découvrir les recettes">
+      <header class="top-header">
+        <div class="brand-row">
+          <h1 class="brand-mark">Mijote</h1>
+          <span class="brand-greeting">10 recettes express</span>
+        </div>
+        <div class="search-pill">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7.5"></circle>
+            <path d="M20 20l-3.8-3.8"></path>
+          </svg>
+          <input id="search-input" class="search-input" type="search" placeholder="Un plat, un ingrédient..." aria-label="Rechercher une recette ou un ingrédient" autocomplete="off">
+          <button id="search-clear" class="search-clear" type="button" aria-label="Effacer la recherche">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <nav id="category-pills" class="pills-scroller" aria-label="Filtrer par catégorie"></nav>
+
+      <div id="discover-hero-section" class="hero-wrap"></div>
+
+      <section id="discover-quick-section" class="section-block" aria-label="Prêtes en 15 minutes">
+        <div class="section-head">
+          <h2 class="section-title">Prêtes en 15 min</h2>
+          <span id="quick-count" class="section-count">5 recettes</span>
+        </div>
+        <div id="quick-carousel" class="quick-carousel"></div>
+      </section>
+
+      <section class="section-block" aria-label="Toutes les recettes">
+        <div class="section-head">
+          <h2 id="grid-heading" class="section-title">Toutes les recettes</h2>
+          <span id="grid-count" class="section-count">10 plats</span>
+        </div>
+        <div id="recipe-grid" class="recipe-grid"></div>
+        <div id="discover-empty" class="empty-state" style="display:none;">
+          <div class="empty-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7.5"/><path d="M20 20l-3.8-3.8"/></svg>
+          </div>
+          <h3 class="empty-title">Aucune recette trouvée</h3>
+          <p class="empty-text">Essayez un autre ingrédient comme saumon, avocat, poulet ou lentilles.</p>
+          <button id="reset-filters-btn" class="pill-btn-dark" type="button">Afficher toutes les recettes</button>
+        </div>
+      </section>
+    </section>
+
+    <!-- ÉCRAN 2 : MENU -->
+    <section id="screen-menu" class="screen" aria-label="Menu de la semaine">
+      <header class="page-header">
+        <h2 class="page-title">Menu</h2>
+        <p id="menu-subtitle" class="page-sub">Votre semaine équilibrée · 14 repas planifiés</p>
+      </header>
+
+      <div id="day-strip" class="day-strip" role="tablist" aria-label="Jours de la semaine"></div>
+
+      <div id="day-meals" class="meal-cards-stack"></div>
+
+      <div class="compose-bar">
+        <button id="compose-week-btn" class="compose-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 3h5v5"></path>
+            <path d="M4 20L21 3"></path>
+            <path d="M21 16v5h-5"></path>
+            <path d="M15 15l6 6"></path>
+            <path d="M4 4l5 5"></path>
+          </svg>
+          Composer ma semaine
+        </button>
+      </div>
+
+      <div class="week-overview">
+        <div class="section-head" style="padding:0; margin-bottom:10px;">
+          <h3 class="section-title" style="font-size:17px;">Toute la semaine</h3>
+          <span class="section-count">Touchez un jour</span>
+        </div>
+        <div id="week-overview-list" class="week-overview-list"></div>
+      </div>
+    </section>
+
+    <!-- ÉCRAN 3 : COURSES -->
+    <section id="screen-courses" class="screen" aria-label="Liste de courses">
+      <header class="page-header">
+        <h2 class="page-title">Courses</h2>
+        <p id="courses-subtitle" class="page-sub">Liste fusionnée depuis votre menu</p>
+      </header>
+
+      <div class="courses-controls">
+        <div class="portions-bar">
+          <div>
+            <span id="courses-portions-label" class="portions-label">Pour 2 personnes</span>
+            <span class="portions-sub">Quantités recalculées automatiquement</span>
+          </div>
+          <div class="stepper" aria-label="Nombre de personnes">
+            <button id="courses-minus" class="stepper-btn" type="button" aria-label="Retirer une personne">−</button>
+            <span id="courses-portions-val" class="stepper-val tabular">2</span>
+            <button id="courses-plus" class="stepper-btn" type="button" aria-label="Ajouter une personne">+</button>
+          </div>
+        </div>
+
+        <form id="custom-item-form" class="custom-add-form">
+          <input id="custom-item-input" class="custom-add-input" type="text" placeholder="+ Ajouter un article (ex. Café, Pain frais...)" aria-label="Ajouter un article personnalisé" autocomplete="off">
+          <button class="custom-add-submit" type="submit" aria-label="Ajouter l'article">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </form>
+      </div>
+
+      <div id="aisles-wrap" class="aisles-wrap"></div>
+
+      <div class="courses-footer">
+        <button id="copy-list-btn" class="copy-list-btn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          Copier ma liste
+        </button>
+        <button id="reset-checks-btn" class="reset-checks-btn" type="button" style="display:none;">Tout décocher</button>
+      </div>
+    </section>
+
+    <!-- ÉCRAN 4 : FAVORIS -->
+    <section id="screen-favoris" class="screen" aria-label="Recettes favorites">
+      <header class="page-header">
+        <h2 class="page-title">Favoris</h2>
+        <p id="fav-subtitle" class="page-sub">Vos plats coups de cœur</p>
+      </header>
+      <div id="fav-grid" class="recipe-grid"></div>
+      <div id="fav-empty" class="empty-state" style="display:none;">
+        <div class="empty-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h3 class="empty-title">Aucun favori pour l'instant</h3>
+        <p class="empty-text">Touchez le cœur sur une recette pour la retrouver ici à tout moment.</p>
+        <button id="fav-explore-btn" class="pill-btn-dark" type="button">Explorer les recettes</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB BAR iOS TRANSLUCIDE -->
+  <nav class="tab-bar" aria-label="Navigation principale">
+    <button class="tab-item is-active" data-tab="decouvrir" type="button" aria-current="page">
+      <span class="tab-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle>
+          <polygon points="15.8 8.2 13.7 13.7 8.2 15.8 10.3 10.3 15.8 8.2"></polygon>
+        </svg>
+      </span>
+      <span class="tab-label">Découvrir</span>
+    </button>
+    <button class="tab-item" data-tab="menu" type="button">
+      <span class="tab-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3.5" y="4.5" width="17" height="16" rx="3"></rect>
+          <path d="M8 2.5v4M16 2.5v4M3.5 9.5h17"></path>
+        </svg>
+      </span>
+      <span class="tab-label">Menu</span>
+    </button>
+    <button class="tab-item" data-tab="courses" type="button">
+      <span class="tab-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 6h15l-1.5 9h-12z"></path>
+          <path d="M6 6L5 3H2.5"></path>
+          <circle cx="9.5" cy="19.5" r="1.2"></circle>
+          <circle cx="17.5" cy="19.5" r="1.2"></circle>
+        </svg>
+        <span id="courses-tab-badge" class="tab-badge tabular">0</span>
+      </span>
+      <span class="tab-label">Courses</span>
+    </button>
+    <button class="tab-item" data-tab="favoris" type="button">
+      <span class="tab-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+      </span>
+      <span class="tab-label">Favoris</span>
+    </button>
+  </nav>
+
+  <!-- FICHE RECETTE (BOTTOM SHEET / PLEIN ÉCRAN) -->
+  <div id="sheet-backdrop" class="sheet-backdrop" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div id="recipe-sheet" class="recipe-sheet">
+      <div class="sheet-hero">
+        <img id="sheet-img" src="" alt="">
+        <div class="sheet-hero-bar">
+          <button id="sheet-back" class="glass-icon-btn" type="button" aria-label="Fermer la recette">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button id="sheet-fav" class="glass-icon-btn" type="button" aria-label="Ajouter aux favoris">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="sheet-body">
+        <h2 id="sheet-title" class="sheet-title"></h2>
+        <div id="sheet-metrics" class="sheet-metrics"></div>
+
+        <div class="sheet-action-strip">
+          <div class="stepper" aria-label="Portions de la recette">
+            <button id="sheet-minus" class="stepper-btn" type="button" aria-label="Moins de portions">−</button>
+            <span id="sheet-portions-val" class="stepper-val tabular" style="min-width:56px;">2 pers.</span>
+            <button id="sheet-plus" class="stepper-btn" type="button" aria-label="Plus de portions">+</button>
+          </div>
+          <button id="sheet-add-menu" class="sheet-menu-add" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            Ajouter au menu
+          </button>
+        </div>
+
+        <h3 class="sheet-section-title">Ingrédients</h3>
+        <div id="sheet-ingredients" class="sheet-ingredients"></div>
+
+        <h3 class="sheet-section-title">Préparation</h3>
+        <div id="sheet-steps" class="sheet-steps-preview"></div>
+      </div>
+
+      <div class="sheet-cta-bar">
+        <button id="launch-cook-btn" class="sheet-cta-btn" type="button">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+          Lancer le mode cuisine
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL SÉLECTEUR (AJOUTER AU MENU / CHANGER UN PLAT) -->
+  <div id="picker-backdrop" class="picker-backdrop" role="dialog" aria-modal="true" aria-labelledby="picker-title">
+    <div class="picker-sheet">
+      <div class="picker-head">
+        <h3 id="picker-title" class="picker-title">Choisir</h3>
+        <button id="picker-close" class="picker-close" type="button" aria-label="Fermer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div id="picker-content"></div>
+    </div>
+  </div>
+
+  <!-- MODE CUISINE GUIDÉ PLEIN ÉCRAN -->
+  <div id="cook-overlay" class="cook-overlay" role="dialog" aria-modal="true" aria-label="Mode cuisine pas à pas">
+    <div class="cook-top">
+      <button id="cook-close" class="cook-close-btn" type="button" aria-label="Quitter le mode cuisine">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="cook-step-indicator">
+        <div id="cook-step-count" class="cook-step-count tabular">Étape 1 sur 4</div>
+        <div id="cook-dish-name" class="cook-dish-name"></div>
+      </div>
+      <div style="width:44px;"></div>
+    </div>
+    <div class="cook-progress-track">
+      <div class="cook-progress-bg">
+        <div id="cook-progress-fill" class="cook-progress-fill" style="width:25%;"></div>
+      </div>
+    </div>
+
+    <div id="cook-stage" class="cook-stage"></div>
+
+    <div id="cook-footer" class="cook-footer">
+      <div class="cook-nav-inner">
+        <button id="cook-prev" class="cook-prev-btn" type="button">Précédent</button>
+        <button id="cook-next" class="cook-next-btn" type="button">Suivant</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const CATEGORIES = ['Tout', '15 min', 'Protéiné', 'Ce soir', 'Végé', 'Épicé'];
+      const DAYS = [
+        { key: 'lun', short: 'Lun', full: 'Lundi', num: '01' },
+        { key: 'mar', short: 'Mar', full: 'Mardi', num: '02' },
+        { key: 'mer', short: 'Mer', full: 'Mercredi', num: '03' },
+        { key: 'jeu', short: 'Jeu', full: 'Jeudi', num: '04' },
+        { key: 'ven', short: 'Ven', full: 'Vendredi', num: '05' },
+        { key: 'sam', short: 'Sam', full: 'Samedi', num: '06' },
+        { key: 'dim', short: 'Dim', full: 'Dimanche', num: '07' }
+      ];
+      const AISLES = ['Fruits & Légumes', 'Viandes & Poissons', 'Frais', 'Épicerie'];
+
+      // 10 recettes complètes — quantités calibrées pour 2 personnes
+      const RECIPES = [
+        {
+          id: 'yassa',
+          title: 'Poulet Yassa express aux oignons caramélisés',
+          shortTitle: 'Poulet Yassa express',
+          photo: 'assets/photos/yassa.jpg',
+          time: 25,
+          kcal: 520,
+          difficulty: 'Facile',
+          hero: true,
+          tags: ['Protéiné', 'Ce soir', 'Épicé'],
+          ingredients: [
+            { name: 'Hauts de cuisse de poulet désossés', qty: 320, unit: 'g', aisle: 'Viandes & Poissons' },
+            { name: 'Oignons jaunes', qty: 2, unit: 'pièces', aisle: 'Fruits & Légumes' },
+            { name: 'Citron jaune', qty: 1, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Riz jasmin', qty: 160, unit: 'g', aisle: 'Épicerie' },
+            { name: 'Moutarde de Dijon', qty: 1.5, unit: 'c. à s.', aisle: 'Épicerie' },
+            { name: 'Olives vertes dénoyautées', qty: 50, unit: 'g', aisle: 'Épicerie' },
+            { name: 'Persil plat frais', qty: 0.5, unit: 'bouquet', aisle: 'Fruits & Légumes' },
+            { name: 'Huile d’olive', qty: 2, unit: 'c. à s.', aisle: 'Épicerie' }
+          ],
+          steps: [
+            { text: 'Rincez le riz jasmin et lancez sa cuisson dans une casserole d’eau bouillante salée.', tip: 'Couvrez à feu doux pour un riz léger et parfumé.', timerSec: 600 },
+            { text: 'Émincez finement les oignons. Mélangez le poulet avec le jus de citron, la moutarde et une pincée de piment doux.', tip: 'Pressez un demi-citron frais en gardant 2 rondelles pour le dressage.', timerSec: 0 },
+            { text: 'Saisissez le poulet 4 minutes dans une poêle chaude huilée jusqu’à obtenir une belle croûte dorée, puis réservez.', tip: 'Ne surchargez pas la poêle pour que le poulet dore sans bouillir.', timerSec: 240 },
+            { text: 'Faites fondre les oignons dans la même poêle 7 minutes, remettez le poulet avec les olives et 4 c. à s. d’eau puis laissez mijoter.', tip: 'Parsemez de persil frais haché au moment de servir sur le riz chaud.', timerSec: 420 }
+          ]
+        },
+        {
+          id: 'poke-saumon',
+          title: 'Bowl saumon avocat & riz vinaigré',
+          shortTitle: 'Bowl saumon avocat',
+          photo: 'assets/photos/poke-saumon.jpg',
+          time: 15,
+          kcal: 490,
+          difficulty: 'Facile',
+          tags: ['15 min', 'Protéiné'],
+          ingredients: [
+            { name: 'Pavé de saumon frais qualité sushi', qty: 260, unit: 'g', aisle: 'Viandes & Poissons' },
+            { name: 'Riz jasmin', qty: 160, unit: 'g', aisle: 'Épicerie' },
+            { name: 'Avocat mûr', qty: 1, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Concombre', qty: 0.5, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Edamame écossés', qty: 100, unit: 'g', aisle: 'Frais' },
+            { name: 'Sauce soja salée', qty: 2, unit: 'c. à s.', aisle: 'Épicerie' },
+            { name: 'Graines de sésame', qty: 1, unit: 'c. à s.', aisle: 'Épicerie' },
+            { name: 'Citron vert', qty: 0.5, unit: 'pièce', aisle: 'Fruits & Légumes' }
+          ],
+          steps: [
+            { text: 'Faites cuire le riz rincé dans 1,5 fois son volume d’eau à couvert pendant 10 minutes, puis assaisonnez d’un filet de citron vert.', tip: 'Laissez tiédir le riz 2 minutes avant de dresser pour garder le saumon frais.', timerSec: 600 },
+            { text: 'Coupez le saumon en cubes réguliers de 2 cm et enrobez-les de sauce soja et de la moitié du sésame.', tip: 'Un couteau bien aiguisé évite d’écraser la chair.', timerSec: 0 },
+            { text: 'Tranchez l’avocat en éventail, taillez le concombre en rubans fins à l’économe et chauffez les edamame 1 minute.', tip: 'Ajoutez un trait de jus de citron sur l’avocat pour garder sa couleur vive.', timerSec: 0 },
+            { text: 'Répartissez le riz dans deux bols, disposez le saumon, l’avocat, le concombre et les edamame puis terminez avec le sésame.', tip: 'Servez immédiatement avec un trait de sauce soja supplémentaire.', timerSec: 0 }
+          ]
+        },
+        {
+          id: 'pates-tomate',
+          title: 'Rigatoni crémeux tomates rôties & burrata',
+          shortTitle: 'Rigatoni & burrata',
+          photo: 'assets/photos/pates-tomate.jpg',
+          time: 20,
+          kcal: 540,
+          difficulty: 'Facile',
+          tags: ['Ce soir', 'Végé'],
+          ingredients: [
+            { name: 'Rigatoni', qty: 200, unit: 'g', aisle: 'Épicerie' },
+            { name: 'Tomates cerises', qty: 300, unit: 'g', aisle: 'Fruits & Légumes' },
+            { name: 'Burrata fraîche', qty: 1, unit: 'pièce', aisle: 'Frais' },
+            { name: 'Gousses d’ail', qty: 2, unit: 'pièces', aisle: 'Fruits & Légumes' },
+            { name: 'Basilic frais', qty: 0.5, unit: 'bouquet', aisle: 'Fruits & Légumes' },
+            { name: 'Huile d’olive', qty: 2, unit: 'c. à s.', aisle: 'Épicerie' }
+          ],
+          steps: [
+            { text: 'Plongez les rigatoni dans une grande casserole d’eau bouillante bien salée pour une cuisson al dente.', tip: 'Gardez une demi-louche d’eau de cuisson avant d’égoutter.', timerSec: 540 },
+            { text: 'Faites confire les tomates cerises entières dans une poêle chaude avec l’huile d’olive et l’ail écrasé jusqu’à ce qu’elles éclatent.', tip: 'Écrasez légèrement les tomates à la fourchette pour créer une sauce veloutée.', timerSec: 360 },
+            { text: 'Versez les pâtes égouttées et 4 c. à s. d’eau de cuisson dans la poêle. Mélangez vivement 1 minute pour napper.', tip: 'L’amidon de l’eau de cuisson lie naturellement la sauce sans crème.', timerSec: 60 },
+            { text: 'Servez dans deux assiettes creuses, déchirez la burrata fraîche au centre, ajoutez le basilic et un tour de poivre noir.', tip: 'Sortez la burrata 10 minutes avant pour qu’elle soit ultra fondante.', timerSec: 0 }
+          ]
+        },
+        {
+          id: 'shakshuka',
+          title: 'Shakshuka aux poivrons doux & feta',
+          shortTitle: 'Shakshuka & feta',
+          photo: 'assets/photos/shakshuka.jpg',
+          time: 15,
+          kcal: 380,
+          difficulty: 'Facile',
+          tags: ['15 min', 'Végé', 'Épicé'],
+          ingredients: [
+            { name: 'Œufs frais', qty: 4, unit: 'pièces', aisle: 'Frais' },
+            { name: 'Poivron rouge', qty: 1, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Tomates concassées', qty: 400, unit: 'g', aisle: 'Épicerie' },
+            { name: 'Feta', qty: 80, unit: 'g', aisle: 'Frais' },
+            { name: 'Oignons jaunes', qty: 1, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Cumin moulu', qty: 1, unit: 'c. à c.', aisle: 'Épicerie' },
+            { name: 'Coriandre fraîche', qty: 0.5, unit: 'bouquet', aisle: 'Fruits & Légumes' },
+            { name: 'Pain au levain', qty: 2, unit: 'tranches', aisle: 'Épicerie' }
+          ],
+          steps: [
+            { text: 'Faites revenir l’oignon émincé et le poivron en dés dans une poêle huilée avec le cumin et une pointe de paprika.', tip: 'Utilisez une poêle à bord moyen que vous pourrez poser à table.', timerSec: 240 },
+            { text: 'Ajoutez les tomates concassées, salez et laissez réduire 5 minutes à feu moyen pour concentrer la sauce.', tip: 'La sauce doit rester onctueuse, ni trop sèche ni trop liquide.', timerSec: 300 },
+            { text: 'Creusez 4 petits puits dans la sauce, cassez un œuf dans chacun, couvrez et laissez prendre 4 minutes.', tip: 'Surveillez les blancs : les jaunes doivent rester coulants.', timerSec: 240 },
+            { text: 'Émiettez la feta par-dessus, parsemez de coriandre fraîche et servez avec les tranches de pain grillé.', tip: 'Parfait à partager directement à la cuillère dans la poêle.', timerSec: 0 }
+          ]
+        },
+        {
+          id: 'wrap-poulet',
+          title: 'Wraps croustillants poulet grillé & sauce yaourt',
+          shortTitle: 'Wraps poulet grillé',
+          photo: 'assets/photos/wrap-poulet.jpg',
+          time: 15,
+          kcal: 460,
+          difficulty: 'Facile',
+          tags: ['15 min', 'Protéiné'],
+          ingredients: [
+            { name: 'Blanc de poulet', qty: 260, unit: 'g', aisle: 'Viandes & Poissons' },
+            { name: 'Grandes tortillas de blé', qty: 2, unit: 'pièces', aisle: 'Épicerie' },
+            { name: 'Yaourt grec', qty: 100, unit: 'g', aisle: 'Frais' },
+            { name: 'Laitue romaine', qty: 0.5, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Tomates mûres', qty: 2, unit: 'pièces', aisle: 'Fruits & Légumes' },
+            { name: 'Oignon rouge', qty: 0.5, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Citron jaune', qty: 0.5, unit: 'pièce', aisle: 'Fruits & Légumes' }
+          ],
+          steps: [
+            { text: 'Coupez le poulet en aiguillettes, assaisonnez d’épices douces et saisissez-le 5 minutes à feu vif jusqu’à coloration.', tip: 'Un filet d’huile d’olive suffit pour une belle croûte grillée.', timerSec: 300 },
+            { text: 'Mélangez le yaourt grec avec un trait de jus de citron, du sel, du poivre et quelques herbes ciselées.', tip: 'Réservez 2 cuillères de sauce pour tremper les wraps.', timerSec: 0 },
+            { text: 'Garnissez les tortillas de sauce yaourt, laitue croquante, dés de tomates, lamelles d’oignon rouge et poulet chaud, puis roulez serré.', tip: 'Rabattez d’abord les côtés gauche et droit avant de rouler.', timerSec: 0 },
+            { text: 'Toastez les wraps pliure vers le bas 2 minutes dans la poêle sèche chaude pour les rendre dorés et croustillants.', tip: 'Coupez en biais au centre pour un dressage net.', timerSec: 120 }
+          ]
+        },
+        {
+          id: 'curry-lentilles',
+          title: 'Dahl de lentilles corail au lait de coco',
+          shortTitle: 'Dahl lentilles coco',
+          photo: 'assets/photos/curry-lentilles.jpg',
+          time: 25,
+          kcal: 430,
+          difficulty: 'Facile',
+          tags: ['Ce soir', 'Végé', 'Épicé'],
+          ingredients: [
+            { name: 'Lentilles corail', qty: 180, unit: 'g', aisle: 'Épicerie' },
+            { name: 'Lait de coco', qty: 200, unit: 'ml', aisle: 'Épicerie' },
+            { name: 'Tomates concassées', qty: 200, unit: 'g', aisle: 'Épicerie' },
+            { name: 'Oignons jaunes', qty: 1, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Gousses d’ail', qty: 2, unit: 'pièces', aisle: 'Fruits & Légumes' },
+            { name: 'Poudre de curry doux', qty: 2, unit: 'c. à c.', aisle: 'Épicerie' },
+            { name: 'Coriandre fraîche', qty: 0.5, unit: 'bouquet', aisle: 'Fruits & Légumes' },
+            { name: 'Pains naan', qty: 2, unit: 'pièces', aisle: 'Épicerie' }
+          ],
+          steps: [
+            { text: 'Rincez les lentilles corail à l’eau froide. Faites suer l’oignon et l’ail hachés 3 minutes avec le curry dans une casserole.', tip: 'Faire torréfier le curry 30 secondes décuple ses arômes.', timerSec: 180 },
+            { text: 'Ajoutez les lentilles, les tomates concassées, le lait de coco et 250 ml d’eau. Portez à frémissement puis couvrez.', tip: 'Remuez en milieu de cuisson pour éviter que les lentilles n’accrochent.', timerSec: 900 },
+            { text: 'Réchauffez les pains naan 2 minutes à la poêle sèche ou au grille-pain pendant que le dahl épaissit.', tip: 'Un filet de lait de coco cru en spirale sublime le bol.', timerSec: 120 },
+            { text: 'Rectifiez l’assaisonnement, garnissez de coriandre fraîche et servez bien chaud avec les naans.', tip: 'Se conserve 3 jours au frais et est encore meilleur réchauffé.', timerSec: 0 }
+          ]
+        },
+        {
+          id: 'riz-saute',
+          title: 'Riz sauté crevettes, gingembre & sésame',
+          shortTitle: 'Riz sauté crevettes',
+          photo: 'assets/photos/riz-saute.jpg',
+          time: 15,
+          kcal: 470,
+          difficulty: 'Facile',
+          tags: ['15 min', 'Protéiné', 'Épicé'],
+          ingredients: [
+            { name: 'Crevettes décortiquées', qty: 240, unit: 'g', aisle: 'Viandes & Poissons' },
+            { name: 'Riz jasmin', qty: 180, unit: 'g', aisle: 'Épicerie' },
+            { name: 'Œufs frais', qty: 2, unit: 'pièces', aisle: 'Frais' },
+            { name: 'Carotte', qty: 1, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Cébette (oignon nouveau)', qty: 2, unit: 'tiges', aisle: 'Fruits & Légumes' },
+            { name: 'Sauce soja salée', qty: 2, unit: 'c. à s.', aisle: 'Épicerie' },
+            { name: 'Graines de sésame', qty: 1, unit: 'c. à s.', aisle: 'Épicerie' },
+            { name: 'Citron vert', qty: 0.5, unit: 'pièce', aisle: 'Fruits & Légumes' }
+          ],
+          steps: [
+            { text: 'Taillez la carotte en petits dés et émincez la cébette. Saisissez les crevettes 2 minutes dans un wok bien chaud, puis réservez.', tip: 'Dès qu’elles deviennent roses et nacrées, retirez-les pour qu’elles restent tendres.', timerSec: 120 },
+            { text: 'Dans le même wok, faites sauter les dés de carotte 2 minutes, puis poussez sur le côté pour brouiller les œufs rapidement.', tip: 'Travaillez à feu vif pour obtenir le goût sauté du wok.', timerSec: 120 },
+            { text: 'Ajoutez le riz, la sauce soja et les crevettes. Faites sauter 3 minutes sans cesser de mélanger.', tip: 'Un riz cuit de la veille donne des grains encore plus détachés.', timerSec: 180 },
+            { text: 'Hors du feu, ajoutez la cébette fraîche, les graines de sésame et un quartier de citron vert.', tip: 'Pressez le citron vert juste avant de déguster.', timerSec: 0 }
+          ]
+        },
+        {
+          id: 'salade-avocat',
+          title: 'Salade tiède halloumi grillé, avocat & agrumes',
+          shortTitle: 'Salade halloumi & avocat',
+          photo: 'assets/photos/salade-avocat.jpg',
+          time: 15,
+          kcal: 410,
+          difficulty: 'Facile',
+          tags: ['15 min', 'Végé'],
+          ingredients: [
+            { name: 'Fromage halloumi', qty: 200, unit: 'g', aisle: 'Frais' },
+            { name: 'Avocat mûr', qty: 1, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Orange ou pamplemousse', qty: 1, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Roquette fraîche', qty: 80, unit: 'g', aisle: 'Fruits & Légumes' },
+            { name: 'Graines de courge', qty: 2, unit: 'c. à s.', aisle: 'Épicerie' },
+            { name: 'Huile d’olive', qty: 2, unit: 'c. à s.', aisle: 'Épicerie' }
+          ],
+          steps: [
+            { text: 'Pelez l’agrume à vif, prélevez les suprêmes au-dessus d’un bol et récupérez le jus pour la vinaigrette avec l’huile d’olive.', tip: 'Une pincée de fleur de sel réveille la douceur des agrumes.', timerSec: 0 },
+            { text: 'Tranchez le halloumi sur 1 cm d’épaisseur et grillez-le 2 minutes par face dans une poêle chaude jusqu’à ce qu’il soit doré.', tip: 'Ne le bougez pas pendant les 90 premières secondes pour bien marquer la croûte.', timerSec: 240 },
+            { text: 'Disposez la roquette dans deux assiettes creuses, ajoutez l’avocat en tranches et les quartiers d’agrumes.', tip: 'Gardez le halloumi bien chaud pour le contraste chaud-froid.', timerSec: 0 },
+            { text: 'Déposez le halloumi doré sur la salade, arrosez de vinaigrette aux agrumes et parsemez de graines de courge.', tip: 'Dégustez aussitôt tant que le halloumi est souple à cœur.', timerSec: 0 }
+          ]
+        },
+        {
+          id: 'poisson-grille',
+          title: 'Pavé de dorade grillée, patates douces & citron vert',
+          shortTitle: 'Dorade & patates douces',
+          photo: 'assets/photos/poisson-grille.jpg',
+          time: 25,
+          kcal: 450,
+          difficulty: 'Moyen',
+          tags: ['Protéiné', 'Ce soir'],
+          ingredients: [
+            { name: 'Filets de dorade avec peau', qty: 280, unit: 'g', aisle: 'Viandes & Poissons' },
+            { name: 'Patate douce', qty: 320, unit: 'g', aisle: 'Fruits & Légumes' },
+            { name: 'Haricots verts fins', qty: 180, unit: 'g', aisle: 'Fruits & Légumes' },
+            { name: 'Citron vert', qty: 1, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Persil plat frais', qty: 0.5, unit: 'bouquet', aisle: 'Fruits & Légumes' },
+            { name: 'Huile d’olive', qty: 2, unit: 'c. à s.', aisle: 'Épicerie' }
+          ],
+          steps: [
+            { text: 'Coupez la patate douce en petits cubes de 1,5 cm et faites-les rôtir 12 minutes à la poêle chaude avec 1 c. à s. d’huile d’olive.', tip: 'Plus les cubes sont réguliers, plus la cuisson est rapide et caramélisée.', timerSec: 720 },
+            { text: 'Ajoutez les haricots verts équeutés dans la poêle des patates douces pour les 5 dernières minutes avec un filet d’eau.', tip: 'Ils doivent rester vert vif et légèrement croquants.', timerSec: 300 },
+            { text: 'Séchez la peau de la dorade au papier absorbant, puis posez-la côté peau dans une poêle bien chaude 4 minutes sans toucher.', tip: 'Appuyez 10 secondes à la spatule pour une peau parfaitement croustillante.', timerSec: 240 },
+            { text: 'Retournez 1 minute hors du feu, dressez avec les légumes rôtis, les herbes fraîches et le demi-citron vert grillé.', tip: 'Un filet d’huile d’olive crue en finition lie toute l’assiette.', timerSec: 60 }
+          ]
+        },
+        {
+          id: 'veloute-potiron',
+          title: 'Velouté rôti de potimarron, noisettes & ricotta',
+          shortTitle: 'Velouté potimarron & ricotta',
+          photo: 'assets/photos/veloute-potiron.jpg',
+          time: 25,
+          kcal: 360,
+          difficulty: 'Facile',
+          tags: ['Ce soir', 'Végé'],
+          ingredients: [
+            { name: 'Potimarron', qty: 500, unit: 'g', aisle: 'Fruits & Légumes' },
+            { name: 'Ricotta fraîche', qty: 90, unit: 'g', aisle: 'Frais' },
+            { name: 'Noisettes torréfiées', qty: 30, unit: 'g', aisle: 'Épicerie' },
+            { name: 'Oignons jaunes', qty: 1, unit: 'pièce', aisle: 'Fruits & Légumes' },
+            { name: 'Bouillon de légumes', qty: 450, unit: 'ml', aisle: 'Épicerie' },
+            { name: 'Huile d’olive', qty: 1, unit: 'c. à s.', aisle: 'Épicerie' }
+          ],
+          steps: [
+            { text: 'Lavez le potimarron (inutile de l’éplucher), retirez les graines et coupez-le en dés. Faites revenir avec l’oignon émincé 3 minutes.', tip: 'La peau du potimarron fond totalement au mixage et apporte une couleur intense.', timerSec: 180 },
+            { text: 'Couvrez avec le bouillon de légumes chaud et laissez mijoter à couvert pendant 15 minutes jusqu’à ce que la chair soit tendre.', tip: 'Testez la cuisson avec la pointe d’un couteau.', timerSec: 900 },
+            { text: 'Concassez grossièrement les noisettes au couteau et fouettez la ricotta avec une pincée de sel.', tip: 'Torréfier les noisettes 2 minutes à sec décuple leur croquant.', timerSec: 0 },
+            { text: 'Mixez longuement jusqu’à obtenir une texture soyeuse, servez en bol avec une quenelle de ricotta, les noisettes et un filet d’huile d’olive.', tip: 'Ajoutez quelques feuilles de thym frais si vous en avez.', timerSec: 0 }
+          ]
+        }
+      ];
+
+      const DEFAULT_WEEK = {
+        lun: { lunch: 'poke-saumon', dinner: 'yassa' },
+        mar: { lunch: 'wrap-poulet', dinner: 'pates-tomate' },
+        mer: { lunch: 'riz-saute', dinner: 'curry-lentilles' },
+        jeu: { lunch: 'poke-saumon', dinner: 'poisson-grille' },
+        ven: { lunch: 'wrap-poulet', dinner: 'veloute-potiron' },
+        sam: { lunch: 'riz-saute', dinner: 'pates-tomate' },
+        dim: { lunch: 'poke-saumon', dinner: 'yassa' }
+      };
+
+      // Resilient localStorage persistence
+      const STORAGE_KEY = 'mijote_app_state_v1';
+      let memoryFallback = null;
+
+      function loadState() {
+        const fallback = {
+          activeTab: 'decouvrir',
+          activeCategory: 'Tout',
+          searchQuery: '',
+          selectedDay: 'lun',
+          portions: 2,
+          favorites: ['yassa', 'poke-saumon'],
+          menu: JSON.parse(JSON.stringify(DEFAULT_WEEK)),
+          checkedGroceries: {},
+          customItems: []
+        };
+        try {
+          const raw = window.localStorage.getItem(STORAGE_KEY) || memoryFallback;
+          if (!raw) return fallback;
+          const parsed = JSON.parse(raw);
+          return {
+            ...fallback,
+            ...parsed,
+            activeTab: ['decouvrir', 'menu', 'courses', 'favoris'].includes(parsed.activeTab) ? parsed.activeTab : 'decouvrir',
+            portions: Math.min(6, Math.max(1, Number(parsed.portions) || 2)),
+            favorites: Array.isArray(parsed.favorites) ? parsed.favorites : fallback.favorites,
+            menu: parsed.menu && parsed.menu.lun ? parsed.menu : fallback.menu,
+            checkedGroceries: parsed.checkedGroceries && typeof parsed.checkedGroceries === 'object' ? parsed.checkedGroceries : {},
+            customItems: Array.isArray(parsed.customItems) ? parsed.customItems : []
+          };
+        } catch (e) {
+          return fallback;
+        }
+      }
+
+      let state = loadState();
+      let activeRecipeId = null;
+      let sheetPortions = state.portions;
+      let sheetCheckedIngs = {};
+      let cookState = {
+        recipeId: null,
+        stepIndex: 0,
+        timerRemaining: 0,
+        timerTotal: 0,
+        timerRunning: false,
+        intervalId: null
+      };
+
+      function saveState() {
+        const snapshot = JSON.stringify({
+          activeTab: state.activeTab,
+          selectedDay: state.selectedDay,
+          portions: state.portions,
+          favorites: state.favorites,
+          menu: state.menu,
+          checkedGroceries: state.checkedGroceries,
+          customItems: state.customItems
+        });
+        memoryFallback = snapshot;
+        try {
+          window.localStorage.setItem(STORAGE_KEY, snapshot);
+        } catch (e) {
+          // Silent memory fallback
+        }
+      }
+
+      function getRecipe(id) {
+        return RECIPES.find(r => r.id === id) || RECIPES[0];
+      }
+
+      function isInMenu(recipeId) {
+        return DAYS.some(d => state.menu[d.key].lunch === recipeId || state.menu[d.key].dinner === recipeId);
+      }
+
+      function isFavorite(recipeId) {
+        return state.favorites.includes(recipeId);
+      }
+
+      function formatQty(rawQty, unit) {
+        let q = rawQty;
+        let u = unit;
+        if (u === 'g' && q >= 1000) {
+          q = q / 1000;
+          u = 'kg';
+        } else if (u === 'ml' && q >= 1000) {
+          q = q / 1000;
+          u = 'L';
+        }
+        const rounded = Math.round(q * 4) / 4;
+        let numStr;
+        if (Math.abs(rounded - 0.5) < 0.01) numStr = '½';
+        else if (Math.abs(rounded - 0.25) < 0.01) numStr = '¼';
+        else if (Math.abs(rounded - 0.75) < 0.01) numStr = '¾';
+        else if (Math.abs(rounded - Math.round(rounded)) < 0.01) numStr = String(Math.round(rounded));
+        else if (Math.abs((rounded % 1) - 0.5) < 0.01) numStr = Math.floor(rounded) + ',5';
+        else numStr = String(Number(rounded.toFixed(1))).replace('.', ',');
+
+        if (u === 'pièce' && rounded > 1) u = 'pièces';
+        if (u === 'pièces' && rounded <= 1) u = 'pièce';
+        if (u === 'tranches' && rounded <= 1) u = 'tranche';
+        if (u === 'tiges' && rounded <= 1) u = 'tige';
+
+        return `${numStr} ${u}`;
+      }
+
+      function computeGroceries() {
+        const factor = state.portions / 2;
+        const map = new Map();
+        DAYS.forEach(d => {
+          ['lunch', 'dinner'].forEach(slot => {
+            const recipe = getRecipe(state.menu[d.key][slot]);
+            recipe.ingredients.forEach(ing => {
+              const key = `${ing.name.toLowerCase()}__${ing.unit.toLowerCase()}`;
+              if (!map.has(key)) {
+                map.set(key, {
+                  key,
+                  name: ing.name,
+                  unit: ing.unit,
+                  aisle: ing.aisle,
+                  qty: 0
+                });
+              }
+              map.get(key).qty += ing.qty * factor;
+            });
+          });
+        });
+
+        const grouped = {};
+        AISLES.forEach(a => { grouped[a] = []; });
+        map.forEach(item => {
+          if (!grouped[item.aisle]) grouped[item.aisle] = [];
+          grouped[item.aisle].push(item);
+        });
+        Object.keys(grouped).forEach(aisle => {
+          grouped[aisle].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+        });
+        return grouped;
+      }
+
+      function countRemainingGroceries(grouped) {
+        let total = 0;
+        let remaining = 0;
+        AISLES.forEach(aisle => {
+          (grouped[aisle] || []).forEach(item => {
+            total += 1;
+            if (!state.checkedGroceries[item.key]) remaining += 1;
+          });
+        });
+        state.customItems.forEach(ci => {
+          total += 1;
+          if (!ci.checked) remaining += 1;
+        });
+        return { total, remaining };
+      }
+
+      // Toast helper
+      let toastTimer = null;
+      function showToast(msg) {
+        const el = document.getElementById('toast');
+        el.textContent = msg;
+        el.classList.add('is-visible');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('is-visible'), 2300);
+      }
+
+      // Heart SVG helper
+      function heartSvg(filled) {
+        return `<svg viewBox="0 0 24 24" fill="${filled ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+      }
+
+      function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, ch => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[ch]));
+      }
+
+      // --- RENDERERS ---
+
+      function renderTabs() {
+        document.querySelectorAll('.tab-item').forEach(btn => {
+          const active = btn.dataset.tab === state.activeTab;
+          btn.classList.toggle('is-active', active);
+          if (active) btn.setAttribute('aria-current', 'page');
+          else btn.removeAttribute('aria-current');
+        });
+        document.querySelectorAll('.screen').forEach(sec => {
+          sec.classList.toggle('is-active', sec.id === 'screen-' + state.activeTab);
+        });
+      }
+
+      function updateCoursesBadge() {
+        const grouped = computeGroceries();
+        const { remaining } = countRemainingGroceries(grouped);
+        const badge = document.getElementById('courses-tab-badge');
+        badge.textContent = String(remaining);
+        badge.classList.toggle('is-hidden', remaining === 0);
+      }
+
+      function renderDiscover() {
+        // Category pills
+        const pillsEl = document.getElementById('category-pills');
+        pillsEl.innerHTML = CATEGORIES.map(cat => `
+          <button class="cat-pill ${state.activeCategory === cat ? 'is-active' : ''}" data-cat="${escapeHtml(cat)}" type="button">${escapeHtml(cat)}</button>
+        `).join('');
+
+        const q = state.searchQuery.trim().toLowerCase();
+        const isFiltered = Boolean(q) || state.activeCategory !== 'Tout';
+
+        // Hero & 15 min carousel only when browsing default view
+        const heroSection = document.getElementById('discover-hero-section');
+        const quickSection = document.getElementById('discover-quick-section');
+
+        if (!isFiltered) {
+          const hero = RECIPES.find(r => r.hero) || RECIPES[0];
+          const fav = isFavorite(hero.id);
+          heroSection.style.display = '';
+          heroSection.innerHTML = `
+            <article class="hero-card" data-open-recipe="${hero.id}">
+              <img class="hero-img" src="${hero.photo}" alt="${escapeHtml(hero.title)}">
+              <div class="hero-scrim"></div>
+              <div class="hero-top">
+                <span class="glass-pill tabular">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                  ${hero.time} min · ${hero.difficulty}
+                </span>
+                <button class="glass-icon-btn ${fav ? 'is-fav' : ''}" data-toggle-fav="${hero.id}" type="button" aria-label="${fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">
+                  ${heartSvg(fav)}
+                </button>
+              </div>
+              <div class="hero-bottom">
+                <div class="hero-copy">
+                  <span class="hero-kicker">Inspiration du soir</span>
+                  <h2 class="hero-title">${escapeHtml(hero.shortTitle)}</h2>
+                  <p class="hero-meta tabular">${hero.kcal} kcal · ${hero.tags.slice(0, 2).join(' · ')}</p>
+                </div>
+                <button class="btn-tangerine" data-open-recipe="${hero.id}" type="button">Cuisiner</button>
+              </div>
+            </article>
+          `;
+
+          const quickList = RECIPES.filter(r => r.time <= 15);
+          quickSection.style.display = '';
+          document.getElementById('quick-count').textContent = `${quickList.length} recettes`;
+          document.getElementById('quick-carousel').innerHTML = quickList.map(r => {
+            const inM = isInMenu(r.id);
+            return `
+              <article class="quick-card" data-open-recipe="${r.id}">
+                <div class="quick-media">
+                  <img src="${r.photo}" alt="${escapeHtml(r.title)}">
+                  <span class="quick-badge tabular">${r.time} min</span>
+                  <button class="quick-add-btn ${inM ? 'is-in-menu' : ''}" data-quick-menu="${r.id}" type="button" aria-label="Ajouter ${escapeHtml(r.shortTitle)} au menu">
+                    ${inM
+                      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+                      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>'
+                    }
+                  </button>
+                </div>
+                <h3 class="quick-title">${escapeHtml(r.title)}</h3>
+                <p class="quick-sub tabular">${r.kcal} kcal · ${r.tags[1] || r.tags[0]}</p>
+              </article>
+            `;
+          }).join('');
+        } else {
+          heroSection.style.display = 'none';
+          quickSection.style.display = 'none';
+        }
+
+        // Filtered grid
+        const filtered = RECIPES.filter(r => {
+          const matchesCat = state.activeCategory === 'Tout' || r.tags.includes(state.activeCategory);
+          if (!matchesCat) return false;
+          if (!q) return true;
+          const hay = [r.title, r.shortTitle, ...r.tags, ...r.ingredients.map(i => i.name)].join(' ').toLowerCase();
+          return hay.includes(q);
+        });
+
+        const heading = document.getElementById('grid-heading');
+        if (q) heading.textContent = `Résultats pour « ${state.searchQuery.trim()} »`;
+        else if (state.activeCategory !== 'Tout') heading.textContent = state.activeCategory;
+        else heading.textContent = 'Toutes les recettes';
+
+        document.getElementById('grid-count').textContent = `${filtered.length} plat${filtered.length > 1 ? 's' : ''}`;
+
+        const gridEl = document.getElementById('recipe-grid');
+        const emptyEl = document.getElementById('discover-empty');
+        if (filtered.length === 0) {
+          gridEl.innerHTML = '';
+          emptyEl.style.display = '';
+        } else {
+          emptyEl.style.display = 'none';
+          gridEl.innerHTML = filtered.map(renderRecipeCard).join('');
+        }
+      }
+
+      function renderRecipeCard(r) {
+        const fav = isFavorite(r.id);
+        const inM = isInMenu(r.id);
+        return `
+          <article class="recipe-card" data-open-recipe="${r.id}">
+            <div class="recipe-thumb-wrap">
+              <img class="recipe-thumb" src="${r.photo}" alt="${escapeHtml(r.title)}">
+              <button class="card-fav-btn ${fav ? 'is-fav' : ''}" data-toggle-fav="${r.id}" type="button" aria-label="${fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">
+                ${heartSvg(fav)}
+              </button>
+            </div>
+            <h3 class="recipe-card-title">${escapeHtml(r.title)}</h3>
+            <div class="recipe-card-foot">
+              <span class="recipe-time tabular">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                ${r.time} min
+              </span>
+              <button class="mini-menu-btn ${inM ? 'is-in-menu' : ''}" data-quick-menu="${r.id}" type="button">
+                ${inM ? 'Au menu' : '+ Menu'}
+              </button>
+            </div>
+          </article>
+        `;
+      }
+
+      function renderMenu() {
+        const stripEl = document.getElementById('day-strip');
+        stripEl.innerHTML = DAYS.map(d => `
+          <button class="day-pill ${state.selectedDay === d.key ? 'is-active' : ''}" data-select-day="${d.key}" type="button" role="tab" aria-selected="${state.selectedDay === d.key}">
+            <span class="day-name">${d.short}</span>
+            <span class="day-num tabular">${d.num}</span>
+          </button>
+        `).join('');
+
+        const activeDay = DAYS.find(d => d.key === state.selectedDay) || DAYS[0];
+        const dayPlan = state.menu[activeDay.key];
+        const lunch = getRecipe(dayPlan.lunch);
+        const dinner = getRecipe(dayPlan.dinner);
+
+        document.getElementById('menu-subtitle').textContent = `${activeDay.full} · Déjeuner & Dîner prêts à cuisiner`;
+
+        document.getElementById('day-meals').innerHTML = [
+          { slot: 'lunch', label: 'Déjeuner', recipe: lunch },
+          { slot: 'dinner', label: 'Dîner', recipe: dinner }
+        ].map(({ slot, label, recipe }) => `
+          <article class="meal-card">
+            <img class="meal-card-photo" src="${recipe.photo}" alt="${escapeHtml(recipe.title)}" data-open-recipe="${recipe.id}">
+            <div class="meal-card-body">
+              <span class="meal-slot-tag">${label}</span>
+              <h3 class="meal-card-title" data-open-recipe="${recipe.id}">${escapeHtml(recipe.title)}</h3>
+              <p class="meal-card-meta tabular">${recipe.time} min · ${recipe.kcal} kcal</p>
+              <div class="meal-card-actions">
+                <button class="pill-btn-dark" data-open-recipe="${recipe.id}" type="button">Cuisiner</button>
+                <button class="pill-btn-soft" data-swap-slot="${slot}" type="button">Changer</button>
+              </div>
+            </div>
+          </article>
+        `).join('');
+
+        document.getElementById('week-overview-list').innerHTML = DAYS.map(d => {
+          const l = getRecipe(state.menu[d.key].lunch);
+          const dn = getRecipe(state.menu[d.key].dinner);
+          const cur = d.key === state.selectedDay;
+          return `
+            <button class="week-row ${cur ? 'is-current' : ''}" data-select-day="${d.key}" type="button">
+              <span class="week-row-day">${d.short}</span>
+              <span class="week-row-meals">${escapeHtml(l.shortTitle)} · ${escapeHtml(dn.shortTitle)}</span>
+              <span class="week-row-thumbs">
+                <img src="${l.photo}" alt="">
+                <img src="${dn.photo}" alt="">
+              </span>
+            </button>
+          `;
+        }).join('');
+      }
+
+      function renderCourses() {
+        const grouped = computeGroceries();
+        const { total, remaining } = countRemainingGroceries(grouped);
+
+        document.getElementById('courses-portions-label').textContent = `Pour ${state.portions} personne${state.portions > 1 ? 's' : ''}`;
+        document.getElementById('courses-portions-val').textContent = String(state.portions);
+        document.getElementById('courses-minus').disabled = state.portions <= 1;
+        document.getElementById('courses-plus').disabled = state.portions >= 6;
+        document.getElementById('courses-subtitle').textContent = remaining === 0
+          ? 'Tous vos articles sont prêts !'
+          : `${remaining} article${remaining > 1 ? 's' : ''} restant${remaining > 1 ? 's' : ''} sur ${total}`;
+
+        const hasChecked = remaining < total;
+        document.getElementById('reset-checks-btn').style.display = hasChecked ? '' : 'none';
+
+        let html = '';
+        if (state.customItems.length > 0) {
+          const remCustom = state.customItems.filter(c => !c.checked).length;
+          html += `
+            <div class="aisle-group">
+              <div class="aisle-head">
+                <h3 class="aisle-title">Mes ajouts</h3>
+                <span class="aisle-count tabular">${remCustom}/${state.customItems.length}</span>
+              </div>
+              <div class="grocery-card">
+                ${state.customItems.map(item => `
+                  <div class="grocery-row ${item.checked ? 'is-checked' : ''}" data-toggle-custom="${item.id}" role="button" tabindex="0">
+                    <span class="ios-check" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    <span class="grocery-name">${escapeHtml(item.name)}</span>
+                    <button class="custom-del-btn" data-del-custom="${item.id}" type="button" aria-label="Supprimer ${escapeHtml(item.name)}">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        AISLES.forEach(aisle => {
+          const items = grouped[aisle] || [];
+          if (items.length === 0) return;
+          const rem = items.filter(i => !state.checkedGroceries[i.key]).length;
+          html += `
+            <div class="aisle-group">
+              <div class="aisle-head">
+                <h3 class="aisle-title">${escapeHtml(aisle)}</h3>
+                <span class="aisle-count tabular">${rem}/${items.length}</span>
+              </div>
+              <div class="grocery-card">
+                ${items.map(item => {
+                  const checked = Boolean(state.checkedGroceries[item.key]);
+                  return `
+                    <button class="grocery-row ${checked ? 'is-checked' : ''}" data-toggle-grocery="${escapeHtml(item.key)}" type="button" aria-pressed="${checked}">
+                      <span class="ios-check" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      </span>
+                      <span class="grocery-name">${escapeHtml(item.name)}</span>
+                      <span class="grocery-qty tabular">${escapeHtml(formatQty(item.qty, item.unit))}</span>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          `;
+        });
+
+        document.getElementById('aisles-wrap').innerHTML = html;
+        updateCoursesBadge();
+      }
+
+      function renderFavorites() {
+        const favRecipes = RECIPES.filter(r => state.favorites.includes(r.id));
+        const gridEl = document.getElementById('fav-grid');
+        const emptyEl = document.getElementById('fav-empty');
+        document.getElementById('fav-subtitle').textContent = favRecipes.length === 0
+          ? 'Sauvegardez vos plats préférés'
+          : `${favRecipes.length} recette${favRecipes.length > 1 ? 's' : ''} sauvegardée${favRecipes.length > 1 ? 's' : ''}`;
+
+        if (favRecipes.length === 0) {
+          gridEl.innerHTML = '';
+          emptyEl.style.display = '';
+        } else {
+          emptyEl.style.display = 'none';
+          gridEl.innerHTML = favRecipes.map(renderRecipeCard).join('');
+        }
+      }
+
+      function renderAll() {
+        renderTabs();
+        renderDiscover();
+        renderMenu();
+        renderCourses();
+        renderFavorites();
+      }
+
+      // --- RECIPE DETAIL SHEET ---
+
+      function openRecipeSheet(recipeId) {
+        activeRecipeId = recipeId;
+        sheetPortions = state.portions;
+        sheetCheckedIngs = {};
+        renderRecipeSheet();
+        const backdrop = document.getElementById('sheet-backdrop');
+        backdrop.classList.add('is-open');
+        document.body.classList.add('overlay-open');
+        document.getElementById('recipe-sheet').scrollTop = 0;
+      }
+
+      function closeRecipeSheet() {
+        document.getElementById('sheet-backdrop').classList.remove('is-open');
+        if (!document.getElementById('cook-overlay').classList.contains('is-open')) {
+          document.body.classList.remove('overlay-open');
+        }
+      }
+
+      function renderRecipeSheet() {
+        if (!activeRecipeId) return;
+        const r = getRecipe(activeRecipeId);
+        const fav = isFavorite(r.id);
+        const factor = sheetPortions / 2;
+
+        const imgEl = document.getElementById('sheet-img');
+        imgEl.src = r.photo;
+        imgEl.alt = r.title;
+        document.getElementById('sheet-title').textContent = r.title;
+
+        const favBtn = document.getElementById('sheet-fav');
+        favBtn.classList.toggle('is-fav', fav);
+        favBtn.innerHTML = heartSvg(fav);
+        favBtn.setAttribute('aria-label', fav ? 'Retirer des favoris' : 'Ajouter aux favoris');
+
+        document.getElementById('sheet-metrics').innerHTML = `
+          <span class="metric-chip tabular">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            ${r.time} min
+          </span>
+          <span class="metric-chip tabular">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2c1.5 3 4 4.8 4 8.5a4 4 0 1 1-8 0C8 6.8 10.5 5 12 2z"/></svg>
+            ${r.kcal} kcal
+          </span>
+          <span class="metric-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3l2.6 5.4 6 .8-4.3 4.2 1 6-5.3-2.8-5.3 2.8 1-6-4.3-4.2 6-.8z"/></svg>
+            ${r.difficulty}
+          </span>
+        `;
+
+        document.getElementById('sheet-portions-val').textContent = `${sheetPortions} pers.`;
+        document.getElementById('sheet-minus').disabled = sheetPortions <= 1;
+        document.getElementById('sheet-plus').disabled = sheetPortions >= 6;
+
+        document.getElementById('sheet-ingredients').innerHTML = r.ingredients.map((ing, idx) => {
+          const checked = Boolean(sheetCheckedIngs[idx]);
+          return `
+            <button class="grocery-row ${checked ? 'is-checked' : ''}" data-sheet-ing="${idx}" type="button" aria-pressed="${checked}">
+              <span class="ios-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="grocery-name">${escapeHtml(ing.name)}</span>
+              <span class="grocery-qty tabular">${escapeHtml(formatQty(ing.qty * factor, ing.unit))}</span>
+            </button>
+          `;
+        }).join('');
+
+        document.getElementById('sheet-steps').innerHTML = r.steps.map((st, idx) => `
+          <div class="step-preview-item">
+            <span class="step-num-pill tabular">${idx + 1}</span>
+            <div>
+              <p class="step-preview-text">${escapeHtml(st.text)}</p>
+              ${st.timerSec > 0 ? `<span class="step-timer-tag tabular">⏱ ${Math.round(st.timerSec / 60)} min</span>` : ''}
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // --- PICKER MODAL (ADD TO MENU / SWAP MEAL) ---
+
+      let pickerDay = state.selectedDay;
+      let pickerSlot = 'dinner';
+
+      function openAddToMenuPicker(recipeId) {
+        const r = getRecipe(recipeId);
+        pickerDay = state.selectedDay;
+        pickerSlot = 'dinner';
+        document.getElementById('picker-title').textContent = `Planifier : ${r.shortTitle}`;
+
+        function renderAssignPicker() {
+          document.getElementById('picker-content').innerHTML = `
+            <div class="slot-grid">
+              <button class="slot-choice ${pickerSlot === 'lunch' ? 'is-active' : ''}" data-pick-slot="lunch" type="button">Déjeuner</button>
+              <button class="slot-choice ${pickerSlot === 'dinner' ? 'is-active' : ''}" data-pick-slot="dinner" type="button">Dîner</button>
+            </div>
+            <div class="days-grid">
+              ${DAYS.map(d => `
+                <button class="day-choice ${pickerDay === d.key ? 'is-active' : ''}" data-pick-day="${d.key}" type="button">${d.short}</button>
+              `).join('')}
+            </div>
+            <button id="confirm-assign-btn" class="sheet-cta-btn" type="button" style="min-height:48px;">Confirmer dans le menu</button>
+          `;
+        }
+        renderAssignPicker();
+
+        const content = document.getElementById('picker-content');
+        content.onclick = (e) => {
+          const sBtn = e.target.closest('[data-pick-slot]');
+          if (sBtn) { pickerSlot = sBtn.dataset.pickSlot; renderAssignPicker(); return; }
+          const dBtn = e.target.closest('[data-pick-day]');
+          if (dBtn) { pickerDay = dBtn.dataset.pickDay; renderAssignPicker(); return; }
+          if (e.target.closest('#confirm-assign-btn')) {
+            state.menu[pickerDay][pickerSlot] = recipeId;
+            state.selectedDay = pickerDay;
+            saveState();
+            renderAll();
+            closePicker();
+            const dLabel = DAYS.find(d => d.key === pickerDay).full;
+            showToast(`Ajouté au ${pickerSlot === 'lunch' ? 'déjeuner' : 'dîner'} de ${dLabel}`);
+          }
+        };
+
+        document.getElementById('picker-backdrop').classList.add('is-open');
+      }
+
+      function openSwapPicker(slot) {
+        const activeDay = DAYS.find(d => d.key === state.selectedDay) || DAYS[0];
+        document.getElementById('picker-title').textContent = `Changer le ${slot === 'lunch' ? 'déjeuner' : 'dîner'} (${activeDay.short})`;
+        const content = document.getElementById('picker-content');
+        content.innerHTML = `<div class="picker-list">${RECIPES.map(r => `
+          <button class="picker-option" data-swap-recipe="${r.id}" type="button">
+            <img src="${r.photo}" alt="${escapeHtml(r.shortTitle)}">
+            <div>
+              <div class="picker-option-title">${escapeHtml(r.title)}</div>
+              <div class="picker-option-meta tabular">${r.time} min · ${r.kcal} kcal · ${r.tags[0]}</div>
+            </div>
+          </button>
+        `).join('')}</div>`;
+
+        content.onclick = (e) => {
+          const btn = e.target.closest('[data-swap-recipe]');
+          if (!btn) return;
+          const rid = btn.dataset.swapRecipe;
+          state.menu[state.selectedDay][slot] = rid;
+          saveState();
+          renderAll();
+          closePicker();
+          showToast(`${getRecipe(rid).shortTitle} programmé pour ${activeDay.full}`);
+        };
+
+        document.getElementById('picker-backdrop').classList.add('is-open');
+      }
+
+      function closePicker() {
+        document.getElementById('picker-backdrop').classList.remove('is-open');
+      }
+
+      // --- GUIDED COOKING MODE + CIRCULAR TIMER + WEB AUDIO ---
+
+      function playChime() {
+        try {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          const ctx = new AudioCtx();
+          const now = ctx.currentTime;
+          [587.33, 880].forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + i * 0.18);
+            gain.gain.setValueAtTime(0.001, now + i * 0.18);
+            gain.gain.exponentialRampToValueAtTime(0.16, now + i * 0.18 + 0.03);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.18 + 0.75);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + i * 0.18);
+            osc.stop(now + i * 0.18 + 0.8);
+          });
+        } catch (e) {
+          // AudioContext blocked or unavailable
+        }
+      }
+
+      function stopCookTimer() {
+        if (cookState.intervalId) {
+          clearInterval(cookState.intervalId);
+          cookState.intervalId = null;
+        }
+        cookState.timerRunning = false;
+      }
+
+      function formatTimer(sec) {
+        const s = Math.max(0, Math.floor(sec));
+        const m = Math.floor(s / 60);
+        const r = s % 60;
+        return `${String(m).padStart(2, '0')}:${String(r).padStart(2, '0')}`;
+      }
+
+      function openCookMode(recipeId) {
+        stopCookTimer();
+        cookState.recipeId = recipeId;
+        cookState.stepIndex = 0;
+        setupStepTimer();
+        renderCookStage();
+        document.getElementById('cook-overlay').classList.add('is-open');
+        document.body.classList.add('overlay-open');
+      }
+
+      function closeCookMode() {
+        stopCookTimer();
+        document.getElementById('cook-overlay').classList.remove('is-open');
+        if (!document.getElementById('sheet-backdrop').classList.contains('is-open')) {
+          document.body.classList.remove('overlay-open');
+        }
+      }
+
+      function setupStepTimer() {
+        stopCookTimer();
+        const r = getRecipe(cookState.recipeId);
+        const step = r.steps[cookState.stepIndex];
+        if (step && step.timerSec > 0) {
+          cookState.timerTotal = step.timerSec;
+          cookState.timerRemaining = step.timerSec;
+        } else {
+          cookState.timerTotal = 0;
+          cookState.timerRemaining = 0;
+        }
+      }
+
+      function updateTimerRingUI() {
+        const digitsEl = document.getElementById('timer-digits');
+        const stateEl = document.getElementById('timer-state');
+        const arcEl = document.getElementById('timer-arc');
+        const mainBtn = document.getElementById('timer-toggle-btn');
+        if (!digitsEl || !arcEl) return;
+
+        const r = 74;
+        const circumference = 2 * Math.PI * r;
+        const progress = cookState.timerTotal > 0 ? cookState.timerRemaining / cookState.timerTotal : 0;
+        const offset = circumference * (1 - progress);
+
+        digitsEl.textContent = formatTimer(cookState.timerRemaining);
+        arcEl.style.strokeDasharray = String(circumference);
+        arcEl.style.strokeDashoffset = String(offset);
+
+        const isDone = cookState.timerTotal > 0 && cookState.timerRemaining === 0;
+        arcEl.classList.toggle('is-done', isDone);
+        if (stateEl) {
+          stateEl.textContent = isDone ? 'Terminé !' : (cookState.timerRunning ? 'En cours...' : 'Prêt');
+        }
+        if (mainBtn) {
+          mainBtn.classList.toggle('is-running', cookState.timerRunning);
+          mainBtn.textContent = isDone ? 'Relancer' : (cookState.timerRunning ? 'Pause' : 'Démarrer');
+        }
+      }
+
+      function toggleCookTimer() {
+        if (cookState.timerTotal <= 0) return;
+        if (cookState.timerRemaining === 0) {
+          cookState.timerRemaining = cookState.timerTotal;
+        }
+        if (cookState.timerRunning) {
+          stopCookTimer();
+          updateTimerRingUI();
+        } else {
+          cookState.timerRunning = true;
+          updateTimerRingUI();
+          cookState.intervalId = setInterval(() => {
+            cookState.timerRemaining = Math.max(0, cookState.timerRemaining - 1);
+            if (cookState.timerRemaining === 0) {
+              stopCookTimer();
+              playChime();
+              showToast('Minuteur terminé !');
+            }
+            updateTimerRingUI();
+          }, 1000);
+        }
+      }
+
+      function resetCookTimer() {
+        stopCookTimer();
+        cookState.timerRemaining = cookState.timerTotal;
+        updateTimerRingUI();
+      }
+
+      function renderCookStage() {
+        const r = getRecipe(cookState.recipeId);
+        const total = r.steps.length;
+        const isDoneScreen = cookState.stepIndex >= total;
+
+        document.getElementById('cook-dish-name').textContent = r.shortTitle;
+        const progressEl = document.getElementById('cook-progress-fill');
+        const stageEl = document.getElementById('cook-stage');
+        const footerEl = document.getElementById('cook-footer');
+
+        if (isDoneScreen) {
+          document.getElementById('cook-step-count').textContent = 'Recette terminée';
+          progressEl.style.width = '100%';
+          footerEl.style.display = 'none';
+          stageEl.innerHTML = `
+            <div class="cook-done-box">
+              <img class="cook-done-photo" src="${r.photo}" alt="${escapeHtml(r.shortTitle)}">
+              <span class="cook-done-badge">✓ Prêt à servir</span>
+              <h2 class="cook-done-title">Bon appétit !</h2>
+              <p class="cook-done-sub">Votre ${escapeHtml(r.shortTitle.toLowerCase())} est prêt. Profitez de votre repas.</p>
+              <button id="cook-finish-home" class="sheet-cta-btn" type="button" style="max-width:280px;">Retour à Découvrir</button>
+            </div>
+          `;
+          return;
+        }
+
+        const step = r.steps[cookState.stepIndex];
+        document.getElementById('cook-step-count').textContent = `Étape ${cookState.stepIndex + 1} sur ${total}`;
+        progressEl.style.width = `${Math.round(((cookState.stepIndex + 1) / total) * 100)}%`;
+        footerEl.style.display = '';
+
+        const prevBtn = document.getElementById('cook-prev');
+        const nextBtn = document.getElementById('cook-next');
+        prevBtn.disabled = cookState.stepIndex === 0;
+        nextBtn.textContent = cookState.stepIndex === total - 1 ? 'Terminer' : 'Suivant';
+
+        const rCirc = 74;
+        const circumference = (2 * Math.PI * rCirc).toFixed(2);
+        const timerHtml = step.timerSec > 0 ? `
+          <div class="timer-card">
+            <div class="timer-ring-box">
+              <svg class="timer-svg" viewBox="0 0 168 168" aria-hidden="true">
+                <circle class="timer-track" cx="84" cy="84" r="${rCirc}"></circle>
+                <circle id="timer-arc" class="timer-arc" cx="84" cy="84" r="${rCirc}" stroke-dasharray="${circumference}" stroke-dashoffset="0"></circle>
+              </svg>
+              <div class="timer-readout">
+                <span id="timer-digits" class="timer-digits tabular">${formatTimer(cookState.timerRemaining)}</span>
+                <span id="timer-state" class="timer-state">Prêt</span>
+              </div>
+            </div>
+            <div class="timer-controls">
+              <button id="timer-toggle-btn" class="timer-btn-main" type="button">Démarrer</button>
+              <button id="timer-reset-btn" class="timer-btn-reset" type="button">Réinitialiser</button>
+            </div>
+          </div>
+        ` : '';
+
+        stageEl.innerHTML = `
+          <span class="cook-kicker tabular">Étape 0${cookState.stepIndex + 1}</span>
+          <p class="cook-instruction">${escapeHtml(step.text)}</p>
+          ${step.tip ? `<div class="cook-tip">Astuce : ${escapeHtml(step.tip)}</div>` : ''}
+          ${timerHtml}
+        `;
+
+        if (step.timerSec > 0) updateTimerRingUI();
+      }
+
+      // --- SMART WEEK COMPOSER ---
+
+      function composeSmartWeek() {
+        const quickPool = RECIPES.filter(r => r.time <= 15).map(r => r.id);
+        const eveningPool = RECIPES.filter(r => r.time > 15).map(r => r.id);
+        const shuffle = (arr) => {
+          const copy = arr.slice();
+          for (let i = copy.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [copy[i], copy[j]] = [copy[j], copy[i]];
+          }
+          return copy;
+        };
+        const lunches = shuffle([...quickPool, ...quickPool]).slice(0, 7);
+        const dinners = shuffle([...eveningPool, ...eveningPool]).slice(0, 7);
+
+        DAYS.forEach((d, idx) => {
+          let lunch = lunches[idx];
+          let dinner = dinners[idx];
+          if (lunch === dinner) {
+            dinner = RECIPES[(idx + 3) % RECIPES.length].id;
+          }
+          state.menu[d.key] = { lunch, dinner };
+        });
+        state.checkedGroceries = {};
+        saveState();
+        renderAll();
+        showToast('Nouvelle semaine composée en 1 tap');
+      }
+
+      // --- WHATSAPP COPY LIST ---
+
+      function copyShoppingList() {
+        const grouped = computeGroceries();
+        const lines = [`Liste de courses Mijote (${state.portions} pers.)`, ''];
+        if (state.customItems.length > 0) {
+          lines.push('Mes ajouts :');
+          state.customItems.forEach(item => {
+            lines.push(`${item.checked ? '✓' : '○'} ${item.name}`);
+          });
+          lines.push('');
+        }
+        AISLES.forEach(aisle => {
+          const items = grouped[aisle] || [];
+          if (items.length === 0) return;
+          lines.push(`${aisle} :`);
+          items.forEach(item => {
+            const mark = state.checkedGroceries[item.key] ? '✓' : '○';
+            lines.push(`${mark} ${item.name} (${formatQty(item.qty, item.unit)})`);
+          });
+          lines.push('');
+        });
+        const text = lines.join('\n').trim();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text)
+            .then(() => showToast('Liste copiée pour WhatsApp'))
+            .catch(() => fallbackCopy(text));
+        } else {
+          fallbackCopy(text);
+        }
+      }
+
+      function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showToast('Liste copiée pour WhatsApp');
+        } catch (e) {
+          showToast('Liste prête à copier');
+        }
+        document.body.removeChild(ta);
+      }
+
+      // --- EVENT DELEGATION ---
+
+      document.querySelector('.tab-bar').addEventListener('click', (e) => {
+        const btn = e.target.closest('.tab-item');
+        if (!btn) return;
+        state.activeTab = btn.dataset.tab;
+        saveState();
+        renderTabs();
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      });
+
+      const searchInput = document.getElementById('search-input');
+      const searchClear = document.getElementById('search-clear');
+      searchInput.addEventListener('input', () => {
+        state.searchQuery = searchInput.value;
+        searchClear.classList.toggle('is-visible', state.searchQuery.length > 0);
+        renderDiscover();
+      });
+      searchClear.addEventListener('click', () => {
+        state.searchQuery = '';
+        searchInput.value = '';
+        searchClear.classList.remove('is-visible');
+        renderDiscover();
+        searchInput.focus();
+      });
+
+      document.getElementById('reset-filters-btn').addEventListener('click', () => {
+        state.searchQuery = '';
+        state.activeCategory = 'Tout';
+        searchInput.value = '';
+        searchClear.classList.remove('is-visible');
+        renderDiscover();
+      });
+
+      document.getElementById('fav-explore-btn').addEventListener('click', () => {
+        state.activeTab = 'decouvrir';
+        saveState();
+        renderTabs();
+      });
+
+      document.getElementById('compose-week-btn').addEventListener('click', composeSmartWeek);
+      document.getElementById('copy-list-btn').addEventListener('click', copyShoppingList);
+      document.getElementById('reset-checks-btn').addEventListener('click', () => {
+        state.checkedGroceries = {};
+        state.customItems.forEach(c => { c.checked = false; });
+        saveState();
+        renderCourses();
+        showToast('Liste réinitialisée');
+      });
+
+      document.getElementById('courses-minus').addEventListener('click', () => {
+        if (state.portions > 1) {
+          state.portions -= 1;
+          saveState();
+          renderCourses();
+        }
+      });
+      document.getElementById('courses-plus').addEventListener('click', () => {
+        if (state.portions < 6) {
+          state.portions += 1;
+          saveState();
+          renderCourses();
+        }
+      });
+
+      document.getElementById('custom-item-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = document.getElementById('custom-item-input');
+        const name = input.value.trim();
+        if (!name) return;
+        state.customItems.unshift({ id: 'c_' + Date.now(), name, checked: false });
+        input.value = '';
+        saveState();
+        renderCourses();
+        showToast(`${name} ajouté aux courses`);
+      });
+
+      // Global delegated click handlers for dynamic cards/lists
+      document.querySelector('.app-shell').addEventListener('click', (e) => {
+        const catBtn = e.target.closest('[data-cat]');
+        if (catBtn) {
+          state.activeCategory = catBtn.dataset.cat;
+          renderDiscover();
+          return;
+        }
+
+        const favBtn = e.target.closest('[data-toggle-fav]');
+        if (favBtn) {
+          e.stopPropagation();
+          const rid = favBtn.dataset.toggleFav;
+          if (isFavorite(rid)) {
+            state.favorites = state.favorites.filter(id => id !== rid);
+            showToast('Retiré des favoris');
+          } else {
+            state.favorites.push(rid);
+            showToast('Ajouté aux favoris');
+          }
+          saveState();
+          renderDiscover();
+          renderFavorites();
+          return;
+        }
+
+        const quickMenuBtn = e.target.closest('[data-quick-menu]');
+        if (quickMenuBtn) {
+          e.stopPropagation();
+          openAddToMenuPicker(quickMenuBtn.dataset.quickMenu);
+          return;
+        }
+
+        const dayBtn = e.target.closest('[data-select-day]');
+        if (dayBtn) {
+          state.selectedDay = dayBtn.dataset.selectDay;
+          saveState();
+          renderMenu();
+          return;
+        }
+
+        const swapBtn = e.target.closest('[data-swap-slot]');
+        if (swapBtn) {
+          openSwapPicker(swapBtn.dataset.swapSlot);
+          return;
+        }
+
+        const delCustom = e.target.closest('[data-del-custom]');
+        if (delCustom) {
+          e.stopPropagation();
+          const cid = delCustom.dataset.delCustom;
+          state.customItems = state.customItems.filter(c => c.id !== cid);
+          saveState();
+          renderCourses();
+          return;
+        }
+
+        const toggleCustom = e.target.closest('[data-toggle-custom]');
+        if (toggleCustom) {
+          const cid = toggleCustom.dataset.toggleCustom;
+          const found = state.customItems.find(c => c.id === cid);
+          if (found) {
+            found.checked = !found.checked;
+            saveState();
+            renderCourses();
+          }
+          return;
+        }
+
+        const toggleGrocery = e.target.closest('[data-toggle-grocery]');
+        if (toggleGrocery) {
+          const key = toggleGrocery.dataset.toggleGrocery;
+          state.checkedGroceries[key] = !state.checkedGroceries[key];
+          saveState();
+          renderCourses();
+          return;
+        }
+
+        const openBtn = e.target.closest('[data-open-recipe]');
+        if (openBtn) {
+          openRecipeSheet(openBtn.dataset.openRecipe);
+        }
+      });
+
+      // Recipe Sheet events
+      document.getElementById('sheet-back').addEventListener('click', closeRecipeSheet);
+      document.getElementById('sheet-backdrop').addEventListener('click', (e) => {
+        if (e.target.id === 'sheet-backdrop') closeRecipeSheet();
+      });
+      document.getElementById('sheet-fav').addEventListener('click', () => {
+        if (!activeRecipeId) return;
+        if (isFavorite(activeRecipeId)) {
+          state.favorites = state.favorites.filter(id => id !== activeRecipeId);
+          showToast('Retiré des favoris');
+        } else {
+          state.favorites.push(activeRecipeId);
+          showToast('Ajouté aux favoris');
+        }
+        saveState();
+        renderRecipeSheet();
+        renderDiscover();
+        renderFavorites();
+      });
+      document.getElementById('sheet-minus').addEventListener('click', () => {
+        if (sheetPortions > 1) {
+          sheetPortions -= 1;
+          renderRecipeSheet();
+        }
+      });
+      document.getElementById('sheet-plus').addEventListener('click', () => {
+        if (sheetPortions < 6) {
+          sheetPortions += 1;
+          renderRecipeSheet();
+        }
+      });
+      document.getElementById('sheet-add-menu').addEventListener('click', () => {
+        if (activeRecipeId) openAddToMenuPicker(activeRecipeId);
+      });
+      document.getElementById('sheet-ingredients').addEventListener('click', (e) => {
+        const row = e.target.closest('[data-sheet-ing]');
+        if (!row) return;
+        const idx = row.dataset.sheetIng;
+        sheetCheckedIngs[idx] = !sheetCheckedIngs[idx];
+        renderRecipeSheet();
+      });
+      document.getElementById('launch-cook-btn').addEventListener('click', () => {
+        if (activeRecipeId) openCookMode(activeRecipeId);
+      });
+
+      // Picker close
+      document.getElementById('picker-close').addEventListener('click', closePicker);
+      document.getElementById('picker-backdrop').addEventListener('click', (e) => {
+        if (e.target.id === 'picker-backdrop') closePicker();
+      });
+
+      // Cook Mode events
+      document.getElementById('cook-close').addEventListener('click', closeCookMode);
+      document.getElementById('cook-prev').addEventListener('click', () => {
+        if (cookState.stepIndex > 0) {
+          cookState.stepIndex -= 1;
+          setupStepTimer();
+          renderCookStage();
+        }
+      });
+      document.getElementById('cook-next').addEventListener('click', () => {
+        const r = getRecipe(cookState.recipeId);
+        if (cookState.stepIndex < r.steps.length) {
+          cookState.stepIndex += 1;
+          setupStepTimer();
+          renderCookStage();
+        }
+      });
+      document.getElementById('cook-stage').addEventListener('click', (e) => {
+        if (e.target.closest('#timer-toggle-btn')) {
+          toggleCookTimer();
+          return;
+        }
+        if (e.target.closest('#timer-reset-btn')) {
+          resetCookTimer();
+          return;
+        }
+        if (e.target.closest('#cook-finish-home')) {
+          closeCookMode();
+          closeRecipeSheet();
+          state.activeTab = 'decouvrir';
+          saveState();
+          renderTabs();
+        }
+      });
+
+      // Keyboard Escape support
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if (document.getElementById('picker-backdrop').classList.contains('is-open')) {
+          closePicker();
+        } else if (document.getElementById('cook-overlay').classList.contains('is-open')) {
+          closeCookMode();
+        } else if (document.getElementById('sheet-backdrop').classList.contains('is-open')) {
+          closeRecipeSheet();
+        }
+      });
+
+      // Initial render
+      renderAll();
+    })();
+  </script>
+</body>
+</html>

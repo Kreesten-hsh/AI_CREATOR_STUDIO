@@ -7,10 +7,10 @@ Direction artistique par défaut pour toutes les futures créations organiques :
 ## Structure
 
 - `docs/` — Documents stratégiques & techniques :
-  - [`CONTENT_OPERATING_SYSTEM.md`](./docs/CONTENT_OPERATING_SYSTEM.md) — Source de vérité éditoriale (média multi-secteurs, audiences A/B, 4 piliers × 8 secteurs, 6 statuts d'exemples, workflow 10 hooks → Top 3, cadence `4 carrousels + 2 vidéos + Stories`, 17 champs par brief)
-  - [`VOICE_AND_COPY_BIBLE.md`](./docs/VOICE_AND_COPY_BIBLE.md) — Voix orale au tutoiement, rigueur factuelle, zéro jargon développeur, zéro prix en public, CTAs différenciés par pilier
+  - [`CONTENT_OPERATING_SYSTEM.md`](./docs/CONTENT_OPERATING_SYSTEM.md) — Source de vérité éditoriale (Règle Éditoriale Absolue, Pont `Attraction → Confiance → Conversion`, Audiences A/B, 3 marchés terrains de démo, structure 8 temps, brief court 7 lignes)
+  - [`VOICE_AND_COPY_BIBLE.md`](./docs/VOICE_AND_COPY_BIBLE.md) — Voix orale au tutoiement, rigueur factuelle, zéro jargon développeur, zéro prix en public, CTAs reliés au Pont
   - [`STUDIO_BIBLE.md`](./docs/STUDIO_BIBLE.md) — DA **Éditoriale Sobre Studio Lin par défaut**, audit `/100`, système Carrousel `3:4` et 5 Connecteurs Visuels
-  - [`CONTENT_PLAN_WEEK_01.md`](./docs/CONTENT_PLAN_WEEK_01.md) — Planning hebdomadaire actif (4 carrousels `3:4` + 2 vidéos faceless `9:16` + Stories)
+  - [`CONTENT_IDEAS_BANK.md`](./docs/CONTENT_IDEAS_BANK.md) — Banque d'idées organisée selon le Pont `Attraction → Confiance → Conversion`
   - [`voice.md`](./docs/voice.md) — Périmètre distinct consacré aux publicités payantes (Meta Ads)
 - `carousels/` — Moteur HTML/PNG (`carousel.css` en mode éditorial sobre par défaut, `slide.html`, audit DOM `check.js`, rendu `render_carousel.mjs`)
 - `engine/` — Moteur Remotion (`theme.ts` avec `DEFAULT_VISUAL_STYLE = 'editorial'` et `EDITORIAL`, `Primitives.tsx`, `DemoStage.tsx`, `CoreBlueprints.tsx`, `Root.tsx`)

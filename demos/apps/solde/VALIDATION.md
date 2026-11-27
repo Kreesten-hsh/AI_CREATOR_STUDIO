@@ -1,6 +1,6 @@
 # RAPPORT DE VALIDATION TECHNIQUE & PÉDAGOGIQUE — SOLDE.
 
-Ce document constitue le dossier de référence du produit fil rouge **SOLDE. · Planificateur de Budget & Objectifs** ([index.html](file:///home/hasashi/Bureau/AI_CREATOR_STUDIO/docs/examples/solde/index.html)), application web autonome (HTML/CSS/JS zéro dépendance) distribuée comme exemple canonique d'AI CREATOR Studio.
+Ce document constitue le dossier de référence du produit fil rouge **SOLDE. · Planificateur de Budget & Objectifs** ([index.html](index.html)), application web autonome (HTML/CSS/JS zéro dépendance) distribuée comme exemple canonique d'AI CREATOR Studio.
 
 ---
 

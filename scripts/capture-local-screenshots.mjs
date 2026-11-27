@@ -376,7 +376,7 @@ async function run() {
       if (u.startsWith('http://127.0.0.1') || u.startsWith('data:') || u.startsWith('blob:')) return route.continue();
       return route.abort();
     });
-    await gatePage.goto(`${rootBaseUrl}/docs/examples/solde/index.html`, { waitUntil: 'load' });
+    await gatePage.goto(`${rootBaseUrl}/demos/apps/solde/index.html`, { waitUntil: 'load' });
     await gatePage.waitForTimeout(300);
     const gateOut = path.join(rootDir, 'public/screenshots/module-02/l4-solde-gate-screen.png');
     ensureDir(gateOut);
@@ -395,7 +395,7 @@ async function run() {
     await mobPage.addInitScript(() => {
       localStorage.setItem('solde_access', 'ok');
     });
-    await mobPage.goto(`${rootBaseUrl}/docs/examples/solde/index.html`, { waitUntil: 'load' });
+    await mobPage.goto(`${rootBaseUrl}/demos/apps/solde/index.html`, { waitUntil: 'load' });
     await mobPage.waitForTimeout(450);
     const overflowMob = await mobPage.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
@@ -425,7 +425,7 @@ async function run() {
     await deskPage.addInitScript(() => {
       localStorage.setItem('solde_access', 'ok');
     });
-    await deskPage.goto(`${rootBaseUrl}/docs/examples/solde/index.html`, { waitUntil: 'load' });
+    await deskPage.goto(`${rootBaseUrl}/demos/apps/solde/index.html`, { waitUntil: 'load' });
     await deskPage.waitForTimeout(450);
     const deskOut = path.join(rootDir, 'public/screenshots/module-02/l5-solde-desktop-final.png');
     ensureDir(deskOut);

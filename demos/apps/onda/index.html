@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#F7F6F2" />
+<title>Onda : Reset 21 Jours</title>
+<style>
+/* Hallmark · Editorial Print Journal (Kinfolk / Stoic / Monocle) · Zero AI-slop, Top Underline Nav */
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('../../../public/fonts/InstrumentSerif-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('../../../public/fonts/InstrumentSerif-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../../../public/fonts/PlusJakartaSans-latin.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../../../public/fonts/PlusJakartaSans-latin-ext.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../../../public/fonts/JetBrainsMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../../../public/fonts/JetBrainsMono-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg: #F7F6F2;
+  --surface: #FFFFFF;
+  --surface-soft: #EFECE5;
+  --surface-overlay: rgba(23, 32, 28, 0.45);
+  --ink: #17201C;
+  --ink-2: #525D58;
+  --ink-3: #7E8883;
+  --accent: #2E5A47;
+  --accent-hover: #234737;
+  --accent-soft: #E6EFEA;
+  --sage: #2E5A47;
+  --sage-soft: #E6EFEA;
+  --hairline: #E3E0D7;
+  --hairline-strong: #C9C5BA;
+  --white: #FFFFFF;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  overflow-x: clip;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button, input, textarea {
+  font-family: var(--font-sans);
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* App Shell (No Fixed Bottom Bar - Full Breathing Room) */
+.app-shell {
+  max-width: 820px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  padding: 0 22px 56px;
+}
+
+/* Editorial Masthead (Plain Typography, Zero Dots, Zero Pills) */
+.top-bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 22px 0 12px;
+  gap: 16px;
+}
+
+.brand-mark {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.day-pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  min-height: 44px;
+  padding: 0 2px;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: color 140ms ease;
+}
+
+.day-pill:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.day-pill-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* TOP EDITORIAL UNDERLINE TAB BAR (Replaces Bottom Dock Completely) */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background-color: var(--bg);
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  margin: 0 -22px 26px;
+  padding: 0 22px;
+}
+
+.top-nav-inner {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.tab-btn {
+  position: relative;
+  flex: 0 0 auto;
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2px;
+  color: var(--ink-3);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: color 140ms ease;
+}
+
+.tab-btn:hover {
+  color: var(--ink);
+}
+
+.tab-btn.is-active {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.tab-btn.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background-color: var(--ink);
+}
+
+/* Views */
+.view {
+  display: none;
+}
+
+.view.is-active {
+  display: block;
+}
+
+/* Section rhythm */
+.section-block {
+  margin-top: 34px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  line-height: 1.1;
+  font-weight: 400;
+  color: var(--ink);
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+.section-meta {
+  font-size: 13px;
+  color: var(--ink-2);
+  font-weight: 500;
+}
+
+/* EDITORIAL DAILY BRIEFING (Open Paper Sheet - Zero Dark Card, Zero Text-Over-Photo) */
+.daily-briefing {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hero-phase {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 9.2vw, 48px);
+  line-height: 1.02;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  max-width: 17ch;
+}
+
+.hero-desc {
+  font-size: 15px;
+  line-height: 1.56;
+  color: var(--ink-2);
+  max-width: 52ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: var(--radius-sm);
+  background-color: var(--ink);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 140ms ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent);
+}
+
+.btn-primary.is-sage {
+  background-color: var(--sage);
+}
+
+.btn-link-editorial {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--hairline-strong);
+  transition: text-decoration-color 140ms ease, color 140ms ease;
+}
+
+.btn-link-editorial:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  background-color: var(--surface);
+  border: 1px solid var(--hairline-strong);
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--surface-soft);
+}
+
+/* Clean Unobstructed Editorial Photograph Band */
+.editorial-photo-band {
+  margin-top: 8px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background-color: var(--surface-soft);
+}
+
+.editorial-photo-band img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 44%;
+}
+
+/* Open Hairline 1-3-1 Checklist (Zero Nested Card Stack) */
+.priority-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 0;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.check-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--hairline-strong);
+  background: var(--surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: transparent;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.check-circle.is-done {
+  background-color: var(--sage);
+  border-color: var(--sage);
+  color: var(--white);
+}
+
+.priority-input-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.priority-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 3px;
+}
+
+.priority-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 2px 0;
+}
+
+.priority-input::placeholder {
+  color: var(--ink-3);
+  font-weight: 400;
+}
+
+.priority-input.is-done {
+  text-decoration: line-through;
+  color: var(--ink-3);
+}
+
+.habit-list {
+  list-style: none;
+}
+
+.habit-item {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.habit-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 0;
+  text-align: left;
+  min-width: 0;
+}
+
+.habit-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.habit-kicker {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.habit-text {
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+
+.habit-item.is-done .habit-kicker {
+  color: var(--ink-3);
+  text-decoration: line-through;
+}
+
+.habit-item.is-done .habit-text {
+  color: var(--ink-3);
+}
+
+/* Energy Selector (Flat Paper Cells) */
+.energy-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.energy-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 60px;
+  padding: 8px 4px;
+  border-radius: var(--radius-sm);
+  background-color: var(--surface);
+  border: 1px solid var(--hairline);
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.energy-btn:hover {
+  border-color: var(--hairline-strong);
+}
+
+.energy-btn.is-active {
+  background-color: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+}
+
+.energy-num {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.energy-word {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.energy-btn.is-active .energy-word {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Quick Rituals - Editorial Print List with Square Side Thumbnails */
+.rituals-grid {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--hairline);
+}
+
+.ritual-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--hairline);
+  text-align: left;
+  transition: opacity 140ms ease;
+}
+
+.ritual-card:hover {
+  opacity: 0.78;
+}
+
+.ritual-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ritual-name {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.ritual-sub {
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+
+.ritual-media {
+  width: 68px;
+  height: 68px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background-color: var(--surface-soft);
+  flex-shrink: 0;
+}
+
+.ritual-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* PARCOURS VIEW */
+.progress-lockup {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.progress-big {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  line-height: 0.96;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.progress-caption {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  margin-top: 6px;
+}
+
+.progress-pct {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-track {
+  width: 100%;
+  height: 3px;
+  background-color: var(--hairline);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--accent);
+  transform-origin: left center;
+  transition: transform 260ms ease;
+}
+
+/* 21-Day Rhythm Grid */
+.rhythm-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  margin-bottom: 22px;
+}
+
+.rhythm-cell {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.rhythm-cell.is-done {
+  background-color: var(--accent);
+  color: var(--white);
+}
+
+.rhythm-cell.is-current {
+  border-color: var(--ink);
+  color: var(--ink);
+  background-color: var(--surface);
+  font-weight: 700;
+}
+
+.rhythm-cell.is-current.is-done {
+  background-color: var(--accent);
+  border-color: var(--ink);
+  color: var(--white);
+}
+
+/* Week Filter Bar */
+.week-pills {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+
+.week-pill {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: var(--radius-sm);
+  background-color: var(--surface);
+  border: 1px solid var(--hairline);
+  color: var(--ink-2);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.week-pill.is-active {
+  background-color: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+}
+
+/* Daily Editorial Rows */
+.days-list {
+  list-style: none;
+  border-top: 1px solid var(--hairline);
+}
+
+.day-row-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--hairline);
+  text-align: left;
+  transition: opacity 140ms ease;
+}
+
+.day-row-btn:hover {
+  opacity: 0.74;
+}
+
+.day-row-left {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  min-width: 0;
+}
+
+.day-num-col {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.day-row-btn.is-done .day-num-col,
+.day-row-btn.is-current .day-num-col {
+  color: var(--accent);
+}
+
+.day-row-info {
+  min-width: 0;
+}
+
+.day-row-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  overflow-wrap: break-word;
+}
+
+.day-row-theme {
+  display: block;
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-top: 2px;
+}
+
+.day-row-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  color: var(--ink-3);
+}
+
+.status-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sage);
+}
+
+.status-tag-today {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* FOCUS VIEW (Clean Flat Sage 60-Tick Precision Dial - Zero Gradients) */
+.mode-switch {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: var(--surface-soft);
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 22px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.mode-btn {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 4px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.mode-btn.is-active {
+  background-color: var(--surface);
+  color: var(--ink);
+}
+
+.focus-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 4px 0 16px;
+}
+
+.focus-card-surface {
+  width: 100%;
+  max-width: 440px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 26px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.preset-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.preset-btn {
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--hairline-strong);
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.preset-btn.is-active {
+  background-color: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+}
+
+.timer-ring-wrap {
+  position: relative;
+  width: 256px;
+  height: 256px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.timer-svg {
+  width: 256px;
+  height: 256px;
+}
+
+.dial-tick {
+  stroke: #DFDDD4;
+  stroke-width: 2.5;
+  stroke-linecap: butt;
+  transition: stroke 160ms ease;
+}
+
+.dial-tick.is-lit {
+  stroke: var(--accent);
+}
+
+.timer-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.timer-clock {
+  font-family: var(--font-mono);
+  font-size: 46px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.timer-finish-at {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.timer-state {
+  font-size: 12px;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.focus-task-note {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  max-width: 34ch;
+  margin-bottom: 20px;
+}
+
+.focus-task-note strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.focus-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.btn-dial-main {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 140ms ease;
+}
+
+.btn-dial-main:hover {
+  background: var(--accent);
+}
+
+.sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  padding: 0 12px;
+}
+
+.sound-toggle:hover {
+  color: var(--ink);
+}
+
+/* Breathing Sanctuary (Flat Tactile Concentric Rings) */
+.breath-orb-wrap {
+  position: relative;
+  width: 230px;
+  height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0 22px;
+}
+
+.breath-halo {
+  position: absolute;
+  width: 174px;
+  height: 174px;
+  border-radius: 50%;
+  background-color: var(--accent-soft);
+  transform: scale(0.86);
+  transition: transform 900ms ease, opacity 900ms ease;
+}
+
+.breath-core {
+  position: relative;
+  z-index: 2;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  border: 1.5px solid var(--accent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transform: scale(0.92);
+  transition: transform 900ms ease;
+}
+
+.breath-orb-wrap.phase-inhale .breath-halo { transform: scale(1.24); opacity: 1; }
+.breath-orb-wrap.phase-inhale .breath-core { transform: scale(1.06); }
+.breath-orb-wrap.phase-hold .breath-halo { transform: scale(1.24); opacity: 0.85; }
+.breath-orb-wrap.phase-hold .breath-core { transform: scale(1.06); }
+.breath-orb-wrap.phase-exhale .breath-halo { transform: scale(0.82); opacity: 0.6; }
+.breath-orb-wrap.phase-exhale .breath-core { transform: scale(0.90); }
+
+.breath-phase-label {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.breath-sec {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* BILAN VIEW */
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 18px 0;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.kpi-item {
+  min-width: 0;
+}
+
+.kpi-value {
+  font-family: var(--font-serif);
+  font-size: 36px;
+  line-height: 1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi-label {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  font-weight: 500;
+  margin-top: 6px;
+}
+
+/* SVG Energy Curve */
+.chart-wrap {
+  padding: 16px 14px 12px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+
+.energy-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chart-axis-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 8px;
+}
+
+/* Evening Journal */
+.journal-form {
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  padding: 4px 18px;
+}
+
+.journal-field {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.journal-field:last-child {
+  border-bottom: none;
+}
+
+.journal-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+}
+
+.journal-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  resize: none;
+  min-height: 28px;
+}
+
+.journal-input::placeholder {
+  color: var(--ink-3);
+}
+
+.journal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.save-hint {
+  font-size: 13px;
+  color: var(--sage);
+  font-weight: 600;
+}
+
+.archive-list {
+  list-style: none;
+  border-top: 1px solid var(--hairline);
+}
+
+.archive-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.archive-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.archive-day {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.archive-energy {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.archive-line {
+  font-size: 14px;
+  color: var(--ink);
+  margin-top: 3px;
+}
+
+/* DAY DETAIL SHEET (Modal) */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background-color: var(--surface-overlay);
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.sheet-backdrop.is-open {
+  display: flex;
+}
+
+.sheet-panel {
+  width: 100%;
+  max-width: 560px;
+  max-height: 90dvh;
+  overflow-y: auto;
+  background-color: var(--bg);
+  border-radius: 16px 16px 0 0;
+  border-top: 1px solid var(--hairline-strong);
+}
+
+.sheet-photo-wrap {
+  position: relative;
+  height: 210px;
+  overflow: hidden;
+  background-color: var(--ink);
+}
+
+.sheet-photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sheet-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background-color: var(--surface);
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sheet-body {
+  padding: 24px 22px 32px;
+}
+
+.sheet-kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.sheet-title {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  line-height: 1.06;
+  color: var(--ink);
+  margin-bottom: 14px;
+  overflow-wrap: break-word;
+}
+
+.sheet-section {
+  padding: 16px 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.sheet-section h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+}
+
+.sheet-section p {
+  font-size: 15px;
+  line-height: 1.58;
+  color: var(--ink);
+}
+
+.sheet-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+/* Desktop refinements */
+@media (min-width: 760px) {
+  .app-shell {
+    padding: 8px 36px 72px;
+  }
+  .top-nav {
+    margin: 0 0 32px;
+    padding: 0;
+  }
+  .top-nav-inner {
+    max-width: 440px;
+  }
+  .editorial-photo-band {
+    aspect-ratio: 21 / 9;
+  }
+  .sheet-backdrop {
+    align-items: center;
+    padding: 24px;
+  }
+  .sheet-panel {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--hairline-strong);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <header class="top-bar">
+    <div class="brand-mark">Onda</div>
+    <button type="button" class="day-pill" id="headerDayPill" aria-label="Voir le défi du jour">
+      <span>Jour</span>
+      <span class="day-pill-num" id="headerDayNum">01</span>
+      <span>/ 21</span>
+    </button>
+  </header>
+
+  <!-- TOP EDITORIAL UNDERLINE NAVIGATION (Zero Bottom Dock) -->
+  <nav class="top-nav" aria-label="Navigation principale">
+    <div class="top-nav-inner">
+      <button type="button" class="tab-btn is-active" data-tab="today" aria-current="page">Aujourd’hui</button>
+      <button type="button" class="tab-btn" data-tab="journey">Parcours</button>
+      <button type="button" class="tab-btn" data-tab="focus">Focus</button>
+      <button type="button" class="tab-btn" data-tab="review">Bilan</button>
+    </div>
+  </nav>
+
+  <!-- VIEW 1 : AUJOURD'HUI -->
+  <main id="view-today" class="view is-active" aria-label="Aujourd'hui">
+    <section class="daily-briefing" aria-label="Défi du jour">
+      <div class="hero-phase" id="heroPhase">Semaine 1 · Alléger et clarifier</div>
+      <h1 class="hero-title" id="heroTitle">Libérer le matin avant l’écran</h1>
+      <p class="hero-desc" id="heroDesc">Attendez 15 minutes après le réveil avant d’ouvrir votre téléphone. Buvez un verre d’eau et notez votre priorité du jour.</p>
+      <div class="hero-actions">
+        <button type="button" class="btn-primary" id="heroFocusBtn">Lancer un bloc Focus</button>
+        <button type="button" class="btn-link-editorial" id="heroReadBtn">Lire la fiche du jour</button>
+      </div>
+      <figure class="editorial-photo-band">
+        <img src="assets/photos/week-sanctuary.jpg" alt="Lumière calme de l'aube sur les collines" id="heroPhoto" />
+      </figure>
+    </section>
+
+    <section class="section-block" aria-labelledby="heading-131">
+      <div class="section-head">
+        <h2 class="section-title" id="heading-131">Méthode 1-3-1 du jour</h2>
+        <span class="section-meta" id="todayCompletionMeta">0 sur 4 cochés</span>
+      </div>
+
+      <div class="priority-row">
+        <button type="button" class="check-circle" id="priorityCheckBtn" aria-label="Valider la priorité absolue">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </button>
+        <div class="priority-input-wrap">
+          <label class="priority-label" for="priorityInput">1 Priorité absolue</label>
+          <input type="text" id="priorityInput" class="priority-input" placeholder="Ex. Terminer le dossier principal" autocomplete="off" />
+        </div>
+      </div>
+
+      <ul class="habit-list" id="habitList"></ul>
+    </section>
+
+    <section class="section-block" aria-labelledby="heading-energy">
+      <div class="section-head">
+        <h2 class="section-title" id="heading-energy">Énergie du jour</h2>
+        <span class="section-meta" id="energySelectedLabel">Non notée</span>
+      </div>
+      <div class="energy-strip" id="energyStrip" role="radiogroup" aria-label="Niveau d'énergie de 1 à 5"></div>
+    </section>
+
+    <section class="section-block" aria-labelledby="heading-rituals">
+      <div class="section-head">
+        <h2 class="section-title" id="heading-rituals">Rituels guidés</h2>
+        <span class="section-meta">Sans distraction</span>
+      </div>
+      <div class="rituals-grid">
+        <button type="button" class="ritual-card" id="openBreathRitual">
+          <div class="ritual-info">
+            <div class="ritual-name">Respiration 4-4-6</div>
+            <div class="ritual-sub">3 min de cohérence lente</div>
+          </div>
+          <div class="ritual-media">
+            <img src="assets/photos/breath-calm.jpg" alt="Feuillage calme en lumière douce" />
+          </div>
+        </button>
+
+        <button type="button" class="ritual-card" id="openEveningRitual">
+          <div class="ritual-info">
+            <div class="ritual-name">Bilan du soir</div>
+            <div class="ritual-sub">3 lignes de clarté</div>
+          </div>
+          <div class="ritual-media">
+            <img src="assets/photos/evening-journal.jpg" alt="Carnet ouvert et stylo plume sur table en bois" />
+          </div>
+        </button>
+
+        <button type="button" class="ritual-card" id="openFocusRitual">
+          <div class="ritual-info">
+            <div class="ritual-name">Bloc Deep Work</div>
+            <div class="ritual-sub">15, 25 ou 50 minutes</div>
+          </div>
+          <div class="ritual-media">
+            <img src="assets/photos/deep-focus.jpg" alt="Bureau minimaliste avec carnet et tasse chaude" />
+          </div>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- VIEW 2 : PARCOURS 21 JOURS -->
+  <section id="view-journey" class="view" aria-label="Parcours 21 jours">
+    <div class="progress-lockup">
+      <div>
+        <h1 class="progress-big" id="journeyBigCount">0 sur 21</h1>
+        <p class="progress-caption">jours validés sur le parcours Reset</p>
+      </div>
+      <span class="progress-pct" id="journeyPct">0 %</span>
+    </div>
+    <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="21" aria-valuenow="0" id="journeyProgressBar">
+      <div class="progress-fill" id="journeyProgressFill" style="transform: scaleX(0);"></div>
+    </div>
+
+    <div class="rhythm-grid" id="rhythmGrid" aria-label="Grille des 21 jours"></div>
+
+    <div class="week-pills" role="tablist" aria-label="Filtrer par semaine">
+      <button type="button" class="week-pill is-active" data-week="1" role="tab" aria-selected="true">Semaine 1</button>
+      <button type="button" class="week-pill" data-week="2" role="tab" aria-selected="false">Semaine 2</button>
+      <button type="button" class="week-pill" data-week="3" role="tab" aria-selected="false">Semaine 3</button>
+    </div>
+
+    <ul class="days-list" id="daysList"></ul>
+  </section>
+
+  <!-- VIEW 3 : FOCUS (DEEP WORK & RESPIRATION) -->
+  <section id="view-focus" class="view" aria-label="Focus et Respiration">
+    <div class="focus-stage">
+      <div class="mode-switch" role="tablist" aria-label="Mode de session">
+        <button type="button" class="mode-btn is-active" id="modeDeepWorkBtn" role="tab" aria-selected="true">Deep Work</button>
+        <button type="button" class="mode-btn" id="modeBreathBtn" role="tab" aria-selected="false">Respiration</button>
+      </div>
+
+      <!-- Deep Work Panel (IdeatedLab 60-Tick Precision Dial) -->
+      <div id="panelDeepWork" class="focus-card-surface">
+        <div class="preset-row" aria-label="Durée du bloc">
+          <button type="button" class="preset-btn" data-mins="15">15 min</button>
+          <button type="button" class="preset-btn is-active" data-mins="25">25 min</button>
+          <button type="button" class="preset-btn" data-mins="50">50 min</button>
+        </div>
+
+        <div class="timer-ring-wrap">
+          <svg class="timer-svg" id="timerDialSvg" viewBox="0 0 256 256" aria-hidden="true"></svg>
+          <div class="timer-center">
+            <div class="timer-clock" id="timerClock">25:00</div>
+            <div class="timer-finish-at" id="timerFinishAt">Fin prévue à --:--</div>
+            <div class="timer-state" id="timerState">Prêt à démarrer</div>
+          </div>
+        </div>
+
+        <p class="focus-task-note" id="focusTaskNote">Priorité active : <strong>Définissez votre priorité du jour</strong></p>
+
+        <div class="focus-controls">
+          <button type="button" class="btn-secondary" id="timerResetBtn">Réinitialiser</button>
+          <button type="button" class="btn-dial-main" id="timerStartPauseBtn" aria-label="Démarrer ou mettre en pause le chronomètre">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg>
+          </button>
+          <button type="button" class="btn-secondary" id="timerLogBtn">Terminer</button>
+        </div>
+
+        <button type="button" class="sound-toggle" id="soundToggleBtn" aria-pressed="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+          <span id="soundToggleLabel">Cloche douce activée</span>
+        </button>
+      </div>
+
+      <!-- Breathing Panel -->
+      <div id="panelBreath" class="focus-card-surface" style="display:none;">
+        <p class="section-meta" style="margin-bottom:8px;">Cohérence lente 4 s inspire, 4 s retiens, 6 s expire</p>
+        <div class="breath-orb-wrap" id="breathOrbWrap">
+          <div class="breath-halo" aria-hidden="true"></div>
+          <div class="breath-core">
+            <div class="breath-phase-label" id="breathPhaseLabel">Prêt</div>
+            <div class="breath-sec" id="breathSec">4-4-6</div>
+          </div>
+        </div>
+        <p class="focus-task-note" id="breathCycleNote">Cycles réalisés : <strong>0 sur 10</strong></p>
+        <div class="focus-controls">
+          <button type="button" class="btn-primary" id="breathStartBtn">Commencer</button>
+          <button type="button" class="btn-secondary" id="breathStopBtn">Réinitialiser</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 4 : BILAN & JOURNAL -->
+  <section id="view-review" class="view" aria-label="Bilan et Journal">
+    <div class="section-head" style="margin-top:4px;">
+      <h1 class="section-title">Votre constance</h1>
+      <span class="section-meta" id="reviewStreakNote">Rythme en cours</span>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi-item">
+        <div class="kpi-value" id="kpiDays">0/21</div>
+        <div class="kpi-label">Jours validés</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-value" id="kpiStreak">0 j</div>
+        <div class="kpi-label">Série active</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-value" id="kpiMinutes">0 min</div>
+        <div class="kpi-label">Focus cumulé</div>
+      </div>
+    </div>
+
+    <section class="section-block" aria-labelledby="heading-curve">
+      <div class="section-head">
+        <h2 class="section-title" id="heading-curve">Courbe d’énergie</h2>
+        <span class="section-meta" id="avgEnergyMeta">Échelle 1 à 5</span>
+      </div>
+      <div class="chart-wrap">
+        <svg class="energy-svg" id="energySvg" viewBox="0 0 360 118" role="img" aria-label="Évolution du niveau d'énergie sur 21 jours"></svg>
+        <div class="chart-axis-labels">
+          <span>J01</span>
+          <span>J07</span>
+          <span>J14</span>
+          <span>J21</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block" aria-labelledby="heading-journal">
+      <div class="section-head">
+        <h2 class="section-title" id="heading-journal">Journal du soir</h2>
+        <span class="section-meta" id="journalDayTag">Jour 01</span>
+      </div>
+      <div class="journal-form">
+        <div class="journal-field">
+          <label class="journal-label" for="jWin">Une avancée dont je suis satisfait aujourd’hui</label>
+          <textarea id="jWin" class="journal-input" rows="2" placeholder="Écrivez une phrase simple..."></textarea>
+        </div>
+        <div class="journal-field">
+          <label class="journal-label" for="jRelease">Ce que je choisis de lâcher ce soir</label>
+          <textarea id="jRelease" class="journal-input" rows="2" placeholder="Une tension, une distraction, une attente..."></textarea>
+        </div>
+        <div class="journal-field">
+          <label class="journal-label" for="jIntent">Mon intention claire pour demain matin</label>
+          <textarea id="jIntent" class="journal-input" rows="2" placeholder="Le premier geste calme de demain..."></textarea>
+        </div>
+      </div>
+      <div class="journal-actions">
+        <button type="button" class="btn-primary" id="saveJournalBtn">Enregistrer le bilan</button>
+        <span class="save-hint" id="journalSaveHint" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <section class="section-block" id="archiveSection" aria-labelledby="heading-archive" style="display:none;">
+      <div class="section-head">
+        <h2 class="section-title" id="heading-archive">Notes enregistrées</h2>
+        <span class="section-meta" id="archiveCountMeta">0 entrée</span>
+      </div>
+      <ul class="archive-list" id="archiveList"></ul>
+    </section>
+  </section>
+</div>
+
+<!-- DAY DETAIL SHEET -->
+<div class="sheet-backdrop" id="daySheetBackdrop" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet-panel">
+    <div class="sheet-photo-wrap">
+      <img src="assets/photos/ritual-morning.jpg" alt="Ambiance sereine du jour" id="sheetPhoto" />
+      <button type="button" class="sheet-close" id="sheetCloseBtn" aria-label="Fermer la fiche">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="sheet-body">
+      <div class="sheet-kicker" id="sheetKicker">Jour 01 · Semaine 1</div>
+      <h2 class="sheet-title" id="sheetTitle">Libérer le matin avant l’écran</h2>
+
+      <div class="sheet-section">
+        <h4>Consigne pratique</h4>
+        <p id="sheetAction"></p>
+      </div>
+
+      <div class="sheet-section">
+        <h4>Question de clarté</h4>
+        <p id="sheetPrompt"></p>
+      </div>
+
+      <div class="sheet-actions">
+        <button type="button" class="btn-primary" id="sheetValidateBtn">Valider ce jour</button>
+        <button type="button" class="btn-secondary" id="sheetActivateBtn">Définir comme jour actif</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  const STORAGE_KEY = 'onda_reset_v1';
+
+  const WEEK_LABELS = {
+    1: 'Semaine 1 · Alléger et clarifier',
+    2: 'Semaine 2 · Installer le Focus',
+    3: 'Semaine 3 · Ancrer la constance',
+  };
+
+  const WEEK_PHOTOS = {
+    1: 'assets/photos/week-sanctuary.jpg',
+    2: 'assets/photos/deep-focus.jpg',
+    3: 'assets/photos/ritual-morning.jpg',
+  };
+
+  const ENERGY_WORDS = {
+    1: 'Bas',
+    2: 'Doux',
+    3: 'Posé',
+    4: 'Clair',
+    5: 'Plein',
+  };
+
+  const HABITS = [
+    { id: 'morning_no_screen', title: 'Matin calme', label: '15 minutes sans écran au réveil' },
+    { id: 'deep_work_block', title: 'Deep Work', label: '1 bloc de concentration sans coupure' },
+    { id: 'evening_lines', title: 'Clôture', label: '3 lignes de bilan ce soir' },
+  ];
+
+  const DAYS = [
+    { day: 1, week: 1, theme: 'Hygiène matinale', title: 'Libérer le matin avant l’écran', action: 'Attendez 15 minutes après le réveil avant d’ouvrir votre téléphone. Buvez un verre d’eau et notez votre priorité du jour.', prompt: 'Qu’est-ce qui change dans votre calme intérieur quand la journée commence sans sollicitation extérieure ?' },
+    { day: 2, week: 1, theme: 'Clarté', title: 'La règle d’une seule priorité', action: 'Choisissez une tâche essentielle qui rendra votre journée utile, même si le reste est reporté.', prompt: 'Si vous ne deviez achever qu’une seule action aujourd’hui, laquelle aurait le plus d’impact réel ?' },
+    { day: 3, week: 1, theme: 'Environnement', title: 'Audit des notifications', action: 'Coupez toutes les notifications non humaines (réseaux, promotions, badges) sur votre téléphone.', prompt: 'Combien de fois par jour votre attention est-elle interrompue par une alerte qui n’avait aucune urgence ?' },
+    { day: 4, week: 1, theme: 'Espace', title: 'Bureau à zéro friction', action: 'Dégagez votre espace de travail en 10 minutes : ne laissez que ce qui sert directement à la tâche en cours.', prompt: 'Quel objet dans votre champ de vision vous distrait sans même que vous le remarquiez ?' },
+    { day: 5, week: 1, theme: 'Régulation', title: 'Pause respiratoire 4-4-6', action: 'Avant la reprise de l’après-midi, pratiquez 3 minutes de respiration lente (4 s inspire, 4 s pause, 6 s expire).', prompt: 'Comment évolue votre niveau de tension après dix cycles de respiration calme ?' },
+    { day: 6, week: 1, theme: 'Organisation', title: 'Vider la charge mentale', action: 'Écrivez tout ce qui tourne en boucle dans votre tête, puis classez chaque point : faire, planifier ou supprimer.', prompt: 'Quelle tâche en suspens depuis plusieurs jours pouvez-vous rayer définitivement aujourd’hui ?' },
+    { day: 7, week: 1, theme: 'Bilan', title: 'Revue calme de la Semaine 1', action: 'Relisez vos 6 premiers jours : gardez ce qui vous a allégé et simplifiez ce qui a créé de la friction.', prompt: 'Quel petit geste de cette semaine vous a apporté le plus de légèreté ?' },
+    { day: 8, week: 2, theme: 'Deep Work', title: 'Premier bloc Deep Work 25 min', action: 'Téléphone en mode avion hors de portée. Travaillez 25 minutes sur votre priorité unique sans changer d’onglet.', prompt: 'Qu’avez-vous accompli en 25 minutes protégées par rapport à une heure fragmentée ?' },
+    { day: 9, week: 2, theme: 'Fluidité', title: 'Regrouper les micro-tâches', action: 'Rassemblez les petites réponses et tâches rapides sur un créneau dédié de 15 minutes au lieu de hacher votre matinée.', prompt: 'À quel moment de la journée vos micro-tâches coûtent-elles le moins d’énergie ?' },
+    { day: 10, week: 2, theme: 'Attention', title: 'Mono-tâche volontaire', action: 'Fermez tous les onglets inutiles. Une fenêtre ouverte correspond à une seule intention claire.', prompt: 'À quel instant avez-vous eu le réflexe d’ouvrir un second onglet sans raison ?' },
+    { day: 11, week: 2, theme: 'Rythme', title: 'Protéger la première heure', action: 'Consacrez vos 60 premières minutes de travail à avancer sur un projet de fond avant d’ouvrir messages et e-mails.', prompt: 'Que ressentez-vous quand votre tâche la plus importante est déjà lancée avant 10 heures ?' },
+    { day: 12, week: 2, theme: 'Deep Work', title: 'Bloc approfondi 50 min', action: 'Enchaînez 50 minutes de concentration continue suivies de 10 minutes de vraie pause loin des écrans.', prompt: 'Combien de minutes vous faut-il pour entrer pleinement dans le rythme de votre travail ?' },
+    { day: 13, week: 2, theme: 'Sommeil', title: 'Coupure numérique du soir', action: 'Posez le téléphone 45 minutes avant de dormir et remplacez le défilement par vos 3 lignes de bilan.', prompt: 'Comment se déroule votre endormissement lorsque la soirée se termine dans le calme ?' },
+    { day: 14, week: 2, theme: 'Bilan', title: 'Revue calme de la Semaine 2', action: 'Observez vos minutes de focus cumulées et repérez l’heure où votre clarté mentale est la plus haute.', prompt: 'Quel créneau horaire mérite désormais d’être protégé en priorité ?' },
+    { day: 15, week: 3, theme: 'Anticipation', title: 'Préparer demain dès ce soir', action: 'Écrivez votre priorité absolue du lendemain avant de fermer votre journée pour démarrer sans hésitation.', prompt: 'En quoi savoir exactement par quoi commencer demain allège-t-il votre soirée ?' },
+    { day: 16, week: 3, theme: 'Limites', title: 'Dire non à une dispersion', action: 'Refusez ou reportez proprement une sollicitation secondaire pour préserver votre créneau de concentration.', prompt: 'À quoi avez-vous dit oui en protégeant votre temps aujourd’hui ?' },
+    { day: 17, week: 3, theme: 'Clarté', title: 'Marche sans écouteurs', action: 'Marchez 15 minutes sans podcast ni musique afin de laisser votre esprit respirer et relier vos idées.', prompt: 'Quelle idée claire a émergé pendant ces quinze minutes de silence ?' },
+    { day: 18, week: 3, theme: 'Deep Work', title: 'Double bloc de concentration', action: 'Réalisez deux blocs de 25 minutes dans la journée sur votre projet le plus important, séparés par une vraie pause.', prompt: 'Comment votre niveau d’énergie a-t-il évolué entre le premier et le second bloc ?' },
+    { day: 19, week: 3, theme: 'Énergie', title: 'Audit d’énergie réel', action: 'Identifiez une activité qui a soutenu votre énergie cette semaine et une autre qui l’a drainée inutilement.', prompt: 'Quel ajustement simple pouvez-vous faire dès demain pour préserver votre énergie ?' },
+    { day: 20, week: 3, theme: 'Transition', title: 'Rituel de clôture propre', action: 'À heure fixe, rangez votre bureau, cochez vos 3 habitudes et fermez mentalement la journée.', prompt: 'Qu’est-ce qui marque clairement la frontière entre votre travail et votre repos ?' },
+    { day: 21, week: 3, theme: 'Consolidation', title: 'Bilan final et système durable', action: 'Choisissez les 3 habitudes que vous conservez définitivement pour les 90 prochains jours.', prompt: 'Quelle différence concrète observez-vous entre votre Jour 1 et votre Jour 21 ?' },
+  ];
+
+  function defaultState() {
+    return {
+      currentDay: 1,
+      selectedWeek: 1,
+      completedDays: [],
+      focusMinutes: 0,
+      focusSessions: 0,
+      soundEnabled: true,
+      daily: {
+        1: {
+          priority: '',
+          priorityDone: false,
+          habits: {},
+          energy: null,
+          journal: { win: '', release: '', intent: '' },
+        },
+      },
+    };
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return defaultState();
+      const parsed = JSON.parse(raw);
+      return { ...defaultState(), ...parsed };
+    } catch {
+      return defaultState();
+    }
+  }
+
+  let state = loadState();
+  let activeTab = 'today';
+  let inspectedDay = state.currentDay;
+
+  function ensureDayRecord(dayNum) {
+    if (!state.daily[dayNum]) {
+      state.daily[dayNum] = {
+        priority: '',
+        priorityDone: false,
+        habits: {},
+        energy: null,
+        journal: { win: '', release: '', intent: '' },
+      };
+    }
+    return state.daily[dayNum];
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      // Silent fallback if storage is restricted
+    }
+  }
+
+  function getDayMeta(dayNum) {
+    return DAYS.find((d) => d.day === dayNum) || DAYS[0];
+  }
+
+  function computeStreak() {
+    const doneSet = new Set(state.completedDays);
+    if (doneSet.size === 0) return 0;
+    const maxDone = Math.max(...state.completedDays);
+    let streak = 0;
+    for (let d = maxDone; d >= 1; d -= 1) {
+      if (doneSet.has(d)) streak += 1;
+      else break;
+    }
+    return streak;
+  }
+
+  function playSoftBell() {
+    if (!state.soundEnabled) return;
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const now = ctx.currentTime;
+      [440, 880].forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(idx === 0 ? 0.14 : 0.05, now + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.4);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 1.45);
+      });
+    } catch {
+      // Ignore audio restrictions
+    }
+  }
+
+  /* Navigation */
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const views = {
+    today: document.getElementById('view-today'),
+    journey: document.getElementById('view-journey'),
+    focus: document.getElementById('view-focus'),
+    review: document.getElementById('view-review'),
+  };
+
+  function switchTab(tabName) {
+    activeTab = tabName;
+    Object.entries(views).forEach(([key, el]) => {
+      el.classList.toggle('is-active', key === tabName);
+    });
+    tabBtns.forEach((btn) => {
+      const isMatch = btn.dataset.tab === tabName;
+      btn.classList.toggle('is-active', isMatch);
+      if (isMatch) btn.setAttribute('aria-current', 'page');
+      else btn.removeAttribute('aria-current');
+    });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    renderAll();
+  }
+
+  tabBtns.forEach((btn) => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+
+  /* Render Today */
+  function renderToday() {
+    const meta = getDayMeta(state.currentDay);
+    const rec = ensureDayRecord(state.currentDay);
+
+    document.getElementById('headerDayNum').textContent = String(meta.day).padStart(2, '0');
+    const topBadge = document.getElementById('heroTopBadge');
+    if (topBadge) topBadge.textContent = `Rituel du jour · J${String(meta.day).padStart(2, '0')}`;
+    document.getElementById('heroPhoto').src = WEEK_PHOTOS[meta.week];
+    document.getElementById('heroPhase').textContent = WEEK_LABELS[meta.week];
+    document.getElementById('heroTitle').textContent = meta.title;
+    document.getElementById('heroDesc').textContent = meta.action;
+
+    const pInput = document.getElementById('priorityInput');
+    if (document.activeElement !== pInput) {
+      pInput.value = rec.priority || '';
+    }
+    pInput.classList.toggle('is-done', Boolean(rec.priorityDone));
+
+    const pCheck = document.getElementById('priorityCheckBtn');
+    pCheck.classList.toggle('is-done', Boolean(rec.priorityDone));
+    pCheck.setAttribute('aria-pressed', String(Boolean(rec.priorityDone)));
+
+    const habitList = document.getElementById('habitList');
+    habitList.innerHTML = '';
+    let doneCount = rec.priorityDone ? 1 : 0;
+
+    HABITS.forEach((h) => {
+      const isDone = Boolean(rec.habits && rec.habits[h.id]);
+      if (isDone) doneCount += 1;
+      const li = document.createElement('li');
+      li.className = `habit-item${isDone ? ' is-done' : ''}`;
+      li.innerHTML = `
+        <button type="button" class="habit-btn" data-habit="${h.id}" aria-pressed="${isDone}">
+          <span class="check-circle${isDone ? ' is-done' : ''}" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </span>
+          <span class="habit-copy">
+            <span class="habit-kicker">${h.title}</span>
+            <span class="habit-text">${h.label}</span>
+          </span>
+        </button>`;
+      li.querySelector('button').addEventListener('click', () => {
+        rec.habits[h.id] = !rec.habits[h.id];
+        saveState();
+        renderToday();
+      });
+      habitList.appendChild(li);
+    });
+
+    document.getElementById('todayCompletionMeta').textContent = `${doneCount} sur 4 cochés`;
+
+    const energyStrip = document.getElementById('energyStrip');
+    energyStrip.innerHTML = '';
+    for (let lvl = 1; lvl <= 5; lvl += 1) {
+      const isSelected = rec.energy === lvl;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `energy-btn${isSelected ? ' is-active' : ''}`;
+      btn.setAttribute('role', 'radio');
+      btn.setAttribute('aria-checked', String(isSelected));
+      btn.innerHTML = `<span class="energy-num">${lvl}</span><span class="energy-word">${ENERGY_WORDS[lvl]}</span>`;
+      btn.addEventListener('click', () => {
+        rec.energy = lvl;
+        saveState();
+        renderToday();
+        renderReview();
+      });
+      energyStrip.appendChild(btn);
+    }
+    document.getElementById('energySelectedLabel').textContent = rec.energy
+      ? `${rec.energy} sur 5 (${ENERGY_WORDS[rec.energy]})`
+      : 'Non notée';
+  }
+
+  document.getElementById('priorityInput').addEventListener('input', (e) => {
+    const rec = ensureDayRecord(state.currentDay);
+    rec.priority = e.target.value;
+    saveState();
+    updateFocusTaskNote();
+  });
+
+  document.getElementById('priorityCheckBtn').addEventListener('click', () => {
+    const rec = ensureDayRecord(state.currentDay);
+    rec.priorityDone = !rec.priorityDone;
+    saveState();
+    renderToday();
+  });
+
+  document.getElementById('headerDayPill').addEventListener('click', () => openDaySheet(state.currentDay));
+  document.getElementById('heroReadBtn').addEventListener('click', () => openDaySheet(state.currentDay));
+  document.getElementById('heroFocusBtn').addEventListener('click', () => {
+    switchFocusMode('deepwork');
+    switchTab('focus');
+  });
+  document.getElementById('openBreathRitual').addEventListener('click', () => {
+    switchFocusMode('breath');
+    switchTab('focus');
+  });
+  document.getElementById('openEveningRitual').addEventListener('click', () => {
+    switchTab('review');
+    document.getElementById('jWin').focus();
+  });
+  document.getElementById('openFocusRitual').addEventListener('click', () => {
+    switchFocusMode('deepwork');
+    switchTab('focus');
+  });
+
+  /* Render Journey */
+  function renderJourney() {
+    const doneSet = new Set(state.completedDays);
+    const count = doneSet.size;
+    const pct = Math.round((count / 21) * 100);
+
+    document.getElementById('journeyBigCount').textContent = `${count} sur 21`;
+    document.getElementById('journeyPct').textContent = `${pct} %`;
+    const bar = document.getElementById('journeyProgressBar');
+    bar.setAttribute('aria-valuenow', String(count));
+    document.getElementById('journeyProgressFill').style.transform = `scaleX(${count / 21})`;
+
+    const grid = document.getElementById('rhythmGrid');
+    grid.innerHTML = '';
+    DAYS.forEach((d) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      const isDone = doneSet.has(d.day);
+      const isCurr = d.day === state.currentDay;
+      btn.className = `rhythm-cell${isDone ? ' is-done' : ''}${isCurr ? ' is-current' : ''}`;
+      btn.textContent = String(d.day).padStart(2, '0');
+      btn.setAttribute('aria-label', `Jour ${d.day} : ${d.title}`);
+      btn.addEventListener('click', () => openDaySheet(d.day));
+      grid.appendChild(btn);
+    });
+
+    document.querySelectorAll('.week-pill').forEach((pill) => {
+      const w = Number(pill.dataset.week);
+      const isAct = w === state.selectedWeek;
+      pill.classList.toggle('is-active', isAct);
+      pill.setAttribute('aria-selected', String(isAct));
+    });
+
+    const list = document.getElementById('daysList');
+    list.innerHTML = '';
+    DAYS.filter((d) => d.week === state.selectedWeek).forEach((d) => {
+      const isDone = doneSet.has(d.day);
+      const isCurr = d.day === state.currentDay;
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <button type="button" class="day-row-btn${isDone ? ' is-done' : ''}${isCurr ? ' is-current' : ''}" data-day="${d.day}">
+          <span class="day-row-left">
+            <span class="day-num-col">${String(d.day).padStart(2, '0')}</span>
+            <span class="day-row-info">
+              <span class="day-row-title">${d.title}</span>
+              <span class="day-row-theme">${d.theme}</span>
+            </span>
+          </span>
+          <span class="day-row-right">
+            ${isDone ? '<span class="status-tag">Validé</span>' : (isCurr ? '<span class="status-tag-today">Actif</span>' : '')}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </span>
+        </button>`;
+      li.querySelector('button').addEventListener('click', () => openDaySheet(d.day));
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll('.week-pill').forEach((pill) => {
+    pill.addEventListener('click', () => {
+      state.selectedWeek = Number(pill.dataset.week);
+      saveState();
+      renderJourney();
+    });
+  });
+
+  /* Day Detail Sheet */
+  const sheetBackdrop = document.getElementById('daySheetBackdrop');
+
+  function openDaySheet(dayNum) {
+    inspectedDay = dayNum;
+    const d = getDayMeta(dayNum);
+    const isDone = state.completedDays.includes(dayNum);
+
+    document.getElementById('sheetPhoto').src = WEEK_PHOTOS[d.week];
+    document.getElementById('sheetKicker').textContent = `Jour ${String(d.day).padStart(2, '0')} · Semaine ${d.week}`;
+    document.getElementById('sheetTitle').textContent = d.title;
+    document.getElementById('sheetAction').textContent = d.action;
+    document.getElementById('sheetPrompt').textContent = d.prompt;
+
+    const valBtn = document.getElementById('sheetValidateBtn');
+    valBtn.textContent = isDone ? 'Jour validé (annuler)' : 'Valider ce jour';
+    valBtn.classList.toggle('is-sage', isDone);
+
+    const actBtn = document.getElementById('sheetActivateBtn');
+    actBtn.style.display = dayNum === state.currentDay ? 'none' : 'inline-flex';
+
+    sheetBackdrop.classList.add('is-open');
+    document.getElementById('sheetCloseBtn').focus();
+  }
+
+  function closeDaySheet() {
+    sheetBackdrop.classList.remove('is-open');
+  }
+
+  document.getElementById('sheetCloseBtn').addEventListener('click', closeDaySheet);
+  sheetBackdrop.addEventListener('click', (e) => {
+    if (e.target === sheetBackdrop) closeDaySheet();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sheetBackdrop.classList.contains('is-open')) {
+      closeDaySheet();
+    }
+  });
+
+  document.getElementById('sheetValidateBtn').addEventListener('click', () => {
+    const idx = state.completedDays.indexOf(inspectedDay);
+    if (idx >= 0) {
+      state.completedDays.splice(idx, 1);
+    } else {
+      state.completedDays.push(inspectedDay);
+      state.completedDays.sort((a, b) => a - b);
+      if (inspectedDay === state.currentDay && state.currentDay < 21) {
+        state.currentDay += 1;
+        state.selectedWeek = getDayMeta(state.currentDay).week;
+      }
+    }
+    saveState();
+    renderAll();
+    closeDaySheet();
+  });
+
+  document.getElementById('sheetActivateBtn').addEventListener('click', () => {
+    state.currentDay = inspectedDay;
+    state.selectedWeek = getDayMeta(inspectedDay).week;
+    saveState();
+    renderAll();
+    closeDaySheet();
+  });
+
+  /* FOCUS TIMER (IdeatedLab 60-Tick Precision Dial) */
+  const TOTAL_TICKS = 60;
+  let focusPresetMins = 25;
+  let focusRemaining = focusPresetMins * 60;
+  let focusInterval = null;
+  let focusRunning = false;
+
+  function buildDialTicks() {
+    const svg = document.getElementById('timerDialSvg');
+    if (!svg || svg.childElementCount > 0) return;
+    const cx = 128;
+    const cy = 128;
+    const rOut = 118;
+    const rIn = 106;
+    let markup = '';
+    for (let i = 0; i < TOTAL_TICKS; i += 1) {
+      const angle = ((i / TOTAL_TICKS) * 360 - 90) * (Math.PI / 180);
+      const x1 = cx + Math.cos(angle) * rIn;
+      const y1 = cy + Math.sin(angle) * rIn;
+      const x2 = cx + Math.cos(angle) * rOut;
+      const y2 = cy + Math.sin(angle) * rOut;
+      markup += `<line class="dial-tick" data-tick="${i}" x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" />`;
+    }
+    svg.innerHTML = markup;
+  }
+
+  function formatClock(secs) {
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  function formatFinishTime(secsLeft) {
+    const d = new Date(Date.now() + secsLeft * 1000);
+    return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  }
+
+  function updateFocusTaskNote() {
+    const rec = ensureDayRecord(state.currentDay);
+    const note = document.getElementById('focusTaskNote');
+    const text = rec.priority && rec.priority.trim()
+      ? rec.priority.trim()
+      : 'Définissez votre priorité dans Aujourd’hui';
+    note.innerHTML = 'Priorité active : <strong></strong>';
+    note.querySelector('strong').textContent = text;
+  }
+
+  function renderTimer() {
+    buildDialTicks();
+    document.getElementById('timerClock').textContent = formatClock(focusRemaining);
+    const finEl = document.getElementById('timerFinishAt');
+    if (finEl) finEl.textContent = `Fin prévue à ${formatFinishTime(focusRemaining)}`;
+    const total = focusPresetMins * 60;
+    const ratioLeft = total > 0 ? focusRemaining / total : 1;
+    const litCount = Math.round(ratioLeft * TOTAL_TICKS);
+    document.querySelectorAll('#timerDialSvg .dial-tick').forEach((line, idx) => {
+      line.classList.toggle('is-lit', idx < litCount);
+    });
+    const btn = document.getElementById('timerStartPauseBtn');
+    btn.innerHTML = focusRunning
+      ? '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1.2"/><rect x="14" y="4" width="4" height="16" rx="1.2"/></svg>'
+      : '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
+    btn.setAttribute('aria-label', focusRunning ? 'Mettre en pause' : 'Démarrer le chronomètre');
+    document.getElementById('soundToggleBtn').setAttribute('aria-pressed', String(state.soundEnabled));
+    document.getElementById('soundToggleLabel').textContent = state.soundEnabled
+      ? 'Cloche douce activée'
+      : 'Cloche douce coupée';
+  }
+
+  function stopFocusTimer() {
+    if (focusInterval) {
+      clearInterval(focusInterval);
+      focusInterval = null;
+    }
+    focusRunning = false;
+  }
+
+  function completeFocusBlock(elapsedMins) {
+    stopFocusTimer();
+    const minsToAdd = Math.max(1, elapsedMins);
+    state.focusMinutes += minsToAdd;
+    state.focusSessions += 1;
+    const rec = ensureDayRecord(state.currentDay);
+    rec.habits.deep_work_block = true;
+    saveState();
+    playSoftBell();
+    focusRemaining = focusPresetMins * 60;
+    document.getElementById('timerState').textContent = `Bloc enregistré (+${minsToAdd} min)`;
+    renderAll();
+  }
+
+  document.querySelectorAll('.preset-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      stopFocusTimer();
+      focusPresetMins = Number(btn.dataset.mins);
+      focusRemaining = focusPresetMins * 60;
+      document.querySelectorAll('.preset-btn').forEach((b) => b.classList.toggle('is-active', b === btn));
+      document.getElementById('timerState').textContent = 'Prêt à démarrer';
+      renderTimer();
+    });
+  });
+
+  document.getElementById('timerStartPauseBtn').addEventListener('click', () => {
+    if (focusRunning) {
+      stopFocusTimer();
+      document.getElementById('timerState').textContent = 'En pause';
+      renderTimer();
+      return;
+    }
+    focusRunning = true;
+    document.getElementById('timerState').textContent = 'Concentration en cours';
+    renderTimer();
+    focusInterval = setInterval(() => {
+      focusRemaining -= 1;
+      if (focusRemaining <= 0) {
+        completeFocusBlock(focusPresetMins);
+      } else {
+        renderTimer();
+      }
+    }, 1000);
+  });
+
+  document.getElementById('timerResetBtn').addEventListener('click', () => {
+    stopFocusTimer();
+    focusRemaining = focusPresetMins * 60;
+    document.getElementById('timerState').textContent = 'Prêt à démarrer';
+    renderTimer();
+  });
+
+  document.getElementById('timerLogBtn').addEventListener('click', () => {
+    const elapsedSec = focusPresetMins * 60 - focusRemaining;
+    const loggedMins = elapsedSec >= 60 ? Math.round(elapsedSec / 60) : focusPresetMins;
+    completeFocusBlock(loggedMins);
+  });
+
+  document.getElementById('soundToggleBtn').addEventListener('click', () => {
+    state.soundEnabled = !state.soundEnabled;
+    saveState();
+    renderTimer();
+  });
+
+  /* BREATHING 4-4-6 */
+  const BREATH_PHASES = [
+    { key: 'inhale', label: 'Inspirez', secs: 4 },
+    { key: 'hold', label: 'Retenez', secs: 4 },
+    { key: 'exhale', label: 'Expirez', secs: 6 },
+  ];
+  let breathRunning = false;
+  let breathTimer = null;
+  let breathPhaseIdx = 0;
+  let breathTick = 4;
+  let breathCycles = 0;
+
+  function renderBreath() {
+    const wrap = document.getElementById('breathOrbWrap');
+    wrap.classList.remove('phase-inhale', 'phase-hold', 'phase-exhale');
+    if (breathRunning) {
+      const p = BREATH_PHASES[breathPhaseIdx];
+      wrap.classList.add(`phase-${p.key}`);
+      document.getElementById('breathPhaseLabel').textContent = p.label;
+      document.getElementById('breathSec').textContent = `${breathTick} s`;
+      document.getElementById('breathStartBtn').textContent = 'Pause';
+    } else {
+      document.getElementById('breathPhaseLabel').textContent = 'Prêt';
+      document.getElementById('breathSec').textContent = '4-4-6';
+      document.getElementById('breathStartBtn').textContent = 'Commencer';
+    }
+    const note = document.getElementById('breathCycleNote');
+    note.innerHTML = `Cycles réalisés : <strong>${breathCycles} sur 10</strong>`;
+  }
+
+  function stopBreath(resetAll = false) {
+    if (breathTimer) {
+      clearInterval(breathTimer);
+      breathTimer = null;
+    }
+    breathRunning = false;
+    if (resetAll) {
+      breathPhaseIdx = 0;
+      breathTick = BREATH_PHASES[0].secs;
+      breathCycles = 0;
+    }
+    renderBreath();
+  }
+
+  document.getElementById('breathStartBtn').addEventListener('click', () => {
+    if (breathRunning) {
+      stopBreath(false);
+      return;
+    }
+    breathRunning = true;
+    breathPhaseIdx = 0;
+    breathTick = BREATH_PHASES[0].secs;
+    renderBreath();
+    breathTimer = setInterval(() => {
+      breathTick -= 1;
+      if (breathTick <= 0) {
+        breathPhaseIdx += 1;
+        if (breathPhaseIdx >= BREATH_PHASES.length) {
+          breathPhaseIdx = 0;
+          breathCycles += 1;
+          if (breathCycles >= 10) {
+            playSoftBell();
+            stopBreath(false);
+            return;
+          }
+        }
+        breathTick = BREATH_PHASES[breathPhaseIdx].secs;
+      }
+      renderBreath();
+    }, 1000);
+  });
+
+  document.getElementById('breathStopBtn').addEventListener('click', () => stopBreath(true));
+
+  function switchFocusMode(mode) {
+    const isDW = mode === 'deepwork';
+    document.getElementById('modeDeepWorkBtn').classList.toggle('is-active', isDW);
+    document.getElementById('modeDeepWorkBtn').setAttribute('aria-selected', String(isDW));
+    document.getElementById('modeBreathBtn').classList.toggle('is-active', !isDW);
+    document.getElementById('modeBreathBtn').setAttribute('aria-selected', String(!isDW));
+    document.getElementById('panelDeepWork').style.display = isDW ? 'block' : 'none';
+    document.getElementById('panelBreath').style.display = isDW ? 'none' : 'block';
+  }
+
+  document.getElementById('modeDeepWorkBtn').addEventListener('click', () => switchFocusMode('deepwork'));
+  document.getElementById('modeBreathBtn').addEventListener('click', () => switchFocusMode('breath'));
+
+  /* BILAN & JOURNAL */
+  function renderEnergyCurve() {
+    const svg = document.getElementById('energySvg');
+    const W = 360;
+    const H = 118;
+    const padX = 12;
+    const padY = 14;
+    const usableW = W - padX * 2;
+    const usableH = H - padY * 2;
+
+    const points = [];
+    for (let d = 1; d <= 21; d += 1) {
+      const rec = state.daily[d];
+      if (rec && typeof rec.energy === 'number') {
+        const x = padX + ((d - 1) / 20) * usableW;
+        const y = padY + ((5 - rec.energy) / 4) * usableH;
+        points.push({ day: d, val: rec.energy, x, y });
+      }
+    }
+
+    const avgEl = document.getElementById('avgEnergyMeta');
+    if (points.length > 0) {
+      const avg = points.reduce((acc, p) => acc + p.val, 0) / points.length;
+      avgEl.textContent = `Moyenne ${avg.toFixed(1)} sur 5`;
+    } else {
+      avgEl.textContent = 'Notez votre énergie dans Aujourd’hui';
+    }
+
+    let gridLines = '';
+    for (let lvl = 1; lvl <= 5; lvl += 1) {
+      const y = padY + ((5 - lvl) / 4) * usableH;
+      gridLines += `<line x1="${padX}" y1="${y.toFixed(1)}" x2="${W - padX}" y2="${y.toFixed(1)}" stroke="rgba(28,34,48,0.08)" stroke-width="1" />`;
+    }
+
+    let pathMarkup = '';
+    if (points.length >= 2) {
+      const dAttr = points
+        .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
+        .join(' ');
+      const areaAttr = `${dAttr} L ${points[points.length - 1].x.toFixed(1)} ${H - padY} L ${points[0].x.toFixed(1)} ${H - padY} Z`;
+      pathMarkup = `
+        <path d="${areaAttr}" fill="rgba(46,90,71,0.10)" />
+        <path d="${dAttr}" fill="none" stroke="#2E5A47" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />`;
+    }
+
+    const dots = points
+      .map((p) => `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="#2E5A47" stroke="#FFFFFF" stroke-width="2" />`)
+      .join('');
+
+    svg.innerHTML = `${gridLines}${pathMarkup}${dots}`;
+  }
+
+  function renderReview() {
+    document.getElementById('kpiDays').textContent = `${state.completedDays.length}/21`;
+    document.getElementById('kpiStreak').textContent = `${computeStreak()} j`;
+    document.getElementById('kpiMinutes').textContent = `${state.focusMinutes} min`;
+    document.getElementById('journalDayTag').textContent = `Jour ${String(state.currentDay).padStart(2, '0')}`;
+
+    const rec = ensureDayRecord(state.currentDay);
+    const j = rec.journal || { win: '', release: '', intent: '' };
+    const winEl = document.getElementById('jWin');
+    const relEl = document.getElementById('jRelease');
+    const intEl = document.getElementById('jIntent');
+    if (document.activeElement !== winEl) winEl.value = j.win || '';
+    if (document.activeElement !== relEl) relEl.value = j.release || '';
+    if (document.activeElement !== intEl) intEl.value = j.intent || '';
+
+    renderEnergyCurve();
+
+    const entries = Object.entries(state.daily)
+      .map(([dayStr, data]) => ({ day: Number(dayStr), ...data }))
+      .filter((entry) => entry.journal && (entry.journal.win || entry.journal.release || entry.journal.intent))
+      .sort((a, b) => b.day - a.day);
+
+    const archiveSection = document.getElementById('archiveSection');
+    const archiveList = document.getElementById('archiveList');
+    if (entries.length === 0) {
+      archiveSection.style.display = 'none';
+      return;
+    }
+
+    archiveSection.style.display = 'block';
+    document.getElementById('archiveCountMeta').textContent = `${entries.length} ${entries.length > 1 ? 'entrées' : 'entrée'}`;
+    archiveList.innerHTML = '';
+
+    entries.forEach((entry) => {
+      const li = document.createElement('li');
+      li.className = 'archive-item';
+      const eText = entry.energy ? `Énergie ${entry.energy}/5` : '';
+      li.innerHTML = `
+        <div class="archive-head">
+          <span class="archive-day">Jour ${String(entry.day).padStart(2, '0')}</span>
+          <span class="archive-energy">${eText}</span>
+        </div>`;
+      if (entry.journal.win) {
+        const p = document.createElement('p');
+        p.className = 'archive-line';
+        p.textContent = entry.journal.win;
+        li.appendChild(p);
+      }
+      if (entry.journal.intent) {
+        const p = document.createElement('p');
+        p.className = 'archive-line';
+        p.style.color = 'var(--ink-2)';
+        p.textContent = `Demain : ${entry.journal.intent}`;
+        li.appendChild(p);
+      }
+      archiveList.appendChild(li);
+    });
+  }
+
+  document.getElementById('saveJournalBtn').addEventListener('click', () => {
+    const rec = ensureDayRecord(state.currentDay);
+    rec.journal = {
+      win: document.getElementById('jWin').value.trim(),
+      release: document.getElementById('jRelease').value.trim(),
+      intent: document.getElementById('jIntent').value.trim(),
+    };
+    if (rec.journal.win || rec.journal.release || rec.journal.intent) {
+      rec.habits.evening_lines = true;
+    }
+    saveState();
+    document.getElementById('journalSaveHint').textContent = 'Enregistré';
+    setTimeout(() => {
+      const el = document.getElementById('journalSaveHint');
+      if (el) el.textContent = '';
+    }, 2400);
+    renderAll();
+  });
+
+  function renderAll() {
+    renderToday();
+    renderJourney();
+    updateFocusTaskNote();
+    renderTimer();
+    renderBreath();
+    renderReview();
+  }
+
+  renderAll();
+})();
+</script>
+</body>
+</html>

@@ -68,7 +68,7 @@ flowchart LR
 1. **Reste impérativement dans la même conversation Claude** (pour conserver toute la mémoire des décisions).
 2. Copie et colle l'intégralité du fichier [`PROMPT-GENERATION-PRODUIT-HTML.md`](../prompts/PROMPT-GENERATION-PRODUIT-HTML.md) (v2.2).
 3. Claude applique scrupuleusement « Ma fiche de style », « Les règles de mon document » et intègre l'écran de code d'accès (avec une clé dédiée à ton produit, ex. `KEY = "solde_access"`, `ACCESS_CODE = "SOLDE2026"`).
-4. Il effectue son auto-critique en 5 questions et émet le code complet de `<!DOCTYPE html>` à `</html>` dans un fichier unique `index.html` (voir l'application de référence SOLDE : [`docs/examples/solde/index.html`](../examples/solde/index.html)).
+4. Il effectue son auto-critique en 5 questions et émet le code complet de `<!DOCTYPE html>` à `</html>` dans un fichier unique `index.html` (voir l'application de référence SOLDE : [`demos/apps/solde/index.html`](../../demos/apps/solde/index.html)).
 
 ---
 

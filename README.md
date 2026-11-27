@@ -104,6 +104,10 @@ npm run generate:guide-pdf
 
 # Générer les visuels Chariow Retina et le Guide d'Accès PDF acheteur officiel (1 page A4)
 npm run generate:sales-page
+
+# Générer les 4 captures iPhone transparentes et les slides carrousel TikTok 9:16
+node demos/iphone-assets/render_iphones.mjs
+node demos/tiktok-carousel-v1/render_carousel.mjs
 ```
 
 ---
@@ -117,9 +121,10 @@ npm run generate:sales-page
 - [`docs/guides/GUIDE-PARCOURS-APPRENANT.md`](docs/guides/GUIDE-PARCOURS-APPRENANT.md) : Guide d'utilisation pas-à-pas du parcours apprenant.
 - [`docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html`](docs/guides/GUIDE-ACCES-MINI-COURS-CLAUDE.html) : Source HTML officielle du Guide d'Accès acheteur (1 page A4 épurée).
 - [`public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf`](public/downloads/GUIDE-ACCES-CLIENT-MODELE.pdf) : Spécimen PDF modèle téléchargeable pour les acheteurs finaux.
-- [`docs/examples/solde/`](docs/examples/solde/) : Exemple complet livré dans le cours (`SOLDE.` — Planificateur de budget et d'objectifs interactif `index.html`).
+- [`demos/`](demos/README.md) : Espace unifié des démos interactives (`SOLDE.`, `Mijote`, `Kinetik`, `Onda`) et de leurs assets marketing (`iphone-assets`, `tiktok-carousel-v1`).
+- [`demos/apps/solde/`](demos/apps/solde/) : Exemple complet livré dans le cours (`SOLDE.` — Planificateur de budget et d'objectifs interactif `index.html`).
 - [`public/downloads/chariow-sales-page/`](public/downloads/chariow-sales-page/) : Kit complet de mise en ligne sur Chariow pour **`Mini-Cours Interactif Claude`** (exports PNG Retina `1200 px` issus de [`public/demos/chariow-sales-page.html`](public/demos/chariow-sales-page.html), vignette carrée `1200×1200`, bannière `1404×520`, Guide d'Accès PDF acheteur [`Guide-Acces-AI-CREATOR-Studio.pdf`](public/downloads/chariow-sales-page/Guide-Acces-AI-CREATOR-Studio.pdf) et fiche d'instructions [`GUIDE-PUBLICATION-CHARIOW.md`](public/downloads/chariow-sales-page/GUIDE-PUBLICATION-CHARIOW.md)).
-- [`video-studio/`](video-studio/README.md) : Studio Remotion `9:16` / `16:9` et Carrousels `3:4` (`1080×1440`) en direction artistique **Éditoriale Sobre Studio Lin**, piloté par [`CONTENT_OPERATING_SYSTEM.md`](video-studio/docs/CONTENT_OPERATING_SYSTEM.md), [`VOICE_AND_COPY_BIBLE.md`](video-studio/docs/VOICE_AND_COPY_BIBLE.md), [`STUDIO_BIBLE.md`](video-studio/docs/STUDIO_BIBLE.md) et [`CONTENT_PLAN_WEEK_01.md`](video-studio/docs/CONTENT_PLAN_WEEK_01.md).
+- [`video-studio/`](video-studio/README.md) : Studio Remotion `9:16` / `16:9` et Carrousels `3:4` (`1080×1440`) en direction artistique **Éditoriale Sobre Studio Lin**, piloté par [`CONTENT_OPERATING_SYSTEM.md`](video-studio/docs/CONTENT_OPERATING_SYSTEM.md), [`VOICE_AND_COPY_BIBLE.md`](video-studio/docs/VOICE_AND_COPY_BIBLE.md), [`STUDIO_BIBLE.md`](video-studio/docs/STUDIO_BIBLE.md) et [`CONTENT_IDEAS_BANK.md`](video-studio/docs/CONTENT_IDEAS_BANK.md).
 - [`DESIGN.md`](DESIGN.md) : Spécification complète du design system néo-brutaliste et des règles visuelles de la plateforme.
 
 ---

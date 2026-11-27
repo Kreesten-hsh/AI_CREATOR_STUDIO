@@ -838,7 +838,7 @@ L'application web **AI CREATOR Studio** sert de véhicule d'apprentissage. Ses f
   Mise en page éditoriale soignée avec typographie contrastée, listes d'actions et encadrés d'accentuation.
 - **Composants Médias & Schémas (`ImageBlock`, `ScreenshotBlock`, `DiagramBlock`)** :
   L'infrastructure de rendu visuel intègre une Lightbox plein écran accessible au clic sur chaque `ScreenshotBlock` (fermeture `Esc`, bouton `X`), tout en maintenant `capturedAt` masqué dans l'interface visuelle et préservé dans les métadonnées.
-  L'inventaire des captures couvre les 3 modules autour du produit fil rouge **SOLDE** (`docs/examples/solde/index.html`, remplaçant l'ancien calculateur de prix) : captures locales générées via `scripts/capture-local-screenshots.mjs` (`l4-solde-gate-screen.png`, `l5-solde-devtools-375px.png`, `l5-solde-desktop-final.png`, `l7-guide-acces-preview.png`) et fiches externes documentées dans [`docs/guides/FICHES-CAPTURES-EXTERNES.md`](guides/FICHES-CAPTURES-EXTERNES.md).
+  L'inventaire des captures couvre les 3 modules autour du produit fil rouge **SOLDE** (`demos/apps/solde/index.html`, remplaçant l'ancien calculateur de prix) : captures locales générées via `scripts/capture-local-screenshots.mjs` (`l4-solde-gate-screen.png`, `l5-solde-devtools-375px.png`, `l5-solde-desktop-final.png`, `l7-guide-acces-preview.png`) et fiches externes documentées dans [`docs/guides/FICHES-CAPTURES-EXTERNES.md`](guides/FICHES-CAPTURES-EXTERNES.md).
 
 ### 15.2. Persistance Locale & Respect de la Vie Privée
 
